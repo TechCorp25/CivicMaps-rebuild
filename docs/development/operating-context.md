@@ -27,7 +27,7 @@ The existing web client remains a single-context client; multi-context switching
 
 ## Scope, records and retries
 
-RLS continues to match tenant, organisation, jurisdiction, data plane and branch. Officers and assignment candidates are visible only through effective grants in the resolved context, rather than their legacy home scope fields. Officer request access still requires assignment and existing role rules.
+RLS continues to match tenant, organisation, jurisdiction, data plane and branch. Migration 005 adds restrictive policies requiring those dimensions to agree with the selected binding and an active actor with an effective grant. The same gate protects requests, audit, personnel, grants and retry tables. A boolean SECURITY DEFINER helper uses the existing privileged migration/resolver owner, fully qualified tables, a fixed `pg_catalog, pg_temp` search path and app-only execution to avoid recursive grant/personnel policies. The owner must retain its existing RLS-bypass capability; neither application role receives that capability. Officers and assignment candidates are visible only through effective grants in the resolved context, rather than their legacy home scope fields. Officer request access still requires assignment and existing role rules.
 
 New requests store immutable `capture_binding_id` and `capture_binding_version` alongside immutable origin scope. The insert trigger validates that binding and scope match; its narrow SECURITY DEFINER function has a fixed search path and no public execution permission. Neither a later binding version nor a user reassignment rewrites origin. Historical requests retain NULL capture fields and their existing scope; no authority provenance is fabricated.
 
@@ -37,7 +37,7 @@ Receipts remain readable only to their actor in the exact current binding. Diffe
 
 Resolution locks the authenticated session/user and the user's binding/grant rows with `FOR SHARE`, in binding-ID order. It then evaluates effective periods using PostgreSQL `clock_timestamp()`, after lock acquisition, preserving database timestamp precision. See [PostgreSQL 15 row locks](https://www.postgresql.org/docs/15/explicit-locking.html), checked through Context7.
 
-A structural update that commits first is observed by a waiting resolver. Revocation waits for an already resolved transaction to finish; an operation authorised before a time boundary may finish after that boundary. The next operation re-resolves and is denied. An inserted grant is not implicitly usable by an operation whose candidate snapshot did not contain it. Transactions do not promise an immediately cancelled in-flight write. Role/context settings reset on transaction completion.
+A structural update that commits first is observed by a waiting resolver. Revocation waits for an already resolved transaction to finish; RLS also checks effective periods at each SQL statement; crossing an expiry boundary before a later write can deny the statement and roll back the operation. The next operation re-resolves and is denied. An inserted grant is not implicitly usable by an operation whose candidate snapshot did not contain it. Transactions do not promise an immediately cancelled in-flight write. Role/context settings reset on transaction completion.
 
 ## Migration and synthetic fixtures
 
@@ -51,4 +51,4 @@ A populated-upgrade test preserves existing request content, passwords and old r
 
 An earlier API binary is incompatible with the new capture requirement and does not enforce current grants. Keep the resolver/migration together. A safe operational fallback is to stop affected writes and revoke/disable context access while correcting the release. A destructive down-migration or restoration of an older database is not part of this feature; recovery requires an explicitly reviewed backup/restore plan. Retain origin, captures, grant history and receipts.
 
-`npm run check` covers quality gates, both builds and 29 integration tests. `npm run test:platform:browser` covers the platform. Run CommandMAPS browser acceptance against a seeded disposable environment after session or resolver changes. See [F03 evidence](../plans/evidence/F03.md).
+`npm run check` covers quality gates, both builds and 31 integration tests. `npm run test:platform:browser` covers the platform. Run CommandMAPS browser acceptance against a seeded disposable environment after session or resolver changes. See [F03 evidence](../plans/evidence/F03.md).

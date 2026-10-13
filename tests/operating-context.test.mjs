@@ -344,7 +344,17 @@ test('app roles cannot author structures or expose other context grants', async 
     await client.query('SET LOCAL ROLE civicmaps_local_app');
     assert.equal((await client.query('SELECT * FROM operating_context_grants')).rowCount, 0);
     await client.query("SELECT set_config('civicmaps.context',$1,true)", [alpha]);
+    for (const [name, value] of Object.entries({
+      actor: dispatcher,
+      tenant: 'tenant-alpha',
+      organisation: 'organisation-alpha',
+      jurisdiction: 'jurisdiction-alpha',
+      plane: 'plane-alpha',
+      branch: 'parking',
+    }))
+      await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);
     const grants = await client.query('SELECT * FROM operating_context_grants');
+    assert.ok(grants.rowCount > 0);
     assert.ok(grants.rows.every((g) => g.binding_id === alpha));
     await assert.rejects(
       client.query('UPDATE operating_context_grants SET revoked_at=now() WHERE user_id=$1', [
