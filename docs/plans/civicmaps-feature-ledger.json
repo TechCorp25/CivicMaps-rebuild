@@ -3,8 +3,8 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": "F02Q",
-  "nextFeature": "F02Q",
+  "activeFeature": null,
+  "nextFeature": "F03",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -44,16 +44,16 @@
     },
     {
       "id": "F02Q",
-      "status": "in_progress",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f02q-quality",
-      "commit": null,
-      "pr": null,
+      "commit": "ed9976e1585c93e72acb8ac2d8d4159f1858369a",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/8",
       "evidencePath": "docs/plans/evidence/F02Q.md",
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "acceptancePassed": true,
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Complete full validation, record gotchas, publish branch for owner review."
+      "nextAction": "Owner review/merge; F03 context binding is next."
     },
     {
       "id": "F03",
