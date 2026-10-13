@@ -64,7 +64,7 @@ function App() {
     const controller = new AbortController();
     api<Detail>(`/municipalities/${route.id}`, { signal: controller.signal }).then(result => { if (!controller.signal.aborted) setDetail(result); }).catch(err => { if (!controller.signal.aborted) fail(err); });
     return () => controller.abort();
-  }, [actor, route.id, current?.version]);
+  }, [actor, route.page, route.id, current?.version]);
   async function perform(work: () => Promise<void>) {
     setBusy(true); setError(''); setNotice('');
     try { await work(); } catch (err) { fail(err); if (err instanceof ApiError && err.status === 409) await load().catch(fail); }

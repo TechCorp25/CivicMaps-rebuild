@@ -50,7 +50,7 @@ input, select { background: var(--civic-surface); color: var(--civic-neutral-800
 .search input { border: 0; background: transparent; margin: 0; font-weight: 400; }
 .filter-label { margin: 0; display: flex; align-items: center; gap: 10px; font-weight: 500; color: var(--civic-neutral-600); }
 .filter-label select { margin: 0; width: 145px; }
-.table-scroll { overflow: auto; }
+.table-scroll { position: relative; overflow: auto; }
 table { border-collapse: collapse; width: 100%; text-align: left; white-space: nowrap; }
 th { font-size: 10px; text-transform: uppercase; letter-spacing: .7px; color: var(--civic-neutral-600); padding: 15px 20px; background: var(--civic-neutral-50); }
 td { padding: 19px 20px; border-top: 1px solid var(--civic-neutral-100); font-size: 13px; }
