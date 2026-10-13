@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
-  "assessedCommit": "34a6a2ec65bb43ca75e1df2ebfe37caed4517857",
-  "activeFeature": "F02",
-  "nextFeature": "F02",
+  "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
+  "activeFeature": null,
+  "nextFeature": "F02Q",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -16,7 +16,7 @@
   "features": [
     {
       "id": "F01",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f01-build-baseline",
       "commit": "846b6b18029d3535b81f1eb27be8268933353aad",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/4",
@@ -25,20 +25,35 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner review/merge; F02 may stack on this completed prerequisite."
+      "nextAction": "Complete; owner merged PR #4.",
+      "mergeCommit": "c688991a1088262b77c1246aa06b4b71760081e2"
     },
     {
       "id": "F02",
-      "status": "in_progress",
+      "status": "merged",
       "branch": "codex/civicmaps-f02-platform-acceptance",
-      "commit": null,
-      "pr": null,
+      "commit": "0a0df917f6368533b8880fa74b36497849fcf467",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/6",
       "evidencePath": "docs/plans/evidence/F02.md",
       "acceptancePassed": true,
-      "publication": "pending",
-      "empirical": "pending",
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Publish tested feature and record completion."
+      "nextAction": "Complete; owner merged PR #6 into main.",
+      "mergeCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215"
+    },
+    {
+      "id": "F02Q",
+      "status": "planned",
+      "branch": null,
+      "commit": null,
+      "pr": null,
+      "evidencePath": null,
+      "acceptancePassed": false,
+      "publication": "not_started",
+      "empirical": "not_started",
+      "blockers": [],
+      "nextAction": "Implement the bounded quality gate card from current main before F03."
     },
     {
       "id": "F03",
@@ -51,7 +66,7 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "nextAction": "Start after F02Q acceptance; implement explicit operating-context bindings only."
     },
     {
       "id": "F04",
@@ -379,5 +394,6 @@
       "nextAction": "Read feature card and confirm dependency evidence before starting."
     }
   ],
-  "integrationBase": "origin/main"
+  "integrationBase": "origin/main",
+  "progressAssessment": "docs/plans/civicmaps-progress-assessment-2026-10-13.md"
 }
