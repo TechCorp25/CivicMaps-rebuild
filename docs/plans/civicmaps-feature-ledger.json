@@ -72,30 +72,34 @@
     },
     {
       "id": "F04",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f04-preparation",
-      "commit": "dd44148178e28eefe42573f0af0b74cc179f436b",
+      "commit": "c944b4366b6866fa24fdaf25399c2596f9da8b18",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/10",
       "evidencePath": "docs/plans/evidence/F04.md",
       "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner review/merge of PR #10; F05 follows with D01 isolation/provider decision at its boundary.",
-      "preparationPath": "docs/plans/F04-preparation.md"
+      "nextAction": "Complete; owner merged PR #10 including both assessed UI lifecycle corrections.",
+      "preparationPath": "docs/plans/F04-preparation.md",
+      "mergeCommit": "04eab124f71af302ceefcc9359faa277d6fd693e"
     },
     {
       "id": "F05",
       "status": "planned",
-      "branch": null,
+      "branch": "codex/civicmaps-f05-preparation",
       "commit": null,
       "pr": null,
       "evidencePath": null,
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "blockers": [
+        "D01: select isolation/target, region/residency, budget, retention and secret facility before resource implementation. Hostnames remain F06."
+      ],
+      "nextAction": "Review F05 preparation and resolve D01; develop, build, integrate and test only F05, then publish evidence and update Empirical. Preparation is not feature acceptance.",
+      "preparationPath": "docs/plans/F05-preparation.md"
     },
     {
       "id": "F06",
