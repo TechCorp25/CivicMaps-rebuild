@@ -20,7 +20,8 @@
     "test:browser": "node tests/browser.mjs",
     "check": "npm run typecheck && npm run build && npm test",
     "tokens": "node scripts/generate-tokens.mjs",
-    "setup": "npm ci --ignore-scripts --bin-links=false --no-audit --no-fund"
+    "setup": "npm ci --ignore-scripts --bin-links=false --no-audit --no-fund",
+    "test:platform:browser": "node tests/browser-platform.mjs"
   },
   "dependencies": {
     "express": "5.2.1",
