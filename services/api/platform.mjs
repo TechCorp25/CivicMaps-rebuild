@@ -2,6 +2,7 @@ import express from 'express';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { pool, transaction } from './database.mjs';
 import { hashPassword, verifyPassword } from './passwords.mjs';
+import { enqueueProvisioning, readProvisioning, controlProvisioning } from './provisioning.mjs';
 
 export const domainPacks = [
   'Local Laws',
@@ -242,7 +243,12 @@ export function platformRouter() {
             [municipality.id],
           )
         ).rows;
-        return { municipality, workloads, events };
+        return {
+          municipality,
+          workloads,
+          events,
+          job: await readProvisioning(client, municipality.id),
+        };
       }),
     ),
   );
@@ -280,7 +286,10 @@ export function platformRouter() {
             hashPassword(password),
           ],
         );
+        const jobId = await enqueueProvisioning(client, id, actor.id);
         await audit(client, actor, id, 'onboarding_registered', {
+          jobId,
+          adapter: 'synthetic',
           slug: data.slug,
           packs: data.packs,
           infrastructure: 'pending',
@@ -289,6 +298,7 @@ export function platformRouter() {
           municipality: result.rows[0],
           temporaryPassword: password,
           infrastructure: 'pending',
+          jobId,
         };
       });
       res.status(201).json(result);
@@ -299,6 +309,21 @@ export function platformRouter() {
         });
       throw error;
     }
+  });
+  router.post('/municipalities/:id/jobs/:jobId/actions', async (req, res) => {
+    const data = input(req, ['action']);
+    requireValue(['retry', 'reconcile'].includes(data.action), 400, 'Choose retry or reconcile');
+    requireValue(
+      uuidPattern.test(req.params.id) && uuidPattern.test(req.params.jobId),
+      404,
+      'Provisioning job not found',
+    );
+    res.json(
+      await mutation(req, async (client, actor) => {
+        await council(client, req.params.id);
+        return controlProvisioning(client, actor, req.params.id, req.params.jobId, data.action);
+      }),
+    );
   });
   router.post('/municipalities/:id/packs', async (req, res) => {
     const data = input(req, ['pack', 'enabled', 'version', 'confirmed']);

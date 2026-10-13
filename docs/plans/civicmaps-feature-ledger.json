@@ -4,7 +4,7 @@
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
   "activeFeature": null,
-  "nextFeature": "F04",
+  "nextFeature": "F05",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -58,29 +58,31 @@
     },
     {
       "id": "F03",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f03-preparation",
-      "commit": "4c7626194e25b1b5d33c073a24b37d6f21d44f8c",
+      "commit": "683abee563efa37a77826d35d1aae4fa6fc492ca",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/9",
       "evidencePath": "docs/plans/evidence/F03.md",
       "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner review/merge of existing PR #9; F04 durable provisioning jobs is next."
+      "nextAction": "Complete; owner merged PR #9 including the assessed RLS correction.",
+      "mergeCommit": "130caab6b97230c0b5cf45d75a19ee4ec2805085"
     },
     {
       "id": "F04",
-      "status": "planned",
-      "branch": null,
-      "commit": null,
-      "pr": null,
-      "evidencePath": null,
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "status": "review_ready",
+      "branch": "codex/civicmaps-f04-preparation",
+      "commit": "dd44148178e28eefe42573f0af0b74cc179f436b",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/10",
+      "evidencePath": "docs/plans/evidence/F04.md",
+      "acceptancePassed": true,
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Start from completed F03 after checking PR #9 integration evidence; implement observable durable provisioning jobs with fake adapter only."
+      "nextAction": "Owner review/merge of PR #10; F05 follows with D01 isolation/provider decision at its boundary.",
+      "preparationPath": "docs/plans/F04-preparation.md"
     },
     {
       "id": "F05",

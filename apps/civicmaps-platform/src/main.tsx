@@ -28,6 +28,7 @@ import {
 import { Badge, Brand, Boundary, Confirm } from './components';
 import { PackAssignments } from './PackAssignments';
 import { Onboarding } from './Onboarding';
+import { ProvisioningStatus } from './ProvisioningStatus';
 import './tokens.css';
 import './styles.css';
 
@@ -52,6 +53,8 @@ function App() {
   const [catalogue, setCatalogue] = useState<string[]>([]);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [busy, setBusy] = useState(false);
+  const [detailRefresh, setDetailRefresh] = useState(0);
+  const detailScope = useRef(0);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [search, setSearch] = useState('');
@@ -69,6 +72,7 @@ function App() {
     location.hash = `${page}${id ? `/${id}` : ''}`;
   }
   const clearSession = useCallback(() => {
+    detailScope.current += 1;
     setActor(null);
     setCsrf('');
     setMunicipalities([]);
@@ -106,6 +110,7 @@ function App() {
   }, []);
   useEffect(() => {
     function change() {
+      detailScope.current += 1;
       setRoute(readRoute());
       setDetail(null);
       setError('');
@@ -148,16 +153,28 @@ function App() {
   useEffect(() => {
     if (!actor || !route.id) return;
     const controller = new AbortController();
-    api<Detail>(`/municipalities/${route.id}`, { signal: controller.signal })
-      .then((result) => {
-        if (!controller.signal.aborted) setDetail(result);
-      })
-      .catch((err) => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    async function refresh() {
+      try {
+        const result = await api<Detail>(`/municipalities/${route.id}`, {
+          signal: controller.signal,
+        });
+        if (!controller.signal.aborted) {
+          setDetail(result);
+          if (result.job && ['queued', 'running', 'waiting'].includes(result.job.state))
+            timer = setTimeout(refresh, 2000);
+        }
+      } catch (err) {
         if (!controller.signal.aborted) fail(err);
-      });
-    return () => controller.abort();
+      }
+    }
+    void refresh();
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
     // Page changes clear detail even when the municipality ID stays the same (F02).
-  }, [actor, route.page, route.id, current?.version, fail]);
+  }, [actor, route.page, route.id, current?.version, detailRefresh, fail]);
   async function perform(work: () => Promise<void>) {
     setBusy(true);
     setError('');
@@ -215,6 +232,30 @@ function App() {
       setNotice(
         `${pack} ${enabled ? 'enabled' : 'disabled'}. Configuration saved; existing records retained.`,
       );
+    });
+  }
+  function refreshJob(action?: 'retry' | 'reconcile') {
+    if (!current) return;
+    // One effect owns detail reads; each refresh restarts polling even if state is unchanged.
+    if (!action) {
+      setError('');
+      setNotice('');
+      setDetailRefresh((value) => value + 1);
+      return;
+    }
+    const scope = detailScope.current;
+    void perform(async () => {
+      try {
+        if (detail?.job)
+          await mutate(`/municipalities/${current.id}/jobs/${detail.job.id}/actions`, { action });
+      } catch (err) {
+        // A completed mutation may belong to a council or session that has been left.
+        if (scope !== detailScope.current) return;
+        throw err;
+      }
+      if (scope !== detailScope.current) return;
+      setDetailRefresh((value) => value + 1);
+      setNotice(`Job ${action} requested. Completed steps are retained.`);
     });
   }
   function changeSort(key: typeof sort.key) {
@@ -501,6 +542,23 @@ function App() {
                   </div>
                   <Boundary />
                 </>
+              )}
+              {!detail && route.page === 'municipalities' && (
+                <section className="card">
+                  <h2>Provisioning job</h2>
+                  <p>Loading job details…</p>
+                  <button className="secondary" disabled={busy} onClick={() => refreshJob()}>
+                    Refresh job status
+                  </button>
+                </section>
+              )}
+              {detail && route.page === 'municipalities' && (
+                <ProvisioningStatus
+                  job={detail.job}
+                  busy={busy}
+                  onRefresh={() => refreshJob()}
+                  onAction={refreshJob}
+                />
               )}
               {detail && (
                 <section className="card audit">

@@ -85,7 +85,10 @@ export function Onboarding({
           Configuration is saved for <strong>{result.municipality.slug}.civicmaps.gov.au</strong>.
           Status: Provisioning.
         </p>
-        <p>Tenant infrastructure and the first admin's council sign-in are pending activation.</p>
+        <p>
+          A durable synthetic provisioning job is queued. View the municipality to follow its
+          progress. Real infrastructure and the first admin's council sign-in remain pending.
+        </p>
         <div className="credential">
           <h2>First admin · temporary password</h2>
           {result.temporaryPassword ? (

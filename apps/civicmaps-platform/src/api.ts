@@ -20,7 +20,30 @@ export type Municipality = {
   observed_at: string | null;
   source: string | null;
 };
+export type ProvisioningJob = {
+  id: string;
+  municipality_id: string;
+  operator_id: string;
+  adapter: 'synthetic';
+  state: 'queued' | 'running' | 'waiting' | 'failed' | 'succeeded';
+  attempts: number;
+  available_at: string;
+  lease_until: string | null;
+  error: string | null;
+  can_retry: boolean;
+  can_reconcile: boolean;
+  steps: {
+    name: string;
+    position: number;
+    state: string;
+    attempts: number;
+    resource_id: string | null;
+    error: string | null;
+    completed_at: string | null;
+  }[];
+};
 export type Detail = {
+  job: ProvisioningJob | null;
   municipality: Municipality;
   workloads: { pack: string; open_count: number }[];
   events: { id: number; action: string; details: { pack?: string }; created_at: string }[];
@@ -38,6 +61,7 @@ export type ProvisionResult = {
   temporaryPassword?: string;
   replayed?: boolean;
   infrastructure: string;
+  jobId: string;
 };
 export class ApiError extends Error {
   constructor(

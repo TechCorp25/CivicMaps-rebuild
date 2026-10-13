@@ -24,7 +24,9 @@
     "test:platform:browser": "node tests/browser-platform.mjs",
     "lint": "node node_modules/eslint/bin/eslint.js . --max-warnings=0",
     "format": "node node_modules/prettier/bin/prettier.cjs --write \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/ci.yml\"",
-    "format:check": "node node_modules/prettier/bin/prettier.cjs --check \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/ci.yml\""
+    "format:check": "node node_modules/prettier/bin/prettier.cjs --check \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/ci.yml\"",
+    "worker:provisioning": "node services/api/provisioning-worker.mjs",
+    "test:provisioning": "node --test tests/provisioning.test.mjs"
   },
   "dependencies": {
     "express": "5.2.1",
