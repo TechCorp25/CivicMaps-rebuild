@@ -1,0 +1,28 @@
+[
+  {
+    "id": "10000000-0000-4000-8000-000000000001",
+    "municipalityId": "20000000-0000-4000-8000-000000000001",
+    "name": "Synthetic Alpha council",
+    "slug": "synthetic-alpha",
+    "scope": "alpha"
+  },
+  {
+    "id": "10000000-0000-4000-8000-000000000002",
+    "municipalityId": "20000000-0000-4000-8000-000000000002",
+    "name": "Synthetic Beta council",
+    "slug": "synthetic-beta",
+    "scope": "beta"
+  },
+  {
+    "id": "10000000-0000-4000-8000-000000000003",
+    "municipalityId": "20000000-0000-4000-8000-000000000002",
+    "name": "Synthetic Beta council",
+    "slug": "synthetic-beta",
+    "scope": "shared",
+    "organisationId": "organisation-alpha",
+    "jurisdictionId": "jurisdiction-beta",
+    "userIds": [
+      "00000000-0000-4000-8000-000000000006"
+    ]
+  }
+]

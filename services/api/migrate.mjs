@@ -6,7 +6,13 @@ try {
     await client.query(
       'CREATE TABLE IF NOT EXISTS civicmaps_migrations (id text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())',
     );
-    for (const id of ['001-foundation', '002-auth-scope', '003-platform']) {
+    for (const id of [
+      '001-foundation',
+      '002-auth-scope',
+      '003-platform',
+      '004-operating-context',
+      '005-context-rls',
+    ]) {
       const existing = await client.query('SELECT id FROM civicmaps_migrations WHERE id = $1', [
         id,
       ]);

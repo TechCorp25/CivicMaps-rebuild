@@ -158,6 +158,8 @@ test('database row controls deny unset context and each mismatched scope dimensi
       plane: 'plane-alpha',
       organisation: 'organisation-alpha',
       branch: 'parking',
+      actor: '00000000-0000-4000-8000-000000000001',
+      context: '10000000-0000-4000-8000-000000000001',
     };
     for (const [name, value] of Object.entries(scope))
       await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);

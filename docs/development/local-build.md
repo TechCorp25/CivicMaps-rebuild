@@ -84,3 +84,7 @@ ESLint flat configuration covers implemented CommandMAPS/Platform TypeScript, AP
 Formatting scope is explicit in the root scripts. Archives, scaffold applications, generated tokens, build output and GIS data/tools are excluded. New implemented files must be added to these scopes when needed. Tool entry points use `node node_modules/...` because setup deliberately disables executable links.
 
 The shared test environment in `tests/helpers/environment.mjs` creates one unique disposable database per process, starts its API and closes resources on setup failure and teardown. Do not create a second environment in the same process: the API database module caches its pool. Separate test files run in isolated Node test processes. Never use the configured base database for fixture writes.
+
+## Municipality context binding (F03)
+
+Migration 004 and the synthetic seed establish explicit municipality bindings and user grants. Existing Alpha/Beta accounts each retain one default context. `shared@alpha.example` is an API shared-service fixture with two contexts and requires `X-CivicMAPS-Context`; the web client does not yet provide a context chooser. Read the [context contract](operating-context.md) before testing expiry, revocation, upgrade or retry behaviour.

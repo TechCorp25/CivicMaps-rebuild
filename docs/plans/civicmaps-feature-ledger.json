@@ -4,7 +4,7 @@
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
   "activeFeature": null,
-  "nextFeature": "F03",
+  "nextFeature": "F04",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -44,7 +44,7 @@
     },
     {
       "id": "F02Q",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f02q-quality",
       "commit": "ed9976e1585c93e72acb8ac2d8d4159f1858369a",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/8",
@@ -53,20 +53,21 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner review/merge; F03 context binding is next."
+      "nextAction": "Complete; owner merged PR #8.",
+      "mergeCommit": "8954d46b7214a3bfaeaf680dc9f4ab180719a420"
     },
     {
       "id": "F03",
-      "status": "planned",
-      "branch": null,
-      "commit": null,
-      "pr": null,
-      "evidencePath": null,
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "status": "review_ready",
+      "branch": "codex/civicmaps-f03-preparation",
+      "commit": "4c7626194e25b1b5d33c073a24b37d6f21d44f8c",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/9",
+      "evidencePath": "docs/plans/evidence/F03.md",
+      "acceptancePassed": true,
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Start after F02Q acceptance; implement explicit operating-context bindings only."
+      "nextAction": "Owner review/merge of existing PR #9; F04 durable provisioning jobs is next."
     },
     {
       "id": "F04",
@@ -79,7 +80,7 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "nextAction": "Start from completed F03 after checking PR #9 integration evidence; implement observable durable provisioning jobs with fake adapter only."
     },
     {
       "id": "F05",

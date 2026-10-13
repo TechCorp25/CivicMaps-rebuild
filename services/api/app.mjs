@@ -3,6 +3,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { pool, transaction } from './database.mjs';
 import { verifyPassword, hashPassword } from './passwords.mjs';
 import { transition, statusLabels } from '../../domains/service-requests-dispatch/lifecycle.mjs';
+import { resolveContext, permittedContexts } from './operating-context.mjs';
 import { platformRouter } from './platform.mjs';
 
 const digest = (value) => createHash('sha256').update(value).digest('hex');
@@ -66,17 +67,24 @@ function actorView(user) {
     organisation_id,
     branch_id,
     team_id,
+    context_id: user.context_id,
+    context_version: user.context_version,
+    municipality_id: user.municipality_id,
   };
+}
+async function authenticated(client, req) {
+  const auth = await client.query(
+    `SELECT u.*, s.csrf_token FROM sessions s JOIN users u ON u.id=s.user_id
+      WHERE s.token_hash=$1 AND s.expires_at>now() AND u.active FOR SHARE OF u,s`,
+    [digest(token(req))],
+  );
+  requireValue(auth.rowCount === 1, 401, 'Sign in to continue');
+  return auth.rows[0];
 }
 async function scoped(req, mutate, work) {
   return transaction(async (client) => {
-    const auth = await client.query(
-      `SELECT u.*, s.csrf_token FROM sessions s JOIN users u ON u.id=s.user_id
-      WHERE s.token_hash=$1 AND s.expires_at>now() AND u.active FOR SHARE OF u,s`,
-      [digest(token(req))],
-    );
-    requireValue(auth.rowCount === 1, 401, 'Sign in to continue');
-    const actor = auth.rows[0];
+    const user = await authenticated(client, req);
+    const actor = await resolveContext(client, user, req.headers['x-civicmaps-context']);
     if (mutate)
       requireValue(
         req.headers['x-csrf-token'] === actor.csrf_token,
@@ -92,6 +100,7 @@ async function scoped(req, mutate, work) {
       organisation: actor.organisation_id,
       branch: actor.branch_id,
       actor: actor.id,
+      context: actor.context_id,
     })) {
       await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);
     }
@@ -124,10 +133,21 @@ async function mutation(req, work) {
   );
   const fingerprint = digest(JSON.stringify([req.method, req.path, req.body]));
   return scoped(req, true, async (client, actor) => {
-    await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`${actor.id}:${key}`]);
-    const prior = await client.query(
-      'SELECT * FROM mutation_receipts WHERE actor_id=$1 AND key=$2',
+    await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [
+      `${actor.id}:${actor.context_association_id}:${key}`,
+    ]);
+    const legacy = await client.query(
+      'SELECT 1 FROM legacy_mutation_keys WHERE actor_id=$1 AND key=$2',
       [actor.id, key],
+    );
+    requireValue(
+      legacy.rowCount === 0,
+      409,
+      'Legacy retry key has no operating context; refresh the record before using a new key',
+    );
+    const prior = await client.query(
+      'SELECT * FROM mutation_receipts WHERE actor_id=$1 AND binding_id=$2 AND key=$3',
+      [actor.id, actor.context_id, key],
     );
     if (prior.rowCount) {
       requireValue(
@@ -138,10 +158,22 @@ async function mutation(req, work) {
       return prior.rows[0].response;
     }
     const response = await work(client, actor);
-    await client.query(
-      'INSERT INTO mutation_receipts(actor_id,key,fingerprint,response) VALUES ($1,$2,$3,$4)',
-      [actor.id, key, fingerprint, response],
-    );
+    try {
+      await client.query(
+        'INSERT INTO mutation_receipts(actor_id,association_id,binding_id,key,fingerprint,response) VALUES ($1,$2,$3,$4,$5,$6)',
+        [actor.id, actor.context_association_id, actor.context_id, key, fingerprint, response],
+      );
+    } catch (error) {
+      // The previous version's receipt is deliberately hidden by RLS. This collision
+      // rolls back the attempted write rather than exposing or repeating it.
+      if (error.code === '23505' && error.constraint === 'receipt_association_key') {
+        throw new HttpError(
+          409,
+          'Retry key belongs to another binding version; refresh before using a new key',
+        );
+      }
+      throw error;
+    }
     return response;
   });
 }
@@ -205,6 +237,23 @@ export function createApp() {
     });
     res.json({ actor: actorView(result.rows[0]), csrfToken });
   });
+  app.get('/api/auth/contexts', async (req, res) => {
+    res.json(
+      await transaction(async (client) => {
+        const user = await authenticated(client, req);
+        return (await permittedContexts(client, user)).map((b) => ({
+          id: b.id,
+          version: b.version,
+          municipality_id: b.municipality_id,
+          tenant_id: b.tenant_id,
+          organisation_id: b.organisation_id,
+          jurisdiction_id: b.jurisdiction_id,
+          data_plane_id: b.data_plane_id,
+          branch_id: b.branch_id,
+        }));
+      }),
+    );
+  });
   app.get('/api/auth/session', async (req, res) => {
     res.json(
       await scoped(req, false, async (_client, actor) => ({
@@ -234,17 +283,9 @@ export function createApp() {
   });
   app.get('/api/officers', async (req, res) => {
     res.json(
-      await scoped(req, false, async (client, actor) => {
+      await scoped(req, false, async (client) => {
         const result = await client.query(
-          `SELECT id,name,team_id FROM users WHERE active AND role='OFFICER'
-        AND tenant_id=$1 AND jurisdiction_id=$2 AND data_plane_id=$3 AND organisation_id=$4 AND branch_id=$5 ORDER BY name`,
-          [
-            actor.tenant_id,
-            actor.jurisdiction_id,
-            actor.data_plane_id,
-            actor.organisation_id,
-            actor.branch_id,
-          ],
+          `SELECT id,name,team_id FROM users WHERE active AND role='OFFICER' ORDER BY name`,
         );
         return result.rows;
       }),
@@ -280,8 +321,8 @@ export function createApp() {
       await mutation(req, async (client, actor) => {
         requireValue(actor.role === 'DISPATCHER', 403, 'Dispatch access is required');
         const result = await client.query(
-          `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'RECEIVED') RETURNING *`,
+          `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status,capture_binding_id,capture_binding_version)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'RECEIVED',$11,$12) RETURNING *`,
           [
             randomUUID(),
             actor.tenant_id,
@@ -293,6 +334,8 @@ export function createApp() {
             input.latitude,
             input.longitude,
             input.notes,
+            actor.context_id,
+            actor.context_version,
           ],
         );
         await audit(client, actor, result.rows[0], 'created', { status: 'RECEIVED' });
@@ -360,16 +403,8 @@ export function createApp() {
         let officerId = request.assigned_officer_id;
         if (input.action === 'assign') {
           const officer = await client.query(
-            `SELECT id FROM users WHERE id=$1 AND active AND role='OFFICER' AND tenant_id=$2
-          AND jurisdiction_id=$3 AND data_plane_id=$4 AND organisation_id=$5 AND branch_id=$6`,
-            [
-              input.officerId,
-              actor.tenant_id,
-              actor.jurisdiction_id,
-              actor.data_plane_id,
-              actor.organisation_id,
-              actor.branch_id,
-            ],
+            `SELECT id FROM users WHERE id=$1 AND active AND role='OFFICER'`,
+            [input.officerId],
           );
           requireValue(officer.rowCount === 1, 403, 'Officer is outside the permitted scope');
           officerId = input.officerId;
