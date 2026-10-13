@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.shellbar{position:relative;background:#1B2A4A;padding:0 14px;display:flex;align-items:center;justify-content:space-between;height:38px;flex:none}.navpill{padding:5px 10px;border-radius:5px;font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.6)}.navpillactive{padding:5px 10px;border-radius:5px;background:rgba(255,255,255,.2);font:400 11px 'Architects Daughter',sans-serif;color:#fff}.tile{background:#fff;border:1.5px solid #333;border-radius:6px;padding:8px 9px}.tilelabel{font:400 9px 'Architects Daughter',sans-serif;color:#777;margin-bottom:3px}.tileval{display:flex;align-items:center;gap:5px;font:600 13px 'JetBrains Mono',monospace;color:#111}.dot{width:8px;height:8px;border-radius:999px;flex:none}.zrow{border-radius:6px;padding:6px 8px;background:#f4f3f0;display:flex;flex-direction:column;gap:2px}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.actbtn{font:400 9px 'Architects Daughter',sans-serif;padding:2px 6px;border-radius:4px}.zblob{width:132px;height:94px;border-radius:42% 58% 53% 47% / 58% 42% 58% 42%}.pin{width:20px;height:20px;border-radius:50% 50% 50% 0;transform:rotate(-45deg)}.capt{font:400 10.5px 'Architects Daughter',sans-serif;color:#666;text-align:center;margin-top:6px}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 4 — Live Map (ZoneMap &amp; PatrolMap), low-fi. Fills the "Sequence 4+ scope" placeholders deferred at 2d.3 and 3a.5.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="4a">
+<div class="dv-olabel"><a class="dv-oid" href="#4a">4a</a>Zone polygon &amp; label states (web map)</div>
+<div class="dv-card" style="width:400px;padding:18px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+<div>
+<div style="position:relative;width:100%;height:108px;background:#fff;border:1.5px dashed #ccc;border-radius:6px;display:grid;place-items:center;overflow:hidden">
+<div class="mk" style="top:-9px;left:-9px">1</div>
+<div class="zblob" style="background:rgba(26,122,109,.10);border:1.5px solid rgba(26,122,109,.55)"></div>
+<div style="position:absolute;background:rgba(255,255,255,.75);border:2px solid #1A7A6D;border-radius:5px;padding:2px 6px;font:700 9px 'JetBrains Mono',monospace;color:#1f2937">Z-MAC</div>
+</div>
+<div class="capt">Unassigned — fill .10 / stroke .55 / 1.5px</div>
+</div>
+
+<div>
+<div style="position:relative;width:100%;height:108px;background:#fff;border:1.5px dashed #ccc;border-radius:6px;display:grid;place-items:center;overflow:hidden">
+<div class="zblob" style="background:rgba(26,122,109,.18);border:2px solid rgba(26,122,109,.75)"></div>
+<div style="position:absolute;background:rgba(255,255,255,.95);border:2px solid #1A7A6D;border-radius:5px;padding:2px 6px;font:700 9px 'JetBrains Mono',monospace;color:#1f2937">Z-MAC</div>
+</div>
+<div class="capt">Assigned, offline — .18 / .75 / 2px</div>
+</div>
+
+<div>
+<div style="position:relative;width:100%;height:108px;background:#fff;border:1.5px dashed #ccc;border-radius:6px;display:grid;place-items:center;overflow:hidden">
+<div class="mk" style="top:-9px;left:-9px">2</div>
+<div class="zblob" style="background:rgba(26,122,109,.28);border:2.5px solid rgba(26,122,109,.95)"></div>
+<div style="position:absolute;background:rgba(255,255,255,.95);border:2px solid #1A7A6D;border-radius:5px;padding:2px 6px;font:700 9px 'JetBrains Mono',monospace;color:#1f2937">Z-MAC</div>
+</div>
+<div class="capt">Assigned, online — .28 / .95 / 2.5px</div>
+</div>
+
+<div>
+<div style="position:relative;width:100%;height:108px;background:#fff;border:1.5px dashed #ccc;border-radius:6px;display:grid;place-items:center;overflow:hidden">
+<div class="mk" style="top:-9px;right:-9px">3</div>
+<div class="zblob" style="background:rgba(26,122,109,.35);border:3px solid rgba(26,122,109,1)"></div>
+<div style="position:absolute;background:#1A7A6D;border:2px solid #1A7A6D;border-radius:5px;padding:2px 6px;font:700 9px 'JetBrains Mono',monospace;color:#fff;box-shadow:0 2px 8px rgba(26,122,109,.5)">Z-MAC</div>
+</div>
+<div class="capt">Selected (click) — .35 / 1.0 / 3px</div>
+</div>
+
+</div>
+<div style="position:relative;margin-top:14px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#777;border:1.5px dashed #ccc;border-radius:6px;padding:8px 10px">Polygon click opens the zone info panel (4b). Zone colour comes from each zone's own seed colour, not a shared token — shown here in Operations Teal to match Z-MAC elsewhere in these wireframes.
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="4b">
+<div class="dv-olabel"><a class="dv-oid" href="#4b">4b</a>Zone info panel — boundaries / streets</div>
+<div class="dv-card" style="width:320px">
+<div style="background:#1A7A6D;padding:10px 12px;display:flex;align-items:center;justify-content:space-between">
+<div class="mk" style="top:-9px;left:-9px">1</div>
+<div><div style="font:700 14px 'Architects Daughter',sans-serif;color:#fff">Z-MAC</div><div style="font:400 10px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.8)">Macquarie precinct</div></div>
+<div style="position:relative;display:flex;align-items:center;gap:5px">
+<span style="width:8px;height:8px;border-radius:999px;background:#4ade80;border:1.5px solid rgba(255,255,255,.5)"></span>
+<div><div style="font:700 10px 'Architects Daughter',sans-serif;color:#fff">J. Park</div><div style="font:400 9px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">Online <span style="background:rgba(255,255,255,.25);border-radius:2px;padding:0 3px;font-weight:700">C2</span></div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+</div>
+<div style="display:flex;background:#f9fafb;border-bottom:1px solid #e5e7eb">
+<div style="flex:1;text-align:center;padding:6px 0;font:700 11px 'Architects Daughter',sans-serif;color:#111;border-bottom:2px solid #1A7A6D">Boundaries (5)</div>
+<div style="position:relative;flex:1;text-align:center;padding:6px 0;font:700 11px 'Architects Daughter',sans-serif;color:#777">Streets &amp; Lanes (4)
+<div class="mk" style="top:-9px;right:6px">3</div>
+</div>
+</div>
+<div style="padding:10px 12px">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px"><span style="width:8px;height:8px;border-radius:2px;background:#16a34a"></span><span style="font:700 10px 'Architects Daughter',sans-serif;color:#15803d;letter-spacing:.5px">INCLUDED</span></div>
+<div style="display:flex;gap:8px;padding:6px 8px;background:#f0fdf4;border-left:3px solid #16a34a;border-radius:0 4px 4px 0;margin-bottom:5px">
+<span style="font:800 11px 'JetBrains Mono',monospace;color:#fff;background:#1A7A6D;border-radius:3px;padding:2px 5px;height:14px;line-height:14px">N</span>
+<div><div style="font:700 11px 'Architects Daughter',sans-serif;color:#111">Elizabeth St</div><div style="font:400 9px 'Architects Daughter',sans-serif;color:#6b7280">Bourke St - Lonsdale St</div></div>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:6px;margin:10px 0 5px"><span style="width:8px;height:8px;border-radius:2px;background:#dc2626"></span><span style="font:700 10px 'Architects Daughter',sans-serif;color:#b91c1c;letter-spacing:.5px">EXCLUDED</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#9ca3af">— dashed boundary label</span>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+<div style="display:flex;gap:8px;padding:6px 8px;background:#fff5f5;border-left:3px solid #dc2626;border-radius:0 4px 4px 0">
+<span style="font:800 11px 'JetBrains Mono',monospace;color:#fff;background:#1A7A6D;border-radius:3px;padding:2px 5px;height:14px;line-height:14px">S</span>
+<div><div style="font:700 11px 'Architects Daughter',sans-serif;color:#111">Lonsdale St</div><div style="font:400 9px 'Architects Daughter',sans-serif;color:#6b7280">Elizabeth St - Russell St <span style="color:#dc2626;font-weight:700">dashed</span></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="4c">
+<div class="dv-olabel"><a class="dv-oid" href="#4c">4c</a>Officer marker &amp; Code21 pin cluster (web)</div>
+<div class="dv-card" style="width:320px;padding:16px">
+<div style="position:relative;display:flex;gap:18px;align-items:center;margin-bottom:14px">
+<div style="position:relative;text-align:center"><div class="pin" style="background:#22c55e;border:2px solid #16a34a"></div><div class="capt">Online</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="text-align:center"><div class="pin" style="background:#9ca3af;border:2px solid #6b7280"></div><div class="capt">Offline</div></div>
+<div style="position:relative;text-align:center">
+<div style="position:relative;width:28px;height:28px;border-radius:999px;background:#f59e0b;border:2.5px solid #d97706;display:grid;place-items:center;box-shadow:0 0 0 4px rgba(245,158,11,.25)"><span style="font:800 11px 'Architects Daughter',sans-serif;color:#fff">SR</span>
+<div style="position:absolute;top:-8px;right:-8px;background:#ef4444;color:#fff;border-radius:10px;min-width:18px;height:18px;display:grid;place-items:center;font:800 10px 'Architects Daughter',sans-serif;border:2px solid #fff">3</div>
+</div>
+<div class="capt">Cluster, hover</div>
+<div class="mk" style="top:-9px;right:-16px">2</div>
+</div>
+</div>
+<div style="position:relative;background:#1e293b;border-radius:8px 8px 0 0;padding:8px 12px;display:flex;justify-content:space-between;align-items:center">
+<span style="font:700 12px 'Architects Daughter',sans-serif;color:#fff">Service Requests (3)</span>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;overflow:hidden">
+<div style="padding:9px 12px;border-bottom:1px solid #f3f4f6">
+<div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font:600 11px 'Architects Daughter',sans-serif;color:#1f2937">120 Elizabeth St</span><span style="background:#fef3c7;color:#92400e;font:700 9px 'Architects Daughter',sans-serif;border-radius:4px;padding:2px 6px">Dispatched (Active)</span></div>
+<div style="font:400 9.5px 'JetBrains Mono',monospace;color:#6b7280;margin-bottom:3px">SR# SR-2026-00871</div>
+<div style="display:flex;justify-content:space-between"><span style="font:400 9.5px 'Architects Daughter',sans-serif;color:#9ca3af">14:02</span><span style="font:700 9px 'Architects Daughter',sans-serif;color:#3b82f6">Click for full details ›</span></div>
+</div>
+<div style="position:relative;padding:9px 12px;color:#9ca3af;font:400 10.5px 'Architects Daughter',sans-serif;text-align:center">+ 2 more at this location
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="4d">
+<div class="dv-olabel"><a class="dv-oid" href="#4d">4d</a>Code 1 duress beacon &amp; live officer pins (map)</div>
+<div class="dv-card" style="width:300px;padding:16px">
+<div style="position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:16px;padding:10px 0;background:#fff;border:1.5px dashed #ccc;border-radius:6px">
+<div class="mk" style="top:-9px;left:-9px">1</div>
+<div style="position:relative;width:28px;height:28px;display:grid;place-items:center">
+<div style="position:absolute;width:28px;height:28px;border-radius:999px;border:3px solid #ef4444;opacity:.5"></div>
+<div style="position:absolute;width:20px;height:20px;border-radius:999px;border:3px solid #ef4444;opacity:.7"></div>
+<div style="width:16px;height:16px;border-radius:999px;background:#dc2626;border:2px solid #fff"></div>
+</div>
+<div style="font:600 9px 'JetBrains Mono',monospace;letter-spacing:.1em;color:#dc2626;margin-top:6px">CODE 1 — OFC-0142</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="position:relative;display:flex;align-items:center;gap:8px"><span style="width:16px;height:16px;border-radius:999px;background:#3b82f6;border:2px solid #fff;box-shadow:0 0 0 1px #93c5fd;flex:none"></span><span style="font:400 11px 'Architects Daughter',sans-serif">Self — always visible while on-shift</span>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:8px"><span style="width:16px;height:16px;border-radius:999px;background:#eab308;border:2px solid #fff;box-shadow:0 0 0 1px #fde68a;flex:none"></span><span style="font:400 11px 'Architects Daughter',sans-serif">Duress — tagged "Officer #0142"</span>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:8px"><span style="width:16px;height:16px;border-radius:999px;background:#10b981;border:2px solid #fff;box-shadow:0 0 0 1px #6ee7b7;flex:none"></span><span style="font:400 11px 'Architects Daughter',sans-serif">Token — "Officer #0201", 4:12 left</span>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="4e">
+<div class="dv-olabel"><a class="dv-oid" href="#4e">4e</a>Mark-Up pin states (web)</div>
+<div class="dv-card" style="width:220px;padding:16px">
+<div style="display:flex;gap:20px;justify-content:center">
+<div style="position:relative;text-align:center">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="min-width:26px;height:26px;padding:0 6px;border-radius:13px;background:#16A34A;border:2px solid #15803D;display:grid;place-items:center"><span style="color:#fff;font:800 11px 'Architects Daughter',sans-serif">MU</span></div><div style="width:2px;height:6px;background:#15803D"></div></div>
+<div class="capt">Completed</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="text-align:center">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="min-width:26px;height:26px;padding:0 6px;border-radius:13px;background:#D97706;border:2px solid #B45309;display:grid;place-items:center"><span style="color:#fff;font:800 11px 'Architects Daughter',sans-serif">MU</span></div><div style="width:2px;height:6px;background:#B45309"></div></div>
+<div class="capt">Active timer</div>
+</div>
+</div>
+<div style="position:relative;margin-top:14px;font:400 10px/1.5 'Architects Daughter',sans-serif;color:#777;border:1.5px dashed #ccc;border-radius:6px;padding:8px 10px">Two states only on the web map. Mobile's PatrolMap encodes urgency (amber) and overdue (red) separately — see 4f.
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="4f">
+<div class="dv-olabel"><a class="dv-oid" href="#4f">4f</a>EnforcementMAPS — live map detail (mobile, supersedes 2d's placeholder)</div>
+<div class="dv-card" style="width:320px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div style="position:relative;width:272px;height:560px;background:#1e2530;border:2px solid #222;border-radius:22px;overflow:hidden">
+<div style="position:absolute;top:8px;left:16px;right:16px;display:flex;justify-content:space-between;font:400 9px 'JetBrains Mono',monospace;color:#9aa4b5;z-index:6">
+<span>9:41</span><span>▮▮▮ ▲ ▮</span>
+</div>
+
+<div style="position:absolute;top:130px;left:60px;width:130px;height:96px;border-radius:42% 58% 53% 47% / 58% 42% 58% 42%;background:rgba(212,168,67,.28);border:2.5px solid rgba(212,168,67,.9)"></div>
+<div class="mk" style="top:126px;left:56px">1</div>
+
+<div style="position:absolute;top:210px;left:150px;display:flex;flex-direction:column;align-items:center">
+<div style="width:10px;height:10px;border-bottom:9px solid #0ea5e9;border-left:6px solid transparent;border-right:6px solid transparent;transform:translateY(2px)"></div>
+<div style="width:20px;height:20px;border-radius:999px;background:#0ea5e9;border:3px solid #fff"></div>
+</div>
+<div class="mk" style="top:198px;left:172px">2</div>
+
+<div style="position:absolute;top:170px;left:190px;display:flex;flex-direction:column;align-items:center">
+<div style="min-width:24px;height:24px;padding:0 5px;border-radius:12px;background:#7C3AED;border:2px solid #fff;display:grid;place-items:center"><span style="color:#fff;font:800 11px 'Architects Daughter',sans-serif">1</span></div>
+<div style="width:2px;height:5px;background:#7C3AED"></div>
+</div>
+<div class="mk" style="top:160px;left:206px">3</div>
+
+<div style="position:absolute;top:250px;left:70px;display:flex;flex-direction:column;align-items:center">
+<div style="min-width:24px;height:24px;padding:0 5px;border-radius:12px;background:#F59E0B;border:2px solid #fff;display:grid;place-items:center"><span style="color:#fff;font:800 11px 'Architects Daughter',sans-serif">D</span></div>
+<div style="width:2px;height:5px;background:#F59E0B"></div>
+</div>
+<div class="mk" style="top:240px;left:52px">4</div>
+
+<div style="position:absolute;top:300px;left:110px;width:22px;height:22px;display:grid;place-items:center">
+<div style="position:absolute;width:22px;height:22px;border-radius:999px;border:3px solid #EF4444;opacity:.7"></div>
+<div style="width:14px;height:14px;border-radius:999px;background:#DC2626;border:2px solid #fff"></div>
+</div>
+<div class="mk" style="top:290px;left:136px">5</div>
+
+<svg style="position:absolute;top:0;left:0;width:272px;height:340px;pointer-events:none" viewBox="0 0 272 340">
+<path d="M172,222 L200,182 L150,152" stroke="rgba(15,23,50,.35)" stroke-width="9" fill="none" stroke-linecap="round"></path>
+<path d="M172,222 L200,182 L150,152" stroke="#D4A843" stroke-width="5" fill="none" stroke-linecap="round"></path>
+</svg>
+<div class="mk" style="top:150px;left:230px">6</div>
+
+<div style="position:relative;position:absolute;bottom:150px;left:0;right:0;display:flex;justify-content:center">
+<div style="background:rgba(31,41,55,.92);border:1px solid #445;border-radius:999px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#e5e7eb">Plan route · 2 stops</div>
+</div>
+
+<div style="position:relative;position:absolute;bottom:88px;left:14px;background:#DC2626;border:1.5px solid #EF4444;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px">
+<div style="width:14px;height:16px;border:1.5px solid #fff;border-radius:3px 3px 8px 8px"></div>
+<span style="font:700 13px 'JetBrains Mono',monospace;letter-spacing:2px;color:#fff">DURESS</span>
+</div>
+<div class="mk" style="top:472px;left:2px">7</div>
+
+<div style="position:relative;position:absolute;bottom:16px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;background:rgba(31,41,55,.9);border:1px solid #445;border-radius:10px;padding:11px 0;text-align:center;font:400 10px 'JetBrains Mono',monospace;letter-spacing:1.4px;color:#e5e7eb">ASSIGN ZONE</div>
+</div>
+</div>
+</div>
+<div style="position:relative;padding:10px 14px 14px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#777">If the officer taps DURESS again while a signal is active, the button flips to a pulsing dark-red "CODE 1 ACTIVE — TAP TO CLEAR" state (fades 0.3↔1.0 opacity, 450ms) instead of the button shown here.
+<div class="mk" style="top:-9px;right:-9px">8</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+</x-dc>
+</body>
+</html>

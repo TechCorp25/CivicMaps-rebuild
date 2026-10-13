@@ -1,0 +1,809 @@
+"zones": [
+    {
+      "parkingzone": 7156,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Aquitania Way",
+          "between": {
+            "from": "Caravel Lane",
+            "to": "Newquay Promenade"
+          },
+          "segment_id": 22787
+        },
+        {
+          "onstreet": "Aquitania Way",
+          "between": {
+            "from": "Docklands Drive",
+            "to": "Caravel Lane"
+          },
+          "segment_id": 22786
+        }
+      ]
+    },
+    {
+      "parkingzone": 7157,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Caravel Lane",
+          "between": {
+            "from": "Rakaia Way",
+            "to": "Aquitania Way"
+          },
+          "segment_id": 22781
+        }
+      ]
+    },
+    {
+      "parkingzone": 7158,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Augusta Avenue",
+          "between": {
+            "from": "Pearl River Road",
+            "to": "Wattle Road"
+          },
+          "segment_id": 23275
+        }
+      ]
+    },
+    {
+      "parkingzone": 7159,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Aurora Lane",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 22822
+        }
+      ]
+    },
+    {
+      "parkingzone": 7160,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Saint Mangos Lane",
+          "between": {
+            "from": "Docklands Drive",
+            "to": "Caravel Lane"
+          },
+          "segment_id": 22779
+        }
+      ]
+    },
+    {
+      "parkingzone": 7161,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Aurora Lane",
+          "between": {
+            "from": "Collins Street",
+            "to": "Wurundjeri Way"
+          },
+          "segment_id": 22899
+        }
+      ]
+    },
+    {
+      "parkingzone": 7163,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Batmans Hill Drive",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 22802
+        }
+      ]
+    },
+    {
+      "parkingzone": 7165,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Wurundjeri Way",
+            "to": "Harbour Esplanade"
+          },
+          "segment_id": 22553
+        }
+      ]
+    },
+    {
+      "parkingzone": 7170,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Enterprize Way",
+            "to": "Cumberland Street"
+          },
+          "segment_id": 22913
+        }
+      ]
+    },
+    {
+      "parkingzone": 7171,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Harbour Esplanade",
+            "to": "Enterprize Way"
+          },
+          "segment_id": 22801
+        }
+      ]
+    },
+    {
+      "parkingzone": 7173,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Harbour Esplanade",
+            "to": "Enterprize Way"
+          },
+          "segment_id": 22801
+        }
+      ]
+    },
+    {
+      "parkingzone": 7175,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Navigation Drive",
+          "between": {
+            "from": "Collins Street",
+            "to": "Harbour Esplanade"
+          },
+          "segment_id": 23236
+        }
+      ]
+    },
+    {
+      "parkingzone": 7178,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Enterprize Way",
+            "to": "Cumberland Street"
+          },
+          "segment_id": 22913
+        }
+      ]
+    },
+    {
+      "parkingzone": 7180,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Docklands Drive",
+          "between": {
+            "from": "Pearl River Road",
+            "to": "Docklands Drive"
+          },
+          "segment_id": 23256
+        }
+      ]
+    },
+    {
+      "parkingzone": 7182,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Adela Lane",
+          "between": {
+            "from": "Collins Street",
+            "to": null
+          },
+          "segment_id": 23342
+        }
+      ]
+    },
+    {
+      "parkingzone": 7184,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Harbour Esplanade",
+            "to": "Navigation Drive"
+          },
+          "segment_id": 23308
+        }
+      ]
+    },
+    {
+      "parkingzone": 7185,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Navigation Drive",
+            "to": "Merchant Street"
+          },
+          "segment_id": 22956
+        }
+      ]
+    },
+    {
+      "parkingzone": 7186,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Merchant Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 23311
+        }
+      ]
+    },
+    {
+      "parkingzone": 7188,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Sailmaker Way"
+          },
+          "segment_id": 23314
+        },
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Sailmaker Way",
+            "to": "North Wharf Road"
+          },
+          "segment_id": 23378
+        }
+      ]
+    },
+    {
+      "parkingzone": 7191,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Docklands Drive",
+          "between": {
+            "from": "Saint Mangos Lane",
+            "to": "Waterfront Way"
+          },
+          "segment_id": 23252
+        }
+      ]
+    },
+    {
+      "parkingzone": 7192,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Docklands Drive",
+          "between": {
+            "from": "Pearl River Road",
+            "to": "Docklands Drive"
+          },
+          "segment_id": 23256
+        }
+      ]
+    },
+    {
+      "parkingzone": 7193,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Doepel Way",
+          "between": {
+            "from": "Docklands Drive",
+            "to": "Newquay Promenade"
+          },
+          "segment_id": 22855
+        }
+      ]
+    },
+    {
+      "parkingzone": 7194,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Enterprize Way",
+          "between": {
+            "from": "Bourke Street",
+            "to": null
+          },
+          "segment_id": 22898
+        }
+      ]
+    },
+    {
+      "parkingzone": 7195,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Docklands Drive",
+          "between": {
+            "from": "Harbour Esplanade",
+            "to": "Saint Mangos Lane"
+          },
+          "segment_id": 22439
+        }
+      ]
+    },
+    {
+      "parkingzone": 7196,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Fishplate Lane",
+          "between": {
+            "from": "Batmans Hill Drive",
+            "to": "Village Street"
+          },
+          "segment_id": 22942
+        }
+      ]
+    },
+    {
+      "parkingzone": 7197,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Geographe Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Keera Way"
+          },
+          "segment_id": 23032
+        }
+      ]
+    },
+    {
+      "parkingzone": 7200,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Georgiana Street",
+          "between": {
+            "from": "McCrae Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 22896
+        }
+      ]
+    },
+    {
+      "parkingzone": 7202,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Harbour Esplanade",
+          "between": {
+            "from": "Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 22448
+        }
+      ]
+    },
+    {
+      "parkingzone": 7203,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Harbour Esplanade",
+          "between": {
+            "from": "McCrae Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 22954
+        }
+      ]
+    },
+    {
+      "parkingzone": 7204,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Harbour Esplanade",
+          "between": {
+            "from": "McCrae Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 22954
+        }
+      ]
+    },
+    {
+      "parkingzone": 7205,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Harbour Esplanade",
+          "between": {
+            "from": "Bourke Street",
+            "to": "La Trobe Street"
+          },
+          "segment_id": 22452
+        }
+      ]
+    },
+    {
+      "parkingzone": 7207,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Import Lane",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 23062
+        }
+      ]
+    },
+    {
+      "parkingzone": 7208,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Karlsruhe Lane",
+          "between": {
+            "from": "Collins Street",
+            "to": "Keera Way"
+          },
+          "segment_id": 23246
+        }
+      ]
+    },
+    {
+      "parkingzone": 7209,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leven Avenue",
+          "between": {
+            "from": "Pearl River Road",
+            "to": "Wattle Road"
+          },
+          "segment_id": 23277
+        }
+      ]
+    },
+    {
+      "parkingzone": 7210,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Docklands Drive",
+          "between": {
+            "from": "Footscray Road",
+            "to": "Waterfront Way"
+          },
+          "segment_id": 23226
+        }
+      ]
+    },
+    {
+      "parkingzone": 7212,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Merchant Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Victoria Harbour Promenade"
+          },
+          "segment_id": 22915
+        }
+      ]
+    },
+    {
+      "parkingzone": 7213,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Merchant Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 23151
+        }
+      ]
+    },
+    {
+      "parkingzone": 7214,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Navigation Drive",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 23033
+        }
+      ]
+    },
+    {
+      "parkingzone": 7217,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pearl River Road",
+          "between": {
+            "from": "Docklands Drive",
+            "to": "Victoria Harbour"
+          },
+          "segment_id": 22908
+        }
+      ]
+    },
+    {
+      "parkingzone": 7220,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pearl River Road",
+          "between": {
+            "from": "Footscray Road",
+            "to": "Docklands Drive"
+          },
+          "segment_id": 23224
+        }
+      ]
+    },
+    {
+      "parkingzone": 7221,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Point Park Crescent",
+          "between": {
+            "from": "Lorimer Street",
+            "to": "South Wharf Drive"
+          },
+          "segment_id": 22951
+        }
+      ]
+    },
+    {
+      "parkingzone": 7226,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Saint Mangos Lane North",
+          "between": {
+            "from": "Docklands Drive",
+            "to": null
+          },
+          "segment_id": 23267
+        }
+      ]
+    },
+    {
+      "parkingzone": 7227,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Village Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 22941
+        }
+      ]
+    },
+    {
+      "parkingzone": 7228,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Village Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 22941
+        }
+      ]
+    },
+    {
+      "parkingzone": 7229,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Village Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "McCrae Street"
+          },
+          "segment_id": 22894
+        }
+      ]
+    },
+    {
+      "parkingzone": 7230,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Village Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "McCrae Street"
+          },
+          "segment_id": 22894
+        }
+      ]
+    },
+    {
+      "parkingzone": 7231,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Merchant Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 23151
+        }
+      ]
+    },
+    {
+      "parkingzone": 7232,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Waterfront Way",
+          "between": {
+            "from": "Footscray Road",
+            "to": "Docklands Drive"
+          },
+          "segment_id": 23225
+        }
+      ]
+    },
+    {
+      "parkingzone": 7233,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wattle Road",
+          "between": {
+            "from": "Docklands Drive",
+            "to": "Newquay Promenade"
+          },
+          "segment_id": 23274
+        }
+      ]
+    },
+    {
+      "parkingzone": 7240,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Wurundjeri Way",
+            "to": "Harbour Esplanade"
+          },
+          "segment_id": 22549
+        }
+      ]
+    },
+    {
+      "parkingzone": 7261,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pearl River Road",
+          "between": {
+            "from": "Footscray Road",
+            "to": "Docklands Drive"
+          },
+          "segment_id": 23224
+        }
+      ]
+    },
+    {
+      "parkingzone": 7282,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Brentani Way",
+          "between": {
+            "from": "Village Street",
+            "to": "Georgiana Street"
+          },
+          "segment_id": 22895
+        }
+      ]
+    },
+    {
+      "parkingzone": 7329,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bond Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20394
+        }
+      ]
+    },
+    {
+      "parkingzone": 7330,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Boathouse Drive",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Alexandra Avenue"
+          },
+          "segment_id": 22188
+        },
+        {
+          "onstreet": "PT5354",
+          "between": {
+            "from": "Boathouse Drive",
+            "to": null
+          },
+          "segment_id": 22883
+        }
+      ]
+    },
+    {
+      "parkingzone": 7331,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bond Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20394
+        }
+      ]
+    },
+    {
+      "parkingzone": 7879,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lorimer Street",
+          "between": {
+            "from": "Westgate Freeway",
+            "to": "Hartley Street"
+          },
+          "segment_id": 22126
+        }
+      ]
+    }

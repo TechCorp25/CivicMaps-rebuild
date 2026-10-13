@@ -1,0 +1,651 @@
+"zones": [
+    {
+      "parkingzone": 7317,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Alexandra Avenue",
+          "between": {
+            "from": "Swan Street Bridge",
+            "to": "Anderson Street"
+          },
+          "segment_id": 22492
+        }
+      ]
+    },
+    {
+      "parkingzone": 7322,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Birdwood Avenue",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Anzac Avenue"
+          },
+          "segment_id": 22198
+        }
+      ]
+    },
+    {
+      "parkingzone": 7323,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Birdwood Avenue",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Domain Road"
+          },
+          "segment_id": 22706
+        }
+      ]
+    },
+    {
+      "parkingzone": 7325,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Birdwood Avenue",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Anzac Avenue"
+          },
+          "segment_id": 22198
+        }
+      ]
+    },
+    {
+      "parkingzone": 7327,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Birdwood Avenue",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Domain Road"
+          },
+          "segment_id": 22706
+        }
+      ]
+    },
+    {
+      "parkingzone": 7328,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Birdwood Avenue",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Domain Road"
+          },
+          "segment_id": 22706
+        }
+      ]
+    },
+    {
+      "parkingzone": 7348,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "Bromby Street",
+          "between": {
+            "from": "Adams Street",
+            "to": "Arnold Street"
+          },
+          "segment_id": 22201
+        },
+        {
+          "onstreet": "Bromby Street",
+          "between": {
+            "from": "Arnold Street",
+            "to": "St Kilda Road"
+          },
+          "segment_id": 22199
+        },
+        {
+          "onstreet": "Bromby Street",
+          "between": {
+            "from": "Domain Street",
+            "to": "Adams Street"
+          },
+          "segment_id": 22203
+        }
+      ]
+    },
+    {
+      "parkingzone": 7367,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Commercial Road",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22308
+        }
+      ]
+    },
+    {
+      "parkingzone": 7369,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dallas Brooks Drive",
+          "between": {
+            "from": "Domain Road",
+            "to": "Birdwood Avenue"
+          },
+          "segment_id": 22469
+        }
+      ]
+    },
+    {
+      "parkingzone": 7370,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Domain Road",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Domain Street"
+          },
+          "segment_id": 22223
+        }
+      ]
+    },
+    {
+      "parkingzone": 7371,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "Domain Road",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Domain Street"
+          },
+          "segment_id": 22223
+        },
+        {
+          "onstreet": "Domain Road",
+          "between": {
+            "from": "Domain Road",
+            "to": "Domain Street"
+          },
+          "segment_id": 22224
+        },
+        {
+          "onstreet": "Domain Road",
+          "between": {
+            "from": "Domain Street",
+            "to": "Hope Street"
+          },
+          "segment_id": 22225
+        }
+      ]
+    },
+    {
+      "parkingzone": 7372,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Domain Road",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Dallas Brooks Drive"
+          },
+          "segment_id": 22708
+        }
+      ]
+    },
+    {
+      "parkingzone": 7375,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Domain Road",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Domain Street"
+          },
+          "segment_id": 22223
+        }
+      ]
+    },
+    {
+      "parkingzone": 7376,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Domain Road",
+          "between": {
+            "from": "Dallas Brooks Drive",
+            "to": "Domain Street"
+          },
+          "segment_id": 22223
+        },
+        {
+          "onstreet": "Domain Road",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Dallas Brooks Drive"
+          },
+          "segment_id": 22708
+        }
+      ]
+    },
+    {
+      "parkingzone": 7466,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Government House Drive",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Birdwood Avenue"
+          },
+          "segment_id": 22196
+        }
+      ]
+    },
+    {
+      "parkingzone": 7468,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "High Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22479
+        }
+      ]
+    },
+    {
+      "parkingzone": 7469,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "High Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22479
+        }
+      ]
+    },
+    {
+      "parkingzone": 7513,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Linlithgow Avenue",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Government House Drive"
+          },
+          "segment_id": 22089
+        }
+      ]
+    },
+    {
+      "parkingzone": 7581,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moubray Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22311
+        }
+      ]
+    },
+    {
+      "parkingzone": 7584,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moubray Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22311
+        }
+      ]
+    },
+    {
+      "parkingzone": 7585,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moubray Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22311
+        }
+      ]
+    },
+    {
+      "parkingzone": 7586,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moubray Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22311
+        }
+      ]
+    },
+    {
+      "parkingzone": 7587,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moubray Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22311
+        }
+      ]
+    },
+    {
+      "parkingzone": 7651,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Wadey Street",
+            "to": "Anzac Avenue"
+          },
+          "segment_id": 22702
+        }
+      ]
+    },
+    {
+      "parkingzone": 7653,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Armadale Street",
+            "to": "Commercial Road"
+          },
+          "segment_id": 22476
+        }
+      ]
+    },
+    {
+      "parkingzone": 7654,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Slater Street",
+            "to": "Armadale Street"
+          },
+          "segment_id": 22474
+        }
+      ]
+    },
+    {
+      "parkingzone": 7655,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Commercial Road",
+            "to": "Moubray Street"
+          },
+          "segment_id": 22477
+        }
+      ]
+    },
+    {
+      "parkingzone": 7656,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Armadale Street",
+            "to": "Commercial Road"
+          },
+          "segment_id": 22476
+        }
+      ]
+    },
+    {
+      "parkingzone": 7657,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Armadale Street",
+            "to": "Commercial Road"
+          },
+          "segment_id": 22476
+        }
+      ]
+    },
+    {
+      "parkingzone": 7658,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Slater Street",
+            "to": "Armadale Street"
+          },
+          "segment_id": 22474
+        }
+      ]
+    },
+    {
+      "parkingzone": 7662,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Moubray Street",
+            "to": "High Street"
+          },
+          "segment_id": 22478
+        }
+      ]
+    },
+    {
+      "parkingzone": 7664,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Moubray Street",
+            "to": "High Street"
+          },
+          "segment_id": 22478
+        }
+      ]
+    },
+    {
+      "parkingzone": 7665,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Commercial Road",
+            "to": "Moubray Street"
+          },
+          "segment_id": 22477
+        }
+      ]
+    },
+    {
+      "parkingzone": 7666,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Slater Street",
+            "to": "Armadale Street"
+          },
+          "segment_id": 22474
+        }
+      ]
+    },
+    {
+      "parkingzone": 7667,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Toorak Road",
+            "to": "Slater Street"
+          },
+          "segment_id": 22472
+        }
+      ]
+    },
+    {
+      "parkingzone": 7668,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Toorak Road",
+            "to": "Slater Street"
+          },
+          "segment_id": 22472
+        }
+      ]
+    },
+    {
+      "parkingzone": 7669,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Toorak Road",
+            "to": "Slater Street"
+          },
+          "segment_id": 22472
+        }
+      ]
+    },
+    {
+      "parkingzone": 7670,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Bromby Street",
+            "to": "Toorak Road"
+          },
+          "segment_id": 22470
+        }
+      ]
+    },
+    {
+      "parkingzone": 7883,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Anzac Avenue"
+          },
+          "segment_id": 22703
+        }
+      ]
+    },
+    {
+      "parkingzone": 7887,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Anzac Avenue"
+          },
+          "segment_id": 22703
+        },
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Wadey Street",
+            "to": "Anzac Avenue"
+          },
+          "segment_id": 22702
+        }
+      ]
+    },
+    {
+      "parkingzone": 7910,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Commercial Road",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Punt Road"
+          },
+          "segment_id": 22308
+        }
+      ]
+    },
+    {
+      "parkingzone": 7911,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Toorak Road",
+          "between": {
+            "from": "Leopold Street",
+            "to": "Marne Street"
+          },
+          "segment_id": 22217
+        }
+      ]
+    },
+    {
+      "parkingzone": 7912,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Toorak Road",
+          "between": {
+            "from": "Millswyn Street",
+            "to": "Park Street"
+          },
+          "segment_id": 22215
+        }
+      ]
+    }

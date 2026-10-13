@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.pill{display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.4px;padding:3px 8px;border-radius:999px}.mono{font-family:'JetBrains Mono',monospace}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.pf{position:relative;border:2px solid #222;border-radius:22px;overflow:hidden;background:#fff;display:flex;flex-direction:column;width:272px;height:560px;flex:none}.dot3{width:9px;height:9px;border-radius:999px;border:1.5px solid #555}.browserbar{display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1.5px solid #222;background:#f5f4f1}.urlbar{flex:1;border:1.5px solid #444;border-radius:999px;padding:3px 8px;font:400 9.5px 'JetBrains Mono',monospace;color:#333;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pbtn{display:block;background:#1B2A4A;color:#fff;font:600 12px 'Architects Daughter',sans-serif;padding:11px 0;border-radius:8px;text-align:center;text-decoration:none}.pbtn2{display:block;border:1.5px solid #1B2A4A;color:#1B2A4A;font:600 12px 'Architects Daughter',sans-serif;padding:10px 0;border-radius:8px;text-align:center;text-decoration:none}.trow{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:10px 12px;text-decoration:none}.chev{color:#B0B7C3;font:700 13px sans-serif}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 23 — Status Tracking (proposed, no repo source). Resolves OQ22-7 — activates the "Track an existing report" CTA left disabled at 22a/22f. Default arrival is a magic link from the confirmation email (lands straight on 23d, or 23c if that email has 2+ reports) — the manual lookup form here is the fallback for a citizen who lost or didn't use the link.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="23a">
+<div class="dv-olabel"><a class="dv-oid" href="#23a">23a</a>Track a report — manual lookup</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/track<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">1</div></div></div>
+<div style="padding:26px 22px 24px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#111;margin-bottom:6px">Track your report</div>
+<div style="font:400 11px/1.5 'Architects Daughter',sans-serif;color:#4A5568;margin-bottom:18px">Enter your reference number and the email you used, or open the link from your confirmation email.</div>
+<div class="flabel">Reference number *</div>
+<div class="fld" style="color:#999;margin-bottom:12px">e.g. LL-2026-00893</div>
+<div class="flabel">Email address *</div>
+<div class="fld" style="color:#999;margin-bottom:16px">you@example.com</div>
+<a href="#23d" class="pbtn" style="position:relative">Find my report<div class="mk" style="top:-9px;right:-9px">2</div></a>
+<div style="position:relative;font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#9CA3AF;margin-top:12px">Reports submitted anonymously can't be tracked here — no contact details are on file to match against.<div class="mk" style="top:-8px;right:-8px;width:17px;height:17px;font-size:9.5px">3</div></div>
+<div style="height:14px"></div>
+<a href="Wireframes S22 - Public Service Request Submission.dc.html#22a" style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;text-decoration:none">&lsaquo; Back to report an issue</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="23b">
+<div class="dv-olabel"><a class="dv-oid" href="#23b">23b</a>Not found</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/track</div></div>
+<div style="padding:26px 22px 24px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#111;margin-bottom:14px">Track your report</div>
+<div role="alert" style="position:relative;border:1px solid rgba(220,38,38,.4);background:rgba(220,38,38,.1);color:#DC2626;border-radius:6px;padding:8px 10px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;margin-bottom:14px">No report found for that reference number and email. Check both and try again.<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div class="flabel">Reference number *</div>
+<div class="fld" style="color:#333;margin-bottom:12px">LL-2026-00891</div>
+<div class="flabel">Email address *</div>
+<div class="fld" style="color:#333;margin-bottom:16px">j.citizen@example.com</div>
+<div class="pbtn">Find my report</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Found states. The public tracker collapses both backing status sets down to one 3-state vocabulary a citizen needs, regardless of which domain the report routes through: Code21's real 11-state <code>SR_LIFECYCLE</code> (<code>LifecycleStatusPill</code>, `_ds_bundle.js`) for Parking, and 17's Case status set (Received / assigned-in-progress / actioned-closed) for the other 8 categories.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="23c">
+<div class="dv-olabel"><a class="dv-oid" href="#23c">23c</a>Multiple reports found</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/track</div></div>
+<div style="padding:22px 18px 20px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="font:700 15px 'Architects Daughter',sans-serif;color:#111;margin-bottom:2px">Your reports</div>
+<div style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:14px">3 reports found for j.citizen@example.com</div>
+<a href="#23d" class="trow" style="margin-bottom:8px;position:relative">
+<div style="display:flex;flex-direction:column;gap:2px"><span class="mono" style="font:600 11px 'JetBrains Mono',monospace;color:#1B2A4A">LL-2026-00893</span><span style="font:400 9.5px 'Architects Daughter',sans-serif;color:#636E80">Local Laws · 43 Bourke St</span></div>
+<div style="display:flex;align-items:center;gap:6px"><span class="pill" style="background:rgba(26,122,109,.12);color:#1A7A6D">In progress</span><span class="chev">&rsaquo;</span></div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</a>
+<a href="#23d" class="trow" style="margin-bottom:8px;text-decoration:none">
+<div style="display:flex;flex-direction:column;gap:2px"><span class="mono" style="font:600 11px 'JetBrains Mono',monospace;color:#1B2A4A">SR-2026-01142</span><span style="font:400 9.5px 'Architects Daughter',sans-serif;color:#636E80">Parking · cnr Flinders &amp; Swanston St</span></div>
+<div style="display:flex;align-items:center;gap:6px"><span class="pill" style="background:rgba(37,99,235,.12);color:#2563EB">Received</span><span class="chev">&rsaquo;</span></div>
+</a>
+<a href="#23d" class="trow" style="text-decoration:none">
+<div style="display:flex;flex-direction:column;gap:2px"><span class="mono" style="font:600 11px 'JetBrains Mono',monospace;color:#1B2A4A">LL-2026-00810</span><span style="font:400 9.5px 'Architects Daughter',sans-serif;color:#636E80">Waste · 12 Elizabeth St</span></div>
+<div style="display:flex;align-items:center;gap:6px"><span class="pill" style="background:rgba(22,163,74,.12);color:#16A34A">Resolved</span><span class="chev">&rsaquo;</span></div>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="23d">
+<div class="dv-olabel"><a class="dv-oid" href="#23d">23d</a>Request status</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/track/LL-2026-00893</div></div>
+<div style="padding:20px 18px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><a href="#23c" style="text-decoration:none;color:#9CA3AF;font:700 14px sans-serif">&lsaquo;</a><span class="mono" style="font:700 13px 'JetBrains Mono',monospace;color:#111">LL-2026-00893</span></div>
+<div class="pill" style="background:rgba(27,42,74,.08);color:#1B2A4A;margin-bottom:16px">Local Laws</div>
+<div style="position:relative;display:flex;align-items:center;margin-bottom:6px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1"><div style="width:20px;height:20px;border-radius:999px;background:#16A34A;color:#fff;display:grid;place-items:center;font:700 11px sans-serif">&#10003;</div><span style="font:600 8.5px 'Architects Daughter',sans-serif;color:#16A34A">Received</span></div>
+<div style="flex:1;height:2px;background:#1A7A6D"></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1"><div style="width:20px;height:20px;border-radius:999px;background:#1A7A6D;color:#fff;display:grid;place-items:center;font:700 10px 'JetBrains Mono',monospace">2</div><span style="font:600 8.5px 'Architects Daughter',sans-serif;color:#1A7A6D">In progress</span></div>
+<div style="flex:1;height:2px;background:#D5D9E0"></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1"><div style="width:20px;height:20px;border-radius:999px;border:1.5px solid #D5D9E0;color:#9CA3AF;display:grid;place-items:center;font:700 10px 'JetBrains Mono',monospace">3</div><span style="font:600 8.5px 'Architects Daughter',sans-serif;color:#9CA3AF">Resolved</span></div>
+<div class="mk" style="top:-11px;right:0px">1</div>
+</div>
+<div style="font:400 9.5px 'Architects Daughter',sans-serif;color:#9CA3AF;text-align:center;margin-bottom:18px">Being reviewed by the compliance team</div>
+<div style="border-top:1px solid rgba(0,0,0,.08);padding-top:12px;display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+<div class="dfield"><span class="dflabel">Submitted</span><span class="dfval">3 Aug 2026</span></div>
+<div class="dfield"><span class="dflabel">Location</span><span class="dfval">43 Bourke St, Melbourne</span></div>
+<div class="dfield"><span class="dflabel">What you reported</span><span class="dfval" style="font-style:italic;color:#4A5568">"Loud amplified music from a shopfront, ongoing since 8pm."</span></div>
+</div>
+<a href="#23e" class="pbtn2" style="position:relative;margin-bottom:8px">Add more information<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">2</div></a>
+<a href="#23f" style="position:relative;display:block;text-align:center;font:600 11px 'Architects Daughter',sans-serif;color:#B91C1C;text-decoration:none;padding:6px 0">Withdraw this report<div class="mk" style="top:-6px;right:90px;width:17px;height:17px;font-size:9.5px">3</div></a>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-align:center;margin-top:6px">You'll get an email when the status changes.</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Applicant-initiated actions on an open report: a one-way information note, and a reason-required withdrawal.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="23e">
+<div class="dv-olabel"><a class="dv-oid" href="#23e">23e</a>Add more information</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/track/LL-2026-00893</div></div>
+<div style="padding:20px 18px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><a href="#23d" style="text-decoration:none;color:#9CA3AF;font:700 14px sans-serif">&lsaquo;</a><span style="font:700 14px 'Architects Daughter',sans-serif;color:#111">Add more information</span></div>
+<div class="flabel">What would you like to add? *</div>
+<div class="fld" style="min-height:64px;color:#999;margin-bottom:14px">Add details, an update, or anything else the compliance team should know...</div>
+<div class="flabel">Attach a photo (optional)</div>
+<div style="position:relative;width:52px;height:52px;border:1.5px dashed #B0B7C3;border-radius:6px;display:grid;place-items:center;font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-align:center;line-height:1.2;margin-bottom:16px">+ Add<br>photo</div>
+<a href="#23d" class="pbtn" style="position:relative">Send to council<div class="mk" style="top:-9px;right:-9px">1</div></a>
+<div style="font:400 9px/1.4 'Architects Daughter',sans-serif;color:#9CA3AF;text-align:center;margin-top:10px">This is added as a note on your report for the compliance team — it isn't a live chat, and you won't get an immediate reply here.</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="23f">
+<div class="dv-olabel"><a class="dv-oid" href="#23f">23f</a>Withdraw this report</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/track/LL-2026-00893</div></div>
+<div style="padding:20px 18px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><a href="#23d" style="text-decoration:none;color:#9CA3AF;font:700 14px sans-serif">&lsaquo;</a><span style="font:700 14px 'Architects Daughter',sans-serif;color:#111">Withdraw this report</span></div>
+<div style="position:relative;border:1px solid rgba(245,158,11,.35);background:rgba(245,158,11,.1);color:#92660B;border-radius:6px;padding:8px 10px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;margin-bottom:16px">Withdrawing cancels this report. The council will take no further action.<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div class="flabel">Reason for withdrawing *</div>
+<div style="display:flex;flex-direction:column;gap:9px;margin-bottom:18px">
+<div style="display:flex;align-items:center;gap:8px"><div style="width:15px;height:15px;border-radius:999px;border:1.5px solid #1B2A4A;position:relative"><div style="position:absolute;top:3px;left:3px;width:7px;height:7px;border-radius:999px;background:#1B2A4A"></div></div><span style="font:400 11px 'Architects Daughter',sans-serif;color:#1F2937">Issue resolved itself</span></div>
+<div style="display:flex;align-items:center;gap:8px"><div style="width:15px;height:15px;border-radius:999px;border:1.5px solid #444"></div><span style="font:400 11px 'Architects Daughter',sans-serif;color:#1F2937">Reported by mistake</span></div>
+<div style="display:flex;align-items:center;gap:8px"><div style="width:15px;height:15px;border-radius:999px;border:1.5px solid #444"></div><span style="font:400 11px 'Architects Daughter',sans-serif;color:#1F2937">No longer relevant</span></div>
+<div style="display:flex;align-items:center;gap:8px"><div style="width:15px;height:15px;border-radius:999px;border:1.5px solid #444"></div><span style="font:400 11px 'Architects Daughter',sans-serif;color:#1F2937">Other</span></div>
+</div>
+<a href="#23g" style="position:relative;display:block;border:1.5px solid #DC2626;color:#DC2626;font:600 12px 'Architects Daughter',sans-serif;padding:10px 0;border-radius:8px;text-align:center;text-decoration:none">Withdraw report<div class="mk" style="top:-9px;right:-9px">2</div></a>
+<a href="#23d" style="display:block;text-align:center;font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;text-decoration:none;margin-top:10px">Cancel, go back</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="23g">
+<div class="dv-olabel"><a class="dv-oid" href="#23g">23g</a>Report withdrawn</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/track/LL-2026-00893</div></div>
+<div style="padding:30px 22px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="width:44px;height:44px;border-radius:999px;background:rgba(100,116,139,.12);color:#64748B;display:grid;place-items:center;font:700 18px sans-serif">&#10003;</div>
+<div style="height:12px"></div>
+<div style="font:700 15px 'Architects Daughter',sans-serif;color:#111">Report withdrawn</div>
+<div style="height:8px"></div>
+<div class="mono" style="font:600 12px 'JetBrains Mono',monospace;color:#636E80">LL-2026-00893</div>
+<div style="height:10px"></div>
+<div class="pill" style="position:relative;background:rgba(100,116,139,.12);color:#64748B">Withdrawn<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="height:14px"></div>
+<div style="font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#4A5568">This report is now closed. If the issue continues, you can submit a new one.</div>
+<div style="height:16px"></div>
+<a href="#23c" class="pbtn2" style="width:100%">View your other reports</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+</x-dc>
+</body>
+</html>

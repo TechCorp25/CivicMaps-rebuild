@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.runtime/
+.env
+test-results/
+playwright-report/
+
+# Historical governance excluded from this rebuild. Local originals retained.
+/_ds/uploads/arch_docs-1786347248336-iecq.md
+/_ds/uploads/arch_docs-1786347306845-35tc.md
+/_ds/uploads/arch_docs-1786347306910-ozlb.md
+/_ds/uploads/arch_docs-1786347306973-02m7.md
+/_ds/uploads/CivicMAPS_Section_02_Current_State_Assessment.md
+/_ds/imports/CivicMAPS-design-system/uploads/CivicMAPS_Section_02_Current_State_Assessment.md
+/_ds/imports/CivicMAPS-design-system/uploads/CivicMAPS_Section_01_Authoritative_Foundation.md
+/_ds/imports/CivicMAPS-design-system/uploads/CivicMAPS_Section_01_Authoritative_Foundation-7a8a49b4.md
+/docs/CivicMAPS Design System.zip
+# Local agent and credential configuration
+.agents/
+.codex/
+.aws/
+.env.*
+!.env.example
+!*.example

@@ -1,0 +1,15 @@
+<!doctype html>
+<!-- @dsCard group="Colors" name="Neutral scale" subtitle="Concrete 50–900" viewport="700x120" --><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:16px;background:var(--civic-surface);font-family:var(--font-primary)}
+.row{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.sw{border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--civic-neutral-200)}
+.chip{height:52px;display:flex;align-items:flex-end;padding:4px 6px;font-family:var(--font-mono);font-size:9px;font-weight:600}
+.meta{padding:4px 6px;font-size:10px;line-height:1.2}
+.meta b{display:block;font-size:11px;color:var(--civic-neutral-900);font-weight:600}
+.meta span{color:var(--civic-neutral-500);font-family:var(--font-mono);font-size:9px}
+</style></head><body>
+<div class="row" id="r"></div>
+<script>
+const steps=[['50','#F7F8FA'],['100','#ECEEF2'],['200','#D5D9E0'],['300','#B0B7C3'],['400','#8892A2'],['500','#636E80'],['600','#4A5568'],['700','#374151'],['800','#1F2937'],['900','#111827']];
+document.getElementById('r').innerHTML=steps.map(([k,v],i)=>`<div class="sw"><div class="chip" style="background:${v};color:${i<4?'#111827':'#fff'}">${v.slice(1)}</div><div class="meta"><b>${k}</b><span>neutral-${k}</span></div></div>`).join('');
+</script></body></html>

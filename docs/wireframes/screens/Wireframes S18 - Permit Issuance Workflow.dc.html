@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics=""><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.dot{width:8px;height:8px;border-radius:999px;flex:none}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.actbtn{font:400 9px 'Architects Daughter',sans-serif;padding:2px 6px;border-radius:4px}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.gtbl{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.dfval{font:400 11px 'Architects Daughter',sans-serif;color:#222}.stpill{display:inline-flex;align-items:center;gap:4px;font:600 9px 'JetBrains Mono',monospace;padding:3px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}.lockbanner{display:inline-flex;align-items:center;gap:5px;font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px;margin-top:4px}.wbrow{border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:9px 10px;background:#fff}.dangerbtn{background:#DC2626;color:#fff;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif}.neutralbtn{border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555}.segbtn{border:1.5px solid #444;border-radius:6px;padding:6px 0;text-align:center;font:400 11px 'Architects Daughter',sans-serif;flex:1}.checkrow{display:flex;align-items:center;gap:6px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.checkmark{width:14px;height:14px;border-radius:3px;background:#16A34A;color:#fff;font:600 9px sans-serif;display:grid;place-items:center;flex:none}.browserbar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1.5px solid #222;background:#f5f4f1}.dot3{width:9px;height:9px;border-radius:999px;border:1.5px solid #555}.shellbar{position:relative;background:#1B2A4A;padding:0 14px;display:flex;align-items:center;justify-content:space-between;height:38px;flex:none}.navpill{padding:5px 10px;border-radius:5px;font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.6)}.navpillactive{padding:5px 10px;border-radius:5px;background:rgba(255,255,255,.2);font:400 11px 'Architects Daughter',sans-serif;color:#fff}.foldertab{border:1.5px solid #ccc;border-bottom:none;border-radius:6px 6px 0 0;padding:6px 12px;font:400 11px 'Architects Daughter',sans-serif;color:#555}.foldertabactive{background:#1B2A4A;border-radius:6px 6px 0 0;padding:6px 12px;font:700 11px 'Architects Daughter',sans-serif;color:#fff}.mtable{width:100%;border-collapse:collapse;font:400 11px 'Architects Daughter',sans-serif}.mtable th{text-align:left;font:700 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1px solid #ECEEF2}.mtable td{padding:9px 10px;border-bottom:1px solid #F3F4F6;color:#1F2937}.kpi{border:1px solid #ECEEF2;border-radius:8px;padding:12px;flex:1}.kpiv{font:700 20px 'JetBrains Mono',monospace;color:#1B2A4A}.kpil{font:400 9.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-top:2px}</style></helmet>
+
+<section class="dv-turn" id="t1" style="width: 824px; height: 5857px">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname" style="width: 779px; height: 69px">Sequence 18 — Permit Issuance Workflow (low-fi, proposed). Busking Permit example: application intake, review &amp; decision, approved/rejected outcomes, issued permit record, plus a CommandMAPS admin/management layer (registry, workload, reporting, permit-type config, expiring-soon) for council ADMINs and team supervisors/people leaders.</span></div>
+<div style="font:400 10px 'JetBrains Mono',monospace;color:#999;margin:-10px 0 20px">Form factors: 18m redrawn at tablet/laptop in "EnforcementMAPS Tablet &amp; Laptop Coverage"; 18n is layout-identical across form factors.</div>
+<div class="dv-opts" style="width: 806px; height: 5776px">
+
+<div class="dv-opt" id="18a">
+<div class="dv-olabel"><a class="dv-oid" href="#18a">18a</a>Permits &amp; Licensing — Application Queue (list)</div>
+<div class="dv-card" style="width: 729px; padding: 16px; height: 389px">
+<div style="font:600 13px 'Architects Daughter',sans-serif;margin-bottom:10px">Permits &amp; Licensing — Application Queue</div>
+<div style="position:relative;display:flex;gap:8px;margin-bottom:12px">
+<div class="fld" style="color:#999">All Statuses ▾</div>
+<div class="fld" style="color:#999">All Permit Types ▾</div>
+<div class="fld" style="flex:1;color:#999">Search application # or applicant...</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">PL-2026-00211</div><div style="font:600 12px 'Architects Daughter',sans-serif">Busking Permit — City Square</div><span class="badge" style="background:rgba(27,42,74,.08);color:#1B2A4A">Busking</span></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#888">M. Rossi</span><span class="stpill" style="background:rgba(37,99,235,.1);color:#2563EB;border:1px solid rgba(37,99,235,.3)"><span class="dot" style="width:5px;height:5px;background:#2563EB"></span>Submitted</span></div>
+</div>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#bbb;margin-top:6px">10/08/2026, 2:30 pm</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">PL-2026-00206</div><div style="font:600 12px 'Architects Daughter',sans-serif">Footpath Trading — 88 Smith St</div><span class="badge" style="background:rgba(27,42,74,.08);color:#1B2A4A">Footpath Trading</span></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#888">K. Nguyen</span><span class="stpill" style="background:rgba(26,122,109,.1);color:#1A7A6D;border:1px solid rgba(26,122,109,.3)"><span class="dot" style="width:5px;height:5px;background:#1A7A6D"></span>Under Review</span></div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">PL-2026-00194</div><div style="font:600 12px 'Architects Daughter',sans-serif">Busking Permit — Bourke St Mall</div><span class="badge" style="background:rgba(27,42,74,.08);color:#1B2A4A">Busking</span></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#888">R. Ahmed</span><span class="stpill" style="background:rgba(124,58,237,.1);color:#7C3AED;border:1px solid rgba(124,58,237,.3)"><span class="dot" style="width:5px;height:5px;background:#7C3AED"></span>Approved</span></div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">PL-2026-00187</div><div style="font:600 12px 'Architects Daughter',sans-serif">A-Frame Sign Permit — 214 Brunswick St</div><span class="badge" style="background:rgba(27,42,74,.08);color:#1B2A4A">A-Frame Sign</span></div>
+<span class="stpill" style="background:rgba(107,114,128,.12);color:#6b7280;border:1px solid rgba(107,114,128,.3);align-self:flex-start"><span class="dot" style="width:5px;height:5px;background:#6b7280"></span>Rejected</span>
+</div>
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18b">
+<div class="dv-olabel"><a class="dv-oid" href="#18b">18b</a>Application Detail — new, Submitted</div>
+<div class="dv-card" style="width: 716px; padding: 16px; height: 366px">
+<div style="position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Application Detail</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">×</span>
+<div class="mk" style="top:-9px;left:100px">1</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;font:400 11px 'Architects Daughter',sans-serif">
+<div style="position:relative;display:flex;flex-direction:column;gap:5px">
+<div><div class="flabel">Application Number</div><div style="font:400 11px 'JetBrains Mono',monospace">PL-2026-00211</div></div>
+<span class="stpill" style="background:rgba(37,99,235,.1);color:#2563EB;border:1px solid rgba(37,99,235,.3);align-self:flex-start"><span class="dot" style="width:5px;height:5px;background:#2563EB"></span>Submitted</span>
+</div>
+<hr style="border:none;border-top:1px solid #eee;margin:0">
+<div style="position:relative"><div class="gtbl"><div class="dfield"><span class="dflabel">Permit Type</span><span class="dfval">Busking Permit</span></div><div class="dfield"><span class="dflabel">Submitted</span><span class="dfval" style="font-family:'JetBrains Mono',monospace">10/08/2026, 2:30 pm</span></div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="position:relative"><div class="flabel">Applicant</div><div class="dfval">Marco Rossi — performing as "Marco &amp; Guitar"</div>
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+<div style="position:relative"><div class="gtbl"><div class="dfield"><span class="dflabel">Performance Type</span><span class="dfval">Acoustic music</span></div><div class="dfield"><span class="dflabel">Requested Location</span><span class="dfval">City Square, Swanston St</span></div></div>
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+<div style="position:relative"><div class="flabel">Requested Dates</div><div class="dfval" style="font-family:'JetBrains Mono',monospace">15/08/2026 – 15/11/2026</div>
+<div class="mk" style="top:-9px;right:-9px">5</div></div>
+<div style="position:relative"><div class="flabel">Supporting Documents</div>
+<div style="display:flex;flex-direction:column;gap:4px;margin-top:2px">
+<div class="checkrow"><span class="checkmark">✓</span>Public liability insurance</div>
+<div class="checkrow"><span class="checkmark">✓</span>Photo ID</div>
+<div class="checkrow"><span class="checkmark">✓</span>Sample recording (audio link)</div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">6</div></div>
+<div style="position:relative;background:#1B2A4A;color:#fff;text-align:center;border-radius:6px;padding:7px 0;font:400 11px 'Architects Daughter',sans-serif">Review Application
+<div class="mk" style="top:-9px;right:-9px">7</div></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18c">
+<div class="dv-olabel"><a class="dv-oid" href="#18c">18c</a>Review &amp; Decision modal (Approve branch pictured)</div>
+<div class="dv-card" style="width:320px;padding:20px">
+<div style="font:600 14px 'Architects Daughter',sans-serif;margin-bottom:12px">Review Application — PL-2026-00211</div>
+<div style="display:flex;flex-direction:column;gap:10px;font:400 11px 'Architects Daughter',sans-serif">
+<div style="position:relative"><div class="flabel">Decision</div>
+<div style="display:flex;gap:8px"><div class="segbtn" style="background:#7C3AED;color:#fff;border-color:#7C3AED">Approve</div><div class="segbtn" style="color:#555">Reject</div></div>
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="position:relative"><div class="flabel">Permit Validity</div>
+<div style="display:flex;gap:8px"><div class="fld" style="flex:1;color:#333;font-family:'JetBrains Mono',monospace">15/08/2026</div><div class="fld" style="flex:1;color:#333;font-family:'JetBrains Mono',monospace">15/11/2026</div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="position:relative"><div class="flabel">Conditions (optional)</div><div class="fld" style="color:#333;min-height:40px">No amplification after 6pm. Must not obstruct pedestrian clearway.</div>
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+<div style="position:relative"><div class="flabel">Fee</div><div class="dfval" style="font-family:'JetBrains Mono',monospace">$85.00 AUD</div>
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:14px">
+<div class="neutralbtn" style="flex:1;text-align:center">Cancel</div>
+<div style="flex:1;text-align:center;position:relative;background:#7C3AED;color:#fff;border-radius:6px;padding:6px 0;font:400 11px 'Architects Daughter',sans-serif">Confirm — Approve &amp; Issue
+<div class="mk" style="top:-9px;right:-9px">5</div></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18d">
+<div class="dv-olabel"><a class="dv-oid" href="#18d">18d</a>Application Detail — Approved (permit issued)</div><div class="dv-card" style="width: 334px; padding: 16px; height: 288px">
+<div style="margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Application Detail</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">×</span>
+</div>
+<div class="lockbanner" style="position:relative;background:rgba(124,58,237,.1);color:#7C3AED;border:1px solid rgba(124,58,237,.3)">Approved — Permit Issued
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="position:relative;margin-bottom:10px"><div class="gtbl"><div class="dfield"><span class="dflabel">Permit Number</span><span class="dfval" style="font-family:'JetBrains Mono',monospace">PL-PERMIT-2026-00089</span></div><div class="dfield"><span class="dflabel">Validity</span><span class="dfval" style="font-family:'JetBrains Mono',monospace">15/08/2026 – 15/11/2026</span></div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="position:relative;background:#f8f7f4;border:1px solid #eee;border-radius:6px;padding:9px;margin-bottom:10px">
+<div class="flabel" style="margin-bottom:3px">Conditions</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:#333">No amplification after 6pm. Must not obstruct pedestrian clearway.</div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="position:relative;margin-bottom:10px"><div class="flabel">Reviewed By</div><div class="dfval">K. Nguyen — 11/08/2026, 9:00 am</div>
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+<div style="position:relative;display:flex;align-items:center;gap:5px;font:600 10px 'Architects Daughter',sans-serif;color:#999">
+<span style="display:inline-block;transform:rotate(90deg)">▶</span>Audit Trail (3)
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+</div>
+
+</div>
+
+<div class="dv-opt" id="18e" style="width: 394px; height: 302px">
+<div class="dv-olabel"><a class="dv-oid" href="#18e">18e</a>Application Detail — Rejected</div>
+<div class="dv-card" style="width: 370px; padding: 16px; height: 255px">
+<div style="margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Application Detail</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">×</span>
+</div>
+<div class="lockbanner" style="position:relative;background:rgba(107,114,128,.12);color:#6b7280;border:1px solid rgba(107,114,128,.3)">Rejected
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="position:relative;background:#f8f7f4;border:1px solid #eee;border-radius:6px;padding:9px;margin-bottom:10px">
+<div class="flabel" style="margin-bottom:3px">Rejection Reason</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:#333">Insurance not current</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="position:relative;margin-bottom:10px"><div class="flabel">Reviewer Notes</div><div class="dfval" style="line-height:1.5">Public liability insurance certificate on file expired 30/06/2026. Applicant may resubmit once renewed.</div>
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+<div style="position:relative;margin-bottom:10px"><div class="flabel">Reviewed By</div><div class="dfval">K. Nguyen — 09/08/2026, 4:10 pm</div>
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+<div style="position:relative;display:flex;align-items:center;gap:5px;font:600 10px 'Architects Daughter',sans-serif;color:#999">
+<span style="display:inline-block;transform:rotate(90deg)">▶</span>Audit Trail (2)
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18f" style="width: 357px; height: 299px">
+<div class="dv-olabel"><a class="dv-oid" href="#18f">18f</a>Issued Permit — record card</div>
+<div class="dv-card" style="width: 355px; padding: 0; border: 2px solid #1B2A4A; height: 278px">
+<div style="position:relative;background:#1B2A4A;color:#fff;padding:12px 16px">
+<div style="font:600 12px 'Architects Daughter',sans-serif;letter-spacing:.3px">City of Yarra — Busking Permit</div>
+<div style="font:400 11px 'JetBrains Mono',monospace;color:rgba(255,255,255,.8);margin-top:2px">PL-PERMIT-2026-00089</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="padding:14px 16px;display:flex;flex-direction:column;gap:9px;font:400 11px 'Architects Daughter',sans-serif">
+<div style="position:relative"><div class="gtbl"><div class="dfield"><span class="dflabel">Holder</span><span class="dfval">Marco Rossi</span></div><div class="dfield"><span class="dflabel">Performing As</span><span class="dfval">Marco &amp; Guitar</span></div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="position:relative"><div class="gtbl"><div class="dfield"><span class="dflabel">Location</span><span class="dfval">City Square, Swanston St</span></div><div class="dfield"><span class="dflabel">Valid</span><span class="dfval" style="font-family:'JetBrains Mono',monospace">15/08/26 – 15/11/26</span></div></div>
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+<div style="position:relative"><div class="flabel">Conditions</div><div class="dfval">No amplification after 6pm. Must not obstruct pedestrian clearway.</div>
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+<hr style="border:none;border-top:1px dashed #ddd;margin:2px 0">
+<div style="position:relative;display:flex;justify-content:space-between;align-items:center">
+<span style="font:400 9px 'Architects Daughter',sans-serif;color:#999">Verify at civicmaps.gov.au/permits</span>
+<span style="width:34px;height:34px;border:1.5px solid #999;display:grid;place-items:center;font:600 8px 'JetBrains Mono',monospace;color:#999">QR</span>
+<div class="mk" style="top:-9px;right:34px">5</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18g">
+<div class="dv-olabel"><a class="dv-oid" href="#18g">18g</a>Admin/Management — Permit Registry (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/permits/registry</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div>
+<div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive" style="position:relative">Permits Admin<div class="mk" style="top:-9px;right:-20px">1</div></div></div>
+</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen (Team Supervisor)</div>
+</div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB">
+<div style="display:flex;gap:6px">
+<div class="foldertabactive">Registry</div><div class="foldertab">Workload</div><div class="foldertab">Reporting</div><div class="foldertab">Permit Types</div><div class="foldertab">Expiring Soon</div>
+</div>
+</div>
+<div style="padding:18px 20px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:2px">Permit Registry</div>
+<div style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:12px">All active and historical permits across Permits &amp; Licensing</div>
+<div style="position:relative;display:flex;gap:8px;margin-bottom:14px">
+<div class="fld" style="color:#999">All Permit Types ▾</div>
+<div class="fld" style="color:#999">All Statuses ▾</div>
+<div class="fld" style="flex:1;color:#999">Search permit # or holder...</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<table class="mtable">
+<tr><th>Permit #</th><th>Type</th><th>Holder</th><th>Location</th><th>Valid to</th><th>Status</th><th></th></tr>
+<tr><td class="mono">PL-PERMIT-2026-00089</td><td>Busking</td><td>M. Rossi</td><td>City Square</td><td class="mono">15/11/2026</td><td style="position:relative"><span class="stpill" style="background:rgba(22,163,74,.1);color:#16A34A;border:1px solid rgba(22,163,74,.3)"><span class="dot" style="width:5px;height:5px;background:#16A34A"></span>Active</span><div class="mk" style="top:-9px;right:-9px">3</div></td><td style="position:relative"><a href="#" style="font:400 10px 'Architects Daughter',sans-serif;color:#DC2626">Revoke</a><div class="mk" style="top:-9px;right:-9px">4</div></td></tr>
+<tr><td class="mono">PL-PERMIT-2025-00612</td><td>A-Frame Sign</td><td>T. Osei</td><td>5 Rose St</td><td class="mono">01/07/2026</td><td><span class="stpill" style="background:rgba(107,114,128,.12);color:#6b7280;border:1px solid rgba(107,114,128,.3)"><span class="dot" style="width:5px;height:5px;background:#6b7280"></span>Expired</span></td><td></td></tr>
+<tr><td class="mono">PL-PERMIT-2026-00073</td><td>Busking</td><td>S. Lee</td><td>Bourke St Mall</td><td class="mono">05/08/2026</td><td style="position:relative"><span class="stpill" style="background:rgba(107,114,128,.12);color:#6b7280;border:1px solid rgba(107,114,128,.3)"><span class="dot" style="width:5px;height:5px;background:#6b7280"></span>Revoked</span><div class="mk" style="top:-9px;right:-9px">5</div></td><td></td></tr>
+<tr><td class="mono">PT-PERMIT-2026-00031</td><td>Temporary Road Closure</td><td>Yarra Festival Inc.</td><td>Napier St (100m)</td><td class="mono">24/08/2026</td><td><span class="stpill" style="background:rgba(37,99,235,.1);color:#2563EB;border:1px solid rgba(37,99,235,.3)"><span class="dot" style="width:5px;height:5px;background:#2563EB"></span>Active</span></td><td></td></tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18h">
+<div class="dv-olabel"><a class="dv-oid" href="#18h">18h</a>Admin/Management — Reviewer Workload (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/permits/workload</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div>
+<div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Permits Admin</div></div>
+</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen (Team Supervisor)</div>
+</div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB">
+<div style="display:flex;gap:6px">
+<div class="foldertab">Registry</div><div class="foldertabactive">Workload</div><div class="foldertab">Reporting</div><div class="foldertab">Permit Types</div><div class="foldertab">Expiring Soon</div>
+<div class="mk" style="top:-9px;left:70px">1</div>
+</div>
+</div>
+<div style="padding:18px 20px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:12px">Reviewer Workload</div>
+<table class="mtable">
+<tr><th>Reviewer</th><th>Open</th><th>Avg turnaround</th><th>Flags</th><th></th></tr>
+<tr><td style="font-weight:600">K. Nguyen</td><td class="mono">4</td><td class="mono">1.8 days</td><td></td><td style="position:relative"><a href="#" style="font:400 10px 'Architects Daughter',sans-serif">Reassign</a><div class="mk" style="top:-9px;right:-9px">2</div></td></tr>
+<tr><td style="font-weight:600">R. Ahmed</td><td class="mono">7</td><td class="mono">2.4 days</td><td style="position:relative"><span class="stpill" style="background:rgba(245,158,11,.12);color:#F59E0B;border:1px solid rgba(245,158,11,.3)">1 Overdue</span><div class="mk" style="top:-9px;right:-9px">3</div></td><td style="position:relative"><a href="#" style="font:400 10px 'Architects Daughter',sans-serif">Reassign</a><div class="mk" style="top:-9px;right:-9px">4</div></td></tr>
+<tr><td style="font-weight:600">J. Park <span style="font:400 9px 'Architects Daughter',sans-serif;color:#aaa">— Team Lead</span></td><td class="mono">0</td><td class="mono">—</td><td style="color:#aaa;font:400 10px 'Architects Daughter',sans-serif;position:relative">oversight only<div class="mk" style="top:-9px;right:-9px">5</div></td><td></td></tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18i">
+<div class="dv-olabel"><a class="dv-oid" href="#18i">18i</a>Admin/Management — Reporting (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/permits/reporting</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div>
+<div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Permits Admin</div></div>
+</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen (Team Supervisor)</div>
+</div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB">
+<div style="display:flex;gap:6px">
+<div class="foldertab">Registry</div><div class="foldertab">Workload</div><div class="foldertabactive">Reporting</div><div class="foldertab">Permit Types</div><div class="foldertab">Expiring Soon</div>
+</div>
+</div>
+<div style="padding:18px 20px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A">Reporting</div>
+<div style="position:relative" class="fld">This Month ▾<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="position:relative;display:flex;gap:12px;margin-bottom:18px">
+<div class="kpi"><div class="kpiv">34</div><div class="kpil">Applications</div></div>
+<div class="kpi"><div class="kpiv" style="color:#16A34A">82%</div><div class="kpil">Approval rate</div></div>
+<div class="kpi"><div class="kpiv" style="color:#6b7280">18%</div><div class="kpil">Rejection rate</div></div>
+<div class="kpi"><div class="kpiv">$2,890</div><div class="kpil">Fee revenue AUD</div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<table class="mtable" style="position:relative">
+<tr><th>Type</th><th>Applied</th><th>Approved</th><th>Rejected</th></tr>
+<tr><td>Busking</td><td class="mono">21</td><td class="mono">18</td><td class="mono">3</td></tr>
+<tr><td>Footpath Trading</td><td class="mono">9</td><td class="mono">7</td><td class="mono">2</td></tr>
+<tr><td>A-Frame Sign</td><td class="mono">4</td><td class="mono">2</td><td class="mono">2</td></tr>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18j">
+<div class="dv-olabel"><a class="dv-oid" href="#18j">18j</a>Admin/Management — Permit-Type Configuration (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/permits/types</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div>
+<div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Permits Admin</div></div>
+</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen (Team Supervisor)</div>
+</div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB">
+<div style="display:flex;gap:6px">
+<div class="foldertab">Registry</div><div class="foldertab">Workload</div><div class="foldertab">Reporting</div><div class="foldertabactive">Permit Types</div><div class="foldertab">Expiring Soon</div>
+</div>
+</div>
+<div style="padding:18px 20px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:12px">Permit Types</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div style="flex:1"><div style="font:600 12px 'Architects Daughter',sans-serif">Busking Permit</div>
+<div class="gtbl" style="grid-template-columns:1fr 2fr;margin-top:6px"><div class="dfield"><span class="dflabel">Fee</span><span class="dfval" style="font-family:'JetBrains Mono',monospace">$85.00 AUD</span></div><div class="dfield"><span class="dflabel">Required docs</span><span class="dfval">Insurance, Photo ID, Sample recording</span></div></div>
+<div style="margin-top:6px"><span class="dflabel">Default conditions</span><div class="dfval">No amplification after 6pm. Must not obstruct pedestrian clearway.</div></div>
+</div>
+<a href="#" style="font:400 10px 'Architects Daughter',sans-serif;flex:none">Edit</a>
+</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+<div class="mk" style="top:-9px;right:44px">3</div>
+</div>
+<div class="wbrow">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div style="flex:1"><div style="font:600 12px 'Architects Daughter',sans-serif">Footpath Trading</div>
+<div class="gtbl" style="grid-template-columns:1fr 2fr;margin-top:6px"><div class="dfield"><span class="dflabel">Fee</span><span class="dfval" style="font-family:'JetBrains Mono',monospace">$120.00 AUD</span></div><div class="dfield"><span class="dflabel">Required docs</span><span class="dfval">Insurance, Floor plan</span></div></div>
+</div>
+<a href="#" style="font:400 10px 'Architects Daughter',sans-serif;flex:none">Edit</a>
+</div>
+</div>
+<div class="wbrow">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div style="flex:1"><div style="font:600 12px 'Architects Daughter',sans-serif">Temporary Road Closure</div>
+<div class="gtbl" style="grid-template-columns:1fr 2fr;margin-top:6px"><div class="dfield"><span class="dflabel">Fee</span><span class="dfval" style="font-family:'JetBrains Mono',monospace">$210.00 AUD</span></div><div class="dfield"><span class="dflabel">Required docs</span><span class="dfval">Traffic management plan, Public liability insurance</span></div></div>
+</div>
+<a href="#" style="font:400 10px 'Architects Daughter',sans-serif;flex:none">Edit</a>
+</div>
+</div>
+<div style="position:relative;text-align:center;border:1.5px dashed #999;color:#777;border-radius:6px;padding:7px 0;font:400 11px 'Architects Daughter',sans-serif">+ Add Permit Type
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18k">
+<div class="dv-olabel"><a class="dv-oid" href="#18k">18k</a>Admin/Management — Expiring Soon (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/permits/expiring</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div>
+<div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Permits Admin</div></div>
+</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen (Team Supervisor)</div>
+</div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB">
+<div style="display:flex;gap:6px">
+<div class="foldertab">Registry</div><div class="foldertab">Workload</div><div class="foldertab">Reporting</div><div class="foldertab">Permit Types</div><div class="foldertabactive">Expiring Soon</div>
+</div>
+</div>
+<div style="padding:18px 20px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A">Expiring Soon</div>
+<div style="position:relative" class="fld">Expiring within: 30 days ▾<div class="mk" style="top:-9px;right:-9px">5</div></div>
+</div>
+<table class="mtable">
+<tr><th>Permit #</th><th>Type</th><th>Holder</th><th></th><th></th></tr>
+<tr><td class="mono">PL-PERMIT-2026-00073</td><td>Footpath Trading</td><td>S. Lee</td><td style="position:relative"><span class="stpill" style="background:rgba(245,158,11,.12);color:#F59E0B;border:1px solid rgba(245,158,11,.3)">9 days left</span><div class="mk" style="top:-9px;right:-9px">2</div></td><td style="position:relative"><a href="#" style="font:400 10px 'Architects Daughter',sans-serif">Send Reminder</a><div class="mk" style="top:-9px;right:-9px">4</div></td></tr>
+<tr><td class="mono">PL-PERMIT-2026-00061</td><td>A-Frame Sign</td><td>T. Osei</td><td style="position:relative"><span class="stpill" style="background:rgba(107,114,128,.12);color:#6b7280;border:1px solid rgba(107,114,128,.3)">22 days left</span><div class="mk" style="top:-9px;right:-9px">3</div></td><td></td></tr>
+<tr><td class="mono">PL-PERMIT-2026-00055</td><td>Busking</td><td>R. Ahmed</td><td><span class="stpill" style="background:rgba(107,114,128,.12);color:#6b7280;border:1px solid rgba(107,114,128,.3)">28 days left</span></td><td></td></tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="18l">
+<div class="dv-olabel"><a class="dv-oid" href="#18l">18l</a>Dispatch Look Up — Permits &amp; Licences tab</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/lookup?tab=permits</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div>
+<div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpillactive">Look Up</div></div>
+</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen (Team Supervisor)</div>
+</div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB">
+<div style="position:relative;display:flex;gap:6px">
+<div class="foldertab">Service Requests</div><div class="foldertab">Mark-Ups</div><div class="foldertabactive">Permits &amp; Licences</div><div class="foldertab">Audit</div>
+<div class="mk" style="top:-9px;right:120px">1</div>
+</div>
+</div>
+<div style="padding:18px 20px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:2px">Permits &amp; Licences Look Up</div>
+<div style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:12px">Dispatcher-facing read-only search — confirm a permit before dispatching a complaint</div>
+<div style="position:relative;display:flex;gap:8px;margin-bottom:14px">
+<div class="fld" style="flex:1;color:#333">Bourke St Mall</div>
+<div class="fld" style="color:#999">All Types ▾</div>
+<div style="background:#1B2A4A;color:#fff;border-radius:6px;padding:6px 16px;font:400 11px 'Architects Daughter',sans-serif">Search</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<table class="mtable">
+<tr><th>Permit #</th><th>Type</th><th>Holder</th><th>Location</th><th>Valid</th><th>Status</th></tr>
+<tr style="position:relative"><td class="mono">PL-PERMIT-2026-00073</td><td>Busking</td><td>S. Lee</td><td>Bourke St Mall</td><td class="mono">—</td><td><span class="stpill" style="background:rgba(107,114,128,.12);color:#6b7280;border:1px solid rgba(107,114,128,.3)"><span class="dot" style="width:5px;height:5px;background:#6b7280"></span>Revoked</span></td>
+<div class="mk" style="top:6px;right:-9px">3</div></tr>
+<tr style="position:relative"><td class="mono">PT-PERMIT-2026-00042</td><td>Temporary Trading</td><td>Bourke St Traders Assoc.</td><td>Bourke St Mall (stalls 1–14)</td><td class="mono">09/08–11/08/2026</td><td><span class="stpill" style="background:rgba(37,99,235,.1);color:#2563EB;border:1px solid rgba(37,99,235,.3)"><span class="dot" style="width:5px;height:5px;background:#2563EB"></span>Active</span></td>
+<div class="mk" style="top:6px;right:-9px">4</div></tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="dv-opt" id="18m">
+<div class="dv-olabel"><a class="dv-oid" href="#18m">18m</a>EnforcementMAPS mobile — Permit Look Up entry point</div>
+<div class="dv-card" style="width:320px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div style="position:relative;width:272px;height:560px;background:#1e2530;border:2px solid #222;border-radius:22px;overflow:hidden">
+<div style="position:absolute;top:8px;left:16px;right:16px;display:flex;justify-content:space-between;font:400 9px 'JetBrains Mono',monospace;color:#9aa4b5;z-index:6"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="position:absolute;top:110px;left:0;right:0;display:flex;justify-content:center"><div style="border:2px dashed #4a5568;border-radius:6px;padding:14px 18px;font:400 11px/1.4 'Architects Daughter',sans-serif;color:#8892a2;text-align:center">live map<br>officer position, zones, pins</div></div>
+<div style="position:relative;position:absolute;top:26px;right:12px;width:34px;height:34px;border:1.5px solid #778;border-radius:999px;display:grid;place-items:center;font:400 9px 'JetBrains Mono',monospace;color:#9ab;background:rgba(31,41,55,.7)">N</div>
+<div style="position:relative;position:absolute;top:70px;right:12px;width:38px;height:38px;border-radius:999px;background:rgba(31,41,55,.9);border:1px solid #445;display:grid;place-items:center">
+<div style="width:15px;height:15px;border:1.3px solid #dbe0e8;border-radius:999px"></div><div style="position:absolute;bottom:8px;right:8px;width:2px;height:8px;background:#dbe0e8;transform:rotate(45deg)"></div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="position:relative;position:absolute;bottom:88px;left:14px;width:52px;height:52px;border-radius:999px;background:rgba(31,41,55,.9);border:2px solid #D4A843;display:grid;place-items:center;font:400 10px 'JetBrains Mono',monospace;color:#D4A843">SOS</div>
+<div style="position:relative;position:absolute;bottom:88px;right:14px;width:38px;height:38px;border-radius:10px;background:rgba(31,41,55,.9);border:1px solid #445;display:grid;place-items:center;font:400 9px 'JetBrains Mono',monospace;color:#9aa4b5">⚙</div>
+</div>
+</div>
+</div>
+</div>
+<div class="dv-opt" id="18n">
+<div class="dv-olabel"><a class="dv-oid" href="#18n">18n</a>EnforcementMAPS mobile — Permit Look Up results</div>
+<div class="dv-card" style="width:320px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div style="position:relative;width:272px;height:560px;background:#fff;border:2px solid #222;border-radius:22px;overflow:hidden;display:flex;flex-direction:column">
+<div style="padding:14px 14px 8px;border-bottom:1px solid #eee">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font:400 14px 'JetBrains Mono',monospace;color:#333">←</span><span style="font:600 13px 'Architects Daughter',sans-serif">Permit Look Up</span></div>
+<div style="position:relative" class="fld">Marco Rossi
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+</div>
+<div style="flex:1;overflow:auto;padding:10px 14px;display:flex;flex-direction:column;gap:8px">
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">PL-PERMIT-2026-00089</div><div style="font:600 12px 'Architects Daughter',sans-serif">Busking Permit — City Square</div></div>
+<span class="stpill" style="background:rgba(22,163,74,.1);color:#16A34A;border:1px solid rgba(22,163,74,.3)"><span class="dot" style="width:5px;height:5px;background:#16A34A"></span>Active</span>
+</div>
+<div style="font:400 10px 'Architects Daughter',sans-serif;color:#888;margin-top:6px">Marco Rossi — valid 15/08/2026–15/11/2026</div>
+<div style="font:400 10px 'Architects Daughter',sans-serif;color:#333;margin-top:4px">Conditions: No amplification after 6pm.</div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div></section>
+
+</x-dc>
+</body>
+</html>

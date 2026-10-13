@@ -1,0 +1,126 @@
+<!doctype html>
+<!-- @dsCard group="UI Kit — Commandmaps" name="CommandMAPS" subtitle="Dispatcher dashboard — login, live map, Code21, directory, audit" viewport="1280x800" -->
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<title>CommandMAPS — UI kit</title>
+<link rel="stylesheet" href="../../colors_and_type.css" />
+<style>
+  html, body, #app { height: 100%; margin: 0; }
+  body { background: var(--civic-neutral-900); font-family: var(--font-primary); color: var(--civic-neutral-800); }
+  #app { display: flex; flex-direction: column; }
+  button { font-family: var(--font-primary); }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>window.exports = window.exports || {};</script>
+<script type="text/babel" src="Shell.jsx"></script>
+<script type="text/babel" src="LoginPage.jsx"></script>
+<script type="text/babel" src="Dashboard.jsx"></script>
+<script type="text/babel" src="Modals.jsx"></script>
+<script type="text/babel" src="OtherPages.jsx"></script>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const initialZones = [
+  { id: 'Z-MAC', name: 'Macaulay', color: 'var(--status-active)', officer: 'PCL-142', online: true },
+  { id: 'Z-ELZ', name: 'Elizabeth', color: 'var(--status-alert)', officer: 'PEO-118', online: true },
+  { id: 'Z-CBN', name: 'Carlton North', color: 'var(--status-active)', officer: 'PEO-089', online: true },
+  { id: 'Z-SWM', name: 'Swanston Mid', color: 'var(--status-active)', officer: 'PEO-206', online: true },
+  { id: 'Z-LON', name: 'Lonsdale', color: 'var(--civic-neutral-300)', officer: null, online: false },
+  { id: 'Z-FLI', name: 'Flinders Lane', color: 'var(--status-active)', officer: 'PEO-163', online: true }
+];
+
+const initialSRs = [
+  { id: 1, sr: 'SR-2026-0418-042', address: '412 Elizabeth St', time: '14:32', status: 'DISPATCHED_ACTIVE' },
+  { id: 2, sr: 'SR-2026-0418-041', address: '88 Lonsdale St',   time: '14:28', status: 'IN_PROGRESS' },
+  { id: 3, sr: 'SR-2026-0418-040', address: '220 Swanston St',  time: '14:12', status: 'COMPLETED' },
+  { id: 4, sr: 'SR-2026-0418-039', address: '14 Carlton Pl',    time: '13:58', status: 'RECEIVED' }
+];
+
+function App() {
+  const [user, setUser] = useState(null);
+  const [page, setPage] = useState('dashboard');
+  const [panel, setPanel] = useState(true);
+  const [modal, setModal] = useState(null);
+  const [alert, setAlert] = useState(null);
+  const [zones, setZones] = useState(initialZones);
+  const [srs, setSrs] = useState(initialSRs);
+
+  // Demo: trigger a Code2 alert 3s after login to showcase persistent banner
+  useEffect(() => {
+    if (!user) return;
+    const t = setTimeout(() => setAlert({ code: 'CODE2', from: 'PEO-118', text: 'Roster call — Channel 3, all Elizabeth units acknowledge.' }), 3500);
+    return () => clearTimeout(t);
+  }, [user]);
+
+  if (!user) return React.createElement(LoginPage, { onLogin: setUser });
+
+  const dispatchContext = user.role === 'DISPATCH';
+
+  return React.createElement(React.Fragment, null,
+    alert && (alert.code === 'CODE1'
+      ? React.createElement('div', { className: 'civic-code1-banner', role: 'alert', 'aria-live': 'assertive' },
+          React.createElement('span', { className: 'civic-code1-dot', 'aria-hidden': 'true' }),
+          React.createElement('span', { className: 'civic-code1-tag' }, 'CODE 1'),
+          React.createElement('div', { className: 'civic-code1-text' },
+            alert.text, ' ',
+            React.createElement('span', { style: { opacity: .85, fontWeight: 500 } }, '· ' + alert.from)),
+          React.createElement('button', { onClick: () => setAlert(null), className: 'civic-code1-action' }, 'ACKNOWLEDGE'),
+          React.createElement('span', { className: 'civic-code1-dot', 'aria-hidden': 'true' })
+        )
+      : React.createElement('div', { style: { background: 'var(--status-alert)', color: 'var(--status-alert-text)', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 } },
+          React.createElement(LucideIcon, { name: 'Radio', size: 18, stroke: 2.2 }),
+          React.createElement('div', { style: { flex: 1, fontSize: 13, fontWeight: 600 } },
+            React.createElement('span', { style: { fontFamily: 'var(--font-mono)', marginRight: 8, padding: '1px 6px', borderRadius: 3, background: 'rgba(0,0,0,.15)', fontSize: 11 } }, alert.code),
+            alert.text, ' ',
+            React.createElement('span', { style: { opacity: .8, fontWeight: 500 } }, '· ' + alert.from)),
+          React.createElement('button', { onClick: () => setAlert(null), style: { background: 'rgba(0,0,0,.15)', color: 'inherit', border: 'none', padding: '5px 10px', borderRadius: 4, fontSize: 11, fontWeight: 700, letterSpacing: '.04em', cursor: 'pointer', fontFamily: 'inherit' } }, 'ACKNOWLEDGE')
+        )
+    ),
+    React.createElement(Header, { page, onPage: setPage, user, onLogout: () => setUser(null), dispatch: dispatchContext }),
+    page === 'dashboard' && React.createElement('div', { style: { flex: 1, position: 'relative', overflow: 'hidden' } },
+      React.createElement(MapCanvas, { onCode21Click: () => setModal({ kind: 'detail', sr: srs[0] }), alertCode: alert && alert.code === 'CODE1' }),
+      React.createElement(DashboardPanel, {
+        open: panel,
+        onToggle: () => setPanel(!panel),
+        onNewSR: () => setModal({ kind: 'newsr' }),
+        code21s: srs,
+        zones: zones,
+        onAssign: (id) => setModal({ kind: 'assign', zoneId: id })
+      })
+    ),
+    page === 'directory' && React.createElement(DirectoryPage, null),
+    page === 'audit' && React.createElement(AuditPage, null),
+    (page === 'assignments' || page === 'lookup') && React.createElement('div', { style: { flex: 1, display: 'grid', placeItems: 'center', background: 'var(--civic-surface-raised)', color: 'var(--civic-neutral-400)' } },
+      React.createElement('div', { style: { textAlign: 'center' } },
+        React.createElement('div', { style: { fontSize: 13, fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '.08em' } }, page),
+        React.createElement('div', { style: { fontSize: 14, marginTop: 8 } }, 'Screen not included in kit recreation.'))
+    ),
+    modal && modal.kind === 'newsr' && React.createElement(NewSRModal, {
+      onClose: () => setModal(null),
+      onCreate: (data) => {
+        const sr = 'SR-2026-0418-' + String(43 + srs.length - initialSRs.length).padStart(3, '0');
+        setSrs([{ id: Date.now(), sr, address: data.address, time: '14:36', status: 'DISPATCHED_ACTIVE' }, ...srs]);
+        setModal(null);
+      }
+    }),
+    modal && modal.kind === 'assign' && React.createElement(AssignModal, {
+      zoneId: modal.zoneId, onClose: () => setModal(null),
+      onConfirm: (o) => {
+        setZones(zones.map(z => z.id === modal.zoneId ? { ...z, officer: o.id, online: o.status === 'active', color: o.status === 'active' ? 'var(--status-active)' : 'var(--civic-neutral-300)' } : z));
+        setModal(null);
+      }
+    }),
+    modal && modal.kind === 'detail' && React.createElement(Code21Detail, { sr: modal.sr, onClose: () => setModal(null) })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(React.createElement(App));
+</script>
+</body>
+</html>

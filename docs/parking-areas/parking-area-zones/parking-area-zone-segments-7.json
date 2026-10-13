@@ -1,0 +1,931 @@
+"zones": [
+    {
+      "parkingzone": 7044,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cemetery Road East",
+          "between": {
+            "from": "College Crescent",
+            "to": "Lygon Street"
+          },
+          "segment_id": 20773
+        }
+      ]
+    },
+    {
+      "parkingzone": 7081,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Nicholson Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Carlton Street"
+          },
+          "segment_id": 22501
+        }
+      ]
+    },
+    {
+      "parkingzone": 7082,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Nicholson Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Carlton Street"
+          },
+          "segment_id": 22501
+        }
+      ]
+    },
+    {
+      "parkingzone": 7140,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cemetery Road West",
+          "between": {
+            "from": "Royal Parade",
+            "to": "College Crescent"
+          },
+          "segment_id": 22375
+        }
+      ]
+    },
+    {
+      "parkingzone": 7142,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cemetery Road East",
+          "between": {
+            "from": "College Crescent",
+            "to": "Lygon Street"
+          },
+          "segment_id": 20773
+        }
+      ]
+    },
+    {
+      "parkingzone": 7234,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Eades Street"
+          },
+          "segment_id": 20898
+        }
+      ]
+    },
+    {
+      "parkingzone": 7235,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Eades Street"
+          },
+          "segment_id": 20898
+        }
+      ]
+    },
+    {
+      "parkingzone": 7236,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Gisborne Street",
+            "to": "Morrison Place"
+          },
+          "segment_id": 22619
+        },
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Morrison Place",
+            "to": "Lansdowne Street"
+          },
+          "segment_id": 20891
+        }
+      ]
+    },
+    {
+      "parkingzone": 7237,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Eades Street"
+          },
+          "segment_id": 20898
+        }
+      ]
+    },
+    {
+      "parkingzone": 7239,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Lansdowne Street",
+            "to": "Eades Street"
+          },
+          "segment_id": 20893
+        }
+      ]
+    },
+    {
+      "parkingzone": 7241,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Morrison Place",
+            "to": "Lansdowne Street"
+          },
+          "segment_id": 20891
+        }
+      ]
+    },
+    {
+      "parkingzone": 7243,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Clarendon Street",
+          "between": {
+            "from": "Grey Street",
+            "to": "Albert Street"
+          },
+          "segment_id": 21860
+        }
+      ]
+    },
+    {
+      "parkingzone": 7244,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Nicholson Street",
+            "to": "Gisborne Street"
+          },
+          "segment_id": 20889
+        }
+      ]
+    },
+    {
+      "parkingzone": 7245,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Nicholson Street",
+            "to": "Gisborne Street"
+          },
+          "segment_id": 20889
+        }
+      ]
+    },
+    {
+      "parkingzone": 7246,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Albert Street",
+          "between": {
+            "from": "Simpson Street",
+            "to": "Powlett Street"
+          },
+          "segment_id": 21580
+        }
+      ]
+    },
+    {
+      "parkingzone": 7247,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cathedral Place",
+          "between": {
+            "from": "Lansdowne Street",
+            "to": "Gisborne Street"
+          },
+          "segment_id": 21851
+        }
+      ]
+    },
+    {
+      "parkingzone": 7250,
+      "segment_count": 5,
+      "segments": [
+        {
+          "onstreet": "Clarendon Street",
+          "between": {
+            "from": "George Street",
+            "to": "Hotham Street"
+          },
+          "segment_id": 21932
+        },
+        {
+          "onstreet": "Clarendon Street",
+          "between": {
+            "from": "Gipps Street",
+            "to": "Grey Street"
+          },
+          "segment_id": 22622
+        },
+        {
+          "onstreet": "Clarendon Street",
+          "between": {
+            "from": "Grey Street",
+            "to": "Albert Street"
+          },
+          "segment_id": 21860
+        },
+        {
+          "onstreet": "Clarendon Street",
+          "between": {
+            "from": "Hotham Street",
+            "to": "Gipps Street"
+          },
+          "segment_id": 21902
+        },
+        {
+          "onstreet": "Clarendon Street",
+          "between": {
+            "from": "Wellington Parade",
+            "to": "George Street"
+          },
+          "segment_id": 21937
+        }
+      ]
+    },
+    {
+      "parkingzone": 7251,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Eades Street",
+          "between": {
+            "from": "Victoria Parade",
+            "to": "Albert Street"
+          },
+          "segment_id": 20897
+        }
+      ]
+    },
+    {
+      "parkingzone": 7252,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Eades Street",
+          "between": {
+            "from": "Victoria Parade",
+            "to": "Albert Street"
+          },
+          "segment_id": 20897
+        }
+      ]
+    },
+    {
+      "parkingzone": 7253,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Gisborne Street",
+          "between": {
+            "from": "Cathedral Place",
+            "to": "Albert Street"
+          },
+          "segment_id": 21849
+        }
+      ]
+    },
+    {
+      "parkingzone": 7254,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Gisborne Street",
+          "between": {
+            "from": "Cathedral Place",
+            "to": "Albert Street"
+          },
+          "segment_id": 21849
+        },
+        {
+          "onstreet": "Gisborne Street",
+          "between": {
+            "from": "Gisborne Street",
+            "to": "Cathedral Place"
+          },
+          "segment_id": 21853
+        }
+      ]
+    },
+    {
+      "parkingzone": 7255,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Grey Street",
+          "between": {
+            "from": "Simpson Street",
+            "to": "Powlett Street"
+          },
+          "segment_id": 21866
+        }
+      ]
+    },
+    {
+      "parkingzone": 7256,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "St Andrews Place",
+            "to": "Cathedral Place"
+          },
+          "segment_id": 21857
+        }
+      ]
+    },
+    {
+      "parkingzone": 7258,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "Cathedral Place",
+            "to": "Albert Street"
+          },
+          "segment_id": 21850
+        },
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "Lansdowne Street",
+            "to": "Cathedral Place"
+          },
+          "segment_id": 22491
+        }
+      ]
+    },
+    {
+      "parkingzone": 7259,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "St Andrews Place",
+            "to": "Cathedral Place"
+          },
+          "segment_id": 21857
+        }
+      ]
+    },
+    {
+      "parkingzone": 7260,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "Albert Street",
+            "to": "Victoria Parade"
+          },
+          "segment_id": 20896
+        }
+      ]
+    },
+    {
+      "parkingzone": 7262,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "Lansdowne Street",
+            "to": "St Andrews Place"
+          },
+          "segment_id": 21858
+        },
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "Wellington Parade",
+            "to": "St Andrews Place"
+          },
+          "segment_id": 21859
+        }
+      ]
+    },
+    {
+      "parkingzone": 7263,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "Wellington Parade",
+            "to": "St Andrews Place"
+          },
+          "segment_id": 21859
+        }
+      ]
+    },
+    {
+      "parkingzone": 7264,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lansdowne Street",
+          "between": {
+            "from": "Wellington Parade",
+            "to": "St Andrews Place"
+          },
+          "segment_id": 21859
+        }
+      ]
+    },
+    {
+      "parkingzone": 7265,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Nicholson Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Albert Street"
+          },
+          "segment_id": 21553
+        }
+      ]
+    },
+    {
+      "parkingzone": 7266,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Nicholson Street",
+          "between": {
+            "from": "Albert Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 21554
+        }
+      ]
+    },
+    {
+      "parkingzone": 7269,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Parliament Place",
+          "between": {
+            "from": "St Andrews Place",
+            "to": "Gisborne Street"
+          },
+          "segment_id": 21852
+        }
+      ]
+    },
+    {
+      "parkingzone": 7270,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Powlett Street",
+          "between": {
+            "from": "Gipps Street",
+            "to": "Grey Street"
+          },
+          "segment_id": 21884
+        },
+        {
+          "onstreet": "Powlett Street",
+          "between": {
+            "from": "Grey Street",
+            "to": "Albert Street"
+          },
+          "segment_id": 21863
+        }
+      ]
+    },
+    {
+      "parkingzone": 7271,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Simpson Street",
+          "between": {
+            "from": "Grey Street",
+            "to": "Albert Street"
+          },
+          "segment_id": 21867
+        }
+      ]
+    },
+    {
+      "parkingzone": 7273,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "Victoria Parade"
+          },
+          "segment_id": 21847
+        }
+      ]
+    },
+    {
+      "parkingzone": 7274,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "Victoria Parade"
+          },
+          "segment_id": 21847
+        }
+      ]
+    },
+    {
+      "parkingzone": 7275,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "Victoria Parade"
+          },
+          "segment_id": 21847
+        }
+      ]
+    },
+    {
+      "parkingzone": 7278,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Andrews Place",
+          "between": {
+            "from": "Lansdowne Street",
+            "to": "MacArthur Street"
+          },
+          "segment_id": 21855
+        }
+      ]
+    },
+    {
+      "parkingzone": 7280,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Andrews Place",
+          "between": {
+            "from": "Lansdowne Street",
+            "to": "MacArthur Street"
+          },
+          "segment_id": 21855
+        }
+      ]
+    },
+    {
+      "parkingzone": 7284,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Parade",
+          "between": {
+            "from": "Nicholson Street",
+            "to": "Gisborne Street"
+          },
+          "segment_id": 21560
+        }
+      ]
+    },
+    {
+      "parkingzone": 7285,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Parade",
+          "between": {
+            "from": "Hoddle Street",
+            "to": "Simpson Street"
+          },
+          "segment_id": 22000
+        }
+      ]
+    },
+    {
+      "parkingzone": 7287,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Parade",
+          "between": {
+            "from": "Hoddle Street",
+            "to": "Simpson Street"
+          },
+          "segment_id": 22000
+        }
+      ]
+    },
+    {
+      "parkingzone": 7288,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Parade",
+          "between": {
+            "from": "Morrison Place",
+            "to": "Lansdowne Street"
+          },
+          "segment_id": 21566
+        }
+      ]
+    },
+    {
+      "parkingzone": 7289,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Parade",
+          "between": {
+            "from": "Eades Street",
+            "to": "Lansdowne Street"
+          },
+          "segment_id": 21595
+        }
+      ]
+    },
+    {
+      "parkingzone": 7290,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Parade",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Eades Street"
+          },
+          "segment_id": 21594
+        }
+      ]
+    },
+    {
+      "parkingzone": 7296,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Parade",
+          "between": {
+            "from": "Eades Street",
+            "to": "Lansdowne Street"
+          },
+          "segment_id": 21595
+        }
+      ]
+    },
+    {
+      "parkingzone": 7297,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Parade",
+          "between": {
+            "from": "Nicholson Street",
+            "to": "Spring Street"
+          },
+          "segment_id": 21596
+        }
+      ]
+    },
+    {
+      "parkingzone": 7298,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wellington Parade",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Jolimont Road"
+          },
+          "segment_id": 21963
+        }
+      ]
+    },
+    {
+      "parkingzone": 7299,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wellington Parade",
+          "between": {
+            "from": "Lansdowne Street",
+            "to": "Spring Street"
+          },
+          "segment_id": 21967
+        }
+      ]
+    },
+    {
+      "parkingzone": 7300,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "Wellington Parade South",
+          "between": {
+            "from": "Jolimont Road",
+            "to": "Wellington Crescent"
+          },
+          "segment_id": 21968
+        },
+        {
+          "onstreet": "Wellington Parade South",
+          "between": {
+            "from": "Wellington Crescent",
+            "to": "Flinders Street"
+          },
+          "segment_id": 22630
+        },
+        {
+          "onstreet": "Wellington Parade South",
+          "between": {
+            "from": "Wellington Parade South",
+            "to": "Wellington Crescent"
+          },
+          "segment_id": 22629
+        }
+      ]
+    },
+    {
+      "parkingzone": 7301,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Wellington Parade South",
+          "between": {
+            "from": "Jolimont Road",
+            "to": "Wellington Crescent"
+          },
+          "segment_id": 21968
+        },
+        {
+          "onstreet": "Wellington Parade South",
+          "between": {
+            "from": "Wellington Crescent",
+            "to": "Flinders Street"
+          },
+          "segment_id": 22630
+        }
+      ]
+    },
+    {
+      "parkingzone": 7302,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Jolimont Terrace",
+          "between": {
+            "from": "Wellington Parade South",
+            "to": "Jolimont Street"
+          },
+          "segment_id": 21982
+        }
+      ]
+    },
+    {
+      "parkingzone": 7304,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wellington Parade",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Jolimont Road"
+          },
+          "segment_id": 21963
+        }
+      ]
+    },
+    {
+      "parkingzone": 7305,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Wellington Parade South",
+          "between": {
+            "from": "Charles Street",
+            "to": "Agnes Street"
+          },
+          "segment_id": 21989
+        },
+        {
+          "onstreet": "Wellington Parade South",
+          "between": {
+            "from": "Jolimont Terrace",
+            "to": "Charles Street"
+          },
+          "segment_id": 22634
+        }
+      ]
+    },
+    {
+      "parkingzone": 7688,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wellington Parade South",
+          "between": {
+            "from": "Wellington Crescent",
+            "to": "Flinders Street"
+          },
+          "segment_id": 22630
+        }
+      ]
+    },
+    {
+      "parkingzone": 7775,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cemetery Road West",
+          "between": {
+            "from": "Royal Parade",
+            "to": "College Crescent"
+          },
+          "segment_id": 22375
+        }
+      ]
+    },
+    {
+      "parkingzone": 7776,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "College Crescent",
+          "between": {
+            "from": "Royal Parade",
+            "to": "Cemetery Road West"
+          },
+          "segment_id": 22599
+        }
+      ]
+    },
+    {
+      "parkingzone": 7778,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "College Crescent",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Princes Park Drive"
+          },
+          "segment_id": 22373
+        }
+      ]
+    },
+    {
+      "parkingzone": 7802,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Swanston Street",
+          "between": {
+            "from": "Elgin Street",
+            "to": "College Crescent"
+          },
+          "segment_id": 20494
+        }
+      ]
+    }

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.pill{display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.4px;padding:3px 8px;border-radius:999px}.pdot{width:6px;height:6px;border-radius:999px}.mono{font-family:'JetBrains Mono',monospace}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.scard{border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:16px;margin-bottom:16px;background:#fff}.shdr{font:700 14px 'Architects Daughter',sans-serif;color:#1B2A4A;margin:0 0 4px}.ssub{font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin:0 0 12px}.stf{display:flex;flex-direction:column;gap:3px;margin-bottom:10px}.stf-in{border:1px solid #D5D9E0;border-radius:6px;padding:8px 10px;font:400 11px 'Architects Daughter',sans-serif;color:#374151;background:#F7F8FA}.pbtn{display:inline-block;background:#1B2A4A;color:#fff;font:600 10.5px 'Architects Daughter',sans-serif;padding:8px 16px;border-radius:6px}.steps{display:flex;gap:0}.step{display:flex;align-items:center;gap:5px;font:600 9px 'Architects Daughter',sans-serif;color:#9CA3AF}.step.done{color:#16A34A}.step.sel{color:#1B2A4A}.stepn{width:16px;height:16px;border-radius:999px;border:1.5px solid #D5D9E0;display:grid;place-items:center;font:600 8.5px 'JetBrains Mono',monospace}.step.done .stepn{background:#16A34A;border-color:#16A34A;color:#fff}.step.sel .stepn{border-color:#1B2A4A;color:#1B2A4A}.stepline{width:14px;height:1px;background:#D5D9E0;margin:0 4px}.pf{position:relative;border:2px solid #222;border-radius:22px;overflow:hidden;background:#fff;display:flex;flex-direction:column;width:272px;height:560px;flex:none}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.dfval{font:400 11px 'Architects Daughter',sans-serif;color:#222}.dot3{width:9px;height:9px;border-radius:999px;border:1.5px solid #555}.browserbar{display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1.5px solid #222;background:#f5f4f1}.cattile{border:1.5px solid #D5D9E0;border-radius:8px;padding:9px 8px;display:flex;flex-direction:column;gap:5px;align-items:flex-start}.cattile.sel{border-color:#D4A843;background:rgba(212,168,67,.08)}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 22 — Public Service Request Submission (proposed, no repo source). Citizen-facing, unauthenticated web portal — the intake path Session 17's queue receives from (per roadmap), distinct from Code21's dispatcher-created SRs (6a) and Session 17's staff-assigned cases. Phone-browser frame throughout: a public website in a mobile browser, not native app chrome — deliberately not reusing EnforcementMAPS's status-bar/app-header convention (OQ22-1).</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="22a">
+<div class="dv-olabel"><a class="dv-oid" href="#22a">22a</a>Public portal — landing</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:3px 8px;font:400 9.5px 'JetBrains Mono',monospace;color:#333;position:relative">report.melbourne.civicmaps.gov.au<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">1</div></div></div>
+<div style="padding:30px 22px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="position:relative;width:52px;height:52px;border:2px dashed #666;border-radius:6px;display:grid;place-items:center;font:400 8.5px 'Architects Daughter',sans-serif;color:#666;text-align:center;line-height:1.15">council<br>crest<div class="mk" style="top:-8px;right:-8px;width:17px;height:17px;font-size:9.5px">2</div></div>
+<div style="height:12px"></div>
+<div style="font:400 17px 'Architects Daughter',sans-serif;color:#111">City of Melbourne</div>
+<div style="font:400 10.5px 'Architects Daughter',sans-serif;color:#666;margin-top:2px">Report a local issue</div>
+<div style="height:18px"></div>
+<div style="font:400 11px/1.5 'Architects Daughter',sans-serif;color:#4A5568;margin-bottom:18px">Tell us about a parking, local laws or amenity issue in your area. No account needed.</div>
+<a href="#22b" style="position:relative;display:block;width:100%;background:#1B2A4A;color:#fff;font:600 12px 'Architects Daughter',sans-serif;padding:11px 0;border-radius:8px;text-align:center;text-decoration:none">Start a report<div class="mk" style="top:-9px;right:-9px">3</div></a>
+<div style="height:9px"></div>
+<div style="position:relative;width:100%;border:1.5px dashed #B0B7C3;color:#9CA3AF;font:600 11px 'Architects Daughter',sans-serif;padding:10px 0;border-radius:8px;text-align:center">Track an existing report<div class="mk" style="top:-9px;right:-9px">4</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="22b">
+<div class="dv-olabel"><a class="dv-oid" href="#22b">22b</a>Step 1 of 4 — Select a category</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:3px 8px;font:400 9.5px 'JetBrains Mono',monospace;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">report.melbourne.civicmaps.gov.au</div></div>
+<div style="padding:16px 18px 20px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div class="steps" style="margin-bottom:14px;position:relative"><div class="step sel"><span class="stepn">1</span>Category</div><div class="stepline"></div><div class="step"><span class="stepn">2</span>Location</div><div class="stepline"></div><div class="step"><span class="stepn">3</span>Details</div><div class="stepline"></div><div class="step"><span class="stepn">4</span>Review</div><div class="mk" style="top:-22px;right:0px">1</div></div>
+<div style="font:700 13px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:10px">What's the issue about?</div>
+<div style="position:relative;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div class="cattile"><div style="width:18px;height:18px;border:1.5px solid #444;border-radius:4px"></div><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#1F2937">Parking</span></div>
+<div class="cattile sel"><div style="width:18px;height:18px;border:1.5px solid #D4A843;border-radius:4px;background:#D4A843"></div><span style="font:600 10.5px 'Architects Daughter',sans-serif;color:#1F2937">Local Laws</span></div>
+<div class="cattile"><div style="width:18px;height:18px;border:1.5px solid #444;border-radius:4px"></div><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#1F2937">Animal Management</span></div>
+<div class="cattile"><div style="width:18px;height:18px;border:1.5px solid #444;border-radius:4px"></div><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#1F2937">Parks &amp; Gardens</span></div>
+<div class="cattile"><div style="width:18px;height:18px;border:1.5px solid #444;border-radius:4px"></div><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#1F2937">Cleaning</span></div>
+<div class="cattile"><div style="width:18px;height:18px;border:1.5px solid #444;border-radius:4px"></div><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#1F2937">Waste</span></div>
+<div class="cattile"><div style="width:18px;height:18px;border:1.5px solid #444;border-radius:4px"></div><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#1F2937">Safe City</span></div>
+<div class="cattile"><div style="width:18px;height:18px;border:1.5px solid #444;border-radius:4px"></div><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#1F2937">Licensing &amp; Permits</span></div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#9CA3AF;margin-top:10px;position:relative">Asset Inspections isn't shown here — it's an internal inspection schedule, not a citizen-reportable issue.<div class="mk" style="top:-8px;right:-8px;width:17px;height:17px;font-size:9.5px">3</div></div>
+<div style="height:16px"></div>
+<a href="#22c" style="display:block;background:#1B2A4A;color:#fff;font:600 12px 'Architects Daughter',sans-serif;padding:11px 0;border-radius:8px;text-align:center;text-decoration:none">Continue</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Steps 2-3 — location/description and reporter identity. Address search (22c) reuses 6b's real S/H/G suggestion pattern verbatim.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="22c">
+<div class="dv-olabel"><a class="dv-oid" href="#22c">22c</a>Step 2 of 4 — Location &amp; description</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:3px 8px;font:400 9.5px 'JetBrains Mono',monospace;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">report.melbourne.civicmaps.gov.au</div></div>
+<div style="padding:16px 18px 20px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div class="steps" style="margin-bottom:12px"><div class="step done"><span class="stepn">✓</span>Category</div><div class="stepline"></div><div class="step sel"><span class="stepn">2</span>Location</div><div class="stepline"></div><div class="step"><span class="stepn">3</span>Details</div><div class="stepline"></div><div class="step"><span class="stepn">4</span>Review</div></div>
+<div class="pill" style="background:rgba(27,42,74,.08);color:#1B2A4A;margin-bottom:10px">Local Laws</div>
+<div class="flabel">Address *</div>
+<div style="position:relative;border:1.5px solid #444;border-radius:6px 6px 0 0;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333">43 Bourke St<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="position:relative;border:1.5px solid #444;border-top:none;border-radius:0 0 6px 6px;margin-bottom:12px;overflow:hidden">
+<div style="display:flex;align-items:center;gap:7px;padding:6px 8px;border-bottom:1px solid #eee"><span class="badge" style="background:#f4f3f0;color:#777">S</span><span style="font:400 10px 'Architects Daughter',sans-serif">Bourke Street</span></div>
+<div style="position:relative;display:flex;align-items:center;gap:7px;padding:6px 8px"><span class="badge" style="background:rgba(245,158,11,.12);color:#a5760a">G</span><span style="font:400 10px 'Architects Daughter',sans-serif">43 Bourke St, Melbourne VIC 3000, Australia</span><div class="mk" style="top:-9px;right:-9px">2</div></div>
+</div>
+<div class="flabel">What's happening? *</div>
+<div class="fld" style="min-height:44px;color:#999;margin-bottom:12px">Describe what you've seen...</div>
+<div class="flabel">Photos (optional)</div>
+<div style="position:relative;width:52px;height:52px;border:1.5px dashed #B0B7C3;border-radius:6px;display:grid;place-items:center;font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-align:center;line-height:1.2">+ Add<br>photo<div class="mk" style="top:-8px;right:-8px;width:17px;height:17px;font-size:9.5px">3</div></div>
+<div style="height:16px"></div>
+<a href="#22d" style="display:block;background:#1B2A4A;color:#fff;font:600 12px 'Architects Daughter',sans-serif;padding:11px 0;border-radius:8px;text-align:center;text-decoration:none">Continue</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="22d">
+<div class="dv-olabel"><a class="dv-oid" href="#22d">22d</a>Step 3 of 4 — Your details</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:3px 8px;font:400 9.5px 'JetBrains Mono',monospace;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">report.melbourne.civicmaps.gov.au</div></div>
+<div style="padding:16px 18px 20px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div class="steps" style="margin-bottom:12px"><div class="step done"><span class="stepn">✓</span>Category</div><div class="stepline"></div><div class="step done"><span class="stepn">✓</span>Location</div><div class="stepline"></div><div class="step sel"><span class="stepn">3</span>Details</div><div class="stepline"></div><div class="step"><span class="stepn">4</span>Review</div></div>
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;border:1px solid #D5D9E0;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+<span style="font:600 11px 'Architects Daughter',sans-serif;color:#1F2937">Report anonymously</span>
+<div style="width:32px;height:18px;border-radius:999px;background:#1B2A4A;position:relative"><div style="position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:999px;background:#fff"></div></div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:14px">Anonymous reports can't be followed up or given a status link.</div>
+<div style="position:relative;opacity:.4">
+<div class="stf"><span class="flabel" style="margin:0">Name</span><div class="stf-in" style="color:#9CA3AF">Not required for anonymous reports</div></div>
+<div class="stf"><span class="flabel" style="margin:0">Email or phone</span><div class="stf-in" style="color:#9CA3AF">Not required for anonymous reports</div></div>
+<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">2</div>
+</div>
+<div style="height:6px"></div>
+<a href="#22e" style="display:block;background:#1B2A4A;color:#fff;font:600 12px 'Architects Daughter',sans-serif;padding:11px 0;border-radius:8px;text-align:center;text-decoration:none">Continue</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Review, confirmation, and the queue-side view of the same record — makes the "entry point Session 17's queue receives from" link explicit.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="22e">
+<div class="dv-olabel"><a class="dv-oid" href="#22e">22e</a>Step 4 of 4 — Review &amp; submit</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:3px 8px;font:400 9.5px 'JetBrains Mono',monospace;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">report.melbourne.civicmaps.gov.au</div></div>
+<div style="padding:16px 18px 20px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div class="steps" style="margin-bottom:12px"><div class="step done"><span class="stepn">✓</span>Category</div><div class="stepline"></div><div class="step done"><span class="stepn">✓</span>Location</div><div class="stepline"></div><div class="step done"><span class="stepn">✓</span>Details</div><div class="stepline"></div><div class="step sel"><span class="stepn">4</span>Review</div></div>
+<div style="position:relative;background:#f4f3f0;border-radius:8px;padding:11px;display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+<div class="dfield"><span class="dflabel">Category</span><span class="dfval">Local Laws</span></div>
+<div class="dfield"><span class="dflabel">Location</span><span class="dfval">43 Bourke St, Melbourne</span></div>
+<div class="dfield"><span class="dflabel">Description</span><span class="dfval">Loud amplified music from a shopfront, ongoing since 8pm.</span></div>
+<div class="dfield"><span class="dflabel">Photos</span><span class="dfval">1 attached</span></div>
+<div class="dfield"><span class="dflabel">Reporter</span><span class="dfval">Anonymous</span></div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:12px">By submitting, this information is shared with City of Melbourne to investigate the report.</div>
+<a href="#22f" style="position:relative;display:block;background:#1B2A4A;color:#fff;font:600 12px 'Architects Daughter',sans-serif;padding:11px 0;border-radius:8px;text-align:center;text-decoration:none">Submit report<div class="mk" style="top:-9px;right:-9px">2</div></a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="22f">
+<div class="dv-olabel"><a class="dv-oid" href="#22f">22f</a>Confirmation</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:3px 8px;font:400 9.5px 'JetBrains Mono',monospace;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">report.melbourne.civicmaps.gov.au</div></div>
+<div style="padding:30px 22px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="width:44px;height:44px;border-radius:999px;background:rgba(22,163,74,.12);color:#16A34A;display:grid;place-items:center;font:700 20px sans-serif">✓</div>
+<div style="height:12px"></div>
+<div style="font:700 15px 'Architects Daughter',sans-serif;color:#111">Report submitted</div>
+<div style="height:10px"></div>
+<div style="position:relative;background:#f4f3f0;border-radius:8px;padding:9px 16px;font:700 15px 'JetBrains Mono',monospace;color:#1B2A4A">LL-2026-00893<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="font:400 9.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-top:6px">Save this reference number.</div>
+<div style="height:16px"></div>
+<div style="position:relative;text-align:left;width:100%;font:400 10.5px/1.6 'Architects Daughter',sans-serif;color:#4A5568">
+<div>1. Received by City of Melbourne</div>
+<div>2. Reviewed by the compliance team</div>
+<div>3. You may be contacted if more information is needed</div>
+</div>
+<div style="height:16px"></div>
+<div style="position:relative;width:100%;border:1.5px dashed #B0B7C3;color:#9CA3AF;font:600 11px 'Architects Daughter',sans-serif;padding:10px 0;border-radius:8px;text-align:center">Track this report<div class="mk" style="top:-9px;right:-9px">2</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="22g">
+<div class="dv-olabel"><a class="dv-oid" href="#22g">22g</a>Where it lands — CommandMAPS Local Laws Intake Queue</div>
+<div class="dv-card" style="width:420px;padding:16px">
+<div style="font:600 11px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:8px">Same record, staff side — new row appears in <a href="Wireframes S17 - Case Intake Queue.dc.html#17a">17a</a>'s queue:</div>
+<div style="position:relative;background:#f4f3f0;border-radius:6px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span class="mono" style="font:600 11px 'JetBrains Mono',monospace;color:#1B2A4A">LL-2026-00893</span>
+<span style="font:400 10px 'Architects Daughter',sans-serif;color:#636E80">43 Bourke St · Local Laws</span>
+</div>
+<div style="display:flex;align-items:center;gap:8px">
+<span style="font:400 10px 'Architects Daughter',sans-serif;color:#636E80">Public (web)</span>
+<span class="pill" style="background:rgba(37,99,235,.12);color:#2563EB">Received</span>
+</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="height:10px"></div>
+<div style="font:400 10px/1.5 'Architects Daughter',sans-serif;color:#9CA3AF">Opens into 17b exactly as a phone-reported case would — the only difference is the reporter tag: "Public (web)" here vs. 17a.2's "Public (phone)".</div>
+</div>
+</div>
+
+</div>
+</section>
+
+</x-dc>
+</body>
+</html>

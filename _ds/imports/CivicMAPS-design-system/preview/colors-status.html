@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- @dsCard group="Colors" name="Status colors" subtitle="Semantic + presence — DR-04 corrected" viewport="700x260" --><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:16px;background:var(--civic-surface);font-family:var(--font-primary)}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.s{border:1px solid;border-radius:var(--radius-md);padding:10px 12px;display:flex;align-items:center;gap:10px}
+.dot{width:10px;height:10px;border-radius:999px;flex-shrink:0}
+.lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.sub{font-family:var(--font-mono);font-size:10px;margin-top:2px;opacity:.8}
+</style></head><body>
+<div class="row">
+  <div class="s" style="background:#FEF2F2;border-color:#FECACA;color:#DC2626"><div class="dot" style="background:#DC2626"></div><div><div class="lbl">Code 1 · Emergency</div><div class="sub">--status-emergency</div></div></div>
+  <div class="s" style="background:#F0FDF4;border-color:#BBF7D0;color:#166534"><div class="dot" style="background:#16A34A"></div><div><div class="lbl">Code 2 · Available</div><div class="sub">--presence-available</div></div></div>
+  <div class="s" style="background:#F0FDF4;border-color:#BBF7D0;color:#166534"><div class="dot" style="background:#16A34A"></div><div><div class="lbl">Active · On Patrol</div><div class="sub">--status-active</div></div></div>
+  <div class="s" style="background:#F0FDF4;border-color:#BBF7D0;color:#4A5568"><div class="dot" style="background:#4A5568"></div><div><div class="lbl">Active Offline</div><div class="sub">--presence-active-offline</div></div></div>
+  <div class="s" style="background:#F3F4F6;border-color:#E5E7EB;color:#374151"><div class="dot" style="background:#6B7280"></div><div><div class="lbl">Code 26 · Inactive Offline</div><div class="sub">--presence-inactive</div></div></div>
+  <div class="s" style="background:#FFFBEB;border-color:#FDE68A;color:#B45309"><div class="dot" style="background:#F59E0B"></div><div><div class="lbl">Alert · Interaction Required</div><div class="sub">--status-alert</div></div></div>
+  <div class="s" style="background:#F5F3FF;border-color:#DDD6FE;color:#6D28D9"><div class="dot" style="background:#7C3AED"></div><div><div class="lbl">PIN · No Report</div><div class="sub">--status-issued</div></div></div>
+  <div class="s" style="background:#EFF6FF;border-color:#BFDBFE;color:#1D4ED8"><div class="dot" style="background:#2563EB"></div><div><div class="lbl">Pending · In Progress</div><div class="sub">--status-pending</div></div></div>
+</div></body></html>

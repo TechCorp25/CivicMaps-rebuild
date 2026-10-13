@@ -1,0 +1,482 @@
+/* ============================================================
+   CivicMAPS — Design Tokens (generated entry point)
+   Canonical source: tokens/civicmaps.tokens.json — edit there first.
+   Colour, typography, spacing, radius, shadow, motion.
+   Reference tokens by name — never raw hex in components.
+   v1 names are permanent aliases (DR-19): values preserved,
+   semantics corrected where v1 annotations were defective.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+/* Local-first fonts (offline-first — F6). Local DM Sans variable overrides the
+   CDN faces above; JetBrains Mono + Plus Jakarta Sans remain CDN-only until
+   owner supplies local files (DR-23). */
+@font-face { font-family: 'DM Sans'; src: url('fonts/DMSans-VariableFont_opsz_wght.ttf') format('truetype'); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url('fonts/DMSans-Italic-VariableFont_opsz_wght.ttf') format('truetype'); font-weight: 100 900; font-style: italic; font-display: swap; }
+
+:root {
+  /* ── Primary — Civic Navy ── */
+  --civic-primary:          #1B2A4A;
+  --civic-primary-light:    #2C3E6B;
+  --civic-primary-dark:     #0F1A32;
+
+  /* ── Secondary — Operations Teal ── */
+  --civic-secondary:        #1A7A6D;
+  --civic-secondary-light:  #23A392;
+  --civic-secondary-dark:   #115A50;
+
+  /* ── Accent — Patrol Gold ── */
+  --civic-accent:           #D4A843;
+  --civic-accent-light:     #E8C46A;
+  --civic-accent-dark:      #B08A2E;
+
+  /* ── Neutral — Concrete Scale ── */
+  --civic-neutral-50:       #F7F8FA;
+  --civic-neutral-100:      #ECEEF2;
+  --civic-neutral-200:      #D5D9E0;
+  --civic-neutral-300:      #B0B7C3;
+  --civic-neutral-400:      #8892A2;
+  --civic-neutral-500:      #636E80;
+  --civic-neutral-600:      #4A5568;
+  --civic-neutral-700:      #374151;
+  --civic-neutral-800:      #1F2937;
+  --civic-neutral-900:      #111827;
+
+  /* ── Surface ── */
+  --civic-surface:          #FFFFFF;
+  --civic-surface-raised:   #F7F8FA;
+  --civic-surface-sunken:   #ECEEF2;
+  --civic-surface-overlay:  rgba(17, 24, 39, 0.6);
+
+  /* ── Semantic / Status ── */
+  --status-emergency:       #DC2626; /* Code 1 SOS */
+  --status-emergency-deep:  #991B1B; /* Off-phase of the Code 1 banner flash */
+  --status-emergency-bg:    #FEF2F2;
+  --status-emergency-border:#FECACA;
+
+  --status-alert:           #F59E0B; /* interaction-required alert (e.g. roster-call banner). NEVER a passive presence badge — DR-04 */
+  --status-alert-bg:        #FFFBEB;
+  --status-alert-border:    #FDE68A;
+
+  --status-active:          #16A34A; /* On patrol */
+  --status-active-bg:       #F0FDF4;
+  --status-active-border:   #BBF7D0;
+
+  --status-inactive:        #9CA3AF;
+  --status-inactive-bg:     #F3F4F6;
+  --status-inactive-border: #E5E7EB;
+
+  --status-issued:          #7C3AED; /* administrative outcome recorded — vocabulary bound by domain pack */
+  --status-issued-bg:       #F5F3FF;
+  --status-issued-border:   #DDD6FE;
+
+  --status-pending:         #2563EB; /* In progress */
+  --status-pending-bg:      #EFF6FF;
+  --status-pending-border:  #BFDBFE;
+
+  /* ── v2 semantic aliases (outcome-neutral names — F10/DR-19) ── */
+  --semantic-alert-interactive:        var(--status-alert);
+  --semantic-alert-interactive-bg:     var(--status-alert-bg);
+  --semantic-alert-interactive-border: var(--status-alert-border);
+  --semantic-success:                  var(--status-active);
+  --semantic-success-bg:               var(--status-active-bg);
+  --semantic-success-border:           var(--status-active-border);
+  --semantic-outcome-recorded:         var(--status-issued);
+  --semantic-outcome-recorded-bg:      var(--status-issued-bg);
+  --semantic-outcome-recorded-border:  var(--status-issued-border);
+
+  /* ── Presence (DR-04 owner amendments — passive badges never amber) ── */
+  --presence-available:              #16A34A; /* signed on / available — label "Available" */
+  --presence-available-bg:           #F0FDF4;
+  --presence-available-border:       #BBF7D0;
+  --presence-active-offline:         #4A5568; /* on duty, connectivity lost — grey text on green bg, label "Active offline" */
+  --presence-active-offline-bg:      #F0FDF4;
+  --presence-active-offline-border:  #BBF7D0;
+  --presence-inactive:               #374151; /* signed off — label "Inactive offline" */
+  --presence-inactive-bg:            #F3F4F6;
+  --presence-inactive-border:        #E5E7EB;
+
+  /* ── Map layers (context tokens — absorb kit raw hex, F8) ── */
+  --map-canvas:       #0F1A32;
+  --map-canvas-deep:  #0B1220;
+  --map-surface:      #1A2940;
+  --map-road:         #2C3E6B;
+
+  /* ── Status strong/text variants (deep fg on -bg tints — F8 kit tokenisation) ── */
+  --status-alert-text:      #78350F; /* on amber fill */
+  --status-alert-strong:    #B45309; /* on alert-bg tint */
+  --status-active-strong:   #166534;
+  --status-pending-strong:  #1E40AF;
+  --status-issued-strong:   #6D28D9;
+  --status-issued-deep:     #5B21B6;
+  --status-attended:        #0F766E;
+  --status-attended-bg:     #CCFBF1;
+  --status-emergency-text:  #991B1B; /* fg on emergency-bg tints (banner flash keeps -deep) */
+
+  /* ── Role tags (semantic — F19; labels always shown) ── */
+  --role-lead:           #B91C1C;  --role-lead-bg:       #FEF2F2;
+  --role-supervisor:     #B45309;  --role-supervisor-bg: #FFFBEB;
+  --role-officer:        #1D4ED8;  --role-officer-bg:    #EFF6FF;
+  --role-dispatch:       #166534;  --role-dispatch-bg:   #F0FDF4;
+
+  /* ── Typography ── */
+  --font-primary:  'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:     'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+  --font-display:  'Plus Jakarta Sans', 'DM Sans', sans-serif;
+
+  --text-xs:    0.75rem;   /* 12px */
+  --text-sm:    0.875rem;  /* 14px */
+  --text-base:  1rem;      /* 16px */
+  --text-md:    1.125rem;  /* 18px */
+  --text-lg:    1.25rem;   /* 20px */
+  --text-xl:    1.5rem;    /* 24px */
+  --text-2xl:   1.875rem;  /* 30px */
+  --text-3xl:   2.25rem;   /* 36px */
+
+  --leading-tight:  1.2;
+  --leading-snug:   1.3;
+  --leading-normal: 1.5;
+
+  /* ── Spacing (8px base, 4px half-step) ── */
+  --space-0:   0;
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-5:   1.25rem;
+  --space-6:   1.5rem;
+  --space-8:   2rem;
+  --space-10:  2.5rem;
+  --space-12:  3rem;
+  --space-16:  4rem;
+
+  /* ── Radius ── */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ── Shadow / Elevation ── */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.10);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-xl: 0 8px 32px rgba(0,0,0,0.16);
+
+  /* ── Motion ── */
+  --duration-fast:   120ms; /* @kind other */
+  --duration-normal: 200ms; /* @kind other */
+  --duration-slow:   350ms; /* @kind other */
+  --easing-default:  cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --easing-spring:   cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */
+
+  /* ── Focus ring ── */
+  --focus-ring: 0 0 0 2px var(--civic-surface), 0 0 0 4px var(--civic-accent);
+
+  /* ── Code 1 banner sizing (centralised) ── */
+  --code1-banner-height: 88px;          /* +100% over previous 44px */
+  --code1-banner-padding-x: 20px;
+  --code1-banner-text-size: 18px;       /* up from 13px to match doubled height */
+  --code1-banner-tag-size: 14px;
+  --code1-banner-dot-size: 22px;
+  --code1-banner-flash-duration: 900ms; /* @kind other */ /* siren cadence; both phases share period */
+}
+
+/* ──────────────────────────────────────────────
+   Code 1 banner — alternating siren flash
+   Banner background and dots run on the SAME period
+   but in OPPOSITE phases, producing the visual
+   illusion of sirens swapping sides.
+   Use class: .civic-code1-banner on the wrapper,
+   .civic-code1-dot on each navy dot, .civic-code1-tag on
+   the [CODE 1] pill, .civic-code1-text on the message.
+   ────────────────────────────────────────────── */
+@keyframes civic-code1-bg {
+  0%, 49%   { background-color: var(--status-emergency); }
+  50%, 100% { background-color: var(--status-emergency-deep); }
+}
+@keyframes civic-code1-dot {
+  /* Opposite phase to background: when bg is bright red, dot is muted; flips on the half. */
+  0%, 49%   { background-color: var(--civic-primary-dark); box-shadow: 0 0 0 0 rgba(15,26,50,0); opacity: .35; }
+  50%, 100% { background-color: var(--civic-primary);      box-shadow: 0 0 0 6px rgba(15,26,50,.35); opacity: 1; }
+}
+
+.civic-code1-banner {
+  height: var(--code1-banner-height);
+  min-height: var(--code1-banner-height);
+  padding: 0 var(--code1-banner-padding-x);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+  animation: civic-code1-bg var(--code1-banner-flash-duration) steps(1, end) infinite;
+  background-color: var(--status-emergency);
+}
+.civic-code1-dot {
+  width: var(--code1-banner-dot-size);
+  height: var(--code1-banner-dot-size);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: civic-code1-dot var(--code1-banner-flash-duration) steps(1, end) infinite;
+  background-color: var(--civic-primary);
+}
+.civic-code1-tag {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: var(--code1-banner-tag-size);
+  letter-spacing: .08em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(15,26,50,.25);
+  color: #fff;
+  flex-shrink: 0;
+}
+.civic-code1-text {
+  flex: 1;
+  font-size: var(--code1-banner-text-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: .005em;
+}
+.civic-code1-action {
+  background: var(--civic-primary-dark);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  cursor: pointer;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Mobile (EnforcementMAPS phone frame) — narrower banner; dots and rhythm preserved */
+.civic-code1-banner--mobile {
+  height: 76px;
+  min-height: 76px;
+  padding: 0 14px;
+  gap: 10px;
+}
+.civic-code1-banner--mobile .civic-code1-text { font-size: 14px; }
+.civic-code1-banner--mobile .civic-code1-tag  { font-size: 11px; padding: 3px 7px; }
+.civic-code1-banner--mobile .civic-code1-dot  { width: 16px; height: 16px; }
+.civic-code1-banner--mobile .civic-code1-action { padding: 8px 12px; font-size: 11px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .civic-code1-banner, .civic-code1-dot { animation: none; }
+  .civic-code1-banner { background-color: var(--status-emergency); }
+  .civic-code1-dot    { background-color: var(--civic-primary); opacity: 1; }
+}
+
+/* ── Dark mode overrides (mobile low-light) ──
+   Full neutral inversion — every step in the scale must flip, otherwise
+   mid-tone neutrals (400/500/600) collapse onto dark surfaces and produce
+   the "barely-visible text" failure mode in modals, dialogs, and meta copy.
+   Contrast targets: body ≥ 7:1 (AAA), meta/labels ≥ 4.5:1 (AA) on every
+   surface token. */
+[data-theme="dark"] {
+  /* Surfaces — modals must read as ELEVATED, not "almost the same as page".
+     Surface (cards/modals) is the lightest of the three; sunken is darkest. */
+  --civic-surface:          #1F2937;  /* card / modal body */
+  --civic-surface-raised:   #111827;  /* page background */
+  --civic-surface-sunken:   #0B1220;  /* deepest recessed wells */
+  --civic-surface-overlay:  rgba(0, 0, 0, 0.7);
+
+  --civic-primary:          #4A6FA5;
+  --civic-primary-light:    #6B8FBF;
+  --civic-primary-dark:     #2C3E6B;
+
+  /* Full neutral inversion — 50 ↔ 900, 100 ↔ 800, etc. */
+  --civic-neutral-50:       #0B1220;
+  --civic-neutral-100:      #1F2937;
+  --civic-neutral-200:      #374151;
+  --civic-neutral-300:      #4A5568;
+  --civic-neutral-400:      #6B7686;  /* was #8892A2 — kept as mid-tone, but lifted enough to read on neutral-100 backgrounds */
+  --civic-neutral-500:      #9AA3B2;  /* meta / small / placeholders — 4.6:1 on surface-raised */
+  --civic-neutral-600:      #B7BEC9;  /* secondary labels — 6.0:1 on surface */
+  --civic-neutral-700:      #D5D9E0;  /* body copy */
+  --civic-neutral-800:      #ECEEF2;  /* strong body */
+  --civic-neutral-900:      #F7F8FA;  /* primary headings */
+
+  /* Status backgrounds need a darker, more saturated swatch in dark mode so
+     the foreground status text (which still uses the deep status colour) is
+     not laid on a near-white tint that washes out against the dark page. */
+  --status-emergency-bg:    #3A0F0F;
+  --status-emergency-border:#7F1D1D;
+  --status-alert-bg:        #3A2A0A;
+  --status-alert-border:    #92400E;
+  --status-active-bg:       #0F2E1C;
+  --status-active-border:   #166534;
+  --status-inactive-bg:     #1F2937;
+  --status-inactive-border: #374151;
+  --status-issued-bg:       #2A1B4A;
+  --status-issued-border:   #5B21B6;
+  --status-pending-bg:      #0F2347;
+  --status-pending-border:  #1D4ED8;
+
+  /* Foreground status/presence/role variants lifted for dark surfaces (owner contrast fix) */
+  --status-emergency-text:  #FCA5A5;
+  --status-alert-strong:    #FBBF24;
+  --status-active-strong:   #4ADE80;
+  --status-pending:         #60A5FA;
+  --status-pending-strong:  #93C5FD;
+  --status-issued:          #A78BFA;
+  --status-issued-strong:   #C4B5FD;
+  --status-issued-deep:     #C4B5FD;
+  --status-attended:        #5EEAD4;
+  --status-attended-bg:     #0E2E2A;
+  --presence-available:     #4ADE80;
+  --presence-available-bg:  #0F2E1C;
+  --presence-available-border: #166534;
+  --presence-active-offline:    #B7BEC9;
+  --presence-active-offline-bg: #0F2E1C;
+  --presence-active-offline-border: #166534;
+  --presence-inactive:      #D5D9E0;
+  --presence-inactive-bg:   #1F2937;
+  --presence-inactive-border: #374151;
+  --role-lead: #FCA5A5;       --role-lead-bg: #3A0F0F;
+  --role-supervisor: #FBBF24; --role-supervisor-bg: #3A2A0A;
+  --role-officer: #93C5FD;    --role-officer-bg: #0F2347;
+  --role-dispatch: #4ADE80;   --role-dispatch-bg: #0F2E1C;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.40);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.45);
+  --shadow-xl: 0 8px 32px rgba(0,0,0,0.50);
+}
+
+/* Modal / dialog / notification readability floor.
+   Any element marked as a modal surface, alert dialog, or toast MUST resolve
+   its text to neutral-800/900 against surface (white in light, #1F2937 in
+   dark). This rule is the safety net for the "background ≈ foreground" bug
+   where a component sets background to surface but lets text fall through to
+   a mid-tone neutral that flips toward the surface in dark mode. */
+.civic-modal-surface,
+[role="dialog"],
+[role="alertdialog"],
+.civic-notification {
+  background: var(--civic-surface);
+  color: var(--civic-neutral-900);
+}
+.civic-modal-surface :where(p, li, label, .meta, small),
+[role="dialog"]      :where(p, li, label, .meta, small),
+[role="alertdialog"] :where(p, li, label, .meta, small),
+.civic-notification  :where(p, li, label, .meta, small) {
+  /* Force at least neutral-700 — never let modal copy fall to 400/500. */
+  color: var(--civic-neutral-800);
+}
+.civic-modal-surface :where(h1, h2, h3, h4),
+[role="dialog"]      :where(h1, h2, h3, h4),
+[role="alertdialog"] :where(h1, h2, h3, h4),
+.civic-notification  :where(h1, h2, h3, h4) {
+  color: var(--civic-neutral-900);
+}
+
+/* ============================================================
+   Semantic element styles — apply directly via HTML tags
+   ============================================================ */
+
+body, html {
+  font-family: var(--font-primary);
+  color: var(--civic-neutral-900);
+  background: var(--civic-surface-raised);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  color: var(--civic-neutral-900);
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+  color: var(--civic-neutral-900);
+}
+
+h3 {
+  font-family: var(--font-primary);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  color: var(--civic-neutral-900);
+}
+
+h4 {
+  font-family: var(--font-primary);
+  font-size: var(--text-md);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+  color: var(--civic-neutral-800);
+}
+
+p, li { font-size: var(--text-base); color: var(--civic-neutral-700); }
+
+small, .meta { font-size: var(--text-xs); color: var(--civic-neutral-500); }
+
+code, kbd, .mono, .code {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Badge — uppercase pill */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 3px var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 1px solid transparent;
+}
+
+.badge-dot {
+  width: 8px; height: 8px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* Card — standard container */
+.card {
+  background: var(--civic-surface);
+  border: 1px solid var(--civic-neutral-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* CAPS-only input rule (owner directive): all user text entry AFTER authentication
+   is uppercase — like-for-like visual match, prevents mixed-case note ambiguity.
+   Mark authentication screens with data-auth to exempt (emails/passwords). */
+input:not([type="password"]):not([type="email"]), textarea { text-transform: uppercase; }
+[data-auth] input, [data-auth] textarea { text-transform: none; }
+
+/* Monetary display rule: never bare numbers — prefix "AUD" (legal/legislative
+   compliance preference), e.g. AUD 203.51. No "$" symbol. */
+
+/* Focus visible rule — triple encoded status */
+*:focus-visible {
+  outline: 2px solid var(--civic-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

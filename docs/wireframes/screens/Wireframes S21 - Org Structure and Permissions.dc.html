@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.tile{background:#fff;border:1.5px solid #333;border-radius:6px;padding:8px 9px}.tilelabel{font:400 9px 'Architects Daughter',sans-serif;color:#777;margin-bottom:3px}.tileval{display:flex;align-items:center;gap:5px;font:600 13px 'JetBrains Mono',monospace;color:#111}.dot{width:8px;height:8px;border-radius:999px;flex:none}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.actbtn{font:400 9px 'Architects Daughter',sans-serif;padding:2px 6px;border-radius:4px}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.gtbl{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.dfval{font:400 11px 'Architects Daughter',sans-serif;color:#222}.stpill{display:inline-flex;align-items:center;gap:4px;font:600 9px 'JetBrains Mono',monospace;padding:3px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}.lockbanner{display:inline-flex;align-items:center;gap:5px;font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px;margin-top:4px}.wbrow{border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:9px 10px;background:#fff}.evph{background:#e9e7e1;border:1.5px solid #ccc;border-radius:5px;height:58px;display:flex;align-items:center;justify-content:center;font:400 9px 'Architects Daughter',sans-serif;color:#999}.dangerbtn{background:#DC2626;color:#fff;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif}.neutralbtn{border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555}.pf{position:relative;border:2px solid #222;border-radius:22px;overflow:hidden}.sb{display:flex;justify-content:space-between;font:400 9px 'JetBrains Mono',monospace;z-index:6;padding:8px 16px 0}.card8{background:#fff;border-radius:8px;padding:12px;border:1px solid #D5D9E0;box-shadow:0 1px 3px rgba(0,0,0,.06)}.chd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}.addr{font:600 13px 'Architects Daughter',sans-serif;color:#111827}.typ{font:400 11px 'Architects Daughter',sans-serif;color:#636E80;margin-top:2px}.desc{font:400 11px 'Architects Daughter',sans-serif;color:#4A5568;margin-bottom:8px}.shellbar{position:relative;background:#1B2A4A;padding:0 14px;display:flex;align-items:center;justify-content:space-between;height:38px;flex:none}.navpill{padding:5px 10px;border-radius:5px;font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.6)}.navpillactive{padding:5px 10px;border-radius:5px;background:rgba(255,255,255,.2);font:400 11px 'Architects Daughter',sans-serif;color:#fff}.mtable{width:100%;border-collapse:collapse;font:400 11px 'Architects Daughter',sans-serif}.mtable th{text-align:left;font:700 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1px solid #ECEEF2}.mtable td{padding:9px 10px;border-bottom:1px solid #F3F4F6;color:#1F2937}.segbtn{border:1.5px solid #444;border-radius:6px;padding:6px 0;text-align:center;font:400 11px 'Architects Daughter',sans-serif;flex:1}.checkrow{display:flex;align-items:center;gap:6px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.checkmark{width:14px;height:14px;border-radius:3px;background:#16A34A;color:#fff;font:600 9px sans-serif;display:grid;place-items:center;flex:none}.browserbar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1.5px solid #222;background:#f5f4f1}.dot3{width:9px;height:9px;border-radius:999px;border:1.5px solid #555}.foldertab{border:1.5px solid #ccc;border-bottom:none;border-radius:6px 6px 0 0;padding:6px 12px;font:400 11px 'Architects Daughter',sans-serif;color:#555}.foldertabactive{background:#1B2A4A;border-radius:6px 6px 0 0;padding:6px 12px;font:700 11px 'Architects Daughter',sans-serif;color:#fff}.kpi{border:1px solid #ECEEF2;border-radius:8px;padding:12px;flex:1}.kpiv{font:700 20px 'JetBrains Mono',monospace;color:#1B2A4A}.kpil{font:400 9.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-top:2px}.zrow{border-radius:6px;padding:6px 8px;background:#f4f3f0;display:flex;flex-direction:column;gap:2px}.permpill{display:inline-flex;font:600 9px 'JetBrains Mono',monospace;padding:2px 7px;border-radius:4px;white-space:nowrap}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 21 — Department/team org structure &amp; permissions (proposed, no repo source). Council-level ADMIN-scoped config surface, distinct from Platform Admin's cross-council view (S12-15). Grounded directly in <code>shared/roles.ts</code>'s real RBAC functions and <code>DirectoryPage.tsx</code>'s existing branch/team/manager fields — the first dedicated screen for data that today only exists implicitly inside Directory's flat officer list.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="21a">
+<div class="dv-olabel"><a class="dv-oid" href="#21a">21a</a>Admin/Management — Organisation: Branch &amp; Team Structure (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/organisation</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div>
+<div style="position:relative;display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Organisation</div>
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen (Team Supervisor)</div>
+</div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB">
+<div style="display:flex;gap:6px">
+<div class="foldertabactive">Structure</div><div class="foldertab">Permissions</div><div class="foldertab">Unassigned</div>
+</div>
+</div>
+<div style="padding:18px 20px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:2px">Branch &amp; Team Structure</div>
+<div style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:12px">Compliance org, scoped to branches you supervise</div>
+<div style="position:relative;display:flex;gap:10px;margin-bottom:16px">
+<div class="kpi"><div class="kpiv">6</div><div class="kpil">Branches</div></div>
+<div class="kpi"><div class="kpiv">14</div><div class="kpil">Teams</div></div>
+<div class="kpi" style="border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.06)"><div class="kpiv" style="color:#B45309">3</div><div class="kpil">Unassigned officers</div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div class="wbrow">
+<div style="font:700 12px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:8px">Local Laws <span style="font:400 10px 'Architects Daughter',sans-serif;color:#9CA3AF">— 2 teams</span></div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<a href="#21b" style="position:relative;display:flex;align-items:center;justify-content:space-between;text-decoration:none;background:#f4f3f0;border-radius:6px;padding:8px 10px">
+<span style="font:400 11px 'Architects Daughter',sans-serif;color:#1F2937">Day Team 2</span>
+<span style="display:flex;align-items:center;gap:8px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#636E80">J. Nguyen</span><span class="badge" style="background:#777;color:#fff">TS</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#9CA3AF">6</span></span>
+<div class="mk" style="top:-8px;right:-8px">3</div>
+</a>
+<a href="#" style="display:flex;align-items:center;justify-content:space-between;text-decoration:none;background:#f4f3f0;border-radius:6px;padding:8px 10px">
+<span style="font:400 11px 'Architects Daughter',sans-serif;color:#1F2937">Night Team 1</span>
+<span style="display:flex;align-items:center;gap:8px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#636E80">R. Costa</span><span class="badge" style="background:#777;color:#fff">TS</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#9CA3AF">5</span></span>
+</a>
+</div>
+</div>
+<div class="wbrow">
+<div style="font:700 12px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:8px">Animal Management <span style="font:400 10px 'Architects Daughter',sans-serif;color:#9CA3AF">— 1 team</span></div>
+<a href="#" style="display:flex;align-items:center;justify-content:space-between;text-decoration:none;background:#f4f3f0;border-radius:6px;padding:8px 10px">
+<span style="font:400 11px 'Architects Daughter',sans-serif;color:#1F2937">Team 1</span>
+<span style="display:flex;align-items:center;gap:8px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#636E80">D. Okafor</span><span class="badge" style="background:#777;color:#fff">TS</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#9CA3AF">4</span></span>
+</a>
+</div>
+<div style="font:400 10px 'Architects Daughter',sans-serif;color:#9CA3AF;text-align:center;padding:2px">+ 4 more branches (Parks &amp; Gardens, Infringement Review, Prosecutions, Compliance)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="21b">
+<div class="dv-olabel"><a class="dv-oid" href="#21b">21b</a>Team Detail — roster, supervisor, RBAC-gated member actions</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/organisation/teams/day-team-2</div></div>
+<div style="display:flex">
+<div style="flex:1;display:flex;flex-direction:column;opacity:.35;filter:grayscale(.3)">
+<div class="shellbar"><div style="display:flex;align-items:center;gap:14px"><div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div><div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Organisation</div></div></div><div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen</div></div>
+<div style="padding:18px 20px;font:400 11px 'Architects Daughter',sans-serif;color:#9CA3AF">Branch &amp; Team Structure — Local Laws</div>
+</div>
+<div style="width:320px;flex:none;background:#fff;border-left:1.5px solid #E5E7EB;padding:16px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 13px 'Architects Daughter',sans-serif;color:#111827">Day Team 2</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#9CA3AF;cursor:pointer">✕</span></div>
+<div class="gtbl" style="position:relative;grid-template-columns:1fr 1fr">
+<div class="dfield"><div class="dflabel">Branch</div><div class="dfval">Local Laws</div></div>
+<div class="dfield"><div class="dflabel">Supervisor</div><div class="dfval">J. Nguyen <span class="badge" style="background:#777;color:#fff">TS</span></div></div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF;background:#F9FAFB;border-radius:5px;padding:5px 7px">supervisedTeamId: <span style="font-family:'JetBrains Mono',monospace">day-team-2</span> == teamName on each row below</div>
+<div style="border-top:1px solid #ECEEF2;padding-top:8px;display:flex;flex-direction:column;gap:6px">
+<div style="font:700 10px 'Architects Daughter',sans-serif;color:#111827">Roster — 6</div>
+<div class="zrow"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 11px 'Architects Daughter',sans-serif">Officer_142</span><span class="badge" style="background:#777;color:#fff">OFC</span></div><div style="display:flex;justify-content:space-between"><span style="font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF">Local Laws Officer</span><a href="#" style="font:400 9px 'Architects Daughter',sans-serif;color:#DC2626">Remove</a></div></div>
+<div class="zrow"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 11px 'Architects Daughter',sans-serif">Officer_089</span><span class="badge" style="background:#777;color:#fff">OFC</span></div><div style="display:flex;justify-content:space-between"><span style="font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF">Local Laws Officer</span><a href="#" style="font:400 9px 'Architects Daughter',sans-serif;color:#DC2626">Remove</a></div></div>
+<div class="zrow" style="position:relative;background:#F3F4F6"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 11px 'Architects Daughter',sans-serif;color:#9CA3AF">R. Costa</span><span class="badge" style="background:#aaa;color:#fff">TS</span></div><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF">Team Supervisor</span><span style="display:flex;align-items:center;gap:3px;opacity:.5;font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF">🔒 Remove</span></div>
+<div class="mk" style="top:-8px;right:-8px">2</div>
+</div>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF">+ 3 more</div>
+</div>
+<div style="position:relative;border:1.5px dashed #B0B7C3;border-radius:6px;padding:8px;text-align:center;font:400 11px 'Architects Daughter',sans-serif;color:#1B2A4A">+ Add Member
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="21c">
+<div class="dv-olabel"><a class="dv-oid" href="#21c">21c</a>Add Team Member — modal</div>
+<div class="dv-card" style="width:380px;padding:18px">
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:2px">Add Member — Day Team 2</div>
+<div style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:14px">Sets teamName + managerId on the selected officer's record</div>
+<div class="flabel">Officer</div>
+<div class="fld" style="position:relative;color:#999;margin-bottom:6px">Search Local Laws officers... ▾
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px">
+<div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f4f3f0;border-radius:5px;font:400 11px 'Architects Daughter',sans-serif"><span>Officer_211</span><span style="color:#9CA3AF">Unassigned</span></div>
+<div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f4f3f0;border-radius:5px;font:400 11px 'Architects Daughter',sans-serif"><span>Officer_054</span><span style="color:#9CA3AF">Unassigned</span></div>
+</div>
+<div style="position:relative;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:7px 9px;font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#5b21b6;margin-bottom:14px">Showing Local Laws officers only. Cross-branch reassignment requires Admin or Compliance Lead — the only two roles <code>canWriteEmployee</code> treats as global.
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="display:flex;gap:8px"><div class="segbtn" style="border-color:#8892A2;color:#333">Cancel</div><div class="segbtn" style="background:#1B2A4A;border-color:#1B2A4A;color:#fff">Add to Team</div></div>
+</div>
+</div>
+
+<div class="dv-opt" id="21d">
+<div class="dv-olabel"><a class="dv-oid" href="#21d">21d</a>New Branch — modal (proposed, no backing endpoint)</div>
+<div class="dv-card" style="width:360px;padding:18px">
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:10px">New Branch</div>
+<div class="flabel">Branch Label</div>
+<div class="fld" style="margin-bottom:10px">e.g. Parking Compliance</div>
+<div class="flabel">Value (slug)</div>
+<div class="fld" style="color:#9CA3AF;margin-bottom:12px">parking-compliance <span style="font-size:8px">— auto</span></div>
+<div style="position:relative;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);border-radius:6px;padding:7px 9px;font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#92400E">Branches are a fixed list seeded on <code>/admin/officers/metadata</code> today — no create/rename endpoint exists. This form has nowhere to submit to.
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="display:flex;gap:8px;margin-top:12px"><div class="segbtn" style="border-color:#8892A2;color:#333">Cancel</div><div class="segbtn" style="background:#B0B7C3;border-color:#B0B7C3;color:#fff">Create</div></div>
+</div>
+</div>
+
+<div class="dv-opt" id="21e">
+<div class="dv-olabel"><a class="dv-oid" href="#21e">21e</a>Admin/Management — Permissions Matrix (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/organisation/permissions</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar"><div style="display:flex;align-items:center;gap:14px"><div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div><div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Organisation</div></div></div><div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen</div></div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB"><div style="display:flex;gap:6px"><div class="foldertab">Structure</div><div class="foldertabactive">Permissions</div><div class="foldertab">Unassigned</div></div></div>
+<div style="padding:18px 20px">
+<div style="position:relative;font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:2px">Permissions Matrix
+<div class="mk" style="top:-9px;right:340px">1</div></div>
+<div style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:12px">Read-only reference. Built directly from <code>shared/roles.ts</code>'s exported role sets and gate functions — no invented rows.</div>
+<table class="mtable">
+<tr><th>Role</th><th>Write Employee</th><th>Reset Password</th><th>Void PIN</th><th>Close SR</th><th>Mark-Up Write</th><th>Mark-Up Read</th><th>Global Scope</th></tr>
+<tr><td><span class="badge" style="background:#1B2A4A;color:#fff">ADM</span> Admin</td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes — global</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes — global</span></td><td style="position:relative"><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span><div class="mk" style="top:-9px;right:-9px">2</div></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td></tr>
+<tr><td><span class="badge" style="background:#777;color:#fff">CL</span> Compliance Lead</td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes — global</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch+position</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td></tr>
+<tr><td><span class="badge" style="background:#777;color:#fff">CC</span> Compliance Coord.</td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch+rank</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch+position</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch</span></td></tr>
+<tr><td style="position:relative"><span class="badge" style="background:#777;color:#fff">DSP</span> Dispatcher<div class="mk" style="top:-9px;right:-9px">3</div></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td style="position:relative"><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes — global</span><div class="mk" style="top:-9px;right:-9px">4</div></td></tr>
+<tr><td><span class="badge" style="background:#777;color:#fff">TS</span> Team Supervisor</td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch+rank</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch+team+rank</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — team match</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch+team</span></td></tr>
+<tr><td><span class="badge" style="background:#777;color:#fff">SS</span> Shift Supervisor</td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch+rank</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — team match</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch</span></td></tr>
+<tr><td><span class="badge" style="background:#777;color:#fff">SUP</span> Supervisor</td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch+rank</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — team match</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(22,163,74,.1);color:#16A34A">Yes</span></td><td><span class="permpill" style="background:rgba(245,158,11,.12);color:#B45309">Scoped — branch</span></td></tr>
+<tr><td><span class="badge" style="background:#777;color:#fff">OFC</span> Officer</td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No*</span></td><td><span class="permpill" style="background:rgba(220,38,38,.08);color:#DC2626">No</span></td></tr>
+</table>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-top:6px">* Officer has no Mark-Up read access, but is the only role additionally covered by a separate <code>MARKUP_ARCHIVE_ROLES</code> set (search-only archive view, not the same as Team Review).</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="21f">
+<div class="dv-olabel"><a class="dv-oid" href="#21f">21f</a>Admin/Management — Unassigned Officers (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:820px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/organisation/unassigned</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar"><div style="display:flex;align-items:center;gap:14px"><div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div><div style="display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Organisation</div></div></div><div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">J. Nguyen</div></div>
+<div style="padding:10px 20px 0;border-bottom:1.5px solid #E5E7EB"><div style="display:flex;gap:6px"><div class="foldertab">Structure</div><div class="foldertab">Permissions</div><div class="foldertabactive">Unassigned</div></div></div>
+<div style="padding:18px 20px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:8px">Unassigned Officers</div>
+<div style="position:relative;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);border-radius:6px;padding:9px 11px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#92400E;margin-bottom:14px">A null branch/team is invisible to every branch- or team-scoped role. <code>actorHasScopeOverObject</code>'s own comment: "if the target row lacks the field needed for the actor's tier... access is denied — safe default." Only Admin, Compliance Lead, and Dispatcher — the three roles with unconditional scope — can see or reassign the rows below. J. Nguyen (Team Supervisor) is viewing this read-only because her role isn't one of the three.
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<table class="mtable">
+<tr><th>Officer</th><th>Position</th><th>Branch</th><th>Team</th><th>Created</th><th></th></tr>
+<tr><td>Officer_318</td><td>Enforcement Officer</td><td style="color:#9CA3AF">—</td><td style="color:#9CA3AF">—</td><td style="font-family:'JetBrains Mono',monospace">02/08/2026</td><td style="position:relative"><span style="opacity:.4;display:inline-flex;align-items:center;gap:3px;font:400 10px 'Architects Daughter',sans-serif;color:#9CA3AF">🔒 Assign</span><div class="mk" style="top:-9px;right:-9px">2</div></td></tr>
+<tr><td>Officer_402</td><td>Local Laws Officer</td><td style="color:#9CA3AF">—</td><td style="color:#9CA3AF">—</td><td style="font-family:'JetBrains Mono',monospace">05/08/2026</td><td><span style="opacity:.4;display:inline-flex;align-items:center;gap:3px;font:400 10px 'Architects Daughter',sans-serif;color:#9CA3AF">🔒 Assign</span></td></tr>
+<tr><td>Officer_447</td><td>Enforcement Officer</td><td>Local Laws</td><td style="color:#9CA3AF">—</td><td style="font-family:'JetBrains Mono',monospace">09/08/2026</td><td><span style="opacity:.4;display:inline-flex;align-items:center;gap:3px;font:400 10px 'Architects Daughter',sans-serif;color:#9CA3AF">🔒 Assign</span></td></tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="dv-next">Next: not yet scheduled — see Roadmap's Phase 2 (citizen-facing surfaces, Sessions 22-25).</div>
+</section>
+
+</x-dc>
+</body>
+</html>

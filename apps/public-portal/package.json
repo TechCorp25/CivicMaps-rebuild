@@ -1,0 +1,12 @@
+{
+  "name": "@civicmaps/public-portal",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Repository-foundation placeholder; implementation requires an approved Section 03 ADR baseline.",
+  "scripts": {
+    "build": "node ../../scripts/stub-task.mjs build @civicmaps/public-portal",
+    "lint": "node ../../scripts/stub-task.mjs lint @civicmaps/public-portal",
+    "test": "node ../../scripts/stub-task.mjs test @civicmaps/public-portal",
+    "typecheck": "node ../../scripts/stub-task.mjs typecheck @civicmaps/public-portal"
+  }
+}

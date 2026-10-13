@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.tile{background:#fff;border:1.5px solid #333;border-radius:6px;padding:8px 9px}.tilelabel{font:400 9px 'Architects Daughter',sans-serif;color:#777;margin-bottom:3px}.tileval{display:flex;align-items:center;gap:5px;font:600 13px 'JetBrains Mono',monospace;color:#111}.dot{width:8px;height:8px;border-radius:999px;flex:none}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.actbtn{font:400 9px 'Architects Daughter',sans-serif;padding:2px 6px;border-radius:4px}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.gtbl{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.dfval{font:400 11px 'Architects Daughter',sans-serif;color:#222}.stpill{display:inline-flex;align-items:center;gap:4px;font:600 9px 'JetBrains Mono',monospace;padding:3px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}.lockbanner{display:inline-flex;align-items:center;gap:5px;font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px;margin-top:4px}.wbrow{border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:9px 10px;background:#fff}.evph{background:#e9e7e1;border:1.5px solid #ccc;border-radius:5px;height:58px;display:flex;align-items:center;justify-content:center;font:400 9px 'Architects Daughter',sans-serif;color:#999}.dangerbtn{background:#DC2626;color:#fff;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif}.neutralbtn{border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555}.pf{position:relative;border:2px solid #222;border-radius:22px;overflow:hidden}.sb{display:flex;justify-content:space-between;font:400 9px 'JetBrains Mono',monospace;z-index:6;padding:8px 16px 0}.card8{background:#fff;border-radius:8px;padding:12px;border:1px solid #D5D9E0;box-shadow:0 1px 3px rgba(0,0,0,.06)}.chd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}.addr{font:600 13px 'Architects Daughter',sans-serif;color:#111827}.typ{font:400 11px 'Architects Daughter',sans-serif;color:#636E80;margin-top:2px}.desc{font:400 11px 'Architects Daughter',sans-serif;color:#4A5568;margin-bottom:8px}.shellbar{position:relative;background:#1B2A4A;padding:0 14px;display:flex;align-items:center;justify-content:space-between;height:38px;flex:none}.navpill{padding:5px 10px;border-radius:5px;font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.6)}.navpillactive{padding:5px 10px;border-radius:5px;background:rgba(255,255,255,.2);font:400 11px 'Architects Daughter',sans-serif;color:#fff}.mtable{width:100%;border-collapse:collapse;font:400 11px 'Architects Daughter',sans-serif}.mtable th{text-align:left;font:700 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1px solid #ECEEF2}.mtable td{padding:9px 10px;border-bottom:1px solid #F3F4F6;color:#1F2937}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 20 — Infringement Issuance (Local Laws variant, proposed). Extends Sequence 8's 4-step Issue Infringement wizard (8d/8h/8i) to the Local Laws domain pack; escalates a Breached move-on notice from Sequence 19 (19g).</span></div>
+<div style="font:400 10px 'JetBrains Mono',monospace;color:#999;margin:-10px 0 20px">Form factors: 20a redrawn at tablet/laptop in "EnforcementMAPS Tablet &amp; Laptop Coverage"; 20b-i–iv, 20c, 20d are layout-identical across form factors.</div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="20a">
+<div class="dv-olabel"><a class="dv-oid" href="#20a">20a</a>Breached Move-On Notice — Escalate to Infringement (now active)</div>
+<div class="dv-card" style="width:320px;padding:16px">
+<div class="card8" style="position:relative">
+<div class="chd"><div><div class="addr">MO-2026-00031</div><div class="typ">14 Brunswick St, Fitzroy</div></div>
+<span class="stpill" style="background:rgba(245,158,11,.14);color:#B45309"><span class="dot" style="background:#F59E0B"></span>Breached</span></div>
+<div class="desc">Party returned within window — flagged for follow-up.</div>
+<div style="position:relative;display:flex;gap:6px;margin-top:8px">
+<div style="flex:1;background:#1B2A4A;border-radius:6px;padding:6px 14px;text-align:center;font:400 11px 'Architects Daughter',sans-serif;color:#fff">Escalate to Infringement</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+</div>
+</div>
+<div style="position:relative;padding:2px 4px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#666">Same card as 19g.2, button now active — wires to the 4-step Local Laws Issue Infringement wizard below, resolving OQ19-4.<div class="mk" style="top:-4px;right:-4px">2</div></div>
+</div>
+
+<div class="dv-opt" id="20b-i">
+<div class="dv-olabel"><a class="dv-oid" href="#20b-i">20b-i</a>Issue Infringement — Local Laws — Step 1: Location &amp; Party Details</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 1 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Local Laws</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Location &amp; Party Details</div>
+
+<div style="position:relative;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:5px 8px;font:600 9px 'Architects Daughter',sans-serif;color:#7C3AED;margin-bottom:8px">Carried over from MO-2026-00031 — editable
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+
+<div class="flabel" style="margin-bottom:3px">Location Description</div>
+<div style="border:1px solid #B0B7C3;border-radius:6px;padding:6px 9px;font:400 11px 'Architects Daughter',sans-serif;color:#111;margin-bottom:10px">14 Brunswick St, Fitzroy</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:6px;margin-bottom:8px;position:relative">
+<div style="font:700 11px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:5px">Related Move-On Notice</div>
+<div class="gtbl" style="grid-template-columns:1fr 1fr;gap:6px">
+<div class="dfield"><div class="dflabel">Notice No. <span style="font-size:8px">🔒</span></div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">MO-2026-00031</div></div>
+<div class="dfield"><div class="dflabel">Outcome <span style="font-size:8px">🔒</span></div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#B45309">Breached</div></div>
+</div>
+<div class="mk" style="top:-4px;right:-9px">2</div>
+</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:6px;position:relative">
+<div style="font:700 11px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:5px">Party<div class="mk" style="top:-4px;right:-9px">3</div></div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<div style="position:relative"><div class="dflabel">Name</div><div style="border:1.5px dashed #F59E0B;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#92400E">Unknown — ID not sighted at issue<div class="mk" style="top:-8px;right:-9px">4</div></div></div>
+<div><div class="dflabel">Address</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#9CA3AF">Not recorded</div></div>
+<div class="gtbl" style="grid-template-columns:1fr 1fr;gap:6px">
+<div class="dfield"><div class="dflabel">ID Type / No.</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#9CA3AF">—</div></div>
+<div class="dfield"><div class="dflabel">Contact No.</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#9CA3AF">—</div></div>
+</div>
+</div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Cancel</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+<div style="position:relative;padding:2px 4px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#666">Proposed — fourth department variant of Step 1 (parking/8d-i, Animal Mgmt/8h-i, Rangers/8i-i). Vehicle/Animal/Reserve blocks are replaced by a locked Related Move-On Notice reference plus a Party block. Name/Address/ID/Contact are blank because 19b's "ID sighted: No" carried through unresolved — surfaces a real gap: no rule defines whether Local Laws can issue an infringement against an unidentified party. See OQ20-1.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="20b-ii">
+<div class="dv-olabel"><a class="dv-oid" href="#20b-ii">20b-ii</a>Issue Infringement — Local Laws — Step 2: Evidence &amp; Officer Notes</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 2 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Local Laws</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Evidence &amp; Officer Notes</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font:700 10px 'Architects Daughter',sans-serif;color:#111827">Evidence</span><span style="font:700 10px 'JetBrains Mono',monospace;color:#16A34A">3/3 ✓</span></div>
+<div style="display:flex;gap:6px;margin-bottom:6px">
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;border:1.5px dashed #B0B7C3;display:grid;place-items:center;font:700 18px 'Architects Daughter',sans-serif;color:#B0B7C3">+</div>
+</div>
+
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;border:1px solid #ECEEF2;border-radius:6px;padding:6px 8px;margin-bottom:8px">
+<span style="font:400 9.5px 'Architects Daughter',sans-serif;color:#4A5568">Can't capture 3 photos? Override</span>
+<span style="width:30px;height:16px;border-radius:999px;background:#ECEEF2;position:relative;display:inline-block"><span style="position:absolute;top:1px;left:1px;width:14px;height:14px;border-radius:999px;background:#fff;border:1px solid #B0B7C3"></span></span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+
+<div style="font:700 10px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:4px">Officer Notes</div>
+<div style="position:relative;border:1.5px solid #444;border-radius:6px;padding:8px 9px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;color:#333;min-height:70px">Party failed to comply with move-on directive MO-2026-00031; observed back at original location 15:04, within the 24hr not-to-return window (expired 12/08 14:52).
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+<div style="position:relative;padding:2px 4px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#666">Same structure as 8d-ii/8h-ii/8i-ii — evidence minimum/override and post-issuance immutability are department-agnostic (extends across a fourth department). Only the officer-notes content differs, here referencing the breached notice directly.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="20b-iii">
+<div class="dv-olabel"><a class="dv-oid" href="#20b-iii">20b-iii</a>Issue Infringement — Local Laws — Step 3: Offence &amp; Time</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 3 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Local Laws</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Offence &amp; Time</div>
+
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:7px 9px;margin-bottom:8px">
+<span style="font:600 10.5px 'Architects Daughter',sans-serif;color:#333">LL-009 — Fail to comply with a move-on direction</span>
+<span style="font:700 9px 'Architects Daughter',sans-serif;color:#7C3AED;text-decoration:underline">Change</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+
+<div class="gtbl" style="position:relative;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+<div class="dfield"><div class="dflabel">Offence ID</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">LL-009</div></div>
+<div class="dfield"><div class="dflabel">Penalty</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">$296</div></div>
+<div class="dfield"><div class="dflabel">Offence Date</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">11/08/2026</div></div>
+<div class="dfield"><div class="dflabel">Due Date</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">08/09/2026</div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:7px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="dflabel">Time From <span style="font-size:8px">🔒</span></span><span style="font:600 11px 'JetBrains Mono',monospace;color:#111;background:#F5F3FF;border-radius:5px;padding:4px 8px">15:04:00</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="dflabel">Time To <span style="font-size:8px">✎</span></span><span style="font:600 11px 'JetBrains Mono',monospace;color:#111;border:1.5px solid #444;border-radius:5px;padding:4px 8px">15:11:00</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="dflabel">Issuance Time <span style="font-size:8px">🔒</span></span><span style="font:400 11px 'JetBrains Mono',monospace;color:#9CA3AF;background:#F3F4F6;border-radius:5px;padding:4px 8px">— captured at print</span></div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+<div style="position:relative;padding:2px 4px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#666">Same structure as 8d-iii/8h-iii/8i-iii; offence list would filter to Local Laws + the officer's Designated Work Group. LL-009 / $296 are illustrative placeholders — no Local Laws rows exist in <code>shared/constants/offence-codes.ts</code> (parking-only), extending OQ8-18/OQ8-21/OQ19-1 to a fourth department. Time From is locked to the breach-observation moment (15:04, per 20b-ii's notes), not the original notice's issue time — see OQ20-2.</div>
+</div>
+</div>
+
+<div class="dv-opt" id="20b-iv">
+<div class="dv-olabel"><a class="dv-oid" href="#20b-iv">20b-iv</a>Issue Infringement — Local Laws — Step 4: Review &amp; Issue</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 4 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Local Laws</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:8px">Review &amp; Issue</div>
+
+<div style="position:relative;display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Location</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">14 Brunswick St, Fitzroy</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Related Notice</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#B45309;text-align:right">MO-2026-00031 · Breached</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Party</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#92400E;text-align:right">Unknown — ID not sighted</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Offence</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">LL-009 · $296</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Description</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#333;text-align:right;max-width:160px">Fail to comply with a move-on direction</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Time From → To</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">15:04 → 15:11</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Issuance Time</span><span style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF;text-align:right">— at print</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Evidence</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#16A34A;text-align:right">3 photos</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Officer Notes</span><span style="font:400 10px/1.35 'Architects Daughter',sans-serif;color:#333">"Party failed to comply with move-on directive MO-2026-00031…"</span></div>
+</div>
+
+<div style="position:relative;display:flex;align-items:center;gap:7px;border-top:1px solid #ECEEF2;padding-top:8px">
+<span style="width:16px;height:16px;border-radius:4px;background:#7C3AED;display:grid;place-items:center;font:700 10px sans-serif;color:#fff">✓</span>
+<span style="font:400 10px 'Architects Daughter',sans-serif;color:#333">I confirm the above is accurate</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="position:relative;flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Issue / Print
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="20c">
+<div class="dv-olabel"><a class="dv-oid" href="#20c">20c</a>Issued Infringement — record card</div>
+<div class="dv-card" style="width:300px;padding:16px">
+<div class="card8" style="position:relative">
+<div class="chd"><div><div class="addr">202600089</div><div class="typ">14 Brunswick St, Fitzroy — Local Laws</div></div>
+<span class="stpill" style="background:rgba(124,58,237,.12);color:#7C3AED"><span class="dot" style="background:#7C3AED"></span>Issued</span></div>
+<div class="desc">Escalated from MO-2026-00031. LL-009 · $296. Due 08/09/2026.</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="margin-top:10px"><a href="Local%20Laws%20Infringement%20Notice%20-%20Print%20Replica.dc.html" style="display:block;border:1.5px dashed #999;border-radius:6px;padding:9px;text-align:center;font:400 11px 'Architects Daughter',sans-serif;color:#1B2A4A">📄 View printed notice replica →</a></div>
+</div>
+</div>
+
+<div class="dv-opt" id="20d">
+<div class="dv-olabel"><a class="dv-oid" href="#20d">20d</a>Move-On Notice record — closes the loop back to Sequence 19</div>
+<div class="dv-card" style="width:300px;padding:16px">
+<div class="card8" style="position:relative">
+<div class="chd"><div><div class="addr">MO-2026-00031</div><div class="typ">14 Brunswick St, Fitzroy</div></div>
+<span class="stpill" style="background:rgba(245,158,11,.14);color:#B45309"><span class="dot" style="background:#F59E0B"></span>Breached</span></div>
+<div class="desc">Party returned within window — flagged for follow-up.</div>
+<a href="#20c" style="display:block;margin-top:6px;border:1px solid #ECEEF2;border-radius:6px;padding:7px 9px;font:400 10.5px 'Architects Daughter',sans-serif;color:#4c2889;background:#F5F3FF;text-decoration:none">→ Escalated to Infringement 202600089</a>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+</div>
+<div style="position:relative;padding:2px 4px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#666">Notice keeps its terminal "Breached" status — escalation is a follow-up action against a breached notice, not a fifth lifecycle state layered onto 19's 4-state model (Issued → Complied/Breached/Expired). The new link row is the only change to 19f/19g's card.</div>
+</div>
+
+</div>
+</div>
+<div class="dv-next">Next: Session 21 — Department/team org structure &amp; permissions.</div>
+</section>
+
+</x-dc>
+</body>
+</html>

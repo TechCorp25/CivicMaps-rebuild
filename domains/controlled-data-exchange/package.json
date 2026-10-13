@@ -1,0 +1,12 @@
+{
+  "name": "@civicmaps/domain-controlled-data-exchange",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Repository-foundation placeholder; implementation requires an approved Section 03 ADR baseline.",
+  "scripts": {
+    "build": "node ../../scripts/stub-task.mjs build @civicmaps/domain-controlled-data-exchange",
+    "lint": "node ../../scripts/stub-task.mjs lint @civicmaps/domain-controlled-data-exchange",
+    "test": "node ../../scripts/stub-task.mjs test @civicmaps/domain-controlled-data-exchange",
+    "typecheck": "node ../../scripts/stub-task.mjs typecheck @civicmaps/domain-controlled-data-exchange"
+  }
+}

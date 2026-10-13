@@ -1,0 +1,14 @@
+<!doctype html>
+<!-- @dsCard group="Components" name="Inputs" subtitle="CAPS-only post-auth · mono for IDs · AUD money format" viewport="700x170" --><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:20px;background:var(--civic-surface-raised);font-family:var(--font-primary)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
+input,select{width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid #D5D9E0;border-radius:8px;font:inherit;font-size:14px;background:#fff;color:#111827;text-transform:uppercase}
+input:focus,select:focus{outline:2px solid #D4A843;outline-offset:1px;border-color:transparent}
+.help{font-size:11px;color:#8892A2;margin-top:4px}
+</style></head><body>
+<div class="row">
+  <div><label>Badge number</label><input value="PEO-0142" style="font-family:var(--font-mono)"><div class="help">Monospace + tabular for all identifiers. All post-auth text entry is CAPS-only.</div></div>
+  <div><label>Zone</label><select><option>Z-MAC · Macaulay</option><option>Z-ELZ · Elizabeth St</option></select></div>
+  <div><label>Penalty amount</label><input value="AUD 203.51" readonly style="font-family:var(--font-mono)"><div class="help">Money is never bare numbers — AUD prefix, no symbols.</div></div>
+</div></body></html>

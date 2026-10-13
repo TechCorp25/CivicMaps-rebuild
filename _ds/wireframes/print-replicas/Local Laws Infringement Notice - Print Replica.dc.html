@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>body{margin:0;background:#e9e7e2}doc-page:not(:defined){visibility:hidden}.rc{font-family:'JetBrains Mono',monospace;color:#000}.rcdiv{border-top:1px dashed #444;margin:7px 0}.rchd{font-weight:700;font-size:11.5px;letter-spacing:.3px;margin-bottom:2px}.rcrow{font-size:10.5px;line-height:1.55}</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<div style="max-width:900px;margin:0 auto 24px;padding:20px 24px 0;font:400 13px/1.5 system-ui,sans-serif;color:#333">
+<a href="Wireframes%20S20%20-%20Infringement%20Issuance%20(Local%20Laws).dc.html" style="color:#1B2A4A;font-weight:600">← Back to Sequence 20</a>
+<p style="margin:10px 0 0">Print-replica of the thermal-printed infringement notice issued from 20b-iv's <strong>Issue / Print</strong> action — a real artifact, not a hand-drawn wireframe. Unlike Sequence 8's parking notice, this is a Local Laws infringement with a <strong>Party</strong> block (no vehicle) and a reference back to the move-on notice it escalates. Barcode and QR are rendered client-side from the actual Code&nbsp;128 (Modulo-103) and QR Model&nbsp;2 (EC level Q) algorithms via CDN libraries, not mocked artwork. Every value is illustrative example data — see <code>docs/WF-S20 … Annotations.md</code>, Screen 20c, for the field-by-field trace and open questions.</p>
+</div>
+
+<doc-page width="80mm" height="250mm">
+<section class="page rc" style="padding:16px 13px;background:#fff;display:flex;flex-direction:column">
+
+<div style="text-align:center;font-weight:700;font-size:15px">City of Yarra</div>
+<div style="text-align:center;font-size:11.5px;margin-top:2px">INFRINGEMENT NOTICE</div>
+<div style="text-align:center;font-size:9.5px;font-style:italic;color:#333">(Local Law — Public Amenity)</div>
+
+<div class="rcdiv"></div>
+
+<canvas ref="{{ barcodeRef }}" style="width:100%;height:auto;display:block"></canvas>
+<div class="rcrow">Notice Number: 202600089</div>
+<div class="rcrow">Date of Issue: 11/08/2026</div>
+<div class="rcrow">Time of Issue: 15:19:44 (24HR)</div>
+<div class="rcrow">Officer ID: OFC-0298</div>
+
+<div class="rcdiv"></div>
+
+<div class="rchd">PARTY</div>
+<div class="rcrow">Name: Unknown — ID not sighted at issue</div>
+<div class="rcrow">Address: Not recorded</div>
+
+<div class="rcdiv"></div>
+
+<div class="rchd">RELATED NOTICE</div>
+<div class="rcrow">Move-On Notice: MO-2026-00031 (Breached)</div>
+
+<div class="rcdiv"></div>
+
+<div class="rchd">OFFENCE DETAILS</div>
+<div class="rcrow">Location: 14 Brunswick St, Fitzroy</div>
+<div class="rcrow">Offence Code: LL-009</div>
+<div class="rcrow">Statute: Local Law (not yet mapped, see OQ20-3)</div>
+<div class="rcrow">Description: Fail to comply with a move-on direction</div>
+<div class="rcrow">Time: 15:04 – 15:11</div>
+<div class="rcrow">Penalty Amount: 1.5 penalty units × current indexed value = $296 (illustrative — see OQ20-4)</div>
+
+<div class="rcdiv"></div>
+
+<div class="rchd">HOW TO PAY / ACTIONS</div>
+<div class="rcrow">Due Date: 08/09/2026 (28 days from issue date)</div>
+<div class="rcrow">Web: pay.yarracouncil.example</div>
+<div class="rcrow">Phone: 1300 000 000</div>
+
+<div class="rcdiv"></div>
+
+<div style="text-align:center;margin-top:2px">
+<div ref="{{ qrRef }}" style="display:inline-block;line-height:0"></div>
+</div>
+<div style="text-align:center;font-size:9px;font-style:italic;margin-top:4px">Scan with smartphone camera to view photos or pay online securely.</div>
+
+<div class="rcdiv"></div>
+
+<div style="font-size:8.5px;line-height:1.5;color:#222">For internal review or election to the Magistrates' Court, visit pay.yarracouncil.example or see reverse of notice.</div>
+
+<div style="flex:1"></div>
+<div style="text-align:center;font-size:9px;color:#666;margin-top:10px">✂ — — — — — — — — — — — — — — — — —</div>
+</section>
+</doc-page>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    this.renderCodes();
+  }
+  renderCodes() {
+    const canvas = this.barcodeRef;
+    const qrEl = this.qrRef;
+    if (canvas && window.JsBarcode) {
+      try {
+        window.JsBarcode(canvas, "202600089", { format: "CODE128", displayValue: false, height: 40, margin: 0 });
+      } catch (e) {}
+    }
+    if (qrEl && window.QRCode) {
+      qrEl.innerHTML = "";
+      try {
+        new window.QRCode(qrEl, { text: "https://pay.yarracouncil.example/n/202600089", width: 90, height: 90, correctLevel: window.QRCode.CorrectLevel.Q });
+      } catch (e) {}
+    }
+  }
+  renderVals() {
+    return {
+      barcodeRef: (el) => { this.barcodeRef = el; },
+      qrRef: (el) => { this.qrRef = el; },
+    };
+  }
+}
+</script>
+</body>
+</html>

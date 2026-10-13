@@ -1,0 +1,12 @@
+{
+  "name": "@civicmaps/domain-gis-operations",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Repository-foundation placeholder; implementation requires an approved Section 03 ADR baseline.",
+  "scripts": {
+    "build": "node ../../scripts/stub-task.mjs build @civicmaps/domain-gis-operations",
+    "lint": "node ../../scripts/stub-task.mjs lint @civicmaps/domain-gis-operations",
+    "test": "node ../../scripts/stub-task.mjs test @civicmaps/domain-gis-operations",
+    "typecheck": "node ../../scripts/stub-task.mjs typecheck @civicmaps/domain-gis-operations"
+  }
+}

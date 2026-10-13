@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.tile{background:#fff;border:1.5px solid #333;border-radius:6px;padding:8px 9px}.tilelabel{font:400 9px 'Architects Daughter',sans-serif;color:#777;margin-bottom:3px}.tileval{display:flex;align-items:center;gap:5px;font:600 13px 'JetBrains Mono',monospace;color:#111}.dot{width:8px;height:8px;border-radius:999px;flex:none}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.actbtn{font:400 9px 'Architects Daughter',sans-serif;padding:2px 6px;border-radius:4px}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.gtbl{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.dfval{font:400 11px 'Architects Daughter',sans-serif;color:#222}.stpill{display:inline-flex;align-items:center;gap:4px;font:600 9px 'JetBrains Mono',monospace;padding:3px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}.lockbanner{display:inline-flex;align-items:center;gap:5px;font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px;margin-top:4px}.wbrow{border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:9px 10px;background:#fff}.evph{background:#e9e7e1;border:1.5px solid #ccc;border-radius:5px;height:58px;display:flex;align-items:center;justify-content:center;font:400 9px 'Architects Daughter',sans-serif;color:#999}.dangerbtn{background:#DC2626;color:#fff;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif}.neutralbtn{border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 7 — Code21 Detail &amp; Lifecycle (low-fi). Dispatcher-side workbench, detail/edit modal, PIN lock &amp; No-Report evidence states, close/void actions, audit trail.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="7a">
+<div class="dv-olabel"><a class="dv-oid" href="#7a">7a</a>Workbench — filter &amp; status list</div>
+<div class="dv-card" style="width:400px;padding:16px">
+<div style="font:600 13px 'Architects Daughter',sans-serif;margin-bottom:10px">Service Request Lookup</div>
+<div style="position:relative;display:flex;gap:8px;margin-bottom:12px">
+<div class="fld" style="color:#999">All Statuses ▾</div>
+<div class="fld" style="flex:1;color:#999">Search address or SR#...</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">SR-2026-04821</div><div style="font:600 12px 'Architects Daughter',sans-serif">43 Bourke St</div><div style="font:400 10px 'Architects Daughter',sans-serif;color:#888">621 - Stopped contrary to a no parking sign</div></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span class="badge" style="background:#f4f3f0;color:#777">Z-MAC</span><span class="stpill" style="background:rgba(37,99,235,.1);color:#2563EB;border:1px solid rgba(37,99,235,.3)"><span class="dot" style="width:5px;height:5px;background:#2563EB"></span>SR RECEIVED</span></div>
+</div>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#bbb;margin-top:4px">07/08/2026, 2:32 pm</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">SR-2026-04790</div><div style="font:600 12px 'Architects Daughter',sans-serif">120 Elizabeth St</div><div style="font:400 10px 'Architects Daughter',sans-serif;color:#888">701 - Parking for longer than indicated</div></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span class="badge" style="background:#f4f3f0;color:#777">Z-COL</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#888">J. Park</span><span class="stpill" style="background:rgba(124,58,237,.1);color:#7C3AED;border:1px solid rgba(124,58,237,.3)"><span class="dot" style="width:5px;height:5px;background:#7C3AED"></span>PIN ISSUED</span></div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">SR-2026-04703</div><div style="font:600 12px 'Architects Daughter',sans-serif">9 Flinders Ln</div><div style="font:400 10px 'Architects Daughter',sans-serif;color:#888">793 - Stopping contrary to a no stopping sign</div></div>
+<span class="stpill" style="background:rgba(220,38,38,.1);color:#DC2626;border:1px solid rgba(220,38,38,.3);align-self:flex-start"><span class="dot" style="width:5px;height:5px;background:#DC2626"></span>VOIDED</span>
+</div>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="7b">
+<div class="dv-olabel"><a class="dv-oid" href="#7b">7b</a>Detail — editable state (unlocked)</div>
+<div class="dv-card" style="width:380px;padding:16px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Service Request Detail</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">&times;</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;font:400 11px 'Architects Daughter',sans-serif">
+<div style="position:relative;display:flex;flex-direction:column;gap:5px;padding-right:14px">
+<div><div class="flabel" style="margin-bottom:2px">Service Request Number</div><div style="font:400 11px 'JetBrains Mono',monospace">SR-2026-04903</div></div>
+<span class="stpill" style="background:rgba(245,158,11,.1);color:#F59E0B;border:1px solid rgba(245,158,11,.3);align-self:flex-start"><span class="dot" style="width:5px;height:5px;background:#F59E0B"></span>DISPATCHED (NOT ACTIVE)</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="position:relative"><div class="flabel" style="margin-bottom:2px">Assigned Officer</div>N/A
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<hr style="border:none;border-top:1px solid #eee;margin:0">
+<div style="position:relative"><div class="flabel">Alleged Offence</div><div class="fld">621 - Stopped contrary to a no parking sign
+<div class="mk" style="top:-9px;right:-9px">3</div></div></div>
+<div style="position:relative">
+<div class="flabel">Vehicle Details</div>
+<div class="gtbl">
+<div class="fld" style="color:#999">Make ▾</div><div class="fld" style="color:#999">Body Type ▾</div>
+<div class="fld" style="color:#999">Colour ▾</div><div class="fld" style="color:#999">Registration</div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+<div style="position:relative">
+<div class="flabel">Parking Infringement Number (PIN)</div>
+<div class="fld" style="color:#999;font-family:'JetBrains Mono',monospace">Enter PIN to lock form...</div>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#F59E0B;margin-top:3px">Warning: saving with a PIN will lock this form permanently.</div>
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+<div class="lockbanner" style="position:relative;background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.25);display:flex;justify-content:space-between;align-items:center;color:#7C3AED;padding:8px 9px">
+<span>No Report — mark attended, no infringement required</span>
+<span class="actbtn" style="background:#7C3AED;color:#fff;padding:5px 9px">Confirm No Report</span>
+<div class="mk" style="top:-9px;right:-9px">6</div>
+</div>
+<div style="position:relative;background:#1B2A4A;color:#fff;text-align:center;border-radius:6px;padding:7px 0;font:400 11px 'Architects Daughter',sans-serif">Save Changes
+<div class="mk" style="top:-9px;right:-9px">7</div></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="7c">
+<div class="dv-olabel"><a class="dv-oid" href="#7c">7c</a>Detail — locked state (PIN recorded)</div>
+<div class="dv-card" style="width:380px;padding:16px">
+<div style="margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Service Request Detail</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">&times;</span>
+</div>
+<div class="lockbanner" style="position:relative;background:rgba(245,158,11,.1);color:#F59E0B;border:1px solid rgba(245,158,11,.3)">Locked — PIN recorded
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;font:400 11px 'Architects Daughter',sans-serif">
+<div style="position:relative"><div class="flabel">Offence Type</div>621 - Stopped contrary to a no parking sign
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="position:relative">
+<div class="flabel">Vehicle Details</div>
+<div class="gtbl"><span>Make: Toyota</span><span>Body: Sedan</span><span>Colour: White</span><span>Rego: <span style="font-family:'JetBrains Mono',monospace">ABC123</span></span></div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="position:relative"><div class="flabel">Parking Infringement Number (PIN)</div><span style="font-family:'JetBrains Mono',monospace">PIN-2026-004821</span>
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+<hr style="border:none;border-top:1px solid #eee;margin:0">
+<div style="position:relative">
+<div style="font:600 10px 'Architects Daughter',sans-serif;color:#555;margin-bottom:6px">Additional Notes</div>
+<div style="background:#f8f7f4;border:1px solid #eee;border-radius:6px;padding:6px 8px;margin-bottom:6px"><div style="font:400 9px 'Architects Daughter',sans-serif;color:#aaa">07/08/2026, 3:10 pm</div>Vehicle relocated before attendance confirmed by radio.</div>
+<div class="fld" style="color:#999;min-height:34px">Type an additional note...</div>
+<div style="display:inline-block;background:#1B2A4A;color:#fff;border-radius:6px;padding:5px 12px;font:400 10px 'Architects Daughter',sans-serif;margin-top:6px">Add Note</div>
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+<div style="position:relative;text-align:center;border:1.5px solid #999;color:#555;border-radius:6px;padding:7px 0;font:400 11px 'Architects Daughter',sans-serif">Close SR
+<div class="mk" style="top:-9px;right:-9px">6</div></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="7d">
+<div class="dv-olabel"><a class="dv-oid" href="#7d">7d</a>Detail — No Report evidence (locked)</div>
+<div class="dv-card" style="width:380px;padding:16px">
+<div style="margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Service Request Detail</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">&times;</span>
+</div>
+<div class="lockbanner" style="position:relative;background:rgba(124,58,237,.1);color:#7C3AED;border:1px solid rgba(124,58,237,.3)">Closed — No Report (Attended Complete)
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="position:relative;margin-bottom:8px"><div class="flabel">No Report Evidence (2 photos)</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="position:relative;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.2);border-radius:6px;padding:8px;font:400 10px 'Architects Daughter',sans-serif">
+<div class="evph" style="margin-bottom:6px">tap to open full size</div>
+<div style="font:600 10px 'Architects Daughter',sans-serif">IMG_0231.jpg</div>
+<div style="color:#888">07/08/2026 14:12 — GPS: <span style="font-family:'JetBrains Mono',monospace">-37.81400, 144.96500</span></div>
+<div style="color:#888">Officer: <span style="font-family:'JetBrains Mono',monospace">OFC-0142</span></div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.2);border-radius:6px;padding:8px;font:400 10px 'Architects Daughter',sans-serif">
+<div class="evph" style="margin-bottom:6px">tap to open full size</div>
+<div style="font:600 10px 'Architects Daughter',sans-serif">IMG_0232.jpg</div>
+<div style="color:#888">07/08/2026 14:13 — GPS: <span style="font-family:'JetBrains Mono',monospace">-37.81401, 144.96498</span></div>
+<div style="color:#888">Officer: <span style="font-family:'JetBrains Mono',monospace">OFC-0142</span></div>
+</div>
+</div>
+<div style="position:relative;text-align:center;border:1.5px solid #999;color:#555;border-radius:6px;padding:7px 0;font:400 11px 'Architects Daughter',sans-serif;margin-top:10px">Close SR
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+</div>
+</div>
+
+<div class="dv-opt" id="7e">
+<div class="dv-olabel"><a class="dv-oid" href="#7e">7e</a>Close Service Request modal</div>
+<div class="dv-card" style="width:320px;padding:20px">
+<div style="font:600 14px 'Architects Daughter',sans-serif;margin-bottom:8px">Close Service Request</div>
+<div style="position:relative;font:400 11px 'Architects Daughter',sans-serif;color:#666;margin-bottom:10px">This will administratively close this SR. Please provide a reason.
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="position:relative" class="fld" style="color:#999;min-height:48px">Reason for closure...
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="display:flex;gap:8px;margin-top:14px">
+<div class="neutralbtn" style="flex:1;text-align:center;position:relative">Cancel
+<div class="mk" style="top:-9px;left:-9px">3</div></div>
+<div style="flex:1;text-align:center;position:relative;background:#9CA3AF;color:#fff;border-radius:6px;padding:6px 0;font:400 11px 'Architects Daughter',sans-serif;opacity:.6">Confirm Close
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="7f">
+<div class="dv-olabel"><a class="dv-oid" href="#7f">7f</a>Void PIN modal (destructive)</div>
+<div class="dv-card" style="width:320px;padding:20px;border-color:rgba(220,38,38,.3)">
+<div style="position:relative;font:600 14px 'Architects Daughter',sans-serif;color:#DC2626;margin-bottom:8px">✕ Void PIN
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="position:relative;font:400 11px 'Architects Daughter',sans-serif;color:#666;margin-bottom:10px">This will void the PIN on this service request. This is the highest-consequence action and will be permanently audited.
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="position:relative;border:1.5px solid rgba(220,38,38,.4);border-radius:6px;padding:6px 8px;color:#999;font:400 11px 'Architects Daughter',sans-serif;min-height:48px">Reason for voiding PIN...
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+<div style="display:flex;gap:8px;margin-top:14px">
+<div class="neutralbtn" style="flex:1;text-align:center">Cancel</div>
+<div class="dangerbtn" style="flex:1;text-align:center;position:relative;opacity:.6">Confirm Void
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="7g">
+<div class="dv-olabel"><a class="dv-oid" href="#7g">7g</a>Audit trail (expanded) &amp; closure reason</div>
+<div class="dv-card" style="width:360px;padding:16px">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Service Request Detail</span>
+<span class="lockbanner" style="background:rgba(156,163,175,.15);color:#6b7280;border:1px solid rgba(107,114,128,.3)">Closed — Administrative</span>
+</div>
+<div style="position:relative;background:#f8f7f4;border:1px solid #eee;border-radius:6px;padding:9px;margin-bottom:10px">
+<div class="flabel" style="margin-bottom:3px">Closure Reason</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:#333">Duplicate request — same vehicle already logged under SR-2026-04790.</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:5px;font:600 10px 'Architects Daughter',sans-serif;color:#999;margin-bottom:6px">
+<span style="display:inline-block;transform:rotate(90deg)">▶</span>Audit Trail (4)
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;font:400 10px 'Architects Daughter',sans-serif;color:#888;line-height:1.5">
+<div><span style="font-family:'JetBrains Mono',monospace">07/08/2026, 2:31 pm</span><br><span>System</span><span style="margin-left:6px">— created</span></div>
+<div><span style="font-family:'JetBrains Mono',monospace">07/08/2026, 2:40 pm</span><br><span>J. Park</span><span style="margin-left:6px">— status changed to dispatched (not active)</span></div>
+<div style="position:relative"><span style="font-family:'JetBrains Mono',monospace">07/08/2026, 3:15 pm</span><br><span>J. Park</span><span style="margin-left:6px">— address updated, dispatch notes updated</span>
+<div class="mk" style="top:-4px;right:-9px">3</div></div>
+<div><span style="font-family:'JetBrains Mono',monospace">07/08/2026, 4:02 pm</span><br><span>M. Osei (Supervisor)</span><span style="margin-left:6px">— closed</span></div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+</x-dc>
+</body>
+</html>

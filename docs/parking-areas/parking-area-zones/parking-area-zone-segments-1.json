@@ -1,0 +1,2965 @@
+"zones": [
+    {
+      "parkingzone": 7000,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elliott Avenue",
+          "between": {
+            "from": "MacArthur Road",
+            "to": "Kendall Avenue"
+          },
+          "segment_id": 22429
+        }
+      ]
+    },
+    {
+      "parkingzone": 7001,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Argyle Place North",
+          "between": {
+            "from": "Lygon Street",
+            "to": "Cardigan Street"
+          },
+          "segment_id": 20752
+        }
+      ]
+    },
+    {
+      "parkingzone": 7002,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Barry Street",
+          "between": {
+            "from": "Leicester Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20476
+        }
+      ]
+    },
+    {
+      "parkingzone": 7003,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Barry Street",
+          "between": {
+            "from": "Leicester Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20476
+        }
+      ]
+    },
+    {
+      "parkingzone": 7004,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Argyle Place South",
+          "between": {
+            "from": "Lygon Street",
+            "to": "Cardigan Street"
+          },
+          "segment_id": 20751
+        }
+      ]
+    },
+    {
+      "parkingzone": 7007,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Lincoln Square South"
+          },
+          "segment_id": 20464
+        }
+      ]
+    },
+    {
+      "parkingzone": 7008,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Berkeley Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20472
+        }
+      ]
+    },
+    {
+      "parkingzone": 7009,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Berkeley Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20474
+        }
+      ]
+    },
+    {
+      "parkingzone": 7010,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Berkeley Street",
+          "between": {
+            "from": "Leicester Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20456
+        }
+      ]
+    },
+    {
+      "parkingzone": 7012,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Berkeley Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20472
+        }
+      ]
+    },
+    {
+      "parkingzone": 7014,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Lincoln Square North",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20468
+        }
+      ]
+    },
+    {
+      "parkingzone": 7015,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Lincoln Square North",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20468
+        },
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Lincoln Square South",
+            "to": "Pelham Street"
+          },
+          "segment_id": 22503
+        },
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Lincoln Square North"
+          },
+          "segment_id": 22504
+        }
+      ]
+    },
+    {
+      "parkingzone": 7018,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Lincoln Square South",
+            "to": "Pelham Street"
+          },
+          "segment_id": 22503
+        },
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Lincoln Square North"
+          },
+          "segment_id": 22504
+        }
+      ]
+    },
+    {
+      "parkingzone": 7019,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20462
+        }
+      ]
+    },
+    {
+      "parkingzone": 7020,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Lincoln Square South",
+            "to": "Pelham Street"
+          },
+          "segment_id": 22503
+        },
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Lincoln Square South"
+          },
+          "segment_id": 20464
+        }
+      ]
+    },
+    {
+      "parkingzone": 7023,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Leicester Street",
+          "between": {
+            "from": "Berkeley Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20455
+        },
+        {
+          "onstreet": "Leicester Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Berkeley Street"
+          },
+          "segment_id": 20453
+        }
+      ]
+    },
+    {
+      "parkingzone": 7025,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20462
+        }
+      ]
+    },
+    {
+      "parkingzone": 7027,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bouverie Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20462
+        }
+      ]
+    },
+    {
+      "parkingzone": 7028,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Argyle Place North",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20512
+        }
+      ]
+    },
+    {
+      "parkingzone": 7029,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Argyle Place North"
+          },
+          "segment_id": 20509
+        }
+      ]
+    },
+    {
+      "parkingzone": 7030,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Argyle Place South",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20508
+        }
+      ]
+    },
+    {
+      "parkingzone": 7031,
+      "segment_count": 4,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Argyle Place North",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20512
+        },
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Argyle Place South",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20508
+        },
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Argyle Place North"
+          },
+          "segment_id": 20511
+        },
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Argyle Place North"
+          },
+          "segment_id": 20509
+        }
+      ]
+    },
+    {
+      "parkingzone": 7033,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Argyle Place South",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20508
+        },
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20510
+        },
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Argyle Place North"
+          },
+          "segment_id": 20509
+        }
+      ]
+    },
+    {
+      "parkingzone": 7034,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Grattan Street",
+            "to": "Faraday Street"
+          },
+          "segment_id": 20514
+        }
+      ]
+    },
+    {
+      "parkingzone": 7035,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20504
+        }
+      ]
+    },
+    {
+      "parkingzone": 7036,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Grattan Street",
+            "to": "Faraday Street"
+          },
+          "segment_id": 20514
+        }
+      ]
+    },
+    {
+      "parkingzone": 7041,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Argyle Place South"
+          },
+          "segment_id": 20506
+        }
+      ]
+    },
+    {
+      "parkingzone": 7043,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20504
+        }
+      ]
+    },
+    {
+      "parkingzone": 7044,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Faraday Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20812
+        }
+      ]
+    },
+    {
+      "parkingzone": 7047,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Grattan Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 22506
+        }
+      ]
+    },
+    {
+      "parkingzone": 7048,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Grattan Street",
+          "between": {
+            "from": "Lygon Street",
+            "to": "Cardigan Street"
+          },
+          "segment_id": 20757
+        }
+      ]
+    },
+    {
+      "parkingzone": 7049,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Kay Street",
+          "between": {
+            "from": "Canning Street",
+            "to": "Rathdowne Street"
+          },
+          "segment_id": 20573
+        }
+      ]
+    },
+    {
+      "parkingzone": 7050,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Leicester Street",
+          "between": {
+            "from": "Berkeley Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20455
+        },
+        {
+          "onstreet": "Leicester Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Berkeley Street"
+          },
+          "segment_id": 20453
+        }
+      ]
+    },
+    {
+      "parkingzone": 7053,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Kay Street",
+          "between": {
+            "from": "Canning Street",
+            "to": "Rathdowne Street"
+          },
+          "segment_id": 20573
+        }
+      ]
+    },
+    {
+      "parkingzone": 7056,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leicester Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20458
+        }
+      ]
+    },
+    {
+      "parkingzone": 7057,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leicester Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20458
+        }
+      ]
+    },
+    {
+      "parkingzone": 7061,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lincoln Square North",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Bouverie Street"
+          },
+          "segment_id": 20839
+        }
+      ]
+    },
+    {
+      "parkingzone": 7062,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lincoln Square South",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Bouverie Street"
+          },
+          "segment_id": 20838
+        }
+      ]
+    },
+    {
+      "parkingzone": 7066,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Argyle Place South",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20526
+        },
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Argyle Place South"
+          },
+          "segment_id": 20524
+        }
+      ]
+    },
+    {
+      "parkingzone": 7067,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Argyle Place North"
+          },
+          "segment_id": 20528
+        }
+      ]
+    },
+    {
+      "parkingzone": 7068,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Faraday Street",
+            "to": "Elgin Street"
+          },
+          "segment_id": 20534
+        }
+      ]
+    },
+    {
+      "parkingzone": 7069,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Grattan Street",
+            "to": "Faraday Street"
+          },
+          "segment_id": 20532
+        }
+      ]
+    },
+    {
+      "parkingzone": 7072,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Argyle Place North",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20530
+        }
+      ]
+    },
+    {
+      "parkingzone": 7074,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Lytton Street",
+            "to": "Princes Street"
+          },
+          "segment_id": 20540
+        }
+      ]
+    },
+    {
+      "parkingzone": 7076,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20522
+        }
+      ]
+    },
+    {
+      "parkingzone": 7077,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lytton Street",
+          "between": {
+            "from": "Lygon Street",
+            "to": "Cardigan Street"
+          },
+          "segment_id": 20771
+        }
+      ]
+    },
+    {
+      "parkingzone": 7078,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "MacArthur Place North",
+          "between": {
+            "from": "Canning Street",
+            "to": "Rathdowne Street"
+          },
+          "segment_id": 20670
+        }
+      ]
+    },
+    {
+      "parkingzone": 7079,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "MacArthur Place South",
+          "between": {
+            "from": "Canning Street",
+            "to": "Rathdowne Street"
+          },
+          "segment_id": 20671
+        }
+      ]
+    },
+    {
+      "parkingzone": 7083,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Berkeley Street",
+            "to": "Barry Street"
+          },
+          "segment_id": 20477
+        }
+      ]
+    },
+    {
+      "parkingzone": 7084,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Bouverie Street",
+            "to": "Leicester Street"
+          },
+          "segment_id": 20873
+        }
+      ]
+    },
+    {
+      "parkingzone": 7085,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Drummond Street",
+            "to": "Lygon Street"
+          },
+          "segment_id": 21557
+        }
+      ]
+    },
+    {
+      "parkingzone": 7086,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20806
+        }
+      ]
+    },
+    {
+      "parkingzone": 7087,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20806
+        }
+      ]
+    },
+    {
+      "parkingzone": 7088,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20806
+        }
+      ]
+    },
+    {
+      "parkingzone": 7089,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Drummond Street",
+            "to": "Lygon Street"
+          },
+          "segment_id": 21557
+        }
+      ]
+    },
+    {
+      "parkingzone": 7092,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Rathdowne Street",
+            "to": "Drummond Street"
+          },
+          "segment_id": 21556
+        }
+      ]
+    },
+    {
+      "parkingzone": 7095,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 22500
+        }
+      ]
+    },
+    {
+      "parkingzone": 7097,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Drummond Street",
+            "to": "Lygon Street"
+          },
+          "segment_id": 22498
+        }
+      ]
+    },
+    {
+      "parkingzone": 7100,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Drummond Street",
+            "to": "Lygon Street"
+          },
+          "segment_id": 22498
+        }
+      ]
+    },
+    {
+      "parkingzone": 7101,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Bouverie Street",
+            "to": "Leicester Street"
+          },
+          "segment_id": 20868
+        }
+      ]
+    },
+    {
+      "parkingzone": 7102,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Bouverie Street",
+            "to": "Leicester Street"
+          },
+          "segment_id": 20868
+        }
+      ]
+    },
+    {
+      "parkingzone": 7103,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Bouverie Street",
+            "to": "Leicester Street"
+          },
+          "segment_id": 20868
+        }
+      ]
+    },
+    {
+      "parkingzone": 7104,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Lygon Street",
+            "to": "Cardigan Street"
+          },
+          "segment_id": 22499
+        }
+      ]
+    },
+    {
+      "parkingzone": 7105,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "O'Connell Street"
+          },
+          "segment_id": 20923
+        }
+      ]
+    },
+    {
+      "parkingzone": 7107,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Rathdowne Street",
+            "to": "Drummond Street"
+          },
+          "segment_id": 22497
+        }
+      ]
+    },
+    {
+      "parkingzone": 7109,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Bouverie Street"
+          },
+          "segment_id": 20829
+        }
+      ]
+    },
+    {
+      "parkingzone": 7111,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rathdowne Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20558
+        }
+      ]
+    },
+    {
+      "parkingzone": 7112,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rathdowne Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20558
+        }
+      ]
+    },
+    {
+      "parkingzone": 7113,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rathdowne Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 20556
+        }
+      ]
+    },
+    {
+      "parkingzone": 7114,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rathdowne Street",
+          "between": {
+            "from": "Pelham Street",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20558
+        }
+      ]
+    },
+    {
+      "parkingzone": 7116,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rathdowne Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20554
+        }
+      ]
+    },
+    {
+      "parkingzone": 7118,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Swanston Street",
+          "between": {
+            "from": "Lincoln Square North",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20488
+        }
+      ]
+    },
+    {
+      "parkingzone": 7119,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Swanston Street",
+          "between": {
+            "from": "Lincoln Square North",
+            "to": "Grattan Street"
+          },
+          "segment_id": 20488
+        }
+      ]
+    },
+    {
+      "parkingzone": 7121,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Swanston Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Lincoln Square South"
+          },
+          "segment_id": 20484
+        }
+      ]
+    },
+    {
+      "parkingzone": 7122,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Swanston Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20482
+        }
+      ]
+    },
+    {
+      "parkingzone": 7123,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Swanston Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Lincoln Square South"
+          },
+          "segment_id": 20484
+        }
+      ]
+    },
+    {
+      "parkingzone": 7126,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Lygon Street",
+            "to": "Cardigan Street"
+          },
+          "segment_id": 21605
+        }
+      ]
+    },
+    {
+      "parkingzone": 7127,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Drummond Street",
+            "to": "Lygon Street"
+          },
+          "segment_id": 21603
+        }
+      ]
+    },
+    {
+      "parkingzone": 7128,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Rathdowne Street",
+            "to": "Drummond Street"
+          },
+          "segment_id": 21601
+        }
+      ]
+    },
+    {
+      "parkingzone": 7133,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Rathdowne Street",
+            "to": "Drummond Street"
+          },
+          "segment_id": 21601
+        }
+      ]
+    },
+    {
+      "parkingzone": 7134,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 21607
+        }
+      ]
+    },
+    {
+      "parkingzone": 7135,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Bouverie Street"
+          },
+          "segment_id": 21623
+        }
+      ]
+    },
+    {
+      "parkingzone": 7137,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bowen Crescent",
+          "between": {
+            "from": "Garton Street",
+            "to": "Park Street"
+          },
+          "segment_id": 22396
+        }
+      ]
+    },
+    {
+      "parkingzone": 7138,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bowen Crescent",
+          "between": {
+            "from": "Garton Street",
+            "to": "Park Street"
+          },
+          "segment_id": 22396
+        }
+      ]
+    },
+    {
+      "parkingzone": 7143,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Garton Street",
+          "between": {
+            "from": "MacPherson Street",
+            "to": "Bowen Crescent"
+          },
+          "segment_id": 22511
+        }
+      ]
+    },
+    {
+      "parkingzone": 7145,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Princes Park Drive",
+          "between": {
+            "from": "Cemetery Road West",
+            "to": "MacPherson Street"
+          },
+          "segment_id": 22512
+        }
+      ]
+    },
+    {
+      "parkingzone": 7146,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Princes Street",
+            "to": "MacPherson Street"
+          },
+          "segment_id": 22508
+        }
+      ]
+    },
+    {
+      "parkingzone": 7147,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lygon Street",
+          "between": {
+            "from": "Princes Street",
+            "to": "MacPherson Street"
+          },
+          "segment_id": 22508
+        }
+      ]
+    },
+    {
+      "parkingzone": 7148,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Park Street",
+          "between": {
+            "from": "Royal Parade",
+            "to": "Bowen Crescent"
+          },
+          "segment_id": 22395
+        }
+      ]
+    },
+    {
+      "parkingzone": 7149,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Princes Park Drive",
+          "between": {
+            "from": "Cemetery Road West",
+            "to": "MacPherson Street"
+          },
+          "segment_id": 22512
+        }
+      ]
+    },
+    {
+      "parkingzone": 7150,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Ievers Street",
+            "to": "Walker Street"
+          },
+          "segment_id": 22387
+        }
+      ]
+    },
+    {
+      "parkingzone": 7151,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "MacArthur Road",
+            "to": "Leonard Street"
+          },
+          "segment_id": 22434
+        },
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Royal Parade",
+            "to": "Leonard Street"
+          },
+          "segment_id": 22433
+        }
+      ]
+    },
+    {
+      "parkingzone": 7152,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Ievers Street",
+            "to": "Park Street"
+          },
+          "segment_id": 22393
+        }
+      ]
+    },
+    {
+      "parkingzone": 7153,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Leonard Street",
+            "to": "Walker Street"
+          },
+          "segment_id": 22435
+        },
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Royal Parade",
+            "to": "Leonard Street"
+          },
+          "segment_id": 22433
+        }
+      ]
+    },
+    {
+      "parkingzone": 7309,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "A'Beckett Street",
+          "between": {
+            "from": "Wills Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 21524
+        }
+      ]
+    },
+    {
+      "parkingzone": 7310,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "A'Beckett Street",
+          "between": {
+            "from": "Wills Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 21524
+        },
+        {
+          "onstreet": "A'Beckett Street",
+          "between": {
+            "from": "Wills Street",
+            "to": "William Street"
+          },
+          "segment_id": 22653
+        }
+      ]
+    },
+    {
+      "parkingzone": 7386,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Grattan Street"
+          },
+          "segment_id": 21551
+        }
+      ]
+    },
+    {
+      "parkingzone": 7392,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 21115
+        }
+      ]
+    },
+    {
+      "parkingzone": 7393,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Pelham Street"
+          },
+          "segment_id": 21115
+        }
+      ]
+    },
+    {
+      "parkingzone": 7394,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 21113
+        }
+      ]
+    },
+    {
+      "parkingzone": 7408,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 21600
+        }
+      ]
+    },
+    {
+      "parkingzone": 7442,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Argyle Place South"
+          },
+          "segment_id": 20506
+        }
+      ]
+    },
+    {
+      "parkingzone": 7443,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cardigan Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Argyle Place South"
+          },
+          "segment_id": 20506
+        }
+      ]
+    },
+    {
+      "parkingzone": 7500,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "Wills Street"
+          },
+          "segment_id": 20026
+        },
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Wills Street",
+            "to": "William Street"
+          },
+          "segment_id": 22615
+        }
+      ]
+    },
+    {
+      "parkingzone": 7509,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20016
+        }
+      ]
+    },
+    {
+      "parkingzone": 7520,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 21113
+        }
+      ]
+    },
+    {
+      "parkingzone": 7580,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "MacKenzie Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 21609
+        }
+      ]
+    },
+    {
+      "parkingzone": 7588,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "O'Connell Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Peel Street"
+          },
+          "segment_id": 21116
+        }
+      ]
+    },
+    {
+      "parkingzone": 7589,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Pelham Street",
+          "between": {
+            "from": "Berkeley Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 22502
+        }
+      ]
+    },
+    {
+      "parkingzone": 7616,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Therry Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 23247
+        }
+      ]
+    },
+    {
+      "parkingzone": 7617,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Therry Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 23247
+        }
+      ]
+    },
+    {
+      "parkingzone": 7618,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Therry Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 23247
+        }
+      ]
+    },
+    {
+      "parkingzone": 7632,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "MacKenzie Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 21615
+        }
+      ]
+    },
+    {
+      "parkingzone": 7677,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Therry Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 21626
+        }
+      ]
+    },
+    {
+      "parkingzone": 7678,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Bouverie Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 21625
+        }
+      ]
+    },
+    {
+      "parkingzone": 7679,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "O'Connell Street"
+          },
+          "segment_id": 22670
+        }
+      ]
+    },
+    {
+      "parkingzone": 7680,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Cardigan Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 21607
+        }
+      ]
+    },
+    {
+      "parkingzone": 7681,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Drummond Street",
+            "to": "Lygon Street"
+          },
+          "segment_id": 21603
+        }
+      ]
+    },
+    {
+      "parkingzone": 7682,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Rathdowne Street"
+          },
+          "segment_id": 21599
+        }
+      ]
+    },
+    {
+      "parkingzone": 7683,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Lygon Street",
+            "to": "Cardigan Street"
+          },
+          "segment_id": 21605
+        }
+      ]
+    },
+    {
+      "parkingzone": 7685,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Rathdowne Street",
+            "to": "Drummond Street"
+          },
+          "segment_id": 21601
+        }
+      ]
+    },
+    {
+      "parkingzone": 7687,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Rathdowne Street"
+          },
+          "segment_id": 21599
+        }
+      ]
+    },
+    {
+      "parkingzone": 7705,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wills Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "A'Beckett Street"
+          },
+          "segment_id": 21521
+        }
+      ]
+    },
+    {
+      "parkingzone": 7706,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wills Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "A'Beckett Street"
+          },
+          "segment_id": 21521
+        }
+      ]
+    },
+    {
+      "parkingzone": 7707,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bedford Street",
+          "between": {
+            "from": "Courtney Street",
+            "to": "Peel Street"
+          },
+          "segment_id": 21120
+        }
+      ]
+    },
+    {
+      "parkingzone": 7708,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Blackwood Street",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Courtney Street"
+          },
+          "segment_id": 21122
+        }
+      ]
+    },
+    {
+      "parkingzone": 7709,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Blackwood Street",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Courtney Street"
+          },
+          "segment_id": 21122
+        }
+      ]
+    },
+    {
+      "parkingzone": 7711,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bedford Street",
+          "between": {
+            "from": "Courtney Street",
+            "to": "Peel Street"
+          },
+          "segment_id": 21120
+        }
+      ]
+    },
+    {
+      "parkingzone": 7712,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Capel Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20945
+        }
+      ]
+    },
+    {
+      "parkingzone": 7713,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Capel Street",
+          "between": {
+            "from": "Courtney Street",
+            "to": "Bedford Street"
+          },
+          "segment_id": 21118
+        }
+      ]
+    },
+    {
+      "parkingzone": 7714,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Capel Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20945
+        }
+      ]
+    },
+    {
+      "parkingzone": 7716,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Cobden Street",
+          "between": {
+            "from": "Princess Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20939
+        },
+        {
+          "onstreet": "Cobden Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Princess Street"
+          },
+          "segment_id": 20931
+        }
+      ]
+    },
+    {
+      "parkingzone": 7717,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Chetwynd Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20964
+        }
+      ]
+    },
+    {
+      "parkingzone": 7718,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Peel Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 21117
+        }
+      ]
+    },
+    {
+      "parkingzone": 7719,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Peel Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 21117
+        }
+      ]
+    },
+    {
+      "parkingzone": 7720,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Harcourt Street",
+          "between": {
+            "from": "Courtney Street",
+            "to": "Flemington Road"
+          },
+          "segment_id": 21180
+        }
+      ]
+    },
+    {
+      "parkingzone": 7721,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Cobden Street",
+          "between": {
+            "from": "Princess Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20939
+        },
+        {
+          "onstreet": "Cobden Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Princess Street"
+          },
+          "segment_id": 20931
+        }
+      ]
+    },
+    {
+      "parkingzone": 7722,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Curzon Street",
+          "between": {
+            "from": "Elm Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20998
+        }
+      ]
+    },
+    {
+      "parkingzone": 7723,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Curzon Street",
+          "between": {
+            "from": "Elm Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20998
+        }
+      ]
+    },
+    {
+      "parkingzone": 7724,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Curzon Street",
+          "between": {
+            "from": "Elm Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20998
+        }
+      ]
+    },
+    {
+      "parkingzone": 7725,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Errol Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20992
+        }
+      ]
+    },
+    {
+      "parkingzone": 7726,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Blackwood Street",
+            "to": "Wreckyn Street"
+          },
+          "segment_id": 21123
+        }
+      ]
+    },
+    {
+      "parkingzone": 7727,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Blackwood Street"
+          },
+          "segment_id": 22686
+        }
+      ]
+    },
+    {
+      "parkingzone": 7728,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Villiers Street",
+            "to": "Harcourt Street"
+          },
+          "segment_id": 21182
+        }
+      ]
+    },
+    {
+      "parkingzone": 7729,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Harcourt Street",
+          "between": {
+            "from": "Courtney Street",
+            "to": "Flemington Road"
+          },
+          "segment_id": 21180
+        }
+      ]
+    },
+    {
+      "parkingzone": 7730,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Harcourt Street",
+          "between": {
+            "from": "Courtney Street",
+            "to": "Flemington Road"
+          },
+          "segment_id": 21180
+        }
+      ]
+    },
+    {
+      "parkingzone": 7731,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Howard Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20956
+        }
+      ]
+    },
+    {
+      "parkingzone": 7732,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Cobden Street",
+          "between": {
+            "from": "Princess Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20939
+        }
+      ]
+    },
+    {
+      "parkingzone": 7733,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Errol Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20992
+        }
+      ]
+    },
+    {
+      "parkingzone": 7734,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leveson Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Arden Street"
+          },
+          "segment_id": 21096
+        }
+      ]
+    },
+    {
+      "parkingzone": 7736,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leveson Street",
+          "between": {
+            "from": "Queensberry Street",
+            "to": "Arden Street"
+          },
+          "segment_id": 21096
+        }
+      ]
+    },
+    {
+      "parkingzone": 7739,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leveson Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20980
+        }
+      ]
+    },
+    {
+      "parkingzone": 7740,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leveson Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20980
+        }
+      ]
+    },
+    {
+      "parkingzone": 7741,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leveson Street",
+          "between": {
+            "from": "Victoria Street",
+            "to": "Queensberry Street"
+          },
+          "segment_id": 20980
+        }
+      ]
+    },
+    {
+      "parkingzone": 7744,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Cobden Street",
+            "to": "Peel Street"
+          },
+          "segment_id": 20925
+        }
+      ]
+    },
+    {
+      "parkingzone": 7746,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Capel Street",
+            "to": "Howard Street"
+          },
+          "segment_id": 20950
+        }
+      ]
+    },
+    {
+      "parkingzone": 7747,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Cobden Street",
+            "to": "Peel Street"
+          },
+          "segment_id": 20925
+        }
+      ]
+    },
+    {
+      "parkingzone": 7748,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Leveson Street",
+            "to": "Errol Street"
+          },
+          "segment_id": 20990
+        }
+      ]
+    },
+    {
+      "parkingzone": 7751,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queensberry Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "O'Connell Street"
+          },
+          "segment_id": 20923
+        }
+      ]
+    },
+    {
+      "parkingzone": 7752,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Capel Street",
+            "to": "Howard Street"
+          },
+          "segment_id": 20951
+        }
+      ]
+    },
+    {
+      "parkingzone": 7753,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Errol Street",
+            "to": "Curzon Street"
+          },
+          "segment_id": 20994
+        }
+      ]
+    },
+    {
+      "parkingzone": 7756,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Villiers Street",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Courtney Street"
+          },
+          "segment_id": 21141
+        }
+      ]
+    },
+    {
+      "parkingzone": 7757,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Villiers Street",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Courtney Street"
+          },
+          "segment_id": 21141
+        }
+      ]
+    },
+    {
+      "parkingzone": 7761,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wreckyn Street",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Courtney Street"
+          },
+          "segment_id": 21124
+        }
+      ]
+    },
+    {
+      "parkingzone": 7766,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wreckyn Street",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Courtney Street"
+          },
+          "segment_id": 21124
+        }
+      ]
+    },
+    {
+      "parkingzone": 7776,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Bayles Street",
+            "to": "Degraves Street"
+          },
+          "segment_id": 22605
+        },
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Gatehouse Street",
+            "to": "Degraves Street"
+          },
+          "segment_id": 22607
+        },
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Royal Parade",
+            "to": "Degraves Street"
+          },
+          "segment_id": 22606
+        }
+      ]
+    },
+    {
+      "parkingzone": 7781,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Brougham Street",
+            "to": "Curran Street"
+          },
+          "segment_id": 21251
+        },
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Dryburgh Street"
+          },
+          "segment_id": 20920
+        },
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Melrose Street",
+            "to": "Dryburgh Street"
+          },
+          "segment_id": 22425
+        }
+      ]
+    },
+    {
+      "parkingzone": 7782,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Racecourse Road",
+            "to": "Melrose Street"
+          },
+          "segment_id": 22590
+        }
+      ]
+    },
+    {
+      "parkingzone": 7783,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Gatehouse Street",
+            "to": "Abbotsford Street"
+          },
+          "segment_id": 21257
+        }
+      ]
+    },
+    {
+      "parkingzone": 7784,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Villiers Street",
+            "to": "Harcourt Street"
+          },
+          "segment_id": 21182
+        }
+      ]
+    },
+    {
+      "parkingzone": 7785,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Murphy Street"
+          },
+          "segment_id": 22689
+        },
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Harcourt Street",
+            "to": "Murphy Street"
+          },
+          "segment_id": 22690
+        },
+        {
+          "onstreet": "Flemington Road",
+          "between": {
+            "from": "Murphy Street",
+            "to": "Harker Street"
+          },
+          "segment_id": 22312
+        }
+      ]
+    },
+    {
+      "parkingzone": 7786,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Gatehouse Street",
+          "between": {
+            "from": "Flemington Road",
+            "to": "Story Street"
+          },
+          "segment_id": 22337
+        },
+        {
+          "onstreet": "Gatehouse Street",
+          "between": {
+            "from": "Gatehouse Street",
+            "to": "Story Street"
+          },
+          "segment_id": 22338
+        }
+      ]
+    },
+    {
+      "parkingzone": 7787,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Grattan Street",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Bouverie Street"
+          },
+          "segment_id": 20847
+        }
+      ]
+    },
+    {
+      "parkingzone": 7789,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Ievers Street",
+          "between": {
+            "from": "Royal Parade",
+            "to": "The Avenue"
+          },
+          "segment_id": 22384
+        }
+      ]
+    },
+    {
+      "parkingzone": 7790,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Leonard Street",
+          "between": {
+            "from": "Royal Parade",
+            "to": "The Avenue"
+          },
+          "segment_id": 22378
+        }
+      ]
+    },
+    {
+      "parkingzone": 7796,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Grattan Street",
+            "to": "Story Street"
+          },
+          "segment_id": 22514
+        }
+      ]
+    },
+    {
+      "parkingzone": 7797,
+      "segment_count": 4,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Grattan Street",
+            "to": "Story Street"
+          },
+          "segment_id": 22514
+        },
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Morrah Street",
+            "to": "Royal Parade"
+          },
+          "segment_id": 22603
+        },
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Morrah Street",
+            "to": "Story Street"
+          },
+          "segment_id": 22608
+        },
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Royal Parade",
+            "to": "Story Street"
+          },
+          "segment_id": 22513
+        }
+      ]
+    },
+    {
+      "parkingzone": 7798,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Gatehouse Street",
+            "to": "MacArthur Road"
+          },
+          "segment_id": 22438
+        }
+      ]
+    },
+    {
+      "parkingzone": 7799,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Bayles Street",
+            "to": "Degraves Street"
+          },
+          "segment_id": 22605
+        },
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Bayles Street",
+            "to": "Morrah Street"
+          },
+          "segment_id": 22363
+        }
+      ]
+    },
+    {
+      "parkingzone": 7800,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Royal Parade",
+          "between": {
+            "from": "Grattan Street",
+            "to": "Story Street"
+          },
+          "segment_id": 22514
+        }
+      ]
+    },
+    {
+      "parkingzone": 7804,
+      "segment_count": 3,
+      "segments": [
+        {
+          "onstreet": "The Avenue",
+          "between": {
+            "from": "Ievers Street",
+            "to": "Park Street"
+          },
+          "segment_id": 22392
+        },
+        {
+          "onstreet": "The Avenue",
+          "between": {
+            "from": "Ievers Street",
+            "to": "The Avenue"
+          },
+          "segment_id": 22385
+        },
+        {
+          "onstreet": "The Avenue",
+          "between": {
+            "from": "Walker Street",
+            "to": "Ievers Street"
+          },
+          "segment_id": 22388
+        }
+      ]
+    },
+    {
+      "parkingzone": 7805,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "The Avenue",
+          "between": {
+            "from": "Leonard Street",
+            "to": "Walker Street"
+          },
+          "segment_id": 22380
+        }
+      ]
+    },
+    {
+      "parkingzone": 7806,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "The Avenue",
+          "between": {
+            "from": "Leonard Street",
+            "to": "MacArthur Road"
+          },
+          "segment_id": 22436
+        }
+      ]
+    },
+    {
+      "parkingzone": 7807,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "The Avenue",
+          "between": {
+            "from": "MacArthur Road",
+            "to": "Gatehouse Street"
+          },
+          "segment_id": 22377
+        }
+      ]
+    },
+    {
+      "parkingzone": 7808,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "The Avenue",
+          "between": {
+            "from": "Walker Street",
+            "to": "Ievers Street"
+          },
+          "segment_id": 22388
+        }
+      ]
+    },
+    {
+      "parkingzone": 7809,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Walker Street",
+          "between": {
+            "from": "Royal Parade",
+            "to": "The Avenue"
+          },
+          "segment_id": 22382
+        }
+      ]
+    },
+    {
+      "parkingzone": 7922,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Capel Street",
+          "between": {
+            "from": "William Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 21392
+        }
+      ]
+    },
+    {
+      "parkingzone": 7923,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Capel Street",
+          "between": {
+            "from": "William Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 21392
+        }
+      ]
+    },
+    {
+      "parkingzone": 7924,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Chetwynd Street",
+          "between": {
+            "from": "Stanley Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 22661
+        }
+      ]
+    },
+    {
+      "parkingzone": 7981,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Leveson Street",
+            "to": "Errol Street"
+          },
+          "segment_id": 20983
+        }
+      ]
+    },
+    {
+      "parkingzone": 7982,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Victoria Street",
+          "between": {
+            "from": "Leveson Street",
+            "to": "Errol Street"
+          },
+          "segment_id": 20983
+        }
+      ]
+    },
+    {
+      "parkingzone": 7988,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Rosslyn Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 21384
+        }
+      ]
+    },
+    {
+      "parkingzone": 7992,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Rosslyn Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 21384
+        }
+      ]
+    },
+    {
+      "parkingzone": 7993,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Rosslyn Street",
+            "to": "Victoria Street"
+          },
+          "segment_id": 21384
+        }
+      ]
+    }

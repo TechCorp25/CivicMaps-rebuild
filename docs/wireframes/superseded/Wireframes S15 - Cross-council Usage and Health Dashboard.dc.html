@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.note{position:relative;padding:2px 4px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#666}.pill{display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.4px;padding:3px 8px;border-radius:999px}.pdot{width:6px;height:6px;border-radius:999px}.mono{font-family:'JetBrains Mono',monospace}.topbar{background:#0F1729;border-bottom:2px solid #D4A843;padding:8px 20px;display:flex;align-items:center;justify-content:space-between}.scard{border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:16px;margin-bottom:16px;background:#fff}.shdr{font:700 14px 'Architects Daughter',sans-serif;color:#1B2A4A;margin:0 0 4px}.ssub{font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin:0 0 12px}.pbtn{display:inline-block;background:#1B2A4A;color:#fff;font:600 10.5px 'Architects Daughter',sans-serif;padding:8px 16px;border-radius:6px}.kpi{border:1px solid #ECEEF2;border-radius:8px;padding:12px;flex:1}.kpiv{font:700 20px 'JetBrains Mono',monospace;color:#1B2A4A}.kpil{font:400 9.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-top:2px}.mtable{width:100%;border-collapse:collapse;font:400 11px 'Architects Daughter',sans-serif}.mtable th{text-align:left;font:700 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1px solid #ECEEF2}.mtable td{padding:9px 10px;border-bottom:1px solid #F3F4F6;color:#1F2937}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 15 — Cross-council Usage/Health Dashboard. Per-council KPIs and health signal, sortable list, single-council drill-in, a degraded/alert state.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="15a">
+<div class="dv-olabel"><a class="dv-oid" href="#15a">15a</a>Cross-council dashboard — default</div>
+<div class="dv-card" style="width:820px">
+<div class="topbar"><span style="font:700 13px 'Architects Daughter',sans-serif;color:#fff">CivicMAPS · Platform</span><span style="font:600 11px 'Architects Daughter',sans-serif;color:#fff">S. Ibrahim</span></div>
+<div style="padding:20px 24px;position:relative">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:14px">Network health</div>
+<div style="display:flex;gap:12px;margin-bottom:16px">
+<div class="kpi"><div class="kpiv">7</div><div class="kpil">Councils on network</div></div>
+<div class="kpi"><div class="kpiv">6</div><div class="kpil">Active</div></div>
+<div class="kpi"><div class="kpiv">412</div><div class="kpil">Officers signed on today</div></div>
+<div class="kpi" style="position:relative"><div class="kpiv" style="color:#F59E0B">1</div><div class="kpil">Degraded</div><div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<table class="mtable">
+<tr><th>Council</th><th>Status</th><th>Officers online</th><th>Code21 volume (7d)</th><th>Health</th></tr>
+<tr><td style="font-weight:600">City of Yarra</td><td><span class="pill" style="background:rgba(22,163,74,.1);color:#16A34A"><span class="pdot" style="background:#16A34A"></span>Active</span></td><td class="mono">64</td><td class="mono">1,208</td><td><span class="pill" style="background:rgba(22,163,74,.1);color:#16A34A"><span class="pdot" style="background:#16A34A"></span>Healthy</span></td></tr>
+<tr><td style="font-weight:600">City of Melbourne</td><td><span class="pill" style="background:rgba(22,163,74,.1);color:#16A34A"><span class="pdot" style="background:#16A34A"></span>Active</span></td><td class="mono">201</td><td class="mono">3,940</td><td><span class="pill" style="background:rgba(22,163,74,.1);color:#16A34A"><span class="pdot" style="background:#16A34A"></span>Healthy</span></td></tr>
+<tr style="position:relative"><td style="font-weight:600">Bayside Council</td><td><span class="pill" style="background:rgba(37,99,235,.1);color:#2563EB"><span class="pdot" style="background:#2563EB"></span>Provisioning</td><td class="mono">—</td><td class="mono">—</td><td><span class="pill" style="background:#F3F4F6;color:#9CA3AF">Not yet live</span></td></tr>
+<tr><td style="font-weight:600">Kingston Council</td><td><span class="pill" style="background:rgba(22,163,74,.1);color:#16A34A"><span class="pdot" style="background:#16A34A"></span>Active</span></td><td class="mono">38</td><td class="mono">690</td><td><span class="pill" style="background:rgba(245,158,11,.12);color:#a5760a"><span class="pdot" style="background:#F59E0B"></span>Degraded</span></td></tr>
+</table>
+<div class="mk" style="top:118px;right:8px">2</div>
+</div>
+</div>
+<div class="note" style="width:820px">NET-NEW / PROPOSED. Amber "Degraded" (badge 1 KPI, badge 2 row) is the one legitimate operator-facing use of `--status-alert` amber outside a roster-call banner — DR-04 restricts amber to interaction-required alerts, and a degraded council genuinely needs platform-operator attention, so it fits rather than breaks the rule. Column set (officers online, Code21 volume) is illustrative; no backing metrics/health-check endpoint exists yet — flagged OQ15-1. Sortable by any column, paginated at 25 per DS anti-pattern rule once the network grows past this sample.</div>
+</div>
+
+</div>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Single-council drill-in and the degraded state, expanded.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="15b">
+<div class="dv-olabel"><a class="dv-oid" href="#15b">15b</a>Single-council health drill-in</div>
+<div class="dv-card" style="width:460px">
+<div class="topbar"><span style="font:700 13px 'Architects Daughter',sans-serif;color:#fff">Kingston Council</span><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#8B93A7">&larr; Network health</span></div>
+<div style="padding:20px 24px;position:relative">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><span class="pill" style="background:rgba(245,158,11,.12);color:#a5760a"><span class="pdot" style="background:#F59E0B"></span>Degraded</span><span class="mono" style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF">since 09/08/2026 14:20</span></div>
+<div class="scard" style="margin-bottom:12px"><div class="shdr" style="font-size:11.5px">Signal</div><div style="font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#374151">WebSocket reconnect rate elevated — 6 officer devices dropping presence updates and reconnecting more than 3× in the last hour.</div><div class="mk" style="top:14px;right:14px">1</div></div>
+<div style="display:flex;gap:12px;margin-bottom:6px"><div class="kpi"><div class="kpiv">38</div><div class="kpil">Officers online</div></div><div class="kpi"><div class="kpiv">690</div><div class="kpil">Code21 (7d)</div></div><div class="kpi"><div class="kpiv">6</div><div class="kpil">Domain packs</div></div></div>
+<div style="text-align:right;margin-top:10px"><span class="pbtn">View municipality</span></div>
+</div>
+</div>
+<div class="note" style="width:460px">NET-NEW / PROPOSED. Signal text (badge 1) is illustrative — the actual health-check criteria (what trips Healthy&rarr;Degraded, and by whom it's defined) doesn't exist yet, same OQ15-1 gap as 15a. "View municipality" returns to 12c's overview, the same council-scoped detail page, not a duplicate.</div>
+</div>
+
+</div>
+</section>
+</x-dc>
+</body>
+</html>

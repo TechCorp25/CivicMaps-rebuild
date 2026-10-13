@@ -1,0 +1,2893 @@
+"zones": [
+    {
+      "parkingzone": 7167,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Cumberland Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 23293
+        }
+      ]
+    },
+    {
+      "parkingzone": 7189,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 20112
+        }
+      ]
+    },
+    {
+      "parkingzone": 7190,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 20112
+        }
+      ]
+    },
+    {
+      "parkingzone": 7206,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Franklin Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 21634
+        }
+      ]
+    },
+    {
+      "parkingzone": 7222,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Seafarer Lane",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Collins Street"
+          },
+          "segment_id": 23063
+        }
+      ]
+    },
+    {
+      "parkingzone": 7267,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Seafarer Lane",
+          "between": {
+            "from": "Collins Street",
+            "to": "Australian Wharf"
+          },
+          "segment_id": 23343
+        }
+      ]
+    },
+    {
+      "parkingzone": 7306,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "A'Beckett Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 21649
+        }
+      ]
+    },
+    {
+      "parkingzone": 7307,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "A'Beckett Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 21649
+        }
+      ]
+    },
+    {
+      "parkingzone": 7314,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Franklin Street",
+            "to": "Therry Street"
+          },
+          "segment_id": 21631
+        }
+      ]
+    },
+    {
+      "parkingzone": 7320,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20078
+        }
+      ]
+    },
+    {
+      "parkingzone": 7332,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20084
+        },
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20099
+        }
+      ]
+    },
+    {
+      "parkingzone": 7333,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20084
+        },
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20099
+        }
+      ]
+    },
+    {
+      "parkingzone": 7334,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20078
+        }
+      ]
+    },
+    {
+      "parkingzone": 7336,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20088
+        }
+      ]
+    },
+    {
+      "parkingzone": 7337,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20084
+        }
+      ]
+    },
+    {
+      "parkingzone": 7338,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20086
+        }
+      ]
+    },
+    {
+      "parkingzone": 7339,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20086
+        }
+      ]
+    },
+    {
+      "parkingzone": 7340,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20088
+        }
+      ]
+    },
+    {
+      "parkingzone": 7343,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20065
+        }
+      ]
+    },
+    {
+      "parkingzone": 7344,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "Market Street"
+          },
+          "segment_id": 20116
+        }
+      ]
+    },
+    {
+      "parkingzone": 7345,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20080
+        }
+      ]
+    },
+    {
+      "parkingzone": 7350,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Church Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20416
+        }
+      ]
+    },
+    {
+      "parkingzone": 7351,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20114
+        }
+      ]
+    },
+    {
+      "parkingzone": 7353,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20118
+        }
+      ]
+    },
+    {
+      "parkingzone": 7355,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "Market Street"
+          },
+          "segment_id": 20116
+        }
+      ]
+    },
+    {
+      "parkingzone": 7356,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20110
+        }
+      ]
+    },
+    {
+      "parkingzone": 7358,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20108
+        }
+      ]
+    },
+    {
+      "parkingzone": 7359,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20110
+        }
+      ]
+    },
+    {
+      "parkingzone": 7360,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20106
+        }
+      ]
+    },
+    {
+      "parkingzone": 7362,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20118
+        }
+      ]
+    },
+    {
+      "parkingzone": 7363,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20108
+        }
+      ]
+    },
+    {
+      "parkingzone": 7366,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20106
+        }
+      ]
+    },
+    {
+      "parkingzone": 7368,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Downie Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20431
+        }
+      ]
+    },
+    {
+      "parkingzone": 7373,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20118
+        }
+      ]
+    },
+    {
+      "parkingzone": 7374,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20118
+        }
+      ]
+    },
+    {
+      "parkingzone": 7377,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Downie Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20431
+        }
+      ]
+    },
+    {
+      "parkingzone": 7379,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20167
+        }
+      ]
+    },
+    {
+      "parkingzone": 7380,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20165
+        }
+      ]
+    },
+    {
+      "parkingzone": 7381,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20163
+        }
+      ]
+    },
+    {
+      "parkingzone": 7383,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Franklin Street",
+            "to": "Therry Street"
+          },
+          "segment_id": 21631
+        }
+      ]
+    },
+    {
+      "parkingzone": 7384,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "A'Beckett Street",
+            "to": "Franklin Street"
+          },
+          "segment_id": 21639
+        }
+      ]
+    },
+    {
+      "parkingzone": 7385,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "A'Beckett Street",
+            "to": "Franklin Street"
+          },
+          "segment_id": 21639
+        }
+      ]
+    },
+    {
+      "parkingzone": 7387,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "A'Beckett Street",
+            "to": "Franklin Street"
+          },
+          "segment_id": 21639
+        }
+      ]
+    },
+    {
+      "parkingzone": 7388,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Little La Trobe Street"
+          },
+          "segment_id": 21647
+        },
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Little La Trobe Street",
+            "to": "A'Beckett Street"
+          },
+          "segment_id": 22651
+        }
+      ]
+    },
+    {
+      "parkingzone": 7390,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Little La Trobe Street",
+            "to": "A'Beckett Street"
+          },
+          "segment_id": 22651
+        }
+      ]
+    },
+    {
+      "parkingzone": 7391,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 20168
+        }
+      ]
+    },
+    {
+      "parkingzone": 7395,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Bourke Street"
+          },
+          "segment_id": 20142
+        }
+      ]
+    },
+    {
+      "parkingzone": 7396,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Bourke Street"
+          },
+          "segment_id": 20142
+        }
+      ]
+    },
+    {
+      "parkingzone": 7399,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20140
+        }
+      ]
+    },
+    {
+      "parkingzone": 7400,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20140
+        }
+      ]
+    },
+    {
+      "parkingzone": 7401,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20139
+        }
+      ]
+    },
+    {
+      "parkingzone": 7402,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20139
+        }
+      ]
+    },
+    {
+      "parkingzone": 7406,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "La Trobe Street"
+          },
+          "segment_id": 20145
+        }
+      ]
+    },
+    {
+      "parkingzone": 7411,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Bourke Street"
+          },
+          "segment_id": 20142
+        },
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20141
+        }
+      ]
+    },
+    {
+      "parkingzone": 7412,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20123
+        }
+      ]
+    },
+    {
+      "parkingzone": 7413,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Exhibition Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20141
+        }
+      ]
+    },
+    {
+      "parkingzone": 7415,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20129
+        }
+      ]
+    },
+    {
+      "parkingzone": 7416,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20129
+        }
+      ]
+    },
+    {
+      "parkingzone": 7423,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20121
+        }
+      ]
+    },
+    {
+      "parkingzone": 7425,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20135
+        }
+      ]
+    },
+    {
+      "parkingzone": 7428,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20121
+        }
+      ]
+    },
+    {
+      "parkingzone": 7434,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20216
+        }
+      ]
+    },
+    {
+      "parkingzone": 7436,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20210
+        }
+      ]
+    },
+    {
+      "parkingzone": 7446,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20123
+        },
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20210
+        }
+      ]
+    },
+    {
+      "parkingzone": 7448,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Franklin Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 21634
+        }
+      ]
+    },
+    {
+      "parkingzone": 7449,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Franklin Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 21634
+        }
+      ]
+    },
+    {
+      "parkingzone": 7450,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 20127
+        }
+      ]
+    },
+    {
+      "parkingzone": 7451,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20212
+        }
+      ]
+    },
+    {
+      "parkingzone": 7452,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20212
+        }
+      ]
+    },
+    {
+      "parkingzone": 7454,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20208
+        }
+      ]
+    },
+    {
+      "parkingzone": 7455,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Market Street",
+            "to": "William Street"
+          },
+          "segment_id": 20133
+        }
+      ]
+    },
+    {
+      "parkingzone": 7457,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Market Street",
+            "to": "William Street"
+          },
+          "segment_id": 20133
+        }
+      ]
+    },
+    {
+      "parkingzone": 7458,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Queen Street",
+            "to": "Market Street"
+          },
+          "segment_id": 20131
+        }
+      ]
+    },
+    {
+      "parkingzone": 7459,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "Queen Street",
+            "to": "Market Street"
+          },
+          "segment_id": 20131
+        }
+      ]
+    },
+    {
+      "parkingzone": 7461,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Elizabeth Street",
+          "between": {
+            "from": "A'Beckett Street",
+            "to": "Franklin Street"
+          },
+          "segment_id": 21639
+        }
+      ]
+    },
+    {
+      "parkingzone": 7465,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Franklin Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 21527
+        }
+      ]
+    },
+    {
+      "parkingzone": 7471,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Bourke Street"
+          },
+          "segment_id": 20192
+        }
+      ]
+    },
+    {
+      "parkingzone": 7474,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20189
+        }
+      ]
+    },
+    {
+      "parkingzone": 7476,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20189
+        }
+      ]
+    },
+    {
+      "parkingzone": 7479,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20188
+        }
+      ]
+    },
+    {
+      "parkingzone": 7481,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20193
+        }
+      ]
+    },
+    {
+      "parkingzone": 7482,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20193
+        }
+      ]
+    },
+    {
+      "parkingzone": 7486,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20191
+        }
+      ]
+    },
+    {
+      "parkingzone": 7487,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20190
+        }
+      ]
+    },
+    {
+      "parkingzone": 7492,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20024
+        }
+      ]
+    },
+    {
+      "parkingzone": 7493,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20024
+        }
+      ]
+    },
+    {
+      "parkingzone": 7494,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 20022
+        }
+      ]
+    },
+    {
+      "parkingzone": 7496,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20018
+        }
+      ]
+    },
+    {
+      "parkingzone": 7497,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20018
+        }
+      ]
+    },
+    {
+      "parkingzone": 7499,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20018
+        }
+      ]
+    },
+    {
+      "parkingzone": 7501,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20020
+        }
+      ]
+    },
+    {
+      "parkingzone": 7502,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20020
+        }
+      ]
+    },
+    {
+      "parkingzone": 7505,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20053
+        }
+      ]
+    },
+    {
+      "parkingzone": 7507,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20095
+        }
+      ]
+    },
+    {
+      "parkingzone": 7508,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20095
+        }
+      ]
+    },
+    {
+      "parkingzone": 7510,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20053
+        }
+      ]
+    },
+    {
+      "parkingzone": 7512,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20091
+        }
+      ]
+    },
+    {
+      "parkingzone": 7514,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 20055
+        }
+      ]
+    },
+    {
+      "parkingzone": 7515,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20057
+        }
+      ]
+    },
+    {
+      "parkingzone": 7518,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20061
+        }
+      ]
+    },
+    {
+      "parkingzone": 7519,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20059
+        }
+      ]
+    },
+    {
+      "parkingzone": 7521,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20061
+        }
+      ]
+    },
+    {
+      "parkingzone": 7522,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20059
+        }
+      ]
+    },
+    {
+      "parkingzone": 7523,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20099
+        }
+      ]
+    },
+    {
+      "parkingzone": 7527,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20101
+        }
+      ]
+    },
+    {
+      "parkingzone": 7528,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20101
+        }
+      ]
+    },
+    {
+      "parkingzone": 7529,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20093
+        }
+      ]
+    },
+    {
+      "parkingzone": 7532,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20103
+        }
+      ]
+    },
+    {
+      "parkingzone": 7533,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20091
+        }
+      ]
+    },
+    {
+      "parkingzone": 7534,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20103
+        }
+      ]
+    },
+    {
+      "parkingzone": 7536,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20093
+        }
+      ]
+    },
+    {
+      "parkingzone": 7538,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20049
+        }
+      ]
+    },
+    {
+      "parkingzone": 7539,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20042
+        }
+      ]
+    },
+    {
+      "parkingzone": 7541,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20034
+        }
+      ]
+    },
+    {
+      "parkingzone": 7544,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20042
+        }
+      ]
+    },
+    {
+      "parkingzone": 7545,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20044
+        }
+      ]
+    },
+    {
+      "parkingzone": 7546,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20042
+        },
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20044
+        }
+      ]
+    },
+    {
+      "parkingzone": 7547,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20046
+        }
+      ]
+    },
+    {
+      "parkingzone": 7548,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20034
+        }
+      ]
+    },
+    {
+      "parkingzone": 7549,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20038
+        }
+      ]
+    },
+    {
+      "parkingzone": 7550,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20038
+        }
+      ]
+    },
+    {
+      "parkingzone": 7551,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20009
+        }
+      ]
+    },
+    {
+      "parkingzone": 7552,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20046
+        }
+      ]
+    },
+    {
+      "parkingzone": 7553,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20009
+        }
+      ]
+    },
+    {
+      "parkingzone": 7554,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Elizabeth Street",
+            "to": "Queen Street"
+          },
+          "segment_id": 20009
+        }
+      ]
+    },
+    {
+      "parkingzone": 7556,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20003
+        }
+      ]
+    },
+    {
+      "parkingzone": 7557,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20005
+        }
+      ]
+    },
+    {
+      "parkingzone": 7558,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20003
+        }
+      ]
+    },
+    {
+      "parkingzone": 7559,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20049
+        }
+      ]
+    },
+    {
+      "parkingzone": 7560,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20036
+        }
+      ]
+    },
+    {
+      "parkingzone": 7561,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20034
+        }
+      ]
+    },
+    {
+      "parkingzone": 7562,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20011
+        }
+      ]
+    },
+    {
+      "parkingzone": 7563,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20034
+        }
+      ]
+    },
+    {
+      "parkingzone": 7566,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20011
+        }
+      ]
+    },
+    {
+      "parkingzone": 7567,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Queen Street",
+            "to": "William Street"
+          },
+          "segment_id": 20011
+        }
+      ]
+    },
+    {
+      "parkingzone": 7568,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20003
+        }
+      ]
+    },
+    {
+      "parkingzone": 7569,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Russell Street",
+            "to": "Swanston Street"
+          },
+          "segment_id": 20005
+        }
+      ]
+    },
+    {
+      "parkingzone": 7570,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20001
+        }
+      ]
+    },
+    {
+      "parkingzone": 7571,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20013
+        }
+      ]
+    },
+    {
+      "parkingzone": 7572,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20001
+        }
+      ]
+    },
+    {
+      "parkingzone": 7573,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20013
+        }
+      ]
+    },
+    {
+      "parkingzone": 7574,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20013
+        }
+      ]
+    },
+    {
+      "parkingzone": 7575,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20013
+        }
+      ]
+    },
+    {
+      "parkingzone": 7577,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20013
+        }
+      ]
+    },
+    {
+      "parkingzone": 7578,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20013
+        }
+      ]
+    },
+    {
+      "parkingzone": 7579,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "Spring Street",
+            "to": "Exhibition Street"
+          },
+          "segment_id": 20065
+        }
+      ]
+    },
+    {
+      "parkingzone": 7582,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Market Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20180
+        }
+      ]
+    },
+    {
+      "parkingzone": 7592,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20170
+        }
+      ]
+    },
+    {
+      "parkingzone": 7594,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Bourke Street"
+          },
+          "segment_id": 20174
+        }
+      ]
+    },
+    {
+      "parkingzone": 7595,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20172
+        }
+      ]
+    },
+    {
+      "parkingzone": 7596,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20171
+        }
+      ]
+    },
+    {
+      "parkingzone": 7597,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20170
+        }
+      ]
+    },
+    {
+      "parkingzone": 7598,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20170
+        }
+      ]
+    },
+    {
+      "parkingzone": 7599,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20170
+        }
+      ]
+    },
+    {
+      "parkingzone": 7600,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "A'Beckett Street",
+            "to": "Franklin Street"
+          },
+          "segment_id": 21636
+        }
+      ]
+    },
+    {
+      "parkingzone": 7601,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Franklin Street",
+            "to": "Therry Street"
+          },
+          "segment_id": 21630
+        }
+      ]
+    },
+    {
+      "parkingzone": 7602,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Franklin Street",
+            "to": "Therry Street"
+          },
+          "segment_id": 21630
+        }
+      ]
+    },
+    {
+      "parkingzone": 7603,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Swanston Street",
+            "to": "Elizabeth Street"
+          },
+          "segment_id": 20007
+        }
+      ]
+    },
+    {
+      "parkingzone": 7604,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "A'Beckett Street"
+          },
+          "segment_id": 21523
+        }
+      ]
+    },
+    {
+      "parkingzone": 7605,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20175
+        }
+      ]
+    },
+    {
+      "parkingzone": 7606,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20175
+        }
+      ]
+    },
+    {
+      "parkingzone": 7607,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20173
+        }
+      ]
+    },
+    {
+      "parkingzone": 7608,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20173
+        }
+      ]
+    },
+    {
+      "parkingzone": 7609,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "La Trobe Street"
+          },
+          "segment_id": 20177
+        }
+      ]
+    },
+    {
+      "parkingzone": 7610,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 20176
+        }
+      ]
+    },
+    {
+      "parkingzone": 7611,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 20176
+        }
+      ]
+    },
+    {
+      "parkingzone": 7612,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20175
+        }
+      ]
+    },
+    {
+      "parkingzone": 7614,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "La Trobe Street"
+          },
+          "segment_id": 20177
+        }
+      ]
+    },
+    {
+      "parkingzone": 7615,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queen Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "La Trobe Street"
+          },
+          "segment_id": 20177
+        }
+      ]
+    },
+    {
+      "parkingzone": 7622,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 20194
+        }
+      ]
+    },
+    {
+      "parkingzone": 7624,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "La Trobe Street"
+          },
+          "segment_id": 20195
+        }
+      ]
+    },
+    {
+      "parkingzone": 7625,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Bourke Street"
+          },
+          "segment_id": 20150
+        }
+      ]
+    },
+    {
+      "parkingzone": 7626,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Bourke Street"
+          },
+          "segment_id": 20150
+        }
+      ]
+    },
+    {
+      "parkingzone": 7627,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "La Trobe Street"
+          },
+          "segment_id": 20153
+        }
+      ]
+    },
+    {
+      "parkingzone": 7628,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20148
+        }
+      ]
+    },
+    {
+      "parkingzone": 7629,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20146
+        }
+      ]
+    },
+    {
+      "parkingzone": 7630,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20146
+        }
+      ]
+    },
+    {
+      "parkingzone": 7631,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20146
+        }
+      ]
+    },
+    {
+      "parkingzone": 7633,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20151
+        }
+      ]
+    },
+    {
+      "parkingzone": 7634,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20151
+        }
+      ]
+    },
+    {
+      "parkingzone": 7635,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Little Lonsdale Street",
+            "to": "La Trobe Street"
+          },
+          "segment_id": 20153
+        }
+      ]
+    },
+    {
+      "parkingzone": 7636,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20147
+        }
+      ]
+    },
+    {
+      "parkingzone": 7637,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20147
+        }
+      ]
+    },
+    {
+      "parkingzone": 7638,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20149
+        }
+      ]
+    },
+    {
+      "parkingzone": 7639,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 20152
+        }
+      ]
+    },
+    {
+      "parkingzone": 7640,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 20152
+        }
+      ]
+    },
+    {
+      "parkingzone": 7641,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "MacKenzie Street"
+          },
+          "segment_id": 21616
+        }
+      ]
+    },
+    {
+      "parkingzone": 7645,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20200
+        },
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20202
+        }
+      ]
+    },
+    {
+      "parkingzone": 7647,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20206
+        }
+      ]
+    },
+    {
+      "parkingzone": 7648,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20196
+        }
+      ]
+    },
+    {
+      "parkingzone": 7649,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 21848
+        }
+      ]
+    },
+    {
+      "parkingzone": 7659,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20198
+        }
+      ]
+    },
+    {
+      "parkingzone": 7660,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20200
+        }
+      ]
+    },
+    {
+      "parkingzone": 7672,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spring Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 21848
+        }
+      ]
+    },
+    {
+      "parkingzone": 7674,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Russell Street",
+          "between": {
+            "from": "Collins Street",
+            "to": "Little Collins Street"
+          },
+          "segment_id": 20148
+        }
+      ]
+    },
+    {
+      "parkingzone": 7692,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20181
+        }
+      ]
+    },
+    {
+      "parkingzone": 7695,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20181
+        }
+      ]
+    },
+    {
+      "parkingzone": 7698,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "A'Beckett Street"
+          },
+          "segment_id": 21519
+        }
+      ]
+    },
+    {
+      "parkingzone": 7700,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Little Bourke Street",
+            "to": "Lonsdale Street"
+          },
+          "segment_id": 20185
+        }
+      ]
+    },
+    {
+      "parkingzone": 7927,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Lonsdale Street",
+          "between": {
+            "from": "Exhibition Street",
+            "to": "Russell Street"
+          },
+          "segment_id": 20003
+        }
+      ]
+    },
+    {
+      "parkingzone": 7948,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "William Street",
+            "to": "King Street"
+          },
+          "segment_id": 20028
+        }
+      ]
+    },
+    {
+      "parkingzone": 7990,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "A'Beckett Street",
+            "to": "Franklin Street"
+          },
+          "segment_id": 21529
+        },
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "A'Beckett Street"
+          },
+          "segment_id": 21519
+        }
+      ]
+    }

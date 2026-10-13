@@ -1,0 +1,65 @@
+<!doctype html>
+<!-- @dsCard group="UI Kit — Dispatch" name="Dispatch" subtitle="Code21 workbench — lifecycle, queue, dispatch actions" viewport="1280x900" -->
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<title>Dispatch — UI kit</title>
+<link rel="stylesheet" href="../../colors_and_type.css" />
+<style>
+  html, body, #app { height: 100%; margin: 0; }
+  body { background: var(--map-canvas); font-family: var(--font-primary); color: var(--civic-neutral-800); }
+  #app { display: flex; flex-direction: column; height: 100%; position: relative; }
+  button { font-family: var(--font-primary); }
+  @keyframes slidein { from { transform: translateX(100%); } to { transform: translateX(0); } }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/babel" src="DispatchShell.jsx"></script>
+<script type="text/babel" src="DispatchDashboard.jsx"></script>
+<script type="text/babel" src="Detail.jsx"></script>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const dispUser = { name: 'Marcus Beaufort', role: 'DISPATCHER' };
+
+function App() {
+  const [page, setPage] = useState('dashboard');
+  const [open, setOpen] = useState(null);
+  const [creating, setCreating] = useState(false);
+  const [code1, setCode1] = useState(false);
+
+  // Demo: simulate a Code 1 inbound call after 5s
+  useEffect(() => {
+    const t = setTimeout(() => setCode1(true), 5000);
+    return () => clearTimeout(t);
+  }, []);
+
+  return React.createElement(React.Fragment, null,
+    code1 && React.createElement('div', { className: 'civic-code1-banner', role: 'alert', 'aria-live': 'assertive' },
+      React.createElement('span', { className: 'civic-code1-dot', 'aria-hidden': 'true' }),
+      React.createElement('span', { className: 'civic-code1-tag' }, 'CODE 1'),
+      React.createElement('div', { className: 'civic-code1-text' },
+        'PEO-118 has triggered SOS — Z-LON · 88 Lonsdale St · audio open on Ch. 3'),
+      React.createElement('button', { className: 'civic-code1-action' },
+        React.createElement(DispIcon, { name: 'Phone', size: 13, stroke: 2.4 }), 'OPEN COMMS'),
+      React.createElement('button', { onClick: () => setCode1(false), className: 'civic-code1-action' }, 'ACKNOWLEDGE'),
+      React.createElement('span', { className: 'civic-code1-dot', 'aria-hidden': 'true' })),
+    React.createElement(DispHeader, { page, onPage: setPage, user: dispUser, onLogout: () => {} }),
+    page === 'dashboard' && React.createElement(Dashboard, { onCreate: () => setCreating(true), onOpen: setOpen }),
+    page !== 'dashboard' && React.createElement('div', { style: { flex: 1, display: 'grid', placeItems: 'center', background: 'var(--civic-surface-raised)', color: 'var(--civic-neutral-400)' } },
+      React.createElement('div', { style: { textAlign: 'center' } },
+        React.createElement('div', { style: { fontSize: 13, fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '.08em' } }, page),
+        React.createElement('div', { style: { fontSize: 14, marginTop: 8 } }, 'Dispatcher view of this screen reuses the CommandMAPS component.'),
+        React.createElement('div', { style: { fontSize: 12, marginTop: 4 } }, 'See ui_kits/commandmaps/ for the implementation.'))),
+    open && React.createElement(DetailDrawer, { sr: open, onClose: () => setOpen(null), onAdvance: (to) => { setOpen({ ...open, status: to }); } }),
+    creating && React.createElement(CreateSRModal, { onClose: () => setCreating(false), onCreate: () => setCreating(false) })
+  );
+}
+ReactDOM.createRoot(document.getElementById('app')).render(React.createElement(App));
+</script>
+</body>
+</html>

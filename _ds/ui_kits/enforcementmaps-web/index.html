@@ -1,0 +1,46 @@
+<!doctype html>
+<!-- @dsCard group="UI Kit — EnforcementMAPS Web" name="EnforcementMAPS Web (conditional)" subtitle="Responsive browser workspace — disposition pending S03 §3.9.4 (DR-05/DR-32)" viewport="1100x640" -->
+<html lang="en-AU"><head><meta charset="utf-8"><link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+body{margin:0;font-family:var(--font-primary);background:#F7F8FA;color:#111827}
+.hdr{background:#1B2A4A;color:#fff;padding:10px 18px;display:flex;align-items:center;justify-content:space-between}
+.hdr .ttl{font-family:var(--font-display);font-weight:700;font-size:15px;display:flex;align-items:center;gap:10px}
+.hdr .mark{width:26px;height:26px;border-radius:6px;background:#2C3E6B;border:1.5px solid #E8C46A;display:grid;place-items:center;color:#E8C46A}
+.hdr .who{font-family:var(--font-mono);font-size:11px;color:#D4A843;border:1px solid rgba(212,168,67,.4);padding:2px 8px;border-radius:4px;letter-spacing:.04em}
+.pend{background:#FFFBEB;border-bottom:1px solid #FDE68A;color:#78350F;font-size:11px;font-weight:600;padding:6px 18px;letter-spacing:.02em}
+.wrap{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:16px 18px;max-width:1100px}
+.card{background:#fff;border:1px solid #D5D9E0;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.side{padding:14px}
+.side h3{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#636E80;font-weight:700}
+.pres{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.meta{font-family:var(--font-mono);font-size:12px;color:#636E80;margin-top:8px;line-height:1.7}
+.job{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-top:1px solid #ECEEF2}
+.job:first-of-type{border-top:none}
+.job .a .sr{font-family:var(--font-mono);font-size:11px;color:#636E80;font-weight:600}
+.job .a .addr{font-size:14px;font-weight:700;color:#111827;margin-top:2px}
+.pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+.list-h{padding:12px 14px;border-bottom:1px solid #ECEEF2;display:flex;justify-content:space-between;align-items:center}
+.list-h b{font-size:14px}
+input.f{font-family:var(--font-mono);text-transform:uppercase;border:1px solid #D5D9E0;border-radius:8px;padding:7px 10px;font-size:12px;color:#111827;background:#fff}
+a{color:#1D4ED8}a:hover{color:#1E40AF}
+@media (max-width:760px){.wrap{grid-template-columns:1fr}}
+</style></head><body>
+<header class="hdr"><div class="ttl"><span class="mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>EnforcementMAPS · Web</div><div class="who">PARKING 142</div></header>
+<div class="pend">CONDITIONAL SURFACE — final disposition pending Section 03 §3.9.4. Styling reference only; not an approved product surface.</div>
+<div class="wrap">
+<aside class="card side">
+<h3>Shift</h3>
+<span class="pres"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Available</span>
+<div class="meta">PEO-142 · Z-MAC · MACAULAY<br>SHIFT 07:00 – 15:00<br>CH. 3 · ELIZABETH</div>
+<h3 style="margin-top:18px">Quick filter</h3>
+<input class="f" value="Z-MAC" style="width:100%;box-sizing:border-box">
+</aside>
+<main class="card">
+<div class="list-h"><b>Assigned jobs</b><span style="font-family:var(--font-mono);font-size:11px;color:#636E80">TUE 19/07/2026 · AEST</span></div>
+<div class="job"><div class="a"><div class="sr">SR-2026-0719-014</div><div class="addr">220 Macaulay Rd</div></div><span class="pill" style="background:#FFFBEB;color:#B45309;border:1px solid #FDE68A">Dispatched · Active</span></div>
+<div class="job"><div class="a"><div class="sr">SR-2026-0719-011</div><div class="addr">18 Vaughan Tce</div></div><span class="pill" style="background:#F0FDF4;color:#166534;border:1px solid #BBF7D0">In Progress</span></div>
+<div class="job"><div class="a"><div class="sr">SR-2026-0719-006</div><div class="addr">66 Flemington Rd · penalty AUD 203.51</div></div><span class="pill" style="background:#F5F3FF;color:#6D28D9;border:1px solid #DDD6FE">PIN Issued</span></div>
+<div class="job"><div class="a"><div class="sr">SR-2026-0719-002</div><div class="addr">4 Canning St</div></div><span class="pill" style="background:#ECEEF2;color:#4A5568;border:1px solid #D5D9E0">Completed</span></div>
+</main>
+</div>
+</body></html>

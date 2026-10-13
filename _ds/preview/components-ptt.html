@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- @dsCard group="Components" name="PTT & SOS" subtitle="Layered-circle PTT; Code 1 SOS" viewport="700x180" --><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:22px;background:#ECEEF2;font-family:var(--font-primary);display:flex;gap:22px;align-items:center;justify-content:center}
+.wrap{text-align:center}
+.lbl{font-family:var(--font-mono);font-size:10px;color:#636E80;margin-top:10px;text-transform:uppercase;letter-spacing:.05em}
+.ptt{width:80px;height:80px;border-radius:50%;border:3px solid #2C3E6B;background:#fff;display:flex;align-items:center;justify-content:center}
+.ptt .inner{width:58px;height:58px;border-radius:50%;background:#1B2A4A;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:11px}
+.tx .inner{background:#1A7A6D}
+.sos{width:80px;height:80px;border-radius:50%;background:#DC2626;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;letter-spacing:.08em;box-shadow:0 4px 16px rgba(220,38,38,.35)}
+@keyframes p{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.tx{animation:p 1s ease-in-out infinite}
+</style></head><body>
+<div class="wrap"><div class="ptt"><div class="inner">PTT</div></div><div class="lbl">Rest</div></div>
+<div class="wrap"><div class="ptt tx"><div class="inner">TX</div></div><div class="lbl">Transmitting</div></div>
+<div class="wrap"><div class="sos">SOS</div><div class="lbl">Code 1 · Emergency</div></div>
+</body></html>

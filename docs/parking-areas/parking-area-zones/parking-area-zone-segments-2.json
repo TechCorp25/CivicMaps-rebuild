@@ -1,0 +1,1124 @@
+{
+      "parkingzone": 7154,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Adderley Street",
+          "between": {
+            "from": "Jeffcott Street",
+            "to": "Batman Street"
+          },
+          "segment_id": 21503
+        },
+        {
+          "onstreet": "Adderley Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Jeffcott Street"
+          },
+          "segment_id": 21504
+        }
+      ]
+    },
+    {
+      "parkingzone": 7183,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "Batmans Hill Drive"
+          },
+          "segment_id": 22819
+        }
+      ]
+    },
+    {
+      "parkingzone": 7218,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20067
+        }
+      ]
+    },
+    {
+      "parkingzone": 7219,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Siddeley Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "Wurundjeri Way"
+          },
+          "segment_id": 22445
+        }
+      ]
+    },
+    {
+      "parkingzone": 7223,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Siddeley Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "Wurundjeri Way"
+          },
+          "segment_id": 22445
+        }
+      ]
+    },
+    {
+      "parkingzone": 7225,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Lonsdale Street",
+            "to": "Little Lonsdale Street"
+          },
+          "segment_id": 20077
+        }
+      ]
+    },
+    {
+      "parkingzone": 7249,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Spencer Street Bridge",
+            "to": "Flinders Street"
+          },
+          "segment_id": 22174
+        }
+      ]
+    },
+    {
+      "parkingzone": 7335,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Bourke Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20090
+        }
+      ]
+    },
+    {
+      "parkingzone": 7352,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20120
+        }
+      ]
+    },
+    {
+      "parkingzone": 7354,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20120
+        }
+      ]
+    },
+    {
+      "parkingzone": 7357,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Collins Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20120
+        }
+      ]
+    },
+    {
+      "parkingzone": 7417,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20137
+        }
+      ]
+    },
+    {
+      "parkingzone": 7418,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Lane",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20137
+        }
+      ]
+    },
+    {
+      "parkingzone": 7433,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20224
+        }
+      ]
+    },
+    {
+      "parkingzone": 7437,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20224
+        }
+      ]
+    },
+    {
+      "parkingzone": 7438,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Flinders Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20224
+        }
+      ]
+    },
+    {
+      "parkingzone": 7441,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Francis Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20433
+        }
+      ]
+    },
+    {
+      "parkingzone": 7444,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Francis Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20433
+        }
+      ]
+    },
+    {
+      "parkingzone": 7445,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Francis Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20433
+        }
+      ]
+    },
+    {
+      "parkingzone": 7498,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20030
+        }
+      ]
+    },
+    {
+      "parkingzone": 7513,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20063
+        }
+      ]
+    },
+    {
+      "parkingzone": 7517,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Bourke Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20063
+        }
+      ]
+    },
+    {
+      "parkingzone": 7531,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20105
+        }
+      ]
+    },
+    {
+      "parkingzone": 7537,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Collins Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20105
+        }
+      ]
+    },
+    {
+      "parkingzone": 7543,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20048
+        }
+      ]
+    },
+    {
+      "parkingzone": 7555,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Little Lonsdale Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20048
+        }
+      ]
+    },
+    {
+      "parkingzone": 7642,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Bourke Street",
+            "to": "Little Bourke Street"
+          },
+          "segment_id": 20075
+        }
+      ]
+    },
+    {
+      "parkingzone": 7643,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20069
+        },
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Flinders Street",
+            "to": "Flinders Lane"
+          },
+          "segment_id": 20067
+        }
+      ]
+    },
+    {
+      "parkingzone": 7644,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20073
+        }
+      ]
+    },
+    {
+      "parkingzone": 7646,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Little Collins Street",
+            "to": "Bourke Street"
+          },
+          "segment_id": 20073
+        }
+      ]
+    },
+    {
+      "parkingzone": 7686,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Flinders Lane",
+            "to": "Collins Street"
+          },
+          "segment_id": 20069
+        }
+      ]
+    },
+    {
+      "parkingzone": 7913,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Adderley Street",
+          "between": {
+            "from": "Jeffcott Street",
+            "to": "Batman Street"
+          },
+          "segment_id": 21503
+        }
+      ]
+    },
+    {
+      "parkingzone": 7914,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Adderley Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Jeffcott Street"
+          },
+          "segment_id": 21504
+        }
+      ]
+    },
+    {
+      "parkingzone": 7915,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Batman Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "King Street"
+          },
+          "segment_id": 21516
+        }
+      ]
+    },
+    {
+      "parkingzone": 7916,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Adderley Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Jeffcott Street"
+          },
+          "segment_id": 21504
+        }
+      ]
+    },
+    {
+      "parkingzone": 7918,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Batman Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "King Street"
+          },
+          "segment_id": 21516
+        }
+      ]
+    },
+    {
+      "parkingzone": 7919,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Batman Street",
+          "between": {
+            "from": "Adderley Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21494
+        }
+      ]
+    },
+    {
+      "parkingzone": 7925,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dudley Street",
+          "between": {
+            "from": "Adderley Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21483
+        }
+      ]
+    },
+    {
+      "parkingzone": 7926,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Batman Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "King Street"
+          },
+          "segment_id": 21516
+        }
+      ]
+    },
+    {
+      "parkingzone": 7927,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dudley Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21413
+        }
+      ]
+    },
+    {
+      "parkingzone": 7928,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dudley Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21413
+        }
+      ]
+    },
+    {
+      "parkingzone": 7929,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dudley Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21413
+        }
+      ]
+    },
+    {
+      "parkingzone": 7930,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dudley Street",
+          "between": {
+            "from": "Adderley Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21483
+        }
+      ]
+    },
+    {
+      "parkingzone": 7932,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Dudley Street",
+          "between": {
+            "from": "Milton Street",
+            "to": "King Street"
+          },
+          "segment_id": 21411
+        },
+        {
+          "onstreet": "Dudley Street",
+          "between": {
+            "from": "William Street",
+            "to": "Milton Street"
+          },
+          "segment_id": 22656
+        }
+      ]
+    },
+    {
+      "parkingzone": 7935,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Jeffcott Street",
+          "between": {
+            "from": "Adderley Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21501
+        }
+      ]
+    },
+    {
+      "parkingzone": 7936,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Jeffcott Street",
+          "between": {
+            "from": "Adderley Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21501
+        }
+      ]
+    },
+    {
+      "parkingzone": 7937,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Jeffcott Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "King Street"
+          },
+          "segment_id": 21514
+        }
+      ]
+    },
+    {
+      "parkingzone": 7938,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Jeffcott Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "King Street"
+          },
+          "segment_id": 21514
+        }
+      ]
+    },
+    {
+      "parkingzone": 7939,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Batman Street",
+            "to": "Dudley Street"
+          },
+          "segment_id": 21518
+        }
+      ]
+    },
+    {
+      "parkingzone": 7940,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Jeffcott Street"
+          },
+          "segment_id": 21507
+        }
+      ]
+    },
+    {
+      "parkingzone": 7941,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Jeffcott Street",
+            "to": "Batman Street"
+          },
+          "segment_id": 21515
+        }
+      ]
+    },
+    {
+      "parkingzone": 7942,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Jeffcott Street",
+            "to": "Batman Street"
+          },
+          "segment_id": 21515
+        }
+      ]
+    },
+    {
+      "parkingzone": 7943,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Jeffcott Street"
+          },
+          "segment_id": 21507
+        }
+      ]
+    },
+    {
+      "parkingzone": 7945,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Rosslyn Street",
+            "to": "Stanley Street"
+          },
+          "segment_id": 21427
+        },
+        {
+          "onstreet": "King Street",
+          "between": {
+            "from": "Stanley Street",
+            "to": "Roden Street"
+          },
+          "segment_id": 21375
+        }
+      ]
+    },
+    {
+      "parkingzone": 7947,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "La Trobe Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 20030
+        }
+      ]
+    },
+    {
+      "parkingzone": 7950,
+      "segment_count": 6,
+      "segments": [
+        {
+          "onstreet": "Railway Place",
+          "between": {
+            "from": "Abbotsford Street",
+            "to": "Adderley Street"
+          },
+          "segment_id": 21549
+        },
+        {
+          "onstreet": "Railway Place",
+          "between": {
+            "from": "Hawke Street",
+            "to": "Abbotsford Street"
+          },
+          "segment_id": 21547
+        },
+        {
+          "onstreet": "Railway Place",
+          "between": {
+            "from": "Railway Place",
+            "to": "Hawke Street"
+          },
+          "segment_id": 21546
+        },
+        {
+          "onstreet": "Railway Place",
+          "between": {
+            "from": "Roden Street",
+            "to": "Hawke Street"
+          },
+          "segment_id": 21545
+        },
+        {
+          "onstreet": "Railway Place",
+          "between": {
+            "from": "Rosslyn Street",
+            "to": "Stanley Street"
+          },
+          "segment_id": 21541
+        },
+        {
+          "onstreet": "Railway Place",
+          "between": {
+            "from": "Stanley Street",
+            "to": "Roden Street"
+          },
+          "segment_id": 21543
+        }
+      ]
+    },
+    {
+      "parkingzone": 7954,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rosslyn Street",
+          "between": {
+            "from": "Railway Place",
+            "to": "Adderley Street"
+          },
+          "segment_id": 21490
+        }
+      ]
+    },
+    {
+      "parkingzone": 7956,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rosslyn Street",
+          "between": {
+            "from": "Railway Place",
+            "to": "Adderley Street"
+          },
+          "segment_id": 21490
+        }
+      ]
+    },
+    {
+      "parkingzone": 7961,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rosslyn Street",
+          "between": {
+            "from": "William Street",
+            "to": "Howard Street"
+          },
+          "segment_id": 21387
+        }
+      ]
+    },
+    {
+      "parkingzone": 7962,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rosslyn Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21421
+        }
+      ]
+    },
+    {
+      "parkingzone": 7963,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rosslyn Street",
+          "between": {
+            "from": "Howard Street",
+            "to": "King Street"
+          },
+          "segment_id": 21388
+        }
+      ]
+    },
+    {
+      "parkingzone": 7964,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rosslyn Street",
+          "between": {
+            "from": "Adderley Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21479
+        }
+      ]
+    },
+    {
+      "parkingzone": 7965,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Rosslyn Street",
+          "between": {
+            "from": "Adderley Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21479
+        }
+      ]
+    },
+    {
+      "parkingzone": 7966,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Howard Street",
+          "between": {
+            "from": "Rosslyn Street",
+            "to": "William Street"
+          },
+          "segment_id": 21382
+        }
+      ]
+    },
+    {
+      "parkingzone": 7968,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Jeffcott Street"
+          },
+          "segment_id": 21506
+        }
+      ]
+    },
+    {
+      "parkingzone": 7970,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "La Trobe Street",
+            "to": "Jeffcott Street"
+          },
+          "segment_id": 21506
+        }
+      ]
+    },
+    {
+      "parkingzone": 7971,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Jeffcott Street",
+            "to": "Batman Street"
+          },
+          "segment_id": 21499
+        }
+      ]
+    },
+    {
+      "parkingzone": 7972,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Spencer Street",
+          "between": {
+            "from": "Batman Street",
+            "to": "Dudley Street"
+          },
+          "segment_id": 21486
+        }
+      ]
+    },
+    {
+      "parkingzone": 7973,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Stanley Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21429
+        }
+      ]
+    },
+    {
+      "parkingzone": 7974,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Batman Street",
+          "between": {
+            "from": "Spencer Street",
+            "to": "King Street"
+          },
+          "segment_id": 21516
+        }
+      ]
+    },
+    {
+      "parkingzone": 7975,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Stanley Street",
+          "between": {
+            "from": "King Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21429
+        }
+      ]
+    },
+    {
+      "parkingzone": 7977,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Stanley Street",
+          "between": {
+            "from": "Adderley Street",
+            "to": "Spencer Street"
+          },
+          "segment_id": 21475
+        }
+      ]
+    },
+    {
+      "parkingzone": 7993,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Capel Street",
+            "to": "Rosslyn Street"
+          },
+          "segment_id": 21385
+        }
+      ]
+    },
+    {
+      "parkingzone": 7995,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Capel Street",
+            "to": "Rosslyn Street"
+          },
+          "segment_id": 21385
+        }
+      ]
+    },
+    {
+      "parkingzone": 7996,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Capel Street",
+            "to": "Rosslyn Street"
+          },
+          "segment_id": 21385
+        }
+      ]
+    }
+  ]
+}

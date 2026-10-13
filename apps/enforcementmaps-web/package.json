@@ -1,0 +1,12 @@
+{
+  "name": "@civicmaps/enforcementmaps-web",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Repository-foundation placeholder; implementation requires an approved Section 03 ADR baseline.",
+  "scripts": {
+    "build": "node ../../scripts/stub-task.mjs build @civicmaps/enforcementmaps-web",
+    "lint": "node ../../scripts/stub-task.mjs lint @civicmaps/enforcementmaps-web",
+    "test": "node ../../scripts/stub-task.mjs test @civicmaps/enforcementmaps-web",
+    "typecheck": "node ../../scripts/stub-task.mjs typecheck @civicmaps/enforcementmaps-web"
+  }
+}

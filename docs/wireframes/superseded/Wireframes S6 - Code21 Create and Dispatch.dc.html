@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.tile{background:#fff;border:1.5px solid #333;border-radius:6px;padding:8px 9px}.tilelabel{font:400 9px 'Architects Daughter',sans-serif;color:#777;margin-bottom:3px}.tileval{display:flex;align-items:center;gap:5px;font:600 13px 'JetBrains Mono',monospace;color:#111}.dot{width:8px;height:8px;border-radius:999px;flex:none}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.actbtn{font:400 9px 'Architects Daughter',sans-serif;padding:2px 6px;border-radius:4px}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.gtbl{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.dfval{font:400 11px 'Architects Daughter',sans-serif;color:#222}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 6 — Code21 Create &amp; Dispatch (low-fi). Dispatcher-side new-request form: address/zone resolution, offence + vehicle capture, officer assignment, review-before-dispatch.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="6a">
+<div class="dv-olabel"><a class="dv-oid" href="#6a">6a</a>New Service Request — default state</div>
+<div class="dv-card" style="width:340px;padding:16px">
+<div style="font:600 13px 'Architects Daughter',sans-serif;margin-bottom:12px">New Service Request</div>
+<div style="margin-bottom:8px"><div class="flabel">Address *</div><div class="fld" style="position:relative;color:#999">Start typing an address...
+<div class="mk" style="top:-9px;right:-9px">1</div></div></div>
+<div style="margin-bottom:8px"><div class="flabel">Service Request Type *</div><div class="fld" style="position:relative">Parking ▾
+<div class="mk" style="top:-9px;right:-9px">2</div></div></div>
+<div style="margin-bottom:8px"><div class="flabel">Offence Type *</div><div class="fld" style="position:relative;color:#999">Search by code (702) or description...
+<div class="mk" style="top:-9px;right:-9px">3</div></div></div>
+<div style="position:relative;display:flex;align-items:center;gap:8px;border:1.5px solid #ddd;border-radius:6px;padding:8px 9px;margin-bottom:8px">
+<div style="width:13px;height:13px;border:1.5px solid #444;border-radius:3px"></div>
+<span style="font:400 11px 'Architects Daughter',sans-serif;color:#333">Vehicle Description Received</span>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+<div style="margin-bottom:8px"><div class="flabel">Assign Officer</div><div class="fld" style="position:relative;color:#999">Auto-assign based on zone ▾
+<div class="mk" style="top:-9px;right:-9px">5</div></div></div>
+<div style="margin-bottom:10px"><div class="flabel">Dispatch Notes</div><div class="fld" style="position:relative;color:#999;min-height:34px">Notes for the attending officer...
+<div class="mk" style="top:-9px;right:-9px">6</div></div></div>
+<div style="position:relative;display:flex;justify-content:flex-end;gap:8px;padding-top:14px">
+<span style="border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555">Cancel</span>
+<span style="background:#1B2A4A;color:#fff;border-radius:6px;padding:6px 16px;font:400 11px 'Architects Daughter',sans-serif;opacity:.5">Create</span>
+<div class="mk" style="top:-9px;right:-9px">7</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="6b">
+<div class="dv-olabel"><a class="dv-oid" href="#6b">6b</a>Address search &amp; zone/officer resolution states</div>
+<div class="dv-card" style="width:340px;padding:16px">
+<div class="flabel">Address *</div>
+<div style="position:relative;border:1.5px solid #444;border-radius:6px 6px 0 0;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333;margin-bottom:0">43 Bourke St
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="position:relative;border:1.5px solid #444;border-top:none;border-radius:0 0 6px 6px;margin-bottom:12px;overflow:hidden">
+<div style="display:flex;align-items:center;gap:7px;padding:6px 8px;border-bottom:1px solid #eee">
+<span class="badge" style="background:#f4f3f0;color:#777">S</span><span style="font:400 10px 'Architects Daughter',sans-serif">Bourke Street</span>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:7px;padding:6px 8px;border-bottom:1px solid #eee">
+<span class="badge" style="background:rgba(22,163,74,.12);color:#16A34A">H</span><span style="font:400 10px 'Architects Daughter',sans-serif">43 Bourke St, Melbourne (previous SR)</span>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="display:flex;align-items:center;gap:7px;padding:6px 8px">
+<span class="badge" style="background:rgba(245,158,11,.12);color:#a5760a">G</span><span style="font:400 10px 'Architects Daughter',sans-serif">43 Bourke St, Melbourne VIC 3000, Australia</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="position:relative;background:rgba(27,42,74,.05);border:1px solid rgba(27,42,74,.2);border-radius:6px;padding:7px 9px;font:400 10px 'Architects Daughter',sans-serif;color:#1B2A4A">Resolving zone...
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="position:relative;background:rgba(27,42,74,.05);border:1px solid rgba(27,42,74,.2);border-radius:6px;padding:7px 9px;font:400 10px 'Architects Daughter',sans-serif;color:#1B2A4A;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+<span style="font-weight:600">Zone:</span><span>Z-MAC</span><span style="color:#ccc">|</span><span style="font-weight:600">Officer:</span><span>J. Park</span>
+<span class="badge" style="background:rgba(22,163,74,.12);color:#16A34A">Auto-assigned</span>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+<div style="position:relative;background:rgba(27,42,74,.05);border:1px solid rgba(27,42,74,.2);border-radius:6px;padding:7px 9px;font:400 10px 'Architects Daughter',sans-serif;color:#1B2A4A;display:flex;align-items:center;gap:6px">
+<span style="font-weight:600">Zone:</span><span>Z-COL</span><span style="color:#ccc">|</span><span style="color:#a5760a;font-weight:600">No active officer in zone</span>
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="6c">
+<div class="dv-olabel"><a class="dv-oid" href="#6c">6c</a>Vehicle description &amp; offence-type lookup</div>
+<div class="dv-card" style="width:340px;padding:16px">
+<div style="position:relative;display:flex;align-items:center;gap:8px;border:1.5px solid #ddd;border-radius:6px 6px 0 0;padding:8px 9px;border-bottom:none">
+<div style="width:13px;height:13px;border:1.5px solid #1B2A4A;background:#1B2A4A;border-radius:3px"></div>
+<span style="font:400 11px 'Architects Daughter',sans-serif;color:#333">Vehicle Description Received</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="position:relative;border:1.5px solid #ddd;border-top:none;border-radius:0 0 6px 6px;padding:9px;margin-bottom:12px">
+<div class="gtbl">
+<div><div class="flabel">Make</div><div class="fld">Toyota</div></div>
+<div><div class="flabel">Body Type</div><div class="fld">Sedan</div></div>
+<div><div class="flabel">Colour</div><div class="fld">White</div></div>
+<div><div class="flabel">Registration</div><div class="fld" style="font-family:'JetBrains Mono',monospace">ABC123</div></div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="margin-bottom:0"><div class="flabel">Offence Type *</div><div class="fld" style="position:relative">621 - Stopped contrary to a no parking sign
+<div class="mk" style="top:-9px;right:-9px">3</div></div></div>
+<div style="position:relative;border:1.5px solid #444;border-top:none;border-radius:0 0 6px 6px;overflow:hidden">
+<div style="padding:6px 8px;border-bottom:1px solid #eee;background:rgba(27,42,74,.06)">
+<span style="font:600 10px 'JetBrains Mono',monospace;color:#333">621</span><span style="color:#bbb;margin:0 4px">-</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#555">Stopped contrary to a no parking sign</span>
+</div>
+<div style="padding:6px 8px;border-bottom:1px solid #eee">
+<span style="font:600 10px 'JetBrains Mono',monospace;color:#333">701</span><span style="color:#bbb;margin:0 4px">-</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#555">Parking for longer than indicated</span>
+</div>
+<div style="position:relative;padding:6px 8px;border-bottom:1px solid #eee">
+<span style="font:600 10px 'JetBrains Mono',monospace;color:#333">702</span><span style="color:#bbb;margin:0 4px">-</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#555">Parked—fail to obtain paid ticket and obey instructions on sign</span>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+<div style="padding:6px 8px">
+<span style="font:600 10px 'JetBrains Mono',monospace;color:#333">793</span><span style="color:#bbb;margin:0 4px">-</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#555">Stopping contrary to a no stopping sign</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="6d">
+<div class="dv-olabel"><a class="dv-oid" href="#6d">6d</a>Assign Officer — auto vs. manual override</div>
+<div class="dv-card" style="width:320px;padding:16px">
+<div class="flabel">Assign Officer</div>
+<div style="position:relative;display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-right:26px">
+<div style="flex:1;border:1.5px solid #16A34A;background:rgba(22,163,74,.08);color:#16A34A;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif">J. Park (auto-assigned to Z-MAC)</div>
+<span style="font:400 10px 'Architects Daughter',sans-serif;color:#1B2A4A;text-decoration:underline;white-space:nowrap">Change</span>
+<div class="mk" style="top:50%;right:-9px;transform:translateY(-50%)">1</div>
+</div>
+<div style="border:1.5px solid #444;border-radius:6px">
+<div style="position:relative;padding:6px 8px;border-bottom:1px solid #eee;color:#999;font:400 11px 'Architects Daughter',sans-serif">Auto-assign based on zone
+<div class="mk" style="top:50%;right:-9px;transform:translateY(-50%)">2</div>
+</div>
+<div style="position:relative;padding:4px 8px;background:#f4f3f0;font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase">Officers in Z-MAC
+<div class="mk" style="top:50%;right:-9px;transform:translateY(-50%)">3</div>
+</div>
+<div style="padding:6px 8px;border-bottom:1px solid #eee;font:400 11px 'Architects Daughter',sans-serif">A. Singh (STANDBY)</div>
+<div style="position:relative;padding:4px 8px;background:#f4f3f0;font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase">All Officers
+<div class="mk" style="top:50%;right:-9px;transform:translateY(-50%)">4</div>
+</div>
+<div style="padding:6px 8px;border-bottom:1px solid #eee;font:400 11px 'Architects Daughter',sans-serif">J. Park (Z-MAC)</div>
+<div style="padding:6px 8px;border-bottom:1px solid #eee;font:400 11px 'Architects Daughter',sans-serif">A. Singh (Z-MAC)</div>
+<div style="padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#aaa">R. Diaz (Unassigned)</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="6e">
+<div class="dv-olabel"><a class="dv-oid" href="#6e">6e</a>Review Service Request — pre-dispatch</div>
+<div class="dv-card" style="width:340px;padding:16px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Review Service Request</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">&times;</span>
+</div>
+<div style="position:relative;background:#f4f3f0;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+<div class="dfield"><span class="dflabel">Address</span><span class="dfval">43 Bourke St</span></div>
+<div class="dfield"><span class="dflabel">Service Request Type</span><span class="dfval">Parking</span></div>
+<div class="dfield"><span class="dflabel">Offence</span><span class="dfval">621 - Stopped contrary to a no parking sign</span></div>
+<div class="mk" style="top:-9px;left:-9px">1</div>
+</div>
+<div style="position:relative;margin-bottom:10px;padding-top:14px">
+<div class="dflabel" style="margin-bottom:4px">Vehicle Description</div>
+<div class="gtbl" style="background:#fff;border:1px solid #eee;border-radius:6px;padding:8px">
+<span style="font:400 11px 'Architects Daughter',sans-serif">Make: Toyota</span>
+<span style="font:400 11px 'Architects Daughter',sans-serif">Body: Sedan</span>
+<span style="font:400 11px 'Architects Daughter',sans-serif">Colour: White</span>
+<span style="font:400 11px 'Architects Daughter',sans-serif">Rego: ABC123</span>
+</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="position:relative;background:#f4f3f0;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+<div class="dfield"><span class="dflabel">Zone</span><span class="dfval">Z-MAC</span></div>
+<div class="dfield"><span class="dflabel">Assigned Officer</span><span class="dfval">J. Park</span></div>
+<div class="mk" style="top:-9px;left:-9px">3</div>
+</div>
+<div style="position:relative;display:flex;gap:14px;margin-bottom:12px">
+<div class="dfield"><span class="dflabel">SR Date</span><span class="dfval">07/08/2026</span></div>
+<div class="dfield"><span class="dflabel">SR Time</span><span class="dfval">14:32</span></div>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+<div style="position:relative;display:flex;justify-content:flex-end;gap:8px;padding-top:14px">
+<span style="border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555">Edit</span>
+<span style="background:#1B2A4A;color:#fff;border-radius:6px;padding:6px 18px;font:400 11px 'Architects Daughter',sans-serif">Dispatch</span>
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="6f">
+<div class="dv-olabel"><a class="dv-oid" href="#6f">6f</a>Dispatch failed — error banner, review re-opened</div>
+<div class="dv-card" style="width:340px;padding:16px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Review Service Request</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">&times;</span>
+</div>
+<div role="alert" style="position:relative;border:1px solid rgba(220,38,38,.4);background:rgba(220,38,38,.1);color:#DC2626;border-radius:6px;padding:8px 10px;font:400 10.5px 'Architects Daughter',sans-serif;margin-bottom:10px">Failed to dispatch service request. Check your connection and try again.
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="position:relative;background:#f4f3f0;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+<div class="dfield"><span class="dflabel">Address</span><span class="dfval">43 Bourke St</span></div>
+<div class="dfield"><span class="dflabel">Service Request Type</span><span class="dfval">Parking</span></div>
+<div class="dfield"><span class="dflabel">Offence</span><span class="dfval">621 - Stopped contrary to a no parking sign</span></div>
+</div>
+<div style="position:relative;display:flex;justify-content:flex-end;gap:8px;padding-top:14px">
+<span style="border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555">Edit</span>
+<span style="background:#1B2A4A;color:#fff;border-radius:6px;padding:6px 18px;font:400 11px 'Architects Daughter',sans-serif">Dispatch</span>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+</x-dc>
+</body>
+</html>

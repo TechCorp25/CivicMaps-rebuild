@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- @dsCard group="Components" name="Buttons" subtitle="Primary · secondary · danger · disabled" viewport="700x110" --><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:20px;background:var(--civic-surface-raised);font-family:var(--font-primary);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:10px 16px;border-radius:8px;border:1px solid transparent;font-weight:600}
+.pri{background:#1B2A4A;color:#fff}
+.pri:hover{background:#2C3E6B}
+.sec{background:#fff;color:#1B2A4A;border-color:#D5D9E0}
+.sec:hover{background:#F7F8FA}
+.tsh{background:var(--civic-surface);color:var(--civic-primary-light);border-color:var(--civic-neutral-300)}
+.tsh:hover{background:var(--civic-surface-sunken)}
+.danger{background:#DC2626;color:#fff}
+.success{background:#16A34A;color:#fff}
+.disabled{background:#1B2A4A;color:#fff;opacity:.4}
+.lock{font-family:var(--font-mono);font-size:10px;margin-left:6px}
+</style></head><body>
+<button class="pri">Assign officer</button>
+<button class="sec">Cancel</button>
+<button class="tsh">Reassign</button>
+<button class="success">Submit No Report</button>
+<button class="danger">Revoke badge</button>
+<button class="disabled">Requires Manager <span class="lock">🔒</span></button>
+</body></html>

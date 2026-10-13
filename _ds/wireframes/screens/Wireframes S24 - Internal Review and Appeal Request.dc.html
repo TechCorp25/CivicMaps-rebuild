@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.dot{width:8px;height:8px;border-radius:999px;flex:none}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.actbtn{font:400 9px 'Architects Daughter',sans-serif;padding:2px 6px;border-radius:4px}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.gtbl{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.dfval{font:400 11px 'Architects Daughter',sans-serif;color:#222}.stpill{display:inline-flex;align-items:center;gap:4px;font:600 9px 'JetBrains Mono',monospace;padding:3px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}.lockbanner{display:inline-flex;align-items:center;gap:5px;font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px;margin-top:4px}.wbrow{border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:9px 10px;background:#fff}.dangerbtn{background:#DC2626;color:#fff;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif}.neutralbtn{border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555}.segbtn{border:1.5px solid #444;border-radius:6px;padding:6px 0;text-align:center;font:400 11px 'Architects Daughter',sans-serif;flex:1}.checkrow{display:flex;align-items:center;gap:6px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.checkmark{width:14px;height:14px;border-radius:3px;background:#16A34A;color:#fff;font:600 9px sans-serif;display:grid;place-items:center;flex:none}.browserbar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1.5px solid #222;background:#f5f4f1}.dot3{width:9px;height:9px;border-radius:999px;border:1.5px solid #555}.shellbar{position:relative;background:#1B2A4A;padding:0 14px;display:flex;align-items:center;justify-content:space-between;height:38px;flex:none}.navpill{padding:5px 10px;border-radius:5px;font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.6)}.navpillactive{padding:5px 10px;border-radius:5px;background:rgba(255,255,255,.2);font:400 11px 'Architects Daughter',sans-serif;color:#fff}.foldertab{border:1.5px solid #ccc;border-bottom:none;border-radius:6px 6px 0 0;padding:6px 12px;font:400 11px 'Architects Daughter',sans-serif;color:#555}.foldertabactive{background:#1B2A4A;border-radius:6px 6px 0 0;padding:6px 12px;font:700 11px 'Architects Daughter',sans-serif;color:#fff}.mtable{width:100%;border-collapse:collapse;font:400 11px 'Architects Daughter',sans-serif}.mtable th{text-align:left;font:700 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1px solid #ECEEF2}.mtable td{padding:9px 10px;border-bottom:1px solid #F3F4F6;color:#1F2937}.kpi{border:1px solid #ECEEF2;border-radius:8px;padding:12px;flex:1}.kpiv{font:700 20px 'JetBrains Mono',monospace;color:#1B2A4A}.kpil{font:400 9.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-top:2px}.pill{display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.4px;padding:3px 8px;border-radius:999px}.mono{font-family:'JetBrains Mono',monospace}.pf{position:relative;border:2px solid #222;border-radius:22px;overflow:hidden;background:#fff;display:flex;flex-direction:column;width:272px;height:560px;flex:none}.urlbar{flex:1;border:1.5px solid #444;border-radius:999px;padding:3px 8px;font:400 9.5px 'JetBrains Mono',monospace;color:#333;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pbtn{display:block;background:#1B2A4A;color:#fff;font:600 12px 'Architects Daughter',sans-serif;padding:11px 0;border-radius:8px;text-align:center;text-decoration:none}.pbtn2{display:block;border:1.5px solid #1B2A4A;color:#1B2A4A;font:600 12px 'Architects Daughter',sans-serif;padding:10px 0;border-radius:8px;text-align:center;text-decoration:none}.trow{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:10px 12px;text-decoration:none}.chev{color:#B0B7C3;font:700 13px sans-serif}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 24 — Internal Review / Appeal Request (proposed, no repo source). Resolves OQ10-3 — a citizen-facing surface for a customer-initiated infringement review request, plus the internal compliance decision workflow it feeds into. Citizen side reuses Sequences 22/23's public mobile-browser frame; internal side reuses Sequences 17/18's CommandMAPS admin chrome.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="24a">
+<div class="dv-olabel"><a class="dv-oid" href="#24a">24a</a>Find your infringement notice</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/review</div></div>
+<div style="padding:26px 22px 24px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#111;margin-bottom:6px">Request an internal review</div>
+<div style="font:400 11px/1.5 'Architects Daughter',sans-serif;color:#4A5568;margin-bottom:18px">Enter the notice number from your infringement and the vehicle registration it was issued to.</div>
+<div style="position:relative">
+<div class="flabel">Notice number *</div>
+<div class="fld" style="color:#999;margin-bottom:12px">e.g. 202608042</div>
+<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">1</div>
+</div>
+<div class="flabel">Vehicle registration *</div>
+<div class="fld" style="color:#999;margin-bottom:16px">e.g. 1ABC234</div>
+<a href="#24b" class="pbtn" style="position:relative">Find my notice<div class="mk" style="top:-9px;right:-9px">2</div></a>
+<div style="height:14px"></div>
+<div style="position:relative;font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#9CA3AF">Looking for a service request instead? <a href="Wireframes S23 - Status Tracking.dc.html#23a" style="color:#1B2A4A">Track it here</a>.<div class="mk" style="top:-8px;right:-8px;width:17px;height:17px;font-size:9.5px">3</div></div>
+<div style="height:10px"></div>
+<a href="Wireframes S22 - Public Service Request Submission.dc.html#22a" style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;text-decoration:none">&lsaquo; Back to report an issue</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="24b">
+<div class="dv-olabel"><a class="dv-oid" href="#24b">24b</a>Notice found — detail &amp; Request a Review</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/review/202608042</div></div>
+<div style="padding:20px 18px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><a href="#24a" style="text-decoration:none;color:#9CA3AF;font:700 14px sans-serif">&lsaquo;</a><span class="mono" style="font:700 13px 'JetBrains Mono',monospace;color:#111">202608042</span></div>
+<div style="position:relative;display:flex;gap:6px;margin-bottom:14px">
+<div class="pill" style="background:rgba(27,42,74,.08);color:#1B2A4A">Parking</div>
+<div class="pill" style="background:rgba(124,58,237,.12);color:#7C3AED">Issued</div>
+<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">1</div>
+</div>
+<div class="gtbl" style="margin-bottom:12px">
+<div class="dfield"><span class="dflabel">Offence</span><span class="dfval mono">621 — Stopped contrary to a no parking sign</span></div>
+<div class="dfield"><span class="dflabel">Penalty</span><span class="dfval mono">$155</span></div>
+<div class="dfield"><span class="dflabel">Offence date/time</span><span class="dfval mono">03/08/2026, 2:14 pm</span></div>
+<div class="dfield"><span class="dflabel">Due date</span><span class="dfval mono">31/08/2026</span></div>
+<div class="dfield"><span class="dflabel">Location</span><span class="dfval">cnr Flinders &amp; Swanston St</span></div>
+<div class="dfield"><span class="dflabel">Vehicle</span><span class="dfval mono">1ABC234</span></div>
+</div>
+<div style="position:relative;border:1px solid rgba(245,158,11,.35);background:rgba(245,158,11,.1);color:#92660B;border-radius:6px;padding:8px 10px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;margin-bottom:14px">Requesting a review doesn't pause your due date or any enforcement action.<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<a href="#24c" class="pbtn" style="position:relative;margin-bottom:8px">Request an internal review<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">3</div></a>
+<a href="Wireframes S25 - Payment Portal.dc.html#25c" style="position:relative;display:block;background:#1B2A4A;color:#fff;font:600 12px 'Architects Daughter',sans-serif;padding:10px 0;border-radius:8px;text-align:center;text-decoration:none">Pay this infringement<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">4</div></a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="24c">
+<div class="dv-olabel"><a class="dv-oid" href="#24c">24c</a>Request an Internal Review (form)</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/review/202608042/request</div></div>
+<div style="padding:18px 18px;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><a href="#24b" style="text-decoration:none;color:#9CA3AF;font:700 14px sans-serif">&lsaquo;</a><span style="font:700 14px 'Architects Daughter',sans-serif;color:#111">Request an internal review</span></div>
+<div style="position:relative">
+<div class="flabel">Grounds for review *</div>
+<div class="fld" style="color:#333;margin-bottom:4px">Signage unclear/obscured ▾</div>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:12px">Signage unclear/obscured · Vehicle sold/transferred before offence date · Medical/emergency circumstances · Payment already made · Other</div>
+<div class="mk" style="top:-9px;right:-9px;width:17px;height:17px;font-size:9.5px">1</div>
+</div>
+<div class="flabel">Explain what happened *</div>
+<div class="fld" style="min-height:56px;color:#999;margin-bottom:12px">Describe why you believe this infringement should be reviewed...</div>
+<div class="flabel">Supporting evidence (optional)</div>
+<div style="position:relative;width:52px;height:52px;border:1.5px dashed #B0B7C3;border-radius:6px;display:grid;place-items:center;font:400 9px 'Architects Daughter',sans-serif;color:#9CA3AF;text-align:center;line-height:1.2;margin-bottom:14px">+ Add<br>photo</div>
+<div class="gtbl" style="margin-bottom:4px">
+<div class="dfield"><span class="flabel">Your name *</span><div class="fld" style="color:#999">Jordan Lee</div></div>
+<div class="dfield"><span class="flabel">Email address *</span><div class="fld" style="color:#999">you@example.com</div></div>
+</div>
+<div class="flabel">Phone number (optional)</div>
+<div class="fld" style="color:#999;margin-bottom:14px">04xx xxx xxx</div>
+<div style="position:relative;border:1px solid rgba(245,158,11,.35);background:rgba(245,158,11,.1);color:#92660B;border-radius:6px;padding:8px 10px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;margin-bottom:12px">The compliance team will contact you using the details above.<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<a href="#24d" class="pbtn">Submit review request</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="24d">
+<div class="dv-olabel"><a class="dv-oid" href="#24d">24d</a>Review request submitted</div>
+<div class="dv-card" style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf">
+<div class="browserbar"><div style="display:flex;gap:4px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div class="urlbar">report.melbourne.civicmaps.gov.au/review/202608042/request</div></div>
+<div style="padding:30px 22px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;overflow-y:auto;box-sizing:border-box">
+<div style="width:44px;height:44px;border-radius:999px;background:rgba(37,99,235,.12);color:#2563EB;display:grid;place-items:center;font:700 18px sans-serif">&#10003;</div>
+<div style="height:12px"></div>
+<div style="font:700 15px 'Architects Daughter',sans-serif;color:#111">Review request submitted</div>
+<div style="height:8px"></div>
+<div class="mono" style="font:600 12px 'JetBrains Mono',monospace;color:#636E80">RR-2026-00047</div>
+<div style="height:10px"></div>
+<div class="pill" style="position:relative;background:rgba(37,99,235,.1);color:#2563EB">Submitted<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="height:14px"></div>
+<div style="position:relative;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#4A5568">We'll email you when there's an update — usually within 10 business days.<div class="mk" style="top:-2px;right:-9px">2</div></div>
+<div style="height:16px"></div>
+<a href="#24b" class="pbtn2" style="width:100%">Back to notice</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Internal — Compliance Review Queue. CommandMAPS desktop chrome, mirroring Sequences 17/18's queue + detail + decision-modal admin pattern.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="24e">
+<div class="dv-olabel"><a class="dv-oid" href="#24e">24e</a>Infringement Review Queue (CommandMAPS, full desktop)</div>
+<div class="dv-card" style="width:740px">
+<div class="browserbar"><div style="display:flex;gap:5px"><div class="dot3"></div><div class="dot3"></div><div class="dot3"></div></div><div style="flex:1;border:1.5px solid #444;border-radius:999px;padding:4px 10px;font:400 11px 'JetBrains Mono',monospace;color:#333">app.commandmaps.civicmaps.gov.au/compliance/review-requests</div></div>
+<div style="display:flex;flex-direction:column">
+<div class="shellbar">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="font:400 14px 'Architects Daughter',sans-serif;color:#D4A843">CommandMAPS</div>
+<div style="position:relative;display:flex;gap:3px"><div class="navpill">Dashboard</div><div class="navpill">Directory</div><div class="navpill">Assignments</div><div class="navpill">Look Up</div><div class="navpillactive">Review Requests</div><div class="mk" style="top:-9px;right:-25px">1</div></div>
+</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:rgba(255,255,255,.7)">K. Nguyen (Compliance Coordinator)</div>
+</div>
+<div style="padding:18px 20px">
+<div style="font:700 16px 'Architects Daughter',sans-serif;color:#1B2A4A;margin-bottom:2px">Infringement Review Requests</div>
+<div style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin-bottom:12px">Citizen-submitted requests to review an issued infringement</div>
+<div style="position:relative;display:flex;gap:8px;margin-bottom:14px">
+<div class="fld" style="color:#999">All Statuses ▾</div>
+<div class="fld" style="color:#999">All Grounds ▾</div>
+<div class="fld" style="flex:1;color:#999">Search notice # or reference #...</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">RR-2026-00047</div><div style="font:600 12px 'Architects Daughter',sans-serif">202608042 · Parking · $155</div><span class="badge" style="background:rgba(27,42,74,.08);color:#1B2A4A">Signage unclear</span></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#888">Unassigned</span><span class="stpill" style="background:rgba(37,99,235,.1);color:#2563EB;border:1px solid rgba(37,99,235,.3)"><span class="dot" style="background:#2563EB"></span>Submitted</span></div>
+</div>
+<div style="font:400 9px 'Architects Daughter',sans-serif;color:#bbb;margin-top:6px">12/08/2026, 9:02 am</div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div class="wbrow" style="position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">RR-2026-00041</div><div style="font:600 12px 'Architects Daughter',sans-serif">202607988 · Parking · $117</div><span class="badge" style="background:rgba(27,42,74,.08);color:#1B2A4A">Payment already made</span></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#888">K. Nguyen</span><span class="stpill" style="background:rgba(26,122,109,.1);color:#1A7A6D;border:1px solid rgba(26,122,109,.3)"><span class="dot" style="background:#1A7A6D"></span>Under Review</span></div>
+</div>
+</div>
+<div class="wbrow">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">RR-2026-00035</div><div style="font:600 12px 'Architects Daughter',sans-serif">202600089 · Local Laws · $296</div><span class="badge" style="background:rgba(27,42,74,.08);color:#1B2A4A">Medical/emergency</span></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#888">R. Ahmed</span><span class="stpill" style="background:rgba(124,58,237,.1);color:#7C3AED;border:1px solid rgba(124,58,237,.3)"><span class="dot" style="background:#7C3AED"></span>Decided — Upheld</span></div>
+</div>
+</div>
+<a href="#24h" class="wbrow" style="text-decoration:none;color:inherit;position:relative">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font:600 9px 'JetBrains Mono',monospace;color:#999">RR-2026-00028</div><div style="font:600 12px 'Architects Daughter',sans-serif">202607850 · Parking · $155</div><span class="badge" style="background:rgba(27,42,74,.08);color:#1B2A4A">Vehicle sold/transferred</span></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font:400 10px 'Architects Daughter',sans-serif;color:#888">K. Nguyen</span><span class="stpill" style="background:rgba(100,116,139,.12);color:#64748B;border:1px solid rgba(100,116,139,.3)"><span class="dot" style="background:#64748B"></span>Decided — Withdrawn</span></div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="24f">
+<div class="dv-olabel"><a class="dv-oid" href="#24f">24f</a>Review Request Detail — Submitted, unassigned</div>
+<div class="dv-card" style="width:380px;padding:16px">
+<div style="position:relative;display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 13px 'Architects Daughter',sans-serif">Review Request Detail</span><span style="font:600 16px sans-serif;color:#999;line-height:1">&times;</span></div>
+<div><div class="flabel">Reference</div><div style="font:400 11px 'JetBrains Mono',monospace">RR-2026-00047</div></div>
+<span class="stpill" style="background:rgba(37,99,235,.1);color:#2563EB;border:1px solid rgba(37,99,235,.3);align-self:flex-start"><span class="dot" style="background:#2563EB"></span>Submitted</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<hr style="border:none;border-top:1px solid #eee;margin:0 0 10px">
+<div style="display:flex;flex-direction:column;gap:10px;font:400 11px 'Architects Daughter',sans-serif">
+<div style="position:relative;background:rgba(27,42,74,.05);border:1px solid rgba(27,42,74,.15);border-radius:6px;padding:8px 9px">
+<div class="flabel" style="margin-bottom:4px">Linked Infringement</div>
+<div class="gtbl">
+<div class="dfield"><span class="dflabel">Notice No.</span><span class="dfval mono">202608042</span></div>
+<div class="dfield"><span class="dflabel">Offence</span><span class="dfval mono">621 · $155</span></div>
+<div class="dfield"><span class="dflabel">Vehicle</span><span class="dfval mono">1ABC234</span></div>
+<div class="dfield"><span class="dflabel">Due date</span><span class="dfval mono">31/08/2026</span></div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="position:relative"><div class="flabel">Grounds for Review</div><div class="dfval">Signage unclear/obscured</div>
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+<div><div class="flabel">Citizen's Explanation</div><div class="dfval" style="font-style:italic;color:#4A5568">"The no-parking sign for this bay was down/missing — there was no signage visible when I parked."</div></div>
+<div style="position:relative;display:flex;align-items:center;gap:6px"><span class="checkmark">✓</span><span class="dfval">1 photo attached</span>
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+<div style="position:relative"><div class="flabel">Requested By</div><div class="dfval">Jordan Lee — j.lee@example.com</div>
+<div class="mk" style="top:-9px;right:-9px">5</div></div>
+<div><div class="flabel">Assigned To</div><div style="color:#999">Unassigned</div></div>
+<div style="position:relative;background:#1B2A4A;color:#fff;text-align:center;border-radius:6px;padding:7px 0;font:400 11px 'Architects Daughter',sans-serif">Record Decision
+<div class="mk" style="top:-9px;right:-9px">6</div></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="24g">
+<div class="dv-olabel"><a class="dv-oid" href="#24g">24g</a>Record Decision modal (Withdraw branch pictured)</div>
+<div class="dv-card" style="width:320px;padding:20px">
+<div style="font:600 14px 'Architects Daughter',sans-serif;margin-bottom:12px">Record Decision — RR-2026-00047</div>
+<div style="display:flex;flex-direction:column;gap:10px;font:400 11px 'Architects Daughter',sans-serif">
+<div style="position:relative"><div class="flabel">Decision</div>
+<div style="display:flex;gap:8px"><div class="segbtn" style="color:#555">Uphold</div><div class="segbtn" style="background:#DC2626;color:#fff;border-color:#DC2626">Withdraw</div></div>
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="position:relative"><div class="flabel">Decision Notes *</div><div class="fld" style="color:#333;min-height:48px">Signage confirmed removed by council contractor two days prior — offence not valid. PIN voided.</div>
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+<div style="position:relative;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.25);border-radius:6px;padding:7px 9px;font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#991B1B">Withdrawing voids the PIN — same destructive action as Sequence 7's Void PIN (7f). Requires Compliance Lead/Coordinator, or a Supervisor within the officer's own team; Admin and Dispatcher can't action this (<code>canVoidPin</code>, <code>shared/roles.ts</code>).
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:14px">
+<div class="neutralbtn" style="flex:1;text-align:center">Cancel</div>
+<div style="flex:1.4;text-align:center;position:relative;background:#DC2626;color:#fff;border-radius:6px;padding:6px 0;font:400 11px 'Architects Daughter',sans-serif">Confirm — Withdraw &amp; Void PIN
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="24h">
+<div class="dv-olabel"><a class="dv-oid" href="#24h">24h</a>Review Request Detail — Decided, audit trail</div>
+<div class="dv-card" style="width:360px;padding:16px">
+<div style="margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:600 13px 'Architects Daughter',sans-serif">Review Request Detail</span>
+<span style="font:600 16px sans-serif;color:#999;line-height:1">&times;</span>
+</div>
+<div class="lockbanner" style="position:relative;background:rgba(100,116,139,.12);color:#64748B;border:1px solid rgba(100,116,139,.3)">Decided — Withdrawn, PIN Voided
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="position:relative;background:#f8f7f4;border:1px solid #eee;border-radius:6px;padding:9px;margin-bottom:10px">
+<div class="flabel" style="margin-bottom:3px">Decision Notes</div>
+<div style="font:400 11px 'Architects Daughter',sans-serif;color:#333">Signage confirmed removed by council contractor two days prior to the offence — offence not valid. PIN voided.</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+<div><div class="flabel">Linked Infringement 202607850</div><span class="stpill" style="background:rgba(220,38,38,.1);color:#DC2626;border:1px solid rgba(220,38,38,.3)"><span class="dot" style="background:#DC2626"></span>Voided</span></div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="position:relative;margin-bottom:10px"><div class="flabel">Decided By</div><div class="dfval">K. Nguyen (Compliance Coordinator) — 13/08/2026, 10:20 am</div>
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+<div style="position:relative;display:flex;align-items:center;gap:5px;font:600 10px 'Architects Daughter',sans-serif;color:#999;margin-bottom:6px">
+<span style="display:inline-block;transform:rotate(90deg)">▶</span>Audit Trail (3)
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;font:400 10px 'Architects Daughter',sans-serif;color:#888;line-height:1.5">
+<div><span style="font-family:'JetBrains Mono',monospace">11/08/2026, 11:40 am</span><br><span>Jordan Lee (citizen)</span><span style="margin-left:6px">— review request submitted</span></div>
+<div><span style="font-family:'JetBrains Mono',monospace">11/08/2026, 3:10 pm</span><br><span>System</span><span style="margin-left:6px">— assigned to K. Nguyen</span></div>
+<div><span style="font-family:'JetBrains Mono',monospace">13/08/2026, 10:20 am</span><br><span>K. Nguyen</span><span style="margin-left:6px">— decision recorded: Withdrawn, PIN voided</span></div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="dv-next">Next: Session 25 — Payment portal.</div>
+</section>
+
+</x-dc>
+</body>
+</html>

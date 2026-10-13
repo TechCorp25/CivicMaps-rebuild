@@ -1,0 +1,7 @@
+[
+  { "id": "00000000-0000-4000-8000-000000000001", "email": "dispatch@alpha.example", "name": "Alex · Dispatch", "role": "DISPATCHER", "scope": "alpha" },
+  { "id": "00000000-0000-4000-8000-000000000002", "email": "officer@alpha.example", "name": "Morgan · Officer", "role": "OFFICER", "scope": "alpha" },
+  { "id": "00000000-0000-4000-8000-000000000003", "email": "supervisor@alpha.example", "name": "Sam · Supervisor", "role": "SUPERVISOR", "scope": "alpha" },
+  { "id": "00000000-0000-4000-8000-000000000004", "email": "dispatch@beta.example", "name": "Jamie · Dispatch", "role": "DISPATCHER", "scope": "beta" },
+  { "id": "00000000-0000-4000-8000-000000000005", "email": "officer@beta.example", "name": "Taylor · Officer", "role": "OFFICER", "scope": "beta" }
+]

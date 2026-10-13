@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.gtbl{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.lockbanner{display:inline-flex;align-items:center;gap:5px;font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px;margin-top:4px}.atrow{display:flex;flex-direction:column;gap:6px;font:400 10.5px/1.5 'Architects Daughter',sans-serif;color:#9CA3AF}.atrow>div{border-left:2px solid #ECEEF2;padding-left:8px}</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 10 — Audit Trail. CommandMAPS only, read-only for all supervisor tiers. Extends the per-entity audit pattern already established for Code21 and Mark-Up to Directory/Employee and Zone Assignments, then covers full-lifecycle Code21 audit and net-new Infringement issuance audit.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="10a">
+<div class="dv-olabel"><a class="dv-oid" href="#10a">10a</a>Employee Audit Trail — Directory detail (existing, expanded)</div>
+<div class="dv-card" style="width:480px;padding:20px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="font:700 15px 'Architects Daughter',sans-serif;color:#111827">Employee Details</span>
+<span class="lockbanner" style="background:rgba(245,158,11,.12);color:#B45309;border:1px solid rgba(245,158,11,.35)">Read Only</span>
+</div>
+<span style="font:600 10px 'Architects Daughter',sans-serif;color:#9CA3AF;border:1px solid #E5E7EB;border-radius:5px;padding:4px 9px">Close</span>
+</div>
+<div class="gtbl" style="margin-bottom:14px">
+<div class="dfield"><span class="flabel" style="margin:0">Officer</span><span style="color:#111;font-family:'JetBrains Mono',monospace">OFC-0142</span></div>
+<div class="dfield"><span class="flabel" style="margin:0">Name</span><span style="color:#111">J. Park</span></div>
+<div class="dfield"><span class="flabel" style="margin:0">Role</span><span style="color:#111">Supervisor</span></div>
+<div class="dfield"><span class="flabel" style="margin:0">Branch</span><span style="color:#111">Local Laws</span></div>
+<div class="dfield"><span class="flabel" style="margin:0">Team</span><span style="color:#111">Z-MAC</span></div>
+<div class="dfield"><span class="flabel" style="margin:0">Status</span><span style="color:#16A34A;font-weight:700">Active</span></div>
+</div>
+<div style="position:relative;border-top:1px solid #ECEEF2;padding-top:12px">
+<p style="font:600 10px 'Architects Daughter',sans-serif;color:#9CA3AF;margin:0 0 8px;text-transform:uppercase;letter-spacing:.4px">Audit Trail (6)</p>
+<div class="atrow">
+<div>06/02/2024, 9:03 am <span style="color:#636E80">System</span> — employee onboarded</div>
+<div>14/11/2024, 11:20 am <span style="color:#636E80">M. Osei (Admin)</span> — role changed: Team Supervisor → Supervisor</div>
+<div>14/11/2024, 11:20 am <span style="color:#636E80">M. Osei (Admin)</span> — branch transferred: Parking Enforcement → Local Laws</div>
+<div>02/03/2025, 3:44 pm <span style="color:#636E80">J. Park (self)</span> — account password reset</div>
+<div style="position:relative">03/07/2026, 8:12 am <span style="color:#636E80">M. Osei (Admin)</span> — badge deactivated (leave of absence)
+<div class="mk" style="top:-4px;right:-9px">1</div></div>
+<div>20/07/2026, 8:00 am <span style="color:#636E80">M. Osei (Admin)</span> — badge reactivated</div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="10b">
+<div class="dv-olabel"><a class="dv-oid" href="#10b">10b</a>Zone Assignment Audit Trail (proposed)</div>
+<div class="dv-card" style="width:420px;padding:20px">
+<div style="margin-bottom:12px">
+<span style="font:700 15px 'Architects Daughter',sans-serif;color:#111827">Assignment History — Z-MAC</span>
+<p style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin:4px 0 0">Read-only — assignments are changed from the zone board, not here.</p>
+</div>
+<div class="atrow" style="position:relative">
+<div>07/08/2026, 7:58 am <span style="color:#636E80">D. Nguyen (Dispatcher)</span> — OFC-0209 assigned as primary</div>
+<div>07/08/2026, 8:01 am <span style="color:#636E80">D. Nguyen (Dispatcher)</span> — OFC-0142 added as co-assignment, rank 2</div>
+<div>08/08/2026, 6:40 am <span style="color:#636E80">System</span> — OFC-0142 auto-removed, shift ended</div>
+<div style="position:relative">08/08/2026, 6:41 am <span style="color:#636E80">D. Nguyen (Dispatcher)</span> — co-assignment ranking reordered
+<div class="mk" style="top:-4px;right:-9px">1</div></div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Full-lifecycle audit views — Code21 from SR-number generation through closure (with cross-request linking), and net-new Infringement issuance/status audit.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="10c">
+<div class="dv-olabel"><a class="dv-oid" href="#10c">10c</a>Code21 Full-Lifecycle Audit — dedicated view (proposed layout, existing data)</div>
+<div class="dv-card" style="width:480px;padding:20px">
+<div style="margin-bottom:12px">
+<span style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF">SR-2026-04812</span>
+<p style="font:700 15px 'Architects Daughter',sans-serif;color:#111827;margin:2px 0 0">45 Elizabeth St — Illegal Parking</p>
+<span style="background:rgba(156,163,175,.15);color:#6b7280;border:1px solid rgba(107,114,128,.3);font:600 9px 'Architects Daughter',sans-serif;padding:3px 8px;border-radius:5px;display:inline-block;margin-top:6px">CLOSED</span>
+</div>
+<div style="position:relative;margin-bottom:14px">
+<span class="flabel" style="margin:0 0 6px;display:block">Location</span>
+<div style="height:130px;border-radius:8px;background:#EEF1F5;border:1px solid #E5E7EB;position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 23px,#E2E6EC 23px,#E2E6EC 24px),repeating-linear-gradient(90deg,transparent,transparent 23px,#E2E6EC 23px,#E2E6EC 24px)">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="#1B2A4A" stroke="#fff" stroke-width="1" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-100%)"><path d="M12 21s-7-7.4-7-12a7 7 0 1 1 14 0c0 4.6-7 12-7 12z"></path></svg>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+<span style="font:400 10px 'JetBrains Mono',monospace;color:#636E80">GPS: -37.813980, 144.965210</span>
+<a href="#10e" style="font:600 9.5px 'Architects Daughter',sans-serif">4 other SRs at this address →</a>
+</div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="position:relative;border-top:1px solid #ECEEF2;padding-top:12px;margin-bottom:14px">
+<p style="font:600 10px 'Architects Daughter',sans-serif;color:#9CA3AF;margin:0 0 8px;text-transform:uppercase;letter-spacing:.4px">Full Audit Trail (9)</p>
+<div class="atrow">
+<div style="position:relative">07/08/2026, 2:31 pm <span style="color:#636E80">System</span> — received, SR-2026-04812 generated
+<div class="mk" style="top:-4px;right:-9px">1</div></div>
+<div>07/08/2026, 2:31 pm <span style="color:#636E80">System</span> — zone resolved: Z-CBD1</div>
+<div>07/08/2026, 2:35 pm <span style="color:#636E80">D. Nguyen (Dispatcher)</span> — assigned to OFC-0209</div>
+<div>07/08/2026, 2:40 pm <span style="color:#636E80">OFC-0209</span> — status: Dispatched (Active)</div>
+<div>07/08/2026, 3:02 pm <span style="color:#636E80">OFC-0209</span> — status: In Progress</div>
+<div>07/08/2026, 3:10 pm <span style="color:#636E80">OFC-0209</span> — status: Attended</div>
+<div>07/08/2026, 3:14 pm <span style="color:#636E80">OFC-0209</span> — PIN-2026-00341 issued</div>
+<div>07/08/2026, 3:14 pm <span style="color:#636E80">System</span> — status: Completed</div>
+<div>07/08/2026, 4:02 pm <span style="color:#636E80">M. Osei (Supervisor)</span> — closed</div>
+</div>
+</div>
+<div style="position:relative;background:#F7F8FA;border:1px solid #E5E7EB;border-radius:10px;padding:12px">
+<p style="font:700 10px 'Architects Daughter',sans-serif;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin:0 0 8px">Related Requests</p>
+<div style="display:flex;flex-direction:column;gap:6px;font:400 10.5px 'Architects Daughter',sans-serif;color:#374151">
+<div>3 prior SRs from the same reporter contact, last 90 days</div>
+<div>2 other SRs on this block, same offence type, last 30 days</div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="10d">
+<div class="dv-olabel"><a class="dv-oid" href="#10d">10d</a>Infringement Issuance Audit (proposed)</div>
+<div class="dv-card" style="width:440px;padding:20px">
+<div style="margin-bottom:12px">
+<span style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF">PIN-2026-00341 · plate 1ABC234</span>
+<p style="font:700 15px 'Architects Daughter',sans-serif;color:#111827;margin:2px 0 0">Infringement — Elizabeth St</p>
+<span style="background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.3);color:#DC2626;font:700 9px 'Architects Daughter',sans-serif;padding:3px 8px;border-radius:5px;display:inline-block;margin-top:6px">WITHDRAWN</span>
+</div>
+<div style="position:relative;margin-bottom:14px">
+<span class="flabel" style="margin:0 0 6px;display:block">Location</span>
+<div style="height:120px;border-radius:8px;background:#EEF1F5;border:1px solid #E5E7EB;position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 23px,#E2E6EC 23px,#E2E6EC 24px),repeating-linear-gradient(90deg,transparent,transparent 23px,#E2E6EC 23px,#E2E6EC 24px)">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="#DC2626" stroke="#fff" stroke-width="1" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-100%)"><path d="M12 21s-7-7.4-7-12a7 7 0 1 1 14 0c0 4.6-7 12-7 12z"></path></svg>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+<span style="font:400 10px 'JetBrains Mono',monospace;color:#636E80">GPS: -37.813095, 144.965843</span>
+<a href="#10c" style="font:600 9.5px 'Architects Daughter',sans-serif">SR-2026-04812 →</a>
+</div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="position:relative;border-top:1px solid #ECEEF2;padding-top:12px">
+<p style="font:600 10px 'Architects Daughter',sans-serif;color:#9CA3AF;margin:0 0 8px;text-transform:uppercase;letter-spacing:.4px">Audit Trail (5)</p>
+<div class="atrow">
+<div>07/08/2026, 3:14 pm <span style="color:#636E80">OFC-0209</span> — issued, linked to SR-2026-04812</div>
+<div>09/08/2026, 9:10 am <span style="color:#636E80">R. Chen (Compliance Coordinator)</span> — opened for internal review</div>
+<div style="position:relative">09/08/2026, 9:22 am <span style="color:#636E80">R. Chen (Compliance Coordinator)</span> — reissued: address corrected
+<div class="mk" style="top:-4px;right:-9px">1</div></div>
+<div style="position:relative">11/08/2026, 1:05 pm <span style="color:#636E80">External — withdrawal request received</span> — reason: "vehicle had a valid permit displayed"
+<div class="mk" style="top:-4px;right:-9px">2</div></div>
+<div>12/08/2026, 10:40 am <span style="color:#636E80">M. Osei (Compliance Lead)</span> — withdrawn: permit confirmed valid</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="10e">
+<div class="dv-olabel"><a class="dv-oid" href="#10e">10e</a>Related SRs — same address/location (proposed)</div>
+<div class="dv-card" style="width:460px;padding:20px">
+<div style="margin-bottom:12px">
+<span style="font:700 15px 'Architects Daughter',sans-serif;color:#111827">45 Elizabeth St — 5 Service Requests</span>
+<p style="font:400 10.5px 'Architects Daughter',sans-serif;color:#9CA3AF;margin:4px 0 0">Opened from the Location card on any SR detail. Read-only.</p>
+</div>
+<div style="height:110px;border-radius:8px;background:#EEF1F5;border:1px solid #E5E7EB;position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 23px,#E2E6EC 23px,#E2E6EC 24px),repeating-linear-gradient(90deg,transparent,transparent 23px,#E2E6EC 23px,#E2E6EC 24px);margin-bottom:12px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="#1B2A4A" stroke="#fff" stroke-width="1" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-100%)"><path d="M12 21s-7-7.4-7-12a7 7 0 1 1 14 0c0 4.6-7 12-7 12z"></path></svg>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="position:relative;display:flex;align-items:center;gap:10px;border:1px solid #E5E7EB;border-radius:8px;padding:9px 10px">
+<div style="flex:1"><div style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF">SR-2026-04812</div><div style="font:400 11px 'Architects Daughter',sans-serif;color:#374151">Illegal Parking · 07/08/2026</div></div>
+<span style="background:rgba(156,163,175,.15);color:#6b7280;border:1px solid rgba(107,114,128,.3);font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px">CLOSED</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;border:1px solid #E5E7EB;border-radius:8px;padding:9px 10px">
+<div style="flex:1"><div style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF">SR-2026-04790</div><div style="font:400 11px 'Architects Daughter',sans-serif;color:#374151">Illegal Parking · 06/08/2026</div></div>
+<span style="background:rgba(156,163,175,.15);color:#6b7280;border:1px solid rgba(107,114,128,.3);font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px">CLOSED</span>
+</div>
+<div style="display:flex;align-items:center;gap:10px;border:1px solid #E5E7EB;border-radius:8px;padding:9px 10px">
+<div style="flex:1"><div style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF">SR-2026-04203</div><div style="font:400 11px 'Architects Daughter',sans-serif;color:#374151">Abandoned Trolley · 22/07/2026</div></div>
+<span style="background:rgba(22,163,74,.12);color:#16A34A;font:700 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px">COMPLETE</span>
+</div>
+<div style="display:flex;align-items:center;gap:10px;border:1px solid #E5E7EB;border-radius:8px;padding:9px 10px">
+<div style="flex:1"><div style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF">SR-2026-03981</div><div style="font:400 11px 'Architects Daughter',sans-serif;color:#374151">Illegal Parking · 09/07/2026</div></div>
+<span style="background:rgba(220,38,38,.1);color:#DC2626;border:1px solid rgba(220,38,38,.3);font:700 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px">VOIDED</span>
+</div>
+<div style="display:flex;align-items:center;gap:10px;border:1px solid #E5E7EB;border-radius:8px;padding:9px 10px">
+<div style="flex:1"><div style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF">SR-2026-03650</div><div style="font:400 11px 'Architects Daughter',sans-serif;color:#374151">Illegal Parking · 18/06/2026</div></div>
+<span style="background:rgba(156,163,175,.15);color:#6b7280;border:1px solid rgba(107,114,128,.3);font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px">CLOSED</span>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+</x-dc>
+</body>
+</html>

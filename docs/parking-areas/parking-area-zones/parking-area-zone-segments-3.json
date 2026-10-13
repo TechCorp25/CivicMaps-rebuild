@@ -1,0 +1,1343 @@
+"zones": [
+    {
+      "parkingzone": 7650,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Yarra River",
+            "to": "Southbank Boulevard"
+          },
+          "segment_id": 22087
+        }
+      ]
+    },
+    {
+      "parkingzone": 7652,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Anzac Avenue",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22704
+        },
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Coventry Street",
+            "to": "Dorcas Street"
+          },
+          "segment_id": 22092
+        }
+      ]
+    },
+    {
+      "parkingzone": 7663,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Grant Street"
+          },
+          "segment_id": 22466
+        }
+      ]
+    },
+    {
+      "parkingzone": 7801,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Clarke Street",
+            "to": "Clarendon Street"
+          },
+          "segment_id": 22020
+        }
+      ]
+    },
+    {
+      "parkingzone": 7812,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Kings Way",
+            "to": "Clarke Street"
+          },
+          "segment_id": 22040
+        }
+      ]
+    },
+    {
+      "parkingzone": 7813,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Balston Street",
+          "between": {
+            "from": "City Road",
+            "to": "Kavanagh Street"
+          },
+          "segment_id": 22046
+        }
+      ]
+    },
+    {
+      "parkingzone": 7814,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Balston Street",
+          "between": {
+            "from": "Kavanagh Street",
+            "to": "Southern Link Road"
+          },
+          "segment_id": 22053
+        }
+      ]
+    },
+    {
+      "parkingzone": 7815,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Power Street",
+            "to": "Balston Street"
+          },
+          "segment_id": 22050
+        }
+      ]
+    },
+    {
+      "parkingzone": 7816,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Southgate Avenue",
+            "to": "Southbank Boulevard"
+          },
+          "segment_id": 22063
+        }
+      ]
+    },
+    {
+      "parkingzone": 7817,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Clarke Street",
+            "to": "Clarendon Street"
+          },
+          "segment_id": 22020
+        }
+      ]
+    },
+    {
+      "parkingzone": 7818,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Balston Street",
+            "to": "Kings Way"
+          },
+          "segment_id": 22048
+        },
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Power Street",
+            "to": "Balston Street"
+          },
+          "segment_id": 22050
+        }
+      ]
+    },
+    {
+      "parkingzone": 7819,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Power Street",
+            "to": "Balston Street"
+          },
+          "segment_id": 22050
+        }
+      ]
+    },
+    {
+      "parkingzone": 7820,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Kings Way",
+            "to": "Clarke Street"
+          },
+          "segment_id": 22040
+        }
+      ]
+    },
+    {
+      "parkingzone": 7821,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Kings Way",
+            "to": "Clarke Street"
+          },
+          "segment_id": 22040
+        }
+      ]
+    },
+    {
+      "parkingzone": 7822,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Southgate Avenue",
+            "to": "Southbank Boulevard"
+          },
+          "segment_id": 22063
+        }
+      ]
+    },
+    {
+      "parkingzone": 7823,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Southgate Avenue",
+            "to": "Sturt Street"
+          },
+          "segment_id": 22066
+        }
+      ]
+    },
+    {
+      "parkingzone": 7824,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "City Road",
+          "between": {
+            "from": "Southgate Avenue",
+            "to": "Sturt Street"
+          },
+          "segment_id": 22066
+        }
+      ]
+    },
+    {
+      "parkingzone": 7825,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Clarke Street",
+          "between": {
+            "from": "Haig Street",
+            "to": "City Road"
+          },
+          "segment_id": 22019
+        }
+      ]
+    },
+    {
+      "parkingzone": 7826,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Coventry Street",
+          "between": {
+            "from": "Wells Street",
+            "to": "Dodds Street"
+          },
+          "segment_id": 22112
+        }
+      ]
+    },
+    {
+      "parkingzone": 7827,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Coventry Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Wells Street"
+          },
+          "segment_id": 22103
+        }
+      ]
+    },
+    {
+      "parkingzone": 7828,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Coventry Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Wells Street"
+          },
+          "segment_id": 22103
+        }
+      ]
+    },
+    {
+      "parkingzone": 7829,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Coventry Street",
+          "between": {
+            "from": "Dodds Street",
+            "to": "Sturt Street"
+          },
+          "segment_id": 22117
+        }
+      ]
+    },
+    {
+      "parkingzone": 7830,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Coventry Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Wells Street"
+          },
+          "segment_id": 22103
+        }
+      ]
+    },
+    {
+      "parkingzone": 7831,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Coventry Street",
+          "between": {
+            "from": "Dodds Street",
+            "to": "Sturt Street"
+          },
+          "segment_id": 22117
+        }
+      ]
+    },
+    {
+      "parkingzone": 7832,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dodds Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Grant Street"
+          },
+          "segment_id": 22462
+        }
+      ]
+    },
+    {
+      "parkingzone": 7833,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Coventry Street",
+          "between": {
+            "from": "Wells Street",
+            "to": "Dodds Street"
+          },
+          "segment_id": 22112
+        }
+      ]
+    },
+    {
+      "parkingzone": 7834,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dodds Street",
+          "between": {
+            "from": "Coventry Street",
+            "to": "Dorcas Street"
+          },
+          "segment_id": 22113
+        }
+      ]
+    },
+    {
+      "parkingzone": 7835,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dodds Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22110
+        }
+      ]
+    },
+    {
+      "parkingzone": 7836,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dodds Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22110
+        }
+      ]
+    },
+    {
+      "parkingzone": 7837,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dodds Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Grant Street"
+          },
+          "segment_id": 22462
+        }
+      ]
+    },
+    {
+      "parkingzone": 7841,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dorcas Street",
+          "between": {
+            "from": "Wells Street",
+            "to": "Dodds Street"
+          },
+          "segment_id": 22096
+        }
+      ]
+    },
+    {
+      "parkingzone": 7842,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dorcas Street",
+          "between": {
+            "from": "Dodds Street",
+            "to": "Kings Way"
+          },
+          "segment_id": 22460
+        }
+      ]
+    },
+    {
+      "parkingzone": 7843,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dorcas Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Wells Street"
+          },
+          "segment_id": 22094
+        }
+      ]
+    },
+    {
+      "parkingzone": 7844,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dodds Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Grant Street"
+          },
+          "segment_id": 22462
+        }
+      ]
+    },
+    {
+      "parkingzone": 7845,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Dorcas Street",
+          "between": {
+            "from": "Wells Street",
+            "to": "Dodds Street"
+          },
+          "segment_id": 22096
+        }
+      ]
+    },
+    {
+      "parkingzone": 7846,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Grant Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Wells Street"
+          },
+          "segment_id": 22082
+        }
+      ]
+    },
+    {
+      "parkingzone": 7847,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Grant Street",
+          "between": {
+            "from": "Dodds Street",
+            "to": "Sturt Street"
+          },
+          "segment_id": 22826
+        }
+      ]
+    },
+    {
+      "parkingzone": 7848,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Haig Street",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Westgate Freeway"
+          },
+          "segment_id": 22010
+        }
+      ]
+    },
+    {
+      "parkingzone": 7849,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Haig Street",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Westgate Freeway"
+          },
+          "segment_id": 22010
+        }
+      ]
+    },
+    {
+      "parkingzone": 7850,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Haig Street",
+          "between": {
+            "from": "Clarendon Street",
+            "to": "Clarke Street"
+          },
+          "segment_id": 22018
+        }
+      ]
+    },
+    {
+      "parkingzone": 7851,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Kavanagh Street",
+          "between": {
+            "from": "Power Street",
+            "to": "Balston Street"
+          },
+          "segment_id": 22051
+        }
+      ]
+    },
+    {
+      "parkingzone": 7852,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Kavanagh Street",
+          "between": {
+            "from": "Balston Street",
+            "to": "Kings Way"
+          },
+          "segment_id": 22045
+        }
+      ]
+    },
+    {
+      "parkingzone": 7853,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Fawkner Street",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Fanning Street"
+          },
+          "segment_id": 22069
+        }
+      ]
+    },
+    {
+      "parkingzone": 7854,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Kavanagh Street",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Power Street"
+          },
+          "segment_id": 22077
+        }
+      ]
+    },
+    {
+      "parkingzone": 7855,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Kavanagh Street",
+          "between": {
+            "from": "Sturt Street",
+            "to": "Southbank Boulevard"
+          },
+          "segment_id": 22070
+        }
+      ]
+    },
+    {
+      "parkingzone": 7856,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Kavanagh Street",
+          "between": {
+            "from": "Sturt Street",
+            "to": "Southbank Boulevard"
+          },
+          "segment_id": 22070
+        }
+      ]
+    },
+    {
+      "parkingzone": 7857,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Kavanagh Street",
+          "between": {
+            "from": "Sturt Street",
+            "to": "Southbank Boulevard"
+          },
+          "segment_id": 22070
+        }
+      ]
+    },
+    {
+      "parkingzone": 7858,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Miles Street",
+          "between": {
+            "from": "Sturt Street",
+            "to": "Moore Street"
+          },
+          "segment_id": 22120
+        }
+      ]
+    },
+    {
+      "parkingzone": 7859,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Miles Street",
+          "between": {
+            "from": "Sturt Street",
+            "to": "Moore Street"
+          },
+          "segment_id": 22120
+        }
+      ]
+    },
+    {
+      "parkingzone": 7860,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Miles Street",
+          "between": {
+            "from": "Dodds Street",
+            "to": "Sturt Street"
+          },
+          "segment_id": 22108
+        }
+      ]
+    },
+    {
+      "parkingzone": 7861,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Miles Street",
+          "between": {
+            "from": "Wells Street",
+            "to": "Dodds Street"
+          },
+          "segment_id": 22107
+        }
+      ]
+    },
+    {
+      "parkingzone": 7862,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Miles Street",
+          "between": {
+            "from": "Wells Street",
+            "to": "Dodds Street"
+          },
+          "segment_id": 22107
+        }
+      ]
+    },
+    {
+      "parkingzone": 7863,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moore Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Kings Way"
+          },
+          "segment_id": 22461
+        }
+      ]
+    },
+    {
+      "parkingzone": 7864,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moore Street",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Southern Link Road"
+          },
+          "segment_id": 22078
+        }
+      ]
+    },
+    {
+      "parkingzone": 7867,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moore Street",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Southern Link Road"
+          },
+          "segment_id": 22078
+        }
+      ]
+    },
+    {
+      "parkingzone": 7868,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queens Bridge Street",
+          "between": {
+            "from": "Power Street",
+            "to": "Kings Way"
+          },
+          "segment_id": 22182
+        }
+      ]
+    },
+    {
+      "parkingzone": 7869,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Moray Street",
+          "between": {
+            "from": "Hancock Street",
+            "to": "Westgate Freeway"
+          },
+          "segment_id": 22036
+        }
+      ]
+    },
+    {
+      "parkingzone": 7870,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Grant Street",
+          "between": {
+            "from": "Wells Street",
+            "to": "Dodds Street"
+          },
+          "segment_id": 22824
+        }
+      ]
+    },
+    {
+      "parkingzone": 7871,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Queens Bridge Street",
+          "between": {
+            "from": "Power Street",
+            "to": "Kings Way"
+          },
+          "segment_id": 22182
+        }
+      ]
+    },
+    {
+      "parkingzone": 7873,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Riverside Quay",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Cook Street"
+          },
+          "segment_id": 22567
+        }
+      ]
+    },
+    {
+      "parkingzone": 7876,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Grant Street",
+            "to": "Wadey Street"
+          },
+          "segment_id": 22700
+        }
+      ]
+    },
+    {
+      "parkingzone": 7878,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wells Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22105
+        }
+      ]
+    },
+    {
+      "parkingzone": 7880,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Southgate Avenue",
+          "between": {
+            "from": "City Road",
+            "to": "Riverside Avenue"
+          },
+          "segment_id": 22187
+        }
+      ]
+    },
+    {
+      "parkingzone": 7881,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wells Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22105
+        }
+      ]
+    },
+    {
+      "parkingzone": 7882,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Grant Street",
+            "to": "Wadey Street"
+          },
+          "segment_id": 22700
+        }
+      ]
+    },
+    {
+      "parkingzone": 7883,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Anzac Avenue",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22704
+        }
+      ]
+    },
+    {
+      "parkingzone": 7884,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Coventry Street",
+            "to": "Dorcas Street"
+          },
+          "segment_id": 22092
+        }
+      ]
+    },
+    {
+      "parkingzone": 7885,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Grant Street",
+            "to": "Wadey Street"
+          },
+          "segment_id": 22700
+        }
+      ]
+    },
+    {
+      "parkingzone": 7886,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Grant Street"
+          },
+          "segment_id": 22466
+        }
+      ]
+    },
+    {
+      "parkingzone": 7887,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "St Kilda Road",
+          "between": {
+            "from": "Anzac Avenue",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22704
+        }
+      ]
+    },
+    {
+      "parkingzone": 7888,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Grant Street",
+            "to": "Miles Street"
+          },
+          "segment_id": 22767
+        }
+      ]
+    },
+    {
+      "parkingzone": 7889,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Grant Street"
+          },
+          "segment_id": 22121
+        }
+      ]
+    },
+    {
+      "parkingzone": 7890,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Southbank Boulevard",
+            "to": "Grant Street"
+          },
+          "segment_id": 22121
+        }
+      ]
+    },
+    {
+      "parkingzone": 7892,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22118
+        }
+      ]
+    },
+    {
+      "parkingzone": 7893,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Grant Street",
+            "to": "Miles Street"
+          },
+          "segment_id": 22767
+        },
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Sturt Street",
+            "to": "Grant Street"
+          },
+          "segment_id": 22877
+        }
+      ]
+    },
+    {
+      "parkingzone": 7894,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Grant Street",
+            "to": "Miles Street"
+          },
+          "segment_id": 22767
+        },
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Sturt Street",
+            "to": "Grant Street"
+          },
+          "segment_id": 22877
+        }
+      ]
+    },
+    {
+      "parkingzone": 7895,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Grant Street",
+            "to": "Miles Street"
+          },
+          "segment_id": 22767
+        }
+      ]
+    },
+    {
+      "parkingzone": 7896,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Sturt Street",
+          "between": {
+            "from": "Miles Street",
+            "to": "Coventry Street"
+          },
+          "segment_id": 22118
+        }
+      ]
+    },
+    {
+      "parkingzone": 7898,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wells Street",
+          "between": {
+            "from": "Grant Street",
+            "to": "Miles Street"
+          },
+          "segment_id": 22106
+        }
+      ]
+    },
+    {
+      "parkingzone": 7899,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wells Street",
+          "between": {
+            "from": "Coventry Street",
+            "to": "Dorcas Street"
+          },
+          "segment_id": 22098
+        }
+      ]
+    },
+    {
+      "parkingzone": 7900,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wells Street",
+          "between": {
+            "from": "Coventry Street",
+            "to": "Dorcas Street"
+          },
+          "segment_id": 22098
+        }
+      ]
+    },
+    {
+      "parkingzone": 7902,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wells Street",
+          "between": {
+            "from": "Grant Street",
+            "to": "Miles Street"
+          },
+          "segment_id": 22106
+        }
+      ]
+    },
+    {
+      "parkingzone": 7903,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wells Street",
+          "between": {
+            "from": "Grant Street",
+            "to": "Miles Street"
+          },
+          "segment_id": 22106
+        }
+      ]
+    },
+    {
+      "parkingzone": 7904,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wells Street",
+          "between": {
+            "from": "Grant Street",
+            "to": "Miles Street"
+          },
+          "segment_id": 22106
+        }
+      ]
+    },
+    {
+      "parkingzone": 7905,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Whiteman Street",
+          "between": {
+            "from": "Westgate Freeway",
+            "to": "Clarendon Street"
+          },
+          "segment_id": 22008
+        }
+      ]
+    },
+    {
+      "parkingzone": 7906,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Wadey Street",
+          "between": {
+            "from": "St Kilda Road",
+            "to": "Wells Street"
+          },
+          "segment_id": 22090
+        }
+      ]
+    },
+    {
+      "parkingzone": 7907,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Whiteman Street",
+          "between": {
+            "from": "Westgate Freeway",
+            "to": "Clarendon Street"
+          },
+          "segment_id": 22008
+        }
+      ]
+    },
+    {
+      "parkingzone": 7908,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Whiteman Street",
+          "between": {
+            "from": "Westgate Freeway",
+            "to": "Clarendon Street"
+          },
+          "segment_id": 22008
+        }
+      ]
+    },
+    {
+      "parkingzone": 7909,
+      "segment_count": 2,
+      "segments": [
+        {
+          "onstreet": "Alexandra Avenue",
+          "between": {
+            "from": "Anderson Street",
+            "to": "Walsh Street"
+          },
+          "segment_id": 22278
+        },
+        {
+          "onstreet": "Alexandra Avenue",
+          "between": {
+            "from": "Punt Road",
+            "to": "Walsh Street"
+          },
+          "segment_id": 22276
+        }
+      ]
+    },
+    {
+      "parkingzone": 7911,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Toorak Road",
+          "between": {
+            "from": "Marne Street",
+            "to": "Walsh Street"
+          },
+          "segment_id": 22219
+        }
+      ]
+    },
+    {
+      "parkingzone": 7985,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "Walsh Street",
+          "between": {
+            "from": "Milton Street",
+            "to": "King Street"
+          },
+          "segment_id": 21405
+        }
+      ]
+    },
+    {
+      "parkingzone": 7986,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Dudley Street",
+            "to": "Walsh Street"
+          },
+          "segment_id": 21404
+        }
+      ]
+    },
+    {
+      "parkingzone": 7987,
+      "segment_count": 1,
+      "segments": [
+        {
+          "onstreet": "William Street",
+          "between": {
+            "from": "Dudley Street",
+            "to": "Walsh Street"
+          },
+          "segment_id": 21404
+        }
+      ]
+    }

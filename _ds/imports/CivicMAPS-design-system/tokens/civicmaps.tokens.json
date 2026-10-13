@@ -1,0 +1,63 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "CivicMAPS canonical token source — single machine-readable origin. colors_and_type.css is generated/maintained as the compatible CSS entry point. Raw hex is legal ONLY in this file. Status: CANDIDATE (2.0.0-rc). Owner rulings: DR-04 (presence), DR-19 (aliases keep names/values, semantics correctable).",
+  "brand": {
+    "civic-primary": { "$value": "#1B2A4A", "light": "#2C3E6B", "dark": "#0F1A32" },
+    "civic-secondary": { "$value": "#1A7A6D", "light": "#23A392", "dark": "#115A50" },
+    "civic-accent": { "$value": "#D4A843", "light": "#E8C46A", "dark": "#B08A2E" },
+    "neutral": { "50": "#F7F8FA", "100": "#ECEEF2", "200": "#D5D9E0", "300": "#B0B7C3", "400": "#8892A2", "500": "#636E80", "600": "#4A5568", "700": "#374151", "800": "#1F2937", "900": "#111827" },
+    "surface": { "default": "#FFFFFF", "raised": "#F7F8FA", "sunken": "#ECEEF2", "overlay": "rgba(17,24,39,0.6)" }
+  },
+  "semantic-status": {
+    "$description": "Outcome-neutral. NO operational-code numbers in names or comments (F13). Code→token mapping is content configuration per S01-COD-001.",
+    "emergency": { "$value": "#DC2626", "deep": "#991B1B", "bg": "#FEF2F2", "border": "#FECACA" },
+    "alert-interactive": { "$value": "#F59E0B", "bg": "#FFFBEB", "border": "#FDE68A", "$description": "Amber. ONLY for alerts that demand an interaction step (e.g. roster-call banner — DR-04c). Never a passive presence/availability badge." },
+    "success": { "$value": "#16A34A", "bg": "#F0FDF4", "border": "#BBF7D0" },
+    "pending": { "$value": "#2563EB", "bg": "#EFF6FF", "border": "#BFDBFE" },
+    "inactive": { "$value": "#9CA3AF", "bg": "#F3F4F6", "border": "#E5E7EB" },
+    "outcome-recorded": { "$value": "#7C3AED", "bg": "#F5F3FF", "border": "#DDD6FE", "$description": "Administrative outcome slot; domain packs bind vocabulary (parking pack: Infringement / No Report)." }
+  },
+  "presence": {
+    "$description": "DR-04 owner amendments 2026-07-19. Passive badges are never amber.",
+    "available": { "text": "#16A34A", "bg": "#F0FDF4", "border": "#BBF7D0", "label": "Available" },
+    "active-offline": { "text": "#4A5568", "bg": "#F0FDF4", "border": "#BBF7D0", "label": "Active offline", "$description": "On duty, connectivity lost — green bg, grey text. Distinct from inactive." },
+    "inactive": { "text": "#374151", "bg": "#F3F4F6", "border": "#E5E7EB", "label": "Inactive offline", "$description": "Signed off / off duty." }
+  },
+  "map-layers": {
+    "$description": "Context tokens absorbing raw map hex from kits (F8).",
+    "canvas": { "$value": "#0F1A32" }, "canvas-deep": { "$value": "#0B1220" },
+    "surface": { "$value": "#1A2940" }, "road": { "$value": "#2C3E6B" },
+    "zone-fill-opacity": { "$value": 0.12 }, "zone-fill-opacity-selected": { "$value": 0.25 }
+  },
+  "aliases-v1": {
+    "$description": "DR-19: every v1 name keeps its value; corrected semantics documented in the migration guide.",
+    "--status-alert": "semantic-status.alert-interactive",
+    "--status-active": "semantic-status.success",
+    "--status-issued": "semantic-status.outcome-recorded",
+    "--status-pending": "semantic-status.pending",
+    "--status-inactive": "semantic-status.inactive",
+    "--status-emergency": "semantic-status.emergency"
+  },
+  "typography": {
+    "font-primary": "'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif",
+    "font-mono": "'JetBrains Mono', 'Fira Code', 'SF Mono', monospace",
+    "font-display": "'Plus Jakarta Sans', 'DM Sans', sans-serif",
+    "scale-px": { "xs": 12, "sm": 14, "base": 16, "md": 18, "lg": 20, "xl": 24, "2xl": 30, "3xl": 36 },
+    "leading": { "tight": 1.2, "snug": 1.3, "normal": 1.5 }
+  },
+  "spacing-px": [0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64],
+  "radius-px": { "sm": 4, "md": 8, "lg": 12, "xl": 16, "full": 9999 },
+  "shadow": { "sm": "0 1px 2px rgba(0,0,0,0.06)", "md": "0 2px 8px rgba(0,0,0,0.10)", "lg": "0 4px 16px rgba(0,0,0,0.12)", "xl": "0 8px 32px rgba(0,0,0,0.16)" },
+  "motion": { "fast": "120ms", "normal": "200ms", "slow": "350ms", "easing-default": "cubic-bezier(0.4,0,0.2,1)", "easing-spring": "cubic-bezier(0.34,1.56,0.64,1)", "code1-flash": "900ms" },
+  "themes": {
+    "dark": {
+      "$description": "Full platform mode (DR-11). Values inherited from mobile low-light baseline; Gate 7 contrast validation outranks preservation.",
+      "surface": { "default": "#1F2937", "raised": "#111827", "sunken": "#0B1220", "overlay": "rgba(0,0,0,0.7)" },
+      "civic-primary": { "$value": "#4A6FA5", "light": "#6B8FBF", "dark": "#2C3E6B" },
+      "neutral": { "50": "#0B1220", "100": "#1F2937", "200": "#374151", "300": "#4A5568", "400": "#6B7686", "500": "#9AA3B2", "600": "#B7BEC9", "700": "#D5D9E0", "800": "#ECEEF2", "900": "#F7F8FA" },
+      "status-bg": { "emergency": "#3A0F0F", "alert": "#3A2A0A", "success": "#0F2E1C", "inactive": "#1F2937", "outcome-recorded": "#2A1B4A", "pending": "#0F2347" },
+      "status-border": { "emergency": "#7F1D1D", "alert": "#92400E", "success": "#166534", "inactive": "#374151", "outcome-recorded": "#5B21B6", "pending": "#1D4ED8" },
+      "shadow-opacity-floor": 0.25
+    }
+  }
+}

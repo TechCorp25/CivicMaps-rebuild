@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" width="640" height="160" role="img" aria-label="CivicMAPS">
+<rect width="640" height="160" fill="#1B2A4A"></rect>
+<g transform="translate(40,44)">
+<path d="M36 6C22 6 12 17 12 36s10 30 24 30c9 0 16-4 20-10" fill="none" stroke="#D4A843" stroke-width="10" stroke-linecap="round"></path>
+</g>
+<text x="120" y="104" font-family="&#39;DM Sans&#39;,sans-serif" font-size="64" font-weight="700" letter-spacing="-1" fill="#FFFFFF">Civic<tspan fill="#D4A843">MAPS</tspan></text>
+</svg>

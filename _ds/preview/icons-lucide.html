@@ -1,0 +1,14 @@
+<!doctype html>
+<!-- @dsCard group="Brand" name="Lucide icons" subtitle="Lucide — 24px / 1.75 stroke" viewport="700x180" --><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<script type="module">
+import {LayoutDashboard,Users,Map,Search,Radio,Siren,ClipboardList,Car,MapPin,Camera,Bell,Shield,User,LogOut,Plus,ChevronRight} from 'https://esm.sh/lucide-static@0.454.0/esm/icons';
+const icons=[['LayoutDashboard',LayoutDashboard],['Users',Users],['Map',Map],['Search',Search],['Radio',Radio],['Siren',Siren],['ClipboardList',ClipboardList],['Car',Car],['MapPin',MapPin],['Camera',Camera],['Bell',Bell],['Shield',Shield],['User',User],['LogOut',LogOut],['Plus',Plus],['ChevronRight',ChevronRight]];
+document.getElementById('g').innerHTML=icons.map(([n,i])=>`<div class="c"><div class="i">${i}</div><div class="l">${n}</div></div>`).join('');
+</script>
+<style>body{margin:0;padding:18px;background:#fff;font-family:var(--font-primary)}
+#g{display:grid;grid-template-columns:repeat(8,1fr);gap:12px}
+.c{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;background:#F7F8FA;border:1px solid #ECEEF2;border-radius:8px}
+.i{color:#1B2A4A}
+.i svg{width:24px;height:24px;stroke-width:1.75}
+.l{font-family:var(--font-mono);font-size:9px;color:#636E80;text-align:center;line-height:1.2}
+</style></head><body><div id="g"></div></body></html>

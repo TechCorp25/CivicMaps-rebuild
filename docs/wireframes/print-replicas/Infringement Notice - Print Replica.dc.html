@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>body{margin:0;background:#e9e7e2}doc-page:not(:defined){visibility:hidden}.rc{font-family:'JetBrains Mono',monospace;color:#000}.rcdiv{border-top:1px dashed #444;margin:7px 0}.rchd{font-weight:700;font-size:11.5px;letter-spacing:.3px;margin-bottom:2px}.rcrow{font-size:10.5px;line-height:1.55}</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<div style="max-width:900px;margin:0 auto 24px;padding:20px 24px 0;font:400 13px/1.5 system-ui,sans-serif;color:#333">
+<a href="Wireframes%20S8%20-%20Officer%20Dispatch%20Workflow.dc.html" style="color:#1B2A4A;font-weight:600">← Back to Sequence 8</a>
+<p style="margin:10px 0 0">Print-replica of the thermal-printed infringement notice issued from 8d-iv's <strong>Issue / Print</strong> action — a real artifact, not a hand-drawn wireframe. Barcode and QR are rendered client-side from the actual Code&nbsp;128 (Modulo-103) and QR Model&nbsp;2 (EC level Q) algorithms via CDN libraries, not mocked artwork. Every value on the notice is illustrative example data grounded in Sequence 8's fictional Macquarie CBD dataset — see <code>docs/WF-S8 … Annotations.md</code>, Screen 8g, for the field-by-field trace and open questions (statute rule-number crosswalk, real indexed penalty-unit value, PIN-format vs. barcode-symbology mismatch).</p>
+</div>
+
+<doc-page width="80mm" height="260mm">
+<section class="page rc" style="padding:16px 13px;background:#fff;display:flex;flex-direction:column">
+
+<div style="text-align:center;font-weight:700;font-size:15px">City of Macquarie</div>
+<div style="text-align:center;font-size:11.5px;margin-top:2px">INFRINGEMENT NOTICE</div>
+<div style="text-align:center;font-size:9.5px;font-style:italic;color:#333">(Infringements Act 2006)</div>
+
+<div class="rcdiv"></div>
+
+<canvas ref="{{ barcodeRef }}" style="width:100%;height:auto;display:block"></canvas>
+<div class="rcrow">Notice Number: 202600341</div>
+<div class="rcrow">Date of Issue: 07/08/2026</div>
+<div class="rcrow">Time of Issue: 14:17:32 (24HR)</div>
+<div class="rcrow">Officer ID: OFC-0392</div>
+
+<div class="rcdiv"></div>
+
+<div class="rchd">VEHICLE DETAILS</div>
+<div class="rcrow">Rego No: ABC123&nbsp;&nbsp;State: VIC&nbsp;&nbsp;Expiry: 03/2027</div>
+<div class="rcrow">Make: Toyota&nbsp;&nbsp;Type: Sedan</div>
+
+<div class="rcdiv"></div>
+
+<div class="rchd">OFFENCE DETAILS</div>
+<div class="rcrow">Location: Elizabeth St (S side)</div>
+<div class="rcrow">Between: Little Collins St &amp; Collins St</div>
+<div class="rcrow">PA-0442 / EP-1187</div>
+<div class="rcrow">Offence Code: 701</div>
+<div class="rcrow">Statute: Road Safety Road Rules 2017 — Rule — (not yet mapped, see OQ8-13)</div>
+<div class="rcrow">Description: Parking for longer than indicated</div>
+<div class="rcrow">Penalty Amount: 0.6 fee units × current indexed penalty-unit value = $117 (illustrative — see OQ8-14)</div>
+
+<div class="rcdiv"></div>
+
+<div class="rchd">HOW TO PAY / ACTIONS</div>
+<div class="rcrow">Due Date: 04/09/2026 (28 days from issue date per s. 33 Infringements Act 2006)</div>
+<div class="rcrow">Web: pay.macquariecouncil.example</div>
+<div class="rcrow">Phone: 1300 000 000</div>
+
+<div class="rcdiv"></div>
+
+<div style="text-align:center;margin-top:2px">
+<div ref="{{ qrRef }}" style="display:inline-block;line-height:0"></div>
+</div>
+<div style="text-align:center;font-size:9px;font-style:italic;margin-top:4px">Scan with smartphone camera to view photos or pay online securely.</div>
+
+<div class="rcdiv"></div>
+
+<div style="font-size:8.5px;line-height:1.5;color:#222">For internal review, driver nomination, or election to the Magistrates' Court, visit pay.macquariecouncil.example or see reverse of notice.</div>
+
+<div style="flex:1"></div>
+<div style="text-align:center;font-size:9px;color:#666;margin-top:10px">✂ — — — — — — — — — — — — — — — — —</div>
+</section>
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  barcodeRef = React.createRef();
+  qrRef = React.createRef();
+
+  componentDidMount() {
+    this.renderCodes();
+  }
+
+  renderCodes() {
+    if (window.JsBarcode && this.barcodeRef.current) {
+      try {
+        window.JsBarcode(this.barcodeRef.current, "0202600341", {
+          format: "CODE128C",
+          width: 2,
+          height: 46,
+          displayValue: false,
+          margin: 0,
+          background: "#ffffff",
+          lineColor: "#000000"
+        });
+      } catch (e) { console.warn("Barcode render failed", e); }
+    }
+    if (window.QRCode && this.qrRef.current) {
+      try {
+        this.qrRef.current.innerHTML = "";
+        new window.QRCode(this.qrRef.current, {
+          text: "https://pay.macquariecouncil.example/n/202600341",
+          width: 118,
+          height: 118,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: window.QRCode.CorrectLevel.Q
+        });
+      } catch (e) { console.warn("QR render failed", e); }
+    }
+  }
+
+  renderVals() {
+    return { barcodeRef: this.barcodeRef, qrRef: this.qrRef };
+  }
+}
+</script>
+</body>
+</html>

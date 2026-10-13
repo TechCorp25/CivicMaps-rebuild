@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#f0eee9;font-family:'Architects Daughter',system-ui,sans-serif}a{color:#1B2A4A}a:hover{color:#0f1a30}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 14px/1.2 'Architects Daughter',sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Architects Daughter',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 'Architects Daughter',sans-serif;color:rgba(0,0,0,.5)}.mk{position:absolute;width:20px;height:20px;border-radius:999px;background:#1B2A4A;color:#fff;font:600 11px 'JetBrains Mono',monospace;display:grid;place-items:center;z-index:6}.tile{background:#fff;border:1.5px solid #333;border-radius:6px;padding:8px 9px}.tilelabel{font:400 9px 'Architects Daughter',sans-serif;color:#777;margin-bottom:3px}.tileval{display:flex;align-items:center;gap:5px;font:600 13px 'JetBrains Mono',monospace;color:#111}.dot{width:8px;height:8px;border-radius:999px;flex:none}.badge{font:600 8px 'JetBrains Mono',monospace;padding:2px 5px;border-radius:4px;text-transform:uppercase}.actbtn{font:400 9px 'Architects Daughter',sans-serif;padding:2px 6px;border-radius:4px}.fld{border:1.5px solid #444;border-radius:6px;padding:6px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#333}.flabel{font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.gtbl{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}.dfield{display:flex;flex-direction:column;gap:2px}.dflabel{font:400 9px 'Architects Daughter',sans-serif;color:#888}.dfval{font:400 11px 'Architects Daughter',sans-serif;color:#222}.stpill{display:inline-flex;align-items:center;gap:4px;font:600 9px 'JetBrains Mono',monospace;padding:3px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}.lockbanner{display:inline-flex;align-items:center;gap:5px;font:600 9px 'Architects Daughter',sans-serif;padding:3px 7px;border-radius:5px;margin-top:4px}.wbrow{border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:9px 10px;background:#fff}.evph{background:#e9e7e1;border:1.5px solid #ccc;border-radius:5px;height:58px;display:flex;align-items:center;justify-content:center;font:400 9px 'Architects Daughter',sans-serif;color:#999}.dangerbtn{background:#DC2626;color:#fff;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif}.neutralbtn{border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#555}.pf{position:relative;border:2px solid #222;border-radius:22px;overflow:hidden}.sb{display:flex;justify-content:space-between;font:400 9px 'JetBrains Mono',monospace;z-index:6;padding:8px 16px 0}.card8{background:#fff;border-radius:8px;padding:12px;border:1px solid #D5D9E0;box-shadow:0 1px 3px rgba(0,0,0,.06)}.chd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}.addr{font:600 13px 'Architects Daughter',sans-serif;color:#111827}.typ{font:400 11px 'Architects Daughter',sans-serif;color:#636E80;margin-top:2px}.desc{font:400 11px 'Architects Daughter',sans-serif;color:#4A5568;margin-bottom:8px}</style></helmet>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Sequence 8 — EnforcementMAPS officer-side Code21 dispatch workflow (mobile). Officer counterpart to Sequence 7's admin workbench/lifecycle.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="8a">
+<div class="dv-olabel"><a class="dv-oid" href="#8a">8a</a>Patrol map — active dispatch bottom sheet (Dispatched Active)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#1e2530">
+<div class="sb" style="position:absolute;top:0;left:0;right:0;color:#9aa4b5"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="position:absolute;top:26px;left:0;right:0;position:relative;background:#1A7A6D;padding:9px 14px;display:flex;align-items:center;justify-content:center;gap:6px">
+<span style="width:7px;height:7px;border-radius:999px;background:#fff"></span>
+<span style="font:700 11px 'Architects Daughter',sans-serif;color:#fff">Zone: Macquarie CBD</span>
+<div class="mk" style="top:-9px;right:8px">1</div>
+</div>
+<div style="position:absolute;top:65px;left:70px;width:120px;height:90px;border-radius:44% 56% 52% 48% / 56% 44% 56% 44%;background:rgba(212,168,67,.18);border:2px solid rgba(212,168,67,.7)"></div>
+
+<div style="position:absolute;bottom:0;left:0;right:0;background:#F7F8FA;border-radius:16px 16px 0 0;padding:10px 12px 14px">
+<div style="width:36px;height:4px;border-radius:999px;background:#D5D9E0;margin:0 auto 10px"></div>
+<div style="position:relative;display:flex;gap:6px;margin-bottom:8px;opacity:.4">
+<div style="flex:1;border:1.5px solid #16A34A;border-radius:8px;padding:7px 0;text-align:center;font:600 10px 'Architects Daughter',sans-serif;color:#16A34A">Code 2</div>
+<div style="flex:1;background:#1B2A4A;border-radius:8px;padding:7px 0;text-align:center;font:600 10px 'Architects Daughter',sans-serif;color:#fff">Mark-Up</div>
+<div style="border:1px solid #D4A843;border-radius:8px;padding:7px 10px;font:600 9px 'Architects Daughter',sans-serif;color:#B08A2E">Archive</div>
+<div class="mk" style="top:-9px;right:-4px">2</div>
+</div>
+
+<div class="card8">
+<div class="chd">
+<div><div class="addr">14 Example St, Macquarie</div><div class="typ">Illegal Parking — Code21</div></div>
+<div style="position:relative;background:#F59E0B;border-radius:999px;padding:3px 8px;display:flex;align-items:center;gap:4px">
+<span style="width:6px;height:6px;border-radius:999px;background:#fff"></span>
+<span style="font:700 9px 'JetBrains Mono',monospace;color:#fff;text-transform:uppercase;letter-spacing:.4px">Dispatched</span>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+</div>
+<div class="desc" style="position:relative">Vehicle parked across driveway, blocking resident access.
+<div class="mk" style="top:-4px;right:-9px">4</div></div>
+<div style="position:relative;background:#D4A843;border-radius:8px;padding:11px 0;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px">
+<span style="width:12px;height:12px;border-radius:999px;border:2px solid #0F1A32"></span>
+<span style="font:700 13px 'Architects Daughter',sans-serif;color:#0F1A32">Acknowledge</span>
+<div class="mk" style="top:-9px;right:-9px">5</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8b">
+<div class="dv-olabel"><a class="dv-oid" href="#8b">8b</a>Dispatch card states &amp; status legend</div>
+<div class="dv-card" style="width:400px;padding:16px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+<div class="card8">
+<div class="chd"><div><div class="addr">220 River Rd</div><div class="typ">Overstay — Code21</div></div>
+<div style="position:relative;background:#2563EB;border-radius:999px;padding:3px 8px;display:flex;align-items:center;gap:4px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#fff;text-transform:uppercase">In Progress</span><div class="mk" style="top:-9px;right:-9px">1</div></div></div>
+<div class="desc">Attending — vehicle overstayed 2hr limit.</div>
+<div style="display:flex;gap:6px">
+<div style="flex:1;border:2px solid #D4A843;border-radius:8px;padding:7px 0;text-align:center;font:700 9px 'Architects Daughter',sans-serif;color:#B08A2E">Add Vehicle</div>
+<div style="flex:1;background:#7C3AED;border-radius:8px;padding:7px 0;text-align:center;font:700 9px 'Architects Daughter',sans-serif;color:#fff">Issue Infringement</div>
+<div style="position:relative;flex:1;background:#7C3AED;border-radius:8px;padding:7px 0;text-align:center;font:700 9px 'Architects Daughter',sans-serif;color:#fff">No Report<div class="mk" style="top:-9px;right:-9px">2</div></div>
+</div>
+</div>
+
+<div class="card8">
+<div class="chd"><div><div class="addr">8 Park Lane</div><div class="typ">No Parking — Code21</div></div>
+<div style="background:#16A34A;border-radius:999px;padding:3px 8px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#fff;text-transform:uppercase">Attended</span></div></div>
+<div style="position:relative;background:#F0FDF4;border-radius:5px;padding:7px;margin-bottom:6px;display:flex;align-items:center;gap:6px">
+<span style="font:700 12px 'Architects Daughter',sans-serif;color:#115A50">🚗</span>
+<span style="font:500 10.5px 'Architects Daughter',sans-serif;color:#115A50">Toyota • Sedan • White • ABC123</span>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+<div style="position:relative;background:#F5F3FF;border-radius:5px;padding:7px;display:flex;align-items:center;gap:6px">
+<span style="font:700 10.5px 'Architects Daughter',sans-serif;color:#7C3AED">PIN Issued: PIN-2026-00341</span>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+</div>
+
+<div class="card8" style="display:grid;place-items:center;min-height:80px">
+<span style="font:400 12px 'Architects Daughter',sans-serif;color:#8892A2">No active dispatches</span>
+</div>
+
+<div class="card8">
+<div class="flabel" style="margin-bottom:8px;position:relative">Status colour key<div class="mk" style="top:-9px;right:-9px">5</div></div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:999px;background:#F59E0B"></span><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#333">Dispatched — radio icon</span></div>
+<div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:999px;background:#2563EB"></span><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#333">In Progress — navigation icon</span></div>
+<div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:999px;background:#16A34A"></span><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#333">Attended — no icon</span></div>
+<div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:999px;background:#7C3AED"></span><span style="font:400 10.5px 'Architects Daughter',sans-serif;color:#333">PIN Issued — no icon</span></div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8c">
+<div class="dv-olabel"><a class="dv-oid" href="#8c">8c</a>Vehicle Details form</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#f9fafb">
+<div class="sb" style="color:#9CA3AF"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:16px 16px 0">
+<div style="font:700 17px 'Architects Daughter',sans-serif;color:#111827">Vehicle Details</div>
+<div style="position:relative;font:400 10.5px 'Architects Daughter',sans-serif;color:#6b7280;margin-top:3px">SR: SR-2026-04812 — 14 Example St
+<div class="mk" style="top:-4px;right:-9px">1</div></div>
+<div style="height:12px"></div>
+<div style="position:relative;background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:9px">
+<div style="font:700 10px 'Architects Daughter',sans-serif;color:#92400e;margin-bottom:2px">No Vehicle Details on Record</div>
+<div style="font:400 9.5px 'Architects Daughter',sans-serif;color:#92400e">Enter vehicle details observed at the scene</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="height:14px"></div>
+<div style="position:relative;font:600 9.5px 'Architects Daughter',sans-serif;color:#374151;margin-bottom:5px">Make<div class="mk" style="top:-8px;right:-9px">3</div></div>
+<div style="border:1px solid #2563eb;border-radius:8px;padding:9px 11px;font:400 12px 'Architects Daughter',sans-serif;color:#111827">To</div>
+<div style="background:#fff;border:1px solid #B0B7C3;border-radius:8px;margin-top:3px;box-shadow:0 2px 4px rgba(17,24,39,.1)">
+<div style="padding:8px 11px;font:400 11.5px 'Architects Daughter',sans-serif;color:#374151;border-bottom:1px solid #f3f4f6">Toyota</div>
+</div>
+<div style="height:12px"></div>
+<div style="font:600 9.5px 'Architects Daughter',sans-serif;color:#374151;margin-bottom:5px">Body Type</div>
+<div style="border:1px solid #B0B7C3;border-radius:8px;padding:9px 11px;font:400 12px 'Architects Daughter',sans-serif;color:#9CA3AF">e.g. Sedan</div>
+<div style="height:12px"></div>
+<div style="font:600 9.5px 'Architects Daughter',sans-serif;color:#374151;margin-bottom:5px">Colour</div>
+<div style="border:1px solid #B0B7C3;border-radius:8px;padding:9px 11px;font:400 12px 'Architects Daughter',sans-serif;color:#9CA3AF">e.g. White</div>
+<div style="height:12px"></div>
+<div style="position:relative;font:600 9.5px 'Architects Daughter',sans-serif;color:#374151;margin-bottom:5px">Registration<div class="mk" style="top:-8px;right:-9px">4</div></div>
+<div style="border:1px solid #B0B7C3;border-radius:8px;padding:9px 11px;font:400 12px 'Architects Daughter',sans-serif;color:#9CA3AF;letter-spacing:1px">e.g. ABC123</div>
+</div>
+<div style="position:absolute;bottom:16px;left:16px;right:16px;display:flex;gap:10px">
+<div style="flex:1;background:#e5e7eb;border-radius:10px;padding:12px 0;text-align:center;font:600 12px 'Architects Daughter',sans-serif;color:#374151">Cancel</div>
+<div style="position:relative;flex:2;background:#2563eb;opacity:.5;border-radius:10px;padding:12px 0;text-align:center;font:600 12px 'Architects Daughter',sans-serif;color:#fff">Save Vehicle Details
+<div class="mk" style="top:-9px;right:-9px">5</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8d-i">
+<div class="dv-olabel"><a class="dv-oid" href="#8d-i">8d-i</a>Issue Infringement — Step 1: Location &amp; Vehicle (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 1 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Location &amp; Vehicle</div>
+
+<div style="position:relative;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:5px 8px;font:600 9px 'Architects Daughter',sans-serif;color:#7C3AED;margin-bottom:8px">📍 Auto-filled from GPS + PA lookup — all fields editable
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+
+<div class="flabel" style="margin-bottom:3px">Street Segment</div>
+<div style="border:1px solid #B0B7C3;border-radius:6px;padding:6px 9px;font:400 11px 'Architects Daughter',sans-serif;color:#111;margin-bottom:6px">Elizabeth St (100–200 blk)</div>
+
+<div style="position:relative;font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Between<div class="mk" style="top:-8px;right:-9px">2</div></div>
+<div style="border:1px solid #B0B7C3;border-radius:6px;padding:6px 9px;font:400 11px 'Architects Daughter',sans-serif;color:#111;margin-bottom:6px">Little Collins St</div>
+<div style="font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">And</div>
+<div style="border:1px solid #B0B7C3;border-radius:6px;padding:6px 9px;font:400 11px 'Architects Daughter',sans-serif;color:#111;margin-bottom:6px">Collins St</div>
+
+<div style="position:relative;font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Side of Street<div class="mk" style="top:-8px;right:-9px">3</div></div>
+<div style="display:flex;gap:4px;margin-bottom:6px">
+<div style="flex:1;text-align:center;padding:5px 0;border:1px solid #B0B7C3;border-radius:5px;font:600 9px 'JetBrains Mono',monospace;color:#374151">N</div>
+<div style="flex:1;text-align:center;padding:5px 0;border:1px solid #B0B7C3;border-radius:5px;font:600 9px 'JetBrains Mono',monospace;color:#374151">E</div>
+<div style="flex:1;text-align:center;padding:5px 0;background:#7C3AED;border-radius:5px;font:700 9px 'JetBrains Mono',monospace;color:#fff">S</div>
+<div style="flex:1;text-align:center;padding:5px 0;border:1px solid #B0B7C3;border-radius:5px;font:600 9px 'JetBrains Mono',monospace;color:#374151">W</div>
+<div style="flex:1;text-align:center;padding:5px 0;border:1px solid #B0B7C3;border-radius:5px;font:600 9px 'JetBrains Mono',monospace;color:#374151">Ctr</div>
+</div>
+
+<div class="gtbl" style="position:relative;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+<div class="dfield"><div class="dflabel">Parking Area</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">PA-0442</div></div>
+<div class="dfield"><div class="dflabel">EP / PS No.</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">EP-1187</div></div>
+<div class="mk" style="top:-9px;right:-9px">4</div>
+</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:6px;position:relative">
+<div style="font:700 11px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:5px">Vehicle Details<div class="mk" style="top:-4px;right:-9px">5</div></div>
+<div class="gtbl" style="grid-template-columns:1fr 1fr;gap:6px">
+<div class="dfield"><div class="dflabel">Make</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">Toyota</div></div>
+<div class="dfield"><div class="dflabel">Body Type</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">Sedan</div></div>
+<div class="dfield"><div class="dflabel">Colour</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">White</div></div>
+<div class="dfield"><div class="dflabel">Registration</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111;letter-spacing:1px">ABC123</div></div>
+</div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Cancel</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8d-ii">
+<div class="dv-olabel"><a class="dv-oid" href="#8d-ii">8d-ii</a>Issue Infringement — Step 2: Evidence &amp; Officer Notes (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 2 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Evidence &amp; Officer Notes</div>
+
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font:700 10px 'Architects Daughter',sans-serif;color:#111827">Evidence</span><span style="font:700 10px 'JetBrains Mono',monospace;color:#16A34A">3/3 ✓</span><div class="mk" style="top:-9px;right:-9px">1</div></div>
+<div style="display:flex;gap:6px;margin-bottom:6px">
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;border:1.5px dashed #B0B7C3;display:grid;place-items:center;font:700 18px 'Architects Daughter',sans-serif;color:#B0B7C3">+</div>
+</div>
+
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;border:1px solid #ECEEF2;border-radius:6px;padding:6px 8px;margin-bottom:8px">
+<span style="font:400 9.5px 'Architects Daughter',sans-serif;color:#4A5568">Can't capture 3 photos? Override</span>
+<span style="width:30px;height:16px;border-radius:999px;background:#ECEEF2;position:relative;display:inline-block"><span style="position:absolute;top:1px;left:1px;width:14px;height:14px;border-radius:999px;background:#fff;border:1px solid #B0B7C3"></span></span>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+
+<div style="position:relative;font:700 10px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:4px">Officer Notes<div class="mk" style="top:-8px;right:-9px">3</div></div>
+<div style="border:1.5px solid #444;border-radius:6px;padding:8px 9px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;color:#333;min-height:70px">Vehicle observed stationary in loading zone, hazard lights off, no driver present.</div>
+</div>
+<div style="position:relative;padding:0 14px;font:400 9.5px/1.4 'Architects Daughter',sans-serif;color:#8892A2">Auto-populated per department + offence type; editable now. After issuance, notes/evidence may only be appended — existing entries become immutable.
+<div class="mk" style="top:-4px;right:0px">4</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8d-iii">
+<div class="dv-olabel"><a class="dv-oid" href="#8d-iii">8d-iii</a>Issue Infringement — Step 3: Offence &amp; Time (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 3 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Offence &amp; Time</div>
+
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:7px 9px;margin-bottom:8px">
+<span style="font:600 10.5px 'Architects Daughter',sans-serif;color:#333">701 — Parking for longer than indicated</span>
+<span style="font:700 9px 'Architects Daughter',sans-serif;color:#7C3AED;text-decoration:underline">Change</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+
+<div class="gtbl" style="position:relative;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+<div class="dfield"><div class="dflabel">Offence ID</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">701</div></div>
+<div class="dfield"><div class="dflabel">Penalty</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">$117</div></div>
+<div class="dfield"><div class="dflabel">Offence Date</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">07/08/2026</div></div>
+<div class="dfield"><div class="dflabel">Due Date</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">04/09/2026</div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:7px">
+<div style="position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="dflabel">Time From <span style="font-size:8px">🔒</span></span><span style="font:600 11px 'JetBrains Mono',monospace;color:#111;background:#F5F3FF;border-radius:5px;padding:4px 8px">14:02:00</span><div class="mk" style="top:-8px;right:-9px">3</div></div>
+<div style="position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="dflabel">Time To <span style="font-size:8px">✎</span></span><span style="font:600 11px 'JetBrains Mono',monospace;color:#111;border:1.5px solid #444;border-radius:5px;padding:4px 8px">14:15:00</span><div class="mk" style="top:-8px;right:-9px">4</div></div>
+<div style="position:relative;display:flex;justify-content:space-between;align-items:center"><span class="dflabel">Issuance Time <span style="font-size:8px">🔒</span></span><span style="font:400 11px 'JetBrains Mono',monospace;color:#9CA3AF;background:#F3F4F6;border-radius:5px;padding:4px 8px">— captured at print</span><div class="mk" style="top:-8px;right:-9px">5</div></div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8d-iv">
+<div class="dv-olabel"><a class="dv-oid" href="#8d-iv">8d-iv</a>Issue Infringement — Step 4: Review &amp; Issue (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 4 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:8px">Review &amp; Issue</div>
+
+<div style="position:relative;display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Location</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">Elizabeth St · S side</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Between</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">Little Collins St &amp; Collins St</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">PA / EP-PS</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">PA-0442 / EP-1187</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Vehicle</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">Toyota Sedan, White · ABC123</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Offence</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">701 · $117</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Description</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#333;text-align:right;max-width:160px">Parking for longer than indicated</span></div>
+<div style="position:relative;display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Time From → To</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">14:02 → 14:15<div class="mk" style="top:-8px;right:-9px">1</div></span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Issuance Time</span><span style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF;text-align:right">— at print</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Evidence</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#16A34A;text-align:right">3 photos</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Officer Notes</span><span style="font:400 10px/1.35 'Architects Daughter',sans-serif;color:#333">"Vehicle observed stationary in loading zone…"</span></div>
+</div>
+
+<div style="position:relative;display:flex;align-items:center;gap:7px;border-top:1px solid #ECEEF2;padding-top:8px">
+<span style="width:16px;height:16px;border-radius:4px;background:#7C3AED;display:grid;place-items:center;font:700 10px sans-serif;color:#fff">✓</span>
+<span style="font:400 10px 'Architects Daughter',sans-serif;color:#333">I confirm the above is accurate</span>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="position:relative;flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Issue / Print
+<div class="mk" style="top:-9px;right:-9px">3</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8h-i">
+<div class="dv-olabel"><a class="dv-oid" href="#8h-i">8h-i</a>Issue Infringement — Animal Management — Step 1: Location &amp; Animal/Owner (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 1 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Animal Mgmt</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Location &amp; Animal / Owner</div>
+
+<div style="position:relative;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:5px 8px;font:600 9px 'Architects Daughter',sans-serif;color:#7C3AED;margin-bottom:8px">Auto-filled from GPS — editable
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+
+<div class="flabel" style="margin-bottom:3px">Location Description</div>
+<div style="position:relative;border:1px solid #B0B7C3;border-radius:6px;padding:6px 9px;font:400 11px 'Architects Daughter',sans-serif;color:#111;margin-bottom:10px">Macquarie Gardens Reserve — near Wattle Ave entrance
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:6px;margin-bottom:8px">
+<div style="font:700 11px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:5px">Animal Details</div>
+<div class="gtbl" style="grid-template-columns:1fr 1fr;gap:6px">
+<div class="dfield"><div class="dflabel">Species</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">Dog</div></div>
+<div class="dfield"><div class="dflabel">Breed</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">Kelpie</div></div>
+<div class="dfield"><div class="dflabel">Colour</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">Black/Tan</div></div>
+<div class="dfield" style="position:relative"><div class="dflabel">Animal Reg. No.</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">AR-88231</div><div class="mk" style="top:-9px;right:-9px">3</div></div>
+</div>
+</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:6px;position:relative">
+<div style="font:700 11px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:5px">Owner / Person in Control<div class="mk" style="top:-4px;right:-9px">4</div></div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<div><div class="dflabel">Name</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">J. Whelan</div></div>
+<div><div class="dflabel">Address</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">12 Wattle Ave, Macquarie</div></div>
+<div><div class="dflabel">Contact No.</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">0412 000 000</div></div>
+</div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Cancel</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8h-ii">
+<div class="dv-olabel"><a class="dv-oid" href="#8h-ii">8h-ii</a>Issue Infringement — Animal Management — Step 2: Evidence &amp; Officer Notes (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 2 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Animal Mgmt</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Evidence &amp; Officer Notes</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font:700 10px 'Architects Daughter',sans-serif;color:#111827">Evidence</span><span style="font:700 10px 'JetBrains Mono',monospace;color:#16A34A">3/3 ✓</span></div>
+<div style="display:flex;gap:6px;margin-bottom:6px">
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;border:1.5px dashed #B0B7C3;display:grid;place-items:center;font:700 18px 'Architects Daughter',sans-serif;color:#B0B7C3">+</div>
+</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #ECEEF2;border-radius:6px;padding:6px 8px;margin-bottom:8px">
+<span style="font:400 9.5px 'Architects Daughter',sans-serif;color:#4A5568">Can't capture 3 photos? Override</span>
+<span style="width:30px;height:16px;border-radius:999px;background:#ECEEF2;position:relative;display:inline-block"><span style="position:absolute;top:1px;left:1px;width:14px;height:14px;border-radius:999px;background:#fff;border:1px solid #B0B7C3"></span></span>
+</div>
+
+<div style="font:700 10px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:4px">Officer Notes</div>
+<div style="position:relative;border:1.5px solid #444;border-radius:6px;padding:8px 9px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;color:#333;min-height:70px">Dog observed off-leash in an on-leash area; no owner in immediate vicinity at first observation. Owner identified via registration tag lookup.
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8h-iii">
+<div class="dv-olabel"><a class="dv-oid" href="#8h-iii">8h-iii</a>Issue Infringement — Animal Management — Step 3: Offence &amp; Time (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 3 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Animal Mgmt</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Offence &amp; Time</div>
+
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:7px 9px;margin-bottom:8px">
+<span style="font:600 10.5px 'Architects Daughter',sans-serif;color:#333">AM-014 — Dog in a public place off leash</span>
+<span style="font:700 9px 'Architects Daughter',sans-serif;color:#7C3AED;text-decoration:underline">Change</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+
+<div class="gtbl" style="position:relative;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+<div class="dfield"><div class="dflabel">Offence ID</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">AM-014</div></div>
+<div class="dfield"><div class="dflabel">Penalty</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">$92</div></div>
+<div class="dfield"><div class="dflabel">Offence Date</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">07/08/2026</div></div>
+<div class="dfield"><div class="dflabel">Due Date</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">04/09/2026</div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:7px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="dflabel">Time From <span style="font-size:8px">🔒</span></span><span style="font:600 11px 'JetBrains Mono',monospace;color:#111;background:#F5F3FF;border-radius:5px;padding:4px 8px">11:20:00</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="dflabel">Time To <span style="font-size:8px">✎</span></span><span style="font:600 11px 'JetBrains Mono',monospace;color:#111;border:1.5px solid #444;border-radius:5px;padding:4px 8px">11:31:00</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="dflabel">Issuance Time <span style="font-size:8px">🔒</span></span><span style="font:400 11px 'JetBrains Mono',monospace;color:#9CA3AF;background:#F3F4F6;border-radius:5px;padding:4px 8px">— captured at print</span></div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8h-iv">
+<div class="dv-olabel"><a class="dv-oid" href="#8h-iv">8h-iv</a>Issue Infringement — Animal Management — Step 4: Review &amp; Issue (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 4 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Animal Mgmt</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:8px">Review &amp; Issue</div>
+
+<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Location</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">Macquarie Gardens Reserve</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Animal</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">Dog · Kelpie · Black/Tan · AR-88231</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Owner</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">J. Whelan · 0412 000 000</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Offence</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">AM-014 · $92</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Description</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#333;text-align:right;max-width:160px">Dog in a public place off leash</span></div>
+<div style="position:relative;display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Time From → To</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">11:20 → 11:31<div class="mk" style="top:-8px;right:-9px">1</div></span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Issuance Time</span><span style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF;text-align:right">— at print</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Evidence</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#16A34A;text-align:right">3 photos</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Officer Notes</span><span style="font:400 10px/1.35 'Architects Daughter',sans-serif;color:#333">"Dog observed off-leash in on-leash area…"</span></div>
+</div>
+
+<div style="position:relative;display:flex;align-items:center;gap:7px;border-top:1px solid #ECEEF2;padding-top:8px">
+<span style="width:16px;height:16px;border-radius:4px;background:#7C3AED;display:grid;place-items:center;font:700 10px sans-serif;color:#fff">✓</span>
+<span style="font:400 10px 'Architects Daughter',sans-serif;color:#333">I confirm the above is accurate</span>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Issue / Print</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8i-i">
+<div class="dv-olabel"><a class="dv-oid" href="#8i-i">8i-i</a>Issue Infringement — Rangers (Parks &amp; Gardens) — Step 1: Location &amp; Party Details (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 1 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Rangers</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Location &amp; Party Details</div>
+
+<div style="position:relative;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:5px 8px;font:600 9px 'Architects Daughter',sans-serif;color:#7C3AED;margin-bottom:8px">Auto-filled from GPS — editable
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+
+<div class="flabel" style="margin-bottom:3px">Location Description</div>
+<div style="position:relative;border:1px solid #B0B7C3;border-radius:6px;padding:6px 9px;font:400 11px 'Architects Daughter',sans-serif;color:#111;margin-bottom:10px">Yarra Bend Park — northern camping ground
+<div class="mk" style="top:-9px;right:-9px">2</div></div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:6px;margin-bottom:8px;position:relative">
+<div style="font:700 11px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:5px">Reserve / Site</div>
+<div class="gtbl" style="grid-template-columns:1fr 1fr;gap:6px">
+<div class="dfield"><div class="dflabel">Reserve Name</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">Yarra Bend Park</div></div>
+<div class="dfield"><div class="dflabel">Feature / Area</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">Camping Grd (N)</div></div>
+<div class="dfield" style="grid-column:1/-1"><div class="dflabel">Permit Status</div><div style="background:#FEF3C7;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#92400E">No permit on record</div></div>
+</div>
+<div class="mk" style="top:-4px;right:-9px">3</div>
+</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:6px;position:relative">
+<div style="font:700 11px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:5px">Party in Control<div class="mk" style="top:-4px;right:-9px">4</div></div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<div><div class="dflabel">Name</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">R. Fenwick</div></div>
+<div><div class="dflabel">Address</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:400 11px 'Architects Daughter',sans-serif;color:#111">4 Studley Park Rd, Kew</div></div>
+<div class="gtbl" style="grid-template-columns:1fr 1fr;gap:6px">
+<div class="dfield"><div class="dflabel">ID Type / No.</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">DL 04829371</div></div>
+<div class="dfield"><div class="dflabel">Contact No.</div><div style="border:1px solid #B0B7C3;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">0433 000 000</div></div>
+</div>
+</div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Cancel</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8i-ii">
+<div class="dv-olabel"><a class="dv-oid" href="#8i-ii">8i-ii</a>Issue Infringement — Rangers — Step 2: Evidence &amp; Officer Notes (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 2 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Rangers</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Evidence &amp; Officer Notes</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font:700 10px 'Architects Daughter',sans-serif;color:#111827">Evidence</span><span style="font:700 10px 'JetBrains Mono',monospace;color:#16A34A">3/3 ✓</span></div>
+<div style="display:flex;gap:6px;margin-bottom:6px">
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;background:#F0FDF4;border:1.5px solid #16A34A;display:grid;place-items:center;font:700 14px sans-serif;color:#16A34A">✓</div>
+<div style="width:64px;height:64px;border-radius:7px;border:1.5px dashed #B0B7C3;display:grid;place-items:center;font:700 18px 'Architects Daughter',sans-serif;color:#B0B7C3">+</div>
+</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #ECEEF2;border-radius:6px;padding:6px 8px;margin-bottom:8px">
+<span style="font:400 9.5px 'Architects Daughter',sans-serif;color:#4A5568">Can't capture 3 photos? Override</span>
+<span style="width:30px;height:16px;border-radius:999px;background:#ECEEF2;position:relative;display:inline-block"><span style="position:absolute;top:1px;left:1px;width:14px;height:14px;border-radius:999px;background:#fff;border:1px solid #B0B7C3"></span></span>
+</div>
+
+<div style="font:700 10px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:4px">Officer Notes</div>
+<div style="position:relative;border:1.5px solid #444;border-radius:6px;padding:8px 9px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;color:#333;min-height:70px">Tent and camp furniture set up in northern camping ground; no permit sighted or produced on request. Party identified on-site via driver licence.
+<div class="mk" style="top:-9px;right:-9px">1</div></div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8i-iii">
+<div class="dv-olabel"><a class="dv-oid" href="#8i-iii">8i-iii</a>Issue Infringement — Rangers — Step 3: Offence &amp; Time (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 3 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Rangers</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#DDD6FE"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:6px">Offence &amp; Time</div>
+
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:7px 9px;margin-bottom:8px">
+<span style="font:600 10.5px 'Architects Daughter',sans-serif;color:#333">PG-021 — Camping in a reserve without a permit</span>
+<span style="font:700 9px 'Architects Daughter',sans-serif;color:#7C3AED;text-decoration:underline">Change</span>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+
+<div class="gtbl" style="position:relative;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+<div class="dfield"><div class="dflabel">Offence ID</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">PG-021</div></div>
+<div class="dfield"><div class="dflabel">Penalty</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">$198</div></div>
+<div class="dfield"><div class="dflabel">Offence Date</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">07/08/2026</div></div>
+<div class="dfield"><div class="dflabel">Due Date</div><div style="background:#F5F3FF;border-radius:5px;padding:5px 8px;font:600 11px 'JetBrains Mono',monospace;color:#111">04/09/2026</div></div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+
+<div style="border-top:1px solid #ECEEF2;padding-top:7px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="dflabel">Time From <span style="font-size:8px">🔒</span></span><span style="font:600 11px 'JetBrains Mono',monospace;color:#111;background:#F5F3FF;border-radius:5px;padding:4px 8px">09:47:00</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span class="dflabel">Time To <span style="font-size:8px">✎</span></span><span style="font:600 11px 'JetBrains Mono',monospace;color:#111;border:1.5px solid #444;border-radius:5px;padding:4px 8px">10:03:00</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="dflabel">Issuance Time <span style="font-size:8px">🔒</span></span><span style="font:400 11px 'JetBrains Mono',monospace;color:#9CA3AF;background:#F3F4F6;border-radius:5px;padding:4px 8px">— captured at print</span></div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Next</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8i-iv">
+<div class="dv-olabel"><a class="dv-oid" href="#8i-iv">8i-iv</a>Issue Infringement — Rangers — Step 4: Review &amp; Issue (proposed)</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#fff">
+<div class="sb" style="color:#8892A2"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="padding:10px 14px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font:700 9px 'JetBrains Mono',monospace;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px">Step 4 of 4</span><span style="font:400 9px 'Architects Daughter',sans-serif;color:#8892A2">Issue Infringement — Rangers</span></div>
+<div style="display:flex;gap:4px;margin-bottom:8px"><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div><div style="flex:1;height:3px;border-radius:2px;background:#7C3AED"></div></div>
+<div style="font:700 14px 'Architects Daughter',sans-serif;color:#111827;margin-bottom:8px">Review &amp; Issue</div>
+
+<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Location</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">Yarra Bend Park</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Reserve / Site</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">Camping Grd (N) · No permit</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Party</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">R. Fenwick · 0433 000 000</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Offence</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">PG-021 · $198</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Description</span><span style="font:400 10px 'Architects Daughter',sans-serif;color:#333;text-align:right;max-width:160px">Camping in a reserve without a permit</span></div>
+<div style="position:relative;display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Time From → To</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#111;text-align:right">09:47 → 10:03<div class="mk" style="top:-8px;right:-9px">1</div></span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span class="dflabel">Issuance Time</span><span style="font:400 10px 'JetBrains Mono',monospace;color:#9CA3AF;text-align:right">— at print</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Evidence</span><span style="font:600 10px 'JetBrains Mono',monospace;color:#16A34A;text-align:right">3 photos</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;border-top:1px solid #ECEEF2;padding-top:5px"><span class="dflabel">Officer Notes</span><span style="font:400 10px/1.35 'Architects Daughter',sans-serif;color:#333">"Tent and camp furniture set up in northern camping ground…"</span></div>
+</div>
+
+<div style="position:relative;display:flex;align-items:center;gap:7px;border-top:1px solid #ECEEF2;padding-top:8px">
+<span style="width:16px;height:16px;border-radius:4px;background:#7C3AED;display:grid;place-items:center;font:700 10px sans-serif;color:#fff">✓</span>
+<span style="font:400 10px 'Architects Daughter',sans-serif;color:#333">I confirm the above is accurate</span>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+</div>
+<div style="position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px">
+<div style="flex:1;border:1px solid #8892A2;border-radius:8px;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333">Back</div>
+<div style="flex:1.4;background:#7C3AED;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff">Issue / Print</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8e">
+<div class="dv-olabel"><a class="dv-oid" href="#8e">8e</a>No Report — evidence capture</div>
+<div class="dv-card" style="width:340px;padding:18px">
+<div style="background:#e9e7e2;padding:18px;display:grid;place-items:center">
+<div class="pf" style="width:272px;height:560px;background:#1B2A4A">
+<div class="sb" style="color:#F7F8FA"><span>9:41</span><span>▮▮▮ ▲ ▮</span></div>
+<div style="position:relative;background:#0F1A32;padding:14px 16px;border-bottom:1px solid #7C3AED;margin-top:8px">
+<div style="font:700 15px 'Architects Daughter',sans-serif;color:#F7F8FA">No Report — Evidence Capture</div>
+<div style="font:700 11px 'Architects Daughter',sans-serif;color:#7C3AED;margin-top:3px">Minimum 3 photos required (2/3)</div>
+<div class="mk" style="top:-9px;right:2px">1</div>
+</div>
+<div style="padding:10px 12px;display:flex;flex-direction:column;gap:8px">
+<div style="position:relative;display:flex;background:#2C3E6B;border-radius:10px;padding:8px;align-items:center;gap:10px">
+<div style="width:52px;height:52px;border-radius:7px;border:1.5px dashed #636E80;display:grid;place-items:center;font:400 8px 'Architects Daughter',sans-serif;color:#8892A2">photo</div>
+<div style="flex:1"><div style="font:600 11px 'JetBrains Mono',monospace;color:#F7F8FA">NR_a1b2c3d4_1.jpg</div><div style="font:400 9.5px 'Architects Daughter',sans-serif;color:#B0B7C3;margin-top:1px">2026-08-07 14:32:10</div><div style="font:400 9.5px 'Architects Daughter',sans-serif;color:#B0B7C3">GPS: -37.81400, 144.96320</div></div>
+<div style="width:24px;height:24px;border-radius:999px;background:#FEF2F2;display:grid;place-items:center;font:700 11px sans-serif;color:#DC2626">✕</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div style="display:flex;background:#2C3E6B;border-radius:10px;padding:8px;align-items:center;gap:10px">
+<div style="width:52px;height:52px;border-radius:7px;border:1.5px dashed #636E80;display:grid;place-items:center;font:400 8px 'Architects Daughter',sans-serif;color:#8892A2">photo</div>
+<div style="flex:1"><div style="font:600 11px 'JetBrains Mono',monospace;color:#F7F8FA">NR_a1b2c3d4_2.jpg</div><div style="font:400 9.5px 'Architects Daughter',sans-serif;color:#B0B7C3;margin-top:1px">2026-08-07 14:32:41</div><div style="font:400 9.5px 'Architects Daughter',sans-serif;color:#B0B7C3">GPS: -37.81406, 144.96325</div></div>
+<div style="width:24px;height:24px;border-radius:999px;background:#FEF2F2;display:grid;place-items:center;font:700 11px sans-serif;color:#DC2626">✕</div>
+</div>
+</div>
+<div style="position:relative;display:flex;justify-content:center;gap:8px;padding:8px 0">
+<span style="width:10px;height:10px;border-radius:999px;background:#7C3AED"></span>
+<span style="width:10px;height:10px;border-radius:999px;background:#7C3AED"></span>
+<span style="width:10px;height:10px;border-radius:999px;background:#2C3E6B;border:1px solid #4A5568"></span>
+<div class="mk" style="top:-9px;right:110px">3</div>
+</div>
+<div style="position:absolute;bottom:14px;left:12px;right:12px;display:flex;flex-direction:column;gap:8px">
+<div style="background:#D4A843;border-radius:10px;padding:13px 0;text-align:center;font:700 13px 'Architects Daughter',sans-serif;color:#0F1A32">📷 Capture Photo</div>
+<div style="position:relative;background:#4A5568;opacity:.6;border-radius:10px;padding:13px 0;text-align:center;font:700 13px 'Architects Daughter',sans-serif;color:#fff">Submit No Report
+<div class="mk" style="top:-9px;right:-9px">4</div></div>
+<div style="text-align:center;font:600 11px 'Architects Daughter',sans-serif;color:#B0B7C3;padding-top:2px">Cancel</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8f">
+<div class="dv-olabel"><a class="dv-oid" href="#8f">8f</a>Native alert dialogs (Alert.alert — OS-styled, not app UI)</div>
+<div class="dv-card" style="width:640px;padding:18px">
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+
+<div style="position:relative;width:190px">
+<div style="background:#f2f2f2;border-radius:13px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.18)">
+<div style="padding:16px 14px 10px;text-align:center;font:700 13px 'Architects Daughter',sans-serif;color:#111">PIN Issued</div>
+<div style="padding:0 14px 14px;text-align:center;font:400 11px/1.4 'Architects Daughter',sans-serif;color:#333">Parking Infringement Number: PIN-2026-00341<br>Penalty: $117</div>
+<div style="border-top:1px solid #ccc">
+<div style="padding:11px 0;text-align:center;font:600 12px 'Architects Daughter',sans-serif;color:#2563eb">Done</div>
+</div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+
+<div style="position:relative;width:210px">
+<div style="background:#f2f2f2;border-radius:13px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.18)">
+<div style="padding:16px 14px 10px;text-align:center;font:700 13px 'Architects Daughter',sans-serif;color:#111">Confirm No Report</div>
+<div style="padding:0 14px 14px;text-align:center;font:400 11px/1.4 'Architects Daughter',sans-serif;color:#333">This will mark the service request as Attended Complete with no infringement report. This action locks the form.</div>
+<div style="border-top:1px solid #ccc;display:flex">
+<div style="flex:1;padding:11px 0;text-align:center;font:400 12px 'Architects Daughter',sans-serif;color:#333;border-right:1px solid #ccc">Cancel</div>
+<div style="flex:1;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#DC2626">Confirm</div>
+</div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+
+<div style="position:relative;width:210px">
+<div style="background:#f2f2f2;border-radius:13px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.18)">
+<div style="padding:16px 14px 10px;text-align:center;font:700 13px 'Architects Daughter',sans-serif;color:#111">Location Required</div>
+<div style="padding:0 14px 14px;text-align:center;font:400 11px/1.4 'Architects Daughter',sans-serif;color:#333">GPS location is mandatory for No Report evidence. Please enable location services.</div>
+<div style="border-top:1px solid #ccc">
+<div style="padding:11px 0;text-align:center;font:600 12px 'Architects Daughter',sans-serif;color:#2563eb">OK</div>
+</div>
+</div>
+<div class="mk" style="top:-9px;right:-9px">3</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="8g">
+<div class="dv-olabel"><a class="dv-oid" href="#8g">8g</a>Printed Infringement Notice — print-replica (PDF-ready)</div>
+<div class="dv-card" style="width:340px;padding:18px;background:#fff">
+<div style="border:1px solid #000;border-radius:2px;padding:14px;font:400 10.5px/1.6 'JetBrains Mono',monospace;color:#111;background:#fafafa">
+<div style="text-align:center;font-weight:700;font-size:12px">City of Macquarie</div>
+<div style="text-align:center;font-size:10px">INFRINGEMENT NOTICE</div>
+<div style="border-top:1px dashed #999;margin:6px 0"></div>
+<div style="height:22px;background:repeating-linear-gradient(90deg,#000 0 2px,#fff 2px 3px)"></div>
+<div>Notice Number: 202600341</div>
+<div>Officer ID: OFC-0392</div>
+<div style="border-top:1px dashed #999;margin:6px 0"></div>
+<div style="text-align:center;color:#7C3AED;font-weight:700;font-size:10px">↳ full receipt, real barcode/QR, PDF-exportable</div>
+</div>
+<a href="Infringement%20Notice%20-%20Print%20Replica.dc.html" style="display:block;margin-top:10px;background:#1B2A4A;border-radius:8px;padding:11px 0;text-align:center;font:700 12px 'Architects Daughter',sans-serif;color:#fff;text-decoration:none">Open print-replica →</a>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Session 16b — OQ3-1 sweep applied to OQ8-4's native <code>Alert.alert</code> dialogs (8f). Splits by kind: one-off notifications become toast/banner; the two-choice "Confirm No Report" decision gate is not a notification and stays out of this sweep — tracked separately under OQ5-2 (native <code>confirm()</code> pattern, still open).</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="8j">
+<div class="dv-olabel"><a class="dv-oid" href="#8j">8j</a>Native alerts → toast / inline banner (proposed)</div>
+<div class="dv-card" style="width:280px;padding:16px;background:#f2f1ee">
+<div style="position:relative;font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Replaces 8f.1 — success toast
+<div class="mk" style="top:-9px;right:-9px">1</div>
+</div>
+<div role="status" style="position:relative;display:flex;align-items:center;gap:9px;background:#1F2937;color:#fff;border-radius:8px;padding:10px 12px;font:400 11px/1.4 'Architects Daughter',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.22);margin-bottom:16px">
+<span style="width:16px;height:16px;border-radius:999px;background:#16A34A;flex:none;display:grid;place-items:center;font:600 10px sans-serif">&#10003;</span>
+<span style="flex:1">PIN Issued — PIN-2026-00341 · $117 penalty</span>
+</div>
+<div style="position:relative;font:600 9px 'Architects Daughter',sans-serif;color:#777;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Replaces 8f.3 — inline banner in capture screen
+<div class="mk" style="top:-9px;right:-9px">2</div>
+</div>
+<div role="alert" style="border:1px solid rgba(220,38,38,.4);background:rgba(220,38,38,.1);color:#DC2626;border-radius:6px;padding:9px 10px;font:400 10.5px/1.4 'Architects Daughter',sans-serif;margin-bottom:8px">GPS location is mandatory for No Report evidence. Enable location services.</div>
+<span style="border:1.5px solid #999;border-radius:6px;padding:6px 14px;font:400 11px 'Architects Daughter',sans-serif;color:#444">Retry</span>
+</div>
+
+</div>
+</div>
+</section>
+
+</x-dc>
+</body>
+</html>

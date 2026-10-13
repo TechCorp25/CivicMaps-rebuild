@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "effectiveDate": "2026-03-23",
+  "platform": {
+    "name": "CIVIC MAPS",
+    "shortName": "CIVIC",
+    "expansion": "Centralised Integrated Visibility & Information for Compliance",
+    "productFamily": "Municipal Administration, Patrol & Supervision"
+  },
+  "deployments": {
+    "officer": {
+      "productName": "EnforcementMAPS",
+      "role": "officer field deployment",
+      "slug": "emaps",
+      "productConstant": "ENFORCEMENT_MAPS",
+      "scheme": "emaps",
+      "easProjectId": {
+        "status": "retain-existing",
+        "note": "Retain the currently assigned officer app EAS project ID for emaps."
+      }
+    },
+    "command": {
+      "productName": "CommandMAPS",
+      "role": "dispatch, administration, supervision, compliance leadership deployment",
+      "slug": "commandmaps",
+      "productConstant": "COMMAND_MAPS",
+      "scheme": "commandmaps",
+      "easProjectId": "c1275292-88a4-415c-9b06-61a5a415f31d"
+    }
+  },
+  "environment": {
+    "appFamily": "CIVIC_MAPS",
+    "preferredVariables": [
+      "APP_FAMILY",
+      "APP_PRODUCT",
+      "EXPO_APP_NAME",
+      "EXPO_APP_SLUG",
+      "EAS_PROJECT_ID"
+    ],
+    "avoidVariables": [
+      "EXPO_PUBLIC_APP_SLUG",
+      "EXPO_PUBLIC_EAS_PROJECT_ID"
+    ]
+  },
+  "forbiddenIdentifiers": [
+    "cmaps"
+  ],
+  "notes": [
+    "CIVIC MAPS is the umbrella platform identity and should not replace deployment-specific mobile product names.",
+    "commandmaps is the approved slug for CommandMAPS to avoid ambiguity with CIVIC."
+  ]
+}
