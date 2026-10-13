@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "34a6a2ec65bb43ca75e1df2ebfe37caed4517857",
-  "activeFeature": null,
+  "activeFeature": "F02",
   "nextFeature": "F02",
   "allowedStatuses": [
     "planned",
@@ -29,16 +29,16 @@
     },
     {
       "id": "F02",
-      "status": "planned",
-      "branch": null,
+      "status": "in_progress",
+      "branch": "codex/civicmaps-f02-platform-acceptance",
       "commit": null,
       "pr": null,
-      "evidencePath": null,
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "evidencePath": "docs/plans/evidence/F02.md",
+      "acceptancePassed": true,
+      "publication": "pending",
+      "empirical": "pending",
       "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "nextAction": "Publish tested feature and record completion."
     },
     {
       "id": "F03",

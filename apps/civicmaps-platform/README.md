@@ -56,7 +56,7 @@ All endpoints are under `/api/platform`:
 
 ## Validation and references
 
-`npm run typecheck` and `npm run build` cover both web apps. `npm test` runs the existing foundation integration suite against disposable databases. Browser verification of this new platform slice remains outstanding.
+`npm run typecheck` and `npm run build` cover both web apps. `npm test` runs foundation and platform API acceptance cases against disposable databases. `npm run test:platform:browser` creates its own disposable database and ephemeral API/Vite servers, then verifies registration, reload, pack confirmation/cancellation, audit, error recovery, health, keyboard use and narrow layout in Chromium. It needs a running dedicated PostgreSQL instance and the matching Playwright Chromium installation. Screenshots are saved under `test-results/`; the database is removed after the run. CI runs both suites.
 
 - [S12 — Shell and municipality directory](../../docs/wireframes/screens/Wireframes%20S12%20-%20Platform%20Admin%20Shell%20and%20Municipality%20Directory.dc.html)
 - [S13 — Onboarding wizard](../../docs/wireframes/screens/Wireframes%20S13%20-%20Onboarding%20Wizard.dc.html)
