@@ -44,7 +44,7 @@
     },
     {
       "id": "F02Q",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f02q-quality",
       "commit": "ed9976e1585c93e72acb8ac2d8d4159f1858369a",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/8",
@@ -53,7 +53,8 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner review/merge; F03 context binding is next."
+      "nextAction": "Complete; owner merged PR #8.",
+      "mergeCommit": "8954d46b7214a3bfaeaf680dc9f4ab180719a420"
     },
     {
       "id": "F03",
@@ -66,7 +67,7 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Start after F02Q acceptance; implement explicit operating-context bindings only."
+      "nextAction": "Ready to implement from merged main; follow docs/plans/F03-preparation.md and create a fresh F03 feature branch."
     },
     {
       "id": "F04",
