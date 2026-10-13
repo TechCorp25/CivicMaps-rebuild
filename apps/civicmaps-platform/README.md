@@ -66,3 +66,5 @@ All endpoints are under `/api/platform`:
 
 The README referenced in the original request was absent from this checkout; this implementation README was created from S12–S15 with the user's confirmation.
 
+
+F03 adds explicit effective operating-context bindings and user grants between the registry and council operations. See the [context contract](../../docs/development/operating-context.md). Registry onboarding does not automatically grant operational access; provisioning and admin activation remain separate planned features.

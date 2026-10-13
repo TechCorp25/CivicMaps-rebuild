@@ -1,6 +1,6 @@
 # F03 — Municipality-to-operating-context binding: implementation brief
 
-Prepared from main `8954d46b7214a3bfaeaf680dc9f4ab180719a420`, which merged F02Q through PR #8. F01, F02 and F02Q prerequisites are complete. F03 remains planned; this brief does not implement bindings.
+Prepared from main `8954d46b7214a3bfaeaf680dc9f4ab180719a420`, which merged F02Q through PR #8. F01, F02 and F02Q prerequisites are complete. F03 implementation follows this brief in PR #9; see [acceptance evidence](evidence/F03.md) for completion status.
 
 ## Single-feature goal
 

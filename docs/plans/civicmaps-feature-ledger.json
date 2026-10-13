@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": null,
+  "activeFeature": "F03",
   "nextFeature": "F03",
   "allowedStatuses": [
     "planned",
@@ -58,16 +58,16 @@
     },
     {
       "id": "F03",
-      "status": "planned",
-      "branch": null,
+      "status": "in_progress",
+      "branch": "codex/civicmaps-f03-preparation",
       "commit": null,
-      "pr": null,
-      "evidencePath": null,
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/9",
+      "evidencePath": "docs/plans/evidence/F03.md",
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Ready to implement from merged main; follow docs/plans/F03-preparation.md and create a fresh F03 feature branch."
+      "nextAction": "Finish migration/context acceptance and browser validation, then publish into existing PR #9."
     },
     {
       "id": "F04",
