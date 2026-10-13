@@ -21,7 +21,7 @@ Use the Node version in `.node-version` and npm version in the root manifest. Fr
 - `npm run db:start`, `npm run db:migrate`, `npm run db:seed`: start a dedicated PostgreSQL instance, migrate and seed synthetic data.
 - `npm run dev`: run API (4100), CommandMAPS (5173) and Platform (5174).
 - `npm run dev:platform`: run API and Platform only.
-- `npm run check`: typecheck/build both web apps and run integration tests.
+- `npm run check`: lint, check formatting, typecheck/build both web apps and run integration tests.
 - `npm run test:browser`: exercise CommandMAPS against a running seeded environment.
 
 See `docs/development/local-build.md` for configuration and Linux x64 wrapper requirements. Other app/domain scripts invoking the absent `scripts/stub-task.mjs` are placeholders, not validation. CI covers implemented root scripts only.
@@ -35,7 +35,7 @@ These commands access external data and write output; review destinations before
 
 ## Coding Style & Naming Conventions
 
-Match nearby files: two-space indentation in JSON/JavaScript and four spaces in Python. Use descriptive `kebab-case` module directories and `snake_case` Python identifiers. Write documentation and UI copy in Australian English. Preserve CivicMAPS, CommandMAPS, and EnforcementMAPS naming; avoid `cmaps`. Use design tokens rather than raw component colours. No project-wide formatter is configured.
+Match nearby files: two-space indentation in JSON/JavaScript and four spaces in Python. Use descriptive `kebab-case` module directories and `snake_case` Python identifiers. Write documentation and UI copy in Australian English. Preserve CivicMAPS, CommandMAPS, and EnforcementMAPS naming; avoid `cmaps`. Use design tokens rather than raw component colours. Run `npm run format` for implemented application code and `npm run lint` for semantic checks. The explicit scope excludes archives, generated tokens and scaffolds; see `docs/development/local-build.md`.
 
 ## Testing Guidelines
 
@@ -49,4 +49,4 @@ Follow `docs/plans/civicmaps-platform-assessment-and-autonomous-plan.md` and its
 
 Query Empirical before substantive work; record meaningful completed work there with explicit authorship. Never store secrets. Current user authorisation takes precedence over historical governance boilerplate. Continue authorised implementation in the existing stack; resolve concrete D01–D06 product/provider decisions at the feature that needs them. Do not infer a production boundary from the local build.
 
-Record recurring gotchas in Empirical with symptom, cause, verified fix and prevention, tagged with this project and feature. Check these notes on resumption. Add useful why-comments using the language’s syntax (`//` or `/* */` in JS/TS; `#` in shell/Python), rather than narrating obvious code. Keep relative documentation links current. F02Q establishes enforced lint/format checks before F03; do not claim those gates exist until implemented.
+Record recurring gotchas in Empirical with symptom, cause, verified fix and prevention, tagged with this project and feature. Check these notes on resumption. Add useful why-comments using the language’s syntax (`//` or `/* */` in JS/TS; `#` in shell/Python), rather than narrating obvious code. Keep relative documentation links current. Lint and formatting are enforced by `npm run check` and CI. Keep React Hooks dependency checks enabled.

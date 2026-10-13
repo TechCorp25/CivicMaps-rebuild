@@ -4,7 +4,7 @@
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
   "activeFeature": null,
-  "nextFeature": "F02Q",
+  "nextFeature": "F03",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -44,16 +44,16 @@
     },
     {
       "id": "F02Q",
-      "status": "planned",
-      "branch": null,
-      "commit": null,
-      "pr": null,
-      "evidencePath": null,
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "status": "review_ready",
+      "branch": "codex/civicmaps-f02q-quality",
+      "commit": "ed9976e1585c93e72acb8ac2d8d4159f1858369a",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/8",
+      "evidencePath": "docs/plans/evidence/F02Q.md",
+      "acceptancePassed": true,
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Implement the bounded quality gate card from current main before F03."
+      "nextAction": "Owner review/merge; F03 context binding is next."
     },
     {
       "id": "F03",

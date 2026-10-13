@@ -74,3 +74,13 @@ Authenticated mutations require `x-csrf-token`; operational writes also require 
 `.github/workflows/ci.yml` uses the committed Node version and npm 11.9.0, installs with `npm ci`, and runs `npm run check` against a pinned disposable PostgreSQL 15 service. It verifies generated token files remain unchanged. This covers CommandMAPS, Platform and the current API suite; scaffold applications are excluded. Browser and native-device checks are separate acceptance work.
 
 When using an already running dedicated PostgreSQL instance, set `CIVICMAPS_DATABASE_URL` before `npm run check`; skip `db:start`. The test login needs permission to create/drop only its uniquely named disposable databases. Never point these commands at production. A writable npm cache can be selected with `npm_config_cache` in restricted workspaces.
+
+## Code quality gates (F02Q)
+
+`npm run check` runs lint (zero warnings), formatting verification, both app typechecks/builds and the API suite. CI invokes the same command, followed by the platform browser check. Run `npm run format` to apply formatting; `npm run format:check` is read-only.
+
+ESLint flat configuration covers implemented CommandMAPS/Platform TypeScript, API JavaScript, active scripts and tests. Recommended JavaScript/TypeScript rules and both runtime React Hooks rules are enabled; React Compiler-specific rules and type-aware linting are not enabled. TypeScript compilation remains a separate gate. Prettier handles layout separately, using two spaces, single quotes and a 100-column target. No conflicting stylistic lint preset is installed.
+
+Formatting scope is explicit in the root scripts. Archives, scaffold applications, generated tokens, build output and GIS data/tools are excluded. New implemented files must be added to these scopes when needed. Tool entry points use `node node_modules/...` because setup deliberately disables executable links.
+
+The shared test environment in `tests/helpers/environment.mjs` creates one unique disposable database per process, starts its API and closes resources on setup failure and teardown. Do not create a second environment in the same process: the API database module caches its pool. Separate test files run in isolated Node test processes. Never use the configured base database for fixture writes.
