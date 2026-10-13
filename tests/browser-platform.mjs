@@ -137,6 +137,7 @@ try {
   );
   await provisioning.getByRole('button', { name: 'Refresh job status' }).click();
   await provisioning.getByRole('button', { name: 'Reconcile job' }).click();
+  await expect(provisioning.getByRole('status')).toContainText('Queued');
   worker();
   worker();
   await expect(provisioning.getByRole('status')).toContainText('Succeeded', { timeout: 10000 });
@@ -208,6 +209,82 @@ try {
   await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: 'test-results/platform-narrow.png', fullPage: true });
+  // Keep both jobs queued so navigation and recovery cannot rely on state changes.
+  const session = await (await page.request.get(`${origin}/api/platform/auth/session`)).json();
+  async function createRecoveryCouncil(name) {
+    const id = randomUUID();
+    const response = await page.request.post(`${origin}/api/platform/municipalities`, {
+      headers: { 'x-csrf-token': session.csrfToken, 'Idempotency-Key': id },
+      data: {
+        name,
+        slug: `recovery-${id}`,
+        packs: ['Local Laws'],
+        firstName: 'Synthetic',
+        lastName: 'Admin',
+        email: `${id}@synthetic.example`,
+      },
+    });
+    expect(response.status()).toBe(201);
+    return response.json();
+  }
+  const alpha = await createRecoveryCouncil('Recovery Alpha');
+  const beta = await createRecoveryCouncil('Recovery Beta');
+  await page.reload();
+  await page.goto(`${origin}/#municipalities/${alpha.municipality.id}`);
+  await expect(provisioning).toContainText(alpha.jobId);
+  const alphaUrl = `**/api/platform/municipalities/${alpha.municipality.id}`;
+  const held = Promise.withResolvers();
+  const intercepted = Promise.withResolvers();
+  const released = Promise.withResolvers();
+  await page.route(
+    alphaUrl,
+    async (route) => {
+      const response = await route.fetch();
+      intercepted.resolve();
+      await held.promise;
+      await route.fulfill({ response });
+      released.resolve();
+    },
+    { times: 1 },
+  );
+  await page.getByRole('button', { name: 'Refresh job status' }).click();
+  await intercepted.promise;
+  await page.evaluate((id) => {
+    window.location.hash = `municipalities/${id}`;
+  }, beta.municipality.id);
+  await expect(provisioning).toContainText(beta.jobId);
+  held.resolve();
+  await released.promise;
+  // Let the released response render before a later poll could conceal stale data.
+  await page.waitForTimeout(100);
+  await expect(page.getByRole('heading', { name: 'Recovery Beta', exact: true })).toBeVisible();
+  const selectedJob = await provisioning.textContent();
+  expect(selectedJob).toContain(beta.jobId);
+  expect(selectedJob).not.toContain(alpha.jobId);
+
+  const betaUrl = `**/api/platform/municipalities/${beta.municipality.id}`;
+  await page.route(
+    betaUrl,
+    (route) =>
+      route.fulfill({
+        status: 503,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Synthetic scheduled poll outage' }),
+      }),
+    { times: 1 },
+  );
+  await expect(page.getByRole('alert')).toHaveText('Synthetic scheduled poll outage');
+  const refreshed = page.waitForResponse(
+    (response) =>
+      response.url().endsWith(`/municipalities/${beta.municipality.id}`) &&
+      response.status() === 200,
+  );
+  await page.getByRole('button', { name: 'Refresh job status' }).click();
+  await refreshed;
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(provisioning.getByRole('status')).toContainText('Queued');
+  for (let i = 0; i < 4; i += 1) await runProvisioningOnce();
+  await expect(provisioning.getByRole('status')).toContainText('Succeeded', { timeout: 10000 });
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/platform/municipalities`)).status()).toBe(401);

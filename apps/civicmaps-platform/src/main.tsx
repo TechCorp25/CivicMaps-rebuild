@@ -53,6 +53,8 @@ function App() {
   const [catalogue, setCatalogue] = useState<string[]>([]);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [busy, setBusy] = useState(false);
+  const [detailRefresh, setDetailRefresh] = useState(0);
+  const detailScope = useRef(0);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [search, setSearch] = useState('');
@@ -70,6 +72,7 @@ function App() {
     location.hash = `${page}${id ? `/${id}` : ''}`;
   }
   const clearSession = useCallback(() => {
+    detailScope.current += 1;
     setActor(null);
     setCsrf('');
     setMunicipalities([]);
@@ -107,6 +110,7 @@ function App() {
   }, []);
   useEffect(() => {
     function change() {
+      detailScope.current += 1;
       setRoute(readRoute());
       setDetail(null);
       setError('');
@@ -170,7 +174,7 @@ function App() {
       clearTimeout(timer);
     };
     // Page changes clear detail even when the municipality ID stays the same (F02).
-  }, [actor, route.page, route.id, current?.version, detail?.job?.state, fail]);
+  }, [actor, route.page, route.id, current?.version, detailRefresh, fail]);
   async function perform(work: () => Promise<void>) {
     setBusy(true);
     setError('');
@@ -232,11 +236,26 @@ function App() {
   }
   function refreshJob(action?: 'retry' | 'reconcile') {
     if (!current) return;
+    // One effect owns detail reads; each refresh restarts polling even if state is unchanged.
+    if (!action) {
+      setError('');
+      setNotice('');
+      setDetailRefresh((value) => value + 1);
+      return;
+    }
+    const scope = detailScope.current;
     void perform(async () => {
-      if (action && detail?.job)
-        await mutate(`/municipalities/${current.id}/jobs/${detail.job.id}/actions`, { action });
-      setDetail(await api<Detail>(`/municipalities/${current.id}`));
-      if (action) setNotice(`Job ${action} requested. Completed steps are retained.`);
+      try {
+        if (detail?.job)
+          await mutate(`/municipalities/${current.id}/jobs/${detail.job.id}/actions`, { action });
+      } catch (err) {
+        // A completed mutation may belong to a council or session that has been left.
+        if (scope !== detailScope.current) return;
+        throw err;
+      }
+      if (scope !== detailScope.current) return;
+      setDetailRefresh((value) => value + 1);
+      setNotice(`Job ${action} requested. Completed steps are retained.`);
     });
   }
   function changeSort(key: typeof sort.key) {
