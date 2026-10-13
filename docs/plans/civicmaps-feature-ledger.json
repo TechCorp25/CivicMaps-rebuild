@@ -3,8 +3,8 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "34a6a2ec65bb43ca75e1df2ebfe37caed4517857",
-  "activeFeature": "F01",
-  "nextFeature": "F01",
+  "activeFeature": null,
+  "nextFeature": "F02",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -16,16 +16,16 @@
   "features": [
     {
       "id": "F01",
-      "status": "in_progress",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f01-build-baseline",
-      "commit": null,
-      "pr": null,
+      "commit": "846b6b18029d3535b81f1eb27be8268933353aad",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/4",
       "evidencePath": "docs/plans/evidence/F01.md",
       "acceptancePassed": true,
-      "publication": "pending",
-      "empirical": "pending",
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Push tested feature and create owner-review PR."
+      "nextAction": "Owner review/merge; F02 may stack on this completed prerequisite."
     },
     {
       "id": "F02",
