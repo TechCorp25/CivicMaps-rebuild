@@ -3,8 +3,8 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": "F03",
-  "nextFeature": "F03",
+  "activeFeature": null,
+  "nextFeature": "F04",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -58,16 +58,16 @@
     },
     {
       "id": "F03",
-      "status": "in_progress",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f03-preparation",
-      "commit": null,
+      "commit": "4c7626194e25b1b5d33c073a24b37d6f21d44f8c",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/9",
       "evidencePath": "docs/plans/evidence/F03.md",
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "acceptancePassed": true,
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Finish migration/context acceptance and browser validation, then publish into existing PR #9."
+      "nextAction": "Owner review/merge of existing PR #9; F04 durable provisioning jobs is next."
     },
     {
       "id": "F04",
@@ -80,7 +80,7 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "nextAction": "Start from completed F03 after checking PR #9 integration evidence; implement observable durable provisioning jobs with fake adapter only."
     },
     {
       "id": "F05",
