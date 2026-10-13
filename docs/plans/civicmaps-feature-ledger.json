@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "34a6a2ec65bb43ca75e1df2ebfe37caed4517857",
-  "activeFeature": null,
+  "activeFeature": "F01",
   "nextFeature": "F01",
   "allowedStatuses": [
     "planned",
@@ -16,16 +16,16 @@
   "features": [
     {
       "id": "F01",
-      "status": "planned",
-      "branch": null,
+      "status": "in_progress",
+      "branch": "codex/civicmaps-f01-build-baseline",
       "commit": null,
       "pr": null,
-      "evidencePath": null,
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "evidencePath": "docs/plans/evidence/F01.md",
+      "acceptancePassed": true,
+      "publication": "pending",
+      "empirical": "pending",
       "blockers": [],
-      "nextAction": "Repair reproducible build baseline and run clean CI checks."
+      "nextAction": "Push tested feature and create owner-review PR."
     },
     {
       "id": "F02",
@@ -378,5 +378,6 @@
       "blockers": [],
       "nextAction": "Read feature card and confirm dependency evidence before starting."
     }
-  ]
+  ],
+  "integrationBase": "origin/main"
 }
