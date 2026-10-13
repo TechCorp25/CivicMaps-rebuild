@@ -4,7 +4,7 @@
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
   "activeFeature": null,
-  "nextFeature": "F04",
+  "nextFeature": "F05",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -72,16 +72,16 @@
     },
     {
       "id": "F04",
-      "status": "planned",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f04-preparation",
-      "commit": null,
-      "pr": null,
-      "evidencePath": null,
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "commit": "dd44148178e28eefe42573f0af0b74cc179f436b",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/10",
+      "evidencePath": "docs/plans/evidence/F04.md",
+      "acceptancePassed": true,
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Implement only the prepared F04 durable job lifecycle, synthetic adapter and status/recovery UI; run its acceptance matrix before review_ready.",
+      "nextAction": "Owner review/merge of PR #10; F05 follows with D01 isolation/provider decision at its boundary.",
       "preparationPath": "docs/plans/F04-preparation.md"
     },
     {

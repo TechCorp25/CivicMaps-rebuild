@@ -1,6 +1,6 @@
 # F04 — Durable provisioning job lifecycle: implementation brief
 
-Prepared from main `130caab6b97230c0b5cf45d75a19ee4ec2805085`, which merged PR #9 including assessed-context fix `683abee563efa37a77826d35d1aae4fa6fc492ca`. F01, F02, F02Q and F03 dependencies are merged. This document prepares F04; it does not claim implementation or acceptance completion.
+Prepared from main `130caab6b97230c0b5cf45d75a19ee4ec2805085`, which merged PR #9 including assessed-context fix `683abee563efa37a77826d35d1aae4fa6fc492ca`. F01, F02, F02Q and F03 dependencies are merged. Implementation and acceptance completion are recorded in [F04 evidence](evidence/F04.md); this brief remains the scoped requirement contract.
 
 ## Single-feature goal
 
