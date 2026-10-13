@@ -2,22 +2,27 @@ import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
 const browser = await chromium.launch({ headless: true });
-const database = new pg.Pool({ connectionString: process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres' });
+const database = new pg.Pool({
+  connectionString:
+    process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres',
+});
 const errors = [];
 const origin = 'http://127.0.0.1:5173';
 const password = process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!';
 async function login(page, email) {
-  page.on('pageerror', error => errors.push(error.message));
+  page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(origin);
   await page.getByLabel('Email', { exact: true }).fill(email);
   await page.getByLabel('Password', { exact: true }).fill(password);
-  const response = page.waitForResponse(r => r.url().endsWith('/api/auth/login'));
+  const response = page.waitForResponse((r) => r.url().endsWith('/api/auth/login'));
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   expect((await response).status()).toBe(200);
   await expect(page.getByRole('heading', { name: 'Service requests', exact: true })).toBeVisible();
 }
 async function save(page, button, expected = 200) {
-  const response = page.waitForResponse(r => r.request().method() === 'POST' && r.url().includes('/api/requests'));
+  const response = page.waitForResponse(
+    (r) => r.request().method() === 'POST' && r.url().includes('/api/requests'),
+  );
   await page.getByRole('button', { name: button, exact: true }).click();
   const result = await response;
   expect(result.status()).toBe(expected);
@@ -34,8 +39,13 @@ try {
   await page.getByLabel('Dispatch notes').fill('Synthetic browser verification; no real incident.');
   const created = await save(page, 'Create request', 201);
   await expect(page.locator('.detail')).toContainText(address);
-  expect((await database.query('SELECT notes FROM service_requests WHERE id=$1', [created.id])).rows[0].notes).toContain('Synthetic browser');
-  await page.getByLabel('Assign officer', { exact: true }).selectOption('00000000-0000-4000-8000-000000000002');
+  expect(
+    (await database.query('SELECT notes FROM service_requests WHERE id=$1', [created.id])).rows[0]
+      .notes,
+  ).toContain('Synthetic browser');
+  await page
+    .getByLabel('Assign officer', { exact: true })
+    .selectOption('00000000-0000-4000-8000-000000000002');
   await save(page, 'Assign request');
   await expect(page.locator('.detail .status')).toHaveText('Dispatched (not active)');
   await mkdir('test-results', { recursive: true });
@@ -68,12 +78,26 @@ try {
   await page.getByLabel('Closure reason').fill('Browser exercise completed');
   await save(page, 'Close request');
   await expect(page.locator('.detail .status')).toHaveText('Closed');
-  const persisted = await database.query('SELECT status,version FROM service_requests WHERE id=$1', [created.id]);
+  const persisted = await database.query(
+    'SELECT status,version FROM service_requests WHERE id=$1',
+    [created.id],
+  );
   expect(persisted.rows[0]).toEqual({ status: 'CLOSED', version: 5 });
-  expect((await database.query('SELECT action FROM audit_events WHERE request_id=$1 ORDER BY id', [created.id])).rows.map(row => row.action)).toEqual(['created', 'assign', 'acknowledge', 'attend', 'close']);
+  expect(
+    (
+      await database.query('SELECT action FROM audit_events WHERE request_id=$1 ORDER BY id', [
+        created.id,
+      ])
+    ).rows.map((row) => row.action),
+  ).toEqual(['created', 'assign', 'acknowledge', 'attend', 'close']);
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to operations' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/requests`)).status()).toBe(401);
   expect(errors).toEqual([]);
-  console.log('PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.');
-} finally { await browser.close(); await database.end(); }
+  console.log(
+    'PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.',
+  );
+} finally {
+  await browser.close();
+  await database.end();
+}
