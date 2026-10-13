@@ -28,6 +28,7 @@ import {
 import { Badge, Brand, Boundary, Confirm } from './components';
 import { PackAssignments } from './PackAssignments';
 import { Onboarding } from './Onboarding';
+import { ProvisioningStatus } from './ProvisioningStatus';
 import './tokens.css';
 import './styles.css';
 
@@ -148,16 +149,28 @@ function App() {
   useEffect(() => {
     if (!actor || !route.id) return;
     const controller = new AbortController();
-    api<Detail>(`/municipalities/${route.id}`, { signal: controller.signal })
-      .then((result) => {
-        if (!controller.signal.aborted) setDetail(result);
-      })
-      .catch((err) => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    async function refresh() {
+      try {
+        const result = await api<Detail>(`/municipalities/${route.id}`, {
+          signal: controller.signal,
+        });
+        if (!controller.signal.aborted) {
+          setDetail(result);
+          if (result.job && ['queued', 'running', 'waiting'].includes(result.job.state))
+            timer = setTimeout(refresh, 2000);
+        }
+      } catch (err) {
         if (!controller.signal.aborted) fail(err);
-      });
-    return () => controller.abort();
+      }
+    }
+    void refresh();
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
     // Page changes clear detail even when the municipality ID stays the same (F02).
-  }, [actor, route.page, route.id, current?.version, fail]);
+  }, [actor, route.page, route.id, current?.version, detail?.job?.state, fail]);
   async function perform(work: () => Promise<void>) {
     setBusy(true);
     setError('');
@@ -215,6 +228,15 @@ function App() {
       setNotice(
         `${pack} ${enabled ? 'enabled' : 'disabled'}. Configuration saved; existing records retained.`,
       );
+    });
+  }
+  function refreshJob(action?: 'retry' | 'reconcile') {
+    if (!current) return;
+    void perform(async () => {
+      if (action && detail?.job)
+        await mutate(`/municipalities/${current.id}/jobs/${detail.job.id}/actions`, { action });
+      setDetail(await api<Detail>(`/municipalities/${current.id}`));
+      if (action) setNotice(`Job ${action} requested. Completed steps are retained.`);
     });
   }
   function changeSort(key: typeof sort.key) {
@@ -501,6 +523,23 @@ function App() {
                   </div>
                   <Boundary />
                 </>
+              )}
+              {!detail && route.page === 'municipalities' && (
+                <section className="card">
+                  <h2>Provisioning job</h2>
+                  <p>Loading job details…</p>
+                  <button className="secondary" disabled={busy} onClick={() => refreshJob()}>
+                    Refresh job status
+                  </button>
+                </section>
+              )}
+              {detail && route.page === 'municipalities' && (
+                <ProvisioningStatus
+                  job={detail.job}
+                  busy={busy}
+                  onRefresh={() => refreshJob()}
+                  onAction={refreshJob}
+                />
               )}
               {detail && (
                 <section className="card audit">

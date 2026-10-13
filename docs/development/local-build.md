@@ -88,3 +88,7 @@ The shared test environment in `tests/helpers/environment.mjs` creates one uniqu
 ## Municipality context binding (F03)
 
 Migration 004 and the synthetic seed establish explicit municipality bindings and user grants. Existing Alpha/Beta accounts each retain one default context. `shared@alpha.example` is an API shared-service fixture with two contexts and requires `X-CivicMAPS-Context`; the web client does not yet provide a context chooser. Read the [context contract](operating-context.md) before testing expiry, revocation, upgrade or retry behaviour.
+
+## Durable synthetic provisioning (F04)
+
+New registrations enqueue durable jobs. Start the separate worker with `npm run worker:provisioning`; use `-- --once` for a single eligible step. Jobs remain queued while the worker is paused. Read the [job/recovery contract](provisioning-jobs.md) for leases, retry/reconcile, synthetic limitations and rollback. `npm run test:provisioning` is included in the full integration suite and CI.

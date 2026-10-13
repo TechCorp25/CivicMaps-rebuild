@@ -1018,3 +1018,23 @@ dialog .actions {
     padding: 28px;
   }
 }
+.provisioning-steps {
+  padding-left: 22px;
+}
+.provisioning-steps li {
+  margin: 16px 0;
+}
+.provisioning-steps span,
+.provisioning-steps code {
+  display: block;
+  margin-top: 6px;
+}
+.provisioning .actions {
+  flex-wrap: wrap;
+}
+
+.page-heading > div,
+.overview-grid > .card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

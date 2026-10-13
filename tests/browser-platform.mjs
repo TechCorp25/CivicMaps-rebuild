@@ -1,8 +1,9 @@
-/* global document, innerWidth -- Executed in the browser by page.evaluate. */
+/* global document, innerWidth, window -- Executed in the browser by page.evaluate. */
 import { chromium, expect } from '@playwright/test';
 import { createServer } from 'vite';
 import { randomUUID } from 'node:crypto';
 import { mkdir } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
 import { createTestEnvironment } from './helpers/environment.mjs';
 
 let browser, vite, environment;
@@ -10,6 +11,7 @@ const errors = [];
 try {
   environment = await createTestEnvironment({ platform: true });
   const { pool } = environment;
+  const { runProvisioningOnce } = await import('../services/api/provisioning.mjs');
   vite = await createServer({
     configFile: false,
     root: new URL('../apps/civicmaps-platform/', import.meta.url).pathname,
@@ -74,6 +76,83 @@ try {
   await expect(page.getByRole('heading', { name: councilName, exact: true })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('heading', { name: councilName, exact: true })).toBeVisible();
+  const provisioning = page.locator('.provisioning');
+  await expect(provisioning).toContainText('Synthetic adapter');
+  await expect(provisioning.getByRole('status')).toContainText('Queued');
+  await page.route('**/api/platform/municipalities/*', (route) =>
+    route.fulfill({
+      status: 503,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Synthetic detail unavailable' }),
+    }),
+  );
+  await page.reload();
+  await expect(page.getByRole('alert')).toHaveText('Synthetic detail unavailable');
+  await page.unroute('**/api/platform/municipalities/*');
+  await page.getByRole('button', { name: 'Refresh job status' }).click();
+  await expect(provisioning.getByRole('status')).toContainText('Queued');
+
+  await runProvisioningOnce({
+    adapter: {
+      reconcile: async () => null,
+      apply: async () => {
+        throw new Error('synthetic permanent fault');
+      },
+    },
+  });
+  await provisioning.getByRole('button', { name: 'Refresh job status' }).click();
+  await expect(provisioning.getByRole('status')).toContainText('Failed');
+  await page.route('**/jobs/*/actions', (route) =>
+    route.fulfill({
+      status: 503,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Synthetic recovery unavailable' }),
+    }),
+  );
+  await provisioning.getByRole('button', { name: 'Retry job', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('alert')).toHaveText('Synthetic recovery unavailable');
+  await page.unroute('**/jobs/*/actions');
+  await provisioning.getByRole('button', { name: 'Retry job', exact: true }).click();
+  await expect(provisioning.getByRole('status')).toContainText('Queued');
+  function worker(fault) {
+    const result = spawnSync(process.execPath, ['services/api/provisioning-worker.mjs', '--once'], {
+      env: {
+        ...process.env,
+        NODE_ENV: 'test',
+        ...(fault ? { CIVICMAPS_WORKER_TEST_FAULT: fault } : {}),
+      },
+      encoding: 'utf8',
+      timeout: 10000,
+    });
+    expect(result.status, result.stderr).toBe(fault ? 87 : 0);
+  }
+  worker('after-effect');
+  await provisioning.getByRole('button', { name: 'Refresh job status' }).click();
+  await expect(provisioning.getByRole('status')).toContainText('Running');
+  await expect(provisioning.getByRole('button', { name: 'Reconcile job' })).toHaveCount(0);
+  await pool.query(
+    "UPDATE provisioning_jobs SET lease_until=clock_timestamp()-interval '1 second' WHERE id=$1",
+    [result.jobId],
+  );
+  await provisioning.getByRole('button', { name: 'Refresh job status' }).click();
+  await provisioning.getByRole('button', { name: 'Reconcile job' }).click();
+  worker();
+  worker();
+  await expect(provisioning.getByRole('status')).toContainText('Succeeded', { timeout: 10000 });
+  await expect(provisioning).toContainText(
+    'Real infrastructure and admin activation remain pending',
+  );
+  await expect(provisioning.getByRole('button', { name: 'Retry job', exact: true })).toHaveCount(0);
+  await expect(provisioning.getByRole('button', { name: 'Reconcile job' })).toHaveCount(0);
+  await mkdir('test-results', { recursive: true });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: 'test-results/platform-provisioning-desktop.png', fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: 'test-results/platform-provisioning-narrow.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.getByRole('button', { name: 'Manage packs', exact: true }).click();
   const pack = page.getByRole('switch', { name: 'Local Laws', exact: true });
   await expect(pack).toBeEnabled();
@@ -99,7 +178,9 @@ try {
       await pool.query('SELECT action FROM platform_audit WHERE municipality_id=$1 ORDER BY id', [
         result.municipality.id,
       ])
-    ).rows.map((r) => r.action),
+    ).rows
+      .map((r) => r.action)
+      .filter((action) => !action.startsWith('provisioning_')),
   ).toEqual(['onboarding_registered', 'pack_disabled', 'pack_enabled']);
   await page.goto(`${origin}/#municipalities`);
   await page.getByLabel('Search council name or slug').fill(councilName);
@@ -132,7 +213,7 @@ try {
   expect((await page.request.get(`${origin}/api/platform/municipalities`)).status()).toBe(401);
   expect(errors).toEqual([]);
   console.log(
-    'PASS: platform sign-in errors, keyboard wizard, registration, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.',
+    'PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.',
   );
 } finally {
   try {

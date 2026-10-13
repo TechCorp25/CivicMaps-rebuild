@@ -68,3 +68,5 @@ The README referenced in the original request was absent from this checkout; thi
 
 
 F03 adds explicit effective operating-context bindings and user grants between the registry and council operations. See the [context contract](../../docs/development/operating-context.md). Registry onboarding does not automatically grant operational access; provisioning and admin activation remain separate planned features.
+
+F04 atomically enqueues a durable synthetic job during registration. Municipality detail shows steps, attempts and recovery controls; the separate worker resumes expired leases and reconciles saved effects. Simulation success leaves real provisioning/admin activation pending. See the [job contract](../../docs/development/provisioning-jobs.md).

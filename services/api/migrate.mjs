@@ -12,6 +12,7 @@ try {
       '003-platform',
       '004-operating-context',
       '005-context-rls',
+      '006-provisioning-jobs',
     ]) {
       const existing = await client.query('SELECT id FROM civicmaps_migrations WHERE id = $1', [
         id,
