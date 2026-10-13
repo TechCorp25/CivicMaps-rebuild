@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
-const children = [spawn(process.execPath, ['services/api/server.mjs'], { stdio: 'inherit' }), spawn('npm', ['--prefix', 'apps/commandmaps', 'run', 'dev'], { stdio: 'inherit' })];
+const apps = process.argv.includes('--platform') ? ['civicmaps-platform'] : ['commandmaps', 'civicmaps-platform'];
+const children = [spawn(process.execPath, ['services/api/server.mjs'], { stdio: 'inherit' }), ...apps.map(app => spawn('npm', ['--prefix', `apps/${app}`, 'run', 'dev'], { stdio: 'inherit' }))];
 let stopping = false;
 function stop(code = 0) {
   if (stopping) return;

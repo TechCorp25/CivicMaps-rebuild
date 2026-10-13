@@ -4,7 +4,7 @@ try {
   await transaction(async client => {
     await client.query("SELECT pg_advisory_xact_lock(hashtext('civicmaps-migrations'))");
     await client.query('CREATE TABLE IF NOT EXISTS civicmaps_migrations (id text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())');
-    for (const id of ['001-foundation', '002-auth-scope']) {
+    for (const id of ['001-foundation', '002-auth-scope', '003-platform']) {
       const existing = await client.query('SELECT id FROM civicmaps_migrations WHERE id = $1', [id]);
       if (!existing.rowCount) {
         await client.query(await readFile(new URL(`./migrations/${id}.sql`, import.meta.url), 'utf8'));
