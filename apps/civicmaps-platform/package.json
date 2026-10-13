@@ -1,0 +1,11 @@
+{
+  "name": "@civicmaps/civicmaps-platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ../../scripts/vite.mjs --host 127.0.0.1",
+    "build": "node ../../node_modules/typescript/bin/tsc --noEmit && node ../../scripts/vite.mjs build",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc --noEmit"
+  }
+}

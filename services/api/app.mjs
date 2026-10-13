@@ -3,6 +3,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { pool, transaction } from './database.mjs';
 import { verifyPassword, hashPassword } from './passwords.mjs';
 import { transition, statusLabels } from '../../domains/service-requests-dispatch/lifecycle.mjs';
+import { platformRouter } from './platform.mjs';
 
 const digest = value => createHash('sha256').update(value).digest('hex');
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -69,7 +70,7 @@ export function createApp() {
     res.set('Cache-Control', 'no-store');
     res.set('X-Content-Type-Options', 'nosniff');
     if (!['GET', 'HEAD'].includes(req.method) && req.headers.origin) {
-      const origins = (process.env.CIVICMAPS_ORIGINS ?? 'http://127.0.0.1:5173,http://localhost:5173').split(',');
+      const origins = (process.env.CIVICMAPS_ORIGINS ?? 'http://127.0.0.1:5173,http://localhost:5173,http://127.0.0.1:5174,http://localhost:5174').split(',');
       if (!origins.includes(req.headers.origin)) return res.status(403).json({ error: 'Request origin is not permitted' });
     }
     next();
@@ -174,6 +175,7 @@ export function createApp() {
       return updated.rows[0];
     }));
   });
+  app.use('/api/platform', platformRouter());
   app.use((_req, res) => res.status(404).json({ error: 'Endpoint not found' }));
   app.use((error, _req, res, _next) => {
     const status = error.status ?? (error.type === 'entity.parse.failed' ? 400 : 500);
