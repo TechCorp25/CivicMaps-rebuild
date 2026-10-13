@@ -90,7 +90,7 @@
       "status": "planned",
       "branch": "codex/civicmaps-f05-preparation",
       "commit": null,
-      "pr": null,
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/11",
       "evidencePath": null,
       "acceptancePassed": false,
       "publication": "not_started",
@@ -99,7 +99,10 @@
         "D01: select isolation/target, region/residency, budget, retention and secret facility before resource implementation. Hostnames remain F06."
       ],
       "nextAction": "Review F05 preparation and resolve D01; develop, build, integrate and test only F05, then publish evidence and update Empirical. Preparation is not feature acceptance.",
-      "preparationPath": "docs/plans/F05-preparation.md"
+      "preparationPath": "docs/plans/F05-preparation.md",
+      "preparationCommit": "fad68ad394540edd8b68d873292a3e209716ffb1",
+      "preparationPublication": "verified",
+      "preparationEmpirical": "recorded"
     },
     {
       "id": "F06",
