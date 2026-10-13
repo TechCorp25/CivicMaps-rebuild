@@ -65,3 +65,4 @@ All endpoints are under `/api/platform`:
 - [Wireframe decisions and open questions](../../docs/handoff.md)
 
 The README referenced in the original request was absent from this checkout; this implementation README was created from S12–S15 with the user's confirmation.
+
