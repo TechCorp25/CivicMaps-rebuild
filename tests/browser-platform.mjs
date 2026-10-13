@@ -1,32 +1,15 @@
+/* global document, innerWidth -- Executed in the browser by page.evaluate. */
 import { chromium, expect } from '@playwright/test';
 import { createServer } from 'vite';
 import { randomUUID } from 'node:crypto';
-import { spawnSync } from 'node:child_process';
 import { mkdir } from 'node:fs/promises';
-import pg from 'pg';
+import { createTestEnvironment } from './helpers/environment.mjs';
 
-const name = `civicmaps_browser_${randomUUID().replaceAll('-', '')}`;
-const base =
-  process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres';
-const connection = new URL(base);
-connection.pathname = `/${name}`;
-const admin = new pg.Pool({ connectionString: base });
-let browser, vite, apiServer, pool;
+let browser, vite, environment;
 const errors = [];
 try {
-  await admin.query(`CREATE DATABASE ${name}`);
-  process.env.CIVICMAPS_DATABASE_URL = connection.href;
-  for (const script of ['migrate', 'seed', 'seed-platform']) {
-    const result = spawnSync(process.execPath, [`services/api/${script}.mjs`], {
-      env: process.env,
-      encoding: 'utf8',
-    });
-    expect(result.status, result.stderr).toBe(0);
-  }
-  ({ pool } = await import('../services/api/database.mjs'));
-  const { createApp } = await import('../services/api/app.mjs');
-  apiServer = createApp().listen(0, '127.0.0.1');
-  await new Promise((resolve) => apiServer.once('listening', resolve));
+  environment = await createTestEnvironment({ platform: true });
+  const { pool } = environment;
   vite = await createServer({
     configFile: false,
     root: new URL('../apps/civicmaps-platform/', import.meta.url).pathname,
@@ -34,7 +17,7 @@ try {
       host: '127.0.0.1',
       port: 0,
       fs: { allow: [new URL('../', import.meta.url).pathname] },
-      proxy: { '/api': `http://127.0.0.1:${apiServer.address().port}` },
+      proxy: { '/api': environment.origin },
     },
   });
   await vite.listen();
@@ -142,7 +125,6 @@ try {
   await page.screenshot({ path: 'test-results/platform-desktop.png', fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
-  await page.screenshot({ path: 'test-results/platform-narrow.png', fullPage: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: 'test-results/platform-narrow.png', fullPage: true });
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
@@ -153,10 +135,13 @@ try {
     'PASS: platform sign-in errors, keyboard wizard, registration, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.',
   );
 } finally {
-  if (browser) await browser.close();
-  if (vite) await vite.close();
-  if (apiServer) await new Promise((resolve) => apiServer.close(resolve));
-  if (pool) await pool.end();
-  await admin.query(`DROP DATABASE IF EXISTS ${name}`);
-  await admin.end();
+  try {
+    if (browser) await browser.close();
+  } finally {
+    try {
+      if (vite) await vite.close();
+    } finally {
+      await environment?.close();
+    }
+  }
 }

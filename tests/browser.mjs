@@ -1,3 +1,4 @@
+/* global document, innerWidth -- Executed in the browser by page.evaluate. */
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
@@ -44,7 +45,7 @@ try {
       .notes,
   ).toContain('Synthetic browser');
   await page
-    .getByLabel('Assign officer', { exact: true })
+    .getByRole('combobox', { name: /^Assign officer/ })
     .selectOption('00000000-0000-4000-8000-000000000002');
   await save(page, 'Assign request');
   await expect(page.locator('.detail .status')).toHaveText('Dispatched (not active)');

@@ -68,6 +68,7 @@ async function authorised(req, mutate, work) {
         403,
         'Session verification failed',
       );
+    // Transaction-local roles cannot leak to the next pooled request.
     await client.query('SET LOCAL ROLE civicmaps_platform_app');
     return work(client, actor);
   });

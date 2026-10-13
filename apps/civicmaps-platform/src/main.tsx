@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useCallback, useRef, useState, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Activity,
@@ -26,6 +26,7 @@ import {
   type ProvisionResult,
 } from './api';
 import { Badge, Brand, Boundary, Confirm } from './components';
+import { PackAssignments } from './PackAssignments';
 import { Onboarding } from './Onboarding';
 import './tokens.css';
 import './styles.css';
@@ -67,7 +68,7 @@ function App() {
   function navigate(page: Page, id: string | null = null) {
     location.hash = `${page}${id ? `/${id}` : ''}`;
   }
-  function clearSession() {
+  const clearSession = useCallback(() => {
     setActor(null);
     setCsrf('');
     setMunicipalities([]);
@@ -76,11 +77,14 @@ function App() {
     setProvisioned(null);
     setConfirmation(null);
     retry.current = null;
-  }
-  function fail(err: unknown) {
-    setError(err instanceof Error ? err.message : 'The operation could not be completed');
-    if (err instanceof ApiError && err.status === 401) clearSession();
-  }
+  }, []);
+  const fail = useCallback(
+    (err: unknown) => {
+      setError(err instanceof Error ? err.message : 'The operation could not be completed');
+      if (err instanceof ApiError && err.status === 401) clearSession();
+    },
+    [clearSession],
+  );
   useEffect(() => {
     let active = true;
     api<{ actor: Actor; csrfToken: string }>('/auth/session')
@@ -140,7 +144,7 @@ function App() {
         if (!controller.signal.aborted) fail(err);
       });
     return () => controller.abort();
-  }, [actor]);
+  }, [actor, fail]);
   useEffect(() => {
     if (!actor || !route.id) return;
     const controller = new AbortController();
@@ -152,7 +156,8 @@ function App() {
         if (!controller.signal.aborted) fail(err);
       });
     return () => controller.abort();
-  }, [actor, route.page, route.id, current?.version]);
+    // Page changes clear detail even when the municipality ID stays the same (F02).
+  }, [actor, route.page, route.id, current?.version, fail]);
   async function perform(work: () => Promise<void>) {
     setBusy(true);
     setError('');
@@ -399,41 +404,14 @@ function App() {
                 <Badge value={route.page === 'health' ? current.health : current.status} />
               </div>
               {route.page === 'packs' ? (
-                <section className="card">
-                  <h2>Domain packs</h2>
-                  <p>
-                    Turning off a pack retains its records. This saves control-plane configuration;
-                    workflow enforcement in CommandMAPS and EnforcementMAPS is pending integration.
-                  </p>
-                  <div className="pack-list">
-                    {catalogue.map((pack) => (
-                      <div className="pack-row" key={pack}>
-                        <div>
-                          <strong>{pack}</strong>
-                          <small>
-                            {current.packs.includes(pack)
-                              ? 'Assigned to this council'
-                              : 'Available to assign'}
-                          </small>
-                        </div>
-                        <button
-                          role="switch"
-                          aria-checked={current.packs.includes(pack)}
-                          aria-label={pack}
-                          disabled={busy || !detail}
-                          className={`switch ${current.packs.includes(pack) ? 'on' : ''}`}
-                          onClick={() =>
-                            current.packs.includes(pack)
-                              ? setConfirmation(pack)
-                              : toggle(pack, true)
-                          }
-                        >
-                          <span />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </section>
+                <PackAssignments
+                  catalogue={catalogue}
+                  selected={current.packs}
+                  busy={busy}
+                  loaded={Boolean(detail)}
+                  onDisable={setConfirmation}
+                  onEnable={(pack) => toggle(pack, true)}
+                />
               ) : route.page === 'health' ? (
                 <>
                   {current.health === 'Degraded' && (

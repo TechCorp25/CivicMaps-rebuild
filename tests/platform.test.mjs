@@ -1,16 +1,9 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { spawnSync } from 'node:child_process';
-import pg from 'pg';
+import { createTestEnvironment } from './helpers/environment.mjs';
 
-const databaseName = `civicmaps_test_${randomUUID().replaceAll('-', '')}`;
-const base =
-  process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres';
-const connection = new URL(base);
-connection.pathname = `/${databaseName}`;
-const admin = new pg.Pool({ connectionString: base });
-let pool, server, origin, operator, council;
+let environment, pool, origin, operator, council;
 const password = process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!';
 async function call(path, data, session = operator, key = randomUUID(), extraHeaders = {}) {
   const response = await fetch(`${origin}/api${path}`, {
@@ -37,20 +30,8 @@ function input() {
   };
 }
 before(async () => {
-  await admin.query(`CREATE DATABASE ${databaseName}`);
-  process.env.CIVICMAPS_DATABASE_URL = connection.href;
-  for (const script of ['migrate', 'seed', 'seed-platform']) {
-    const result = spawnSync(process.execPath, [`services/api/${script}.mjs`], {
-      env: process.env,
-      encoding: 'utf8',
-    });
-    assert.equal(result.status, 0, result.stderr);
-  }
-  ({ pool } = await import('../services/api/database.mjs'));
-  const { createApp } = await import('../services/api/app.mjs');
-  server = createApp().listen(0, '127.0.0.1');
-  await new Promise((resolve) => server.once('listening', resolve));
-  origin = `http://127.0.0.1:${server.address().port}`;
+  environment = await createTestEnvironment({ platform: true });
+  ({ pool, origin } = environment);
   for (const [path, email] of [
     ['/platform/auth/login', 'operator@platform.example'],
     ['/auth/login', 'dispatch@alpha.example'],
@@ -63,10 +44,7 @@ before(async () => {
   }
 });
 after(async () => {
-  if (server) await new Promise((resolve) => server.close(resolve));
-  if (pool) await pool.end();
-  await admin.query(`DROP DATABASE IF EXISTS ${databaseName}`);
-  await admin.end();
+  await environment?.close();
 });
 
 test('operator and council cookies cannot cross authentication boundaries', async () => {

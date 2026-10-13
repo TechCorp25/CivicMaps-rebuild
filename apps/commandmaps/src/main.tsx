@@ -112,11 +112,13 @@ function App() {
   useEffect(() => {
     if (actor) void load().catch((err) => setError(err.message));
   }, [actor]);
+  const currentId = current?.id;
+  const currentVersion = current?.version;
   useEffect(() => {
     let active = true;
     setEvents([]);
-    if (current)
-      api<Audit[]>(`/requests/${current.id}/audit`)
+    if (currentId)
+      api<Audit[]>(`/requests/${currentId}/audit`)
         .then((data) => {
           if (active) setEvents(data);
         })
@@ -126,7 +128,7 @@ function App() {
     return () => {
       active = false;
     };
-  }, [current?.id, current?.version]);
+  }, [currentId, currentVersion]);
   async function perform(work: () => Promise<void>) {
     setBusy(true);
     setError('');

@@ -18,23 +18,32 @@
     "typecheck": "npm --prefix apps/commandmaps run typecheck && npm --prefix apps/civicmaps-platform run typecheck",
     "test": "node --test tests/*.test.mjs",
     "test:browser": "node tests/browser.mjs",
-    "check": "npm run typecheck && npm run build && npm test",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run build && npm test",
     "tokens": "node scripts/generate-tokens.mjs",
     "setup": "npm ci --ignore-scripts --bin-links=false --no-audit --no-fund",
-    "test:platform:browser": "node tests/browser-platform.mjs"
+    "test:platform:browser": "node tests/browser-platform.mjs",
+    "lint": "node node_modules/eslint/bin/eslint.js . --max-warnings=0",
+    "format": "node node_modules/prettier/bin/prettier.cjs --write \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/ci.yml\"",
+    "format:check": "node node_modules/prettier/bin/prettier.cjs --check \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/ci.yml\""
   },
   "dependencies": {
     "express": "5.2.1",
+    "lucide-react": "0.468.0",
     "pg": "8.20.0",
     "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "lucide-react": "0.468.0"
+    "react-dom": "19.2.0"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@playwright/test": "1.58.2",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
+    "eslint": "10.12.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "16.5.0",
+    "prettier": "3.8.1",
     "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
     "vite": "6.4.3"
   },
   "overrides": {

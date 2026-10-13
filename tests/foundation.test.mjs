@@ -1,16 +1,10 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
-import { spawnSync } from 'node:child_process';
 import pg from 'pg';
+import { randomUUID } from 'node:crypto';
+import { createTestEnvironment } from './helpers/environment.mjs';
 
-const databaseName = `civicmaps_test_${randomUUID().replaceAll('-', '')}`;
-const base =
-  process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres';
-const connection = new URL(base);
-connection.pathname = `/${databaseName}`;
-const admin = new pg.Pool({ connectionString: base });
-let pool, server, origin;
+let environment, pool, origin;
 const sessions = {};
 const officerId = '00000000-0000-4000-8000-000000000002';
 const betaOfficer = '00000000-0000-4000-8000-000000000005';
@@ -38,20 +32,8 @@ async function create(notes = '') {
   return result.data;
 }
 before(async () => {
-  await admin.query(`CREATE DATABASE ${databaseName}`);
-  process.env.CIVICMAPS_DATABASE_URL = connection.href;
-  for (const script of ['migrate', 'seed']) {
-    const result = spawnSync(process.execPath, [`services/api/${script}.mjs`], {
-      env: process.env,
-      encoding: 'utf8',
-    });
-    assert.equal(result.status, 0, result.stderr);
-  }
-  ({ pool } = await import('../services/api/database.mjs'));
-  const { createApp } = await import('../services/api/app.mjs');
-  server = createApp().listen(0, '127.0.0.1');
-  await new Promise((resolve) => server.once('listening', resolve));
-  origin = `http://127.0.0.1:${server.address().port}`;
+  environment = await createTestEnvironment({ platform: false });
+  ({ pool, origin } = environment);
   for (const [account, email] of Object.entries({
     dispatch: 'dispatch@alpha.example',
     officer: 'officer@alpha.example',
@@ -71,11 +53,7 @@ before(async () => {
   }
 });
 after(async () => {
-  if (server) await new Promise((resolve) => server.close(resolve));
-  if (pool) await pool.end();
-  // Only the uniquely named database created by this test is removed.
-  await admin.query(`DROP DATABASE IF EXISTS ${databaseName}`);
-  await admin.end();
+  await environment?.close();
 });
 
 test('authentication denies missing and invalid credentials; cookie is HttpOnly and Strict', async () => {
@@ -103,7 +81,7 @@ test('authentication denies missing and invalid credentials; cookie is HttpOnly 
 });
 test('creation is persisted and client ownership or number fields are rejected', async () => {
   const request = await create('Persisted note');
-  const independent = new pg.Pool({ connectionString: connection.href });
+  const independent = new pg.Pool({ connectionString: environment.connectionString });
   try {
     assert.equal(
       (await independent.query('SELECT notes FROM service_requests WHERE id=$1', [request.id]))

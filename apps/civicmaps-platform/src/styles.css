@@ -328,6 +328,7 @@ select {
   margin: 0;
   width: 145px;
 }
+/* Contain absolute screen-reader labels so they cannot widen the document. */
 .table-scroll {
   position: relative;
   overflow: auto;

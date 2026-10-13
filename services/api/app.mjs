@@ -83,6 +83,7 @@ async function scoped(req, mutate, work) {
         403,
         'Session verification failed',
       );
+    // Transaction-local roles cannot leak to the next pooled request.
     await client.query('SET LOCAL ROLE civicmaps_local_app');
     for (const [name, value] of Object.entries({
       tenant: actor.tenant_id,

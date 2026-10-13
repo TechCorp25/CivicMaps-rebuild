@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": null,
+  "activeFeature": "F02Q",
   "nextFeature": "F02Q",
   "allowedStatuses": [
     "planned",
@@ -44,16 +44,16 @@
     },
     {
       "id": "F02Q",
-      "status": "planned",
-      "branch": null,
+      "status": "in_progress",
+      "branch": "codex/civicmaps-f02q-quality",
       "commit": null,
       "pr": null,
-      "evidencePath": null,
+      "evidencePath": "docs/plans/evidence/F02Q.md",
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Implement the bounded quality gate card from current main before F03."
+      "nextAction": "Complete full validation, record gotchas, publish branch for owner review."
     },
     {
       "id": "F03",
