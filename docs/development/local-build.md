@@ -4,7 +4,7 @@ Started 13 October 2026. The user's current instruction removes historical gover
 
 ## Run locally
 
-From the project root, with Node.js 20.19+ and PostgreSQL 15 binaries installed:
+From the project root, with the Node version in `.node-version`, npm 11.9.0 and PostgreSQL 15 binaries installed (the manifest minimum remains Node 20.19):
 
 ```bash
 npm run setup
@@ -14,7 +14,7 @@ npm run db:seed
 npm run dev
 ```
 
-Open http://127.0.0.1:5173. The API listens on 127.0.0.1:4100. Both bind to loopback. Stop the application with Ctrl+C; stop the isolated database with `npm run db:stop`.
+Open CommandMAPS at http://127.0.0.1:5173 and Platform at http://127.0.0.1:5174. The API listens on 127.0.0.1:4100. All bind to loopback. `npm run dev:platform` runs only Platform and the API. Stop the application with Ctrl+C; stop the isolated database with `npm run db:stop`.
 
 Synthetic accounts use `CivicMAPS-local-2026!` unless `CIVICMAPS_DEMO_PASSWORD` was set before the first seed. Seeding again preserves existing users/passwords and operational records:
 
@@ -32,9 +32,9 @@ These are development credentials, not an identity-provider integration. The iso
 
 The ChromeOS USB filesystem does not preserve the permissions required by PostgreSQL or the esbuild executable. Database files therefore live under `~/.local/share/civicmaps-local/postgres`, outside the source tree and across process restarts. `CIVICMAPS_DATA_DIR` can choose another Linux filesystem directory; `CIVICMAPS_PG_BIN` chooses PostgreSQL binaries. `CIVICMAPS_PG_PORT` changes the database port; also change `CIVICMAPS_DATABASE_URL` to match.
 
-Installation disables bin links and package install scripts. The pinned Rollup backend uses WebAssembly. The Vite wrapper copies the pinned esbuild binary into a private temporary Linux directory and gives it executable permissions. Source, lockfile, assets and build output stay on the USB drive. This wrapper currently targets Linux x64.
+Installation uses `npm ci` and the committed root lockfile. It disables bin links and package install scripts. The pinned Rollup backend uses WebAssembly. The Vite wrapper copies the pinned esbuild binary into a private temporary Linux directory and gives it executable permissions. Source, lockfile, assets and build output stay on the USB drive. This wrapper currently targets Linux x64.
 
-`CIVICMAPS_DATABASE_URL` overrides the isolated database connection. Migration and seed commands are explicit writes to that destination; use only the dedicated local development database. `CIVICMAPS_API_PORT` changes the API port (also update the Vite proxy). `CIVICMAPS_ORIGINS` lists allowed browser mutation origins; the default allows localhost/127.0.0.1 on port 5173.
+`CIVICMAPS_DATABASE_URL` overrides the isolated database connection. Migration and seed commands are explicit writes to that destination; use only the dedicated local development database. `CIVICMAPS_API_PORT` changes the API port (also update the Vite proxy). `CIVICMAPS_ORIGINS` lists allowed browser mutation origins; the default allows localhost/127.0.0.1 on ports 5173 and 5174.
 
 ## Implemented unit
 
@@ -49,7 +49,7 @@ npm run check
 npm run test:browser
 ```
 
-`check` typechecks/builds CommandMAPS and runs API integration tests. Integration tests create and remove only a uniquely named disposable database on the configured PostgreSQL instance; they never reset the development database. Browser checks require `npm run dev`, a seeded development database and the matching Playwright Chromium build. If missing, install it with `node node_modules/playwright/cli.js install chromium`.
+`check` typechecks/builds CommandMAPS and Platform and runs API integration tests. Integration tests create and remove only a uniquely named disposable database on the configured PostgreSQL instance; they never reset the development database. Browser checks require `npm run dev`, a seeded development database and the matching Playwright Chromium build. If missing, install it with `node node_modules/playwright/cli.js install chromium`.
 
 Browser exercise records remain labelled synthetic and closed in the development database. Screenshots are written to `test-results/`. Validation results and limitations are recorded separately after execution.
 
@@ -68,3 +68,9 @@ Browser exercise records remain labelled synthetic and closed in the development
 | GET `/api/requests/:id/audit` | Read-only scoped audit events |
 
 Authenticated mutations require `x-csrf-token`; operational writes also require `Idempotency-Key`. Reusing a key with a different operation returns 409. Stale versions return 409. Out-of-scope object access returns 404. Unknown fields, client-issued numbers and client-selected ownership are rejected.
+
+## Continuous integration
+
+`.github/workflows/ci.yml` uses the committed Node version and npm 11.9.0, installs with `npm ci`, and runs `npm run check` against a pinned disposable PostgreSQL 15 service. It verifies generated token files remain unchanged. This covers CommandMAPS, Platform and the current API suite; scaffold applications are excluded. Browser and native-device checks are separate acceptance work.
+
+When using an already running dedicated PostgreSQL instance, set `CIVICMAPS_DATABASE_URL` before `npm run check`; skip `db:start`. The test login needs permission to create/drop only its uniquely named disposable databases. Never point these commands at production. A writable npm cache can be selected with `npm_config_cache` in restricted workspaces.

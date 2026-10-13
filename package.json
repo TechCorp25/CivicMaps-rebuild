@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "npm@11.9.0",
   "engines": {
     "node": ">=20.19"
   },
@@ -19,7 +20,7 @@
     "test:browser": "node tests/browser.mjs",
     "check": "npm run typecheck && npm run build && npm test",
     "tokens": "node scripts/generate-tokens.mjs",
-    "setup": "npm install --ignore-scripts --bin-links=false --no-audit --no-fund"
+    "setup": "npm ci --ignore-scripts --bin-links=false --no-audit --no-fund"
   },
   "dependencies": {
     "express": "5.2.1",
