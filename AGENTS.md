@@ -48,3 +48,5 @@ Follow `docs/plans/civicmaps-platform-assessment-and-autonomous-plan.md` and its
 ## Agent & Configuration Instructions
 
 Query Empirical before substantive work; record meaningful completed work there with explicit authorship. Never store secrets. Current user authorisation takes precedence over historical governance boilerplate. Continue authorised implementation in the existing stack; resolve concrete D01–D06 product/provider decisions at the feature that needs them. Do not infer a production boundary from the local build.
+
+Record recurring gotchas in Empirical with symptom, cause, verified fix and prevention, tagged with this project and feature. Check these notes on resumption. Add useful why-comments using the language’s syntax (`//` or `/* */` in JS/TS; `#` in shell/Python), rather than narrating obvious code. Keep relative documentation links current. F02Q establishes enforced lint/format checks before F03; do not claim those gates exist until implemented.

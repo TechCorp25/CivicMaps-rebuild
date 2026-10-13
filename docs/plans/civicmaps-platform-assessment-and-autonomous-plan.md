@@ -114,8 +114,15 @@ Each card is a single independently reviewable outcome. Dependencies refer to th
 **Done when:** duplicate slug/email and parallel retry create one municipality/audit; replay omits plaintext password; stale versions and missing CSRF fail; council cookies cannot access platform routes and platform role cannot read operational tables; keyboard navigation, reload/session restoration and errors verified.
 **Rollback:** test/configuration commit only; defects needing new behaviour get a separately scoped card.
 
+### F02Q — Enforced code quality baseline
+**Depends on:** F02. **Goal:** keep implemented application code readable and automatically checked before context binding expands it.
+**Scope:** pinned ESLint flat configuration for JavaScript/TypeScript and React Hooks; separately configured Prettier; root lint/format checks in CI. Include implemented app source, API, active scripts and tests; explicitly exclude archives, generated tokens, build output and scaffolds. Format in a mechanical commit, then make bounded lint/DRY corrections. Retain existing auth-plane separation and framework choices.
+**Done when:** lint reports zero warnings, formatter check passes, both typechecks/builds, all 18 API cases and platform browser acceptance pass; generated tokens remain unchanged. Resolve effect dependencies without blanket suppressions; preserve cancellation and same-ID page navigation. Extract shared disposable test lifecycle where it removes repeated ownership/cleanup logic, retain explicit test scenarios, and remove duplicate narrow screenshot capture. Add short why-comments for route-page refetch, table positioning, retry-secret omission and role/transaction boundaries, with relative links to evidence where useful. Inspect formatted components; split only coherent views that materially reduce branching/ownership complexity. No arbitrary line-count target or speculative abstractions.
+**Evidence:** `docs/plans/evidence/F02Q.md` with exact versions, commands, exclusions, CI URL, behavioural diff and unresolved findings. Record each gotcha with symptom, cause, fix and prevention in Empirical.
+**Rollback:** revert tooling and refactor commits; no schema changes. Keep existing acceptance tests.
+
 ### F03 — Municipality-to-operating-context binding
-**Depends on:** F02. **Goal:** registry entries resolve to explicit permitted operating contexts.
+**Depends on:** F02, F02Q. **Goal:** registry entries resolve to explicit permitted operating contexts.
 **Scope:** versioned municipality/tenant/organisation/jurisdiction/data-plane associations and realm resolution; no infrastructure.
 **Done when:** Alpha/Beta isolation and a shared-service association fixture pass; forged/unset/expired context fails closed; operational origin remains immutable; mapping migration is repeatable.
 **Rollback:** disable new bindings without deleting operational records; document migration compatibility.
@@ -281,7 +288,7 @@ Each of these needs a separate feature card if brought into the active queue: fu
 
 ## Session ledger and kickoff
 
-Use [civicmaps-feature-ledger.json](civicmaps-feature-ledger.json) for resumption. It starts with all 28 implementation cards planned; this assessment does not complete F01. The next targeted goal is F01, then F02 before tenancy or infrastructure work.
+Use [civicmaps-feature-ledger.json](civicmaps-feature-ledger.json) for resumption. The original assessment contained 28 implementation cards. The [13 October progress assessment](civicmaps-progress-assessment-2026-10-13.md) confirms F01 and F02 merged through PR #4 and PR #6, with successful hosted acceptance checks. F02Q is the next targeted goal, followed by F03. The ledger now contains 29 cards. Approval and merge remain separate states.
 
 Suggested session instruction:
 
