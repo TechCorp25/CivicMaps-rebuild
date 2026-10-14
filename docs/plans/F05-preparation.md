@@ -2,6 +2,8 @@
 
 Prepared on 14 October 2026 from main `04eab124f71af302ceefcc9359faa277d6fd693e`, the verified merge of [PR #10](https://github.com/TechCorp25/CivicMaps-rebuild/pull/10), including assessed UI corrections `c944b4366b6866fa24fdaf25399c2596f9da8b18`. F04 acceptance is in [its evidence](evidence/F04.md). This is preparation, not implementation or provisioning evidence.
 
+PR #11 merged this contract at `8fb71bd1cbec4cd630deece5ec9ec589e2763f98`, including authentication clarification `51436b1ac1b34ded8850c0b14032451123594e4a`. Continue implementation on `codex/civicmaps-f05-build` using the [build execution plan](F05-build-plan.md). References below to this branch mean the active build branch, not the merged preparation branch. D01 remains unresolved.
+
 ## Single-feature goal
 
 Provision and recover two disposable municipality data sandboxes through the existing durable job adapter. Each has a versioned database schema, least-privilege runtime credentials and an evidence-storage namespace whose access boundary is independently tested. See the [feature card](civicmaps-platform-assessment-and-autonomous-plan.md#f05--provision-isolated-municipality-data-resources) and [ledger](civicmaps-feature-ledger.json).

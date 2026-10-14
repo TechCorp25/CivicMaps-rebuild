@@ -88,9 +88,9 @@
     {
       "id": "F05",
       "status": "planned",
-      "branch": "codex/civicmaps-f05-preparation",
+      "branch": "codex/civicmaps-f05-build",
       "commit": null,
-      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/11",
+      "pr": null,
       "evidencePath": null,
       "acceptancePassed": false,
       "publication": "not_started",
@@ -98,11 +98,16 @@
       "blockers": [
         "D01: select isolation/target, region/residency, budget, retention and secret facility before resource implementation. Hostnames remain F06."
       ],
-      "nextAction": "Review F05 preparation and resolve D01; develop, build, integrate and test only F05, then publish evidence and update Empirical. Preparation is not feature acceptance.",
+      "nextAction": "Preparation PR #11 merged. Resolve D01 resource target and execute F05 build checkpoints on codex/civicmaps-f05-build; F06 waits for implemented F05 acceptance and owner merge.",
       "preparationPath": "docs/plans/F05-preparation.md",
-      "preparationCommit": "fad68ad394540edd8b68d873292a3e209716ffb1",
+      "preparationCommit": "51436b1ac1b34ded8850c0b14032451123594e4a",
       "preparationPublication": "verified",
-      "preparationEmpirical": "recorded"
+      "preparationEmpirical": "recorded",
+      "preparationPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/11",
+      "preparationBranch": "codex/civicmaps-f05-preparation",
+      "preparationStatus": "merged",
+      "preparationMergeCommit": "8fb71bd1cbec4cd630deece5ec9ec589e2763f98",
+      "buildPlanPath": "docs/plans/F05-build-plan.md"
     },
     {
       "id": "F06",
