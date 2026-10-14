@@ -38,6 +38,7 @@ A local development profile, if selected, must use real isolated database creden
 | Scenario | Required outcome |
 | --- | --- |
 | Alpha/Beta creation and duplicate requests | Exactly the intended owned resources; stable inventory and no duplicate credentials/namespaces on retry |
+| Runtime credential authentication | On independent connections, valid own credentials succeed; wrong/missing passwords and Alpha's secret paired with Beta's username (and vice versa) fail authentication under an enforced password method such as SCRAM |
 | Runtime database isolation | Authenticate with each real runtime login: own data works; other sandbox/control-plane connections, reads/writes, role escalation and schema creation outside permitted scope fail |
 | Backend access isolation | Forged municipality/resource/context and swapped Alpha/Beta credentials fail through the actual resource access integration; pooled connection reuse does not retain another scope |
 | Object isolation | Own namespace operations work; other namespace list/read/write/delete and forged keys fail under the storage service's authorisation, not just a UI filter |
@@ -48,7 +49,9 @@ A local development profile, if selected, must use real isolated database creden
 | UI and audit | Resource/job identifiers traceable without secrets; navigation, same-state poll recovery and retry/reconcile regressions remain passing |
 | Cleanup and rollback | Exact owned resource inventory; populated/foreign/untagged resources retained; access can be disabled without deleting data |
 
-Test database authentication from independent connections using actual restricted credentials. Existing local owner connections with `SET ROLE`, API-only tests and synthetic effect rows do not establish F05's resource boundary. For storage, a namespace prefix alone is not access control. Document provider-administrator powers separately from the runtime threat boundary.
+Test database authentication from independent connections using actual restricted credentials. Configure the selected test target to enforce authentication (for password logins, `scram-sha-256`); verify the matching connection rule rather than merely supplying a password. The existing [local launcher](../../scripts/local-database.mjs) uses `trust`, which accepts the claimed username without validating its password and cannot provide this acceptance evidence. For missing-password cases, prevent fallback credentials from environment variables, password files or reused connections. Record the effective authentication method and positive/negative results without recording secrets. PostgreSQL 15 [authentication configuration](https://www.postgresql.org/docs/15/auth-pg-hba-conf.html) and [password authentication](https://www.postgresql.org/docs/15/auth-password.html), consulted through Context7, explain this distinction.
+
+Existing local owner connections with `SET ROLE`, API-only tests and synthetic effect rows do not establish F05's resource boundary. For storage, a namespace prefix alone is not access control. Document provider-administrator powers separately from the runtime threat boundary.
 
 ## Validation, interruption and rollback
 
