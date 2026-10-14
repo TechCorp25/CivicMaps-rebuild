@@ -90,7 +90,7 @@
       "status": "planned",
       "branch": "codex/civicmaps-f05-build",
       "commit": null,
-      "pr": null,
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/12",
       "evidencePath": null,
       "acceptancePassed": false,
       "publication": "not_started",
@@ -107,7 +107,10 @@
       "preparationBranch": "codex/civicmaps-f05-preparation",
       "preparationStatus": "merged",
       "preparationMergeCommit": "8fb71bd1cbec4cd630deece5ec9ec589e2763f98",
-      "buildPlanPath": "docs/plans/F05-build-plan.md"
+      "buildPlanPath": "docs/plans/F05-build-plan.md",
+      "buildPlanCommit": "ec47f382c7344139531894a3ac6cab83e5bb6b68",
+      "buildPlanPublication": "verified",
+      "buildPlanEmpirical": "recorded"
     },
     {
       "id": "F06",
