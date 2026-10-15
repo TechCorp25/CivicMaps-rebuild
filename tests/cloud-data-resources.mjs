@@ -30,7 +30,7 @@ process.env.PGPASSFILE = join(authenticationDirectory, 'empty-password-file');
 await writeFile(process.env.PGPASSFILE, '', { mode: 0o600 });
 const environment = await createTestEnvironment({ platform: true });
 const { pool } = environment;
-const { runProvisioningOnce, finishProvisioning } =
+const { runProvisioningOnce, finishProvisioning, controlProvisioning } =
   await import('../services/api/provisioning.mjs');
 const jobs = [1, 2].map((n) => ({
   id: `f0500000-0000-4000-8000-00000000000${n}`,
@@ -132,6 +132,41 @@ try {
       passed(`municipality ${i + 1}: live version-1 data retained after failed version-2 upgrade`);
     }
   }
+  const savedCredential = await secret(jobs[0]);
+  await setDatabaseAccess(jobs[0], target, false);
+  try {
+    await runProvisioningOnce({ leaseMs: 300000 });
+    const failed = (
+      await pool.query('SELECT state,error FROM provisioning_jobs WHERE id=$1', [jobs[0].id])
+    ).rows[0];
+    assert.equal(failed.state, 'failed');
+    assert.equal((await pool.query('SELECT * FROM municipality_resources')).rowCount, 0);
+    assert.equal(
+      (await pool.query('SELECT * FROM provisioning_steps WHERE resource_id IS NOT NULL')).rowCount,
+      0,
+    );
+    assert.equal(JSON.stringify(failed).includes(savedCredential.password), false);
+  } finally {
+    await setDatabaseAccess(jobs[0], target, true);
+  }
+  const recovery = await pool.connect();
+  try {
+    await recovery.query('BEGIN');
+    await controlProvisioning(
+      recovery,
+      { id: operator },
+      jobs[0].municipality_id,
+      jobs[0].id,
+      'retry',
+    );
+    await recovery.query('COMMIT');
+  } finally {
+    await recovery.query('ROLLBACK');
+    recovery.release();
+  }
+  passed(
+    'real runtime authentication failure persists failed job without false inventory or secrets; operator retry recovers owned resources',
+  );
   // A real child process dies after a committed cloud effect but before its SQL checkpoint.
   const crash = spawnSync(process.execPath, ['services/api/provisioning-worker.mjs', '--once'], {
     env: { ...process.env, NODE_ENV: 'test', CIVICMAPS_WORKER_TEST_FAULT: 'after-effect' },

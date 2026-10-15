@@ -87,16 +87,16 @@
     },
     {
       "id": "F05",
-      "status": "in_progress",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f05-build",
-      "commit": null,
+      "commit": "a5c218cdf4f10752db4f1d5fce07458973c11d9f",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/12",
       "evidencePath": "docs/plans/evidence/F05.md",
       "acceptancePassed": true,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Publish verified implementation SHA and Empirical completion, then record review_ready for owner review; F06 remains planned.",
+      "nextAction": "Owner review and merge of PR #12. F06 remains planned until F05 is accepted and merged.",
       "preparationPath": "docs/plans/F05-preparation.md",
       "preparationCommit": "51436b1ac1b34ded8850c0b14032451123594e4a",
       "preparationPublication": "verified",
@@ -108,7 +108,8 @@
       "buildPlanPath": "docs/plans/F05-build-plan.md",
       "buildPlanCommit": "ec47f382c7344139531894a3ac6cab83e5bb6b68",
       "buildPlanPublication": "verified",
-      "buildPlanEmpirical": "recorded"
+      "buildPlanEmpirical": "recorded",
+      "empiricalMemoryId": "6ad139bcffb684dbbe25b143"
     },
     {
       "id": "F06",

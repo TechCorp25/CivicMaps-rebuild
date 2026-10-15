@@ -3,6 +3,7 @@
   "project": "597663815195",
   "region": "ap-southeast-2",
   "proof": [
+    "real runtime authentication failure persists failed job without false inventory or secrets; operator retry recovers owned resources",
     "worker crash recovery, stable credentials/inventory and stale lease rejection",
     "own SCRAM/TLS access; wrong, missing, swapped passwords; sibling/control database and privilege denial; migration replay preserves data",
     "S3 own list/read/write/delete; sibling, forged key, secret access and role escalation denied",
@@ -27,9 +28,9 @@
       "storage_prefix": "municipalities/20000000-0000-4000-8000-000000000002/f0500000-0000-4000-8000-000000000002/"
     }
   ],
-  "commandId": "3cbacc89-3494-4186-94b1-ed9241c29451",
+  "commandId": "40fb7851-d80b-4f5b-bc28-645371c3de50",
   "status": "Success",
-  "executionStart": "2026-10-15T20:30:08.144Z",
-  "executionEnd": "2026-10-15T20:31:18.144Z",
-  "artifactSha256": "779d92cb1252cf35aa91f7c430554eba543fc5af07e366ff7f78df8e83a276e3"
+  "executionStart": "2026-10-15T20:42:08.565Z",
+  "executionEnd": "2026-10-15T20:43:30.565Z",
+  "artifactSha256": "edbe575a53adfbb3465be2ef8b73ba9bb9c84c503ed666e1a7520ad11c4a63fa"
 }
