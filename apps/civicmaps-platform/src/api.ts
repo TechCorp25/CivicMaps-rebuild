@@ -24,7 +24,8 @@ export type ProvisioningJob = {
   id: string;
   municipality_id: string;
   operator_id: string;
-  adapter: 'synthetic';
+  adapter: 'synthetic' | 'aws-postgres-s3';
+  profile: string | null;
   state: 'queued' | 'running' | 'waiting' | 'failed' | 'succeeded';
   attempts: number;
   available_at: string;

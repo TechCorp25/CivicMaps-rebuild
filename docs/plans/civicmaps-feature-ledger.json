@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": null,
+  "activeFeature": "F05",
   "nextFeature": "F05",
   "allowedStatuses": [
     "planned",
@@ -87,18 +87,16 @@
     },
     {
       "id": "F05",
-      "status": "planned",
+      "status": "in_progress",
       "branch": "codex/civicmaps-f05-build",
       "commit": null,
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/12",
-      "evidencePath": null,
-      "acceptancePassed": false,
+      "evidencePath": "docs/plans/evidence/F05.md",
+      "acceptancePassed": true,
       "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [
-        "D01: select isolation/target, region/residency, budget, retention and secret facility before resource implementation. Hostnames remain F06."
-      ],
-      "nextAction": "Preparation PR #11 merged. Resolve D01 resource target and execute F05 build checkpoints on codex/civicmaps-f05-build; F06 waits for implemented F05 acceptance and owner merge.",
+      "blockers": [],
+      "nextAction": "Publish verified implementation SHA and Empirical completion, then record review_ready for owner review; F06 remains planned.",
       "preparationPath": "docs/plans/F05-preparation.md",
       "preparationCommit": "51436b1ac1b34ded8850c0b14032451123594e4a",
       "preparationPublication": "verified",

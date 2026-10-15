@@ -14,6 +14,7 @@ if (fault && (process.env.NODE_ENV !== 'test' || !['after-claim', 'after-effect'
 try {
   do {
     const worked = await runProvisioningOnce({
+      leaseMs: 300_000,
       afterClaim: fault === 'after-claim' ? () => process.exit(86) : undefined,
       afterEffect: fault === 'after-effect' ? () => process.exit(87) : undefined,
     });

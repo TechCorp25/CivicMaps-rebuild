@@ -1,15 +1,33 @@
 import { randomUUID } from 'node:crypto';
 import { transaction } from './database.mjs';
+import {
+  awsResourceAdapter,
+  resourceNames,
+  resourceProfile,
+  dataSchemaVersion,
+} from './data-resources.mjs';
 const maxAttempts = 3;
 export const stepNames = ['prepare_workspace', 'prepare_services'];
 function conflict(message) {
   throw Object.assign(new Error(message), { status: 409 });
 }
 export async function enqueueProvisioning(client, municipalityId, operatorId) {
+  if (process.env.CIVICMAPS_PROVISIONING_PAUSED === '1')
+    conflict('Provisioning is paused for resource maintenance');
+  const profile = process.env.CIVICMAPS_PROVISIONING_PROFILE;
+  if (profile && profile !== resourceProfile) throw new Error('Invalid provisioning profile');
+  if (profile) {
+    await client.query("SELECT pg_advisory_xact_lock(hashtext('civicmaps-f05-capacity'))");
+    const existing = await client.query(
+      "SELECT count(*)::int AS count FROM provisioning_jobs WHERE adapter='aws-postgres-s3'",
+    );
+    if (existing.rows[0].count >= 2)
+      conflict('The development profile permits two municipality resources');
+  }
   const id = randomUUID();
   await client.query(
-    'INSERT INTO provisioning_jobs(id,municipality_id,operator_id) VALUES ($1,$2,$3)',
-    [id, municipalityId, operatorId],
+    'INSERT INTO provisioning_jobs(id,municipality_id,operator_id,adapter,profile) VALUES ($1,$2,$3,$4,$5)',
+    [id, municipalityId, operatorId, profile ? 'aws-postgres-s3' : 'synthetic', profile ?? null],
   );
   for (const [index, name] of stepNames.entries())
     await client.query('INSERT INTO provisioning_steps(job_id,name,position) VALUES ($1,$2,$3)', [
@@ -22,7 +40,7 @@ export async function enqueueProvisioning(client, municipalityId, operatorId) {
 export async function readProvisioning(client, municipalityId) {
   // Lease tokens are internal fencing credentials, never sent to the browser.
   const jobs = await client.query(
-    `SELECT id,municipality_id,operator_id,adapter,state,attempts,available_at,lease_until,error,created_at,updated_at,
+    `SELECT id,municipality_id,operator_id,adapter,profile,state,attempts,available_at,lease_until,error,created_at,updated_at,
     state='failed' AS can_retry,
     (state IN ('queued','waiting','failed') OR (state='running' AND lease_until<=clock_timestamp())) AS can_reconcile
     FROM provisioning_jobs WHERE municipality_id=$1`,
@@ -46,7 +64,7 @@ export async function controlProvisioning(client, actor, municipalityId, jobId, 
   const job = found.rows[0];
   if (action === 'retry' && job.state !== 'failed') conflict('Only a failed job can be retried');
   if (action === 'reconcile') {
-    if (job.state === 'succeeded') conflict('This synthetic job is already complete');
+    if (job.state === 'succeeded') conflict('This provisioning job is already complete');
     const live = await client.query(
       "SELECT 1 FROM provisioning_jobs WHERE id=$1 AND state='running' AND lease_until>clock_timestamp()",
       [jobId],
@@ -70,7 +88,7 @@ export async function controlProvisioning(client, actor, municipalityId, jobId, 
       `provisioning_${action}_requested`,
       {
         jobId,
-        adapter: 'synthetic',
+        adapter: job.adapter,
         initiatingOperatorId: job.operator_id,
         performedBy: 'operator',
       },
@@ -118,7 +136,7 @@ export async function claimProvisioning({ leaseMs = 60_000 } = {}) {
     if (!step) throw new Error('Incomplete job has no pending step');
     if (step.attempts >= maxAttempts) {
       await client.query(
-        "UPDATE provisioning_jobs SET state='failed',lease_token=NULL,lease_until=NULL,error='Attempt limit reached. Retry or reconcile this synthetic job.',updated_at=clock_timestamp() WHERE id=$1",
+        "UPDATE provisioning_jobs SET state='failed',lease_token=NULL,lease_until=NULL,error='Attempt limit reached. Retry or reconcile this job.',updated_at=clock_timestamp() WHERE id=$1",
         [job.id],
       );
       await client.query(
@@ -187,8 +205,8 @@ export async function finishProvisioning(claim, { resourceId, errorCode } = {}) 
     if (errorCode) {
       const retryable = errorCode === 'transient' && claim.step.attempts < maxAttempts;
       const message = retryable
-        ? 'Synthetic step unavailable; automatic retry scheduled.'
-        : 'Synthetic step failed. Retry or reconcile the job.';
+        ? 'Provisioning step unavailable; automatic retry scheduled.'
+        : 'Provisioning step failed. Retry or reconcile the job.';
       await client.query(
         'UPDATE provisioning_steps SET state=$3,error=$4 WHERE job_id=$1 AND name=$2',
         [claim.id, claim.step.name, retryable ? 'pending' : 'failed', message],
@@ -208,11 +226,29 @@ export async function finishProvisioning(claim, { resourceId, errorCode } = {}) 
         },
       );
     } else {
-      if (
-        typeof resourceId !== 'string' ||
-        resourceId !== `synthetic:${claim.municipality_id}:${claim.id}:${claim.step.name}`
-      )
-        throw new Error('Invalid synthetic resource');
+      const expected =
+        claim.adapter === 'synthetic'
+          ? `synthetic:${claim.municipality_id}:${claim.id}:${claim.step.name}`
+          : `aws:${claim.id}:${claim.step.name === 'prepare_workspace' ? 'database' : 'storage'}`;
+      if (typeof resourceId !== 'string' || resourceId !== expected)
+        throw new Error('Invalid provisioning resource');
+      if (claim.adapter === 'aws-postgres-s3') {
+        const names = resourceNames(claim);
+        await client.query(
+          `INSERT INTO municipality_resources(job_id,municipality_id,profile,database_name,runtime_name,secret_ref,storage_prefix,schema_version)
+          VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT (job_id) DO NOTHING`,
+          [
+            claim.id,
+            claim.municipality_id,
+            claim.profile,
+            names.database_name,
+            names.runtime_name,
+            names.secret_ref,
+            names.storage_prefix,
+            dataSchemaVersion,
+          ],
+        );
+      }
       await client.query(
         "UPDATE provisioning_steps SET state='succeeded',resource_id=$3,completed_at=clock_timestamp(),error=NULL WHERE job_id=$1 AND name=$2",
         [claim.id, claim.step.name, resourceId],
@@ -231,22 +267,20 @@ export async function finishProvisioning(claim, { resourceId, errorCode } = {}) 
         resourceId,
       });
       if (!pending.rowCount)
-        await workerAudit(client, claim, 'provisioning_succeeded', { synthetic: true });
+        await workerAudit(client, claim, 'provisioning_succeeded', {
+          synthetic: claim.adapter === 'synthetic',
+        });
     }
     return true;
   });
 }
-export async function runProvisioningOnce({
-  adapter = syntheticAdapter,
-  leaseMs,
-  afterClaim,
-  afterEffect,
-} = {}) {
+export async function runProvisioningOnce({ adapter, leaseMs, afterClaim, afterEffect } = {}) {
   const claim = await claimProvisioning({ leaseMs });
   if (!claim) return false;
   if (afterClaim) await afterClaim(claim);
   let resourceId;
   try {
+    adapter ??= claim.adapter === 'synthetic' ? syntheticAdapter : awsResourceAdapter();
     // Reconcile every attempt before applying; stable keys recover uncheckpointed effects.
     resourceId =
       (await adapter.reconcile(claim, claim.step)) ?? (await adapter.apply(claim, claim.step));

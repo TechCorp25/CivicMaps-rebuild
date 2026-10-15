@@ -5,6 +5,7 @@ import { verifyPassword, hashPassword } from './passwords.mjs';
 import { transition, statusLabels } from '../../domains/service-requests-dispatch/lifecycle.mjs';
 import { resolveContext, permittedContexts } from './operating-context.mjs';
 import { platformRouter } from './platform.mjs';
+import { configuredDataTarget, withMunicipalityResource } from './data-resources.mjs';
 
 const digest = (value) => createHash('sha256').update(value).digest('hex');
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -290,6 +291,27 @@ export function createApp() {
         return result.rows;
       }),
     );
+  });
+  app.get('/api/resources/status', async (req, res) => {
+    const result = await transaction(async (client) => {
+      const user = await authenticated(client, req);
+      return withMunicipalityResource(
+        client,
+        user,
+        req.headers['x-civicmaps-context'],
+        configuredDataTarget(),
+        async ({ connection, context }) => {
+          await connection.query('SELECT 1 FROM council.resource_records LIMIT 1');
+          return {
+            municipalityId: context.municipality_id,
+            contextId: context.context_id,
+            databaseReady: true,
+            syntheticDataOnly: true,
+          };
+        },
+      );
+    });
+    res.json(result);
   });
   app.get('/api/requests', async (req, res) => {
     res.json(

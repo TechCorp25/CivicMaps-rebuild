@@ -86,8 +86,8 @@ export function Onboarding({
           Status: Provisioning.
         </p>
         <p>
-          A durable synthetic provisioning job is queued. View the municipality to follow its
-          progress. Real infrastructure and the first admin's council sign-in remain pending.
+          A durable provisioning job is queued. View the municipality to follow its progress and
+          resource status. Council service deployment and the first admin's sign-in remain pending.
         </p>
         <div className="credential">
           <h2>First admin · temporary password</h2>

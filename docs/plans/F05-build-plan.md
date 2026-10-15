@@ -8,7 +8,7 @@ Develop, build, integrate and prove isolated municipality data resources through
 
 ## Entry decision
 
-D01 is still unresolved. Approval of the preparation PR did not choose between its local and cloud alternatives. Before resource-dependent implementation, record the target/profile, isolation boundary, region/residency, resource budget, retention and secret facility in the brief's decision table. No secrets belong in the repository or Empirical.
+D01 was resolved in this build: AWS Sydney, separate databases/logins on shared compute, independent S3 authorisation, Secrets Manager, US$50/month and US$15 initial seven-day allocation, preserving populated resources. The owner-approved inputs are recorded in the [brief](F05-preparation.md#d01-inputs-before-resource-implementation). No secrets belong in the repository or Empirical.
 
 The concrete proposal remains a PostgreSQL database and runtime login per sandbox plus an independently authorised storage namespace. Local development must prove real authentication and storage enforcement using synthetic data; cloud acceptance must exercise the selected account/provider. Hostnames remain F06. Contract inspection and synthetic test design can proceed before D01 is resolved; do not mark resource acceptance complete from that work.
 

@@ -123,8 +123,8 @@ export function Boundary() {
         </div>
       </div>
       <p className="muted">
-        Target isolation model. This local control plane registers configuration; dedicated tenant
-        schemas, file storage and council session activation are pending.
+        Check the provisioning job for this council’s data resource status. Council service
+        deployment and admin activation are separate steps.
       </p>
     </section>
   );

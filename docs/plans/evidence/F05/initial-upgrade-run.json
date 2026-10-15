@@ -1,0 +1,8 @@
+{
+  "CommandId": "8f46c13b-3b47-4dc9-bea8-2b9df51810da",
+  "Status": "Failed",
+  "ExecutionStartDateTime": "2026-10-15T20:19:54.123Z",
+  "ExecutionEndDateTime": "2026-10-15T20:20:38.123Z",
+  "StandardOutputContent": "Completed 83.3 KiB/83.3 KiB (1.6 MiB/s) with 1 file(s) remaining\rdownload: s3://civicmaps-f05-development-storage-iq7jtwcoip2y/acceptance/source.tar.gz to ../../opt/civicmaps-f05/source.tar.gz\n/opt/civicmaps-f05/source.tar.gz: OK\n\nadded 238 packages in 6s\nLocal synthetic database available on 127.0.0.1:55432\nPASS municipality 1: live version-1 data retained after failed version-2 upgrade\nPASS municipality 2: live version-1 data retained after failed version-2 upgrade\nPASS worker crash recovery, stable credentials/inventory and stale lease rejection\nPASS own SCRAM/TLS access; wrong, missing, swapped passwords; sibling/control database and privilege denial; migration replay preserves data\n",
+  "StandardErrorContent": "WARNING: password file \"/dev/null\" is not a plain file \nWARNING: password file \"/dev/null\" is not a plain file \nfile:///opt/civicmaps-f05/source/services/api/data-resources.mjs:91\n    throw Object.assign(new Error(missing ? 'AWS resource absent' : 'AWS operation failed'), {\n                        ^\n\nError: AWS operation failed\n    at aws (file:///opt/civicmaps-f05/source/services/api/data-resources.mjs:91:25)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///opt/civicmaps-f05/source/tests/cloud-data-resources.mjs:227:5 {\n  code: 'AWS_FAILED'\n}\n\nNode.js v24.19.0\nfailed to run commands: exit status 1"
+}

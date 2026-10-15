@@ -2,7 +2,7 @@
 
 Prepared on 14 October 2026 from main `04eab124f71af302ceefcc9359faa277d6fd693e`, the verified merge of [PR #10](https://github.com/TechCorp25/CivicMaps-rebuild/pull/10), including assessed UI corrections `c944b4366b6866fa24fdaf25399c2596f9da8b18`. F04 acceptance is in [its evidence](evidence/F04.md). This is preparation, not implementation or provisioning evidence.
 
-PR #11 merged this contract at `8fb71bd1cbec4cd630deece5ec9ec589e2763f98`, including authentication clarification `51436b1ac1b34ded8850c0b14032451123594e4a`. Continue implementation on `codex/civicmaps-f05-build` using the [build execution plan](F05-build-plan.md). References below to this branch mean the active build branch, not the merged preparation branch. D01 remains unresolved.
+PR #11 merged this contract at `8fb71bd1cbec4cd630deece5ec9ec589e2763f98`, including authentication clarification `51436b1ac1b34ded8850c0b14032451123594e4a`. Continue implementation on `codex/civicmaps-f05-build` using the [build execution plan](F05-build-plan.md). References below to this branch mean the active build branch, not the merged preparation branch. D01 was resolved by the owner selections below; implementation and executed acceptance are recorded in [F05 evidence](evidence/F05.md).
 
 ## Single-feature goal
 
@@ -12,16 +12,16 @@ F05 supplies data resources for later CommandMAPS, EnforcementMAPS and public po
 
 ## D01 inputs before resource implementation
 
-No selected provider or approved isolation profile was found in the repository or retrieved project memory. Record the owner's selected values here before provider-dependent implementation. Adapter contracts and local synthetic proofs may proceed while these inputs are pending, as allowed by the established plan.
+Owner selected AWS Sydney, separate databases/logins on shared compute, US$50/month development budget and US$15 for the initial seven-day acceptance run on 14 October 2026. See [AWS preflight](evidence/F05-aws-preflight.md). Preserve populated resources and clean owned empty test resources after acceptance; the review date is not permission to delete populated data.
 
 | Input | Concrete proposal for review | Current status |
 | --- | --- | --- |
-| Data isolation | One PostgreSQL database and unique runtime login per sandbox, separate from the control-plane database; independently authorised object namespace per sandbox | Proposed, not selected; a shared cluster is not dedicated-compute isolation |
-| Execution target | Choose explicitly between a session-local disposable development profile and a named cloud sandbox account/project with authorised provisioning access | Unresolved; installed connectors do not select a provider |
-| Residency | For cloud: exact allowed region and data-residency requirements. For local: synthetic fixtures only and no production claim | Unresolved |
-| Budget and capacity | Two acceptance sandboxes; record resource sizes, maximum spend and expiry before creating cloud resources | Unresolved; no paid resources authorised by this brief |
-| Retention and cleanup | Preserve populated resources; explicitly inventory and clean only owned, tagged, empty disposable test resources; choose retention/expiry for the selected target | Cleanup boundary defined; target retention unresolved |
-| Credential storage | Use the selected environment's secret facility; registry holds references, never plaintext credentials | Facility follows target decision; do not send secrets through chat |
+| Data isolation | One PostgreSQL database and unique runtime login per sandbox, separate from the control-plane database; independently authorised object namespace per sandbox | Selected; shared compute is not dedicated-compute isolation |
+| Execution target | Choose explicitly between a session-local disposable development profile and a named cloud sandbox account/project with authorised provisioning access | AWS profile CivicMAPS, project 597663815195; identity verified |
+| Residency | For cloud: exact allowed region and data-residency requirements. For local: synthetic fixtures only and no production claim | Sydney ap-southeast-2; synthetic data only |
+| Budget and capacity | Two acceptance sandboxes; record resource sizes, maximum spend and expiry before creating cloud resources | US$50/month; US$15 initial seven-day acceptance allocation |
+| Retention and cleanup | Preserve populated resources; explicitly inventory and clean only owned, tagged, empty disposable test resources; choose retention/expiry for the selected target | Review after seven days; preserve populated resources; clean owned empty test resources |
+| Credential storage | Use the selected environment's secret facility; registry holds references, never plaintext credentials | AWS Secrets Manager; references only |
 | Hostnames | Remain deferred to F06; no DNS/public ingress in F05 | Not a blocker for this feature |
 
 A local development profile, if selected, must use real isolated database credentials and real enforced storage access for its proof. A simulator alone cannot close F05's isolation acceptance. A cloud implementation requires proof against the selected provider; local proof cannot be relabelled as cloud evidence.

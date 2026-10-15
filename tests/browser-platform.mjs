@@ -285,6 +285,32 @@ try {
   await expect(provisioning.getByRole('status')).toContainText('Queued');
   for (let i = 0; i < 4; i += 1) await runProvisioningOnce();
   await expect(provisioning.getByRole('status')).toContainText('Succeeded', { timeout: 10000 });
+  // Exercise cloud status copy through the real API with a local adapter fixture.
+  process.env.CIVICMAPS_PROVISIONING_PROFILE = 'aws-sydney-development';
+  const cloudCouncil = await createRecoveryCouncil('AWS profile fixture');
+  delete process.env.CIVICMAPS_PROVISIONING_PROFILE;
+  const cloudAdapter = {
+    reconcile: async () => null,
+    apply: async (job, step) =>
+      `aws:${job.id}:${step.name === 'prepare_workspace' ? 'database' : 'storage'}`,
+  };
+  await runProvisioningOnce({ adapter: cloudAdapter });
+  await runProvisioningOnce({ adapter: cloudAdapter });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(`${origin}/#municipalities/${cloudCouncil.municipality.id}`);
+  await page.reload();
+  await expect(provisioning).toContainText('AWS Sydney development resources');
+  await expect(provisioning).toContainText('Prepare isolated database');
+  await expect(provisioning).toContainText(
+    'Data resources ready. Service deployment and admin activation remain pending.',
+  );
+  await page.screenshot({
+    path: 'test-results/platform-aws-resources-desktop.png',
+    fullPage: true,
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: 'test-results/platform-aws-resources-narrow.png', fullPage: true });
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/platform/municipalities`)).status()).toBe(401);
@@ -293,6 +319,7 @@ try {
     'PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.',
   );
 } finally {
+  delete process.env.CIVICMAPS_PROVISIONING_PROFILE;
   try {
     if (browser) await browser.close();
   } finally {
