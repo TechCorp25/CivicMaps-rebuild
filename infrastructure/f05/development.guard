@@ -1,0 +1,41 @@
+# F05's authorised development boundary; these rules are intentionally single Region.
+rule private_encrypted_retained_database {
+  Resources.Database.Properties {
+    PubliclyAccessible == false
+    StorageEncrypted == true
+    DeletionProtection == true
+    MultiAZ == false
+    DBInstanceClass == 'db.t4g.micro'
+    AllocatedStorage == '20'
+    ManageMasterUserPassword == true
+  }
+  Resources.Database.DeletionPolicy == 'Retain'
+  Resources.Database.UpdateReplacePolicy == 'Retain'
+  Resources.DatabaseParameters.Properties.Parameters {
+    "rds.force_ssl" == '1'
+    password_encryption == 'scram-sha-256'
+  }
+}
+rule private_versioned_storage {
+  Resources.Storage.Properties {
+    PublicAccessBlockConfiguration {
+      BlockPublicAcls == true
+      BlockPublicPolicy == true
+      IgnorePublicAcls == true
+      RestrictPublicBuckets == true
+    }
+    VersioningConfiguration.Status == 'Enabled'
+    BucketEncryption.ServerSideEncryptionConfiguration[0].ServerSideEncryptionByDefault.SSEAlgorithm == 'AES256'
+  }
+  Resources.Storage.DeletionPolicy == 'Retain'
+  Resources.Storage.UpdateReplacePolicy == 'Retain'
+}
+rule managed_runner_without_inbound_access {
+  Resources.RunnerSecurityGroup.Properties.SecurityGroupIngress !exists
+  Resources.Runner.Properties {
+    InstanceType == 't3.micro'
+    MetadataOptions.HttpTokens == 'required'
+    BlockDeviceMappings[0].Ebs.Encrypted == true
+    BlockDeviceMappings[0].Ebs.VolumeSize == 12
+  }
+}

@@ -92,3 +92,5 @@ Migration 004 and the synthetic seed establish explicit municipality bindings an
 ## Durable synthetic provisioning (F04)
 
 New registrations enqueue durable jobs. Start the separate worker with `npm run worker:provisioning`; use `-- --once` for a single eligible step. Jobs remain queued while the worker is paused. Read the [job/recovery contract](provisioning-jobs.md) for leases, retry/reconcile, synthetic limitations and rollback. `npm run test:provisioning` is included in the full integration suite and CI.
+
+F05 resource configuration, cloud acceptance and retention/rollback are documented in [data resources](data-resources.md). `npm run test:commandmaps:browser` creates a disposable control database and starts its own Vite/API harness; run it sequentially with the Platform browser check.

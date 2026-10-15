@@ -44,9 +44,11 @@ jobs:
         run: node node_modules/playwright/cli.js install --with-deps chromium
       - name: Exercise platform registration, provisioning and pack flows
         run: npm run test:platform:browser
+      - name: Exercise CommandMAPS in a disposable database
+        run: npm run test:commandmaps:browser
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: platform-browser-evidence
-          path: test-results/platform-*.png
+          path: test-results/*.png
           if-no-files-found: ignore

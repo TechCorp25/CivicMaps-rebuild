@@ -1,0 +1,32 @@
+import { spawn } from 'node:child_process';
+import { once } from 'node:events';
+import { createServer } from 'vite';
+import { createTestEnvironment } from './helpers/environment.mjs';
+
+// Keep browser mutations out of the developer's configured database.
+let environment, vite;
+try {
+  environment = await createTestEnvironment();
+  vite = await createServer({
+    configFile: false,
+    root: new URL('../apps/commandmaps/', import.meta.url).pathname,
+    server: {
+      host: '127.0.0.1',
+      port: 5173,
+      strictPort: true,
+      fs: { allow: [new URL('../', import.meta.url).pathname] },
+      proxy: { '/api': environment.origin },
+    },
+  });
+  await vite.listen();
+  process.env.CIVICMAPS_ORIGINS = 'http://127.0.0.1:5173';
+  const child = spawn(process.execPath, ['tests/browser.mjs'], {
+    stdio: 'inherit',
+    env: process.env,
+  });
+  const [code] = await once(child, 'exit');
+  if (code !== 0) throw new Error('CommandMAPS browser acceptance failed');
+} finally {
+  await vite?.close();
+  await environment?.close();
+}

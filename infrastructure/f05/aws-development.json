@@ -1,0 +1,670 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "F05 development data boundary: shared private PostgreSQL, isolated runtime storage sessions and an SSM acceptance runner. Retain populated data.",
+  "Metadata": {
+    "AWSToolsMetrics": {
+      "AWSAgentToolkit": "aws-cloudformation@3"
+    }
+  },
+  "Parameters": {
+    "VpcId": {
+      "Type": "AWS::EC2::VPC::Id"
+    },
+    "SubnetIds": {
+      "Type": "List<AWS::EC2::Subnet::Id>"
+    },
+    "RunnerSubnet": {
+      "Type": "AWS::EC2::Subnet::Id"
+    },
+    "RunnerImage": {
+      "Type": "AWS::EC2::Image::Id"
+    }
+  },
+  "Resources": {
+    "RunnerSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "SSM outbound management and PostgreSQL client",
+          "must": [
+            "No inbound rules; no SSH"
+          ]
+        }
+      },
+      "Properties": {
+        "GroupDescription": "F05 acceptance runner without inbound access",
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "SecurityGroupEgress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 443,
+            "ToPort": 443,
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 5432,
+            "ToPort": 5432,
+            "CidrIp": "172.31.0.0/16"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          }
+        ]
+      }
+    },
+    "DatabaseSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Private database access",
+          "must": [
+            "Never expose database to internet"
+          ]
+        }
+      },
+      "Properties": {
+        "GroupDescription": "F05 PostgreSQL only from acceptance runner",
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 5432,
+            "ToPort": 5432,
+            "SourceSecurityGroupId": {
+              "Ref": "RunnerSecurityGroup"
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          }
+        ]
+      }
+    },
+    "DatabaseSubnets": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Regional database placement",
+          "must": []
+        }
+      },
+      "Properties": {
+        "DBSubnetGroupDescription": "F05 Sydney subnets",
+        "SubnetIds": {
+          "Ref": "SubnetIds"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          }
+        ]
+      }
+    },
+    "DatabaseParameters": {
+      "Type": "AWS::RDS::DBParameterGroup",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Enforce password authentication and TLS",
+          "must": [
+            "Do not accept trust authentication"
+          ]
+        }
+      },
+      "Properties": {
+        "Description": "F05 encrypted SCRAM connections",
+        "Family": "postgres18",
+        "Parameters": {
+          "rds.force_ssl": "1",
+          "password_encryption": "scram-sha-256"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          }
+        ]
+      }
+    },
+    "Database": {
+      "Type": "AWS::RDS::DBInstance",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Small shared development compute; each municipality has a restricted login and database",
+          "must": [
+            "Synthetic data only; retain data; no public access"
+          ]
+        }
+      },
+      "Properties": {
+        "DBInstanceClass": "db.t4g.micro",
+        "Engine": "postgres",
+        "EngineVersion": "18.6",
+        "AllocatedStorage": "20",
+        "StorageType": "gp3",
+        "StorageEncrypted": true,
+        "PubliclyAccessible": false,
+        "MultiAZ": false,
+        "MasterUsername": "civicmaps_provisioner",
+        "ManageMasterUserPassword": true,
+        "DBSubnetGroupName": {
+          "Ref": "DatabaseSubnets"
+        },
+        "DBParameterGroupName": {
+          "Ref": "DatabaseParameters"
+        },
+        "VPCSecurityGroups": [
+          {
+            "Ref": "DatabaseSecurityGroup"
+          }
+        ],
+        "BackupRetentionPeriod": 1,
+        "DeletionProtection": true,
+        "AutoMinorVersionUpgrade": true,
+        "CopyTagsToSnapshot": true,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          },
+          {
+            "Key": "created_by",
+            "Value": "rds-oss-skill"
+          },
+          {
+            "Key": "generation_model",
+            "Value": "gpt-6"
+          }
+        ]
+      },
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "Storage": {
+      "Type": "AWS::S3::Bucket",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Private evidence namespaces and acceptance artefacts",
+          "must": [
+            "Runtime sessions restricted to one municipality prefix; no expiry deletion"
+          ]
+        }
+      },
+      "Properties": {
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "BucketOwnerEnforced"
+            }
+          ]
+        },
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          }
+        ]
+      },
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "StoragePolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Require encrypted transport",
+          "must": []
+        }
+      },
+      "Properties": {
+        "Bucket": {
+          "Ref": "Storage"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": "s3:*",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Storage",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Sub": "${Storage.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "RunnerRole": {
+      "Type": "AWS::IAM::Role",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Privileged F05 resource broker; no IAM mutation or database instance management",
+          "must": [
+            "Never expose runner role credentials to municipality runtimes"
+          ]
+        }
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+        ],
+        "Policies": [
+          {
+            "PolicyName": "F05Provisioner",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "secretsmanager:GetSecretValue"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "Database",
+                      "MasterUserSecret.SecretArn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "secretsmanager:CreateSecret",
+                    "secretsmanager:DescribeSecret",
+                    "secretsmanager:GetSecretValue",
+                    "secretsmanager:TagResource"
+                  ],
+                  "Resource": {
+                    "Fn::Sub": "arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:civicmaps/f05/*"
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:ListBucket"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "Storage",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:DeleteObject",
+                    "s3:GetObjectTagging",
+                    "s3:PutObjectTagging"
+                  ],
+                  "Resource": {
+                    "Fn::Sub": "${Storage.Arn}/*"
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "sts:AssumeRole"
+                  ],
+                  "Resource": {
+                    "Fn::Sub": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${AWS::StackName}-runtime"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          }
+        ]
+      }
+    },
+    "RuntimeRole": {
+      "Type": "AWS::IAM::Role",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Base evidence role; broker must intersect with a single-namespace STS session policy",
+          "must": [
+            "No secrets, IAM mutation or role assumption; no unscoped sessions"
+          ]
+        }
+      },
+      "Properties": {
+        "RoleName": {
+          "Fn::Sub": "${AWS::StackName}-runtime"
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "RunnerRole",
+                    "Arn"
+                  ]
+                }
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "EvidenceOnly",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:ListBucket"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "Storage",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:DeleteObject"
+                  ],
+                  "Resource": {
+                    "Fn::Sub": "${Storage.Arn}/municipalities/*"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          }
+        ]
+      }
+    },
+    "RunnerProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Bind broker role to temporary acceptance runner",
+          "must": []
+        }
+      },
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "RunnerRole"
+          }
+        ]
+      }
+    },
+    "Runner": {
+      "Type": "AWS::EC2::Instance",
+      "Metadata": {
+        "com.aws.cloudformation.Context": {
+          "why": "Temporary outbound-only runner avoids public DB and NAT gateway",
+          "must": [
+            "No inbound access; stop after acceptance; retain database and objects"
+          ]
+        }
+      },
+      "Properties": {
+        "ImageId": {
+          "Ref": "RunnerImage"
+        },
+        "InstanceType": "t3.micro",
+        "IamInstanceProfile": {
+          "Ref": "RunnerProfile"
+        },
+        "NetworkInterfaces": [
+          {
+            "DeviceIndex": "0",
+            "AssociatePublicIpAddress": true,
+            "SubnetId": {
+              "Ref": "RunnerSubnet"
+            },
+            "GroupSet": [
+              {
+                "Ref": "RunnerSecurityGroup"
+              }
+            ]
+          }
+        ],
+        "MetadataOptions": {
+          "HttpTokens": "required",
+          "HttpPutResponseHopLimit": 1
+        },
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/xvda",
+            "Ebs": {
+              "VolumeSize": 12,
+              "VolumeType": "gp3",
+              "Encrypted": true,
+              "DeleteOnTermination": true
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "CivicMAPS"
+          },
+          {
+            "Key": "Feature",
+            "Value": "F05"
+          },
+          {
+            "Key": "Purpose",
+            "Value": "synthetic-acceptance"
+          },
+          {
+            "Key": "ReviewAfter",
+            "Value": "2026-10-21"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "DatabaseHost": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Database",
+          "Endpoint.Address"
+        ]
+      }
+    },
+    "MasterSecretArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Database",
+          "MasterUserSecret.SecretArn"
+        ]
+      }
+    },
+    "Bucket": {
+      "Value": {
+        "Ref": "Storage"
+      }
+    },
+    "RuntimeRoleArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "RuntimeRole",
+          "Arn"
+        ]
+      }
+    },
+    "RunnerId": {
+      "Value": {
+        "Ref": "Runner"
+      }
+    }
+  }
+}

@@ -22,13 +22,16 @@ export function ProvisioningStatus({
   onRefresh: () => void;
   onAction: (action: 'retry' | 'reconcile') => void;
 }) {
+  const cloud = job?.adapter === 'aws-postgres-s3';
   return (
     <section className="card provisioning" aria-labelledby="provisioning-heading">
       <div className="section-heading">
         <h2 id="provisioning-heading">Provisioning job</h2>
       </div>
       <p className="local-note">
-        Synthetic adapter · This simulation does not activate council services.
+        {cloud
+          ? 'AWS Sydney development resources · Council services are not activated.'
+          : 'Synthetic adapter · This simulation does not activate council services.'}
       </p>
       {job ? (
         <>
@@ -52,12 +55,22 @@ export function ProvisioningStatus({
             </p>
           )}
           {job.state === 'succeeded' && (
-            <p>Simulation complete. Real infrastructure and admin activation remain pending.</p>
+            <p>
+              {cloud
+                ? 'Data resources ready. Service deployment and admin activation remain pending.'
+                : 'Simulation complete. Real infrastructure and admin activation remain pending.'}
+            </p>
           )}
           <ol className="provisioning-steps">
             {job.steps.map((step) => (
               <li key={step.name}>
-                <strong>{stepLabels[step.name] ?? step.name}</strong>
+                <strong>
+                  {cloud
+                    ? step.name === 'prepare_workspace'
+                      ? 'Prepare isolated database'
+                      : 'Prepare evidence storage'
+                    : (stepLabels[step.name] ?? step.name)}
+                </strong>
                 <span>
                   {step.state} · {step.attempts} attempts
                 </span>
@@ -83,7 +96,9 @@ export function ProvisioningStatus({
           </div>
           {job.can_reconcile && (
             <p className="muted">
-              Reconcile inspects saved synthetic effects before resuming incomplete steps.
+              {cloud
+                ? 'Reconcile verifies resource ownership before resuming incomplete steps.'
+                : 'Reconcile inspects saved synthetic effects before resuming incomplete steps.'}
             </p>
           )}
         </>

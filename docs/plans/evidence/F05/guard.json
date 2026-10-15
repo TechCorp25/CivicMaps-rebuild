@@ -1,0 +1,12 @@
+{
+  "name": "infrastructure/f05/aws-development.json",
+  "metadata": {},
+  "status": "PASS",
+  "not_compliant": [],
+  "not_applicable": [],
+  "compliant": [
+    "managed_runner_without_inbound_access",
+    "private_encrypted_retained_database",
+    "private_versioned_storage"
+  ]
+}
