@@ -1,3 +1,5 @@
+import { access } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { runtimeConnection, configuredDataTarget, resourceNames } from './data-resources.mjs';
 import { timingSafeEqual, randomUUID } from 'node:crypto';
 import { permittedContexts } from './operating-context.mjs';
@@ -90,6 +92,19 @@ export async function routingMiddleware(req, res, next) {
         503,
         'Service resources unavailable',
       );
+      requireValue(req.app.locals.webRoot, 503, 'Web service unavailable');
+      try {
+        await access(
+          resolve(
+            req.app.locals.webRoot,
+            route.service === 'platform'
+              ? 'civicmaps-platform/dist/index.html'
+              : 'commandmaps/dist/index.html',
+          ),
+        );
+      } catch {
+        requireValue(false, 503, 'Web service unavailable');
+      }
       if (route.service === 'commandmaps') {
         const job = { id: route.job_id, municipality_id: route.municipality_id };
         const inventory = (

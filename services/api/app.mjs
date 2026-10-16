@@ -1,3 +1,4 @@
+import { resolve } from 'node:path';
 import { routingMiddleware, deployedRouting, checkRouteSession, routeContext } from './routing.mjs';
 import express from 'express';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
@@ -182,8 +183,9 @@ async function mutation(req, work) {
   });
 }
 
-export function createApp() {
+export function createApp({ webRoot } = {}) {
   const app = express();
+  app.locals.webRoot = webRoot;
   app.disable('x-powered-by');
   app.use(routingMiddleware);
   app.use(express.json({ limit: '32kb' }));
@@ -462,6 +464,25 @@ export function createApp() {
     );
   });
   app.use('/api/platform', platformRouter());
+  if (webRoot) {
+    const platform = express.static(resolve(webRoot, 'civicmaps-platform/dist'));
+    const command = express.static(resolve(webRoot, 'commandmaps/dist'));
+    app.use((req, res, next) => {
+      if (req.path.startsWith('/api/')) return next();
+      return (req.serviceRoute?.service === 'platform' ? platform : command)(req, res, next);
+    });
+    app.get('/{*path}', (req, res, next) => {
+      if (req.path.startsWith('/api/')) return next();
+      return res.sendFile(
+        resolve(
+          webRoot,
+          req.serviceRoute?.service === 'platform'
+            ? 'civicmaps-platform/dist/index.html'
+            : 'commandmaps/dist/index.html',
+        ),
+      );
+    });
+  }
   app.use((_req, res) => res.status(404).json({ error: 'Endpoint not found' }));
   app.use((error, _req, res, _next) => {
     const status = error.status ?? (error.type === 'entity.parse.failed' ? 400 : 500);

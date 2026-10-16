@@ -1,11 +1,14 @@
 import { before, after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { permittedContexts } from '../services/api/operating-context.mjs';
 import { randomUUID } from 'node:crypto';
 import { createTestEnvironment } from './helpers/environment.mjs';
 import { canonicalHost, runRoutingOnce, controlRoute } from '../services/api/routing.mjs';
-let env, pool;
+let env, pool, webRoot;
 const ingress = 'a'.repeat(48),
   probe = 'b'.repeat(48);
 const hosts = [
@@ -37,7 +40,11 @@ async function request(host, path, body, cookie, extra = {}) {
           resolve({
             status: res.statusCode,
             cookie: res.headers['set-cookie']?.[0],
-            body: text ? JSON.parse(text) : null,
+            body: text
+              ? res.headers['content-type']?.includes('application/json')
+                ? JSON.parse(text)
+                : text
+              : null,
           }),
         );
       },
@@ -47,7 +54,16 @@ async function request(host, path, body, cookie, extra = {}) {
   });
 }
 before(async () => {
-  env = await createTestEnvironment({ platform: true });
+  webRoot = await mkdtemp(join(tmpdir(), 'civicmaps-web-routing-'));
+  for (const app of ['commandmaps', 'civicmaps-platform']) {
+    await mkdir(join(webRoot, app, 'dist', 'assets'), { recursive: true });
+    await writeFile(join(webRoot, app, 'dist', 'index.html'), `<!doctype html><h1>${app}</h1>`);
+    await writeFile(
+      join(webRoot, app, 'dist', 'assets', 'fixture.js'),
+      '/* owned static fixture */',
+    );
+  }
+  env = await createTestEnvironment({ platform: true, webRoot });
   pool = env.pool;
   for (let n = 1; n <= 2; n++) {
     const municipality = `20000000-0000-4000-8000-00000000000${n}`;
@@ -87,6 +103,7 @@ after(async () => {
   delete process.env.CIVICMAPS_INGRESS_TOKEN;
   delete process.env.CIVICMAPS_PROBE_TOKEN;
   await env?.close();
+  if (webRoot) await rm(webRoot, { recursive: true, force: true });
 });
 test('authority canonicalisation and untrusted/forged forwarding fail closed', async () => {
   assert.equal(canonicalHost(hosts[0].toUpperCase()), hosts[0]);
@@ -113,6 +130,21 @@ test('authority canonicalisation and untrusted/forged forwarding fail closed', a
     'x-civicmaps-probe': probe,
   });
   assert.equal(p.status, 500); // No AWS target: metadata alone cannot pass a live resource probe.
+});
+test('ingress serves each owned web app before the API 404 boundary', async () => {
+  assert.match((await request(hosts[0], '/')).body, /<h1>commandmaps/);
+  assert.match((await request(hosts[2], '/')).body, /<h1>civicmaps-platform/);
+  assert.match((await request(hosts[0], '/assets/fixture.js')).body, /owned static fixture/);
+  assert.equal((await request(hosts[0], '/api/not-a-real-endpoint')).status, 404);
+  const headers = { 'x-civicmaps-probe': probe };
+  assert.equal((await request(hosts[2], '/api/routing/probe', null, null, headers)).status, 200);
+  const entry = join(webRoot, 'civicmaps-platform', 'dist', 'index.html');
+  await rm(entry);
+  try {
+    assert.equal((await request(hosts[2], '/api/routing/probe', null, null, headers)).status, 503);
+  } finally {
+    await writeFile(entry, '<!doctype html><h1>civicmaps-platform</h1>');
+  }
 });
 test('login, manually copied cookies, context and origins are bound to exact route', async () => {
   const login = await request(hosts[0], '/api/auth/login', {
