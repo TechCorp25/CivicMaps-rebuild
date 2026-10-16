@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.1.0",
+  "schemaVersion": "1.2.0",
   "effectiveDate": "2026-03-23",
   "platform": {
     "name": "CIVIC MAPS",
@@ -57,15 +57,27 @@
       "dnsProvider": "Amazon Route 53",
       "hostedZoneId": "Z01841903TEW783OZ3RC",
       "platformHost": "platform.dev.civicmaps.com.au",
-      "commandHostPattern": "{municipality}-commandmaps.dev.civicmaps.com.au",
+      "commandHostPattern": "{municipalityToken}-commandmaps.dev.civicmaps.com.au",
       "acceptanceHosts": [
         "alpha-commandmaps.dev.civicmaps.com.au",
         "beta-commandmaps.dev.civicmaps.com.au"
       ],
       "reservedPatterns": [
-        "{municipality}-enforcementmaps.dev.civicmaps.com.au",
-        "{municipality}-report.dev.civicmaps.com.au"
-      ]
+        "{municipalityToken}-enforcementmaps.dev.civicmaps.com.au",
+        "{municipalityToken}-report.dev.civicmaps.com.au"
+      ],
+      "municipalityToken": {
+        "version": 1,
+        "registrySlugMaxLength": 63,
+        "directSlugMaxLength": 47,
+        "reservedPrefix": "id-",
+        "directRule": "Use the validated registry slug only when length <= 47 and it does not start with id-.",
+        "fallbackRule": "id- followed by the immutable municipality UUID as 32 lowercase hexadecimal characters without hyphens; validate identity before route creation.",
+        "derivedTokenLength": 35,
+        "maxDnsLabelLength": 63,
+        "ownershipRule": "Persist token and canonical hostname against immutable municipality identity; enforce unique host ownership and reject conflicts.",
+        "existingRecordPolicy": "Preserve registry slugs, IDs, grants and data; reconcile incompatible routes explicitly with withdrawal, session invalidation and fresh readiness checks."
+      }
     },
     "staging": {
       "status": "reserved-unconfigured",

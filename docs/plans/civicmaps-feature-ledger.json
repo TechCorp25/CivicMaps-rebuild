@@ -124,7 +124,7 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Resolve development hostname and ingress/runtime contract in F06 preparation, then implement only F06.",
+      "nextAction": "Use the recorded development naming/token and EC2/Caddy selections; verify cost fit and provider support, then implement and validate only F06.",
       "preparationPath": "docs/plans/F06-preparation.md"
     },
     {
