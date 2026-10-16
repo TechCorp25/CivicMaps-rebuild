@@ -13,7 +13,7 @@
 }
 
 platform.dev.civicmaps.com.au, alpha-commandmaps.dev.civicmaps.com.au, beta-commandmaps.dev.civicmaps.com.au {
-	@spoof expression `{http.request.header.X-Forwarded-Host} != "" || {http.request.header.X-Forwarded-Proto} != "" || {http.request.header.Forwarded} != "" || {http.request.header.X-Civicmaps-Ingress} != ""`
+	@spoof expression `{http.request.header.X-Forwarded-Host} != "" || ({http.request.header.X-Forwarded-Proto} != "" && {http.request.header.X-Forwarded-Proto} != "https") || {http.request.header.Forwarded} != "" || {http.request.header.X-Civicmaps-Ingress} != ""`
 	respond @spoof 421
 	header {
 		Strict-Transport-Security "max-age=86400"

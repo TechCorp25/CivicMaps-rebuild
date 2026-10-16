@@ -91,6 +91,7 @@ try {
     'beta-commandmaps.dev.civicmaps.com.au',
   ]) {
     const r = await request(host);
+    assert.equal((await request(host, { 'X-Forwarded-Proto': 'https' })).status, 200);
     assert.equal(r.status, 200);
     assert.deepEqual(JSON.parse(r.body), {
       host,

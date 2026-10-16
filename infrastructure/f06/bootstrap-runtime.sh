@@ -45,6 +45,7 @@ fd=os.open('/etc/civicmaps/ingress.env',os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600)
 with os.fdopen(fd,'w') as f:f.write(s+'\n')
 PYINGRESS
 curl -fsSL https://truststore.pki.rds.amazonaws.com/ap-southeast-2/ap-southeast-2-bundle.pem -o /etc/civicmaps/rds-ca.pem
+chmod 0644 /etc/civicmaps/rds-ca.pem
 # Initialise only a new dedicated local control database; preserve it across subsequent releases.
 [ -f /var/lib/pgsql/data/PG_VERSION ] || postgresql-setup --initdb
 # The control database listens only on loopback and uses SCRAM; peer access stays available to the OS postgres user.

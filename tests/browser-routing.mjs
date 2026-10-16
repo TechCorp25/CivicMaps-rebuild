@@ -5,7 +5,10 @@ if (process.env.CIVICMAPS_CLOUD_ACCEPTANCE !== 'F06-synthetic-only')
 const password = process.env.F06_BROWSER_PASSWORD;
 if (!password || password === 'CivicMAPS-local-2026!')
   throw new Error('Private acceptance credential required');
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({
+  headless: true,
+  proxy: process.env.HTTPS_PROXY ? { server: process.env.HTTPS_PROXY } : undefined,
+});
 try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const alpha = await context.newPage();

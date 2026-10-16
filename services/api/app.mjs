@@ -75,9 +75,10 @@ function actorView(user) {
   };
 }
 async function authenticated(client, req) {
+  await client.query('SELECT civicmaps_lock_auth_session($1,false,false)', [digest(token(req))]);
   const auth = await client.query(
     `SELECT u.*, s.csrf_token,s.route_id,s.route_version FROM sessions s JOIN users u ON u.id=s.user_id
-      WHERE s.token_hash=$1 AND s.expires_at>now() AND u.active FOR SHARE OF u,s`,
+      WHERE s.token_hash=$1 AND s.expires_at>now() AND u.active`,
     [digest(token(req))],
   );
   requireValue(auth.rowCount === 1, 401, 'Sign in to continue');
@@ -279,8 +280,9 @@ export function createApp() {
   app.post('/api/auth/logout', async (req, res) => {
     // Locking the session row serialises logout against outstanding authorised writes.
     await transaction(async (client) => {
+      await client.query('SELECT civicmaps_lock_auth_session($1,false,true)', [digest(token(req))]);
       const result = await client.query(
-        'SELECT csrf_token,route_id,route_version FROM sessions WHERE token_hash=$1 AND expires_at>now() FOR UPDATE',
+        'SELECT csrf_token,route_id,route_version FROM sessions WHERE token_hash=$1 AND expires_at>now()',
         [digest(token(req))],
       );
       requireValue(result.rowCount === 1, 401, 'Sign in to continue');

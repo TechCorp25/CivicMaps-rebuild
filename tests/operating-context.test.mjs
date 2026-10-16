@@ -288,7 +288,7 @@ test('committed revocation wins over a request waiting to resolve the binding', 
     let waiting = false;
     while (Date.now() < deadline) {
       const r = await pool.query(
-        "SELECT pid FROM pg_stat_activity WHERE datname=current_database() AND wait_event_type='Lock' AND query LIKE '%FOR SHARE OF b,g%'",
+        "SELECT pid FROM pg_stat_activity WHERE datname=current_database() AND wait_event_type='Lock' AND query LIKE '%civicmaps_lock_user_contexts%'",
       );
       if (r.rowCount) {
         waiting = true;

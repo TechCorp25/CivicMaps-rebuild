@@ -57,9 +57,10 @@ const validPacks = (value) =>
   new Set(value).size === value.length;
 async function authorised(req, mutate, work) {
   return transaction(async (client) => {
+    await client.query('SELECT civicmaps_lock_auth_session($1,true,false)', [digest(cookie(req))]);
     const result = await client.query(
       `SELECT o.id,o.name,o.email,s.csrf_token,s.route_id,s.route_version FROM platform_sessions s
-      JOIN platform_operators o ON o.id=s.operator_id WHERE s.token_hash=$1 AND s.expires_at>now() AND o.active FOR SHARE OF o,s`,
+      JOIN platform_operators o ON o.id=s.operator_id WHERE s.token_hash=$1 AND s.expires_at>now() AND o.active`,
       [digest(cookie(req))],
     );
     requireValue(result.rowCount === 1, 401, 'Sign in as a platform operator to continue');
@@ -225,8 +226,9 @@ export function platformRouter() {
   );
   router.post('/auth/logout', async (req, res) => {
     await transaction(async (client) => {
+      await client.query('SELECT civicmaps_lock_auth_session($1,true,true)', [digest(cookie(req))]);
       const result = await client.query(
-        'SELECT csrf_token,route_id,route_version FROM platform_sessions WHERE token_hash=$1 AND expires_at>now() FOR UPDATE',
+        'SELECT csrf_token,route_id,route_version FROM platform_sessions WHERE token_hash=$1 AND expires_at>now()',
         [digest(cookie(req))],
       );
       requireValue(result.rowCount === 1, 401, 'Sign in to continue');

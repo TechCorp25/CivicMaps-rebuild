@@ -1,6 +1,7 @@
 import { before, after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import { permittedContexts } from '../services/api/operating-context.mjs';
 import { randomUUID } from 'node:crypto';
 import { createTestEnvironment } from './helpers/environment.mjs';
 import { canonicalHost, runRoutingOnce, controlRoute } from '../services/api/routing.mjs';
@@ -242,4 +243,41 @@ test('route worker reconciles exact identity, rejects mismatches and fences a st
     (await pool.query('SELECT state FROM service_routes WHERE id=$1', [routeIds[0]])).rows[0].state,
     'failed',
   );
+});
+
+test('read-only broker takes authentication/context locks without identity update grants', async () => {
+  const role = 'f06_lock_' + randomUUID().replaceAll('-', '');
+  const client = await pool.connect();
+  try {
+    await client.query(`CREATE ROLE ${role} NOLOGIN NOSUPERUSER BYPASSRLS`);
+    await client.query(`GRANT USAGE ON SCHEMA public TO ${role}`);
+    await client.query(
+      `GRANT SELECT ON users,sessions,platform_operators,platform_sessions,operating_context_bindings,operating_context_grants TO ${role}`,
+    );
+    await client.query(
+      `GRANT EXECUTE ON FUNCTION civicmaps_lock_user_contexts(uuid),civicmaps_lock_auth_session(text,boolean,boolean) TO ${role}`,
+    );
+    await client.query('BEGIN');
+    await client.query(`SET LOCAL ROLE ${role}`);
+    const user = (await client.query("SELECT * FROM users WHERE email='dispatch@alpha.example'"))
+      .rows[0];
+    assert.ok((await permittedContexts(client, user)).length);
+    await client.query("SELECT civicmaps_lock_auth_session(repeat('a',64),false,false)");
+    await client.query("SELECT civicmaps_lock_auth_session(repeat('a',64),true,true)");
+    await assert.rejects(client.query('UPDATE users SET active=false WHERE false'), {
+      code: '42501',
+    });
+    await client.query('ROLLBACK');
+    await client.query('BEGIN');
+    await client.query('SET LOCAL ROLE civicmaps_local_app');
+    await assert.rejects(client.query('SELECT civicmaps_lock_user_contexts($1)', [user.id]), {
+      code: '42501',
+    });
+    await client.query('ROLLBACK');
+  } finally {
+    await client.query('ROLLBACK');
+    await client.query(`DROP OWNED BY ${role}`);
+    await client.query(`DROP ROLE ${role}`);
+    client.release();
+  }
 });
