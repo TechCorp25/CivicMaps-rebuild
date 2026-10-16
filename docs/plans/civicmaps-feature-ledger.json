@@ -117,12 +117,12 @@
       "id": "F06",
       "status": "blocked",
       "branch": "codex/civicmaps-f06-build",
-      "commit": null,
-      "pr": null,
+      "commit": "3adf740b9cf906edbef467cf7745a8de76990d14",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/14",
       "evidencePath": "docs/plans/evidence/F06.md",
       "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [
         "Explicit approval required by automatic review for public Sydney EC2/IAM/security-group/EIP/DNS deployment and ongoing charges; live HTTPS/provider acceptance pending."
       ],
@@ -133,7 +133,8 @@
       "preparationPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/13",
       "preparationStatus": "review_ready",
       "preparationPublication": "verified",
-      "preparationEmpirical": "recorded"
+      "preparationEmpirical": "recorded",
+      "empiricalMemoryId": "6ad1bbe1993fbbc6a5b367d6"
     },
     {
       "id": "F07",

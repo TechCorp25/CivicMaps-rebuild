@@ -7,7 +7,8 @@ sql="""DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='civicmap
 ALTER ROLE civicmaps_f06_runtime NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION BYPASSRLS PASSWORD '%s';
 GRANT CONNECT ON DATABASE civicmaps_f06 TO civicmaps_f06_runtime;
 GRANT USAGE ON SCHEMA public TO civicmaps_f06_runtime;
-GRANT ALL ON ALL TABLES IN SCHEMA public TO civicmaps_f06_runtime;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO civicmaps_f06_runtime;
+GRANT INSERT,DELETE ON sessions,platform_sessions TO civicmaps_f06_runtime;
 GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public TO civicmaps_f06_runtime;
 GRANT civicmaps_local_app,civicmaps_platform_app TO civicmaps_f06_runtime;
 """ % password

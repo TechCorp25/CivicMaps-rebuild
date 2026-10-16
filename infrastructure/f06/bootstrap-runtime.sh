@@ -42,7 +42,8 @@ curl -fsSL https://truststore.pki.rds.amazonaws.com/ap-southeast-2/ap-southeast-
 # The control database listens only on loopback and uses SCRAM; peer access stays available to the OS postgres user.
 python3 - <<'PY'
 from pathlib import Path
-p=Path('/var/lib/pgsql/data/pg_hba.conf');s=p.read_text();s=s.replace('127.0.0.1/32            ident','127.0.0.1/32            scram-sha-256').replace('::1/128                 ident','::1/128                 scram-sha-256');p.write_text(s)
+p=Path('/var/lib/pgsql/data/pg_hba.conf')
+p.write_text("local all postgres peer\nlocal all all reject\nhost civicmaps_f06 civicmaps_f06_runtime 127.0.0.1/32 scram-sha-256\nhost all all 127.0.0.1/32 reject\nhost all all ::1/128 reject\n")
 p=Path('/var/lib/pgsql/data/postgresql.conf');s=p.read_text();s+="\nlisten_addresses = '127.0.0.1'\npassword_encryption = 'scram-sha-256'\n";p.write_text(s)
 PY
 systemctl enable --now postgresql
