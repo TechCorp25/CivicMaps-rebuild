@@ -1,0 +1,17 @@
+[Unit]
+Description=CivicMAPS F06 development API
+After=network-online.target postgresql.service
+Requires=postgresql.service
+[Service]
+User=civicmaps
+WorkingDirectory=/opt/civicmaps
+EnvironmentFile=/etc/civicmaps/runtime.env
+Environment=PATH=/opt/civicmaps-node/bin:/usr/local/bin:/usr/bin
+ExecStart=/opt/civicmaps-node/bin/node services/api/server.mjs
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+[Install]
+WantedBy=multi-user.target

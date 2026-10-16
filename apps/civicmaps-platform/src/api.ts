@@ -45,6 +45,7 @@ export type ProvisioningJob = {
 };
 export type Detail = {
   job: ProvisioningJob | null;
+  routes?: ServiceRoute[];
   municipality: Municipality;
   workloads: { pack: string; open_count: number }[];
   events: { id: number; action: string; details: { pack?: string }; created_at: string }[];
@@ -88,3 +89,13 @@ export const date = (value: string) =>
   );
 export const number = (value: number | null) =>
   value === null ? '—' : new Intl.NumberFormat('en-AU').format(value);
+
+export type ServiceRoute = {
+  id: string;
+  hostname: string;
+  service: string;
+  version: number;
+  state: 'pending' | 'running' | 'ready' | 'failed' | 'withdrawn';
+  checked_at: string | null;
+  error: string | null;
+};

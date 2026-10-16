@@ -115,17 +115,25 @@
     },
     {
       "id": "F06",
-      "status": "planned",
-      "branch": null,
+      "status": "blocked",
+      "branch": "codex/civicmaps-f06-build",
       "commit": null,
       "pr": null,
-      "evidencePath": null,
+      "evidencePath": "docs/plans/evidence/F06.md",
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [],
-      "nextAction": "Resolve development hostname and ingress/runtime contract in F06 preparation, then implement only F06.",
-      "preparationPath": "docs/plans/F06-preparation.md"
+      "blockers": [
+        "Explicit approval required by automatic review for public Sydney EC2/IAM/security-group/EIP/DNS deployment and ongoing charges; live HTTPS/provider acceptance pending."
+      ],
+      "nextAction": "Approve the concrete F06 development deployment, execute live acceptance and verify final CI before marking review_ready.",
+      "preparationPath": "docs/plans/F06-preparation.md",
+      "preparationBranch": "codex/civicmaps-f06-preparation",
+      "preparationCommit": "8eb7eba8d7c9324388b5feed0f641951bceb6ab1",
+      "preparationPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/13",
+      "preparationStatus": "review_ready",
+      "preparationPublication": "verified",
+      "preparationEmpirical": "recorded"
     },
     {
       "id": "F07",

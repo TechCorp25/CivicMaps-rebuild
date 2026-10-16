@@ -1,0 +1,16 @@
+[Unit]
+Description=CivicMAPS F06 development route verification
+After=civicmaps-api.service civicmaps-ingress.service
+[Service]
+User=civicmaps
+WorkingDirectory=/opt/civicmaps
+EnvironmentFile=/etc/civicmaps/runtime.env
+Environment=PATH=/opt/civicmaps-node/bin:/usr/local/bin:/usr/bin
+ExecStart=/opt/civicmaps-node/bin/node services/api/routing-worker.mjs
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+[Install]
+WantedBy=multi-user.target
