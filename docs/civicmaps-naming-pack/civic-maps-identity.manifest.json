@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "effectiveDate": "2026-03-23",
   "platform": {
     "name": "CIVIC MAPS",
@@ -48,5 +48,34 @@
   "notes": [
     "CIVIC MAPS is the umbrella platform identity and should not replace deployment-specific mobile product names.",
     "commandmaps is the approved slug for CommandMAPS to avoid ambiguity with CIVIC."
-  ]
+  ],
+  "webNaming": {
+    "ownedBaseDomain": "civicmaps.com.au",
+    "parentDnsProvider": "VentraIP",
+    "development": {
+      "zone": "dev.civicmaps.com.au",
+      "dnsProvider": "Amazon Route 53",
+      "hostedZoneId": "Z01841903TEW783OZ3RC",
+      "platformHost": "platform.dev.civicmaps.com.au",
+      "commandHostPattern": "{municipality}-commandmaps.dev.civicmaps.com.au",
+      "acceptanceHosts": [
+        "alpha-commandmaps.dev.civicmaps.com.au",
+        "beta-commandmaps.dev.civicmaps.com.au"
+      ],
+      "reservedPatterns": [
+        "{municipality}-enforcementmaps.dev.civicmaps.com.au",
+        "{municipality}-report.dev.civicmaps.com.au"
+      ]
+    },
+    "staging": {
+      "status": "reserved-unconfigured",
+      "zonePattern": "staging.civicmaps.com.au"
+    },
+    "production": {
+      "status": "unconfigured"
+    },
+    "apiPath": "/api",
+    "cookieScope": "host-only",
+    "historicalWireframeSuffix": "civicmaps.gov.au"
+  }
 }
