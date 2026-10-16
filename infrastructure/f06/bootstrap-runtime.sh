@@ -36,6 +36,14 @@ if [ ! -f /etc/civicmaps/runtime.env ]; then
     printf 'CIVICMAPS_RESOURCE_BUCKET=%s\nCIVICMAPS_RESOURCE_ROLE=%s\nCIVICMAPS_RESOURCE_CA=/etc/civicmaps/rds-ca.pem\n' "$F06_BUCKET" "$F06_STORAGE_ROLE"
   } > /etc/civicmaps/runtime.env
 fi
+umask 022
+python3 - <<'PYINGRESS'
+import os
+from pathlib import Path
+s=next(line for line in Path('/etc/civicmaps/runtime.env').read_text().splitlines() if line.startswith('CIVICMAPS_INGRESS_TOKEN='))
+fd=os.open('/etc/civicmaps/ingress.env',os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600)
+with os.fdopen(fd,'w') as f:f.write(s+'\n')
+PYINGRESS
 curl -fsSL https://truststore.pki.rds.amazonaws.com/ap-southeast-2/ap-southeast-2-bundle.pem -o /etc/civicmaps/rds-ca.pem
 # Initialise only a new dedicated local control database; preserve it across subsequent releases.
 [ -f /var/lib/pgsql/data/PG_VERSION ] || postgresql-setup --initdb
@@ -50,11 +58,14 @@ systemctl enable --now postgresql
 systemctl restart postgresql
 cd /opt/civicmaps
 export PATH=/opt/civicmaps-node/bin:$PATH
+npm install --global npm@11.9.0 --prefix /opt/civicmaps-node --ignore-scripts --no-audit --no-fund --cache /opt/civicmaps/.npm-cache
 npm ci --omit=dev --ignore-scripts --bin-links=false --no-audit --no-fund --cache /opt/civicmaps/.npm-cache
 # Source is trusted committed deployment configuration, generated with hex-only secret values.
 set -a
 . /etc/civicmaps/runtime.env
 set +a
+# Release archives may carry a private root-directory mode; unprivileged service users need source traversal.
+chmod -R a+rX /opt/civicmaps
 # OS postgres peer access performs schema installation; runtime DB login has no superuser powers.
 runuser -u postgres -- psql -Atqc "SELECT 1 FROM pg_database WHERE datname='civicmaps_f06'" | grep -q 1 || runuser -u postgres -- createdb civicmaps_f06
 CIVICMAPS_DATABASE_URL=postgresql://postgres@localhost/civicmaps_f06?host=/var/run/postgresql runuser -u postgres --preserve-environment -- /opt/civicmaps-node/bin/node services/api/migrate.mjs

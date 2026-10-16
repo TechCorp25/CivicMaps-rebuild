@@ -3,7 +3,7 @@ Description=CivicMAPS F06 development HTTPS ingress
 After=network-online.target civicmaps-api.service
 [Service]
 User=caddy
-EnvironmentFile=/etc/civicmaps/runtime.env
+EnvironmentFile=/etc/civicmaps/ingress.env
 Environment=XDG_DATA_HOME=/var/lib/caddy
 Environment=XDG_CONFIG_HOME=/var/lib/caddy
 ExecStart=/usr/local/bin/caddy run --config /opt/civicmaps/infrastructure/f06/Caddyfile --adapter caddyfile
