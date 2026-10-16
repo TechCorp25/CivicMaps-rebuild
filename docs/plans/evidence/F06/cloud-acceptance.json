@@ -1,0 +1,97 @@
+{
+  "sourceCommit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
+  "sourceArchive": {
+    "key": "f06/releases/b5c9709cdfa176619d87b0444f307b015d9bfb9f.tar.gz",
+    "sha256": "7fc875a1baecc247ed9b88bcbe734503b2272832834b1fae7b688ac4fdf93455",
+    "versionId": "yqLVlkidZtcer13hw5nn8s_ERxy_McJW"
+  },
+  "project": "597663815195",
+  "region": "ap-southeast-2",
+  "ssm": {
+    "CommandId": "8d8cb0c1-5156-42e7-b247-1e415f749c47",
+    "InstanceId": "i-0bbfbcd2d870cce97",
+    "ResponseCode": 0,
+    "Status": "Success",
+    "ExecutionStartDateTime": "2026-10-16T06:45:22.001Z",
+    "ExecutionEndDateTime": "2026-10-16T06:45:53.001Z",
+    "StandardOutputContent": "/tmp/f06-final.tar.gz: OK\nPASS F06 runtime project identity and master-secret access denial\nPASS Real public TLS, exact Alpha/Beta resources, secure host-only cookies and copied-session/context/origin denial\nPASS Live Caddy forwarding-header rejection, direct backend denial and identity-plane separation\nPASS Disabled resource and route withdrawal fail closed; re-enable preserves data and invalidates old sessions\nPASS Actual worker process crash after public TLS effect reconciles the same owned manifest\n{\"status\":\"passed\",\"executedAt\":\"2026-10-16T06:45:48.950Z\",\"hosts\":[\"alpha-commandmaps.dev.civicmaps.com.au\",\"beta-commandmaps.dev.civicmaps.com.au\",\"platform.dev.civicmaps.com.au\"],\"proof\":[\"F06 runtime project identity and master-secret access denial\",\"Real public TLS, exact Alpha/Beta resources, secure host-only cookies and copied-session/context/origin denial\",\"Live Caddy forwarding-header rejection, direct backend denial and identity-plane separation\",\"Disabled resource and route withdrawal fail closed; re-enable preserves data and invalidates old sessions\",\"Actual worker process crash after public TLS effect reconciles the same owned manifest\"]}\nPASS direct trusted public TLS, mismatched SNI/Host, unknown Host/SNI, invalid port authority, public backend-port denial.\n",
+    "StandardErrorContent": ""
+  },
+  "acceptance": {
+    "status": "passed",
+    "executedAt": "2026-10-16T06:45:48.950Z",
+    "hosts": [
+      "alpha-commandmaps.dev.civicmaps.com.au",
+      "beta-commandmaps.dev.civicmaps.com.au",
+      "platform.dev.civicmaps.com.au"
+    ],
+    "proof": [
+      "F06 runtime project identity and master-secret access denial",
+      "Real public TLS, exact Alpha/Beta resources, secure host-only cookies and copied-session/context/origin denial",
+      "Live Caddy forwarding-header rejection, direct backend denial and identity-plane separation",
+      "Disabled resource and route withdrawal fail closed; re-enable preserves data and invalidates old sessions",
+      "Actual worker process crash after public TLS effect reconciles the same owned manifest"
+    ]
+  },
+  "publicBrowser": {
+    "status": "passed",
+    "script": "tests/browser-routing.mjs",
+    "tlsVerification": true,
+    "path": "Execution environment HTTPS proxy, existing environment CA trusted in Chromium NSS",
+    "proof": [
+      "Alpha/Beta independent host-only Secure/HttpOnly sessions",
+      "Cross-council credentials denied",
+      "Actual per-council resource access",
+      "Platform routing readiness"
+    ],
+    "recordedMinuteUtc": "2026-10-16 06:47"
+  },
+  "externalHttp": {
+    "ipStatus": 421,
+    "approvedHostStatus": 308,
+    "location": "https://alpha-commandmaps.dev.civicmaps.com.au/api/health"
+  },
+  "inventory": {
+    "stack": {
+      "id": "arn:aws:cloudformation:ap-southeast-2:597663815195:stack/civicmaps-f06-development/90e31f20-c926-11f1-86b6-062351bd51df",
+      "status": "CREATE_COMPLETE",
+      "outputs": [
+        {
+          "OutputKey": "InstanceId",
+          "OutputValue": "i-0bbfbcd2d870cce97"
+        },
+        {
+          "OutputKey": "PublicIp",
+          "OutputValue": "13.239.75.155"
+        },
+        {
+          "OutputKey": "RuntimeRoleArn",
+          "OutputValue": "arn:aws:iam::597663815195:role/civicmaps-f06-development-RuntimeRole-7RBuQW3qsJQg"
+        },
+        {
+          "OutputKey": "StorageRoleArn",
+          "OutputValue": "arn:aws:iam::597663815195:role/civicmaps-f06-development-StorageRole-EsIEGSjisbvq"
+        }
+      ]
+    },
+    "runtimeDisk": {
+      "id": "vol-0da93106c915230cc",
+      "type": "gp3",
+      "sizeGiB": 16,
+      "encrypted": true,
+      "state": "in-use"
+    },
+    "instances": [
+      {
+        "id": "i-0bdd5db2c27842748",
+        "state": "stopped",
+        "ip": null
+      },
+      {
+        "id": "i-0bbfbcd2d870cce97",
+        "state": "running",
+        "ip": "13.239.75.155"
+      }
+    ]
+  }
+}

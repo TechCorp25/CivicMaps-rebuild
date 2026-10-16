@@ -115,18 +115,16 @@
     },
     {
       "id": "F06",
-      "status": "blocked",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f06-build",
-      "commit": "3adf740b9cf906edbef467cf7745a8de76990d14",
+      "commit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/14",
       "evidencePath": "docs/plans/evidence/F06.md",
-      "acceptancePassed": false,
+      "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
-      "blockers": [
-        "Explicit approval required by automatic review for public Sydney EC2/IAM/security-group/EIP/DNS deployment and ongoing charges; live HTTPS/provider acceptance pending."
-      ],
-      "nextAction": "Approve the concrete F06 development deployment, execute live acceptance and verify final CI before marking review_ready.",
+      "blockers": [],
+      "nextAction": "Owner review/merge preparation PR #13 then stacked build PR #14. Live acceptance passed; retain populated development resources for 21 October review. Keep F07 planned until acceptance.",
       "preparationPath": "docs/plans/F06-preparation.md",
       "preparationBranch": "codex/civicmaps-f06-preparation",
       "preparationCommit": "8eb7eba8d7c9324388b5feed0f641951bceb6ab1",
@@ -134,7 +132,7 @@
       "preparationStatus": "review_ready",
       "preparationPublication": "verified",
       "preparationEmpirical": "recorded",
-      "empiricalMemoryId": "6ad1bbe1993fbbc6a5b367d6"
+      "empiricalMemoryId": "6ad1c9d1993fbbc6a5b36e46"
     },
     {
       "id": "F07",
