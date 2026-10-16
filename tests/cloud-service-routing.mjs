@@ -53,6 +53,19 @@ async function login(n) {
   assert.doesNotMatch(r.cookie, /Domain=/i);
   return r;
 }
+function setOwnedResourceAccess(jobId, enabled) {
+  assert.equal(jobId, 'f0500000-0000-4000-8000-000000000001');
+  // Failure injection uses the authorised OS/database operator, never broader application grants.
+  const result = spawnSync(
+    'runuser',
+    ['-u', 'postgres', '--', 'psql', '-v', 'ON_ERROR_STOP=1', '-d', 'civicmaps_f06'],
+    {
+      input: `UPDATE public.municipality_resources SET disabled_at=${enabled ? 'NULL' : 'clock_timestamp()'} WHERE job_id='f0500000-0000-4000-8000-000000000001';`,
+      encoding: 'utf8',
+    },
+  );
+  assert.equal(result.status, 0, 'Owned synthetic resource access toggle failed');
+}
 async function waitReady(id) {
   for (let n = 0; n < 24; n++) {
     const r = (await pool.query('SELECT state FROM service_routes WHERE id=$1', [id])).rows[0];
@@ -130,16 +143,12 @@ try {
   );
   const alpha = (await pool.query('SELECT * FROM service_routes WHERE hostname=$1', [hosts[0]]))
     .rows[0];
-  await pool.query('UPDATE municipality_resources SET disabled_at=now() WHERE job_id=$1', [
-    alpha.job_id,
-  ]);
+  setOwnedResourceAccess(alpha.job_id, false);
   try {
     assert.equal((await request(hosts[0], '/api/health')).status, 503);
     assert.equal((await request(hosts[1], '/api/health')).status, 200);
   } finally {
-    await pool.query('UPDATE municipality_resources SET disabled_at=NULL WHERE job_id=$1', [
-      alpha.job_id,
-    ]);
+    setOwnedResourceAccess(alpha.job_id, true);
   }
   await transaction((c) => controlRoute(c, alpha.id, alpha.version, 'withdraw', 'F06-acceptance'));
   assert.equal(

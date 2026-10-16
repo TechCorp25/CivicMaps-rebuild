@@ -24,7 +24,7 @@ try {
       )
     ).status(),
   ).toBe(200);
-  const cookies = await context.cookies('https://alpha-commandmaps.dev.civicmaps.com.au');
+  const cookies = await context.cookies('https://alpha-commandmaps.dev.civicmaps.com.au/api/');
   const session = cookies.find((c) => c.name === 'civicmaps_session');
   expect(session.secure).toBe(true);
   expect(session.httpOnly).toBe(true);

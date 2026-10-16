@@ -308,7 +308,7 @@ try {
   await expect(provisioning).toContainText('AWS Sydney development resources');
   await expect(provisioning).toContainText('Prepare isolated database');
   await expect(provisioning).toContainText(
-    'Data resources ready. Service deployment and admin activation remain pending.',
+    'Data resources ready. Administrator activation remains pending.',
   );
   const routing = page
     .locator('section')

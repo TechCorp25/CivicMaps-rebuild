@@ -443,8 +443,9 @@ function App() {
                   </p>
                   <h1>{current.name}</h1>
                   <p>
-                    {current.slug}-commandmaps.dev.civicmaps.com.au · Registry ID:{' '}
-                    <code>{current.id}</code>
+                    {detail?.routes?.find((item) => item.service === 'commandmaps')?.hostname ??
+                      current.slug}{' '}
+                    · Registry ID: <code>{current.id}</code>
                   </p>
                 </div>
                 <Badge value={route.page === 'health' ? current.health : current.status} />
