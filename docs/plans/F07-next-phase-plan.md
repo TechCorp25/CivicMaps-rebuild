@@ -2,16 +2,22 @@
 
 Prepared 17 October 2026 (Australia/Melbourne), Codex (agent).
 
-## Verified starting point
+## Current release and decision checkpoint — 18 October 2026
+
+The F06Q merged-source release gate is **complete**. Source `3dfb0316fbe7885c55adbb1861ff58d199ca5810` is deployed and live accepted, including both PR #16 review corrections. [Release-closure evidence](evidence/F06Q-release-closure.md) records the artifact/checkpoint, data/session/configuration preservation, live recovery and rollback/return checks. `8e91622` is the prior release, not the current deployed source.
+
+The owner approved [F07 D02 choices](F07-D02-decisions.md). Use the [ledger](civicmaps-feature-ledger.json) and [F07 handoff](F07-handoff.md) for the current implementation/publication state. Do not repeat the completed F06Q deployment or re-request approved D02 choices. A future F07 deployment and its live acceptance remain separate. The release procedure below is an execution record/reference, not the next action to run.
+
+## Verified source and review history
 
 - Assessment PR #15 is merged at `3ebee8e726ddd92f6ef4f40886339042be8c8242`.
 - F06Q PR #16 is merged at `3dfb0316fbe7885c55adbb1861ff58d199ca5810`; its published head is `b279d4f1a2e6905ce799d953c34fae7b6d0ebe2a`.
 - That head passed 67 integration tests, lint/format, both builds/typechecks, Caddy ingress and both browser suites. Its final Codex audit reported no additional findings; both validated review conversations have written responses and are resolved.
-- Last recorded deployed source is `8e916226571fb72f8ed15c2932b86be0a859f284`. The later legacy retry-budget and disposable restore-cleanup corrections are merged but have no recorded deployment or live acceptance. Recheck the actual runtime before execution.
+- Current accepted deployed source is `3dfb0316fbe7885c55adbb1861ff58d199ca5810`. The previous `8e916226571fb72f8ed15c2932b86be0a859f284` release was retained and exercised during rollback/return; both merged review corrections are now covered by current-source live acceptance.
 
-The next operational task is F06Q release closure. The next product feature is F07. Keep one implementation feature active; F07 remains planned until the release gate and D02 decisions below are satisfied. This document plans the work; it does not execute a deployment or activation.
+F06Q release closure and the F07 D02 prerequisite are satisfied. Keep one implementation feature active and follow its current ledger state. This release-closure change permits F07 implementation; it does not claim F07 has been deployed.
 
-## 1. Close F06Q release alignment
+## 1. Completed F06Q release procedure — reference only
 
 1. Refresh main, the ledger and Empirical. Select the exact merged source containing both review corrections, starting from `3dfb031`; confirm its CI and build the release from a clean checkout. Record source SHA, archive SHA256 and private object version. Do not label a newer source verified using the old release's evidence.
 2. Inspect the existing Sydney runtime through the configured CivicMAPS AWS profile. Confirm selected Region, project, plan/spend status, current source, migrations, service health, free disk, route ownership and retained resources. Reuse the existing runtime and private bucket within the saved allocation.
@@ -20,22 +26,22 @@ The next operational task is F06Q release closure. The next product feature is F
 5. Verify the documented rollback/return path to the prior recorded release with data, sessions, ownership and audit history preserved. Keep the prior archive and checkpoint until the agreed retention review. Do not restore a backup over populated control data as a routine code rollback.
 6. Record commands/results, artifact identities, data-preservation comparisons and remaining limits in F06Q evidence and Empirical. Update deployed-source and acceptance fields only after current-source live checks pass. Publish documentation through a fresh branch/PR; owner merge remains separate.
 
-Completion gate: both review corrections are present on the runtime, current-source live acceptance passes, recovery evidence is recorded, and no unexplained changes to owned data or configuration remain. If release verification fails, recover the existing service, record the blocker and keep F07 gated.
+Completion gate **passed**: both review corrections are present on the runtime, current-source live acceptance and recovery checks passed, and preservation checks found no unexplained owned-data/configuration changes. These steps describe the executed release; a future release needs its own pinned source and acceptance record.
 
 Use the [release/recovery runbook](../development/service-routing.md#f06q-reliability-update) and [historical F06Q evidence](evidence/F06Q.md). Retain the existing development resources and private checkpoints for the 21 October review under the saved US$50/month allocation; confirm actual spend before executing. Planning does not authorise an expanded resource footprint.
 
-## 2. Settle D02 at F07 kickoff
+## 2. Approved F07 D02 policy
 
-These are proposed starting choices for owner decision, not established product policy:
+Owner approval is recorded in [F07-D02-decisions.md](F07-D02-decisions.md), Empirical `6ad3601cbeb1d964705f3bc6`.
 
-| Decision | Proposed initial development scope | Must be explicit before implementation |
+| Decision | Approved initial development scope | Boundary |
 | --- | --- | --- |
-| Council ADMIN authority | Activate the designated first administrator, allow its own authenticated session/profile access, and require explicit context grants | The exact permitted council operations; whether management of dispatch/officer users belongs in this slice |
-| Activation delivery | Controlled synthetic delivery through an authenticated Platform operator for the existing development councils | Approved delivery procedure and recipient verification; any email provider requires a separate concrete choice |
-| Token expiry | A 24-hour activation window | Final lifetime and how expiration is communicated |
-| Reissue and recovery | Authenticated Platform operator reissues after verifying the intended administrator; prior tokens are revoked | Who may reissue, lost-response handling, verification procedure and account-disable/session-revocation rules |
+| Council ADMIN authority | Own authenticated session/profile and explicitly granted council context | No operational requests, personnel directory, dispatch/officer management or Platform rights |
+| Activation delivery | Authenticated Platform operator verifies the designated recipient and manually delivers a synthetic activation link | No email provider or production identity-proof procedure selected |
+| Token expiry | 24-hour, hashed, single-use token bound to designated administrator, municipality and exact context version | Expired/used/revoked links cannot activate |
+| Reissue and recovery | Repeat recipient verification, revoke prior tokens on reissue; lost redemption response recovers through sign-in with the chosen password | Disable revokes sessions/outstanding tokens; reactivation and general user management remain outside this slice |
 
-Retain Platform/council identity separation. Do not infer operational privileges from an ADMIN label, broaden identity database permissions or select a production identity/email provider implicitly.
+Retain Platform/council identity separation. Do not infer operational privileges from an ADMIN label, broaden identity database permissions or select a production identity/email provider implicitly. These approved F07 choices do not decide later organisation/team administration.
 
 ## 3. Implement one F07 feature
 
@@ -52,4 +58,4 @@ F07 is complete when the first administrator can activate, sign in and perform o
 
 ## Resumption instruction
 
-> Confirm PRs #15/#16 and current main, then complete the F06Q merged-source release gate using the retained development runtime and recorded recovery path. Preserve populated data and record exact source/artifact/live evidence. Once that gate passes, settle only D02 permissions/delivery/expiry/recovery and implement F07 on a fresh branch. Keep publication, deployment, acceptance and owner merge as separate states. Do not start F08 or mark F07 ready while its release or D02 prerequisites remain open.
+> Read current main, the ledger, F07 handoff and Empirical. The F06Q merged-source release gate is complete for deployed source3dfb031 and F07 D02 is approved; do not repeat that deployment or those decisions. Resume the current F07 implementation/review step from its evidence, keeping publication, deployment, live acceptance and owner merge separate. Qualify any future F07 release against its own source before F08/D03 kickoff; do not infer F07 live acceptance from F06Q evidence.
