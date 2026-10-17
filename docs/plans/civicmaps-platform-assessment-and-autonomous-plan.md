@@ -152,7 +152,7 @@ Each card is a single independently reviewable outcome. Dependencies refer to th
 **Rollback:** restore the prior verified code and compatible control-data checkpoint or withdraw affected routes; retain data/ownership/history. No new council, activation or production rollout.
 
 ### F07 — First council-admin activation
-**Depends on:** F03, F05; D02. **Goal:** pending first admin becomes an authorised council user.
+**Depends on:** F03, F05, F06Q; D02. **Goal:** pending first admin becomes an authorised council user.
 **Scope:** one-time expiring activation, credential recovery and minimal council ADMIN permissions; preserve operator/council identity separation.
 **Done when:** activation is single-use, scoped and audited; expired/replayed tokens fail; lost initial response has safe recovery; council admin cannot gain platform rights; account disable revokes access.
 **Rollback:** revoke activation/session state and disable account; preserve audit.
