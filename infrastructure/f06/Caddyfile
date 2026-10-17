@@ -25,6 +25,7 @@ platform.dev.civicmaps.com.au, alpha-commandmaps.dev.civicmaps.com.au, beta-comm
 		header_up Host {http.request.hostport}
 		header_up X-Forwarded-Host {http.request.hostport}
 		header_up X-Forwarded-Proto https
+		header_up X-Civicmaps-Client-Ip {http.request.remote.host}
 		header_up X-Civicmaps-Ingress {$CIVICMAPS_INGRESS_TOKEN}
 	}
 }

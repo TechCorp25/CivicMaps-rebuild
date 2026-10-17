@@ -1,3 +1,4 @@
+import { loginThrottle } from './login-throttle.mjs';
 import { deployedRouting, checkRouteSession, controlRoute } from './routing.mjs';
 import express from 'express';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
@@ -166,7 +167,7 @@ export function platformRouter() {
       }),
     );
   });
-  const attempts = new Map();
+  const throttle = loginThrottle();
   router.post('/auth/login', async (req, res) => {
     const data = input(req, ['email', 'password']);
     requireValue(
@@ -174,12 +175,7 @@ export function platformRouter() {
       400,
       'Email and password are required',
     );
-    const now = Date.now();
-    for (const [key, value] of attempts) if (now - value.start >= 60_000) attempts.delete(key);
-    const bucket = attempts.get(req.ip) ?? { start: now, count: 0 };
-    attempts.set(req.ip, bucket);
-    bucket.count += 1;
-    requireValue(bucket.count <= 20, 429, 'Too many sign-in attempts. Try again in a minute.');
+    throttle(req, data.email);
     const result = await pool.query('SELECT * FROM platform_operators WHERE email=$1 AND active', [
       data.email.trim().toLowerCase(),
     ]);

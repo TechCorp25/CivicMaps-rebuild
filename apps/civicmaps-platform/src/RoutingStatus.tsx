@@ -1,15 +1,24 @@
+import { useEffect, useState } from 'react';
 import { type ServiceRoute } from './api';
 export function RoutingStatus({
   routes,
+  unavailable = false,
   busy,
   onRefresh,
   onAction,
 }: {
   routes: ServiceRoute[];
+  unavailable?: boolean;
   busy: boolean;
   onRefresh: () => void;
   onAction: (route: ServiceRoute, action: 'retry' | 'withdraw') => void;
 }) {
+  const [now, setNow] = useState(Date.now);
+  useEffect(() => {
+    // Expire the mounted view even when the next request is slow or unavailable.
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
   return (
     <section className="card" aria-labelledby="routing-heading">
       <h2 id="routing-heading">Service routing</h2>
@@ -21,11 +30,13 @@ export function RoutingStatus({
               <strong>{route.hostname}</strong>
             </p>
             <p role="status">
-              {route.state === 'ready' &&
-              route.checked_at &&
-              Date.now() - new Date(route.checked_at).getTime() >= 300000
-                ? 'Verification expired'
-                : route.state}{' '}
+              {unavailable
+                ? 'Routing status unavailable'
+                : route.state === 'ready' &&
+                    route.checked_at &&
+                    now - new Date(route.checked_at).getTime() >= 300000
+                  ? 'Verification expired'
+                  : route.state}{' '}
               · Version {route.version}
             </p>
             {route.checked_at && (

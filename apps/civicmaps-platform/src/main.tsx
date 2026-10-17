@@ -55,6 +55,7 @@ function App() {
   const [detail, setDetail] = useState<Detail | null>(null);
   const [busy, setBusy] = useState(false);
   const [detailRefresh, setDetailRefresh] = useState(0);
+  const [detailError, setDetailError] = useState('');
   const detailScope = useRef(0);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
@@ -114,6 +115,7 @@ function App() {
       detailScope.current += 1;
       setRoute(readRoute());
       setDetail(null);
+      setDetailError('');
       setError('');
       setNotice('');
       setConfirmation(null);
@@ -154,22 +156,30 @@ function App() {
   useEffect(() => {
     if (!actor || !route.id) return;
     const controller = new AbortController();
+    setDetailError('');
     let timer: ReturnType<typeof setTimeout> | undefined;
     async function refresh() {
       try {
         const result = await api<Detail>(`/municipalities/${route.id}`, {
-          signal: controller.signal,
+          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
         });
         if (!controller.signal.aborted) {
           setDetail(result);
-          if (
+          setDetailError('');
+          timer = setTimeout(
+            refresh,
             (result.job && ['queued', 'running', 'waiting'].includes(result.job.state)) ||
-            result.routes?.some((r) => ['pending', 'running'].includes(r.state))
-          )
-            timer = setTimeout(refresh, 2000);
+              result.routes?.some((r) => ['pending', 'running'].includes(r.state))
+              ? 2000
+              : 15000,
+          );
         }
       } catch (err) {
-        if (!controller.signal.aborted) fail(err);
+        if (!controller.signal.aborted) {
+          setDetailError(err instanceof Error ? err.message : 'Status refresh unavailable');
+          if (err instanceof ApiError && err.status === 401) fail(err);
+          timer = setTimeout(refresh, 15000);
+        }
       }
     }
     void refresh();
@@ -389,9 +399,9 @@ function App() {
           <span className="environment-dot" aria-hidden="true" />
           Development<span>Synthetic data · Metrics are illustrative snapshots</span>
         </div>
-        {error && (
+        {(error || detailError) && (
           <p className="error" role="alert">
-            {error}
+            {error || detailError}
           </p>
         )}
         {notice && (
@@ -569,6 +579,7 @@ function App() {
               {detail && route.page === 'municipalities' && (
                 <RoutingStatus
                   routes={detail.routes ?? []}
+                  unavailable={Boolean(detailError)}
                   busy={busy}
                   onRefresh={() => refreshJob()}
                   onAction={(item, action) => {
