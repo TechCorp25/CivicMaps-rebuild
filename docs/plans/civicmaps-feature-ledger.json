@@ -153,7 +153,7 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "preparationPath": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/efb30c5bf1846b85c491d6caf29a3c6bb9b7caf1/docs/plans/F06Q-next-phase-prompt.md",
+      "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
       "nextAction": "Owner review draft PR #16. F07 handoff prepared; resolve only D02 permissions and activation delivery/recovery before beginning a fresh feature.",
       "implementation": "complete",
       "localAcceptancePassed": true,
@@ -453,6 +453,6 @@
   "progressAssessment": "docs/plans/civicmaps-progress-assessment-2026-10-13.md",
   "latestAssessmentDate": "2026-10-17",
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
-  "latestAssessmentPath": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/efb30c5bf1846b85c491d6caf29a3c6bb9b7caf1/docs/plans/civicmaps-status-assessment-2026-10-17.md",
+  "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e"
 }
