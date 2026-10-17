@@ -154,7 +154,7 @@
       "empirical": "recorded",
       "blockers": [],
       "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
-      "nextAction": "Release gate passed on deployed3dfb031. Release-evidence PR18 was merged into PR17; owner merged PR17 into main at99b12b9. Continue review of existing F07 PR19; do not restart its implementation.",
+      "nextAction": "F06Q release gate passed on deployed3dfb031; release evidence is merged into main. F07 PR19 is also owner-merged at2b73318. Follow F08-next-phase-plan.md for F07 controlled release/live acceptance, then D03/F08.",
       "implementation": "complete",
       "localAcceptancePassed": true,
       "liveAcceptance": "passed_for_merged_source",
@@ -171,28 +171,31 @@
     },
     {
       "id": "F07",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f07-admin-activation",
-      "commit": "5098200b3347cd2401645201af93fb2e2445b2c5",
+      "commit": "16d543578798c678f2bc24f0ffb9c0f646594de3",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/19",
       "evidencePath": "docs/plans/evidence/F07.md",
       "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner merged PR17 into main at99b12b9. Review/merge existing PR19 on codex/civicmaps-f07-admin-activation, now based on main; do not create another F07 branch. F07 deployment and current-source live acceptance remain separate before F08/D03.",
+      "nextAction": "PR19 owner-merged at2b73318. Qualify controlled F07 deployment/current-source live acceptance with designated synthetic recipients; then resolve D03 for F08.",
       "preparationPath": "docs/plans/F07-next-phase-plan.md",
       "decisionPath": "docs/plans/F07-D02-decisions.md",
       "acceptanceScope": "local_and_hosted_disposable",
       "empiricalMemoryId": "6ad3d4bcbeb1d964705ff9ba",
       "implementation": "complete",
-      "implementationLocation": "This PR19 feature branch; not merged into main",
+      "implementationLocation": "Merged into main by owner PR19",
       "localAcceptancePassed": true,
       "liveAcceptance": "not_deployed",
-      "evidenceUrl": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/5098200b3347cd2401645201af93fb2e2445b2c5/docs/plans/evidence/F07.md",
-      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39068027959",
+      "evidenceUrl": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/16d543578798c678f2bc24f0ffb9c0f646594de3/docs/plans/evidence/F07.md",
+      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070082654",
       "stackedOn": "main",
-      "review": "Codex agent: no actionable findings on98ef0a5; subsequent documentation review recorded in PR conversations"
+      "review": "External Codex review completed on16d5435 with no findings or unresolved conversations",
+      "mergeCommit": "2b73318a57c97baecb52711beca401ed3a162339",
+      "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070898955",
+      "releasePreparationPath": "docs/plans/F08-next-phase-plan.md"
     },
     {
       "id": "F08",
@@ -205,10 +208,11 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [
-        "F07 PR19 owner review/merge and separately qualified deployment/live acceptance remain pending.",
-        "D03 entitlement decisions are not yet resolved."
+        "F07 controlled deployment and current-source live acceptance remain pending.",
+        "D03 stable catalogue/parking mapping and disabled-record/in-flight policies require owner decisions."
       ],
-      "nextAction": "After existing PR19 dependency/release gates, resolve D03 and prepare one entitlement feature; do not start during F07 review."
+      "nextAction": "Complete F07 release gate, record D03 decisions, then implement one server-enforced entitlement feature.",
+      "preparationPath": "docs/plans/F08-next-phase-plan.md"
     },
     {
       "id": "F09",
@@ -477,5 +481,5 @@
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "PR18 and PR17 are owner-merged into main at99b12b9. Owner reviews/merges existing F07 PR19, now based on main. Do not create another F07 branch; its deployment/live acceptance remain separate before F08/D03."
+  "nextAction": "F07 PR19 is owner-merged at2b73318. Follow F08-next-phase-plan.md: F07 controlled release/live acceptance, then owner D03 decisions and bounded F08 entitlements."
 }
