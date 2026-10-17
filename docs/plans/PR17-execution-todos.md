@@ -13,3 +13,5 @@
 Execution update18October2026: F06Q gate/evidence complete in draftPR18 at22c15fc; CI and Codex review passed. F07 implemented and pushed98ef0a5 in draftPR19;69tests, all three browser flows, Caddy checks, hostedCI39065104069/39065070396 and final Codex review pass. Empirical checkpoint `6ad3d4bcbeb1d964705ff9ba` records the handoff.
 
 Owner handoff: review/merge #17→#18→#19. F07 is not deployed; AWS remains acceptedF06Q3dfb031. A controlled F07 release with deliberately designated recipients/current-source live acceptance remains separate before F08/D03 kickoff. No merge/auto-merge performed.
+
+Release publication completed: [PR #18](https://github.com/TechCorp25/CivicMaps-rebuild/pull/18) publishes the evidence and ledger. Head `b88f01e` passed [PR CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39067631717) and [push CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39067626435); review fixes and verification are recorded in the review conversations and Empirical `6ad2fb1ebeb1d964705ecb18`. The original release-evidence head `22c15fc` also passed CI and re-review. Do not repeat this completed publication workflow.
