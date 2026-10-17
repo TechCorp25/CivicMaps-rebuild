@@ -5,6 +5,8 @@ Repository: TechCorp25/CivicMaps-rebuild.
 Assessed baseline: `work` at `34a6a2ec65bb43ca75e1df2ebfe37caed4517857` (platform implementation plus merge from main).
 This deliverable is an assessment and execution plan; the features below are not claimed as implemented.
 
+**Current release/D02 checkpoint — 18 October 2026:** merged F06Q source `3dfb0316fbe7885c55adbb1861ff58d199ca5810` is deployed and live accepted, including both review corrections. The [release-closure evidence](evidence/F06Q-release-closure.md) records preservation, recovery and rollback/return checks. The owner approved [F07 D02 policy](F07-D02-decisions.md). Do not repeat this completed deployment or ask for those decisions again. Use the [feature ledger](civicmaps-feature-ledger.json) and [F07 handoff](F07-handoff.md) for the current implementation/publication state; a future F07 deployment is separate. The original assessment below remains historical evidence for its stated baseline.
+
 ## Outcome
 
 CivicMAPS Platform is a compilable local control-plane slice, not yet a municipality sandbox deployment or service-management system. CommandMAPS has a working foundation slice in source. EnforcementMAPS web/mobile and the public portal are placeholders. The missing integration is a durable, authorised connection between the municipality registry, operational tenancy, deployment resources, users, pack entitlements and public services.
@@ -90,7 +92,7 @@ A feature is implementation-complete only when its observable goal, negative cas
 These are concrete product/operating inputs, not blanket approval gates on routine coding:
 
 - D01: sandbox isolation level, hosting account/provider, region/residency, resource budget and retention; platform/public hostnames. Existing unresolved OQ12-1 and current local runtime do not select a production deployment boundary.
-- D02: council-admin permissions and activation delivery/identity policy; audited operator authority for organisation/team edits.
+- D02: [F07 permissions and activation delivery/recovery policy are owner-approved](F07-D02-decisions.md). Later organisation/team administration still needs its own explicit scope and audited operator authority.
 - D03: stable pack IDs and parking mapping; whether disabled-pack records remain visible to authorised reviewers and which in-flight actions may finish.
 - D04: public-report categories, anonymous-report tracking/privacy rule, attachment limits/retention. S22 says anonymous reports have no status link; preserve that default until changed explicitly.
 - D05: payment provider and council merchant ownership, currencies, authoritative amounts, infringement lookup factors, refunds/partial payments, and permit approve-versus-issue sequencing. S25/OQ25-1 explicitly conflicts with earlier permit issuance timing.
@@ -295,10 +297,16 @@ Each of these needs a separate feature card if brought into the active queue: fu
 
 ## Session ledger and kickoff
 
-Use [civicmaps-feature-ledger.json](civicmaps-feature-ledger.json) for resumption. F01, F02, F02Q and F03–F06 are merged; PR #13 merged at `6e405530f8f2de6b85d4ed9476c7bfa667c97a2c`, and PR #14 at `8da79eec7ae56cd3d9a21930842b217967df049e`. The [17 October assessment](civicmaps-status-assessment-2026-10-17.md), merged through PR #15 at `3ebee8e`, identified routing recovery, shared login throttling and stale UI defects plus a deployed-release verification gap. Its [instructional prompt](F06Q-next-phase-prompt.md) defines F06Q acceptance. F06Q now implements those findings with local/live acceptance and data-preserving rollback; [evidence](evidence/F06Q.md) records the verified release. PR #16 is owner-merged at `3dfb0316fbe7885c55adbb1861ff58d199ca5810`. Its review corrections have passed CI but are not covered by the recorded deployment of `8e91622`. Complete the [merged-source release gate and next-phase plan](F07-next-phase-plan.md) before F07 administrator activation. F07 remains planned and depends on current-source F06Q live acceptance and D02. Historical [F06 live evidence](evidence/F06.md) remains pinned to its deployed source. F05/F06 development target, hostname, budget and retention decisions are resolved. The ledger contains 30 cards, with no implementation feature currently in progress. Approval, publication, deployment and merge remain separate states.
+Use [civicmaps-feature-ledger.json](civicmaps-feature-ledger.json) for resumption. F01, F02, F02Q and F03–F06Q are merged. Assessment PR #15 merged at `3ebee8e`; F06Q PR #16 merged at `3dfb0316fbe7885c55adbb1861ff58d199ca5810`.
+
+The F06Q merged-source release gate is **complete**: source `3dfb031` is deployed and live accepted, including the legacy retry-budget and disposable restore-cleanup corrections. [Release-closure evidence](evidence/F06Q-release-closure.md) records exact artifact identities, populated-data/session/configuration preservation, TLS/isolation/crash and bounded-recovery checks, and rollback to prior `8e91622` and return. The older [F06Q report](evidence/F06Q.md) and [F06 live evidence](evidence/F06.md) remain pinned to their historical sources; they do not replace the closure record.
+
+The owner approved the [F07 D02 choices](F07-D02-decisions.md): own profile/session and explicit context grants only, verified synthetic delivery by an authenticated Platform operator, 24-hour tokens, old-token revocation on reissue and session revocation on disable. F07 may proceed under that policy. Check its current implementation/review state in the ledger and [handoff](F07-handoff.md); do not rerun the completed F06Q deployment or re-request the approved F07 choices. F07 deployment/current-source live acceptance remains separate from this release closure.
+
+F05/F06 development target, hostnames, budget and 21 October retention decisions remain in force. The ledger contains 30 cards. Approval, implementation, publication, deployment and owner merge remain separate states.
 
 Suggested session instruction:
 
 > Execute this plan one feature at a time, starting with the first ready ledger item. Read source and Empirical before changing code. Keep each change independently reviewable. Implement, validate, record evidence, push a fresh feature branch, verify its SHA, open a draft PR and update Empirical on completion. Checkpoint before interruption and continue to the next ready goal without asking routine permission. Never claim mocked, blocked or untested outcomes as complete; do not merge the owner's PRs. Resolve only concrete blocking product/provider inputs at their feature boundary.
 
-The integration branch is `main`. PRs #15 and #16 are merged. Review the next-phase plan against main, retaining existing D01/provider decisions and resolving D02 at F07 kickoff; later decisions remain with their respective features.
+The integration branch is `main`. PRs #15 and #16 are merged. Use the [updated next-phase plan](F07-next-phase-plan.md) and current ledger, retaining existing D01/provider and approved F07 D02 decisions. Later decisions remain with their respective features.
