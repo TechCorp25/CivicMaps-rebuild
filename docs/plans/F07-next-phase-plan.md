@@ -6,6 +6,8 @@ Prepared 17 October 2026 (Australia/Melbourne), Codex (agent).
 
 The F06Q release gate is [complete](evidence/F06Q-release-closure.md), [D02 choices](F07-D02-decisions.md) are approved and F07 is [implemented/review-ready](evidence/F07.md) in draftPR19. [Tracked ToDos](PR17-execution-todos.md) record completion and owner handoff. F07 itself is not deployed. The sections below preserve the original plan and starting-point evidence; use the execution records to avoid repeating completed work.
 
+**Existing F07 implementation — 18 October 2026:** [PR #19](https://github.com/TechCorp25/CivicMaps-rebuild/pull/19), branch `codex/civicmaps-f07-admin-activation`, is review-ready at `5098200b3347cd2401645201af93fb2e2445b2c5`. Its [acceptance evidence](https://github.com/TechCorp25/CivicMaps-rebuild/blob/5098200b3347cd2401645201af93fb2e2445b2c5/docs/plans/evidence/F07.md) and [CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39068027959) belong to that feature branch; the F07 application code and local evidence are on this feature branch, not main. Resume review of PR #19, not a new implementation branch. PR #18 is merged into PR #17; owner merge order is now #17 into main, then #19. F07 is not deployed.
+
 ## Current release and decision checkpoint — 18 October 2026
 
 The F06Q merged-source release gate is **complete**. Source `3dfb0316fbe7885c55adbb1861ff58d199ca5810` is deployed and live accepted, including both PR #16 review corrections. [Release-closure evidence](evidence/F06Q-release-closure.md) records the artifact/checkpoint, data/session/configuration preservation, live recovery and rollback/return checks. `8e91622` is the prior release, not the current deployed source.
@@ -19,7 +21,7 @@ The owner approved [F07 D02 choices](F07-D02-decisions.md). Use the [ledger](civ
 - That head passed 67 integration tests, lint/format, both builds/typechecks, Caddy ingress and both browser suites. Its final Codex audit reported no additional findings; both validated review conversations have written responses and are resolved.
 - Current accepted deployed source is `3dfb0316fbe7885c55adbb1861ff58d199ca5810`. The previous `8e916226571fb72f8ed15c2932b86be0a859f284` release was retained and exercised during rollback/return; both merged review corrections are now covered by current-source live acceptance.
 
-F06Q release closure and the F07 D02 prerequisite are satisfied. Keep one implementation feature active and follow its current ledger state. This release-closure change permits F07 implementation; it does not claim F07 has been deployed.
+F06Q release closure and the F07 D02 prerequisite are satisfied. Keep one implementation feature active and follow its current ledger state. F07 implementation already exists in PR #19; continue its review rather than creating another branch. The application code is on this feature branch; its deployment remains separate.
 
 ## 1. Completed F06Q release procedure — reference only
 
@@ -47,9 +49,9 @@ Owner approval is recorded in [F07-D02-decisions.md](F07-D02-decisions.md), Empi
 
 Retain Platform/council identity separation. Do not infer operational privileges from an ADMIN label, broaden identity database permissions or select a production identity/email provider implicitly. These approved F07 choices do not decide later organisation/team administration.
 
-## 3. Implement one F07 feature
+## 3. F07 implementation criteria — completed on PR #19
 
-Start a fresh feature branch from current main after the release gate. Read the [F07 handoff](F07-handoff.md), identity/context contracts and current registration/bootstrap code before designing migrations.
+The criteria below describe the existing implementation on `codex/civicmaps-f07-admin-activation`, not work to restart. Read the [F07 handoff](F07-handoff.md), PR #19 evidence and review conversations; assess any new findings on that branch. Use the local F07 evidence for this feature branch; deployment/live acceptance remain separate.
 
 1. Add durable activation state with hashed, expiring, single-use tokens scoped to the designated administrator, municipality and operating context. Define explicit grants from D02. Preserve pending registry data and audit history during migration/replay.
 2. Implement authorised issue/reissue, atomic redemption and credential setup. Concurrent redemption must allow one success; failed or lost responses must have safe recovery without replaying plaintext credentials or tokens from idempotency receipts.
@@ -62,4 +64,4 @@ F07 is complete when the first administrator can activate, sign in and perform o
 
 ## Resumption instruction
 
-> Read current main, the ledger, F07 handoff and Empirical. The F06Q merged-source release gate is complete for deployed source3dfb031 and F07 D02 is approved; do not repeat that deployment or those decisions. Resume the current F07 implementation/review step from its evidence, keeping publication, deployment, live acceptance and owner merge separate. Qualify any future F07 release against its own source before F08/D03 kickoff; do not infer F07 live acceptance from F06Q evidence.
+> Read current main, the ledger, F07 handoff and Empirical. The F06Q merged-source release gate is complete for deployed source3dfb031 and F07 D02 is approved; do not repeat that deployment or those decisions. Resume review of existing PR #19 on codex/civicmaps-f07-admin-activation; do not create a second F07 implementation. Use its feature-branch evidence, keeping publication, deployment, live acceptance and owner merge separate. Qualify any future F07 release against its own source before F08/D03 kickoff; do not infer F07 live acceptance from F06Q evidence.
