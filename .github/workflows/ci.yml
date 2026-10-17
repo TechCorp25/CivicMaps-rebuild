@@ -54,6 +54,8 @@ jobs:
         run: npm run test:platform:browser
       - name: Exercise CommandMAPS in a disposable database
         run: npm run test:commandmaps:browser
+      - name: Exercise first council-admin activation in a disposable database
+        run: npm run test:activation:browser
       - uses: actions/upload-artifact@v4
         if: always()
         with:

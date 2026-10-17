@@ -12,9 +12,10 @@
 
 Release publication completed: [PR #18](https://github.com/TechCorp25/CivicMaps-rebuild/pull/18) publishes the evidence and ledger. Head `b88f01e` passed [PR CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39067631717) and [push CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39067626435); review fixes and verification are recorded in the review conversations and Empirical `6ad2fb1ebeb1d964705ecb18`. The original release-evidence head `22c15fc` also passed CI and re-review. Do not repeat this completed publication workflow.
 
-F07 implementation and publication are complete on [PR #19](https://github.com/TechCorp25/CivicMaps-rebuild/pull/19), branch `codex/civicmaps-f07-admin-activation`, accepted feature-branch head `5098200`. Its [CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39068027959), feature-branch evidence and Empirical `6ad3d4bcbeb1d964705ff9ba` record the completed work. Application code is not in this planning snapshot. Do not create a second F07 branch or repeat its publication.
+F07 implementation and publication are complete on [PR #19](https://github.com/TechCorp25/CivicMaps-rebuild/pull/19), branch `codex/civicmaps-f07-admin-activation`, accepted feature-branch head `5098200`. Its [CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39068027959), feature-branch evidence and Empirical `6ad3d4bcbeb1d964705ff9ba` record the completed work. Application code and [F07 evidence](evidence/F07.md) are on this feature branch, not main. Do not create a second F07 branch or repeat its publication.
 
-PR #18 is now merged into PR #17 at `e34646f`. Remaining owner/release actions:
+PR #18 was merged into PR #17 at `e34646f`; the owner then merged PR #17 into main at `99b12b9`. Remaining owner/release actions:
 
-- [ ] Owner merge PR #17 into main, then review/merge the existing PR #19 implementation.
+- [x] Owner merged PR #17 into main at `99b12b9`.
+- [ ] Owner review/merge the existing PR #19 implementation, now based on main.
 - [ ] Qualify a controlled F07 deployment and current-source live acceptance before F08/D03 kickoff. AWS remains accepted F06Q source3dfb031.

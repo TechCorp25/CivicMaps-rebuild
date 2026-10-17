@@ -71,7 +71,10 @@ try {
   expect(response.status()).toBe(201);
   const result = await response.json();
   await expect(page.getByRole('heading', { name: councilName, exact: true })).toBeVisible();
-  await expect(page.locator('.credential code')).toHaveCount(1);
+  await expect(
+    page.getByRole('heading', { name: 'First administrator · pending activation' }),
+  ).toBeVisible();
+  await expect(page.locator('.credential code')).toHaveCount(0);
   await page.getByRole('button', { name: 'View municipality', exact: true }).click();
   await expect(page.locator('.credential')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: councilName, exact: true })).toBeVisible();
@@ -328,7 +331,10 @@ try {
   await expect(routing.getByRole('status')).toContainText('ready');
   // Settled routes continue refreshing, and a failed refresh cannot imply current readiness.
   const detailUrl = `**/api/platform/municipalities/${cloudCouncil.municipality.id}`;
-  await page.clock.pauseAt(new Date());
+  // A "now" target can already be in the past when the browser receives the RPC.
+  // Pause safely ahead, then restore wall time so route freshness stays realistic.
+  await page.clock.pauseAt(new Date(Date.now() + 60000));
+  await page.clock.setSystemTime(new Date());
   await page.route(
     detailUrl,
     (route) =>

@@ -68,7 +68,7 @@ test('operator and council cookies cannot cross authentication boundaries', asyn
   assert.match(login.response.headers.get('set-cookie'), /Path=\/api\/platform/);
 });
 
-test('registration retries persist one council/admin/audit and never replay the password', async () => {
+test('registration retries persist one pending council/admin/audit without issuing credentials', async () => {
   const data = input();
   const key = randomUUID();
   const results = await Promise.all([
@@ -79,7 +79,7 @@ test('registration retries persist one council/admin/audit and never replay the 
     results.map((r) => r.status),
     [201, 201],
   );
-  const original = results.find((r) => r.data.temporaryPassword);
+  const original = results.find((r) => !r.data.replayed);
   const replay = results.find((r) => r.data.replayed);
   assert.ok(original && replay);
   assert.equal(original.data.municipality.id, replay.data.municipality.id);
@@ -104,7 +104,8 @@ test('registration retries persist one council/admin/audit and never replay the 
     'SELECT response FROM platform_receipts WHERE operator_id=$1 AND key=$2',
     [operator.actor.id, key],
   );
-  assert.ok(!JSON.stringify([audit.rows, receipt.rows]).includes(original.data.temporaryPassword));
+  assert.equal(original.data.temporaryPassword, undefined);
+  assert.ok(!JSON.stringify([audit.rows, receipt.rows]).includes('password_hash'));
   assert.equal(
     (await call('/platform/municipalities', { ...data, name: 'Different' }, operator, key)).status,
     409,

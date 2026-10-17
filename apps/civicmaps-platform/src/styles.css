@@ -1038,3 +1038,22 @@ dialog .actions {
   min-width: 0;
   overflow-wrap: anywhere;
 }
+
+.admin-activation {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.admin-activation form {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+.admin-activation select,
+.admin-activation textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.admin-activation input[type='checkbox'] {
+  width: auto;
+}

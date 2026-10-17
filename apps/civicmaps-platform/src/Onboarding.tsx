@@ -90,22 +90,13 @@ export function Onboarding({
           A durable provisioning job is queued. View the municipality to follow its progress and
           resource status. Council service deployment and the first admin's sign-in remain pending.
         </p>
-        <div className="credential">
-          <h2>First admin · temporary password</h2>
-          {result.temporaryPassword ? (
-            <>
-              <code>{result.temporaryPassword}</code>
-              <p>
-                Copy this password now. It is shown only in this response and is cleared when you
-                leave this page. The account is pending activation.
-              </p>
-            </>
-          ) : (
-            <p>
-              This onboarding request was already saved. Its temporary password cannot be shown
-              again.
-            </p>
-          )}
+        <div className="activation-pending">
+          <h2>First administrator · pending activation</h2>
+          <p>
+            When an explicit council context is ready, verify the intended recipient and issue a
+            single-use activation link from the municipality overview. The administrator chooses
+            their own password.
+          </p>
         </div>
         <button onClick={() => onView(result.municipality.id)}>
           View municipality

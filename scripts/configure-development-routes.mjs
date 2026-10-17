@@ -61,9 +61,10 @@ try {
     VALUES($1,$2,'commandmaps',$3,$4,$5,'civicmaps-f06-development',$6) ON CONFLICT(hostname) DO NOTHING`,
         [randomUUID(), hostname, municipality, binding, job.id, token],
       );
-      await client.query("UPDATE platform_municipalities SET status='Provisioning' WHERE id=$1", [
-        municipality,
-      ]);
+      await client.query(
+        "UPDATE platform_municipalities SET status='Provisioning' WHERE id=$1 AND status<>'Suspended' AND NOT EXISTS (SELECT 1 FROM platform_first_admins a WHERE a.municipality_id=$1 AND a.activation_state IN ('Activated','Disabled'))",
+        [municipality],
+      );
     }
     await client.query(
       "INSERT INTO service_routes(id,hostname,service,target) VALUES($1,'platform.dev.civicmaps.com.au','platform','civicmaps-f06-development') ON CONFLICT(hostname) DO NOTHING",

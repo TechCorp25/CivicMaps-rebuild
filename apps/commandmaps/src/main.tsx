@@ -1,3 +1,4 @@
+import { Activation } from './Activation';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
@@ -22,6 +23,9 @@ type Actor = {
   tenant_id: string;
   jurisdiction_id: string;
   branch_id: string;
+  context_id?: string;
+  municipality_id?: string;
+  municipality_name?: string;
 };
 type Request = {
   id: string;
@@ -110,7 +114,7 @@ function App() {
     };
   }, []);
   useEffect(() => {
-    if (actor) void load().catch((err) => setError(err.message));
+    if (actor && actor.role !== 'ADMIN') void load().catch((err) => setError(err.message));
   }, [actor]);
   const currentId = current?.id;
   const currentVersion = current?.version;
@@ -169,8 +173,12 @@ function App() {
         method: 'POST',
         body: JSON.stringify({ email: form.get('email'), password: form.get('password') }),
       });
-      setActor(session.actor);
-      setCsrf(session.csrfToken);
+      const profile =
+        session.actor.role === 'ADMIN'
+          ? await api<{ actor: Actor; csrfToken: string }>('/auth/session')
+          : session;
+      setActor(profile.actor);
+      setCsrf(profile.csrfToken);
     });
   }
   function create(event: FormEvent<HTMLFormElement>) {
@@ -228,6 +236,45 @@ function App() {
               {busy ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
+        </section>
+      </main>
+    );
+  if (actor.role === 'ADMIN')
+    return (
+      <main className="login">
+        <section className="login-card">
+          <p className="eyebrow">CivicMAPS · Council administrator</p>
+          <h1>Administrator profile</h1>
+          <p>{actor.name}</p>
+          <p>Role: ADMIN</p>
+          <p>Council: {actor.municipality_name}</p>
+          <p>
+            Authorised context: {actor.branch_id} · {actor.jurisdiction_id}
+          </p>
+          <p>
+            Profile access is active. Council operations require separately approved permissions.
+          </p>
+          {error && (
+            <p role="alert" className="error">
+              {error}
+            </p>
+          )}
+          <button
+            disabled={busy}
+            onClick={() =>
+              void perform(async () => {
+                await api('/auth/logout', {
+                  method: 'POST',
+                  headers: { 'x-csrf-token': csrf },
+                  body: '{}',
+                });
+                setActor(null);
+                setCsrf('');
+              })
+            }
+          >
+            Sign out
+          </button>
         </section>
       </main>
     );
@@ -565,4 +612,17 @@ function App() {
     </div>
   );
 }
-createRoot(document.getElementById('root')!).render(<App />);
+function Root() {
+  const [route, setRoute] = useState(() => location.hash);
+  useEffect(() => {
+    const change = () => setRoute(location.hash);
+    addEventListener('hashchange', change);
+    return () => removeEventListener('hashchange', change);
+  }, []);
+  return route.startsWith('#activate/') || route === '#activation' ? (
+    <Activation key={route} />
+  ) : (
+    <App />
+  );
+}
+createRoot(document.getElementById('root')!).render(<Root />);

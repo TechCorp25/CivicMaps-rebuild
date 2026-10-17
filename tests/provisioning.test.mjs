@@ -109,7 +109,7 @@ test('registration atomically enqueues one job and secret-free steps; replay rem
     [201, 201],
   );
   assert.equal(responses[0].data.jobId, responses[1].data.jobId);
-  const original = responses.find((r) => r.data.temporaryPassword).data;
+  const original = responses.find((r) => !r.data.replayed).data;
   const read = await detail(original);
   assert.equal(read.job.state, 'queued');
   assert.equal(read.job.adapter, 'synthetic');
@@ -119,7 +119,8 @@ test('registration atomically enqueues one job and secret-free steps; replay rem
   const persisted = await pool.query('SELECT * FROM provisioning_jobs WHERE id=$1', [
     original.jobId,
   ]);
-  assert.ok(!JSON.stringify([persisted.rows, read]).includes(original.temporaryPassword));
+  assert.equal(original.temporaryPassword, undefined);
+  assert.ok(!JSON.stringify([persisted.rows, read]).includes('password_hash'));
   await drain();
 });
 test('enqueue failure rolls back council, admin, receipt and audit', async () => {

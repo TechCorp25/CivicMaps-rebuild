@@ -28,7 +28,8 @@
     "worker:provisioning": "node services/api/provisioning-worker.mjs",
     "test:provisioning": "node --test tests/provisioning.test.mjs",
     "test:resources:cloud": "node tests/cloud-data-resources.mjs",
-    "test:commandmaps:browser": "node tests/browser-commandmaps.mjs"
+    "test:commandmaps:browser": "node tests/browser-commandmaps.mjs",
+    "test:activation:browser": "node tests/browser-activation.mjs"
   },
   "dependencies": {
     "express": "5.2.1",
