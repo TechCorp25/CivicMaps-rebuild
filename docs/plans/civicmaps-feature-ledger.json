@@ -139,28 +139,33 @@
       "mergeCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
       "preparationPublishedHead": "52b19868429d5bed735477299ad61d18a171ca71",
       "deployedSourceCommit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
-      "currentMainLiveAcceptance": "covered_by_F06Q_release",
+      "currentMainLiveAcceptance": "pending_F06Q_merged_source_acceptance",
       "alignedReleaseCommit": "8e916226571fb72f8ed15c2932b86be0a859f284"
     },
     {
       "id": "F06Q",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f06q-routing-reliability",
-      "commit": "8e916226571fb72f8ed15c2932b86be0a859f284",
+      "commit": "b279d4f1a2e6905ce799d953c34fae7b6d0ebe2a",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/16",
       "evidencePath": "docs/plans/evidence/F06Q.md",
-      "acceptancePassed": true,
+      "acceptancePassed": false,
       "publication": "verified",
       "empirical": "recorded",
-      "blockers": [],
+      "blockers": [
+        "Merged review corrections require controlled release and current-source live acceptance."
+      ],
       "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
-      "nextAction": "Owner review PR #16, including the validated retry-budget and backup-verification corrections. Recorded acceptance fields describe deployed source 8e91622; review corrections need a controlled release and current-source live acceptance before F07. F07 handoff prepared; resolve D02 permissions and activation delivery/recovery at kickoff.",
+      "nextAction": "Owner merged PR #16. Complete the release gate in docs/plans/F07-next-phase-plan.md; preserve historical live evidence for deployed source 8e91622.",
       "implementation": "complete",
       "localAcceptancePassed": true,
-      "liveAcceptance": "passed",
+      "liveAcceptance": "pending_for_merged_source",
       "empiricalMemoryId": "6ad2fb1ebeb1d964705ecb18",
       "deployedSourceCommit": "8e916226571fb72f8ed15c2932b86be0a859f284",
-      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39004659658"
+      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39023001090",
+      "mergeCommit": "3dfb0316fbe7885c55adbb1861ff58d199ca5810",
+      "deployedSourceAcceptancePassed": true,
+      "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39024650225"
     },
     {
       "id": "F07",
@@ -172,8 +177,12 @@
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "blockers": [
+        "F06Q merged-source release/live acceptance is pending.",
+        "D02 permissions, activation delivery, token expiry and recovery policy remain undecided."
+      ],
+      "nextAction": "After the F06Q release gate passes, settle D02 and implement the scoped activation plan on a fresh branch. Do not start F08.",
+      "preparationPath": "docs/plans/F07-next-phase-plan.md"
     },
     {
       "id": "F08",
@@ -454,5 +463,6 @@
   "latestAssessmentDate": "2026-10-17",
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
-  "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e"
+  "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
+  "nextAction": "Complete merged-source F06Q release/live acceptance, then resolve D02 and begin F07 from docs/plans/F07-next-phase-plan.md."
 }
