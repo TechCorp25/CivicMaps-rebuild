@@ -2,6 +2,10 @@
 
 Prepared 17 October 2026 (Australia/Melbourne), Codex (agent).
 
+## Execution update —18October2026
+
+The F06Q release gate is [complete](evidence/F06Q-release-closure.md), [D02 choices](F07-D02-decisions.md) are approved and F07 is [implemented/review-ready](evidence/F07.md) in draftPR19. [Tracked ToDos](PR17-execution-todos.md) record completion and owner handoff. F07 itself is not deployed. The sections below preserve the original plan and starting-point evidence; use the execution records to avoid repeating completed work.
+
 ## Verified starting point
 
 - Assessment PR #15 is merged at `3ebee8e726ddd92f6ef4f40886339042be8c8242`.

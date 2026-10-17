@@ -8,6 +8,8 @@
 - [x] Exercise TLS/session/context/origin isolation, bounded recovery and rollback/return.
 - [x] Publish release evidence/ledger on fresh release branch and draft PR; verify CI and Codex review; update Empirical.
 - [x] Start fresh F07 branch only after release acceptance; implement/test activation, recovery, disable and bootstrap preservation.
-- [ ] Publish F07 evidence/CI/review and update Empirical; leave merge to owner.
+- [x] Publish F07 evidence/CI/review and update Empirical; leave merge to owner.
 
-Execution update18October2026: F06Q gate/evidence complete in draftPR18 at22c15fc; bothCI and Codex review passed. F07 implemented locally with69tests/all three browser flows/Caddy checks. F07 publication/finalreview/CI remains the last task; owner merge is separate.
+Execution update18October2026: F06Q gate/evidence complete in draftPR18 at22c15fc; CI and Codex review passed. F07 implemented and pushed98ef0a5 in draftPR19;69tests, all three browser flows, Caddy checks, hostedCI39065104069/39065070396 and final Codex review pass. Empirical checkpoint `6ad3d4bcbeb1d964705ff9ba` records the handoff.
+
+Owner handoff: review/merge #17→#18→#19. F07 is not deployed; AWS remains acceptedF06Q3dfb031. A controlled F07 release with deliberately designated recipients/current-source live acceptance remains separate before F08/D03 kickoff. No merge/auto-merge performed.

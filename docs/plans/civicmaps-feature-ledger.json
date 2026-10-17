@@ -3,8 +3,8 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": "F07",
-  "nextFeature": "F07",
+  "activeFeature": null,
+  "nextFeature": "F08",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -168,22 +168,26 @@
     },
     {
       "id": "F07",
-      "status": "in_progress",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f07-admin-activation",
-      "commit": null,
-      "pr": null,
+      "commit": "98ef0a58e83f69d56e13aa73bf9a52b4732020d9",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/19",
       "evidencePath": "docs/plans/evidence/F07.md",
-      "acceptancePassed": false,
-      "publication": "pending",
-      "empirical": "pending",
+      "acceptancePassed": true,
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Publish F07 draft PR, verify hosted CI and final Codex review, update Empirical. AWS remains F06Q3dfb031; F07 deployment/live acceptance is separate.",
+      "nextAction": "Owner review/merge PR17 then18 then19. F07 deployment/current-source live acceptance remains separate; AWS still3dfb031. Do not startF08 until dependency/release gates and D03 are resolved.",
       "preparationPath": "docs/plans/F07-next-phase-plan.md",
       "decisionPath": "docs/plans/F07-D02-decisions.md",
       "implementation": "complete",
       "localAcceptancePassed": true,
       "liveAcceptance": "not_deployed",
-      "stackedOn": "codex/civicmaps-f06q-release-acceptance"
+      "stackedOn": "codex/civicmaps-f06q-release-acceptance",
+      "acceptanceScope": "local_and_hosted_disposable",
+      "empiricalMemoryId": "6ad3d4bcbeb1d964705ff9ba",
+      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39065104069",
+      "review": "Codex agent: no actionable findings on98ef0a5"
     },
     {
       "id": "F08",
@@ -195,8 +199,11 @@
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "blockers": [
+        "F07 owner review/merge and separately qualified deployment/live acceptance remain pending.",
+        "D03 entitlement decisions are not yet resolved."
+      ],
+      "nextAction": "After F07 dependency/release gates, resolve D03 and prepare one server-enforced entitlement feature; do not start during F07 review."
     },
     {
       "id": "F09",
@@ -465,5 +472,5 @@
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "F06Q release gate passed on3dfb031; owner-approved D02 recorded. Start bounded F07 activation."
+  "nextAction": "Owner review/merge stacked PR17\u219218\u219219, then qualify F07 release before F08/D03 kickoff."
 }
