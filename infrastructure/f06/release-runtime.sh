@@ -46,6 +46,27 @@ install -d -m 0700 -o postgres -g postgres /var/lib/pgsql/f06q-backups "$backup"
 # Preserve intentional withdrawal: a release is not authority to resume a closed service.
 runuser -u postgres -- psql -v ON_ERROR_STOP=1 -d civicmaps_f06 -Atqc "SELECT count(*)=3 AND bool_and(state='ready') FROM service_routes WHERE hostname IN ('platform.dev.civicmaps.com.au','alpha-commandmaps.dev.civicmaps.com.au','beta-commandmaps.dev.civicmaps.com.au')" | grep -qx t
 switched=0
+warm_ingress() (
+ set -a
+ . /etc/civicmaps/runtime.env
+ set +a
+ /opt/civicmaps-node/bin/node --input-type=module <<'NODE'
+import {setTimeout} from 'node:timers/promises';
+for(const host of ['platform.dev.civicmaps.com.au','alpha-commandmaps.dev.civicmaps.com.au','beta-commandmaps.dev.civicmaps.com.au']) {
+ let ready=false;
+ for(let attempt=0;attempt<30;attempt++) {
+  try {
+   const r=await fetch(`https://${host}/api/routing/probe`,{headers:{'x-civicmaps-probe':process.env.CIVICMAPS_PROBE_TOKEN},redirect:'error',signal:AbortSignal.timeout(10000)});
+   if(r.ok&&(await r.json()).hostname===host){ready=true;break;}
+  } catch { /* Startup waits must never log credentials or raw provider failures. */ }
+  await setTimeout(1000);
+ }
+ if(!ready)throw new Error('Private ingress readiness did not recover');
+}
+console.log('PASS authenticated private ingress is ready before starting routing');
+NODE
+)
+
 restore_services() {
   local result=$?
   trap - EXIT
@@ -57,6 +78,7 @@ restore_services() {
     fi
     # Migrations 010/011 are additive; keep data/history and forward-compatible schema.
     systemctl start civicmaps-api civicmaps-ingress
+    warm_ingress
     systemctl start civicmaps-routing
     echo "Release failed; prior application restored. Checkpoint: $checkpoint" >&2
   fi
@@ -85,6 +107,7 @@ if ! mv "$stage" /opt/civicmaps; then mv "$previous" /opt/civicmaps; exit 1; fi
 switched=1
 cd /opt/civicmaps
 systemctl start civicmaps-api civicmaps-ingress
+warm_ingress
 systemctl start civicmaps-routing
 # Only a successful fenced worker probe may publish readiness. Withdrawn routes stay closed.
 for attempt in $(seq 1 36); do
