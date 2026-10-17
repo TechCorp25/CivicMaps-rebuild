@@ -45,8 +45,6 @@ chown -R civicmaps:civicmaps "$stage"
 install -d -m 0700 -o postgres -g postgres /var/lib/pgsql/f06q-backups "$backup"
 # Preserve intentional withdrawal: a release is not authority to resume a closed service.
 runuser -u postgres -- psql -v ON_ERROR_STOP=1 -d civicmaps_f06 -Atqc "SELECT count(*)=3 AND bool_and(state='ready') FROM service_routes WHERE hostname IN ('platform.dev.civicmaps.com.au','alpha-commandmaps.dev.civicmaps.com.au','beta-commandmaps.dev.civicmaps.com.au')" | grep -qx t
-systemctl stop civicmaps-routing
-systemctl stop civicmaps-ingress civicmaps-api
 switched=0
 restore_services() {
   local result=$?
@@ -65,6 +63,8 @@ restore_services() {
   exit "$result"
 }
 trap restore_services EXIT
+systemctl stop civicmaps-routing
+systemctl stop civicmaps-ingress civicmaps-api
 runuser -u postgres -- pg_dump -Fc -d civicmaps_f06 -f "$backup/control.dump"
 runuser -u postgres -- bash -c 'umask 077; pg_dumpall --roles-only > "$1"' -- "$backup/roles.sql"
 # Prove the checkpoint can be read and restored before altering the live schema.

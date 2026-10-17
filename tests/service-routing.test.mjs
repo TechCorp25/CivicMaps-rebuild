@@ -575,3 +575,45 @@ test('repeated crashed routing leases exhaust the durable attempt budget and ret
     ).rowCount,
   );
 });
+
+test('crashes during a ready-route recheck consume the same finite budget', async () => {
+  const id = routeIds[2];
+  await pool.query(
+    "UPDATE service_routes SET state='ready',attempts=0,checked_at=now()-interval '61 seconds',lease_token=NULL,lease_until=NULL WHERE id=$1",
+    [id],
+  );
+  const adapter = {
+    async reconcile(r) {
+      return {
+        hostname: r.hostname,
+        routeId: r.id,
+        version: r.version,
+        municipalityId: r.municipality_id,
+        service: r.service,
+      };
+    },
+  };
+  for (let i = 1; i <= 3; i++) {
+    assert.equal(
+      await runRoutingOnce(adapter, {
+        afterEffect: async () => {
+          await pool.query(
+            "UPDATE service_routes SET lease_until=now()-interval '1 second' WHERE id=$1",
+            [id],
+          );
+        },
+      }),
+      false,
+    );
+    assert.equal(
+      (await pool.query('SELECT attempts FROM service_routes WHERE id=$1', [id])).rows[0].attempts,
+      i,
+    );
+  }
+  assert.equal(await runRoutingOnce(adapter), false);
+  assert.equal(
+    (await pool.query('SELECT state FROM service_routes WHERE id=$1', [id])).rows[0].state,
+    'failed',
+  );
+  assert.equal((await request(hosts[2], '/api/health')).status, 503);
+});
