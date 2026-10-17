@@ -1,3 +1,4 @@
+import { redemptionRoute } from './admin-activation.mjs';
 import { loginThrottle } from './login-throttle.mjs';
 import { resolve } from 'node:path';
 import { routingMiddleware, deployedRouting, checkRouteSession, routeContext } from './routing.mjs';
@@ -74,6 +75,7 @@ function actorView(user) {
     context_id: user.context_id,
     context_version: user.context_version,
     municipality_id: user.municipality_id,
+    municipality_name: user.municipality_name,
   };
 }
 async function authenticated(client, req) {
@@ -87,10 +89,21 @@ async function authenticated(client, req) {
   checkRouteSession(req, auth.rows[0]);
   return auth.rows[0];
 }
-async function scoped(req, mutate, work) {
+async function scoped(req, mutate, work, { profile = false } = {}) {
   return transaction(async (client) => {
     const user = await authenticated(client, req);
     const actor = await resolveContext(client, user, await routeContext(client, req, user));
+    requireValue(
+      profile || actor.role !== 'ADMIN',
+      403,
+      'Council ADMIN access is limited to its own profile and context',
+    );
+    if (actor.role === 'ADMIN')
+      actor.municipality_name = (
+        await client.query('SELECT name FROM platform_municipalities WHERE id=$1', [
+          actor.municipality_id,
+        ])
+      ).rows[0]?.name;
     if (mutate)
       requireValue(
         req.headers['x-csrf-token'] === actor.csrf_token,
@@ -207,6 +220,7 @@ export function createApp({ webRoot } = {}) {
     await pool.query('SELECT 1');
     res.json({ status: 'ready', mode: deployedRouting() ? 'ingress' : 'local', data: 'synthetic' });
   });
+  redemptionRoute(app, body);
   const throttle = loginThrottle();
   app.post('/api/auth/login', async (req, res) => {
     const input = body(req, ['email', 'password']);
@@ -224,7 +238,17 @@ export function createApp({ webRoot } = {}) {
     const sessionToken = randomBytes(32).toString('hex');
     const csrfToken = randomBytes(32).toString('hex');
     await transaction(async (client) => {
-      await routeContext(client, req, result.rows[0]);
+      // Serialize credential issuance against disable; recheck after acquiring the lock.
+      await client.query('SELECT civicmaps_lock_login_user($1)', [result.rows[0].id]);
+      const current = (
+        await client.query('SELECT * FROM users WHERE id=$1 AND active', [result.rows[0].id])
+      ).rows[0];
+      requireValue(
+        current && verifyPassword(input.password, current.password_hash),
+        401,
+        'Email or password is incorrect',
+      );
+      await routeContext(client, req, current);
       await client.query('DELETE FROM sessions WHERE token_hash=$1 OR expires_at<=now()', [
         digest(token(req)),
       ]);
@@ -269,10 +293,15 @@ export function createApp({ webRoot } = {}) {
   });
   app.get('/api/auth/session', async (req, res) => {
     res.json(
-      await scoped(req, false, async (_client, actor) => ({
-        actor: actorView(actor),
-        csrfToken: actor.csrf_token,
-      })),
+      await scoped(
+        req,
+        false,
+        async (_client, actor) => ({
+          actor: actorView(actor),
+          csrfToken: actor.csrf_token,
+        }),
+        { profile: true },
+      ),
     );
   });
   app.post('/api/auth/logout', async (req, res) => {
@@ -309,6 +338,7 @@ export function createApp({ webRoot } = {}) {
   app.get('/api/resources/status', async (req, res) => {
     const result = await transaction(async (client) => {
       const user = await authenticated(client, req);
+      requireValue(user.role !== 'ADMIN', 403, 'Resource access is not granted to council ADMIN');
       return withMunicipalityResource(
         client,
         user,

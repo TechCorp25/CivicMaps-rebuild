@@ -6,6 +6,8 @@
 - [x] Build/check clean merged source3dfb031 and stage its private archive with checksum/object version.
 - [x] Verify checkpoint restore/cleanup, deploy and compare populated data/configuration.
 - [x] Exercise TLS/session/context/origin isolation, bounded recovery and rollback/return.
-- [ ] Publish release evidence/ledger on fresh release branch and draft PR; verify CI and Codex review; update Empirical.
-- [ ] Start fresh F07 branch only after release acceptance; implement/test activation, recovery, disable and bootstrap preservation.
+- [x] Publish release evidence/ledger on fresh release branch and draft PR; verify CI and Codex review; update Empirical.
+- [x] Start fresh F07 branch only after release acceptance; implement/test activation, recovery, disable and bootstrap preservation.
 - [ ] Publish F07 evidence/CI/review and update Empirical; leave merge to owner.
+
+Execution update18October2026: F06Q gate/evidence complete in draftPR18 at22c15fc; bothCI and Codex review passed. F07 implemented locally with69tests/all three browser flows/Caddy checks. F07 publication/finalreview/CI remains the last task; owner merge is separate.

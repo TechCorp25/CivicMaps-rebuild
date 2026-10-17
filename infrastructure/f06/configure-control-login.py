@@ -11,6 +11,7 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO civicmaps_f06_runtime;
 GRANT INSERT,DELETE ON sessions,platform_sessions TO civicmaps_f06_runtime;
 GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public TO civicmaps_f06_runtime;
 GRANT civicmaps_local_app,civicmaps_platform_app TO civicmaps_f06_runtime;
+GRANT EXECUTE ON FUNCTION civicmaps_redeem_admin(uuid,uuid,text,text,uuid),civicmaps_lock_login_user(uuid) TO civicmaps_f06_runtime;
 GRANT EXECUTE ON FUNCTION civicmaps_lock_user_contexts(uuid),civicmaps_lock_auth_session(text,boolean,boolean) TO civicmaps_f06_runtime;
 """ % password
 subprocess.run(['psql','-v','ON_ERROR_STOP=1','-d','civicmaps_f06'],input=sql,text=True,check=True,stdout=subprocess.DEVNULL)

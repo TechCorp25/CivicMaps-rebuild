@@ -71,7 +71,10 @@ try {
   expect(response.status()).toBe(201);
   const result = await response.json();
   await expect(page.getByRole('heading', { name: councilName, exact: true })).toBeVisible();
-  await expect(page.locator('.credential code')).toHaveCount(1);
+  await expect(
+    page.getByRole('heading', { name: 'First administrator · pending activation' }),
+  ).toBeVisible();
+  await expect(page.locator('.credential code')).toHaveCount(0);
   await page.getByRole('button', { name: 'View municipality', exact: true }).click();
   await expect(page.locator('.credential')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: councilName, exact: true })).toBeVisible();

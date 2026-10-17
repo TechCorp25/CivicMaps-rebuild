@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": null,
+  "activeFeature": "F07",
   "nextFeature": "F07",
   "allowedStatuses": [
     "planned",
@@ -168,18 +168,22 @@
     },
     {
       "id": "F07",
-      "status": "planned",
-      "branch": null,
+      "status": "in_progress",
+      "branch": "codex/civicmaps-f07-admin-activation",
       "commit": null,
       "pr": null,
-      "evidencePath": null,
+      "evidencePath": "docs/plans/evidence/F07.md",
       "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "publication": "pending",
+      "empirical": "pending",
       "blockers": [],
-      "nextAction": "Release gate passed and owner approved D02. Implement F07 on a fresh branch; no F08.",
+      "nextAction": "Publish F07 draft PR, verify hosted CI and final Codex review, update Empirical. AWS remains F06Q3dfb031; F07 deployment/live acceptance is separate.",
       "preparationPath": "docs/plans/F07-next-phase-plan.md",
-      "decisionPath": "docs/plans/F07-D02-decisions.md"
+      "decisionPath": "docs/plans/F07-D02-decisions.md",
+      "implementation": "complete",
+      "localAcceptancePassed": true,
+      "liveAcceptance": "not_deployed",
+      "stackedOn": "codex/civicmaps-f06q-release-acceptance"
     },
     {
       "id": "F08",

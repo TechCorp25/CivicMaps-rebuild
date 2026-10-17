@@ -1,3 +1,4 @@
+import { adminActivationRoutes } from './admin-activation.mjs';
 import { loginThrottle } from './login-throttle.mjs';
 import { deployedRouting, checkRouteSession, controlRoute } from './routing.mjs';
 import express from 'express';
@@ -104,7 +105,7 @@ async function mutation(req, work) {
       return { ...prior.rows[0].response, replayed: true };
     }
     const response = await work(client, actor);
-    const { temporaryPassword: _secret, ...receipt } = response;
+    const { temporaryPassword: _secret, activationUrl: _activationSecret, ...receipt } = response;
     await client.query(
       'INSERT INTO platform_receipts(operator_id,key,fingerprint,response) VALUES ($1,$2,$3,$4)',
       [actor.id, key, fingerprint, receipt],
@@ -134,6 +135,7 @@ async function audit(client, actor, id, action, details) {
 
 export function platformRouter() {
   const router = express.Router();
+  adminActivationRoutes(router, { authorised, mutation, input });
   router.get('/municipalities/:id/routes', async (req, res) => {
     res.json(
       await authorised(req, false, async (client) => {
@@ -343,7 +345,6 @@ export function platformRouter() {
         });
         return {
           municipality: result.rows[0],
-          temporaryPassword: password,
           infrastructure: 'pending',
           jobId,
         };

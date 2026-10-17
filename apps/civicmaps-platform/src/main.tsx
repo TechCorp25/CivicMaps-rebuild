@@ -29,6 +29,7 @@ import { Badge, Brand, Boundary, Confirm } from './components';
 import { PackAssignments } from './PackAssignments';
 import { Onboarding } from './Onboarding';
 import { ProvisioningStatus } from './ProvisioningStatus';
+import { AdminActivation } from './AdminActivation';
 import { RoutingStatus } from './RoutingStatus';
 import './tokens.css';
 import './styles.css';
@@ -552,7 +553,8 @@ function App() {
                       </strong>
                       <p>{current.admin_email}</p>
                       <p className="muted">
-                        Seeded {date(current.created_at)} · Pending activation
+                        Seeded {date(current.created_at)} ·{' '}
+                        {current.activation_state ?? 'Not designated'}
                       </p>
                     </section>
                   </div>
@@ -567,6 +569,9 @@ function App() {
                     Refresh job status
                   </button>
                 </section>
+              )}
+              {route.page === 'municipalities' && (
+                <AdminActivation key={current.id} id={current.id} csrf={csrf} onError={fail} />
               )}
               {detail && route.page === 'municipalities' && (
                 <ProvisioningStatus

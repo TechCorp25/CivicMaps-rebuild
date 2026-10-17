@@ -18,6 +18,7 @@ try {
       '009-authentication-locks',
       '010-route-municipality-tokens',
       '011-routing-retries',
+      '012-first-admin-activation',
     ]) {
       const existing = await client.query('SELECT id FROM civicmaps_migrations WHERE id = $1', [
         id,
