@@ -145,11 +145,11 @@
       "id": "F06Q",
       "status": "blocked",
       "branch": "codex/civicmaps-f06q-routing-reliability",
-      "commit": null,
-      "pr": null,
+      "commit": "35cd3e3ba34c2982e9fc60e92a3afc7027f6b347",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/16",
       "evidencePath": "docs/plans/evidence/F06Q.md",
       "acceptancePassed": false,
-      "publication": "not_started",
+      "publication": "verified",
       "empirical": "recorded",
       "blockers": [
         "AWS CivicMAPS sign-in expired; live identity/plan/MCP verification, deployment, live acceptance and rollback remain pending."
