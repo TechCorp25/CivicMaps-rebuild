@@ -20,7 +20,7 @@ AWS project 597663815195, profile CivicMAPS and Sydney ap-southeast-2 remain the
 
 ## Included deliverables
 
-1. Versioned, explicitly owned route manifest: canonical hostname, service kind, municipality, immutable authorised context version, resource/job references, deployment target, desired/observed state and sanitised probe result. Unique host ownership and stale-write protection; migrations preserve existing resources, grants and jobs. A route cannot create grants or silently rebind a context.
+1. Apply the development naming standard's municipality-token mapping: direct slugs up to 47 characters excluding the reserved `id-` prefix; otherwise the full immutable UUID-derived token. Preserve existing registry identities and reject conflicting ownership. Versioned, explicitly owned route manifest: canonical hostname, service kind, municipality, immutable authorised context version, resource/job references, deployment target, desired/observed state and sanitised probe result. Unique host ownership and stale-write protection; migrations preserve existing resources, grants and jobs. A route cannot create grants or silently rebind a context.
 2. Trusted request resolution before login and operational access. Exact canonical host allowlist; reject malformed, ambiguous, unknown and mismatched authority. Define handling of ports, case and trailing dots. Accept forwarded authority only from the configured ingress after it strips client-supplied forwarding headers. No blanket Express trust-proxy setting. Direct-origin bypass must be denied.
 3. Municipality-bound authentication and sessions: host selection must agree with the authenticated permitted context. Reject copied Alpha credentials/session tokens on Beta before operational access. Use secure host-only cookies in HTTPS deployment, scoped origins/CSRF and safe redirects. Keep platform identity separate; never put credentials in URLs, route manifests or health output. Explicit local test configuration must not weaken deployed defaults.
 4. One selected TLS/ingress adapter and minimum runnable service deployment needed to prove routing. Reconcile existing owned routes/certificates on retry; persist failure and recovery. Reuse durable worker fencing where external effects are performed. Do not deploy scaffold apps as functioning services or migrate historical operational data as part of routing.
@@ -32,6 +32,7 @@ AWS project 597663815195, profile CivicMAPS and Sydney ap-southeast-2 remain the
 | Scenario | Required proof |
 | --- | --- |
 | Alpha/Beta success | Each approved HTTPS hostname reaches its expected service and authorised resource; distinct synthetic records remain distinct. |
+| Hostname boundaries | Slug lengths 47/48/51/52/63 fit all product labels; same-prefix long slugs and reserved-prefix slugs cannot collide; mapping is repeatable; invalid identity and conflicting ownership fail closed; existing registry records remain unchanged. |
 | Authority spoofing | Unknown/malformed/duplicate Host, conflicting forwarded values, untrusted proxy and direct-origin access fail closed before authentication or data access. |
 | Credential isolation | Alpha login on Beta, copied session cookie, forged context and cross-origin request fail; browser cookies never use a shared parent-domain scope. |
 | Readiness | Queued/failed F05 job, missing/disabled binding, unhealthy service, expired/stale probe and invalid TLS never expose a ready route. |
@@ -43,7 +44,7 @@ Local HTTP header tests and simulated ingress exercise contracts only. F06 live 
 
 ## Sequential build and publication
 
-1. Confirm hostname/runtime decisions and cost fit; retrieve relevant AWS toolkit skills and verify identity, selected Region, plan state and live MCP before provider changes. Carry forward the existing Medium guidance preference.
+1. Use the recorded domain, municipality-token mapping and EC2/Caddy runtime selections; verify incremental cost fit and actual provider support before provisioning; retrieve relevant AWS toolkit skills and verify identity, selected Region, plan state and live MCP before provider changes. Carry forward the existing Medium guidance preference.
 2. Develop manifest migration and failing host/session isolation scenarios; implement request resolution and the selected adapter only for F06.
 3. Integrate existing worker, resource resolver and operator routing status; build both implemented web apps.
 4. Run focused tests, `npm run check`, both disposable browser suites sequentially, then live Alpha/Beta ingress and rollback acceptance. Inspect screenshots for visual changes and final CI.
@@ -53,4 +54,4 @@ Local HTTP header tests and simulated ingress exercise contracts only. F06 live 
 
 F07 owns first-admin activation/recovery; F08 owns pack enforcement; F09 owns general municipality suspension; later features own operational rollout, public reporting and payments. F06 does not broaden F05's privileged broker into a claimed production isolation boundary. The current API's local health response and global development origin list are not deployed municipality readiness evidence.
 
-At interruption record branch/HEAD, manifest ownership, exact provider effects, completed matrix rows and next action. Keep one implementation feature in progress. Preparation alone did not establish acceptance. The build has now completed the single-feature develop → build → integrate → test → push workflow. Next action: owner review of preparation PR #13 and build PR #14, using the executed evidence; keep F07 planned until this feature is accepted.
+At interruption record branch/HEAD, manifest ownership, exact provider effects, completed matrix rows and next action. Keep one implementation feature in progress. Preparation alone did not establish acceptance. The build has now completed the single-feature develop → build → integrate → test → push workflow. Next action: owner review of build PR #14 against main; preparation PR #13 has merged, using the executed evidence; keep F07 planned until this feature is accepted.

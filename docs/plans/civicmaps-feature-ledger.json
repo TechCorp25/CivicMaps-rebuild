@@ -124,15 +124,17 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner review/merge preparation PR #13 then stacked build PR #14. Live acceptance passed; retain populated development resources for 21 October review. Keep F07 planned until acceptance.",
+      "nextAction": "Review PR #14 against main after exact-head CI; new migration/bootstrap revision requires controlled deployment and live validation. Historical live acceptance remains pinned to its deployed source. Retain resources for 21 October review.",
       "preparationPath": "docs/plans/F06-preparation.md",
       "preparationBranch": "codex/civicmaps-f06-preparation",
       "preparationCommit": "8eb7eba8d7c9324388b5feed0f641951bceb6ab1",
       "preparationPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/13",
-      "preparationStatus": "review_ready",
+      "preparationStatus": "merged",
       "preparationPublication": "verified",
       "preparationEmpirical": "recorded",
-      "empiricalMemoryId": "6ad1c9d1993fbbc6a5b36e46"
+      "empiricalMemoryId": "6ad1c9d1993fbbc6a5b36e46",
+      "preparationMergeCommit": "6e405530f8f2de6b85d4ed9476c7bfa667c97a2c",
+      "reassessmentPath": "docs/plans/evidence/F06-merge-assessment.md"
     },
     {
       "id": "F07",

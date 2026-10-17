@@ -130,7 +130,7 @@ test('repeated migrations and seeds preserve grants and never resurrect revocati
       .count,
     before,
   );
-  assert.equal((await pool.query('SELECT * FROM civicmaps_migrations')).rowCount, 9);
+  assert.equal((await pool.query('SELECT * FROM civicmaps_migrations')).rowCount, 10);
   await pool.query(
     'UPDATE operating_context_grants SET revoked_at=clock_timestamp() WHERE user_id=$1',
     [dispatcher],

@@ -1,7 +1,7 @@
 import { before, after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, rm, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { permittedContexts } from '../services/api/operating-context.mjs';
@@ -17,6 +17,51 @@ const hosts = [
   'platform.dev.civicmaps.com.au',
 ];
 const routeIds = [randomUUID(), randomUUID(), randomUUID()];
+test('token upgrade preserves owned routes and registry data, and rejects incompatible history', async () => {
+  const client = await pool.connect();
+  const migration = await readFile(
+    new URL('../services/api/migrations/010-route-municipality-tokens.sql', import.meta.url),
+    'utf8',
+  );
+  try {
+    for (const conflict of [false, true]) {
+      await client.query('BEGIN');
+      await client.query(
+        'ALTER TABLE service_routes DROP CONSTRAINT service_route_municipality_token, DROP CONSTRAINT service_route_dns_label_length, DROP COLUMN municipality_token',
+      );
+      if (conflict)
+        await client.query(
+          "UPDATE service_routes SET hostname='wrong-commandmaps.dev.civicmaps.com.au' WHERE id=$1",
+          [routeIds[0]],
+        );
+      const before = (await client.query('SELECT * FROM platform_municipalities ORDER BY id')).rows;
+      if (conflict) {
+        await assert.rejects(client.query(migration), /Route naming conflict/);
+      } else {
+        const routes = (await client.query('SELECT * FROM service_routes ORDER BY id')).rows;
+        await client.query(migration);
+        assert.deepEqual(
+          (await client.query('SELECT * FROM platform_municipalities ORDER BY id')).rows,
+          before,
+        );
+        const upgraded = (await client.query('SELECT * FROM service_routes ORDER BY id')).rows;
+        assert.deepEqual(
+          upgraded.map(({ municipality_token: _token, ...r }) => r),
+          routes,
+        );
+        assert.equal(upgraded.find((r) => r.id === routeIds[0]).municipality_token, 'alpha');
+      }
+      await client.query('ROLLBACK');
+    }
+    await client.query('BEGIN');
+    await assert.rejects(
+      client.query('UPDATE service_routes SET hostname=$1 WHERE id=$2', [hosts[1], routeIds[0]]),
+    );
+  } finally {
+    await client.query('ROLLBACK');
+    client.release();
+  }
+});
 async function request(host, path, body, cookie, extra = {}) {
   return new Promise((resolve, reject) => {
     const req = http.request(
@@ -86,8 +131,8 @@ before(async () => {
     );
     await pool.query('INSERT INTO municipality_resource_contexts VALUES ($1,$2)', [job, binding]);
     await pool.query(
-      "INSERT INTO service_routes(id,hostname,service,municipality_id,binding_id,job_id,target,state,checked_at) VALUES ($1,$2,'commandmaps',$3,$4,$5,'test-only','ready',clock_timestamp())",
-      [routeIds[n - 1], hosts[n - 1], municipality, binding, job],
+      "INSERT INTO service_routes(id,hostname,service,municipality_id,binding_id,job_id,target,state,checked_at,municipality_token) VALUES ($1,$2,'commandmaps',$3,$4,$5,'test-only','ready',clock_timestamp(),$6)",
+      [routeIds[n - 1], hosts[n - 1], municipality, binding, job, n === 1 ? 'alpha' : 'beta'],
     );
   }
   await pool.query(

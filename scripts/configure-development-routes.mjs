@@ -2,6 +2,7 @@
 import { randomUUID } from 'node:crypto';
 import { pool, transaction } from '../services/api/database.mjs';
 import { resourceNames } from '../services/api/data-resources.mjs';
+import { municipalityToken, municipalityHostname } from '../services/api/service-naming.mjs';
 if (process.env.CIVICMAPS_CONFIGURE_ROUTES !== 'F06-synthetic-only')
   throw new Error('Explicit F06 configuration selector required');
 try {
@@ -31,22 +32,34 @@ try {
         'INSERT INTO municipality_resource_contexts VALUES($1,$2) ON CONFLICT DO NOTHING',
         [job.id, binding],
       );
-      const hostname = `${n === 1 ? 'alpha' : 'beta'}-commandmaps.dev.civicmaps.com.au`;
-      const existing = (
-        await client.query('SELECT * FROM service_routes WHERE hostname=$1', [hostname])
+      const record = (
+        await client.query('SELECT slug FROM platform_municipalities WHERE id=$1', [municipality])
       ).rows[0];
+      const token = municipalityToken(record?.slug, municipality);
+      const hostname = municipalityHostname(record?.slug, municipality);
+      const existing = (
+        await client.query(
+          "SELECT * FROM service_routes WHERE hostname=$1 OR (municipality_id=$2 AND service='commandmaps')",
+          [hostname, municipality],
+        )
+      ).rows;
       if (
-        existing &&
-        (existing.binding_id !== binding ||
-          existing.job_id !== job.id ||
-          existing.municipality_id !== municipality ||
-          existing.service !== 'commandmaps')
+        existing.some(
+          (existing) =>
+            existing.hostname !== hostname ||
+            existing.municipality_token !== token ||
+            existing.binding_id !== binding ||
+            existing.job_id !== job.id ||
+            existing.municipality_id !== municipality ||
+            existing.service !== 'commandmaps' ||
+            existing.target !== 'civicmaps-f06-development',
+        )
       )
         throw new Error('Route ownership conflict');
       await client.query(
-        `INSERT INTO service_routes(id,hostname,service,municipality_id,binding_id,job_id,target)
-    VALUES($1,$2,'commandmaps',$3,$4,$5,'civicmaps-f06-development') ON CONFLICT(hostname) DO NOTHING`,
-        [randomUUID(), hostname, municipality, binding, job.id],
+        `INSERT INTO service_routes(id,hostname,service,municipality_id,binding_id,job_id,target,municipality_token)
+    VALUES($1,$2,'commandmaps',$3,$4,$5,'civicmaps-f06-development',$6) ON CONFLICT(hostname) DO NOTHING`,
+        [randomUUID(), hostname, municipality, binding, job.id, token],
       );
       await client.query("UPDATE platform_municipalities SET status='Provisioning' WHERE id=$1", [
         municipality,

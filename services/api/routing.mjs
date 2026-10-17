@@ -16,7 +16,8 @@ export function canonicalHost(value) {
   requireValue(typeof value === 'string' && value.length <= 253, 421, 'Invalid service authority');
   // Ports, trailing dots and alternate spellings are intentionally not accepted on HTTPS ingress.
   requireValue(
-    /^[a-z0-9]+(?:-[a-z0-9]+)*\.dev\.civicmaps\.com\.au$/i.test(value),
+    value.split('.')[0].length <= 63 &&
+      /^[a-z0-9]+(?:-[a-z0-9]+)*\.dev\.civicmaps\.com\.au$/i.test(value),
     421,
     'Invalid service authority',
   );
