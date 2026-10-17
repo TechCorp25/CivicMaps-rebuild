@@ -6,7 +6,7 @@ set -euo pipefail
 [[ "$F06_REVISION" =~ ^[a-f0-9]{40}$ && "$F06_ARTIFACT_SHA256" =~ ^[a-f0-9]{64}$ ]]
 [ "$(id -u)" = 0 ]
 export AWS_DEFAULT_REGION=ap-southeast-2
-export PATH=/opt/civicmaps-node/bin:/usr/local/bin:/usr/bin
+export PATH=/opt/civicmaps-node/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin
 [ "$(aws sts get-caller-identity --query Account --output text)" = 597663815195 ]
 # Fail before mutation if this is a different machine or database boundary.
 metadata_token=$(curl -fsS --max-time 5 -X PUT -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' http://169.254.169.254/latest/api/token)
