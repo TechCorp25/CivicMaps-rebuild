@@ -331,7 +331,10 @@ try {
   await expect(routing.getByRole('status')).toContainText('ready');
   // Settled routes continue refreshing, and a failed refresh cannot imply current readiness.
   const detailUrl = `**/api/platform/municipalities/${cloudCouncil.municipality.id}`;
-  await page.clock.pauseAt(new Date());
+  // A "now" target can already be in the past when the browser receives the RPC.
+  // Pause safely ahead, then restore wall time so route freshness stays realistic.
+  await page.clock.pauseAt(new Date(Date.now() + 60000));
+  await page.clock.setSystemTime(new Date());
   await page.route(
     detailUrl,
     (route) =>
