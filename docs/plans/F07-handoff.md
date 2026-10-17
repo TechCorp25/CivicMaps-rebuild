@@ -1,6 +1,6 @@
 # F07 handoff — first council-admin activation
 
-Prepared 17 October 2026 by Codex (agent). **Do not begin until F06Q release alignment and acceptance pass.** PR #16 is merged at `3dfb0316fbe7885c55adbb1861ff58d199ca5810`. Historical live acceptance applies to `8e91622`; the merged retry-budget and backup-cleanup corrections still require controlled deployment and current-source live acceptance. Follow the [next-phase plan](F07-next-phase-plan.md) for that release gate and the subsequent activation work. This does not implement F07 activation.
+Prepared 17 October 2026 by Codex (agent). **Execution update: merged source3dfb031 passed the F06Q release gate; see [closure evidence](evidence/F06Q-release-closure.md). Owner approved [D02](F07-D02-decisions.md).** PR #16 is merged at `3dfb0316fbe7885c55adbb1861ff58d199ca5810`. Historical live acceptance applies to `8e91622`; the merged retry-budget and backup-cleanup corrections still require controlled deployment and current-source live acceptance. Follow the [next-phase plan](F07-next-phase-plan.md) for that release gate and the subsequent activation work. This does not implement F07 activation.
 
 Retain the existing stack, Sydney resources, domain, budget, isolation and Medium guidance decisions. Resolve only D02 at kickoff:
 

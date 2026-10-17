@@ -139,7 +139,7 @@
       "mergeCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
       "preparationPublishedHead": "52b19868429d5bed735477299ad61d18a171ca71",
       "deployedSourceCommit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
-      "currentMainLiveAcceptance": "pending_F06Q_merged_source_acceptance",
+      "currentMainLiveAcceptance": "passed_F06Q_merged_source_3dfb031",
       "alignedReleaseCommit": "8e916226571fb72f8ed15c2932b86be0a859f284"
     },
     {
@@ -149,23 +149,22 @@
       "commit": "b279d4f1a2e6905ce799d953c34fae7b6d0ebe2a",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/16",
       "evidencePath": "docs/plans/evidence/F06Q.md",
-      "acceptancePassed": false,
+      "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
-      "blockers": [
-        "Merged review corrections require controlled release and current-source live acceptance."
-      ],
+      "blockers": [],
       "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
-      "nextAction": "Owner merged PR #16. Complete the release gate in docs/plans/F07-next-phase-plan.md; preserve historical live evidence for deployed source 8e91622.",
+      "nextAction": "Merged source3dfb031 deployed and live accepted; release closure evidence published separately for owner review. F07 may start with approved D02.",
       "implementation": "complete",
       "localAcceptancePassed": true,
-      "liveAcceptance": "pending_for_merged_source",
+      "liveAcceptance": "passed_for_merged_source",
       "empiricalMemoryId": "6ad2fb1ebeb1d964705ecb18",
-      "deployedSourceCommit": "8e916226571fb72f8ed15c2932b86be0a859f284",
+      "deployedSourceCommit": "3dfb0316fbe7885c55adbb1861ff58d199ca5810",
       "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39023001090",
       "mergeCommit": "3dfb0316fbe7885c55adbb1861ff58d199ca5810",
       "deployedSourceAcceptancePassed": true,
-      "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39024650225"
+      "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39024650225",
+      "releaseEvidencePath": "docs/plans/evidence/F06Q-release-closure.md"
     },
     {
       "id": "F07",
@@ -177,12 +176,10 @@
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [
-        "F06Q merged-source release/live acceptance is pending.",
-        "D02 permissions, activation delivery, token expiry and recovery policy remain undecided."
-      ],
-      "nextAction": "After the F06Q release gate passes, settle D02 and implement the scoped activation plan on a fresh branch. Do not start F08.",
-      "preparationPath": "docs/plans/F07-next-phase-plan.md"
+      "blockers": [],
+      "nextAction": "Release gate passed and owner approved D02. Implement F07 on a fresh branch; no F08.",
+      "preparationPath": "docs/plans/F07-next-phase-plan.md",
+      "decisionPath": "docs/plans/F07-D02-decisions.md"
     },
     {
       "id": "F08",
@@ -464,5 +461,5 @@
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "Complete merged-source F06Q release/live acceptance, then resolve D02 and begin F07 from docs/plans/F07-next-phase-plan.md."
+  "nextAction": "F06Q release gate passed on3dfb031; owner-approved D02 recorded. Start bounded F07 activation."
 }
