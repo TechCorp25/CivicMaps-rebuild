@@ -154,7 +154,7 @@
       "empirical": "recorded",
       "blockers": [],
       "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
-      "nextAction": "Owner review draft PR #16. F07 handoff prepared; resolve only D02 permissions and activation delivery/recovery before beginning a fresh feature.",
+      "nextAction": "Owner review PR #16, including the validated legacy ready-route budget correction. Recorded acceptance fields describe deployed source 8e91622; the review correction needs a controlled release and current-source live acceptance before F07. F07 handoff prepared; resolve D02 permissions and activation delivery/recovery at kickoff.",
       "implementation": "complete",
       "localAcceptancePassed": true,
       "liveAcceptance": "passed",

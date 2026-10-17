@@ -576,10 +576,45 @@ test('repeated crashed routing leases exhaust the durable attempt budget and ret
   );
 });
 
-test('crashes during a ready-route recheck consume the same finite budget', async () => {
+test('legacy ready routes start a fresh three-claim budget for failed rechecks', async () => {
+  const id = routeIds[2];
+  await pool.query("UPDATE service_routes SET state='withdrawn',lease_token=NULL,lease_until=NULL");
+  for (const attempts of [0, 1, 3]) {
+    await pool.query(
+      "UPDATE service_routes SET state='ready',attempts=$2,checked_at=now()-interval '61 seconds',lease_token=NULL,lease_until=NULL,next_attempt_at=NULL WHERE id=$1",
+      [id, attempts],
+    );
+    const claimed = [];
+    const failing = {
+      async reconcile(route) {
+        claimed.push(route.attempts);
+        throw new Error('Synthetic unavailable probe');
+      },
+    };
+    for (let claim = 1; claim <= 3; claim++) {
+      assert.equal(await runRoutingOnce(failing), true);
+      const row = (await pool.query('SELECT * FROM service_routes WHERE id=$1', [id])).rows[0];
+      assert.equal(row.attempts, claim);
+      assert.equal(row.state, claim < 3 ? 'pending' : 'failed');
+      assert.equal(row.lease_token, null);
+      assert.equal((await request(hosts[2], '/api/health')).status, 503);
+      if (claim < 3) {
+        assert.ok(row.next_attempt_at > new Date());
+        await pool.query(
+          "UPDATE service_routes SET next_attempt_at=now()-interval '1 second' WHERE id=$1",
+          [id],
+        );
+      } else assert.equal(row.next_attempt_at, null);
+    }
+    assert.deepEqual(claimed, [1, 2, 3]);
+    assert.equal(await runRoutingOnce(failing), false);
+  }
+});
+
+test('crashes during a legacy ready-route recheck consume the same finite budget', async () => {
   const id = routeIds[2];
   await pool.query(
-    "UPDATE service_routes SET state='ready',attempts=0,checked_at=now()-interval '61 seconds',lease_token=NULL,lease_until=NULL WHERE id=$1",
+    "UPDATE service_routes SET state='ready',attempts=1,checked_at=now()-interval '61 seconds',lease_token=NULL,lease_until=NULL WHERE id=$1",
     [id],
   );
   const adapter = {

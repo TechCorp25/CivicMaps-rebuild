@@ -231,7 +231,9 @@ export async function runRoutingOnce(adapter, { afterEffect } = {}) {
       )
     ).rows[0];
     if (!r) return null;
-    if (r.attempts >= 3) {
+    // Legacy successes retain attempts; only an unleased ready route starts a fresh budget.
+    const freshRecheck = r.state === 'ready' && r.lease_token === null;
+    if (!freshRecheck && r.attempts >= 3) {
       await client.query(
         "UPDATE service_routes SET state='failed',lease_token=NULL,lease_until=NULL,next_attempt_at=NULL,error='Route attempt budget exhausted' WHERE id=$1",
         [r.id],
@@ -244,8 +246,8 @@ export async function runRoutingOnce(adapter, { afterEffect } = {}) {
     }
     return (
       await client.query(
-        `UPDATE service_routes SET state=CASE WHEN state='ready' THEN 'ready' ELSE 'running' END,attempts=attempts+1,next_attempt_at=NULL,lease_token=$2,lease_until=clock_timestamp()+interval '60 seconds' WHERE id=$1 RETURNING *`,
-        [r.id, randomUUID()],
+        `UPDATE service_routes SET state=CASE WHEN state='ready' THEN 'ready' ELSE 'running' END,attempts=CASE WHEN $3 THEN 1 ELSE attempts+1 END,next_attempt_at=NULL,lease_token=$2,lease_until=clock_timestamp()+interval '60 seconds' WHERE id=$1 RETURNING *`,
+        [r.id, randomUUID(), freshRecheck],
       )
     ).rows[0];
   });
