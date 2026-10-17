@@ -209,10 +209,12 @@
       "empirical": "not_started",
       "blockers": [
         "F07 controlled deployment and current-source live acceptance remain pending.",
-        "D03 stable catalogue/parking mapping and disabled-record/in-flight policies require owner decisions."
+        "Remaining D03 catalogue IDs/migration and disabled-record/in-flight policies require owner decisions; Parking Services Branch first-package direction is confirmed."
       ],
       "nextAction": "Complete F07 release gate, record D03 decisions, then implement one server-enforced entitlement feature.",
-      "preparationPath": "docs/plans/F08-next-phase-plan.md"
+      "preparationPath": "docs/plans/F08-next-phase-plan.md",
+      "firstBranchPackage": "Parking Services Branch",
+      "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected."
     },
     {
       "id": "F09",

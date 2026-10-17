@@ -12,6 +12,16 @@ Prepared 18 October 2026 (Australia/Melbourne), Codex (agent).
 
 This is a plan. No deployment, recipient activation, entitlement implementation or new AWS resource is performed by publishing it. Existing AWS CLI authorisation, Sydney Region, Medium guidance, resource retention through the 21 October review and the saved US$50/month allocation remain the starting constraints; verify current runtime/spend facts at execution.
 
+## Owner-confirmed branch sequence and reuse strategy
+
+The owner confirmed **Parking Services Branch** as the first departmental branch feature package. Its source knowledge base is the established `CivicMAPS/CivicMaps-preview` application, not an empty feature brief. The checked-in [feature inventory](../product/civicmapsfeatureinventory.md), [source/sync record](../github.md) and parking/Code21 wireframe annotations provide the starting evidence. Before porting a slice, inspect its actual preview source and pin the relevant revision; distinguish working behaviour, dormant features and documented defects from what has already been verified in this rebuild.
+
+Treat Parking Services Branch as a first-class departmental package within the existing council/context model. The earlier proposal to fold parking into Local Laws is superseded by this owner direction. Exact catalogue ID and migration details remain D03 decisions; the display/package name and parking-first sequence are confirmed.
+
+Build a capability/reuse matrix from the preview evidence: shared dispatch, management and administration on one side, parking-specific field operations on the other. Reuse verified contracts and behaviour while retaining current tenant/context isolation and least privilege. This does not import every historical feature into F08 or establish feature parity without acceptance evidence.
+
+The second departmental branch should share **little parking-specific field-operational code**, while reusing substantial dispatch, management and administrative capability. Its identity is not yet selected. Choose it by that criterion after mapping the parking baseline, then give it a separate bounded plan and acceptance cases. Demonstrate reuse of the shared services without copying the parking workflow into a differently named branch; verify branch/council isolation and independent entitlement changes.
+
 ## Phase A — qualify and release merged F07
 
 1. Refresh main, the [ledger](civicmaps-feature-ledger.json), [activation runbook](../development/first-admin-activation.md) and Empirical `6ad3d4bcbeb1d964705ff9ba`. Use a fresh release-evidence branch from current main, with one implementation feature active at most. Keep historical worktrees at their published heads.
@@ -26,12 +36,12 @@ This is a plan. No deployment, recipient activation, entitlement implementation 
 
 ## Phase B — settle D03 before F08 implementation
 
-D03 remains **unapproved**. The following are proposals for an owner decision, not permissions already granted. Record the accepted choices in a dedicated decision document at F08 kickoff after the F07 release gate.
+The owner has confirmed the Parking Services Branch package and first-branch sequence above. Remaining D03 policy and catalogue/migration details are **unapproved**. The following distinguish that confirmed direction from proposals still requiring an owner decision. Record the remaining accepted choices at F08 kickoff after the F07 release gate.
 
 | Decision | Proposed initial development policy | Reason / acceptance consequence |
 | --- | --- | --- |
 | Stable catalogue IDs | Preserve the eight current display labels; introduce immutable IDs `local-laws`, `parks-gardens`, `animal-management`, `cleaning`, `waste`, `safe-city`, `licensing-permits`, `asset-inspections`, with explicit migration from existing labels | Renaming a label must not change access or lose assignments; unknown legacy values must be surfaced for resolution |
-| Parking mapping | Map existing parking enforcement capabilities to `local-laws`; keep the UI's Parking Enforcement label | Current Platform catalogue has no independent parking pack; owner must confirm this mapping rather than silently introducing a ninth pack |
+| Parking Services Branch | **Owner-confirmed:** first-class first departmental package; do not map parking implicitly into `local-laws`. Proposed stable ID `parking-services` remains for D03 confirmation | Preserve existing assignments; explicitly decide migration/default entitlement for parking rather than silently enabling it for every Local Laws assignment |
 | Disabled-pack records | Retain records and audit; allow read-only review only to existing operational roles already authorised for those records/context | A disabled pack grants no new review authority; F07 ADMIN remains excluded from operational data |
 | In-flight actions | Deny new writes/actions after disable commits; no grandfathered completion exception initially | Writes and disable must have a defined transaction ordering so a stale session/cache cannot authorise a later mutation; actions committed before disable remain valid history |
 | Re-enable and recovery | Re-enable via an audited new configuration version, preserving records; configuration rollback also creates a new version | Never reuse a version or bypass checks to recover; previously permitted roles regain only their existing authorised capabilities |
@@ -40,7 +50,7 @@ If the owner chooses a completion exception, name each permitted action, actor a
 
 ## Phase C — implement one bounded F08 feature
 
-Current code stores display-label pack assignments in `services/api/platform.mjs` and confirms removal, while CommandMAPS exposes operational APIs independently. F08 makes assignments authoritative for the existing implemented operations; it does not build all eight domain workflows.
+Parking Services Branch is the first departmental consumer used to ground F08 capabilities. Inventory the established preview baseline before selecting the bounded implemented operations for this feature. Current code stores display-label pack assignments in `services/api/platform.mjs` and confirms removal, while CommandMAPS exposes operational APIs independently. F08 makes assignments authoritative for the existing implemented operations; it does not build all eight domain workflows.
 
 1. Inventory implemented routes and map each read/write/action to a stable capability and pack. Include shared endpoints and record-level domain ownership so mixed-pack lists cannot leak disabled or unauthorised records. Document unknown/unmapped behaviour and fail closed for capability access until resolved.
 2. Add a lossless catalogue/assignment migration and an authoritative, versioned resolver using effective council/context ownership. Entitlement is an additional check after authentication, role and context authorisation; enabling a pack must not manufacture a role, grant or cross-council access.
@@ -59,7 +69,10 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [ ] Record concrete synthetic recipients/contexts and a reserved permanent-disable test designation.
 - [ ] Inspect existing AWS runtime/spend; verify private checkpoint and compatibility/recovery gates.
 - [ ] Deploy F07, complete scoped live acceptance/preservation/recovery and publish release evidence.
-- [ ] Record owner D03 decisions after the F07 release gate.
+- [x] Record owner direction: Parking Services Branch first, then a branch with little shared field code and substantial shared dispatch/management/administration.
+- [ ] Map preview parking capabilities to shared services versus branch-specific field operations; pin source evidence and identify rebuild gaps.
+- [ ] Record remaining owner D03 decisions after the F07 release gate.
+- [ ] Select the second branch against the confirmed reuse criterion and prepare its separate scope after the parking baseline.
 - [ ] Implement and verify one F08 entitlement feature; publish evidence, CI, review and Empirical checkpoint.
 - [ ] Owner review/merge of resulting PRs; qualify any later F08 release separately.
 
