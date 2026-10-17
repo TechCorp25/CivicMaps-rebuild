@@ -1,0 +1,26 @@
+<html>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React from 'react';
+      import { createRoot } from 'react-dom/client';
+      import { RoutingStatus } from '/apps/civicmaps-platform/src/RoutingStatus.tsx';
+      createRoot(document.getElementById('root')).render(
+        React.createElement(RoutingStatus, {
+          routes: [
+            {
+              id: 'test',
+              hostname: 'alpha-commandmaps.dev.civicmaps.com.au',
+              state: 'ready',
+              version: 1,
+              checked_at: '2026-10-17T00:00:00Z',
+            },
+          ],
+          busy: false,
+          onRefresh: () => {},
+          onAction: () => {},
+        }),
+      );
+    </script>
+  </body>
+</html>
