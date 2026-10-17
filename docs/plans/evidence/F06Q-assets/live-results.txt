@@ -1,0 +1,112 @@
+Controlled release
+SSM bdf02f38-61ef-4b16-83b5-66a50fbc855a
+/opt/civicmaps-releases/20261017T044858Z-09669af3a9b2/source.tar.gz: OK
+
+added 86 packages in 5s
+Valid configuration
+Foundation migrations applied or already present
+Release revision: 09669af3a9b2d4cd9ff465f70647fd286849222d
+Archive SHA256: 4a7c99f7f2c2540a0cec6224c51c2d4c699f21fc1ddee36f0042d54de28f6499
+Private backup: /var/lib/pgsql/f06q-backups/20261017T044858Z-09669af3a9b2
+Previous source: /opt/civicmaps-releases/previous-20261017T044858Z-09669af3a9b2
+
+Live original isolation/TLS/authority suite
+SSM 46fb6560-9aea-49be-a563-ae8456928819
+PASS F06 runtime project identity and master-secret access denial
+PASS Real public TLS, exact Alpha/Beta resources, secure host-only cookies and copied-session/context/origin denial
+PASS Live Caddy forwarding-header rejection, direct backend denial and identity-plane separation
+PASS Disabled resource and route withdrawal fail closed; re-enable preserves data and invalidates old sessions
+PASS Actual worker process crash after public TLS effect reconciles the same owned manifest
+{"status":"passed","executedAt":"2026-10-17T04:51:05.529Z","hosts":["alpha-commandmaps.dev.civicmaps.com.au","beta-commandmaps.dev.civicmaps.com.au","platform.dev.civicmaps.com.au"],"proof":["F06 runtime project identity and master-secret access denial","Real public TLS, exact Alpha/Beta resources, secure host-only cookies and copied-session/context/origin denial","Live Caddy forwarding-header rejection, direct backend denial and identity-plane separation","Disabled resource and route withdrawal fail closed; re-enable preserves data and invalidates old sessions","Actual worker process crash after public TLS effect reconciles the same owned manifest"]}
+PASS direct trusted public TLS, mismatched SNI/Host, unknown Host/SNI, invalid port authority, public backend-port denial.
+
+Data/ownership preservation
+SSM 87123fa5-60ea-4e9b-8f0c-5fc6ac2ed77d
+Route versions before release: ['8', '2', '2']
+Route versions after audited acceptance actions: ['10', '2', '2']
+PASS exact pre/post release fingerprints: 9 populated control tables plus immutable route ownership
+{"municipality_resource_contexts": 2, "municipality_resources": 2, "operating_context_bindings": 3, "operating_context_grants": 7, "platform_first_admins": 7, "platform_municipalities": 9, "platform_operators": 1, "provisioning_jobs": 2, "users": 6}
+Deployed revision: 09669af3a9b2d4cd9ff465f70647fd286849222d
+001-foundation
+002-auth-scope
+003-platform
+004-operating-context
+005-context-rls
+006-provisioning-jobs
+007-data-resources
+008-service-routing
+009-authentication-locks
+010-route-municipality-tokens
+011-routing-retries
+094a871f290b7211da8591d192ade9c257d6fd8b31e3a05cb8d04d383a522b77  /var/lib/pgsql/f06q-backups/20261017T044858Z-09669af3a9b2/control.dump
+
+Live bounded recovery
+SSM b052d7e4-1d25-432d-9aa6-f42106e82020
+PASS live transient probe failure fails closed and automatically recovers through verified public TLS, preserving route/version
+PASS live exhausted budget stays closed; authenticated current-version out-of-band recovery is audited and requires a new public TLS probe
+
+Verified private-readiness rollback and return
+SSM 1b89da1d-df20-4bcb-a372-d0ed892a57d8
+PASS authenticated private ingress is ready before starting routing
+PASS previous b5c9709 application/Caddy operates with additive migrations010/011
+d4cd7ebad623116456929238a772f2f0b1443fb86e6831f68afd47ca68e0500e  /opt/civicmaps/services/api/routing.mjs
+Foundation migrations applied or already present
+PASS authenticated private ingress is ready before starting routing
+/etc/civicmaps/runtime.env: OK
+/etc/civicmaps/ingress.env: OK
+PASS code rollback and return preserve 11 control/session table fingerprints and all route identities/versions; private environment unchanged
+Final deployed revision: 09669af3a9b2d4cd9ff465f70647fd286849222d
+active
+active
+active
+active
+
+Authenticated recovery after old-worker startup failure
+SSM 4f7335f4-b971-4658-b763-0327fa2f8da7
+{"routeId":"dee29275-ea85-4293-bffd-e9363868153d","version":4,"state":"pending"}
+PASS current release recovered all three routes through authenticated operator controls and new probes
+
+Historical audit preservation from restored backup
+SSM 25254c43-6cf8-4074-8d52-b16afe70b51c
+PASS unchanged historical service_route_events: 3888 rows match restored pre-release checkpoint; later events remain appended
+PASS unchanged historical platform_audit: 0 rows match restored pre-release checkpoint; later events remain appended
+PASS unchanged historical audit_events: 0 rows match restored pre-release checkpoint; later events remain appended
+
+Final maintenance-aligned release
+SSM 6c315857-aed3-4a0f-9757-5606b7adfd72
+/opt/civicmaps-releases/20261017T050305Z-8e916226571f/source.tar.gz: OK
+
+added 86 packages in 4s
+Valid configuration
+Foundation migrations applied or already present
+PASS authenticated private ingress is ready before starting routing
+Release revision: 8e916226571fb72f8ed15c2932b86be0a859f284
+Archive SHA256: 33f7c88b83a9c6d1d6ea262ecfcf8d4355784f61cfb9459f8c67acbbe9fa4870
+Private backup: /var/lib/pgsql/f06q-backups/20261017T050305Z-8e916226571f
+Previous source: /opt/civicmaps-releases/previous-20261017T050305Z-8e916226571f
+
+Final deployed 8e91622 isolation/TLS/authority/worker crash suite
+SSM bedbd474-3703-46e6-b378-81d710aff2da
+PASS F06 runtime project identity and master-secret access denial
+PASS Real public TLS, exact Alpha/Beta resources, secure host-only cookies and copied-session/context/origin denial
+PASS Live Caddy forwarding-header rejection, direct backend denial and identity-plane separation
+PASS Disabled resource and route withdrawal fail closed; re-enable preserves data and invalidates old sessions
+PASS Actual worker process crash after public TLS effect reconciles the same owned manifest
+{"status":"passed","executedAt":"2026-10-17T05:04:59.187Z","hosts":["alpha-commandmaps.dev.civicmaps.com.au","beta-commandmaps.dev.civicmaps.com.au","platform.dev.civicmaps.com.au"],"proof":["F06 runtime project identity and master-secret access denial","Real public TLS, exact Alpha/Beta resources, secure host-only cookies and copied-session/context/origin denial","Live Caddy forwarding-header rejection, direct backend denial and identity-plane separation","Disabled resource and route withdrawal fail closed; re-enable preserves data and invalidates old sessions","Actual worker process crash after public TLS effect reconciles the same owned manifest"]}
+PASS direct trusted public TLS, mismatched SNI/Host, unknown Host/SNI, invalid port authority, public backend-port denial.
+
+Final exact deployed source and service inventory
+SSM 9d1dec0e-665b-477b-bf0f-abb15f21beff
+PASS exact deployed source fingerprints: 53 runtime/application/maintenance files
+Deployed revision: 8e916226571fb72f8ed15c2932b86be0a859f284
+33f7c88b83a9c6d1d6ea262ecfcf8d4355784f61cfb9459f8c67acbbe9fa4870  /opt/civicmaps/source.tar.gz
+active
+active
+active
+active
+alpha-commandmaps.dev.civicmaps.com.au|12|ready|0
+beta-commandmaps.dev.civicmaps.com.au|2|ready|0
+platform.dev.civicmaps.com.au|4|ready|0
+
+Public Chromium through the execution proxy (normal certificate verification)
+PASS public trusted TLS/browser login, Alpha/Beta cookie scope, cross-council credential denial, independent sessions and platform routing status.

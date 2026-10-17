@@ -1,6 +1,6 @@
 # F07 handoff — first council-admin activation
 
-Prepared 17 October 2026 by Codex (agent). **Do not begin until F06Q release alignment and acceptance pass.** F06Q currently has locally verified code and an expired-AWS-session deployment blocker; this is not F07 activation evidence.
+Prepared 17 October 2026 by Codex (agent). **Do not begin until F06Q release alignment and acceptance pass.** F06Q has locally and live-verified routing fixes, controlled deployment, an owned backup/restore checkpoint and data-preserving application rollback. This does not implement F07 activation.
 
 Retain the existing stack, Sydney resources, domain, budget, isolation and Medium guidance decisions. Resolve only D02 at kickoff:
 

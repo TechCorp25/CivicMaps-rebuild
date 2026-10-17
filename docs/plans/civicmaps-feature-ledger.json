@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": "F06Q",
+  "activeFeature": null,
   "nextFeature": "F07",
   "allowedStatuses": [
     "planned",
@@ -124,7 +124,7 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner merged PR #14. Address routing reliability findings and verify deployment of the merged naming revision in F06Q; preserve historical live evidence and retained resources.",
+      "nextAction": "Owner merged PR #14; F06Q subsequently aligned migration010 and verified current routing with live recovery/rollback. Preserve historical F06 source evidence.",
       "preparationPath": "docs/plans/F06-preparation.md",
       "preparationBranch": "codex/civicmaps-f06-preparation",
       "preparationCommit": "8eb7eba8d7c9324388b5feed0f641951bceb6ab1",
@@ -139,27 +139,28 @@
       "mergeCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
       "preparationPublishedHead": "52b19868429d5bed735477299ad61d18a171ca71",
       "deployedSourceCommit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
-      "currentMainLiveAcceptance": "not_verified"
+      "currentMainLiveAcceptance": "covered_by_F06Q_release",
+      "alignedReleaseCommit": "8e916226571fb72f8ed15c2932b86be0a859f284"
     },
     {
       "id": "F06Q",
-      "status": "blocked",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f06q-routing-reliability",
-      "commit": "35cd3e3ba34c2982e9fc60e92a3afc7027f6b347",
+      "commit": "8e916226571fb72f8ed15c2932b86be0a859f284",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/16",
       "evidencePath": "docs/plans/evidence/F06Q.md",
-      "acceptancePassed": false,
+      "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
-      "blockers": [
-        "AWS CivicMAPS sign-in expired; live identity/plan/MCP verification, deployment, live acceptance and rollback remain pending."
-      ],
+      "blockers": [],
       "preparationPath": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/efb30c5bf1846b85c491d6caf29a3c6bb9b7caf1/docs/plans/F06Q-next-phase-prompt.md",
-      "nextAction": "Renew AWS sign-in, inspect existing runtime source/schema, and execute the controlled update/live rollback gates; do not start F07.",
-      "implementation": "local_validation_passed",
+      "nextAction": "Owner review draft PR #16. F07 handoff prepared; resolve only D02 permissions and activation delivery/recovery before beginning a fresh feature.",
+      "implementation": "complete",
       "localAcceptancePassed": true,
-      "liveAcceptance": "not_run",
-      "empiricalMemoryId": "6ad2fb1ebeb1d964705ecb18"
+      "liveAcceptance": "passed",
+      "empiricalMemoryId": "6ad2fb1ebeb1d964705ecb18",
+      "deployedSourceCommit": "8e916226571fb72f8ed15c2932b86be0a859f284",
+      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39004659658"
     },
     {
       "id": "F07",
