@@ -1,3 +1,4 @@
+import { loginThrottle } from './login-throttle.mjs';
 import { resolve } from 'node:path';
 import { routingMiddleware, deployedRouting, checkRouteSession, routeContext } from './routing.mjs';
 import express from 'express';
@@ -204,9 +205,9 @@ export function createApp({ webRoot } = {}) {
   });
   app.get('/api/health', async (_req, res) => {
     await pool.query('SELECT 1');
-    res.json({ status: 'ready', mode: 'local-synthetic' });
+    res.json({ status: 'ready', mode: deployedRouting() ? 'ingress' : 'local', data: 'synthetic' });
   });
-  const attempts = new Map();
+  const throttle = loginThrottle();
   app.post('/api/auth/login', async (req, res) => {
     const input = body(req, ['email', 'password']);
     requireValue(
@@ -214,12 +215,7 @@ export function createApp({ webRoot } = {}) {
       400,
       'Email and password are required',
     );
-    const now = Date.now();
-    for (const [key, attempt] of attempts) if (now - attempt.start >= 60_000) attempts.delete(key);
-    const bucket = attempts.get(req.ip) ?? { start: now, count: 0 };
-    bucket.count += 1;
-    attempts.set(req.ip, bucket);
-    requireValue(bucket.count <= 20, 429, 'Too many sign-in attempts. Try again in a minute.');
+    throttle(req, input.email);
     const result = await pool.query('SELECT * FROM users WHERE email=$1 AND active', [
       input.email.toLowerCase().trim(),
     ]);

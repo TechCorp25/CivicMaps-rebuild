@@ -146,10 +146,11 @@ Each card is a single independently reviewable outcome. Dependencies refer to th
 **Rollback:** withdraw new route mapping; retain data and job history.
 
 ### F06Q — Routing reliability and release alignment
-**Depends on:** merged F06. **Goal:** existing development service routes recover safely, sign-in throttling isolates clients, and operator status reflects the current verified release.
-**Scope:** bounded transient probe recovery and terminal Platform recovery path; trusted-ingress client throttling; route UI freshness and truthful health mode; controlled deployment/acceptance of the merged naming revision. See the [17 October assessment](civicmaps-status-assessment-2026-10-17.md) and [implementation prompt](F06Q-next-phase-prompt.md).
-**Done when:** A1/A2/A3/A5 have regression proof, withdrawal/fencing/isolation remain intact, main's naming upgrade/replay preserves owned resources, exact deployed source passes approved synthetic live checks, and final CI/publication/Empirical are verified.
-**Rollback:** restore the prior verified code and compatible control-data checkpoint or withdraw affected routes; retain data/ownership/history. No new council, activation or production rollout.
+**Depends on:** merged F06. **Goal:** recoverable routing, isolated login throttling and truthful current status on the existing approved development release.
+**Scope:** bounded durable retries and restricted out-of-band Platform recovery; trusted-ingress client key with route/client/identity limits; serial detail polling and readiness expiry; truthful health mode; controlled release of migrations 010/011 with owned backup and data-preserving rollback.
+**Done when:** transient/terminal/crashed/stale workers, withdrawal, genuine Caddy client isolation, forged/duplicate headers and Chromium refresh/expiry/navigation pass; exact-source deployment, current live TLS/isolation and rollback are executed and recorded. Local proof alone cannot close release alignment.
+**Evidence:** [F06Q evidence](evidence/F06Q.md), [runbook](../development/service-routing.md#f06q-reliability-update), [17 October assessment](civicmaps-status-assessment-2026-10-17.md), and [implementation prompt](F06Q-next-phase-prompt.md).
+**Rollback:** pause routing first; restore the recorded previous application/Caddy source with compatible additive schema; retain populated control data, ownership, sessions and history. Withdrawn routes stay closed.
 
 ### F07 — First council-admin activation
 **Depends on:** F03, F05, F06Q; D02. **Goal:** pending first admin becomes an authorised council user.
@@ -294,7 +295,7 @@ Each of these needs a separate feature card if brought into the active queue: fu
 
 ## Session ledger and kickoff
 
-Use [civicmaps-feature-ledger.json](civicmaps-feature-ledger.json) for resumption. F01, F02, F02Q and F03–F06 are merged; PR #13 merged at `6e405530f8f2de6b85d4ed9476c7bfa667c97a2c`, and PR #14 at `8da79eec7ae56cd3d9a21930842b217967df049e`. The [17 October assessment](civicmaps-status-assessment-2026-10-17.md) verifies 60 tests and identifies routing recovery, shared login throttling and stale UI defects plus a deployed-release verification gap. F06Q is the next bounded stabilisation phase; its [instructional prompt](F06Q-next-phase-prompt.md) defines acceptance. F07 administrator activation remains planned after F06Q. Historical [F06 live evidence](evidence/F06.md) is pinned to its deployed source and must not be attributed to newer main. The ledger contains 30 cards, with no implementation feature currently in progress. Approval, publication, deployment and merge remain separate states.
+Use [civicmaps-feature-ledger.json](civicmaps-feature-ledger.json) for resumption. F01, F02, F02Q and F03–F06 are merged; PR #13 merged at `6e405530f8f2de6b85d4ed9476c7bfa667c97a2c`, and PR #14 at `8da79eec7ae56cd3d9a21930842b217967df049e`. The [17 October assessment](civicmaps-status-assessment-2026-10-17.md), merged through PR #15 at `3ebee8e`, identified routing recovery, shared login throttling and stale UI defects plus a deployed-release verification gap. Its [instructional prompt](F06Q-next-phase-prompt.md) defines F06Q acceptance. F06Q now implements those findings with local/live acceptance and data-preserving rollback; [evidence](evidence/F06Q.md) records the verified release. Draft PR #16 remains for owner review. F07 administrator activation remains planned and depends on F06Q and D02. Historical [F06 live evidence](evidence/F06.md) remains pinned to its deployed source. F05/F06 development target, hostname, budget and retention decisions are resolved. The ledger contains 30 cards, with no implementation feature currently in progress. Approval, publication, deployment and merge remain separate states.
 
 Suggested session instruction:
 

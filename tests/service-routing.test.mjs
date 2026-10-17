@@ -73,6 +73,7 @@ async function request(host, path, body, cookie, extra = {}) {
           'x-forwarded-host': host,
           'x-forwarded-proto': 'https',
           'x-civicmaps-ingress': ingress,
+          'x-civicmaps-client-ip': '192.0.2.10',
           ...(body ? { 'content-type': 'application/json' } : {}),
           ...(cookie ? { cookie } : {}),
           ...extra,
@@ -167,6 +168,10 @@ test('authority canonicalisation and untrusted/forged forwarding fail closed', a
     { 'x-forwarded-proto': 'http' },
     { 'x-forwarded-host': [hosts[0], hosts[0]] },
     { forwarded: 'host=evil.test' },
+    { 'x-civicmaps-client-ip': ['192.0.2.1', '192.0.2.2'] },
+    { 'x-civicmaps-client-ip': '192.0.2.1, 192.0.2.2' },
+    { 'x-civicmaps-client-ip': 'forged' },
+    { 'x-civicmaps-client-ip': '' },
   ])
     assert.equal((await request(hosts[0], '/api/health', null, null, headers)).status, 421);
   assert.equal((await request('unknown.dev.civicmaps.com.au', '/api/health')).status, 421);
@@ -310,7 +315,9 @@ test('route worker reconciles exact identity, rejects mismatches and fences a st
     true,
   );
   assert.equal(applies, 1);
-  await pool.query("UPDATE service_routes SET state='pending' WHERE id=$1", [routeIds[0]]);
+  await pool.query("UPDATE service_routes SET state='pending',attempts=0 WHERE id=$1", [
+    routeIds[0],
+  ]);
   await runRoutingOnce({
     async reconcile() {
       return { hostname: hosts[1] };
@@ -318,7 +325,7 @@ test('route worker reconciles exact identity, rejects mismatches and fences a st
   });
   assert.equal(
     (await pool.query('SELECT state FROM service_routes WHERE id=$1', [routeIds[0]])).rows[0].state,
-    'failed',
+    'pending',
   );
 });
 
@@ -357,4 +364,291 @@ test('read-only broker takes authentication/context locks without identity updat
     await client.query(`DROP ROLE ${role}`);
     client.release();
   }
+});
+
+test('Platform transient retry is durable, bounded, fenced and recoverable only by an operator', async () => {
+  const { recoverPlatformRoute } = await import('../services/api/platform-route-recovery.mjs');
+  const id = routeIds[2];
+  await pool.query("UPDATE service_routes SET state='withdrawn',lease_token=NULL,lease_until=NULL");
+  await pool.query(
+    "UPDATE service_routes SET state='ready',checked_at=now()-interval '61 seconds',attempts=0 WHERE id=$1",
+    [id],
+  );
+  const state = async () =>
+    (await pool.query('SELECT * FROM service_routes WHERE id=$1', [id])).rows[0];
+  const healthy = {
+    async reconcile(r) {
+      return {
+        hostname: r.hostname,
+        routeId: r.id,
+        version: r.version,
+        municipalityId: r.municipality_id,
+        service: r.service,
+      };
+    },
+  };
+  const failing = {
+    async reconcile() {
+      throw new Error('private provider failure');
+    },
+  };
+  await runRoutingOnce(failing);
+  let row = await state();
+  assert.equal(row.state, 'pending');
+  assert.equal(row.attempts, 1);
+  assert.ok(row.next_attempt_at > new Date());
+  assert.equal(
+    (
+      await request(hosts[2], '/api/platform/auth/login', {
+        email: 'operator@platform.example',
+        password: 'CivicMAPS-local-2026!',
+      })
+    ).status,
+    503,
+  );
+  assert.equal(await runRoutingOnce(healthy), false);
+  await pool.query(
+    "UPDATE service_routes SET next_attempt_at=now()-interval '1 second' WHERE id=$1",
+    [id],
+  );
+  // A new process recovers using the persisted deadline, without any in-memory retry state.
+  const { spawnSync } = await import('node:child_process');
+  const restart = spawnSync(
+    process.execPath,
+    [
+      '--input-type=module',
+      '-e',
+      `
+    import {runRoutingOnce} from './services/api/routing.mjs';
+    import {pool} from './services/api/database.mjs';
+    await runRoutingOnce({async reconcile(r){return {hostname:r.hostname,routeId:r.id,version:r.version,municipalityId:r.municipality_id,service:r.service}}});
+    await pool.end();`,
+    ],
+    { env: process.env, encoding: 'utf8' },
+  );
+  assert.equal(restart.status, 0, restart.stderr);
+  row = await state();
+  assert.equal(row.state, 'ready');
+  assert.equal(row.attempts, 0);
+  assert.equal((await request(hosts[2], '/api/health')).status, 200);
+  assert.deepEqual((await request(hosts[2], '/api/health')).body, {
+    status: 'ready',
+    mode: 'ingress',
+    data: 'synthetic',
+  });
+  await pool.query("UPDATE service_routes SET checked_at=now()-interval '61 seconds' WHERE id=$1", [
+    id,
+  ]);
+  for (let i = 1; i <= 3; i++) {
+    await runRoutingOnce(failing);
+    row = await state();
+    assert.equal(row.attempts, i);
+    if (i < 3)
+      await pool.query(
+        "UPDATE service_routes SET next_attempt_at=now()-interval '1 second' WHERE id=$1",
+        [id],
+      );
+  }
+  assert.equal(row.state, 'failed');
+  assert.equal(row.next_attempt_at, null);
+  assert.equal(await runRoutingOnce(healthy), false);
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query('SET LOCAL ROLE civicmaps_platform_app');
+    await assert.rejects(recoverPlatformRoute(client, row.version, 'test'), { status: 403 });
+    await client.query('ROLLBACK');
+    await client.query('BEGIN');
+    await assert.rejects(recoverPlatformRoute(client, row.version + 1, 'test'), { status: 409 });
+    const recovered = await recoverPlatformRoute(client, row.version, 'test');
+    assert.equal(recovered.version, row.version + 1);
+    await client.query('COMMIT');
+    await runRoutingOnce(healthy);
+    row = await state();
+    // A concurrent worker cannot claim the same unexpired lease. Withdrawal fences its result.
+    await pool.query(
+      "UPDATE service_routes SET checked_at=now()-interval '61 seconds' WHERE id=$1",
+      [id],
+    );
+    await runRoutingOnce(healthy, {
+      afterEffect: async () => {
+        assert.equal(await runRoutingOnce(healthy), false);
+        await controlRoute(client, id, row.version, 'withdraw', 'test');
+      },
+    });
+    assert.equal((await state()).state, 'withdrawn');
+    assert.equal(await runRoutingOnce(healthy), false);
+    await assert.rejects(recoverPlatformRoute(client, (await state()).version, 'test'), {
+      status: 409,
+    });
+    const events = (
+      await pool.query('SELECT action FROM service_route_events WHERE route_id=$1', [id])
+    ).rows.map((r) => r.action);
+    assert.ok(events.includes('retry-scheduled'));
+    assert.ok(events.includes('failed'));
+    assert.ok(events.includes('withdraw'));
+  } finally {
+    await client.query('ROLLBACK');
+    client.release();
+  }
+});
+
+test('login limits isolate clients and routes, and limit one identity across addresses', async () => {
+  await pool.query(
+    "UPDATE service_routes SET state='ready',attempts=0,checked_at=now(),lease_token=NULL,lease_until=NULL",
+  );
+  const login = (host, email, ip, password = 'incorrect') =>
+    request(
+      host,
+      host === hosts[2] ? '/api/platform/auth/login' : '/api/auth/login',
+      { email, password },
+      null,
+      { 'x-civicmaps-client-ip': ip },
+    );
+  for (let i = 0; i < 20; i++)
+    assert.equal((await login(hosts[0], `absent${i}@example.test`, '192.0.2.20')).status, 401);
+  assert.equal((await login(hosts[0], 'another@example.test', '192.0.2.20')).status, 429);
+  assert.equal(
+    (await login(hosts[0], 'dispatch@alpha.example', '192.0.2.21', 'CivicMAPS-local-2026!')).status,
+    200,
+  );
+  assert.equal(
+    (await login(hosts[1], 'dispatch@beta.example', '192.0.2.20', 'CivicMAPS-local-2026!')).status,
+    200,
+  );
+  assert.equal(
+    (await login(hosts[2], 'operator@platform.example', '192.0.2.20', 'CivicMAPS-local-2026!'))
+      .status,
+    200,
+  );
+  for (let i = 1; i <= 20; i++)
+    assert.equal((await login(hosts[0], 'target@example.test', `198.51.100.${i}`)).status, 401);
+  assert.equal((await login(hosts[0], ' TARGET@example.test ', '198.51.100.21')).status, 429);
+  assert.equal((await login(hosts[1], 'target@example.test', '198.51.100.21')).status, 401);
+});
+
+test('repeated crashed routing leases exhaust the durable attempt budget and retain audit', async () => {
+  const id = routeIds[2];
+  await pool.query("UPDATE service_routes SET state='withdrawn',lease_token=NULL,lease_until=NULL");
+  await pool.query(
+    "UPDATE service_routes SET state='pending',attempts=0,next_attempt_at=NULL WHERE id=$1",
+    [id],
+  );
+  const adapter = {
+    async reconcile(r) {
+      return {
+        hostname: r.hostname,
+        routeId: r.id,
+        version: r.version,
+        municipalityId: r.municipality_id,
+        service: r.service,
+      };
+    },
+  };
+  for (let i = 1; i <= 3; i++) {
+    assert.equal(
+      await runRoutingOnce(adapter, {
+        afterEffect: async () => {
+          await pool.query(
+            "UPDATE service_routes SET lease_until=now()-interval '1 second' WHERE id=$1",
+            [id],
+          );
+        },
+      }),
+      false,
+    );
+    assert.equal(
+      (await pool.query('SELECT attempts FROM service_routes WHERE id=$1', [id])).rows[0].attempts,
+      i,
+    );
+  }
+  assert.equal(await runRoutingOnce(adapter), false);
+  const row = (await pool.query('SELECT * FROM service_routes WHERE id=$1', [id])).rows[0];
+  assert.equal(row.state, 'failed');
+  assert.equal(row.lease_token, null);
+  assert.equal((await request(hosts[2], '/api/health')).status, 503);
+  assert.ok(
+    (
+      await pool.query("SELECT 1 FROM service_route_events WHERE route_id=$1 AND action='failed'", [
+        id,
+      ])
+    ).rowCount,
+  );
+});
+
+test('legacy ready routes start a fresh three-claim budget for failed rechecks', async () => {
+  const id = routeIds[2];
+  await pool.query("UPDATE service_routes SET state='withdrawn',lease_token=NULL,lease_until=NULL");
+  for (const attempts of [0, 1, 3]) {
+    await pool.query(
+      "UPDATE service_routes SET state='ready',attempts=$2,checked_at=now()-interval '61 seconds',lease_token=NULL,lease_until=NULL,next_attempt_at=NULL WHERE id=$1",
+      [id, attempts],
+    );
+    const claimed = [];
+    const failing = {
+      async reconcile(route) {
+        claimed.push(route.attempts);
+        throw new Error('Synthetic unavailable probe');
+      },
+    };
+    for (let claim = 1; claim <= 3; claim++) {
+      assert.equal(await runRoutingOnce(failing), true);
+      const row = (await pool.query('SELECT * FROM service_routes WHERE id=$1', [id])).rows[0];
+      assert.equal(row.attempts, claim);
+      assert.equal(row.state, claim < 3 ? 'pending' : 'failed');
+      assert.equal(row.lease_token, null);
+      assert.equal((await request(hosts[2], '/api/health')).status, 503);
+      if (claim < 3) {
+        assert.ok(row.next_attempt_at > new Date());
+        await pool.query(
+          "UPDATE service_routes SET next_attempt_at=now()-interval '1 second' WHERE id=$1",
+          [id],
+        );
+      } else assert.equal(row.next_attempt_at, null);
+    }
+    assert.deepEqual(claimed, [1, 2, 3]);
+    assert.equal(await runRoutingOnce(failing), false);
+  }
+});
+
+test('crashes during a legacy ready-route recheck consume the same finite budget', async () => {
+  const id = routeIds[2];
+  await pool.query(
+    "UPDATE service_routes SET state='ready',attempts=1,checked_at=now()-interval '61 seconds',lease_token=NULL,lease_until=NULL WHERE id=$1",
+    [id],
+  );
+  const adapter = {
+    async reconcile(r) {
+      return {
+        hostname: r.hostname,
+        routeId: r.id,
+        version: r.version,
+        municipalityId: r.municipality_id,
+        service: r.service,
+      };
+    },
+  };
+  for (let i = 1; i <= 3; i++) {
+    assert.equal(
+      await runRoutingOnce(adapter, {
+        afterEffect: async () => {
+          await pool.query(
+            "UPDATE service_routes SET lease_until=now()-interval '1 second' WHERE id=$1",
+            [id],
+          );
+        },
+      }),
+      false,
+    );
+    assert.equal(
+      (await pool.query('SELECT attempts FROM service_routes WHERE id=$1', [id])).rows[0].attempts,
+      i,
+    );
+  }
+  assert.equal(await runRoutingOnce(adapter), false);
+  assert.equal(
+    (await pool.query('SELECT state FROM service_routes WHERE id=$1', [id])).rows[0].state,
+    'failed',
+  );
+  assert.equal((await request(hosts[2], '/api/health')).status, 503);
 });

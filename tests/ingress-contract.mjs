@@ -19,6 +19,7 @@ const backend = http
         host: req.headers.host,
         forwarded: req.headers['x-forwarded-host'],
         protocol: req.headers['x-forwarded-proto'],
+        client: req.headers['x-civicmaps-client-ip'],
         trusted: req.headers['x-civicmaps-ingress'] === 'local-contract-only',
       }),
     );
@@ -64,10 +65,10 @@ try {
     env,
     stdio: 'ignore',
   });
-  async function request(host, headers = {}) {
+  async function request(host, headers = {}, localAddress = '127.0.0.1') {
     return new Promise((resolve, reject) => {
       const req = http.get(
-        { host: '127.0.0.1', port, path: '/', headers: { host, ...headers } },
+        { host: '127.0.0.1', port, localAddress, path: '/', headers: { host, ...headers } },
         (res) => {
           let body = '';
           res.on('data', (c) => (body += c));
@@ -97,8 +98,18 @@ try {
       host,
       forwarded: host,
       protocol: 'https',
+      client: '127.0.0.1',
       trusted: true,
     });
+    for (const headers of [
+      { 'X-Civicmaps-Client-Ip': '203.0.113.9' },
+      { 'X-Civicmaps-Client-Ip': ['203.0.113.9', '203.0.113.10'] },
+      { 'X-Forwarded-For': '203.0.113.9' },
+    ]) {
+      const overwritten = await request(host, headers, '127.0.0.2');
+      assert.equal(overwritten.status, 200);
+      assert.equal(JSON.parse(overwritten.body).client, '127.0.0.2');
+    }
     for (const header of [
       'X-Forwarded-Host',
       'X-Forwarded-Proto',

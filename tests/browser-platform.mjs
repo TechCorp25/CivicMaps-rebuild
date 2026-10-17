@@ -28,6 +28,7 @@ try {
   browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await context.newPage();
+  await page.clock.install();
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(origin);
   await page.getByLabel('Platform operator email').fill('operator@platform.example');
@@ -324,6 +325,71 @@ try {
     routeId,
   ]);
   await routing.getByRole('button', { name: 'Refresh routing status' }).click();
+  await expect(routing.getByRole('status')).toContainText('ready');
+  // Settled routes continue refreshing, and a failed refresh cannot imply current readiness.
+  const detailUrl = `**/api/platform/municipalities/${cloudCouncil.municipality.id}`;
+  await page.clock.pauseAt(new Date());
+  await page.route(
+    detailUrl,
+    (route) =>
+      route.fulfill({
+        status: 503,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Synthetic routing refresh outage' }),
+      }),
+    { times: 1 },
+  );
+  await page.clock.runFor(20000);
+  await expect(routing.getByRole('status')).toContainText('Routing status unavailable');
+  await expect(page.getByRole('alert')).toHaveText('Synthetic routing refresh outage');
+  await routing.screenshot({ path: 'test-results/f06q-routing-unavailable.png' });
+  await page.clock.runFor(20000);
+  await expect(routing.getByRole('status')).toContainText('ready');
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await pool.query(
+    "UPDATE service_routes SET state='failed',error='Later worker failure' WHERE id=$1",
+    [routeId],
+  );
+  await page.clock.runFor(20000);
+  await expect(routing.getByRole('status')).toContainText('failed');
+  await pool.query(
+    "UPDATE service_routes SET state='ready',error=NULL,checked_at=now() WHERE id=$1",
+    [routeId],
+  );
+  await page.clock.setSystemTime(new Date());
+  await page.clock.runFor(20000);
+  await expect(routing.getByRole('status')).toContainText('ready');
+  const slow = Promise.withResolvers(),
+    entered = Promise.withResolvers();
+  let heldReads = 0;
+  await page.route(detailUrl, async (route) => {
+    heldReads++;
+    entered.resolve();
+    await slow.promise;
+    await route.continue().catch(() => {});
+  });
+  await page.clock.runFor(20000);
+  await entered.promise;
+  await page.clock.runFor(5000);
+  expect(heldReads).toBe(1);
+  await page.clock.setSystemTime(new Date(Date.now() + 301000));
+  await page.clock.runFor(1001);
+  await expect(routing.getByRole('status')).toContainText('Verification expired');
+  await routing.screenshot({ path: 'test-results/f06q-routing-expired.png' });
+  // Serial retries may time out, but at most one live browser fetch is allowed at a time.
+  // Navigate while old responses are held; they cannot repaint the new council.
+  await page.evaluate((id) => {
+    window.location.hash = `municipalities/${id}`;
+  }, beta.municipality.id);
+  await expect(page.getByRole('heading', { name: 'Recovery Beta', exact: true })).toBeVisible();
+  const stoppedReads = heldReads;
+  await page.clock.runFor(45000);
+  expect(heldReads).toBe(stoppedReads);
+  slow.resolve();
+  await page.unroute(detailUrl);
+  await page.clock.setSystemTime(new Date());
+  await page.clock.resume();
+  await page.goto(`${origin}/#municipalities/${cloudCouncil.municipality.id}`);
   await expect(routing.getByRole('status')).toContainText('ready');
   await page.screenshot({
     path: 'test-results/platform-aws-resources-desktop.png',

@@ -40,6 +40,14 @@ jobs:
         run: npm run check
       - name: Verify generated tokens are committed
         run: git diff --exit-code -- apps/commandmaps/src/tokens.css apps/civicmaps-platform/src/tokens.css
+      - name: Verify actual Caddy ingress and sign-in client isolation
+        run: |
+          curl -fsSL https://github.com/caddyserver/caddy/releases/download/v2.10.2/caddy_2.10.2_linux_amd64.tar.gz -o /tmp/civicmaps-caddy.tar.gz
+          printf '%s  %s\n' '747df7ee74de188485157a383633a1a963fd9233b71fbb4a69ddcbcc589ce4e2cc82dacf5dbbe136cb51d17e14c59daeb5d9bc92487610b0f3b93680b2646546' /tmp/civicmaps-caddy.tar.gz | sha512sum -c -
+          mkdir /tmp/civicmaps-caddy
+          tar -xzf /tmp/civicmaps-caddy.tar.gz -C /tmp/civicmaps-caddy caddy
+          CIVICMAPS_CADDY_BINARY=/tmp/civicmaps-caddy/caddy node tests/ingress-contract.mjs
+          CIVICMAPS_CADDY_BINARY=/tmp/civicmaps-caddy/caddy node tests/ingress-login.mjs
       - name: Install Chromium for platform acceptance
         run: node node_modules/playwright/cli.js install --with-deps chromium
       - name: Exercise platform registration, provisioning and pack flows

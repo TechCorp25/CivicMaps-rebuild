@@ -1,3 +1,4 @@
+import { isIP } from 'node:net';
 import { access } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { runtimeConnection, configuredDataTarget, resourceNames } from './data-resources.mjs';
@@ -62,13 +63,32 @@ export async function routingMiddleware(req, res, next) {
       const key = req.rawHeaders[i].toLowerCase();
       counts.set(key, (counts.get(key) ?? 0) + 1);
     }
-    for (const key of ['host', 'x-forwarded-host', 'x-forwarded-proto', 'x-civicmaps-ingress'])
+    for (const key of [
+      'host',
+      'x-forwarded-host',
+      'x-forwarded-proto',
+      'x-civicmaps-ingress',
+      'x-civicmaps-client-ip',
+    ])
       requireValue(counts.get(key) === 1, 421, 'Ambiguous service authority');
     requireValue(
       !req.headers.forwarded && req.headers['x-forwarded-proto'] === 'https',
       421,
       'Invalid forwarded authority',
     );
+    const address = req.headers['x-civicmaps-client-ip'];
+    requireValue(
+      typeof address === 'string' && isIP(address) && !address.includes('%'),
+      421,
+      'Invalid ingress client address',
+    );
+    // Only authenticated loopback ingress may supply this overwritten socket address.
+    req.ingressClientAddress =
+      address.startsWith('::ffff:') && isIP(address.slice(7)) === 4
+        ? address.slice(7)
+        : isIP(address) === 6
+          ? new URL(`http://[${address}]`).hostname.slice(1, -1)
+          : address;
     const hostname = canonicalHost(req.headers.host);
     requireValue(
       req.headers['x-forwarded-host'] === req.headers.host,
@@ -190,7 +210,7 @@ export async function controlRoute(client, id, version, action, actor) {
     'Invalid route action',
   );
   const result = await client.query(
-    `UPDATE service_routes SET state=$3,version=version+1,attempts=0,lease_token=NULL,lease_until=NULL,checked_at=NULL,error=NULL
+    `UPDATE service_routes SET state=$3,version=version+1,attempts=0,lease_token=NULL,lease_until=NULL,checked_at=NULL,error=NULL,next_attempt_at=NULL
      WHERE id=$1 AND version=$2 AND ($3='withdrawn' OR state IN ('failed','withdrawn','pending')) RETURNING *`,
     [id, version, action === 'withdraw' ? 'withdrawn' : 'pending'],
   );
@@ -207,21 +227,27 @@ export async function runRoutingOnce(adapter, { afterEffect } = {}) {
   const route = await transaction(async (client) => {
     const r = (
       await client.query(
-        `SELECT * FROM service_routes WHERE state='pending' OR (state='running' AND lease_until<clock_timestamp()) OR (state='ready' AND checked_at<clock_timestamp()-interval '60 seconds' AND (lease_until IS NULL OR lease_until<clock_timestamp())) ORDER BY checked_at NULLS FIRST,hostname FOR UPDATE SKIP LOCKED LIMIT 1`,
+        `SELECT * FROM service_routes WHERE (state='pending' AND (next_attempt_at IS NULL OR next_attempt_at<=clock_timestamp())) OR (state='running' AND lease_until<clock_timestamp()) OR (state='ready' AND checked_at<clock_timestamp()-interval '60 seconds' AND (lease_until IS NULL OR lease_until<clock_timestamp())) ORDER BY checked_at NULLS FIRST,hostname FOR UPDATE SKIP LOCKED LIMIT 1`,
       )
     ).rows[0];
     if (!r) return null;
-    if (r.attempts >= 3 && r.state !== 'ready') {
+    // Legacy successes retain attempts; only an unleased ready route starts a fresh budget.
+    const freshRecheck = r.state === 'ready' && r.lease_token === null;
+    if (!freshRecheck && r.attempts >= 3) {
       await client.query(
-        "UPDATE service_routes SET state='failed',lease_token=NULL,lease_until=NULL,error='Route attempt budget exhausted' WHERE id=$1",
+        "UPDATE service_routes SET state='failed',lease_token=NULL,lease_until=NULL,next_attempt_at=NULL,error='Route attempt budget exhausted' WHERE id=$1",
         [r.id],
+      );
+      await client.query(
+        "INSERT INTO service_route_events(route_id,version,action,actor) VALUES ($1,$2,'failed','routing-worker')",
+        [r.id, r.version],
       );
       return null;
     }
     return (
       await client.query(
-        `UPDATE service_routes SET state=CASE WHEN state='ready' THEN 'ready' ELSE 'running' END,attempts=CASE WHEN state='ready' THEN 1 ELSE attempts+1 END,lease_token=$2,lease_until=clock_timestamp()+interval '60 seconds' WHERE id=$1 RETURNING *`,
-        [r.id, randomUUID()],
+        `UPDATE service_routes SET state=CASE WHEN state='ready' THEN 'ready' ELSE 'running' END,attempts=CASE WHEN $3 THEN 1 ELSE attempts+1 END,next_attempt_at=NULL,lease_token=$2,lease_until=clock_timestamp()+interval '60 seconds' WHERE id=$1 RETURNING *`,
+        [r.id, randomUUID(), freshRecheck],
       )
     ).rows[0];
   });
@@ -244,21 +270,33 @@ export async function runRoutingOnce(adapter, { afterEffect } = {}) {
   } catch {
     /* Never persist provider error payloads, headers, certificates or credentials. */
   }
+  const state = success ? 'ready' : route.attempts < 3 ? 'pending' : 'failed';
   return transaction(async (client) => {
     const result = await client.query(
-      `UPDATE service_routes SET state=$3,checked_at=CASE WHEN $3='ready' THEN clock_timestamp() ELSE NULL END,error=$4,lease_token=NULL,lease_until=NULL
-    WHERE id=$1 AND lease_token=$2 AND lease_until>clock_timestamp() RETURNING id`,
+      `UPDATE service_routes SET state=$3,checked_at=CASE WHEN $3='ready' THEN clock_timestamp() ELSE NULL END,error=$4,attempts=CASE WHEN $3='ready' THEN 0 ELSE attempts END,next_attempt_at=CASE WHEN $3='pending' THEN clock_timestamp()+($5 * interval '1 second') ELSE NULL END,lease_token=NULL,lease_until=NULL
+    WHERE id=$1 AND lease_token=$2 AND lease_until>clock_timestamp() AND version=$6 AND state<>'withdrawn' RETURNING id`,
       [
         route.id,
         route.lease_token,
-        success ? 'ready' : 'failed',
-        success ? null : 'Route reconciliation failed; inspect owned ingress and retry',
+        state,
+        success
+          ? null
+          : state === 'pending'
+            ? 'Route verification failed; retry scheduled'
+            : 'Route attempt budget exhausted; operator recovery required',
+        route.attempts === 1 ? 10 : 30,
+        route.version,
       ],
     );
     if (result.rowCount)
       await client.query(
         'INSERT INTO service_route_events(route_id,version,action,actor) VALUES ($1,$2,$3,$4)',
-        [route.id, route.version, success ? 'ready' : 'failed', 'routing-worker'],
+        [
+          route.id,
+          route.version,
+          success ? 'ready' : state === 'pending' ? 'retry-scheduled' : 'failed',
+          'routing-worker',
+        ],
       );
     return result.rowCount === 1;
   });
