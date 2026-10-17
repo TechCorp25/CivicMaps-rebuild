@@ -91,14 +91,7 @@ runuser -u postgres -- pg_dump -Fc -d civicmaps_f06 -f "$backup/control.dump"
 runuser -u postgres -- bash -c 'umask 077; pg_dumpall --roles-only > "$1"' -- "$backup/roles.sql"
 # Prove the checkpoint can be read and restored before altering the live schema.
 runuser -u postgres -- pg_restore --list "$backup/control.dump" > "$backup/inventory.txt"
-recovery_db="f06q_restore_${F06_REVISION:0:12}"
-runuser -u postgres -- createdb "$recovery_db"
-if ! runuser -u postgres -- pg_restore --exit-on-error -d "$recovery_db" "$backup/control.dump"; then
-  runuser -u postgres -- dropdb "$recovery_db"
-  exit 1
-fi
-runuser -u postgres -- psql -v ON_ERROR_STOP=1 -d "$recovery_db" -Atqc "SELECT count(*)=3 FROM service_routes" | grep -qx t
-runuser -u postgres -- dropdb "$recovery_db"
+runuser -u postgres -- bash infrastructure/f06/verify-backup.sh "$backup/control.dump" "$F06_REVISION"
 sha256sum "$backup/control.dump" > "$backup/control.sha256"
 # No seed/bootstrap replay or identity/login recreation during an application update.
 CIVICMAPS_DATABASE_URL='postgresql://postgres@localhost/civicmaps_f06?host=/var/run/postgresql' runuser -u postgres --preserve-environment -- node services/api/migrate.mjs
