@@ -4,7 +4,7 @@
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
   "activeFeature": null,
-  "nextFeature": "F07",
+  "nextFeature": "F08",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -139,14 +139,14 @@
       "mergeCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
       "preparationPublishedHead": "52b19868429d5bed735477299ad61d18a171ca71",
       "deployedSourceCommit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
-      "currentMainLiveAcceptance": "covered_by_F06Q_release",
+      "currentMainLiveAcceptance": "passed_F06Q_merged_source_3dfb031",
       "alignedReleaseCommit": "8e916226571fb72f8ed15c2932b86be0a859f284"
     },
     {
       "id": "F06Q",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f06q-routing-reliability",
-      "commit": "8e916226571fb72f8ed15c2932b86be0a859f284",
+      "commit": "b279d4f1a2e6905ce799d953c34fae7b6d0ebe2a",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/16",
       "evidencePath": "docs/plans/evidence/F06Q.md",
       "acceptancePassed": true,
@@ -154,26 +154,42 @@
       "empirical": "recorded",
       "blockers": [],
       "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
-      "nextAction": "Owner review PR #16, including the validated retry-budget and backup-verification corrections. Recorded acceptance fields describe deployed source 8e91622; review corrections need a controlled release and current-source live acceptance before F07. F07 handoff prepared; resolve D02 permissions and activation delivery/recovery at kickoff.",
+      "nextAction": "Release gate passed on deployed3dfb031. Release-evidence PR18 is merged into planning PR17 at e34646f, not yet main. Continue review of existing F07 PR19; do not restart its implementation.",
       "implementation": "complete",
       "localAcceptancePassed": true,
-      "liveAcceptance": "passed",
+      "liveAcceptance": "passed_for_merged_source",
       "empiricalMemoryId": "6ad2fb1ebeb1d964705ecb18",
-      "deployedSourceCommit": "8e916226571fb72f8ed15c2932b86be0a859f284",
-      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39004659658"
+      "deployedSourceCommit": "3dfb0316fbe7885c55adbb1861ff58d199ca5810",
+      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39023001090",
+      "mergeCommit": "3dfb0316fbe7885c55adbb1861ff58d199ca5810",
+      "deployedSourceAcceptancePassed": true,
+      "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39024650225",
+      "releaseEvidencePath": "docs/plans/evidence/F06Q-release-closure.md",
+      "releaseEvidencePR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/18",
+      "releaseEvidenceMergeCommit": "e34646f4bb81a563916397ab04b3efdd0d70b1f6"
     },
     {
       "id": "F07",
-      "status": "planned",
-      "branch": null,
-      "commit": null,
-      "pr": null,
+      "status": "review_ready",
+      "branch": "codex/civicmaps-f07-admin-activation",
+      "commit": "5098200b3347cd2401645201af93fb2e2445b2c5",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/19",
       "evidencePath": null,
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
+      "acceptancePassed": true,
+      "publication": "verified",
+      "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "nextAction": "Review the existing PR19 implementation on codex/civicmaps-f07-admin-activation; do not create another F07 branch. Owner merges PR17 into main, then reviews/merges PR19. F07 deployment and current-source live acceptance remain separate before F08/D03.",
+      "preparationPath": "docs/plans/F07-next-phase-plan.md",
+      "decisionPath": "docs/plans/F07-D02-decisions.md",
+      "acceptanceScope": "local_and_hosted_disposable",
+      "empiricalMemoryId": "6ad3d4bcbeb1d964705ff9ba",
+      "implementation": "complete",
+      "implementationLocation": "PR19 feature branch; not merged into this planning branch or main",
+      "localAcceptancePassed": true,
+      "liveAcceptance": "not_deployed",
+      "evidenceUrl": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/5098200b3347cd2401645201af93fb2e2445b2c5/docs/plans/evidence/F07.md",
+      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39068027959"
     },
     {
       "id": "F08",
@@ -185,8 +201,11 @@
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "blockers": [
+        "F07 PR19 owner review/merge and separately qualified deployment/live acceptance remain pending.",
+        "D03 entitlement decisions are not yet resolved."
+      ],
+      "nextAction": "After existing PR19 dependency/release gates, resolve D03 and prepare one entitlement feature; do not start during F07 review."
     },
     {
       "id": "F09",
@@ -454,5 +473,6 @@
   "latestAssessmentDate": "2026-10-17",
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
-  "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e"
+  "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
+  "nextAction": "PR18 is merged into PR17. Owner merges PR17 into main, then reviews/merges existing F07 PR19. Do not create another F07 branch; its deployment/live acceptance remains separate before F08/D03."
 }
