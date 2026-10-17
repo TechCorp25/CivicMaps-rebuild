@@ -6,7 +6,7 @@ import pg from 'pg';
 
 // One environment per test process: database.mjs caches its pool on first import.
 // Never drop the configured base database; cleanup owns only the generated name.
-export async function createTestEnvironment({ platform = false, beforeMigrate } = {}) {
+export async function createTestEnvironment({ platform = false, beforeMigrate, webRoot } = {}) {
   const previous = process.env.CIVICMAPS_DATABASE_URL;
   const base = previous ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres';
   const name = `civicmaps_test_${randomUUID().replaceAll('-', '')}`;
@@ -54,7 +54,7 @@ export async function createTestEnvironment({ platform = false, beforeMigrate } 
     }
     ({ pool } = await import('../../services/api/database.mjs'));
     const { createApp } = await import('../../services/api/app.mjs');
-    server = createApp().listen(0, '127.0.0.1');
+    server = createApp({ webRoot }).listen(0, '127.0.0.1');
     await once(server, 'listening');
     return {
       pool,

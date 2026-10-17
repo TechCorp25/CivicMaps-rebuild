@@ -14,6 +14,9 @@ try {
       '005-context-rls',
       '006-provisioning-jobs',
       '007-data-resources',
+      '008-service-routing',
+      '009-authentication-locks',
+      '010-route-municipality-tokens',
     ]) {
       const existing = await client.query('SELECT id FROM civicmaps_migrations WHERE id = $1', [
         id,

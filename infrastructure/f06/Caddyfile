@@ -1,0 +1,34 @@
+{
+	admin off
+	auto_https disable_redirects
+	servers {
+		strict_sni_host on
+	}
+}
+
+:80 {
+	@known host platform.dev.civicmaps.com.au alpha-commandmaps.dev.civicmaps.com.au beta-commandmaps.dev.civicmaps.com.au
+	redir @known https://{host}{uri} 308
+	respond 421
+}
+
+platform.dev.civicmaps.com.au, alpha-commandmaps.dev.civicmaps.com.au, beta-commandmaps.dev.civicmaps.com.au {
+	@spoof expression `{http.request.header.X-Forwarded-Host} != "" || ({http.request.header.X-Forwarded-Proto} != "" && {http.request.header.X-Forwarded-Proto} != "https") || {http.request.header.Forwarded} != "" || {http.request.header.X-Civicmaps-Ingress} != ""`
+	respond @spoof 421
+	header {
+		Strict-Transport-Security "max-age=86400"
+		X-Content-Type-Options nosniff
+		Referrer-Policy same-origin
+		-Server
+	}
+	reverse_proxy 127.0.0.1:4100 {
+		header_up Host {http.request.hostport}
+		header_up X-Forwarded-Host {http.request.hostport}
+		header_up X-Forwarded-Proto https
+		header_up X-Civicmaps-Ingress {$CIVICMAPS_INGRESS_TOKEN}
+	}
+}
+
+:443 {
+	respond 421
+}

@@ -296,14 +296,35 @@ try {
   };
   await runProvisioningOnce({ adapter: cloudAdapter });
   await runProvisioningOnce({ adapter: cloudAdapter });
+  const routeId = randomUUID();
+  await pool.query(
+    `INSERT INTO service_routes(id,hostname,service,municipality_id,binding_id,job_id,target,state,error,municipality_token)
+    VALUES ($1,'alpha-commandmaps.dev.civicmaps.com.au','commandmaps',$2,'10000000-0000-4000-8000-000000000001',$3,'local-ui-fixture','failed','Synthetic routing probe failure','alpha')`,
+    [routeId, cloudCouncil.municipality.id, cloudCouncil.jobId],
+  );
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(`${origin}/#municipalities/${cloudCouncil.municipality.id}`);
   await page.reload();
   await expect(provisioning).toContainText('AWS Sydney development resources');
   await expect(provisioning).toContainText('Prepare isolated database');
   await expect(provisioning).toContainText(
-    'Data resources ready. Service deployment and admin activation remain pending.',
+    'Data resources ready. Administrator activation remains pending.',
   );
+  const routing = page
+    .locator('section')
+    .filter({ has: page.getByRole('heading', { name: 'Service routing', exact: true }) });
+  await expect(routing).toContainText('Synthetic routing probe failure', 'alpha');
+  await routing.getByRole('button', { name: 'Retry route verification' }).click();
+  await expect(routing.getByRole('status')).toContainText('pending');
+  await routing.getByRole('button', { name: 'Withdraw route' }).click();
+  await expect(routing.getByRole('status')).toContainText('withdrawn');
+  await routing.getByRole('button', { name: 'Retry route verification' }).click();
+  await expect(routing.getByRole('status')).toContainText('pending');
+  await pool.query("UPDATE service_routes SET state='ready',checked_at=now() WHERE id=$1", [
+    routeId,
+  ]);
+  await routing.getByRole('button', { name: 'Refresh routing status' }).click();
+  await expect(routing.getByRole('status')).toContainText('ready');
   await page.screenshot({
     path: 'test-results/platform-aws-resources-desktop.png',
     fullPage: true,

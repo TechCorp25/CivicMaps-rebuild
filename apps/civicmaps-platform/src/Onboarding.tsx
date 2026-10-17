@@ -82,8 +82,9 @@ export function Onboarding({
         <p className="eyebrow">Onboarding registered</p>
         <h1>{result.municipality.name}</h1>
         <p>
-          Configuration is saved for <strong>{result.municipality.slug}.civicmaps.gov.au</strong>.
-          Status: Provisioning.
+          Configuration is saved for{' '}
+          <strong>{result.municipality.slug}-commandmaps.dev.civicmaps.com.au</strong>. Status:
+          Provisioning.
         </p>
         <p>
           A durable provisioning job is queued. View the municipality to follow its progress and
@@ -171,7 +172,7 @@ export function Onboarding({
                     aria-describedby="slug-help slug-status"
                     placeholder="e.g. yarra"
                   />
-                  <span>.civicmaps.gov.au</span>
+                  <span>-commandmaps.dev.civicmaps.com.au</span>
                 </div>
               </label>
               <p id="slug-help" className="muted">
@@ -245,7 +246,7 @@ export function Onboarding({
                   <dt>Council identity</dt>
                   <dd>
                     {data.name}
-                    <span>{data.slug}.civicmaps.gov.au</span>
+                    <span>{data.slug}-commandmaps.dev.civicmaps.com.au</span>
                   </dd>
                 </div>
                 <div>

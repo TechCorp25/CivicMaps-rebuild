@@ -38,3 +38,9 @@ The longest suffix is `-enforcementmaps` (16 characters), so a 47-character toke
 Preserve all existing municipality slugs, IDs, grants and records. Existing long slugs and `id-` slugs receive the derived token during route creation; do not rename or reject their registry records. If an existing route disagrees with this mapping, report a reconciliation conflict and retain its recorded ownership; replacement requires explicit withdrawal, old-session invalidation and fresh readiness checks. Never silently rebind a hostname.
 
 F06 build acceptance must cover slug lengths 47, 48, 51, 52 and 63 across every product pattern; repeated mapping; two long slugs with the same first 47 characters and distinct UUIDs; a slug equal to another municipality's `id-` token; invalid/missing UUIDs; conflicting stored ownership; and existing-record preservation. These are implementation requirements, not controls implemented by this preparation PR.
+
+## Retained acceptance identities
+
+The deployed acceptance registry uses `synthetic-alpha` (UUID `20000000-0000-4000-8000-000000000001`) and `synthetic-beta` (UUID `20000000-0000-4000-8000-000000000002`). Preserve their approved `alpha` and `beta` tokens only for those exact UUID/slug pairs. Reserve those two tokens: any other registry slug equal to `alpha` or `beta` uses its full UUID-derived token. This explicit exception preserves existing public destinations and registry records without permitting another municipality to claim an acceptance hostname. All other identities follow the general mapping above.
+
+Migration 010 persists these tokens, checks DNS label bounds and aborts atomically on incompatible recorded ownership. Resolve such a conflict explicitly before applying the migration; never rename a registry record to make the migration pass.

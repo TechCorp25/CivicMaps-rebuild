@@ -5,10 +5,11 @@ function deny(message) {
 export async function permittedContexts(client, user) {
   // Lock even ineffective rows, then evaluate time after lock acquisition. Revocation waits
   // for an already authorised transaction; the next operation sees the committed change.
+  await client.query('SELECT civicmaps_lock_user_contexts($1)', [user.id]);
   const result = await client.query(
     `SELECT b.*,g.effective_from AS grant_from,g.effective_to AS grant_to,g.revoked_at AS grant_revoked
      FROM operating_context_grants g JOIN operating_context_bindings b ON b.id=g.binding_id
-     WHERE g.user_id=$1 ORDER BY b.id FOR SHARE OF b,g`,
+     WHERE g.user_id=$1 ORDER BY b.id`,
     [user.id],
   );
   // Keep PostgreSQL timestamp precision: JS Date would truncate boundary microseconds.

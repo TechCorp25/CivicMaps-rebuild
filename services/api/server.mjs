@@ -1,7 +1,10 @@
+import { resolve } from 'node:path';
+import { deployedRouting } from './routing.mjs';
 import { createApp } from './app.mjs';
 import { pool } from './database.mjs';
 const port = Number(process.env.CIVICMAPS_API_PORT ?? 4100);
-const server = createApp().listen(port, '127.0.0.1', () =>
+const app = createApp({ webRoot: deployedRouting() ? resolve('apps') : undefined });
+const server = app.listen(port, '127.0.0.1', () =>
   console.log(`CivicMAPS API: http://127.0.0.1:${port}`),
 );
 function stop() {

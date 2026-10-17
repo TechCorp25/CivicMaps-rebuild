@@ -1,0 +1,36 @@
+rule encrypted_retained_runtime {
+  Resources.Runtime.DeletionPolicy == 'Retain'
+  Resources.Runtime.UpdateReplacePolicy == 'Retain'
+  Resources.Runtime.Properties {
+    InstanceType == 't3.micro'
+    MetadataOptions.HttpTokens == 'required'
+    MetadataOptions.HttpPutResponseHopLimit == 1
+    CreditSpecification.CPUCredits == 'standard'
+    BlockDeviceMappings[0].Ebs.Encrypted == true
+    BlockDeviceMappings[0].Ebs.VolumeType == 'gp3'
+    BlockDeviceMappings[0].Ebs.VolumeSize == 16
+    BlockDeviceMappings[0].Ebs.DeleteOnTermination == false
+  }
+}
+rule web_ports_only {
+  Resources.WebSecurityGroup.Properties.SecurityGroupIngress[0] {
+    IpProtocol == 'tcp'
+    FromPort == 80
+    ToPort == 80
+  }
+  Resources.WebSecurityGroup.Properties.SecurityGroupIngress[1] {
+    IpProtocol == 'tcp'
+    FromPort == 443
+    ToPort == 443
+  }
+  Resources.DatabaseAccess.Properties {
+    FromPort == 5432
+    ToPort == 5432
+    SourceSecurityGroupId.Ref == 'WebSecurityGroup'
+  }
+}
+rule exact_development_dns_zone {
+  Resources.PlatformRecord.Properties.HostedZoneId == 'Z01841903TEW783OZ3RC'
+  Resources.AlphacommandmapsRecord.Properties.HostedZoneId == 'Z01841903TEW783OZ3RC'
+  Resources.BetacommandmapsRecord.Properties.HostedZoneId == 'Z01841903TEW783OZ3RC'
+}

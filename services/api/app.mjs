@@ -1,3 +1,5 @@
+import { resolve } from 'node:path';
+import { routingMiddleware, deployedRouting, checkRouteSession, routeContext } from './routing.mjs';
 import express from 'express';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { pool, transaction } from './database.mjs';
@@ -74,18 +76,20 @@ function actorView(user) {
   };
 }
 async function authenticated(client, req) {
+  await client.query('SELECT civicmaps_lock_auth_session($1,false,false)', [digest(token(req))]);
   const auth = await client.query(
-    `SELECT u.*, s.csrf_token FROM sessions s JOIN users u ON u.id=s.user_id
-      WHERE s.token_hash=$1 AND s.expires_at>now() AND u.active FOR SHARE OF u,s`,
+    `SELECT u.*, s.csrf_token,s.route_id,s.route_version FROM sessions s JOIN users u ON u.id=s.user_id
+      WHERE s.token_hash=$1 AND s.expires_at>now() AND u.active`,
     [digest(token(req))],
   );
   requireValue(auth.rowCount === 1, 401, 'Sign in to continue');
+  checkRouteSession(req, auth.rows[0]);
   return auth.rows[0];
 }
 async function scoped(req, mutate, work) {
   return transaction(async (client) => {
     const user = await authenticated(client, req);
-    const actor = await resolveContext(client, user, req.headers['x-civicmaps-context']);
+    const actor = await resolveContext(client, user, await routeContext(client, req, user));
     if (mutate)
       requireValue(
         req.headers['x-csrf-token'] === actor.csrf_token,
@@ -179,9 +183,11 @@ async function mutation(req, work) {
   });
 }
 
-export function createApp() {
+export function createApp({ webRoot } = {}) {
   const app = express();
+  app.locals.webRoot = webRoot;
   app.disable('x-powered-by');
+  app.use(routingMiddleware);
   app.use(express.json({ limit: '32kb' }));
   app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
@@ -222,17 +228,25 @@ export function createApp() {
     const sessionToken = randomBytes(32).toString('hex');
     const csrfToken = randomBytes(32).toString('hex');
     await transaction(async (client) => {
+      await routeContext(client, req, result.rows[0]);
       await client.query('DELETE FROM sessions WHERE token_hash=$1 OR expires_at<=now()', [
         digest(token(req)),
       ]);
       await client.query(
-        "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at) VALUES ($1,$2,$3,now()+interval '8 hours')",
-        [digest(sessionToken), result.rows[0].id, csrfToken],
+        "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,route_id,route_version) VALUES ($1,$2,$3,now()+interval '8 hours',$4,$5)",
+        [
+          digest(sessionToken),
+          result.rows[0].id,
+          csrfToken,
+          req.serviceRoute?.id ?? null,
+          req.serviceRoute?.version ?? null,
+        ],
       );
     });
     res.cookie('civicmaps_session', sessionToken, {
       httpOnly: true,
       sameSite: 'strict',
+      secure: deployedRouting(),
       path: '/api',
       maxAge: 8 * 60 * 60 * 1000,
     });
@@ -242,16 +256,18 @@ export function createApp() {
     res.json(
       await transaction(async (client) => {
         const user = await authenticated(client, req);
-        return (await permittedContexts(client, user)).map((b) => ({
-          id: b.id,
-          version: b.version,
-          municipality_id: b.municipality_id,
-          tenant_id: b.tenant_id,
-          organisation_id: b.organisation_id,
-          jurisdiction_id: b.jurisdiction_id,
-          data_plane_id: b.data_plane_id,
-          branch_id: b.branch_id,
-        }));
+        return (await permittedContexts(client, user))
+          .filter((b) => !req.serviceRoute || b.id === req.serviceRoute.binding_id)
+          .map((b) => ({
+            id: b.id,
+            version: b.version,
+            municipality_id: b.municipality_id,
+            tenant_id: b.tenant_id,
+            organisation_id: b.organisation_id,
+            jurisdiction_id: b.jurisdiction_id,
+            data_plane_id: b.data_plane_id,
+            branch_id: b.branch_id,
+          }));
       }),
     );
   });
@@ -266,8 +282,9 @@ export function createApp() {
   app.post('/api/auth/logout', async (req, res) => {
     // Locking the session row serialises logout against outstanding authorised writes.
     await transaction(async (client) => {
+      await client.query('SELECT civicmaps_lock_auth_session($1,false,true)', [digest(token(req))]);
       const result = await client.query(
-        'SELECT csrf_token FROM sessions WHERE token_hash=$1 AND expires_at>now() FOR UPDATE',
+        'SELECT csrf_token,route_id,route_version FROM sessions WHERE token_hash=$1 AND expires_at>now()',
         [digest(token(req))],
       );
       requireValue(result.rowCount === 1, 401, 'Sign in to continue');
@@ -276,6 +293,7 @@ export function createApp() {
         403,
         'Session verification failed',
       );
+      checkRouteSession(req, result.rows[0]);
       await client.query('DELETE FROM sessions WHERE token_hash=$1', [digest(token(req))]);
     });
     res
@@ -298,7 +316,7 @@ export function createApp() {
       return withMunicipalityResource(
         client,
         user,
-        req.headers['x-civicmaps-context'],
+        await routeContext(client, req, user),
         configuredDataTarget(),
         async ({ connection, context }) => {
           await connection.query('SELECT 1 FROM council.resource_records LIMIT 1');
@@ -446,6 +464,25 @@ export function createApp() {
     );
   });
   app.use('/api/platform', platformRouter());
+  if (webRoot) {
+    const platform = express.static(resolve(webRoot, 'civicmaps-platform/dist'));
+    const command = express.static(resolve(webRoot, 'commandmaps/dist'));
+    app.use((req, res, next) => {
+      if (req.path.startsWith('/api/')) return next();
+      return (req.serviceRoute?.service === 'platform' ? platform : command)(req, res, next);
+    });
+    app.get('/{*path}', (req, res, next) => {
+      if (req.path.startsWith('/api/')) return next();
+      return res.sendFile(
+        resolve(
+          webRoot,
+          req.serviceRoute?.service === 'platform'
+            ? 'civicmaps-platform/dist/index.html'
+            : 'commandmaps/dist/index.html',
+        ),
+      );
+    });
+  }
   app.use((_req, res) => res.status(404).json({ error: 'Endpoint not found' }));
   app.use((error, _req, res, _next) => {
     const status = error.status ?? (error.type === 'entity.parse.failed' ? 400 : 500);

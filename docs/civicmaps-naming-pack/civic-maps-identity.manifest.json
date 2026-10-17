@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.2.0",
+  "schemaVersion": "1.3.0",
   "effectiveDate": "2026-03-23",
   "platform": {
     "name": "CIVIC MAPS",
@@ -67,16 +67,33 @@
         "{municipalityToken}-report.dev.civicmaps.com.au"
       ],
       "municipalityToken": {
-        "version": 1,
+        "version": 2,
         "registrySlugMaxLength": 63,
         "directSlugMaxLength": 47,
         "reservedPrefix": "id-",
-        "directRule": "Use the validated registry slug only when length <= 47 and it does not start with id-.",
+        "directRule": "Use the validated registry slug only when length <= 47, it does not start with id-, and it is not a reserved acceptance token. Apply exact acceptanceAliases first.",
         "fallbackRule": "id- followed by the immutable municipality UUID as 32 lowercase hexadecimal characters without hyphens; validate identity before route creation.",
         "derivedTokenLength": 35,
         "maxDnsLabelLength": 63,
         "ownershipRule": "Persist token and canonical hostname against immutable municipality identity; enforce unique host ownership and reject conflicts.",
-        "existingRecordPolicy": "Preserve registry slugs, IDs, grants and data; reconcile incompatible routes explicitly with withdrawal, session invalidation and fresh readiness checks."
+        "existingRecordPolicy": "Preserve registry slugs, IDs, grants and data; reconcile incompatible routes explicitly with withdrawal, session invalidation and fresh readiness checks.",
+        "reservedDirectTokens": [
+          "alpha",
+          "beta"
+        ],
+        "acceptanceAliases": [
+          {
+            "municipalityId": "20000000-0000-4000-8000-000000000001",
+            "registrySlug": "synthetic-alpha",
+            "token": "alpha"
+          },
+          {
+            "municipalityId": "20000000-0000-4000-8000-000000000002",
+            "registrySlug": "synthetic-beta",
+            "token": "beta"
+          }
+        ],
+        "acceptanceRule": "Only the exact immutable UUID/slug pairs receive acceptance aliases; other alpha/beta slugs use the UUID-derived token."
       }
     },
     "staging": {

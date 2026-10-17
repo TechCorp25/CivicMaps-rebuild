@@ -57,7 +57,7 @@ export function ProvisioningStatus({
           {job.state === 'succeeded' && (
             <p>
               {cloud
-                ? 'Data resources ready. Service deployment and admin activation remain pending.'
+                ? 'Data resources ready. Administrator activation remains pending.'
                 : 'Simulation complete. Real infrastructure and admin activation remain pending.'}
             </p>
           )}

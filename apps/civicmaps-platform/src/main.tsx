@@ -29,6 +29,7 @@ import { Badge, Brand, Boundary, Confirm } from './components';
 import { PackAssignments } from './PackAssignments';
 import { Onboarding } from './Onboarding';
 import { ProvisioningStatus } from './ProvisioningStatus';
+import { RoutingStatus } from './RoutingStatus';
 import './tokens.css';
 import './styles.css';
 
@@ -161,7 +162,10 @@ function App() {
         });
         if (!controller.signal.aborted) {
           setDetail(result);
-          if (result.job && ['queued', 'running', 'waiting'].includes(result.job.state))
+          if (
+            (result.job && ['queued', 'running', 'waiting'].includes(result.job.state)) ||
+            result.routes?.some((r) => ['pending', 'running'].includes(r.state))
+          )
             timer = setTimeout(refresh, 2000);
         }
       } catch (err) {
@@ -309,7 +313,7 @@ function App() {
               {busy ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
-          <p className="local-note">Local development · Synthetic councils and accounts</p>
+          <p className="local-note">Development · Synthetic councils and accounts</p>
         </section>
       </main>
     );
@@ -383,7 +387,7 @@ function App() {
       <main id="content" tabIndex={-1} ref={content}>
         <div className="environment">
           <span className="environment-dot" aria-hidden="true" />
-          Local development<span>Synthetic data · Metrics are illustrative snapshots</span>
+          Development<span>Synthetic data · Metrics are illustrative snapshots</span>
         </div>
         {error && (
           <p className="error" role="alert">
@@ -439,7 +443,9 @@ function App() {
                   </p>
                   <h1>{current.name}</h1>
                   <p>
-                    {current.slug}.civicmaps.gov.au · Registry ID: <code>{current.id}</code>
+                    {detail?.routes?.find((item) => item.service === 'commandmaps')?.hostname ??
+                      current.slug}{' '}
+                    · Registry ID: <code>{current.id}</code>
                   </p>
                 </div>
                 <Badge value={route.page === 'health' ? current.health : current.status} />
@@ -558,6 +564,24 @@ function App() {
                   busy={busy}
                   onRefresh={() => refreshJob()}
                   onAction={refreshJob}
+                />
+              )}
+              {detail && route.page === 'municipalities' && (
+                <RoutingStatus
+                  routes={detail.routes ?? []}
+                  busy={busy}
+                  onRefresh={() => refreshJob()}
+                  onAction={(item, action) => {
+                    const scope = detailScope.current;
+                    void perform(async () => {
+                      await mutate(`/municipalities/${current.id}/routes/${item.id}/${action}`, {
+                        version: item.version,
+                      });
+                      if (scope !== detailScope.current) return;
+                      setDetailRefresh((v) => v + 1);
+                      setNotice(`Route ${action} requested. Data is retained.`);
+                    });
+                  }}
                 />
               )}
               {detail && (

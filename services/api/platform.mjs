@@ -1,3 +1,4 @@
+import { deployedRouting, checkRouteSession, controlRoute } from './routing.mjs';
 import express from 'express';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { pool, transaction } from './database.mjs';
@@ -56,13 +57,15 @@ const validPacks = (value) =>
   new Set(value).size === value.length;
 async function authorised(req, mutate, work) {
   return transaction(async (client) => {
+    await client.query('SELECT civicmaps_lock_auth_session($1,true,false)', [digest(cookie(req))]);
     const result = await client.query(
-      `SELECT o.id,o.name,o.email,s.csrf_token FROM platform_sessions s
-      JOIN platform_operators o ON o.id=s.operator_id WHERE s.token_hash=$1 AND s.expires_at>now() AND o.active FOR SHARE OF o,s`,
+      `SELECT o.id,o.name,o.email,s.csrf_token,s.route_id,s.route_version FROM platform_sessions s
+      JOIN platform_operators o ON o.id=s.operator_id WHERE s.token_hash=$1 AND s.expires_at>now() AND o.active`,
       [digest(cookie(req))],
     );
     requireValue(result.rowCount === 1, 401, 'Sign in as a platform operator to continue');
     const actor = result.rows[0];
+    checkRouteSession(req, actor);
     if (mutate)
       requireValue(
         req.headers['x-csrf-token'] === actor.csrf_token,
@@ -130,6 +133,39 @@ async function audit(client, actor, id, action, details) {
 
 export function platformRouter() {
   const router = express.Router();
+  router.get('/municipalities/:id/routes', async (req, res) => {
+    res.json(
+      await authorised(req, false, async (client) => {
+        await council(client, req.params.id);
+        return (
+          await client.query(
+            'SELECT id,hostname,service,version,state,checked_at,error FROM service_routes WHERE municipality_id=$1 ORDER BY hostname',
+            [req.params.id],
+          )
+        ).rows;
+      }),
+    );
+  });
+  router.post('/municipalities/:id/routes/:routeId/:action', async (req, res) => {
+    requireValue(
+      uuidPattern.test(req.params.id) && uuidPattern.test(req.params.routeId),
+      404,
+      'Route not found',
+    );
+    const data = input(req, ['version']);
+    res.json(
+      await authorised(req, true, async (client, actor) => {
+        const route = (
+          await client.query('SELECT id FROM service_routes WHERE id=$1 AND municipality_id=$2', [
+            req.params.routeId,
+            req.params.id,
+          ])
+        ).rows[0];
+        requireValue(route, 404, 'Route not found');
+        return controlRoute(client, route.id, data.version, req.params.action, actor.id);
+      }),
+    );
+  });
   const attempts = new Map();
   router.post('/auth/login', async (req, res) => {
     const data = input(req, ['email', 'password']);
@@ -160,13 +196,20 @@ export function platformRouter() {
         digest(cookie(req)),
       ]);
       await client.query(
-        "INSERT INTO platform_sessions(token_hash,operator_id,csrf_token,expires_at) VALUES ($1,$2,$3,now()+interval '8 hours')",
-        [digest(sessionToken), result.rows[0].id, csrfToken],
+        "INSERT INTO platform_sessions(token_hash,operator_id,csrf_token,expires_at,route_id,route_version) VALUES ($1,$2,$3,now()+interval '8 hours',$4,$5)",
+        [
+          digest(sessionToken),
+          result.rows[0].id,
+          csrfToken,
+          req.serviceRoute?.id ?? null,
+          req.serviceRoute?.version ?? null,
+        ],
       );
     });
     res.cookie(cookieName, sessionToken, {
       httpOnly: true,
       sameSite: 'strict',
+      secure: deployedRouting(),
       path: '/api/platform',
       maxAge: 8 * 60 * 60 * 1000,
     });
@@ -183,11 +226,13 @@ export function platformRouter() {
   );
   router.post('/auth/logout', async (req, res) => {
     await transaction(async (client) => {
+      await client.query('SELECT civicmaps_lock_auth_session($1,true,true)', [digest(cookie(req))]);
       const result = await client.query(
-        'SELECT csrf_token FROM platform_sessions WHERE token_hash=$1 AND expires_at>now() FOR UPDATE',
+        'SELECT csrf_token,route_id,route_version FROM platform_sessions WHERE token_hash=$1 AND expires_at>now()',
         [digest(cookie(req))],
       );
       requireValue(result.rowCount === 1, 401, 'Sign in to continue');
+      checkRouteSession(req, result.rows[0]);
       requireValue(
         req.headers['x-csrf-token'] === result.rows[0].csrf_token,
         403,
@@ -248,6 +293,12 @@ export function platformRouter() {
           workloads,
           events,
           job: await readProvisioning(client, municipality.id),
+          routes: (
+            await client.query(
+              'SELECT id,hostname,service,version,state,checked_at,error FROM service_routes WHERE municipality_id=$1 ORDER BY hostname',
+              [municipality.id],
+            )
+          ).rows,
         };
       }),
     ),

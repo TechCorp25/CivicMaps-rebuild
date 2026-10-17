@@ -1,6 +1,6 @@
 # F06 — Municipality service routing: preparation scope
 
-Prepared 16 October 2026 from reviewed main `4bedee8d9770c922775128a89f3b8cb4fee5461d`. GitHub confirms owner merge of [PR #12](https://github.com/TechCorp25/CivicMaps-rebuild/pull/12), including F05 head `9a813526111f5e5b234066d121afcd6e8ad86a79`. This is planning only; F06 acceptance remains unexecuted.
+Prepared 16 October 2026 from reviewed main `4bedee8d9770c922775128a89f3b8cb4fee5461d`. GitHub confirms owner merge of [PR #12](https://github.com/TechCorp25/CivicMaps-rebuild/pull/12), including F05 head `9a813526111f5e5b234066d121afcd6e8ad86a79`. This document records the preparation contract. F06 implementation and approved live acceptance are now complete; see [executed evidence](evidence/F06.md) and draft PR #14, stacked on preparation PR #13. Neither PR has been merged.
 
 ## Outcome
 
@@ -8,7 +8,7 @@ A registered development municipality has verified HTTPS service destinations th
 
 The [feature card](civicmaps-platform-assessment-and-autonomous-plan.md#f06--municipality-service-routing) governs this scope. Reuse F03 context authorisation, F04 durable recovery and [F05 resource ownership](../development/data-resources.md).
 
-## Recorded D01 selections and remaining provider verification
+## Resolved D01 development decision
 
 The approved [naming decision](../civicmaps-naming-pack/CIVIC-MAPS-PLATFORM-NAMING-DECISION.md), [Expo/EAS standard](../civicmaps-naming-pack/EXPO-EAS-IDENTITY-STANDARD.md) and [identity manifest](../civicmaps-naming-pack/civic-maps-identity.manifest.json) already establish product identity. Use `commandmaps` and `enforcementmaps` as the recommended URL-safe product tokens; `emaps` remains the officer Expo slug/deep-link scheme. Do not reopen these names or use the rejected `cmaps` shorthand.
 
@@ -54,4 +54,4 @@ Local HTTP header tests and simulated ingress exercise contracts only. F06 live 
 
 F07 owns first-admin activation/recovery; F08 owns pack enforcement; F09 owns general municipality suspension; later features own operational rollout, public reporting and payments. F06 does not broaden F05's privileged broker into a claimed production isolation boundary. The current API's local health response and global development origin list are not deployed municipality readiness evidence.
 
-At interruption record branch/HEAD, manifest ownership, exact provider effects, completed matrix rows and next action. Keep one implementation feature in progress. Preparation alone leaves F06 planned. Next action: verify cost fit and provider support for the recorded hostname/ingress selections, then execute this single-feature develop → build → integrate → test → push workflow. The separate F06 build must adopt this revised naming contract and prove its boundary cases before acceptance.
+At interruption record branch/HEAD, manifest ownership, exact provider effects, completed matrix rows and next action. Keep one implementation feature in progress. Preparation alone did not establish acceptance. The build has now completed the single-feature develop → build → integrate → test → push workflow. Next action: owner review of build PR #14 against main; preparation PR #13 has merged, using the executed evidence; keep F07 planned until this feature is accepted.
