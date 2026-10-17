@@ -3,8 +3,8 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": "F06",
-  "nextFeature": "F06",
+  "activeFeature": null,
+  "nextFeature": "F06Q",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -115,16 +115,16 @@
     },
     {
       "id": "F06",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f06-build",
-      "commit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
+      "commit": "d9259130efa9d5e2996b42922776ee9f5cd3ec77",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/14",
       "evidencePath": "docs/plans/evidence/F06.md",
       "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Review PR #14 against main after exact-head CI; new migration/bootstrap revision requires controlled deployment and live validation. Historical live acceptance remains pinned to its deployed source. Retain resources for 21 October review.",
+      "nextAction": "Owner merged PR #14. Address routing reliability findings and verify deployment of the merged naming revision in F06Q; preserve historical live evidence and retained resources.",
       "preparationPath": "docs/plans/F06-preparation.md",
       "preparationBranch": "codex/civicmaps-f06-preparation",
       "preparationCommit": "8eb7eba8d7c9324388b5feed0f641951bceb6ab1",
@@ -134,7 +134,26 @@
       "preparationEmpirical": "recorded",
       "empiricalMemoryId": "6ad1c9d1993fbbc6a5b36e46",
       "preparationMergeCommit": "6e405530f8f2de6b85d4ed9476c7bfa667c97a2c",
-      "reassessmentPath": "docs/plans/evidence/F06-merge-assessment.md"
+      "reassessmentPath": "docs/plans/evidence/F06-merge-assessment.md",
+      "publishedHead": "d9259130efa9d5e2996b42922776ee9f5cd3ec77",
+      "mergeCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
+      "preparationPublishedHead": "52b19868429d5bed735477299ad61d18a171ca71",
+      "deployedSourceCommit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
+      "currentMainLiveAcceptance": "not_verified"
+    },
+    {
+      "id": "F06Q",
+      "status": "planned",
+      "branch": null,
+      "commit": null,
+      "pr": null,
+      "evidencePath": null,
+      "acceptancePassed": false,
+      "publication": "not_started",
+      "empirical": "not_started",
+      "blockers": [],
+      "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
+      "nextAction": "Implement only routing reliability and release alignment from the 17 October assessment: A1/A2/A3/A5, then exact deployed-source acceptance A4. F07 follows owner review."
     },
     {
       "id": "F07",
@@ -424,5 +443,9 @@
     }
   ],
   "integrationBase": "origin/main",
-  "progressAssessment": "docs/plans/civicmaps-progress-assessment-2026-10-13.md"
+  "progressAssessment": "docs/plans/civicmaps-progress-assessment-2026-10-13.md",
+  "latestAssessmentDate": "2026-10-17",
+  "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
+  "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
+  "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e"
 }

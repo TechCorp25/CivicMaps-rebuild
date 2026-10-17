@@ -145,8 +145,14 @@ Each card is a single independently reviewable outcome. Dependencies refer to th
 **Done when:** Alpha/Beta hosts resolve correctly; unknown/forged Host and forwarded-host values fail closed; credentials do not travel to another tenant; routes remain unavailable until resources are ready.
 **Rollback:** withdraw new route mapping; retain data and job history.
 
+### F06Q — Routing reliability and release alignment
+**Depends on:** merged F06. **Goal:** existing development service routes recover safely, sign-in throttling isolates clients, and operator status reflects the current verified release.
+**Scope:** bounded transient probe recovery and terminal Platform recovery path; trusted-ingress client throttling; route UI freshness and truthful health mode; controlled deployment/acceptance of the merged naming revision. See the [17 October assessment](civicmaps-status-assessment-2026-10-17.md) and [implementation prompt](F06Q-next-phase-prompt.md).
+**Done when:** A1/A2/A3/A5 have regression proof, withdrawal/fencing/isolation remain intact, main's naming upgrade/replay preserves owned resources, exact deployed source passes approved synthetic live checks, and final CI/publication/Empirical are verified.
+**Rollback:** restore the prior verified code and compatible control-data checkpoint or withdraw affected routes; retain data/ownership/history. No new council, activation or production rollout.
+
 ### F07 — First council-admin activation
-**Depends on:** F03, F05; D02. **Goal:** pending first admin becomes an authorised council user.
+**Depends on:** F03, F05, F06Q; D02. **Goal:** pending first admin becomes an authorised council user.
 **Scope:** one-time expiring activation, credential recovery and minimal council ADMIN permissions; preserve operator/council identity separation.
 **Done when:** activation is single-use, scoped and audited; expired/replayed tokens fail; lost initial response has safe recovery; council admin cannot gain platform rights; account disable revokes access.
 **Rollback:** revoke activation/session state and disable account; preserve audit.
@@ -288,7 +294,7 @@ Each of these needs a separate feature card if brought into the active queue: fu
 
 ## Session ledger and kickoff
 
-Use [civicmaps-feature-ledger.json](civicmaps-feature-ledger.json) for resumption. The original assessment contained 28 implementation cards. The [13 October progress assessment](civicmaps-progress-assessment-2026-10-13.md) confirms F01 and F02 merged through PR #4 and PR #6, with successful hosted acceptance checks. F02Q is merged through [PR #8](https://github.com/TechCorp25/CivicMaps-rebuild/pull/8), with [passing evidence](evidence/F02Q.md). F03 is merged through [PR #9](https://github.com/TechCorp25/CivicMaps-rebuild/pull/9), with [acceptance evidence](evidence/F03.md). F04 durable synthetic provisioning jobs is merged through [PR #10](https://github.com/TechCorp25/CivicMaps-rebuild/pull/10), with [acceptance evidence](evidence/F04.md) and the [scoped brief](F04-preparation.md). F05 isolated data resources is merged through [PR #12](https://github.com/TechCorp25/CivicMaps-rebuild/pull/12) at `4bedee8d9770c922775128a89f3b8cb4fee5461d`, with [acceptance evidence](evidence/F05.md). F06 municipality service routing has passed local and approved public AWS acceptance; [executed evidence](evidence/F06.md) records the live hosts, isolation/recovery checks, retention and limitations. Preparation PR #13 is merged. Build PR #14 incorporates its revised municipality-token contract and is assessed against main; owner review/merge remains required. F07 first-admin activation remains planned. F05/F06 development target, hostname, budget and retention decisions are resolved. The ledger now contains 29 cards. Approval and merge remain separate states.
+Use [civicmaps-feature-ledger.json](civicmaps-feature-ledger.json) for resumption. F01, F02, F02Q and F03–F06 are merged; PR #13 merged at `6e405530f8f2de6b85d4ed9476c7bfa667c97a2c`, and PR #14 at `8da79eec7ae56cd3d9a21930842b217967df049e`. The [17 October assessment](civicmaps-status-assessment-2026-10-17.md) verifies 60 tests and identifies routing recovery, shared login throttling and stale UI defects plus a deployed-release verification gap. F06Q is the next bounded stabilisation phase; its [instructional prompt](F06Q-next-phase-prompt.md) defines acceptance. F07 administrator activation remains planned after F06Q. Historical [F06 live evidence](evidence/F06.md) is pinned to its deployed source and must not be attributed to newer main. The ledger contains 30 cards, with no implementation feature currently in progress. Approval, publication, deployment and merge remain separate states.
 
 Suggested session instruction:
 

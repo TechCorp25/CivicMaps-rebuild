@@ -1,0 +1,14 @@
+Assessed main: 8da79eec7ae56cd3d9a21930842b217967df049e
+Node24.19.0/npm11.9.0; reused existing lockfile-compatible dependencies; disposable local PostgreSQL18.4.
+npm run check: PASS,60tests/0fail; lint/format/typecheck/build pass.
+Merged PR head d925913 hosted CI38984872758: SUCCESS; main tree identical to that head.
+
+API operation failed: Service route unavailable
+CONFIRMED A1: one failed Platform probe persists failed; login503; next healthy worker cycle does not retry.
+CONFIRMED A2:20 failed logins from distinct forwarded client IPs block unrelated valid operator login429 behind loopback ingress.
+
+4:05:43 AM [vite] (client) ✨ new dependencies optimized: react-dom/client
+4:05:43 AM [vite] (client) ✨ optimized dependencies changed. reloading
+CONFIRMED A3: mounted RoutingStatus remains ready after301seconds; reload renders expired. Main detail polling stops for settled ready routes.
+
+Public non-mutating HTTPS health checks: platform/alpha-commandmaps/beta-commandmaps.dev.civicmaps.com.au each200, status=ready, mode=local-synthetic. TLS verified via existing environment proxy CA. No AWS changes or public login/fault injection performed.
