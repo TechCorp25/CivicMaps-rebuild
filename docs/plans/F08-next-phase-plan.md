@@ -12,13 +12,19 @@ Prepared 18 October 2026 (Australia/Melbourne), Codex (agent).
 
 This is a plan. No deployment, recipient activation, entitlement implementation or new AWS resource is performed by publishing it. Existing AWS CLI authorisation, Sydney Region, Medium guidance, resource retention through the 21 October review and the saved US$50/month allocation remain the starting constraints; verify current runtime/spend facts at execution.
 
+## Execution checkpoint — 18 October 2026
+
+F07 release preparation has begun on the PR #20 workflow. The pinned merged-source archive is built and all 69 local checks pass; see [preparation evidence](evidence/F07-release-preparation.md). AWS reauthentication and concrete synthetic recipient/permanent-disable designations are pending. No deployment/live acceptance is claimed. The [parking/shared-map capability baseline](F08-parking-capability-baseline.md) records read-only inspection of preview source pinned to `e53ec8c`.
+
 ## Owner-confirmed branch sequence and reuse strategy
 
 The owner confirmed **Parking Services Branch** as the first departmental branch feature package. Its source knowledge base is the established `CivicMAPS/CivicMaps-preview` application, not an empty feature brief. The checked-in [feature inventory](../product/civicmapsfeatureinventory.md), [source/sync record](../github.md) and parking/Code21 wireframe annotations provide the starting evidence. Before porting a slice, inspect its actual preview source and pin the relevant revision; distinguish working behaviour, dormant features and documented defects from what has already been verified in this rebuild.
 
 Treat Parking Services Branch as a first-class departmental package within the existing council/context model. The earlier proposal to fold parking into Local Laws is superseded by this owner direction. Exact catalogue ID and migration details remain D03 decisions; the display/package name and parking-first sequence are confirmed.
 
-Build a capability/reuse matrix from the preview evidence: shared dispatch, management and administration on one side, parking-specific field operations on the other. Reuse verified contracts and behaviour while retaining current tenant/context isolation and least privilege. This does not import every historical feature into F08 or establish feature parity without acceptance evidence.
+Parking Services, Local Laws, Animal Management, Waste Management and subsequent branches share the **same operational map interface**. Branch capabilities determine its tools, layers, forms, workflows and field actions, filtered by current entitlements and user/context permissions. A contrasting second branch changes the field feature set within that shared map, while reusing dispatch, management and administration.
+
+Build a capability/reuse matrix from the preview evidence: shared operational map, dispatch, management and administration on one side, parking-specific field operations on the other. Reuse verified contracts and behaviour while retaining current tenant/context isolation and least privilege. This does not import every historical feature into F08 or establish feature parity without acceptance evidence.
 
 The second departmental branch should share **little parking-specific field-operational code**, while reusing substantial dispatch, management and administrative capability. Its identity is not yet selected. Choose it by that criterion after mapping the parking baseline, then give it a separate bounded plan and acceptance cases. Demonstrate reuse of the shared services without copying the parking workflow into a differently named branch; verify branch/council isolation and independent entitlement changes.
 
@@ -65,12 +71,12 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 
 - [x] Verify PR #19 owner merge and synchronise main to `2b73318`.
 - [x] Record current F07 implementation/review evidence and pending live-release boundary.
-- [ ] Confirm selected merged source CI and build its pinned release artifact.
+- [x] Confirm selected merged source CI and build its pinned release artifact; local archive/checks recorded in preparation evidence.
 - [ ] Record concrete synthetic recipients/contexts and a reserved permanent-disable test designation.
 - [ ] Inspect existing AWS runtime/spend; verify private checkpoint and compatibility/recovery gates.
 - [ ] Deploy F07, complete scoped live acceptance/preservation/recovery and publish release evidence.
 - [x] Record owner direction: Parking Services Branch first, then a branch with little shared field code and substantial shared dispatch/management/administration.
-- [ ] Map preview parking capabilities to shared services versus branch-specific field operations; pin source evidence and identify rebuild gaps.
+- [x] Prepare the source-pinned preview capability/reuse matrix and identify rebuild gaps; [baseline](F08-parking-capability-baseline.md). This inventory does not close later implementation/acceptance gaps.
 - [ ] Record remaining owner D03 decisions after the F07 release gate.
 - [ ] Select the second branch against the confirmed reuse criterion and prepare its separate scope after the parking baseline.
 - [ ] Implement and verify one F08 entitlement feature; publish evidence, CI, review and Empirical checkpoint.

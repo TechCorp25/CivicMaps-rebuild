@@ -195,7 +195,9 @@
       "review": "External Codex review completed on16d5435 with no findings or unresolved conversations",
       "mergeCommit": "2b73318a57c97baecb52711beca401ed3a162339",
       "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070898955",
-      "releasePreparationPath": "docs/plans/F08-next-phase-plan.md"
+      "releasePreparationPath": "docs/plans/F08-next-phase-plan.md",
+      "releaseStatus": "preparing_awaiting_aws_reauthentication_and_recipient_designations",
+      "releasePreparationEvidencePath": "docs/plans/evidence/F07-release-preparation.md"
     },
     {
       "id": "F08",
@@ -214,7 +216,9 @@
       "nextAction": "Complete F07 release gate, record D03 decisions, then implement one server-enforced entitlement feature.",
       "preparationPath": "docs/plans/F08-next-phase-plan.md",
       "firstBranchPackage": "Parking Services Branch",
-      "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected."
+      "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected.",
+      "sharedMapPolicy": "All departmental branches share the operational map interface; tools/layers/workflows vary by branch capabilities, entitlements and user/context permissions.",
+      "capabilityBaselinePath": "docs/plans/F08-parking-capability-baseline.md"
     },
     {
       "id": "F09",
