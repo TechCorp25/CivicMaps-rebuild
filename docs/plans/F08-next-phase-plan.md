@@ -88,7 +88,8 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [x] Record owner-approved D03 decisions after the F07 release gate; decision receipt in F08-D03-decisions.md.
 - [x] Implement bounded F08 entitlements; publish [evidence](evidence/F08.md), draft [PR #21](https://github.com/TechCorp25/CivicMaps-rebuild/pull/21) and Empirical checkpoint `6ad42e3dbeb1d96470603a5b`. Parent PR #20 was owner-merged at `26a49e0`; PR #21 was subsequently owner-merged at `b21e764` after final-head CI/review.
 - [x] Owner merged PRs #20/#21; F08 deployment, live HTTPS acceptance and compatible recovery passed according to the release handoff.
-- [ ] Complete the pending local receipt/manifest reconciliation and supplemental result inspection in [F08 closure](evidence/F08-release-closure.md); finish closure review/publication checks and owner review/merge of its draft PR.
+- [x] Publish [draft closure PR #22](https://github.com/TechCorp25/CivicMaps-rebuild/pull/22), verify remote source and complete Codex review; publication-head CI passed, with current-head receipts tracked in the PR and Empirical.
+- [ ] Complete original receipt/manifest reconciliation and supplemental result inspection in [F08 closure](evidence/F08-release-closure.md); owner review/merge of PR #22 remains outstanding.
 - [x] Prepare [F09 scope/dependencies/acceptance/TODOs](F09-next-phase-plan.md), preserving unresolved policy choices.
 - [ ] Resolve concrete F09 policy choices before dependent implementation; do not infer approval from the plan.
 - [ ] Later, non-blocking work after F08 completion: select the second branch against the confirmed reuse criterion and prepare a separate scope. This choice does not gate F08 or authorise a second concurrent feature.

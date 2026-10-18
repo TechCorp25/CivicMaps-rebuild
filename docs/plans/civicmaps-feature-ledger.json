@@ -214,7 +214,7 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "PR22 is published as draft with verified remote content commit2121b33 and Codex review complete. Inspect current-head CI and existing supplemental SSM receipt through normal approval after AWS reauthentication; reconcile missing original receipts/manifest if recovered. Do not redeploy/reimplement F08 or replay migration013. F09 plan prepared; concrete policy choices remain unapproved.",
+      "nextAction": "PR22 is published as draft with verified remote source and completed Codex review; publication-head CI passed, with current-head receipts in PR22/Empirical. Retrieve existing supplemental SSM receipt through normal approval after AWS reauthentication and reconcile missing originals if recovered. Owner review/merge remains outstanding. Do not redeploy/reimplement F08 or replay migration013. F09 plan is prepared; concrete policy choices remain unapproved.",
       "preparationPath": "docs/plans/F08-next-phase-plan.md",
       "firstBranchPackage": "Parking Services Branch",
       "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected.",
@@ -250,7 +250,12 @@
       "releaseAWSAuthentication": "expired_at_resume_standard_remote_login_pending",
       "releaseEvidencePR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/22",
       "releaseEvidenceContentCommit": "2121b3372d4863addc1f0ec9b444bbb5e95bfa3c",
-      "releaseEvidenceCI": "pending_current_head_check"
+      "releaseEvidenceCI": "Validated publication head de0c3ef passed PR39109919024 and push39109916184; current-head results tracked in PR22 and Empirical",
+      "releaseEvidenceValidatedCommit": "de0c3ef05f66617b3108b6e2bfdb51316e90441d",
+      "releaseEvidenceValidatedCI": [
+        "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39109919024",
+        "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39109916184"
+      ]
     },
     {
       "id": "F09",
@@ -525,7 +530,7 @@
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "PR22 is published as draft with verified remote content commit2121b33 and Codex review complete. Inspect current-head CI and existing supplemental SSM receipt through normal approval after AWS reauthentication; reconcile missing original receipts/manifest if recovered. Do not redeploy/reimplement F08 or replay migration013. F09 plan prepared; concrete policy choices remain unapproved.",
+  "nextAction": "PR22 is published as draft with verified remote source and completed Codex review; publication-head CI passed, with current-head receipts in PR22/Empirical. Retrieve existing supplemental SSM receipt through normal approval after AWS reauthentication and reconcile missing originals if recovered. Owner review/merge remains outstanding. Do not redeploy/reimplement F08 or replay migration013. F09 plan is prepared; concrete policy choices remain unapproved.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08"
