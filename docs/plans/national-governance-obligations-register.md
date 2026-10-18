@@ -61,4 +61,4 @@ For each customer jurisdiction and workflow, the completed register must contain
 7. Required state/customer security standards and national guidance, version, assessment boundary and assurance evidence.
 8. Current implemented control, evidence link, confirmed gap, remediation owner, due date and accountable residual-risk acceptance.
 
-This initial research does not fill all those fields or constitute legal/customer acceptance. GOV-01 remains open. The feature expansion/production gate remains open until the agreed jurisdiction/workflow scope is reviewed and the selected controls are implemented and verified.
+This initial research does not fill all those fields or constitute legal/customer acceptance. GOV-01 remains open. Functional development continues alongside this work. Production acceptance for the affected scope remains pending until the agreed jurisdiction/workflow scope is reviewed and the selected controls are implemented and verified.
