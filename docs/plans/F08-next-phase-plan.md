@@ -2,9 +2,9 @@
 
 Prepared 18 October 2026 (Australia/Melbourne), Codex (agent).
 
-## Current checkpoint — F08 complete; closure reconciliation pending
+## Current checkpoint — F08 release gates complete; F09 planned
 
-Owner-merged PR #21 source `b21e764ad1151aa3e4dce6f91f29f24f69b31916` is deployed and its live HTTPS acceptance/concurrency/compatible recovery passed according to the release handoff. [F08 closure](evidence/F08-release-closure.md) pins the artifact and successful commands, distinguishes independently checked GitHub state from handoff-reported live evidence, and retains the uninspected supplemental source-check receipt, local receipt reconciliation and original manifest reconciliation as pending. Do not redeploy, reimplement or replay migration 013.
+Owner-merged PR #21 source `b21e764ad1151aa3e4dce6f91f29f24f69b31916` is deployed and its live HTTPS acceptance/concurrency/compatible recovery passed, now verified from the original inspected SSM receipts. [F08 closure](evidence/F08-release-closure.md) pins the artifact and original successful commands. Supplemental command `321b8ad1-bab7-468e-9c4d-08652c0207ed` also passed: all 83 installed files match, status Success/response code 0, with services, migration, administrators, routes, packs, privileges, cleanup and TLS results inspected. The original local manifest remains unavailable; its reconstruction explicitly records that limitation. Do not redeploy, reimplement or replay migration 013.
 
 The next development phase is [F09 municipality suspension and resumption](F09-next-phase-plan.md). Its scope, dependencies, acceptance criteria and TODOs are prepared; concrete suspension/session/readiness choices remain proposed and require explicit resolution before dependent implementation. Second-branch selection remains later/non-blocking.
 
@@ -89,11 +89,12 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [x] Implement bounded F08 entitlements; publish [evidence](evidence/F08.md), draft [PR #21](https://github.com/TechCorp25/CivicMaps-rebuild/pull/21) and Empirical checkpoint `6ad42e3dbeb1d96470603a5b`. Parent PR #20 was owner-merged at `26a49e0`; PR #21 was subsequently owner-merged at `b21e764` after final-head CI/review.
 - [x] Owner merged PRs #20/#21; F08 deployment, live HTTPS acceptance and compatible recovery passed according to the release handoff.
 - [x] Publish [draft closure PR #22](https://github.com/TechCorp25/CivicMaps-rebuild/pull/22), verify remote source and complete Codex review; publication-head CI passed, with current-head receipts tracked in the PR and Empirical.
-- [ ] Complete original receipt/manifest reconciliation and supplemental result inspection in [F08 closure](evidence/F08-release-closure.md); owner review/merge of PR #22 remains outstanding.
+- [x] Retrieve and inspect original deployment/live/recovery/supplemental receipts and reconcile the reconstructed manifest; all scoped release gates passed.
+- [ ] Owner review/merge of draft PR #22 remains outstanding.
 - [x] Prepare [F09 scope/dependencies/acceptance/TODOs](F09-next-phase-plan.md), preserving unresolved policy choices.
 - [ ] Resolve concrete F09 policy choices before dependent implementation; do not infer approval from the plan.
 - [ ] Later, non-blocking work after F08 completion: select the second branch against the confirmed reuse criterion and prepare a separate scope. This choice does not gate F08 or authorise a second concurrent feature.
 
 ## Resumption instruction
 
-Read current main, ledger, [F08 closure](evidence/F08-release-closure.md), [F09 plan](F09-next-phase-plan.md) and Empirical. PRs #19/#20/#21 are owner-merged; F08 source `b21e764` is deployed/live accepted with compatible recovery according to the handoff. Do not repeat activation, permanently disable Alpha, reimplement F08, redeploy it or replay migration 013. Retrieve the existing supplemental check through the normal approved path after AWS reauthentication, reconcile local receipts and scratch `artifact.json`, and preserve accurate pending status until inspected. Use compatible F08 code for recovery. F09 remains planning-only until its concrete policy choices are resolved before dependent implementation. Keep implementation, deployment, live acceptance, closure publication and owner merge distinct in every record.
+Read current main, ledger, [F08 closure](evidence/F08-release-closure.md), [F09 plan](F09-next-phase-plan.md) and Empirical. PRs #19/#20/#21 are owner-merged; F08 source `b21e764` is deployed/live accepted with compatible recovery and supplemental 83-file verification supported by inspected original SSM receipts. Do not repeat activation, permanently disable Alpha, reimplement F08, redeploy it or replay migration 013. The existing supplemental receipt has been retrieved and inspected through normal approval, and scratch `artifact.json` is reconciled. Preserve its missing-original-local-manifest provenance; do not repeat receipt retrieval or tests as a release prerequisite. Use compatible F08 code for recovery. F09 remains planning-only until its concrete policy choices are resolved before dependent implementation. Keep implementation, deployment, live acceptance, closure publication and owner merge distinct in every record.

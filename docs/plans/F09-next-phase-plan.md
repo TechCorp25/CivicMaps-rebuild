@@ -6,7 +6,7 @@ Prepared 18 October 2026 (Australia/Melbourne) by Codex (agent). **Status: plann
 
 An authenticated Platform operator can suspend an existing synthetic municipality without deleting its records, and resume it only after current resource/routing readiness is verified. Scope is the [roadmap F09 card](civicmaps-platform-assessment-and-autonomous-plan.md#f09--municipality-suspension-and-resumption): audited status transition, access/session enforcement and UI state.
 
-F08 is owner-merged, deployed and live accepted on source `b21e764ad1151aa3e4dce6f91f29f24f69b31916`, according to the [release closure](evidence/F08-release-closure.md). That record explicitly retains the uninspected supplemental receipt and missing original receipt reconciliation as pending. Do not redeploy F08 or replay migration 013 to start planning. Do not mark F09 implemented or acceptance-passed merely because this plan is published.
+F08 is owner-merged, deployed and live accepted on source `b21e764ad1151aa3e4dce6f91f29f24f69b31916`, as verified by original inspected SSM receipts in the [release closure](evidence/F08-release-closure.md). Its supplemental 83-file source check also passed and is reconciled; only the original local manifest remains unavailable, explicitly disclosed as a provenance limitation. Do not redeploy F08 or replay migration 013 to start planning. Do not mark F09 implemented or acceptance-passed merely because this plan is published.
 
 Current main at reconciliation is `c011cc7c0fa12902e5d8626f6365af4d829dc36f`; its only change after the F08 merge removes a placeholder `.gitkeep`. Refresh the ledger, main and applicable AGENTS.md before implementation. Keep one implementation feature active. Closure review/publication, implementation, deployment and owner merge are distinct.
 
@@ -17,7 +17,7 @@ Current main at reconciliation is `c011cc7c0fa12902e5d8626f6365af4d829dc36f`; it
 | F06/F06Q routing | Preserve explicit route ownership, context/resource binding, trusted ingress, bounded recovery and readiness freshness. Use [routing runbook](../development/service-routing.md) and historical release evidence |
 | F07 identity | Preserve own-profile/session/context-only ADMIN authority, usable Alpha administrator and disabled/inactive/zero-session Beta administrator. [F07 release closure](evidence/F07-release-closure.md) |
 | F08 entitlements | Suspension is an additional municipality-level gate. Resume cannot enable a disabled pack, expand a role/grant or bypass retained-review policy. [D03](F08-D03-decisions.md), [implementation evidence](evidence/F08.md) and [release closure](evidence/F08-release-closure.md) |
-| Release reconciliation | Inspect local receipts and the existing supplemental command after AWS reauthentication; keep unavailable/failed assertions explicit. Complete the closure review/publication workflow rather than restarting F08 |
+| Release reconciliation | Original deployment/live/recovery/supplemental receipts are inspected and passed; preserve reconstructed-manifest provenance. PR #22 remains draft for owner review/merge; refresh its current head/CI rather than restarting F08 |
 | Concrete suspension policy | Resolve the choices below before implementing policy-dependent behaviour or changing live municipality state |
 | Test fixture/readiness definition | Choose disposable fixtures for destructive session/suspension tests. Define which current readiness checks permit resume, including freshness and failure behaviour |
 
@@ -67,7 +67,7 @@ Owner choices may replace the recommendations. Record the exact approval source 
 ## Execution TODOs
 
 - [x] Read merged roadmap F09 goal/dependencies and current F08 handoff; prepare this bounded plan.
-- [ ] Finish outstanding F08 local/receipt/manifest reconciliation and closure review/publication checks without repeating deployment.
+- [x] Finish F08 original AWS receipt reconciliation, including successful supplemental source verification; retain the missing-original-local-manifest limitation. PR #22 remains for owner review/merge.
 - [ ] Refresh main, applicable instructions, ledger and project-scoped Empirical; inspect actual Git/worktree state and preserve unrelated work.
 - [ ] Inspect current status schema, route/context/session guards, worker mutations and affected module READMEs; publish an endpoint/action coverage matrix.
 - [ ] Obtain and record concrete F09-P01–P06 decisions as needed, and select disposable fixtures plus the resume readiness contract. No policy approval is inferred from this plan.
@@ -81,4 +81,4 @@ Owner choices may replace the recommendations. Record the exact approval source 
 
 ## Resumption instruction
 
-Continue from the current ledger and F08 closure record. F08 deployment, live acceptance and recovery are complete according to the handoff; its supplemental receipt/local reconciliation are pending. F09 is planned only. Resolve its concrete policy choices before dependent implementation, retain existing identity/entitlement boundaries, and never present this proposed suspension policy as owner-approved.
+Continue from the current ledger and F08 closure record. F08 deployment, live acceptance, recovery and supplemental source verification passed and are reconciled with original inspected AWS receipts. Do not repeat those completed prerequisites; retain the disclosed original-local-manifest limitation. F09 is planned only. Resolve its concrete policy choices before dependent implementation, retain existing identity/entitlement boundaries, and never present this proposed suspension policy as owner-approved.
