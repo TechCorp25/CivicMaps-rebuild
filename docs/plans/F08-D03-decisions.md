@@ -1,8 +1,8 @@
 # F08 D03 — catalogue and entitlement policy decisions
 
-Prepared 18 October 2026 by Codex (agent). **Status: proposed; owner approval pending.** F07 [live-release gate](evidence/F07-release-closure.md) passed. Parking Services Branch first and a shared operational map with branch-dependent features are already owner-confirmed; those choices are not being reopened.
+Prepared 18 October 2026 by Codex (agent). **Status: owner approved in chat on 18 October 2026.** F07 [live-release gate](evidence/F07-release-closure.md) passed. Parking Services Branch first and a shared operational map with branch-dependent features are already owner-confirmed; those choices are not being reopened.
 
-The owner is asked to approve this concrete initial development policy before F08 implementation:
+The owner approved the following initial development policy before F08 implementation:
 
 | Area | Proposed decision |
 | --- | --- |
@@ -17,4 +17,4 @@ Unknown catalogue values or unmapped contexts are surfaced for explicit resoluti
 
 The bounded F08 feature covers existing implemented requests/audit, officer/resource lookups and pack controls. It defines the branch capability contract for the shared map without claiming to implement missing GIS/realtime or all preview parking workflows. The source-pinned [capability baseline](F08-parking-capability-baseline.md) records those gaps. F09 suspension, F11 general operational-data connection, personnel management and selecting/implementing a second branch remain later scopes.
 
-If approved, record the owner response here and in Empirical before implementing these choices. If an exception is requested, specify the exact actor/action/state and adjust acceptance cases first. No proposal in this document is an approval by itself.
+Approval receipt: the owner answered **“Approve these initial D03 choices”** to the request linking this decision sheet at PR #20 source `a4a57c8`. Empirical decision `6ad42b2cbeb1d96470603894` records that approval. Later exceptions require an explicit actor/action/state and corresponding acceptance cases.

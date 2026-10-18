@@ -10,11 +10,11 @@ Prepared 18 October 2026 (Australia/Melbourne), Codex (agent).
 - F07 merged source `2b73318` is now deployed and its scoped live gate passed. [Release closure](evidence/F07-release-closure.md) records the exact artifact, preservation, real TLS activation/isolation/revocation and compatible recovery. The [implementation evidence](evidence/F07.md) and older [F06Q release evidence](evidence/F06Q-release-closure.md) retain their original scopes.
 - [D02](F07-D02-decisions.md) is approved and implemented. ADMIN keeps own profile/session and explicit context grants only. F08 must not expand those permissions.
 
-This plan now includes an executed F07 release checkpoint. F08 entitlement implementation still awaits D03; no new AWS compute, DNS or council resource was created. Existing AWS CLI authorisation, Sydney Region, Medium guidance, resource retention through the 21 October review and the saved US$50/month allocation remain the starting constraints; verify current runtime/spend facts at execution.
+This plan now includes an executed F07 release checkpoint. F08 entitlement implementation now proceeds under the approved D03 policy; no new AWS compute, DNS or council resource was created. Existing AWS CLI authorisation, Sydney Region, Medium guidance, resource retention through the 21 October review and the saved US$50/month allocation remain the starting constraints; verify current runtime/spend facts at execution.
 
 ## Execution checkpoint — 18 October 2026
 
-F07 is deployed/live accepted on `2b73318`; see [release closure](evidence/F07-release-closure.md). The owner selected existing Alpha/Beta test councils: Alpha's synthetic administrator is retained, Beta's administrator is disabled and its sessions revoked. Preserved-data and compatible F07 recovery checks passed. Earlier [preparation evidence](evidence/F07-release-preparation.md) is historical. Next obtain the remaining [D03 decisions](F08-D03-decisions.md), then implement F08 on a fresh feature branch. The [shared-map capability baseline](F08-parking-capability-baseline.md) remains pinned to preview `e53ec8c`.
+F07 is deployed/live accepted on `2b73318`; see [release closure](evidence/F07-release-closure.md). The owner selected existing Alpha/Beta test councils: Alpha's synthetic administrator is retained, Beta's administrator is disabled and its sessions revoked. Preserved-data and compatible F07 recovery checks passed. Earlier [preparation evidence](evidence/F07-release-preparation.md) is historical. The owner has approved [D03](F08-D03-decisions.md); next implement F08 on a fresh feature branch. The [shared-map capability baseline](F08-parking-capability-baseline.md) remains pinned to preview `e53ec8c`.
 
 ## Owner-confirmed branch sequence and reuse strategy
 
@@ -40,14 +40,14 @@ The second departmental branch should share **little parking-specific field-oper
 8. Rehearse recovery with preserved migration 012, data and audit. Prefer a corrective forward release. After any F07 identity exists, an old-code rollback is **not assumed safe**: first prove compatible ADMIN denial, disable/login behaviour and bootstrap preservation in an isolated populated checkpoint. Otherwise keep affected access closed during repair and recover with compatible F07 code. Never down-migrate or restore over populated live control data as routine rollback.
 9. Publish a new F07 release-closure record with exact source/artifact/environment, checks performed, fixture identities without secrets, preservation results, recovery evidence and coverage limits. Update the ledger/handoff and Empirical, push, verify CI, run Codex review, address validated findings and open a draft PR for owner review. Mark the release gate passed only when the required real-runtime checks and recovery have passed; keep gaps explicit.
 
-## Phase B — settle D03 before F08 implementation
+## Phase B — approved D03 policy (reference)
 
-The owner has confirmed the Parking Services Branch package and first-branch sequence above. Remaining D03 policy and catalogue/migration details are **unapproved**. The following distinguish that confirmed direction from proposals still requiring an owner decision. F07 release acceptance is complete; the concrete remaining approval request is [F08-D03-decisions.md](F08-D03-decisions.md). Record the accepted choices before F08 implementation.
+The owner has confirmed the Parking Services Branch package and first-branch sequence above. The owner has now approved the initial D03 policy and catalogue/migration choices in [F08-D03-decisions.md](F08-D03-decisions.md). The table below retains their planning context; use the approved decision sheet for implementation details, including explicit Alpha/Beta enablement.
 
 | Decision | Proposed initial development policy | Reason / acceptance consequence |
 | --- | --- | --- |
 | Stable catalogue IDs | Preserve the eight current display labels; introduce immutable IDs `local-laws`, `parks-gardens`, `animal-management`, `cleaning`, `waste`, `safe-city`, `licensing-permits`, `asset-inspections`, with explicit migration from existing labels | Renaming a label must not change access or lose assignments; unknown legacy values must be surfaced for resolution |
-| Parking Services Branch | **Owner-confirmed:** first-class first departmental package; do not map parking implicitly into `local-laws`. Proposed stable ID `parking-services` remains for D03 confirmation | Preserve existing assignments; explicitly decide migration/default entitlement for parking rather than silently enabling it for every Local Laws assignment |
+| Parking Services Branch | **Owner-confirmed:** first-class first departmental package; do not map parking implicitly into `local-laws`. Stable ID `parking-services` is approved | Preserve existing assignments; explicitly decide migration/default entitlement for parking rather than silently enabling it for every Local Laws assignment |
 | Disabled-pack records | Retain records and audit; allow read-only review only to existing operational roles already authorised for those records/context | A disabled pack grants no new review authority; F07 ADMIN remains excluded from operational data |
 | In-flight actions | Deny new writes/actions after disable commits; no grandfathered completion exception initially | Writes and disable must have a defined transaction ordering so a stale session/cache cannot authorise a later mutation; actions committed before disable remain valid history |
 | Re-enable and recovery | Re-enable via an audited new configuration version, preserving records; configuration rollback also creates a new version | Never reuse a version or bypass checks to recover; previously permitted roles regain only their existing authorised capabilities |
@@ -77,11 +77,11 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [x] Deploy F07 and record scoped live acceptance/preservation/recovery in the release-closure evidence published with this update.
 - [x] Record owner direction: Parking Services Branch first, then a branch with little shared field code and substantial shared dispatch/management/administration.
 - [x] Prepare the source-pinned preview capability/reuse matrix and identify rebuild gaps; [baseline](F08-parking-capability-baseline.md). This inventory does not close later implementation/acceptance gaps.
-- [ ] Record remaining owner D03 decisions after the F07 release gate.
+- [x] Record owner-approved D03 decisions after the F07 release gate; decision receipt in F08-D03-decisions.md.
 - [ ] Select the second branch against the confirmed reuse criterion and prepare its separate scope after the parking baseline.
 - [ ] Implement and verify one F08 entitlement feature; publish evidence, CI, review and Empirical checkpoint.
 - [ ] Owner review/merge of resulting PRs; qualify any later F08 release separately.
 
 ## Resumption instruction
 
-Read current main, ledger, this plan and Empirical. PR #19 is merged; do not restart its implementation/review/merge or repeat D02. F07 source `2b73318` is deployed/live accepted with approved Alpha/Beta fixtures; do not repeat activation or permanently disable Alpha. Obtain the remaining D03 decisions and implement one F08 entitlement feature from the shared-map capability baseline. Keep implementation, deployment, live acceptance and owner merge distinct in every record.
+Read current main, ledger, this plan and Empirical. PR #19 is merged; do not restart its implementation/review/merge or repeat D02. F07 source `2b73318` is deployed/live accepted with approved Alpha/Beta fixtures; do not repeat activation or permanently disable Alpha. Use approved D03 decisions and implement one F08 entitlement feature from the shared-map capability baseline. Keep implementation, deployment, live acceptance and owner merge distinct in every record.
