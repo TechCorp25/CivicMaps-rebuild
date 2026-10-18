@@ -79,9 +79,9 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [x] Prepare the source-pinned preview capability/reuse matrix and identify rebuild gaps; [baseline](F08-parking-capability-baseline.md). This inventory does not close later implementation/acceptance gaps.
 - [x] Record owner-approved D03 decisions after the F07 release gate; decision receipt in F08-D03-decisions.md.
 - [ ] Select the second branch against the confirmed reuse criterion and prepare its separate scope after the parking baseline.
-- [ ] Implement and verify one F08 entitlement feature; publish evidence, CI, review and Empirical checkpoint.
+- [x] Implement bounded F08 entitlements; publish [evidence](evidence/F08.md), draft [PR #21](https://github.com/TechCorp25/CivicMaps-rebuild/pull/21) and Empirical checkpoint `6ad42e3dbeb1d96470603a5b`. Require published-head CI and external review completion before owner merge.
 - [ ] Owner review/merge of resulting PRs; qualify any later F08 release separately.
 
 ## Resumption instruction
 
-Read current main, ledger, this plan and Empirical. PR #19 is merged; do not restart its implementation/review/merge or repeat D02. F07 source `2b73318` is deployed/live accepted with approved Alpha/Beta fixtures; do not repeat activation or permanently disable Alpha. Use approved D03 decisions and implement one F08 entitlement feature from the shared-map capability baseline. Keep implementation, deployment, live acceptance and owner merge distinct in every record.
+Read current main, ledger, this plan and Empirical. PR #19 is merged; do not restart its implementation/review/merge or repeat D02. F07 source `2b73318` is deployed/live accepted with approved Alpha/Beta fixtures; do not repeat activation or permanently disable Alpha. F08 implementation is published in stacked draft PR #21. Use its evidence and published-head checks/review for owner review; do not restart implementation. Keep implementation, deployment, live acceptance and owner merge distinct in every record.
