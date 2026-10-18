@@ -39,11 +39,21 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 **Evidence:** [current-state matrix](2026-10-19-authority-data-flow-matrix.md) pins deployed application source `b21e764…`, current main `92b3eea…`, F-029 governance code `9b3afc2…`, and the 18 October read-only infrastructure observations. It distinguishes implementation from planned classes, maps all eight jurisdictions and external territories to the initial official-source register, identifies shared control-DB storage versus separate synthetic resource fixtures, and marks customer, contract, provider-copy, logging and retention unknowns explicitly.
 
-**Validation:** 24 local relative links resolve; jurisdiction/data-class coverage assertions and `git diff --check` passed. This is documentation/evidence work and adds no legal opinion or new application behavior.
+**Validation:** 27 local relative links resolve; jurisdiction/data-class coverage assertions and `git diff --check` passed. This is documentation/evidence work and adds no legal opinion or new application behavior.
 
-## Advanced-model Checkpoint A — review-ready
+## Advanced-model Checkpoint A — reassessed; source corrections applied
 
-The source-pinned matrix and first bounded G04 correction F-029 are ready for reassessment together. The assessment is not self-certified; the reviewer should test the matrix's reading of actual source/runtime boundaries and the scope of F-029 preservation evidence. PR #25 exact-head Actions run `39130614555` passed on code head `9b3afc2`; the subsequent checkpoint-only commit `82efe6e` also passed run `39130875787`. The matrix is a further documentation-only commit and its exact package head is supplied with the reassessment request.
+The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`, main `92b3eea8b8ecfd0505afb6d62d60a001903db161`, and F-029 code head `9b3afc2cbeb9c9e4f8db1c3032043c696caf44bf`. The GPT-6 Astra reviewer returned findings; they were checked against source and the supported documentation findings are recorded below. The source corrections in this checkpoint's working tree are documentation-only.
+
+**Reviewer findings and disposition (19 October 2026, Australia/Melbourne):**
+
+- Supported: existing platform operator authority includes municipality-scoped route `retry` and `withdraw`, version checks, and actor-attributed `service_route_events`. Source review also confirms only a recently checked `ready` route passes middleware and sessions bind to route ID/version. The matrix now describes these service availability/session effects and separates them from the unapproved F09 municipality-suspension policy.
+- Supported: request creation audit records status only; transition audit records `from`, `to`, reason and officer ID. Full request responses, including coordinates, are saved in mutation receipts. The matrix now distinguishes audit from receipt copies.
+- Supported: free-text action/closure reasons can contain sensitive information and are retained in audit details; the sensitive-data row now includes this path.
+- No actionable F-029 implementation finding. The reviewer found common pre-mutation reason validation and defensive display consistent with preserved auth, entitlement/context, CSRF, idempotency, version, transition and transactional audit behavior.
+- Reviewer limitation: source/document review only, not independent CI/browser/live execution or legal certification. Existing exact-head hosted CI evidence remains the execution evidence; the reviewer did not independently revalidate legislation. The new regression does not exhaustively cross every action/type combination or boundary length.
+
+**Evidence references:** route actions in `services/api/platform.mjs` and `services/api/routing.mjs`; request audit/receipt behavior in `services/api/app.mjs`; branch/main/code pins above; F-029 hosted run `39130614555` on `9b3afc2` and checkpoint-only run `39130875787` on `82efe6e` passed. Matrix corrections must receive exact-head hosted CI before publication status is updated.
 
 **Specific reviewer questions:**
 
@@ -52,7 +62,7 @@ The source-pinned matrix and first bounded G04 correction F-029 are ready for re
 3. Are any legal/applicability statements broader than the cited national register supports, especially the eight-jurisdiction and operator-versus-council distinctions?
 4. Is the evidence sufficient to begin the next bounded corrective slice without first choosing production isolation, support, retention or identity policies?
 
-**Recommended next action:** validate any review findings against the pinned source. Continue with F-011 pool error handling or another independent bounded correction; keep customer-specific legal decisions, production isolation/key/support choices and retention-dependent behavior pending only where they are required.
+**Recommended next action:** publish the source-corrected matrix/checkpoint, verify its CI, then fetch and inspect `origin/main` before beginning one F-011 bounded slice. Do not choose production isolation/key/support or retention policies as part of F-011.
 
 ## Completed acceptance
 
