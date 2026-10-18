@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": null,
+  "activeFeature": "F11D",
   "nextFeature": "F09",
   "allowedStatuses": [
     "planned",
@@ -529,6 +529,25 @@
       "empirical": "not_started",
       "blockers": [],
       "nextAction": "Read feature card and confirm dependency evidence before starting."
+    },
+    {
+      "id": "F11D",
+      "title": "Dispatch workspace and workflow fidelity \u2014 bounded F11 precursor",
+      "status": "in_progress",
+      "branch": "codex/civicmaps-dispatch-workspace",
+      "commit": null,
+      "pr": null,
+      "evidencePath": "docs/plans/evidence/F11D.md",
+      "acceptancePassed": false,
+      "publication": "local_qualification",
+      "empirical": "pending",
+      "blockers": [],
+      "dependencies": [
+        "F06",
+        "F07",
+        "F08"
+      ],
+      "nextAction": "Complete final local qualification, publish and verify remote SHA/CI; owner review and merge remain separate. Does not complete F11."
     }
   ],
   "integrationBase": "origin/main",
@@ -537,7 +556,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "PR22 is owner-merged and F08 scoped release gates remain complete. Owner requires governance/compliance, council self-administration and isolation to be resolved before deeper implementation. Review the 65-finding reassessment and governance requirements; prepare bounded corrective work and concrete architecture/records/privacy decisions. F09 is blocked by this gate and its unresolved suspension policy. No F08 redeployment or migration013 replay.",
+  "nextAction": "Owner selected dispatch workspace and workflow fidelity. Qualify and publish bounded F11D while governance proceeds separately; PR24 supersedes older blanket pause language. Existing concrete F09 policy choices remain unapproved. No F08 deployment replay.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08",
@@ -555,5 +574,11 @@
     "findingsReassessed": 65,
     "sourceCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
     "nationalObligationsPath": "docs/plans/national-governance-obligations-register.md"
+  },
+  "functionalWorkstream": {
+    "prioritisedFeature": "F11D",
+    "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
+    "planPath": "docs/plans/dispatch-workspace-plan.md",
+    "governance": "active_in_separate_session_no_blanket_development_hold"
   }
 }

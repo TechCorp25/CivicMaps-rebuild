@@ -9,6 +9,7 @@ try {
   environment = await createTestEnvironment();
   vite = await createServer({
     configFile: false,
+    esbuild: { jsx: 'automatic' },
     root: new URL('../apps/commandmaps/', import.meta.url).pathname,
     server: {
       host: '127.0.0.1',
