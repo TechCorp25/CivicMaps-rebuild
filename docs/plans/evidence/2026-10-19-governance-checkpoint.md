@@ -4,10 +4,10 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 ## Repository state
 
-- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `bcf46f55f7d284b9ad0002398f42b80f467c957b` (F-002 acceptance notes). Current local worktree contains one active F-009 implementation slice.
+- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `bde643f8da5a9cb394d9b351abda02da78338719` (F-009 overload response alignment). Current local worktree contains F-009 closeout evidence only.
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
 - PR #24: open, draft, no submitted reviews; exact-head CI passed.
-- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`; checkpoint head `bb3e35c` passed run `39132040914`; F-002 final head `22fb3c8` passed exact-head run `39133034582`; F-002 acceptance-note head `bcf46f5` passed exact-head run `39133456369`.
+- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed run `39131572172`; F-011 head `f1ae3a6` passed `39131773353`; checkpoint head `bb3e35c` passed `39132040914`; F-002 code head `22fb3c8` passed `39133034582` and note head `bcf46f5` passed `39133456369`; F-009 candidate `5bcea20` failed only its 503 body expectation in `39133998653`, corrected head `bde643f` passed `39134202266`.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
 ## Completed slice: G04 / GOV-10 / F-029
@@ -106,7 +106,7 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 
 **Review of slice diff:** changed only request-list API behavior, CommandMAPS queue handling, the focused API/browser regressions, and governance evidence. No schema migration or role/grant/authority change. Transaction and mutation ordering, F08 entitlement checks, RLS/council scope, officer assignment filtering and request/audit content are preserved. The queue page query stays capped at 100 rows; summary counts aggregate only rows visible under the active scoped session. No live or production testing was performed.
 
-## Active slice contract: G04 / GOV-10 / F-009
+## Completed slice: G04 / GOV-10 / F-009
 
 **Goal and user-visible/security outcome:** bound simultaneous `/api/resources/status` provider checks so slow authorized checks cannot consume the shared control PostgreSQL pool without a limit; return a prompt temporary-capacity response to excess status requests and avoid the unnecessary STS/S3 credential call on this DB-readiness-only path.
 
@@ -124,9 +124,11 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 
 **Out of scope:** moving provider work outside the transaction, cross-process/global capacity coordination, production pool/budget changes, broad provider redesign, changing council grants, new architecture/retention policy, F09 suspension semantics, deployment or migration.
 
-**Implementation candidate:** `services/api/admission.mjs` adds a non-queuing process-local permit gate; `/api/resources/status` acquires one permit before opening its shared-pool transaction and returns 503 when busy, releasing in `finally`. The endpoint opts out of the helper's now-conditional storage credential object; existing helper callers still include it by default. The test app can inject a synthetic delayed status operation and gate; helper tests use synthetic connection/credential adapters and transactionally exercise disabled and revoked states, plus the existing altered-registry test covers owner/profile binding failure.
+**Acceptance result:** the exact source head `bde643f8da5a9cb394d9b351abda02da78338719` passed hosted run `39134202266`; the initial body assertion mismatch and correction are retained above. The one-per-process gate limits only `/api/resources/status`. CommandMAPS routing middleware still has a separate resource readiness probe and multiple API processes are not globally coordinated. No evidence here establishes live outage thresholds or cluster-wide capacity.
 
-**Local evidence so far:** `npm run lint`, `npm run format:check`, both app typechecks and builds, syntax checks and `git diff --check` pass. `node --test tests/admission.test.mjs` passes (1/1). Targeted DB-backed `node --test tests/data-resources.test.mjs tests/resource-admission.test.mjs` cannot initialize because PostgreSQL is unavailable at `127.0.0.1:55432` (`ECONNREFUSED`); exact-head hosted DB/API run is pending. Do not mark F-009 accepted until hosted CI exercises the disposable tests.
+**Implementation:** `services/api/admission.mjs` adds a non-queuing process-local permit gate; `/api/resources/status` acquires one permit before opening its shared-pool transaction and returns the normal generic 503 response when busy, releasing in `finally`. The endpoint opts out of the helper's storage credential object; existing helper callers still include it by default. The test app can inject a synthetic delayed status operation and gate; helper tests use synthetic connection/credential adapters and transactionally exercise disabled and revoked states, plus the existing altered-registry test covers tampered registry binding.
+
+**Validation:** `npm run lint`, `npm run format:check`, both app typechecks and builds, syntax checks and `git diff --check` pass. `node --test tests/admission.test.mjs` passes (1/1). Targeted DB-backed tests could not initialize locally because PostgreSQL is unavailable at `127.0.0.1:55432` (`ECONNREFUSED`). Hosted run `39133998653` on candidate `5bcea2020068d12ab20c42e32e4bd12843a583f2` failed only because the test expected a detailed 503 body while the API masks 5xx bodies generically. The handler now returns the generic busy response directly. Exact-head rerun `39134202266` passed on `bde643f8da5a9cb394d9b351abda02da78338719`: the disposable API/database check passed all 81 tests, including admission, delayed status/unrelated API, helper credential-skip and revoked/disabled checks; ingress, recovery, platform browser, CommandMAPS browser and activation browser steps also passed. This is development/test-fixture evidence, not production load or availability measurement.
 
 ## Completed acceptance
 
@@ -134,4 +136,9 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 - Refreshed owner requirements, governance assessment, F09 preparation and F08 completion memories before resuming.
 - Confirmed F08 release remains closed; no deployment, migration replay or production change was performed.
 - Closed F-029 acceptance at the development boundary on the exact successful hosted head; no live exploit, production change or compliance claim.
+- Closed F-002 and F-009 acceptance at the development boundary on exact successful hosted heads; F-002 run `39133034582`, F-009 run `39134202266`. F-009's first hosted assertion mismatch was corrected; the rerun passed all 81 tests and browser checks.
 - Completed a source-pinned G01 actor/data-flow matrix with local documentation validation; no new law or customer policy was inferred.
+
+## Next active outcome
+
+Prepare source-backed G02 actor/action and council self-administration evidence. Fetch and inspect current main and the relevant implementation before writing a short work contract. Do not introduce new grants or dependent council administration behavior until authority choices are explicit and Checkpoint B advanced review is available. Continue any independently validated bounded implementation; G02 policy dependencies do not become a blanket development gate.
