@@ -115,10 +115,13 @@ try {
   await expect(page.getByRole('dialog')).toContainText(address);
   await expect(page.getByRole('button', { name: 'Create request', exact: true })).toBeEnabled();
   await page.unroute('**/api/requests');
+  const auditResponse = page.waitForResponse((response) => response.url().includes('/audit'));
   const created = await save(page, 'Create request', 201);
+  await auditResponse;
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
   await expect(page.locator('.detail')).toContainText(address);
+  await expect(page.locator('.detail .audit li')).toHaveCount(1);
   await expect(page.locator('.detail .audit')).not.toContainText('malformed historical value');
   await page.unroute('**/api/requests/*/audit');
   expect(

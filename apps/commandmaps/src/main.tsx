@@ -581,7 +581,9 @@ function App() {
                         <li key={event.id}>
                           <strong>{event.action}</strong>
                           <time dateTime={event.created_at}>{date(event.created_at)}</time>
-                          {event.details.reason && <p>{event.details.reason}</p>}
+                          {typeof event.details.reason === 'string' && event.details.reason && (
+                            <p>{event.details.reason}</p>
+                          )}
                         </li>
                       ))}
                     </ol>
