@@ -26,10 +26,10 @@ The [governance requirements](governance-and-production-readiness-gate.md), [nat
 
 | Package | Current state | Next concrete output | Decision dependency |
 | --- | --- | --- | --- |
-| G01 applicability and data flows | Initial national register prepared | Map implemented and planned fields, actors, locations, secondary copies and subprocessors to duties and record classes | Named council/legal acceptance of actual workflows; no invented retention periods |
+| G01 applicability and data flows | Initial national register prepared; implementation-pinned map in progress | Map implemented and planned fields, actors, locations, secondary copies and subprocessors to duties and record classes | Named council/legal acceptance of actual workflows; no invented retention periods |
 | G02 council and operator authority | Requirements prepared | Explicit actor/action matrix and council self-administration design, including staff lifecycle and feature licensing boundaries | Owner/council choices for privileged support, suspension and emergency recovery |
 | G03 technical isolation | Current development boundary assessed | Compare runtime, database, storage, keys, deployment and support access against the authority matrix; define negative tests | Production isolation/key/support model and budget remain unapproved |
-| G04 bounded corrective controls | Findings validated, fixes not implemented | F-002 queue completeness, F-011 pool errors, F-009 shared-capacity controls and F-029 audit validation/rendering with meaningful regressions | Preserve existing permissions, transaction ordering and immutable historical audit |
+| G04 bounded corrective controls | F-029 API/rendering correction implemented and exact-head CI passed; other candidates pending | F-002 queue completeness, F-011 pool errors and F-009 shared-capacity controls with meaningful regressions | Preserve existing permissions, transaction ordering and immutable historical audit |
 | G05 records and evidence | Requirements prepared | Class-specific custody, retention, holds, export/disposal and incident workflows | Applicable legal/customer schedules and acceptance |
 | G06 assurance and production readiness | Pending implementation | Trace each GOV requirement to source, test evidence, remaining risk and accountable acceptance | Production enablement requires the relevant completed controls and acceptance |
 
