@@ -4,10 +4,10 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 ## Repository state
 
-- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `bb3e35c0290d19c7e65902f64ce3ef7725433836`. F-002 changes are in the current worktree and not yet committed.
+- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `020349b8c34169983f8f7d0254f83b40cb24946a`. F-002's browser-found close-flow correction and evidence update are in the current worktree and not yet committed.
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
 - PR #24: open, draft, no submitted reviews; exact-head CI passed.
-- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`; checkpoint head `bb3e35c` passed run `39132040914`.
+- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`; checkpoint head `bb3e35c` passed run `39132040914`. F-002 run `39132708366` passed the full API suite, including the new pagination/scope regression, but failed the CommandMAPS browser at the existing close-flow assertion.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
 ## Completed slice: G04 / GOV-10 / F-029
@@ -100,7 +100,9 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 
 **Out of scope:** queue redesign, search/sort changes, export, new roles, public intake, index/schema migration unless measured query needs prove one necessary, and F09 suspension or production architecture policy.
 
-**Implementation in current worktree:** the API returns at most 100 rows plus a `nextCursor`, validates `status` and signed-bigint cursor inputs, applies `active`/`closed` filters in SQL, and returns full actor-authorized aggregate counts. CommandMAPS uses server filters, displays those counts, loads older pages on demand, and refreshes all pages already opened. Added API regressions cover 215 synthetic mixed-state records, older active discovery, complete counts, cursor stability across a newer insertion, invalid inputs and council/officer/scope boundaries. Browser acceptance covers the 100-row page, complete count, loading older active records and switching to the mixed queue. Local lint, formatting, typechecks, builds, syntax checks and diff checks pass. PostgreSQL-backed API/browser execution is not available locally; exact-head hosted CI is still required.
+**Implementation in current worktree:** the API returns at most 100 rows plus a `nextCursor`, validates `status` and signed-bigint cursor inputs, applies `active`/`closed` filters in SQL, and returns full actor-authorized aggregate counts. CommandMAPS uses server filters, displays those counts, loads older pages on demand, and refreshes all pages already opened. Added API regressions cover 215 synthetic mixed-state records, older active discovery, complete counts, cursor stability across a newer insertion, invalid inputs and council/officer/scope boundaries. Browser acceptance covers the 100-row page, complete count, loading older active records and switching to the mixed queue.
+
+**Hosted run finding and correction:** run `39132708366` showed the API suite and new queue regression passing, then failed `tests/browser.mjs` when the detail assertion could not find the just-closed request. Server-side `active` filtering correctly removed it from the queue, but the client had also lost its selected detail. The fix in the current worktree switches to `closed` after a successful close from the active filter and retains the returned, authorized row while the closed page reloads. Exact rerun is pending. Local lint, formatting, typechecks, builds, syntax checks and diff checks pass. Local PostgreSQL-backed API/browser execution is unavailable at `127.0.0.1:55432`; hosted exact-head CI is required.
 
 ## Completed acceptance
 

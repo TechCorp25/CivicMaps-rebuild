@@ -250,6 +250,12 @@ function App() {
     });
     retry.current = null;
     await load();
+    if (result.status === 'CLOSED' && filter === 'active') {
+      setRequests([result]);
+      setNextCursor(null);
+      loadedPages.current = 1;
+      setFilter('closed');
+    }
     setSelected(result.id);
     setNotice('Saved to the operational record');
   }
