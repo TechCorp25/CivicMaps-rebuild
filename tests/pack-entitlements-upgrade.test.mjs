@@ -95,6 +95,7 @@ test('populated F07 upgrade preserves identities, sessions and captured history;
         await c.query(
           "INSERT INTO audit_events(request_id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,actor_id,action,details) VALUES('30000000-0000-4000-8000-000000000001','tenant-alpha','jurisdiction-alpha','plane-alpha','organisation-alpha','parking','00000000-0000-4000-8000-000000000001','created','{}')",
         );
+        await c.query("UPDATE platform_pack_workload SET pack='Parks & Gardens'");
         before = await capture(c);
       } finally {
         await c.end();
@@ -103,6 +104,15 @@ test('populated F07 upgrade preserves identities, sessions and captured history;
   });
   try {
     assert.deepEqual(await capture(env.pool), before);
+    assert.equal(
+      (
+        await env.pool.query(
+          "SELECT count(*)::int count FROM platform_pack_workload WHERE pack<>'parks-gardens'",
+        )
+      ).rows[0].count,
+      0,
+    );
+
     const rows = (
       await env.pool.query(
         'SELECT id,packs,pack_version FROM platform_municipalities WHERE id=ANY($1::uuid[]) ORDER BY id',

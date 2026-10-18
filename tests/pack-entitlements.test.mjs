@@ -135,6 +135,22 @@ test('stable catalogue preserves labels and aliases without granting unrelated r
   );
 });
 
+test('freshly seeded workload IDs drive pack detail and disable audit counts', async () => {
+  const m = (await pool.query("SELECT id,version FROM platform_municipalities WHERE slug='yarra'"))
+    .rows[0];
+  const detail = await call(`/platform/municipalities/${m.id}`, undefined, 'operator');
+  assert.deepEqual(detail.data.workloads, [{ pack: 'parks-gardens', open_count: 214 }]);
+  const disabled = await call(
+    `/platform/municipalities/${m.id}/packs`,
+    { pack: 'parks-gardens', enabled: false, version: m.version, confirmed: true },
+    'operator',
+  );
+  assert.equal(disabled.status, 200);
+  const events = (await call(`/platform/municipalities/${m.id}`, undefined, 'operator')).data
+    .events;
+  assert.equal(events.find((e) => e.action === 'pack_disabled').details.openCount, 214);
+});
+
 test('unmapped contexts fail closed without rewriting bindings or affecting other councils', async () => {
   await pool.query("DELETE FROM branch_pack_mapping WHERE branch_id='parking'");
   try {
