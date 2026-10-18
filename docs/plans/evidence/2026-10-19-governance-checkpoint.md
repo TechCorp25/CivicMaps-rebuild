@@ -26,7 +26,7 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 **Validation:** npm lockfile install, lint, format check, both app typechecks/builds, browser-test syntax check and `git diff --check` passed locally. Local database tests were unavailable because PostgreSQL tools/listener are absent (`initdb` ENOENT). Hosted PR Actions run `39130614555` passed on `9b3afc2`, including `npm run check`, the API regression suite, the CommandMAPS browser test with the malformed-history response fixture, and existing platform/activation browser suites. This verifies the implemented development path only; it is not production or legal acceptance.
 
-## Active slice: G01 / GOV-01 / GOV-02 / GOV-06
+## Completed slice: G01 / GOV-01 / GOV-02 / GOV-06
 
 **Outcome:** create a source-pinned current-state actor/workflow/data-flow matrix for implemented and planned CivicMAPS workflows, record classes, primary and secondary locations, relevant obligation categories and accountable decisions.
 
@@ -37,7 +37,22 @@ Updated 19 October 2026 (Australia/Melbourne).
 - Acceptance: each mapped workflow names actors, data classes, source/API, observed storage/processing or explicit unknowns, known secondary copies, authority/privacy/records/security questions, applicable obligation source category, and accountable decision owner/status. Map each Australian jurisdiction using the existing national register without asserting universal legal applicability. Include staff identity, requests, infringements, receipts, evidence/media, locations, sensitive/health data, operations and audit.
 - Out of scope: legal advice or customer-specific applicability approval, invented retention/notification periods, new collection, production architecture choice, new grants, migration, or deployment.
 
-**Dependencies and next action:** no policy decision blocks source tracing. Inspect implemented schemas/routes, planned workflow surfaces, runtime/storage/support and backup/export paths; mark unverified provider, customer or production details as unknown. Advanced-model Checkpoint A remains pending until this matrix and the F-029 corrective evidence are both review-ready.
+**Evidence:** [current-state matrix](2026-10-19-authority-data-flow-matrix.md) pins deployed application source `b21e764…`, current main `92b3eea…`, F-029 governance code `9b3afc2…`, and the 18 October read-only infrastructure observations. It distinguishes implementation from planned classes, maps all eight jurisdictions and external territories to the initial official-source register, identifies shared control-DB storage versus separate synthetic resource fixtures, and marks customer, contract, provider-copy, logging and retention unknowns explicitly.
+
+**Validation:** 24 local relative links resolve; jurisdiction/data-class coverage assertions and `git diff --check` passed. This is documentation/evidence work and adds no legal opinion or new application behavior.
+
+## Advanced-model Checkpoint A — review-ready
+
+The source-pinned matrix and first bounded G04 correction F-029 are ready for reassessment together. The assessment is not self-certified; the reviewer should test the matrix's reading of actual source/runtime boundaries and the scope of F-029 preservation evidence. PR #25 exact-head Actions run `39130614555` passed on code head `9b3afc2`; the subsequent checkpoint-only commit `82efe6e` also passed run `39130875787`. The matrix is a further documentation-only commit and its exact package head is supplied with the reassessment request.
+
+**Specific reviewer questions:**
+
+1. Does the current-state matrix correctly distinguish the operational control database from per-municipality F05 RDS/S3 fixtures, and are any actor/action or secondary-copy paths missing from the inspected source/evidence?
+2. Is the F-029 validation boundary complete for all dispatch actions, including null/omitted/overlength values, while preserving existing close semantics, transaction order, idempotency, entitlement/context checks and historical audit?
+3. Are any legal/applicability statements broader than the cited national register supports, especially the eight-jurisdiction and operator-versus-council distinctions?
+4. Is the evidence sufficient to begin the next bounded corrective slice without first choosing production isolation, support, retention or identity policies?
+
+**Recommended next action:** validate any review findings against the pinned source. Continue with F-011 pool error handling or another independent bounded correction; keep customer-specific legal decisions, production isolation/key/support choices and retention-dependent behavior pending only where they are required.
 
 ## Completed acceptance
 
@@ -45,3 +60,4 @@ Updated 19 October 2026 (Australia/Melbourne).
 - Refreshed owner requirements, governance assessment, F09 preparation and F08 completion memories before resuming.
 - Confirmed F08 release remains closed; no deployment, migration replay or production change was performed.
 - Closed F-029 acceptance at the development boundary on the exact successful hosted head; no live exploit, production change or compliance claim.
+- Completed a source-pinned G01 actor/data-flow matrix with local documentation validation; no new law or customer policy was inferred.

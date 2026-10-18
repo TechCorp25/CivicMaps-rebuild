@@ -26,7 +26,7 @@ The [governance requirements](governance-and-production-readiness-gate.md), [nat
 
 | Package | Current state | Next concrete output | Decision dependency |
 | --- | --- | --- | --- |
-| G01 applicability and data flows | Initial national register prepared; implementation-pinned map in progress | Map implemented and planned fields, actors, locations, secondary copies and subprocessors to duties and record classes | Named council/legal acceptance of actual workflows; no invented retention periods |
+| G01 applicability and data flows | Initial register plus source-pinned current-state matrix prepared | Validate the matrix against a named customer/workflow when available; keep all unknown locations/copies explicit | Named council/legal acceptance of actual workflows; no invented retention periods |
 | G02 council and operator authority | Requirements prepared | Explicit actor/action matrix and council self-administration design, including staff lifecycle and feature licensing boundaries | Owner/council choices for privileged support, suspension and emergency recovery |
 | G03 technical isolation | Current development boundary assessed | Compare runtime, database, storage, keys, deployment and support access against the authority matrix; define negative tests | Production isolation/key/support model and budget remain unapproved |
 | G04 bounded corrective controls | F-029 API/rendering correction implemented and exact-head CI passed; other candidates pending | F-002 queue completeness, F-011 pool errors and F-009 shared-capacity controls with meaningful regressions | Preserve existing permissions, transaction ordering and immutable historical audit |
