@@ -78,9 +78,9 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [x] Record owner direction: Parking Services Branch first, then a branch with little shared field code and substantial shared dispatch/management/administration.
 - [x] Prepare the source-pinned preview capability/reuse matrix and identify rebuild gaps; [baseline](F08-parking-capability-baseline.md). This inventory does not close later implementation/acceptance gaps.
 - [x] Record owner-approved D03 decisions after the F07 release gate; decision receipt in F08-D03-decisions.md.
-- [ ] Select the second branch against the confirmed reuse criterion and prepare its separate scope after the parking baseline.
 - [ ] Implement and verify one F08 entitlement feature; publish evidence, CI, review and Empirical checkpoint.
 - [ ] Owner review/merge of resulting PRs; qualify any later F08 release separately.
+- [ ] Later, non-blocking work after F08 completion: select the second branch against the confirmed reuse criterion and prepare a separate scope. This choice does not gate F08 or authorise a second concurrent feature.
 
 ## Resumption instruction
 
