@@ -2,17 +2,17 @@
 
 Prepared 18 October 2026 (Australia/Melbourne) by Codex (agent).
 
-**Current owner override:** governance proceeds alongside functional development on the dedicated [governance workstream](governance-workstream.md). Earlier blanket pause language below is superseded; PR #24 reconciles those historical planning pointers. Follow the workstream synchronisation contract after each owner merge to main.
+**Status: assessment and proposed remediation programme. The owner clarified that functional development continues while governance is actively resolved in parallel; there is no blanket development gate. Detailed production policy, architectural choices and compliance acceptance remain unresolved.**
 
-**Status: assessment and proposed remediation programme. Further feature expansion is paused by the owner's current instruction. Detailed production policy, architectural choices and compliance acceptance remain unresolved.**
+Governance proceeds alongside functional development on the dedicated [governance workstream](governance-workstream.md). Earlier blanket pause language is superseded; PR #24 reconciles those historical planning pointers. Follow the workstream synchronisation contract after each owner merge to main.
 
 ## Purpose and authority
 
-The owner requires council administration, operator authority, cloud services and handling of the platform's full range of records to be resolved before development proceeds deeper. Councils require their own administration surface for branches, functionality and staff. CommandMAPS is operational software; its current ADMIN profile is not a completed council administration portal.
+The owner requires council administration, operator authority, cloud services and handling of the platform's full range of records to be actively resolved alongside continued functional development, including dispatch. Councils require their own administration surface for branches, functionality and staff. CommandMAPS is operational software; its current ADMIN profile is not a completed council administration portal.
 
 The owner's scope includes employee details, identities, public/service requests, infringements, receipts, evidence/media, operational records, officer locations and audit trails. Sensitive and health information must be considered where workflows can capture it, including free text or media. Inclusion in the assessment does not authorise collecting every category. Each workflow needs a purpose, lawful authority, minimum dataset, responsible council and approved handling rules.
 
-This gate takes precedence over earlier directions to proceed directly to F09. F08's completed deployment, entitlement enforcement, live acceptance and compatible recovery remain valid within their documented synthetic development scope. Do not redeploy F08, replay migration 013 or downgrade to F07 as a response to this assessment. Preserve Alpha's usable administrator, Beta's disabled administrator, existing records/audit and retained Sydney resources/checkpoints through 21 October under the saved US$50/month development allocation.
+The owner's correction supersedes the earlier blanket development hold. This document retains production acceptance requirements and concrete feature dependencies, not a pause on all development. F08's completed deployment, entitlement enforcement, live acceptance and compatible recovery remain valid within their documented synthetic development scope. Do not redeploy F08, replay migration 013 or downgrade to F07 as a response to this assessment. Preserve Alpha's usable administrator, Beta's disabled administrator, existing records/audit and retained Sydney resources/checkpoints through 21 October under the saved US$50/month development allocation.
 
 The [current-state assessment](evidence/2026-10-18-governance-review.md) reconciles all 65 supplied findings, source revisions and read-only infrastructure observations. It identifies a production architecture gap, two confirmed static security paths and a separate engineering backlog. It does not establish a legal breach, certification, incident or completed remediation.
 
@@ -58,7 +58,7 @@ For every class below, record its council/custodian, lawful purpose, sensitivity
 | --- | --- |
 | Staff identity, employment and administrator records | Council-managed joiner/mover/leaver and delegated approval; MFA/SSO requirements; separate authentication secrets from staff directories; restrict HR/sensitive attributes independently |
 | Requests, complainants, addresses and operational notes | Minimise private contact information; control free text and incidental sensitive data; scoped search, queue completeness, access/correction and authorised cross-team transfers |
-| Infringements, notices and statutory decisions | Preserve authority/jurisdiction, rule version, actor, decision history, issuance/cancellation and record completeness; workflow-specific legal review before implementation |
+| Infringements, notices and statutory decisions | Preserve authority/jurisdiction, rule version, actor, decision history, issuance/cancellation and record completeness; workflow-specific legal review before live statutory use |
 | Receipts, payment references and financial records | Decide whether a payment provider handles card data; minimise stored payment data, reconcile authoritative provider evidence and avoid calling a redirect a payment. No payment implementation or compliance scope is inferred |
 | Evidence photographs, audio, video, documents and metadata | Capture provenance/time, original integrity, custody and access/download history; malware/type/size controls; redaction as a derived object; lawful holds and disposal; offline copies and device loss |
 | Officer location, device and activity data | Define purpose, precision, access, employee notice, retention and monitoring limits; minimise background tracking and prevent routine operator surveillance |
@@ -69,7 +69,7 @@ For every class below, record its council/custodian, lawful purpose, sensitivity
 
 ## Requirements and acceptance evidence
 
-These are proposed implementation and assurance requirements under the owner's governance gate. Named periods, providers, physical isolation tiers and exceptions remain decisions to obtain.
+These are proposed implementation and assurance requirements under the owner's parallel governance workstream. Named periods, providers, physical isolation tiers and exceptions remain decisions to obtain.
 
 | ID | Required output or behaviour | Evidence before production acceptance |
 | --- | --- | --- |
@@ -92,23 +92,29 @@ These are proposed implementation and assurance requirements under the owner's g
 
 Each acceptance record must identify the tested source, deployed configuration, environment, actor, expected denial/success, result and limits. A passing F08 regression suite is valuable existing evidence but not acceptance of these new production requirements.
 
-## Ordered work and release conditions
+## Parallel work and release conditions
 
 1. **Assessment checkpoint (prepared):** current main and deployed F08 reconciled; all 65 imported IDs retained with separate security/engineering verdicts; current AWS controls/limits recorded. No source repair or compliance certification performed.
 2. **Requirements and architecture:** confirm customer/workflow sequencing across the owner-selected national scope and data classes; complete the national jurisdiction/privacy/data-flow/records register; decide authority, support, isolation/key, identity/domain and recovery models. Obtain legal/council/security decisions on concrete unresolved matters. Budget any production design separately from retained development resources.
 3. **Bounded corrective package:** deliver queue completeness, pool reliability, expensive-status isolation and audit input/rendering fixes with disposable regressions. Correct naming/client recovery next. Do not replace consistency locks with unreviewed asynchronous work or rewrite historical audit to hide malformed values.
 4. **Governance implementation:** implement council administration and the selected data/control separation, records/evidence protections, identity and privileged access. Use explicit migrations and staged preservation verification; do not bulk migrate retained records before the target and rollback/recovery strategy are reviewed.
-5. **Assurance and resumption:** resolve proof gaps; verify meaningful security, privacy, recordkeeping, recovery and cross-council cases; record independent assurance required by the actual contracts/classification. Revisit F09 authority and suspension rules against the approved model before implementation resumes.
+5. **Assurance and production acceptance:** resolve proof gaps; verify meaningful security, privacy, recordkeeping, recovery and cross-council cases; record independent assurance required by the actual contracts/classification. Resolve F09-P01–P06 at the affected implementation boundary; independent work can continue while those choices are pending.
 
-The four corrective items in step 3 can be designed while production decisions are pending. This assessment does not implement them or authorise live fault/load testing, production resources, a new expenditure allocation or a new data migration. Existing maintenance and read-only investigation remain available within current authorisation.
+The numbered work packages express dependencies within governance and remediation, not a serial prerequisite for all feature development. Functional dispatch work and the corrective package can be implemented and tested with synthetic data while production decisions are pending. Keep one implementation feature active; progress governance requirements, decisions and assurance alongside it. At each feature checkpoint, record the relevant GOV IDs, unresolved assumptions, accountable decision owner (or explicitly unassigned), next action and acceptance evidence. Escalate overdue dependencies when they affect that feature rather than deferring governance indefinitely. This assessment does not implement them or authorise live fault/load testing, production resources, a new expenditure allocation or a new data migration. Existing maintenance and read-only investigation remain available within current authorisation.
 
-The gate can close only with concrete decisions and evidence for the agreed scope, explicit accountable acceptance of residual risks, and an updated ledger/roadmap. Neither merging this plan nor choosing a new domain closes the gate. Do not merge or enable auto-merge on the owner's behalf.
+The production acceptance gate can close only with concrete decisions and evidence for the agreed scope, explicit accountable acceptance of residual risks, and an updated ledger/roadmap. Neither merging this plan nor choosing a new domain closes the gate. Do not merge or enable auto-merge on the owner's behalf.
+
+## Feature dependency rule
+
+Continue dispatch queue completeness, filtering/pagination, assignment UI and existing workflow regression work within established council scope and entitlement rules. Use synthetic records and preserve audited transitions. This does not approve new grants, platform access to council records, live location collection, retention/destruction rules or statutory issuance.
+
+Pause only the affected behaviour when it requires an unresolved decision: for example, who may suspend a council or view its retained records, whether an operator can impersonate council staff, or how evidence may be deleted. Record the dependency and progress another ready task. A broader pause requires concrete evidence of a cross-cutting risk and an explanation to the owner for reconsideration; unresolved governance alone is insufficient.
 
 ## Execution checklist
 
 - [x] Verify current main, original package integrity and the deployed F08 source separately.
 - [x] Reassess all 65 finding IDs and record source comparison and current infrastructure observations.
-- [x] Record the owner's broad data scope and pause on deeper implementation.
+- [x] Record the owner's broad data scope and correction: active governance resolution alongside functional development.
 - [x] Confirm national scope: all Australian states and territories; initial eight-jurisdiction register prepared.
 - [ ] Appoint council/operator decision owners and complete customer/workflow-specific applicability, including external-territory arrangements where intended.
 - [ ] Inventory actual planned fields, attachments, integrations, secondary copies and data flows by feature.
@@ -116,5 +122,5 @@ The gate can close only with concrete decisions and evidence for the agreed scop
 - [ ] Record authority, support, isolation, identity/domain, key and recovery decisions.
 - [ ] Prepare and qualify the focused corrective package without altering historical evidence.
 - [ ] Deliver the selected governance architecture and council administration in bounded reviewed features.
-- [ ] Obtain required assurance, close or accept residual gaps and explicitly release the development/production gate.
+- [ ] Obtain required assurance, close or accept residual gaps and record production acceptance for the agreed scope.
 - [ ] Reconcile F09-P01–P06 with the approved model before dependent implementation.

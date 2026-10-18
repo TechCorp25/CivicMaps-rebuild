@@ -1,7 +1,6 @@
 /* global document, innerWidth -- Executed in the browser by page.evaluate. */
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
-import { randomUUID } from 'node:crypto';
 import pg from 'pg';
 const browser = await chromium.launch({ headless: true });
 const database = new pg.Pool({
@@ -34,13 +33,12 @@ async function save(page, button, expected = 200) {
 async function seedQueueOverflow() {
   const source = (
     await database.query(
-      `SELECT capture_binding_id,capture_binding_version FROM service_requests
-       WHERE tenant_id='tenant-alpha' AND branch_id='parking' ORDER BY number DESC LIMIT 1`,
+      "SELECT capture_binding_id,capture_binding_version FROM service_requests WHERE tenant_id='tenant-alpha' AND branch_id='parking' ORDER BY number DESC LIMIT 1",
     )
   ).rows[0];
   expect(source).toBeTruthy();
   const rows = [
-    ...Array.from({ length: 105 }, (_, i) => ({
+    ...Array.from({ length: 1005 }, (_, i) => ({
       status: 'RECEIVED',
       address: `Queue active ${i}`,
     })),
@@ -49,7 +47,7 @@ async function seedQueueOverflow() {
   const values = [];
   const tuples = rows.map((row, i) => {
     values.push(
-      randomUUID(),
+      crypto.randomUUID(),
       'tenant-alpha',
       'jurisdiction-alpha',
       'plane-alpha',
@@ -84,11 +82,42 @@ try {
   });
   await page.getByRole('button', { name: 'New request', exact: true }).click();
   const address = `Browser exercise ${Date.now()}`;
+  await expect(page.locator('.topbar')).toContainText('DISPATCH');
+  await expect(page.locator('.topbar')).not.toContainText('Alex · Dispatch');
+  await expect(page.locator('.topbar')).toHaveCSS('background-color', 'rgb(17, 90, 80)');
+  await expect(page.getByRole('dialog')).toBeVisible();
   await page.getByLabel('Location or address').fill(address);
+  await page.getByLabel('Latitude', { exact: true }).fill('-37.814');
+  await page.getByLabel('Longitude', { exact: true }).fill('144.963');
   await page.getByLabel('Dispatch notes').fill('Synthetic browser verification; no real incident.');
-  const legacyAudit = page.waitForResponse((response) => response.url().includes('/audit'));
+  await page.getByRole('button', { name: 'Review request', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Review service request' })).toBeFocused();
+  await expect(page.getByRole('dialog')).toContainText(address);
+  await page.getByRole('button', { name: 'Edit', exact: true }).click();
+  await expect(page.getByLabel('Location or address')).toHaveValue(address);
+  await expect(page.getByLabel('Dispatch notes')).toHaveValue(
+    'Synthetic browser verification; no real incident.',
+  );
+  await page.getByRole('button', { name: 'Review request', exact: true }).click();
+  await mkdir('test-results', { recursive: true });
+  await page.screenshot({ path: 'test-results/commandmaps-create-review.png', fullPage: true });
+  await page.route('**/api/requests', async (route) => {
+    if (route.request().method() === 'POST') {
+      await route.fulfill({
+        status: 503,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Synthetic save failure; retry the request' }),
+      });
+    } else await route.continue();
+  });
+  await page.getByRole('button', { name: 'Create request', exact: true }).click();
+  await expect(page.getByRole('dialog').getByRole('alert')).toContainText('Synthetic save failure');
+  await expect(page.getByRole('dialog')).toContainText(address);
+  await expect(page.getByRole('button', { name: 'Create request', exact: true })).toBeEnabled();
+  await page.unroute('**/api/requests');
   const created = await save(page, 'Create request', 201);
-  await legacyAudit;
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
   await expect(page.locator('.detail')).toContainText(address);
   await expect(page.locator('.detail .audit')).not.toContainText('malformed historical value');
   await page.unroute('**/api/requests/*/audit');
@@ -100,19 +129,25 @@ try {
     .getByRole('combobox', { name: /^Assign officer/ })
     .selectOption('00000000-0000-4000-8000-000000000002');
   await save(page, 'Assign request');
-  await expect(page.locator('.detail .status')).toHaveText('Dispatched (not active)');
+  await expect(page.locator('.detail .status')).toHaveText('Dispatched · Not Active');
+  await page.getByLabel('Search loaded requests').fill('no-such-request-unique');
+  await expect(page.getByRole('heading', { name: 'No matching requests' })).toBeVisible();
+  await page.getByLabel('Search loaded requests').fill(address);
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await page.getByLabel('Search loaded requests').fill('');
   await mkdir('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/commandmaps-desktop.png', fullPage: true });
   await page.reload();
   await page.getByRole('button').filter({ hasText: address }).click();
-  await expect(page.locator('.detail .status')).toHaveText('Dispatched (not active)');
+  await expect(page.locator('.detail .status')).toHaveText('Dispatched · Not Active');
+
   const fieldContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const field = await fieldContext.newPage();
   await login(field, 'officer@alpha.example');
   await expect(field.getByRole('button', { name: 'New request', exact: true })).toHaveCount(0);
   await field.getByRole('button').filter({ hasText: address }).click();
   await save(field, 'Acknowledge request');
-  await expect(field.locator('.detail .status')).toHaveText('Dispatched (active)');
+  await expect(field.locator('.detail .status')).toHaveText('Dispatched · Active');
   await save(field, 'Record attendance');
   await expect(field.locator('.detail .status')).toHaveText('Attended');
   expect(await field.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -142,6 +177,32 @@ try {
       ])
     ).rows.map((row) => row.action),
   ).toEqual(['created', 'assign', 'acknowledge', 'attend', 'close']);
+  const session = await (await page.request.get(`${origin}/api/auth/session`)).json();
+  for (let index = 0; index < 27; index++) {
+    const response = await page.request.post(`${origin}/api/requests`, {
+      headers: { 'x-csrf-token': session.csrfToken, 'Idempotency-Key': crypto.randomUUID() },
+      data: {
+        address: `Pagination check ${String(index).padStart(2, '0')}`,
+        latitude: -37.814,
+        longitude: 144.963,
+        notes: 'Disposable pagination fixture',
+      },
+    });
+    expect(response.status()).toBe(201);
+  }
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await page.getByLabel('Search loaded requests').fill('Pagination check');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(25);
+  await page.getByRole('button', { name: 'Next queue page' }).click();
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(2);
+  await expect(page.getByRole('navigation', { name: 'Queue pages' })).toContainText('Page 2 of 2');
+  await page
+    .getByRole('button', { name: 'Open', exact: false })
+    .filter({ hasText: 'Open' })
+    .first()
+    .click();
+  await expect(page.getByRole('navigation', { name: 'Queue pages' })).toContainText('Page 1 of 2');
+  await page.getByLabel('Search loaded requests').fill('');
   await database.query(
     "UPDATE platform_municipalities SET packs=packs-'parking-services' WHERE id='20000000-0000-4000-8000-000000000001'",
   );
@@ -153,6 +214,7 @@ try {
   });
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toHaveCount(0);
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
+  await page.getByLabel('Search loaded requests').fill(address);
   await page.getByRole('button').filter({ hasText: address }).click();
   await expect(page.locator('.detail')).toContainText(address);
   await expect(page.getByLabel('Closure reason')).toHaveCount(0);
@@ -162,39 +224,31 @@ try {
   );
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'New request', exact: true }).click();
+  await page.getByLabel('Location or address').fill('Discard this unsaved draft');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
   await seedQueueOverflow();
-  const activeQueue = page.waitForResponse((response) =>
-    response.url().includes('/api/requests?status=active'),
-  );
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('active');
-  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
-  await activeQueue;
-  await expect(page.locator('.request-list li')).toHaveCount(100);
-  const activeCount = Number(
-    await page.locator('.stats section').first().locator('strong').innerText(),
+  await expect(page.locator('.queue-pagination .muted')).toContainText(
+    /Page 1 of [4-9][0-9] · [1-9][0-9]{3,} matching loaded records/,
   );
-  expect(activeCount).toBeGreaterThanOrEqual(105);
-  await page.getByRole('button', { name: 'Load older requests', exact: true }).click();
-  await expect(page.locator('.request-list li')).toHaveCount(105);
-  await expect(
-    page.locator('.request-list').getByText('Queue active 0', { exact: true }),
-  ).toBeVisible();
-  const allQueue = page.waitForResponse((response) =>
-    response.url().includes('/api/requests?status=all'),
-  );
+  await page.getByLabel('Search loaded requests').fill('Queue active 1004');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.request-table tbody')).toContainText('Queue active 1004');
+  await page.getByLabel('Search loaded requests').fill('');
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
-  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
-  await allQueue;
-  await expect(page.locator('.request-list li')).toHaveCount(100);
-  await expect(
-    page.getByRole('button', { name: 'Load older requests', exact: true }),
-  ).toBeVisible();
+  await page.getByLabel('Search loaded requests').fill('Queue closed 109');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.request-table tbody')).toContainText('Queue closed 109');
+  await page.getByLabel('Search loaded requests').fill('');
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to operations' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/requests`)).status()).toBe(401);
   expect(errors).toEqual([]);
   console.log(
-    'PASS: Chromium dispatch lifecycle, queue overflow filtering/pagination, complete counts, database/audit scope, logout and narrow layout verified.',
+    'PASS: Chromium dispatch lifecycle, modal retry, audit rendering, cross-scope denial, logout, narrow layout and complete >1000-row queue search/pagination verified.',
   );
 } finally {
   await browser.close();

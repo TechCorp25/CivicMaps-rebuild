@@ -37,8 +37,16 @@ At every functional milestone and governance sync, record the affected package/G
 
 ## Sync log
 
-| Date (Melbourne) | Main source                                | Action                                                                                          | Validation                                                        |
-| ---------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 18 October 2026  | `92b3eea8b8ecfd0505afb6d62d60a001903db161` | Created dedicated branch/worktree from owner-merged PR #23; no feature merge performed by agent | Documentation links and Git whitespace checked; runtime unchanged |
+| Date (Melbourne) | Main source | Action | Validation |
+| ---------------- | ----------- | ------ | ---------- |
+| 18 October 2026 | `92b3eea8b8ecfd0505afb6d62d60a001903db161` | Created dedicated branch/worktree from owner-merged PR #23; no feature merge performed by agent | Documentation links and Git whitespace checked; runtime unchanged |
+| 18 October 2026 | `1bbfa7bb68190278d6adb64bba39527b7a3e7e36` | Verified PR #24 merged at `6ee392a2301704ddadbe274cdcae4f2df425d166` and PR #26 merged at this main SHA. Merged reviewed main into governance from clean checkpoint `240752473bc1dd44f28ccea9ba8a26b88a69d00b`. Manually reconciled conflicts in `apps/commandmaps/src/main.tsx`, this gate and `tests/browser.mjs`; preserved server keyset pagination while dispatch UI gathers all scoped pages before client search/pagination, and preserved malformed-audit rendering coverage with modal retry coverage. Resulting merge SHA is recorded in the follow-up checkpoint below. | `npm run check`: lint, formatting, typechecks and builds passed; Node integration tests could not connect to unavailable `127.0.0.1:55432`. Hosted CI pending. Browser regression expanded to >1,000 active and closed requests; hosted execution pending. `git diff --check` passed. |
+
+### Current sync checkpoint
+
+- Last immutable owner decision runsheet v1: `240752473bc1dd44f28ccea9ba8a26b88a69d00b`.
+- Reviewed main consumed: `1bbfa7bb68190278d6adb64bba39527b7a3e7e36` (PR #24 and #26 merged).
+- Governance merge result: pending merge commit.
+- Owner decisions D01–D06 remain unresolved and are not reinterpreted by this sync.
 
 Final governance completion is not implied by branch creation, a green CI run or the existence of a domain. F08 deployment and accepted migration 013 remain unchanged.

@@ -1,3 +1,6 @@
+import { RequestComposer, type RequestDraft } from './RequestComposer';
+import { RequestQueue, RequestStatus } from './RequestQueue';
+import '../../../_ds/colors_and_type.css';
 import { Activation } from './Activation';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -10,7 +13,7 @@ import {
   Plus,
   X,
   CheckCircle2,
-  Clock3,
+  Radio,
   LockKeyhole,
 } from 'lucide-react';
 import './tokens.css';
@@ -54,19 +57,7 @@ type Audit = {
   created_at: string;
   details: { reason?: string; from?: string; to?: string };
 };
-type QueueCounts = {
-  total: string;
-  active: string;
-  closed: string;
-  dispatched: string;
-  attended: string;
-};
-type QueuePage = {
-  requests: Request[];
-  statusLabels: Record<string, string>;
-  counts: QueueCounts;
-  nextCursor: string | null;
-};
+type QueuePage = { requests: Request[]; nextCursor: string | null };
 class ApiError extends Error {
   constructor(
     public status: number,
@@ -100,28 +91,16 @@ function App() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [requests, setRequests] = useState<Request[]>([]);
-  const [labels, setLabels] = useState<Record<string, string>>({});
-  const [counts, setCounts] = useState<QueueCounts>({
-    total: '0',
-    active: '0',
-    closed: '0',
-    dispatched: '0',
-    attended: '0',
-  });
-  const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [officers, setOfficers] = useState<Officer[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [events, setEvents] = useState<Audit[]>([]);
   const [creating, setCreating] = useState(false);
   const [filter, setFilter] = useState('active');
   const retry = useRef<{ payload: string; key: string } | null>(null);
-  const loadedPages = useRef(1);
-  const loadingMore = useRef(false);
   const current = requests.find((request) => request.id === selected);
   const loadGeneration = useRef(0);
   const load = useCallback(
-    async (preservePages = false) => {
-      if (!preservePages) loadedPages.current = 1;
+    async (preserveSelection = false) => {
       const generation = ++loadGeneration.current;
       const session = await api<Session>('/auth/session');
       if (generation !== loadGeneration.current) return;
@@ -132,25 +111,19 @@ function App() {
       const [queue, roster] = await Promise.all([
         capabilities.includes('requests.read')
           ? (async () => {
-              const requests: Request[] = [];
+              const allRequests: Request[] = [];
               let cursor: string | null = null;
-              let page: QueuePage;
-              const pageCount = preservePages ? loadedPages.current : 1;
-              for (let index = 0; index < pageCount; index += 1) {
-                const suffix = cursor ? `&before=${encodeURIComponent(cursor)}` : '';
-                page = await api<QueuePage>(`/requests?status=${filter}${suffix}`);
-                requests.push(...page.requests);
+              const status = filter === 'closed' ? 'closed' : filter === 'all' ? 'all' : 'active';
+              do {
+                const page: QueuePage = await api<QueuePage>(
+                  `/requests?status=${status}${cursor ? `&before=${encodeURIComponent(cursor)}` : ''}`,
+                );
+                allRequests.push(...page.requests);
                 cursor = page.nextCursor;
-                if (!cursor) break;
-              }
-              return { ...page!, requests, nextCursor: cursor };
+              } while (cursor);
+              return allRequests;
             })()
-          : Promise.resolve({
-              requests: [],
-              statusLabels: {},
-              counts: { total: '0', active: '0', closed: '0', dispatched: '0', attended: '0' },
-              nextCursor: null,
-            }),
+          : Promise.resolve([]),
         capabilities.includes('officers.read')
           ? api<Officer[]>('/officers').catch((error) => {
               if (error instanceof ApiError && error.status === 403) return [];
@@ -159,11 +132,10 @@ function App() {
           : Promise.resolve([]),
       ]);
       if (generation !== loadGeneration.current) return;
-      setRequests(queue.requests);
-      setLabels(queue.statusLabels);
-      setCounts(queue.counts);
-      setNextCursor((previous) => (preservePages && previous ? previous : queue.nextCursor));
+      setRequests(queue);
       setOfficers(roster);
+      if (!preserveSelection)
+        setSelected((currentId) => (queue.some((r) => r.id === currentId) ? currentId : null));
     },
     [filter],
   );
@@ -194,7 +166,6 @@ function App() {
   useEffect(() => {
     if (!actor || actor.role === 'ADMIN') return;
     const refresh = () => {
-      if (loadingMore.current) return;
       void load(true).catch((err) => setError(err.message));
     };
     const timer = setInterval(refresh, 10000);
@@ -231,6 +202,7 @@ function App() {
       setError(err instanceof Error ? err.message : 'The operation could not be completed');
       if (err instanceof ApiError && err.status === 401) {
         setActor(null);
+        setCreating(false);
         setCsrf('');
         setRequests([]);
         setSelected(null);
@@ -249,38 +221,9 @@ function App() {
       body: JSON.stringify(input),
     });
     retry.current = null;
-    await load();
-    if (result.status === 'CLOSED' && filter === 'active') {
-      setRequests([result]);
-      setNextCursor(null);
-      loadedPages.current = 1;
-      setFilter('closed');
-    }
+    await load(true);
     setSelected(result.id);
     setNotice('Saved to the operational record');
-  }
-  async function loadMore() {
-    if (!nextCursor || loadingMore.current || busy) return;
-    loadingMore.current = true;
-    try {
-      await perform(async () => {
-        const page = await api<QueuePage>(
-          `/requests?status=${filter}&before=${encodeURIComponent(nextCursor)}`,
-        );
-        setRequests((previous) => {
-          const merged = new Map(previous.map((request) => [request.id, request]));
-          for (const request of page.requests) merged.set(request.id, request);
-          return [...merged.values()].sort((a, b) =>
-            BigInt(a.number) > BigInt(b.number) ? -1 : BigInt(a.number) < BigInt(b.number) ? 1 : 0,
-          );
-        });
-        setCounts(page.counts);
-        setNextCursor(page.nextCursor);
-        loadedPages.current += 1;
-      });
-    } finally {
-      loadingMore.current = false;
-    }
   }
   function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -296,16 +239,9 @@ function App() {
       setEntitlement(profile.entitlements);
     });
   }
-  function create(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
+  function create(draft: RequestDraft) {
     void perform(async () => {
-      await mutate('/requests', {
-        address: form.get('address'),
-        latitude: Number(form.get('latitude')),
-        longitude: Number(form.get('longitude')),
-        notes: form.get('notes'),
-      });
+      await mutate('/requests', draft);
       setCreating(false);
     });
   }
@@ -393,13 +329,8 @@ function App() {
         </section>
       </main>
     );
-  const visible = requests.filter(
-    (request) =>
-      filter === 'all' ||
-      (filter === 'closed' ? request.status === 'CLOSED' : request.status !== 'CLOSED'),
-  );
   return (
-    <div className="workspace">
+    <div className={`workspace ${actor.role === 'DISPATCHER' ? 'dispatch-workspace' : ''}`}>
       <a className="skip" href="#content">
         Skip to service requests
       </a>
@@ -431,11 +362,24 @@ function App() {
       </aside>
       <div className="main">
         <header className="topbar">
-          <span className="context">Dispatch coordination</span>
+          <div className="dispatch-brand">
+            <Radio size={24} aria-hidden="true" />
+            <div>
+              <span className="context">
+                {actor.role === 'DISPATCHER' ? 'Dispatch' : 'CommandMAPS'}
+              </span>
+              <small>
+                {actor.municipality_name ?? actor.tenant_id} ·{' '}
+                {entitlement?.label ?? actor.branch_id}
+              </small>
+            </div>
+          </div>
           <div className="account">
             <span>
-              {actor.name}
-              <small>{actor.role.toLowerCase()}</small>
+              {actor.role === 'DISPATCHER' ? 'DISPATCH' : actor.role}
+              <small>
+                {actor.role === 'DISPATCHER' ? 'Coordination · ' : ''}Refreshes every 10 seconds
+              </small>
             </span>
             <button
               className="icon-button"
@@ -465,7 +409,7 @@ function App() {
         <main id="content">
           <div className="heading">
             <div>
-              <p className="eyebrow">Code 21 · operational queue</p>
+              <p className="eyebrow">CommandMAPS · Code21 dashboard</p>
               <h1>Service requests</h1>
               <p className="muted">Assign, monitor and review requests in the current context.</p>
             </div>
@@ -475,7 +419,13 @@ function App() {
                 Refresh
               </button>
               {can('requests.create') && (
-                <button disabled={busy} onClick={() => setCreating(true)}>
+                <button
+                  disabled={busy}
+                  onClick={() => {
+                    setError('');
+                    setCreating(true);
+                  }}
+                >
                   <Plus size={18} aria-hidden="true" />
                   New request
                 </button>
@@ -493,7 +443,7 @@ function App() {
               Operational capabilities are unavailable for this context.
             </p>
           )}
-          {error && (
+          {error && !creating && (
             <p className="error" role="alert">
               {error}
             </p>
@@ -504,142 +454,26 @@ function App() {
               {notice}
             </p>
           )}
-          <div className="stats">
-            <section>
-              <span>Active requests</span>
-              <strong>{counts.active}</strong>
-            </section>
-            <section>
-              <span>Awaiting acknowledgement</span>
-              <strong>{counts.dispatched}</strong>
-            </section>
-            <section>
-              <span>Attended</span>
-              <strong>{counts.attended}</strong>
-            </section>
-          </div>
           {creating && can('requests.create') && (
-            <section className="panel create-panel">
-              <div className="panel-heading">
-                <h2>New service request</h2>
-                <button
-                  className="icon-button"
-                  aria-label="Dismiss new request"
-                  disabled={busy}
-                  onClick={() => setCreating(false)}
-                >
-                  <X />
-                </button>
-              </div>
-              <form onSubmit={create}>
-                <label>
-                  Location or address
-                  <input
-                    name="address"
-                    required
-                    maxLength={250}
-                    placeholder="Enter the reported location"
-                  />
-                </label>
-                <div className="coordinate-fields">
-                  <label>
-                    Latitude
-                    <input
-                      name="latitude"
-                      type="number"
-                      step="any"
-                      min="-90"
-                      max="90"
-                      defaultValue="-37.814"
-                      required
-                    />
-                  </label>
-                  <label>
-                    Longitude
-                    <input
-                      name="longitude"
-                      type="number"
-                      step="any"
-                      min="-180"
-                      max="180"
-                      defaultValue="144.963"
-                      required
-                    />
-                  </label>
-                </div>
-                <label>
-                  Dispatch notes
-                  <textarea name="notes" maxLength={2000} rows={3} />
-                </label>
-                <button type="submit" disabled={busy}>
-                  {busy ? 'Saving…' : 'Create request'}
-                </button>
-              </form>
-            </section>
+            <RequestComposer
+              busy={busy}
+              error={error}
+              onClose={() => {
+                setCreating(false);
+                setError('');
+              }}
+              onCreate={create}
+            />
           )}
           <div className="queue-layout">
-            <section className="panel queue">
-              <div className="panel-heading">
-                <h2>Operational queue</h2>
-                <label className="filter">
-                  Show
-                  <select
-                    value={filter}
-                    onChange={(e) => {
-                      setSelected(null);
-                      setRequests([]);
-                      setNextCursor(null);
-                      loadedPages.current = 1;
-                      setFilter(e.target.value);
-                    }}
-                  >
-                    <option value="active">Active</option>
-                    <option value="closed">Closed</option>
-                    <option value="all">All requests</option>
-                  </select>
-                </label>
-              </div>
-              {visible.length === 0 ? (
-                <div className="empty">
-                  <ClipboardList size={36} aria-hidden="true" />
-                  <h3>No {filter === 'all' ? '' : filter + ' '}requests</h3>
-                  <p>Requests appear here after they are saved or assigned.</p>
-                </div>
-              ) : (
-                <ul className="request-list">
-                  {visible.map((request) => (
-                    <li key={request.id}>
-                      <button
-                        className={`request-row ${selected === request.id ? 'selected' : ''}`}
-                        onClick={() => setSelected(request.id)}
-                        aria-pressed={selected === request.id}
-                      >
-                        <div>
-                          <span className="mono">SR-{String(request.number).padStart(7, '0')}</span>
-                          <span className={`status status-${request.status.toLowerCase()}`}>
-                            <Clock3 size={14} aria-hidden="true" />
-                            {labels[request.status]}
-                          </span>
-                        </div>
-                        <strong>{request.address}</strong>
-                        <span className="muted">
-                          {officers.find((o) => o.id === request.assigned_officer_id)?.name ??
-                            (request.assigned_officer_id
-                              ? 'Assigned officer (directory unavailable)'
-                              : 'Unassigned')}
-                        </span>
-                        <small>Updated {date(request.updated_at)}</small>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {nextCursor && (
-                <button className="secondary" disabled={busy} onClick={() => void loadMore()}>
-                  Load older requests
-                </button>
-              )}
-            </section>
+            <RequestQueue
+              requests={requests}
+              officers={officers}
+              selected={selected}
+              onSelect={setSelected}
+              filter={filter}
+              onFilter={setFilter}
+            />
             <section className="panel detail" aria-label="Request detail">
               {!current ? (
                 <div className="empty">
@@ -649,12 +483,18 @@ function App() {
                 </div>
               ) : (
                 <>
-                  <p className="eyebrow mono">SR-{String(current.number).padStart(7, '0')}</p>
+                  <div className="detail-heading">
+                    <p className="eyebrow mono">SR-{String(current.number).padStart(7, '0')}</p>
+                    <button
+                      className="icon-button"
+                      aria-label="Dismiss request detail"
+                      onClick={() => setSelected(null)}
+                    >
+                      <X size={18} aria-hidden="true" />
+                    </button>
+                  </div>
                   <h2>{current.address}</h2>
-                  <p className={`status status-${current.status.toLowerCase()}`}>
-                    <Clock3 size={16} aria-hidden="true" />
-                    {labels[current.status]}
-                  </p>
+                  <RequestStatus status={current.status} />
                   <dl>
                     <dt>Coordinates</dt>
                     <dd className="mono">
@@ -743,9 +583,7 @@ function App() {
                         <li key={event.id}>
                           <strong>{event.action}</strong>
                           <time dateTime={event.created_at}>{date(event.created_at)}</time>
-                          {typeof event.details.reason === 'string' && event.details.reason && (
-                            <p>{event.details.reason}</p>
-                          )}
+                          {event.details.reason && <p>{event.details.reason}</p>}
                         </li>
                       ))}
                     </ol>
@@ -755,7 +593,9 @@ function App() {
             </section>
           </div>
         </main>
-        <footer>CivicMAPS · Local foundation build · Times displayed in Melbourne</footer>
+        <footer>
+          CivicMAPS · Synthetic development environment · Times displayed in Melbourne
+        </footer>
       </div>
     </div>
   );
