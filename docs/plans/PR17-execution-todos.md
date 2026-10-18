@@ -18,4 +18,4 @@ PR #18 was merged into PR #17 at `e34646f`; the owner then merged PR #17 into ma
 
 - [x] Owner merged PR #17 into main at `99b12b9`.
 - [x] Owner merged PR #19 into main at `2b73318`.
-- [x] F07 `2b73318` deployed/live accepted; [release closure](evidence/F07-release-closure.md). Continue the [next-phase plan](F08-next-phase-plan.md) with remaining D03 decisions, then F08.
+- [x] F07 `2b73318` deployed/live accepted; [release closure](evidence/F07-release-closure.md). Continue the [next-phase plan](F08-next-phase-plan.md) with owner-approved D03, then F08.

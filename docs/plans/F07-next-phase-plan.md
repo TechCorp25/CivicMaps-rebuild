@@ -9,4 +9,4 @@ The workflow originally planned here is complete through F07 implementation and 
 - F07 [PR #19](https://github.com/TechCorp25/CivicMaps-rebuild/pull/19) implements those choices and was owner-merged at `2b73318a57c97baecb52711beca401ed3a162339`. [Implementation evidence](evidence/F07.md) covers local/disposable and hosted CI acceptance; final source `16d5435` passed CI and external Codex review with no findings.
 - [PR17 execution ToDos](PR17-execution-todos.md) retain the completed publication and owner-merge receipts.
 
-F07 deployment/live acceptance is now complete for merged source `2b73318`; see [release closure](evidence/F07-release-closure.md). Do not repeat the completed deployment, activation or D02 choices. Use the [new plan](F08-next-phase-plan.md) and [handoff](F07-handoff.md) for remaining D03 decisions and the F08 scope.
+F07 deployment/live acceptance is now complete for merged source `2b73318`; see [release closure](evidence/F07-release-closure.md). Do not repeat the completed deployment, activation or D02 choices. Use the [new plan](F08-next-phase-plan.md) and [handoff](F07-handoff.md) for owner-approved D03 and the F08 scope.

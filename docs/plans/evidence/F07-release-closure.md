@@ -1,6 +1,6 @@
 # F07 merged-source release closure — 18 October 2026
 
-Codex (agent). **F07 is deployed and its scoped live-release gate passed** on the retained synthetic Sydney runtime. Owner-approved fixtures use the existing Alpha/Beta test-council subdomains; no new DNS, certificate, compute or council resource was created. Phase B is the remaining [D03 decision](../F08-D03-decisions.md), followed by F08 implementation.
+Codex (agent). **F07 is deployed and its scoped live-release gate passed** on the retained synthetic Sydney runtime. Owner-approved fixtures use the existing Alpha/Beta test-council subdomains; no new DNS, certificate, compute or council resource was created. The subsequent [D03 decision](../F08-D03-decisions.md) is owner approved; F08 implementation follows.
 
 ## Source, artifact and environment
 
@@ -37,4 +37,4 @@ The deployed API flow was exercised over real TLS. Browser UI flows remain cover
 
 Recovery was verified with compatible F07 code and retained migration012/data/audit. The older F06Q code was not reactivated after F07 identities existed; its compatibility is not assumed. Prefer a corrective forward release, keep affected access closed during repair, and never run a destructive down-migration, old unconditional bootstrap or routine restore over populated control data.
 
-F08 entitlements, further branch workflows, municipality suspension, production identity/email and new infrastructure remain outside this release. [D03](../F08-D03-decisions.md) still requires owner decisions before F08 code changes. Publication CI/review for the evidence update is recorded separately in PR #20 and Empirical.
+F08 entitlements, further branch workflows, municipality suspension, production identity/email and new infrastructure remain outside this release. The owner subsequently approved [D03](../F08-D03-decisions.md) for the separate F08 implementation. Publication CI/review for the evidence update is recorded separately in PR #20 and Empirical.
