@@ -1,3 +1,4 @@
+export type PackOption = { id: string; label: string };
 export type Actor = { id: string; name: string; email: string };
 export type Municipality = {
   id: string;

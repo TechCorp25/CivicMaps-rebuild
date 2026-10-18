@@ -25,7 +25,9 @@ async function capture(client) {
     const row =
       table === 'platform_first_admins' ? "to_jsonb(t)-'user_id'-'binding_id'" : 'to_jsonb(t)';
     result[table] = (
-      await client.query(`SELECT ${row} AS row FROM ${table} t ORDER BY (${row})::text`)
+      await client.query(
+        `SELECT ${row} AS row FROM ${table} t ORDER BY ${table === 'platform_municipalities' ? 'id' : `(${row})::text`}`,
+      )
     ).rows;
   }
   return result;
@@ -90,7 +92,29 @@ test('F07 populated upgrade and replay preserve pending registration, credential
     },
   });
   try {
-    assert.deepEqual(await capture(env.pool), before);
+    // F08 intentionally canonicalises labels and advances the municipality version.
+    // Compare every other F07 column unchanged and verify that exact migration separately.
+    const migrated = await capture(env.pool);
+    const aliases = new Map(
+      (await env.pool.query('SELECT label,pack_id FROM pack_legacy_labels')).rows.map((r) => [
+        r.label,
+        r.pack_id,
+      ]),
+    );
+    for (const entry of before.platform_municipalities) {
+      const row = entry.row;
+      row.packs = row.packs.map((p) => aliases.get(p) ?? p);
+      if (
+        ['20000000-0000-4000-8000-000000000001', '20000000-0000-4000-8000-000000000002'].includes(
+          row.id,
+        ) &&
+        !row.packs.includes('parking-services')
+      )
+        row.packs.push('parking-services');
+      row.version += 1;
+      row.pack_version = 1;
+    }
+    assert.deepEqual(migrated, before);
     assert.equal((await env.pool.query('SELECT * FROM council_admin_activations')).rowCount, 0);
     assert.equal((await env.pool.query("SELECT * FROM users WHERE role='ADMIN'")).rowCount, 0);
     assert.ok(

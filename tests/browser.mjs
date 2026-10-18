@@ -8,7 +8,7 @@ const database = new pg.Pool({
     process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres',
 });
 const errors = [];
-const origin = 'http://127.0.0.1:5173';
+const origin = process.env.CIVICMAPS_COMMANDMAPS_ORIGIN ?? 'http://127.0.0.1:5173';
 const password = process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!';
 async function login(page, email) {
   page.on('pageerror', (error) => errors.push(error.message));
@@ -91,6 +91,26 @@ try {
       ])
     ).rows.map((row) => row.action),
   ).toEqual(['created', 'assign', 'acknowledge', 'attend', 'close']);
+  await database.query(
+    "UPDATE platform_municipalities SET packs=packs-'parking-services' WHERE id='20000000-0000-4000-8000-000000000001'",
+  );
+  // An already-open client refreshes its server capabilities without a page reload.
+  await expect(
+    page.getByRole('status').filter({ hasText: 'This branch pack is disabled' }),
+  ).toContainText('This branch pack is disabled', {
+    timeout: 15000,
+  });
+  await expect(page.getByRole('button', { name: 'New request', exact: true })).toHaveCount(0);
+  await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
+  await page.getByRole('button').filter({ hasText: address }).click();
+  await expect(page.locator('.detail')).toContainText(address);
+  await expect(page.getByLabel('Closure reason')).toHaveCount(0);
+  await page.screenshot({ path: 'test-results/commandmaps-disabled-review.png', fullPage: true });
+  await database.query(
+    "UPDATE platform_municipalities SET packs=packs||'[\"parking-services\"]'::jsonb WHERE id='20000000-0000-4000-8000-000000000001'",
+  );
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to operations' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/requests`)).status()).toBe(401);

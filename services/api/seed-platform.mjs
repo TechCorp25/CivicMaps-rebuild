@@ -49,7 +49,7 @@ try {
       );
       await client.query(
         'INSERT INTO platform_pack_workload(municipality_id,pack,open_count) VALUES ($1,$2,$3)',
-        [id, 'Parks & Gardens', fixture.workload],
+        [id, 'parks-gardens', fixture.workload],
       );
     }
   });

@@ -12,14 +12,15 @@ try {
     root: new URL('../apps/commandmaps/', import.meta.url).pathname,
     server: {
       host: '127.0.0.1',
-      port: 5173,
+      port: 0,
       strictPort: true,
       fs: { allow: [new URL('../', import.meta.url).pathname] },
       proxy: { '/api': environment.origin },
     },
   });
   await vite.listen();
-  process.env.CIVICMAPS_ORIGINS = 'http://127.0.0.1:5173';
+  process.env.CIVICMAPS_COMMANDMAPS_ORIGIN = `http://127.0.0.1:${vite.httpServer.address().port}`;
+  process.env.CIVICMAPS_ORIGINS = process.env.CIVICMAPS_COMMANDMAPS_ORIGIN;
   const child = spawn(process.execPath, ['tests/browser.mjs'], {
     stdio: 'inherit',
     env: process.env,
