@@ -4,10 +4,10 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 ## Repository state
 
-- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `020349b8c34169983f8f7d0254f83b40cb24946a`. F-002's browser-found close-flow correction and evidence update are in the current worktree and not yet committed.
+- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `22fb3c8c88dc9c6fd1364f03be39d134e0a8af42` (F-002 implementation and close-flow correction).
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
 - PR #24: open, draft, no submitted reviews; exact-head CI passed.
-- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`; checkpoint head `bb3e35c` passed run `39132040914`. F-002 run `39132708366` passed the full API suite, including the new pagination/scope regression, but failed the CommandMAPS browser at the existing close-flow assertion.
+- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`; checkpoint head `bb3e35c` passed run `39132040914`; F-002 final head `22fb3c8` passed exact-head run `39133034582`.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
 ## Completed slice: G04 / GOV-10 / F-029
@@ -82,7 +82,7 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 
 **Review of slice diff:** only the shared pool's idle-client error listener, the focused disposable recovery test, and governance status/evidence were changed. Pool size, transaction sequencing, writes/retries, schema, worker leases, F08 entitlements and production resources were not changed.
 
-## Active slice contract: G04 / GOV-10 / F-002
+## Completed slice: G04 / GOV-10 / F-002
 
 **Goal and outcome:** ensure older active and assigned requests remain discoverable beyond the current 100-row newest-first window, while keeping server-side scope and useful complete authorized counts.
 
@@ -102,7 +102,9 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 
 **Implementation in current worktree:** the API returns at most 100 rows plus a `nextCursor`, validates `status` and signed-bigint cursor inputs, applies `active`/`closed` filters in SQL, and returns full actor-authorized aggregate counts. CommandMAPS uses server filters, displays those counts, loads older pages on demand, and refreshes all pages already opened. Added API regressions cover 215 synthetic mixed-state records, older active discovery, complete counts, cursor stability across a newer insertion, invalid inputs and council/officer/scope boundaries. Browser acceptance covers the 100-row page, complete count, loading older active records and switching to the mixed queue.
 
-**Hosted run finding and correction:** run `39132708366` showed the API suite and new queue regression passing, then failed `tests/browser.mjs` when the detail assertion could not find the just-closed request. Server-side `active` filtering correctly removed it from the queue, but the client had also lost its selected detail. The fix in the current worktree switches to `closed` after a successful close from the active filter and retains the returned, authorized row while the closed page reloads. Exact rerun is pending. Local lint, formatting, typechecks, builds, syntax checks and diff checks pass. Local PostgreSQL-backed API/browser execution is unavailable at `127.0.0.1:55432`; hosted exact-head CI is required.
+**Hosted run finding and correction:** run `39132708366` showed the API suite and new queue regression passing, then failed `tests/browser.mjs` because the detail assertion could not find the just-closed request. Server-side `active` filtering correctly removed it from the queue, but the client had also lost its selected detail. The fix switches to `closed` after a successful close from the active filter and retains the returned, authorized row while the closed page reloads. Exact-head run `39133034582` then passed every workflow step, including API/database tests, ingress, worker recovery, platform browser, CommandMAPS overflow/pagination browser, and activation browser. Local lint, formatting, typechecks, builds, syntax checks and diff checks passed. Local PostgreSQL-backed API/browser execution remains unavailable at `127.0.0.1:55432`; CI is the disposable database/browser evidence.
+
+**Review of slice diff:** changed only request-list API behavior, CommandMAPS queue handling, the focused API/browser regressions, and governance evidence. No schema migration or role/grant/authority change. Transaction and mutation ordering, F08 entitlement checks, RLS/council scope, officer assignment filtering and request/audit content are preserved. The queue page query stays capped at 100 rows; summary counts aggregate only rows visible under the active scoped session. No live or production testing was performed.
 
 ## Completed acceptance
 
