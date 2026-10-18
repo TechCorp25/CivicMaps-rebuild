@@ -468,6 +468,11 @@ export function createApp({ webRoot } = {}) {
         400,
         'Select an officer',
       );
+    requireValue(
+      input.reason == null || (typeof input.reason === 'string' && input.reason.length <= 1000),
+      400,
+      'Reason must be a string of at most 1000 characters',
+    );
     if (input.action === 'close')
       requireValue(text(input.reason, 1000), 400, 'A closure reason is required');
     res.json(

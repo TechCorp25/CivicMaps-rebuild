@@ -212,6 +212,35 @@ test('dispatch to acknowledgement, attendance and closure records all transition
     ['created', 'assign', 'acknowledge', 'attend', 'close'],
   );
 });
+test('action reasons reject malformed JSON before mutation and preserve allowed audit values', async () => {
+  const request = await create();
+  const path = `/requests/${request.id}/actions`;
+  for (const reason of [{ malformed: true }, ['malformed'], 42, true, 'x'.repeat(1001)]) {
+    assert.equal(
+      (await call(path, { action: 'assign', version: 1, officerId, reason })).status,
+      400,
+    );
+  }
+  assert.deepEqual(
+    (await pool.query('SELECT status,version FROM service_requests WHERE id=$1', [request.id]))
+      .rows[0],
+    { status: 'RECEIVED', version: 1 },
+  );
+  assert.equal((await call(`/requests/${request.id}/audit`)).data.length, 1);
+
+  assert.equal(
+    (await call(path, { action: 'assign', version: 1, officerId, reason: null })).status,
+    200,
+  );
+  assert.equal(
+    (await call(path, { action: 'acknowledge', version: 2, reason: 'Accepted note' }, 'officer'))
+      .status,
+    200,
+  );
+  const audit = await call(`/requests/${request.id}/audit`);
+  assert.equal(audit.data[1].details.reason, null);
+  assert.equal(audit.data[2].details.reason, 'Accepted note');
+});
 test('parallel duplicate retries create exactly one request and audit event', async () => {
   const key = randomUUID();
   const input = { address: 'Duplicate retry', latitude: 0, longitude: 0, notes: '' };

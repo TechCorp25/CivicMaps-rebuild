@@ -34,12 +34,22 @@ try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await dispatcher.newPage();
   await login(page, 'dispatch@alpha.example');
+  await page.route('**/api/requests/*/audit', async (route) => {
+    const response = await route.fetch();
+    const history = await response.json();
+    history[0].details.reason = { legacy: 'malformed historical value' };
+    await route.fulfill({ response, json: history });
+  });
   await page.getByRole('button', { name: 'New request', exact: true }).click();
   const address = `Browser exercise ${Date.now()}`;
   await page.getByLabel('Location or address').fill(address);
   await page.getByLabel('Dispatch notes').fill('Synthetic browser verification; no real incident.');
+  const legacyAudit = page.waitForResponse((response) => response.url().includes('/audit'));
   const created = await save(page, 'Create request', 201);
+  await legacyAudit;
   await expect(page.locator('.detail')).toContainText(address);
+  await expect(page.locator('.detail .audit')).not.toContainText('malformed historical value');
+  await page.unroute('**/api/requests/*/audit');
   expect(
     (await database.query('SELECT notes FROM service_requests WHERE id=$1', [created.id])).rows[0]
       .notes,
@@ -54,7 +64,6 @@ try {
   await page.reload();
   await page.getByRole('button').filter({ hasText: address }).click();
   await expect(page.locator('.detail .status')).toHaveText('Dispatched (not active)');
-
   const fieldContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const field = await fieldContext.newPage();
   await login(field, 'officer@alpha.example');
