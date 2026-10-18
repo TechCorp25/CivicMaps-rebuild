@@ -231,6 +231,7 @@ try {
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
   await seedQueueOverflow();
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('active');
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.locator('.queue-pagination .muted')).toContainText(
     /Page 1 of [4-9][0-9] · [1-9][0-9]{3,} matching loaded records/,
   );

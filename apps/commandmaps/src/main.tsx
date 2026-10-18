@@ -99,46 +99,43 @@ function App() {
   const retry = useRef<{ payload: string; key: string } | null>(null);
   const current = requests.find((request) => request.id === selected);
   const loadGeneration = useRef(0);
-  const load = useCallback(
-    async (preserveSelection = false) => {
-      const generation = ++loadGeneration.current;
-      const session = await api<Session>('/auth/session');
-      if (generation !== loadGeneration.current) return;
-      setEntitlement(session.entitlements);
-      setCsrf(session.csrfToken);
-      const capabilities = session.entitlements.capabilities;
-      if (!capabilities.includes('requests.create')) setCreating(false);
-      const [queue, roster] = await Promise.all([
-        capabilities.includes('requests.read')
-          ? (async () => {
-              const allRequests: Request[] = [];
-              let cursor: string | null = null;
-              const status = filter === 'closed' ? 'closed' : filter === 'all' ? 'all' : 'active';
-              do {
-                const page: QueuePage = await api<QueuePage>(
-                  `/requests?status=${status}${cursor ? `&before=${encodeURIComponent(cursor)}` : ''}`,
-                );
-                allRequests.push(...page.requests);
-                cursor = page.nextCursor;
-              } while (cursor);
-              return allRequests;
-            })()
-          : Promise.resolve([]),
-        capabilities.includes('officers.read')
-          ? api<Officer[]>('/officers').catch((error) => {
-              if (error instanceof ApiError && error.status === 403) return [];
-              throw error;
-            })
-          : Promise.resolve([]),
-      ]);
-      if (generation !== loadGeneration.current) return;
-      setRequests(queue);
-      setOfficers(roster);
-      if (!preserveSelection)
-        setSelected((currentId) => (queue.some((r) => r.id === currentId) ? currentId : null));
-    },
-    [filter],
-  );
+  const load = useCallback(async (preserveSelection = false) => {
+    const generation = ++loadGeneration.current;
+    const session = await api<Session>('/auth/session');
+    if (generation !== loadGeneration.current) return;
+    setEntitlement(session.entitlements);
+    setCsrf(session.csrfToken);
+    const capabilities = session.entitlements.capabilities;
+    if (!capabilities.includes('requests.create')) setCreating(false);
+    const [queue, roster] = await Promise.all([
+      capabilities.includes('requests.read')
+        ? (async () => {
+            const allRequests: Request[] = [];
+            let cursor: string | null = null;
+            do {
+              const page: QueuePage = await api<QueuePage>(
+                `/requests?status=all${cursor ? `&before=${encodeURIComponent(cursor)}` : ''}`,
+              );
+              allRequests.push(...page.requests);
+              cursor = page.nextCursor;
+              if (generation !== loadGeneration.current) return [];
+            } while (cursor);
+            return allRequests;
+          })()
+        : Promise.resolve([]),
+      capabilities.includes('officers.read')
+        ? api<Officer[]>('/officers').catch((error) => {
+            if (error instanceof ApiError && error.status === 403) return [];
+            throw error;
+          })
+        : Promise.resolve([]),
+    ]);
+    if (generation !== loadGeneration.current) return;
+    setRequests(queue);
+    setOfficers(roster);
+    if (!preserveSelection)
+      setSelected((currentId) => (queue.some((r) => r.id === currentId) ? currentId : null));
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -201,6 +198,7 @@ function App() {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'The operation could not be completed');
       if (err instanceof ApiError && err.status === 401) {
+        loadGeneration.current += 1;
         setActor(null);
         setCreating(false);
         setCsrf('');
