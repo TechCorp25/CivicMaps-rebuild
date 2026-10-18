@@ -1,8 +1,16 @@
-# Next phase — F07 release acceptance, then F08 entitlements
+# F08 plan — completed implementation and live release; F09 next
 
 Prepared 18 October 2026 (Australia/Melbourne), Codex (agent).
 
-## Confirmed starting point
+## Current checkpoint — F08 complete; closure reconciliation pending
+
+Owner-merged PR #21 source `b21e764ad1151aa3e4dce6f91f29f24f69b31916` is deployed and its live HTTPS acceptance/concurrency/compatible recovery passed according to the release handoff. [F08 closure](evidence/F08-release-closure.md) pins the artifact and successful commands, distinguishes independently checked GitHub state from handoff-reported live evidence, and retains the uninspected supplemental source-check receipt, local receipt reconciliation and original manifest reconciliation as pending. Do not redeploy, reimplement or replay migration 013.
+
+The next development phase is [F09 municipality suspension and resumption](F09-next-phase-plan.md). Its scope, dependencies, acceptance criteria and TODOs are prepared; concrete suspension/session/readiness choices remain proposed and require explicit resolution before dependent implementation. Second-branch selection remains later/non-blocking.
+
+The F07 release and F08 design/implementation procedure below is historical reference, with the current checkpoint and resumption instruction taking precedence.
+
+## Confirmed historical starting point
 
 - Owner merged [PR #19](https://github.com/TechCorp25/CivicMaps-rebuild/pull/19) into main at `2b73318a57c97baecb52711beca401ed3a162339`. F07 implementation is complete; do not implement it again or request its merge again.
 - Published F07 head `16d543578798c678f2bc24f0ffb9c0f646594de3` passed [PR CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070082654), [push CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070079337), and [external Codex review with no findings](https://github.com/TechCorp25/CivicMaps-rebuild/pull/19#issuecomment-6241237807). Evidence covers 69 integration checks, all three disposable browser suites and Caddy isolation.
@@ -10,17 +18,17 @@ Prepared 18 October 2026 (Australia/Melbourne), Codex (agent).
 - F07 merged source `2b73318` is now deployed and its scoped live gate passed. [Release closure](evidence/F07-release-closure.md) records the exact artifact, preservation, real TLS activation/isolation/revocation and compatible recovery. The [implementation evidence](evidence/F07.md) and older [F06Q release evidence](evidence/F06Q-release-closure.md) retain their original scopes.
 - [D02](F07-D02-decisions.md) is approved and implemented. ADMIN keeps own profile/session and explicit context grants only. F08 must not expand those permissions.
 
-This plan now includes an executed F07 release checkpoint. F08 entitlement implementation is underway on `codex/civicmaps-f08-entitlements`, stacked on this planning branch; no new AWS compute, DNS or council resource was created. Existing AWS CLI authorisation, Sydney Region, Medium guidance, resource retention through the 21 October review and the saved US$50/month allocation remain the starting constraints; verify current runtime/spend facts at execution.
+This plan retains the executed F07 release checkpoint and completed F08 implementation history. F08 was owner-merged through PR #21 and its release is recorded separately; no new AWS compute, DNS or council resource was created. Existing AWS CLI authorisation, Sydney Region, Medium guidance, resource retention through the 21 October review and the saved US$50/month allocation remain the starting constraints; verify current runtime/spend facts at execution.
 
 ## Execution checkpoint — 18 October 2026
 
-F07 is deployed/live accepted on `2b73318`; see [release closure](evidence/F07-release-closure.md). The owner selected existing Alpha/Beta test councils: Alpha's synthetic administrator is retained, Beta's administrator is disabled and its sessions revoked. Preserved-data and compatible F07 recovery checks passed. Earlier [preparation evidence](evidence/F07-release-preparation.md) is historical. The owner has approved [D03](F08-D03-decisions.md); continue the bounded implementation on its fresh feature branch; [implementation evidence](evidence/F08.md). The [shared-map capability baseline](F08-parking-capability-baseline.md) remains pinned to preview `e53ec8c`.
+F07 is deployed/live accepted on `2b73318`; see [release closure](evidence/F07-release-closure.md). The owner selected existing Alpha/Beta test councils: Alpha's synthetic administrator is retained, Beta's administrator is disabled and its sessions revoked. Preserved-data and compatible F07 recovery checks passed. Earlier [preparation evidence](evidence/F07-release-preparation.md) is historical. The owner approved [D03](F08-D03-decisions.md), now implemented and owner-merged in PR #21; [implementation evidence](evidence/F08.md). The subsequent deployed/live-accepted F08 checkpoint is recorded in the current section above. The [shared-map capability baseline](F08-parking-capability-baseline.md) remains pinned to preview `e53ec8c`.
 
 ## Owner-confirmed branch sequence and reuse strategy
 
 The owner confirmed **Parking Services Branch** as the first departmental branch feature package. Its source knowledge base is the established `CivicMAPS/CivicMaps-preview` application, not an empty feature brief. The checked-in [feature inventory](../product/civicmapsfeatureinventory.md), [source/sync record](../github.md) and parking/Code21 wireframe annotations provide the starting evidence. Before porting a slice, inspect its actual preview source and pin the relevant revision; distinguish working behaviour, dormant features and documented defects from what has already been verified in this rebuild.
 
-Treat Parking Services Branch as a first-class departmental package within the existing council/context model. The earlier proposal to fold parking into Local Laws is superseded by this owner direction. Exact catalogue ID and migration details remain D03 decisions; the display/package name and parking-first sequence are confirmed.
+Treat Parking Services Branch as a first-class departmental package within the existing council/context model. The earlier proposal to fold parking into Local Laws is superseded by this owner direction. Catalogue IDs and migration details were approved in D03 and implemented in F08; the display/package name and parking-first sequence remain confirmed.
 
 Parking Services, Local Laws, Animal Management, Waste Management and subsequent branches share the **same operational map interface**. Branch capabilities determine its tools, layers, forms, workflows and field actions, filtered by current entitlements and user/context permissions. A contrasting second branch changes the field feature set within that shared map, while reusing dispatch, management and administration.
 
@@ -54,7 +62,7 @@ The owner has confirmed the Parking Services Branch package and first-branch seq
 
 If the owner chooses a completion exception, name each permitted action, actor and state explicitly and add a separate acceptance case before implementation. Do not infer exemptions from an existing open-work counter or a client confirmation dialog.
 
-## Phase C — implement one bounded F08 feature
+## Phase C — completed bounded F08 implementation (reference only)
 
 Parking Services Branch is the first departmental consumer used to ground F08 capabilities. Inventory the established preview baseline before selecting the bounded implemented operations for this feature. The pre-F08 code stores display-label pack assignments in `services/api/platform.mjs` and confirms removal, while CommandMAPS exposes operational APIs independently. F08 makes assignments authoritative for the existing implemented operations; it does not build all eight domain workflows.
 
@@ -70,7 +78,7 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 ## Execution ToDos
 
 - [x] Verify PR #19 owner merge and synchronise main to `2b73318`.
-- [x] Record current F07 implementation/review evidence and pending live-release boundary.
+- [x] Record F07 implementation/review evidence and its subsequently completed live-release boundary.
 - [x] Confirm selected merged source CI and build its pinned release artifact; local archive/checks recorded in preparation evidence.
 - [x] Owner selected existing Alpha/Beta test councils; exact synthetic designations and outcomes recorded in release closure.
 - [x] Inspect AWS runtime/spend; verify private checkpoint, preservation and compatible F07 recovery.
@@ -78,10 +86,13 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [x] Record owner direction: Parking Services Branch first, then a branch with little shared field code and substantial shared dispatch/management/administration.
 - [x] Prepare the source-pinned preview capability/reuse matrix and identify rebuild gaps; [baseline](F08-parking-capability-baseline.md). This inventory does not close later implementation/acceptance gaps.
 - [x] Record owner-approved D03 decisions after the F07 release gate; decision receipt in F08-D03-decisions.md.
-- [x] Implement bounded F08 entitlements; publish [evidence](evidence/F08.md), draft [PR #21](https://github.com/TechCorp25/CivicMaps-rebuild/pull/21) and Empirical checkpoint `6ad42e3dbeb1d96470603a5b`. Parent PR #20 was owner-merged into main at `26a49e0`; PR #21 now proceeds against main. Require published-head CI and external review completion before its owner merge.
-- [ ] Owner review/merge of resulting PRs; qualify any later F08 release separately.
+- [x] Implement bounded F08 entitlements; publish [evidence](evidence/F08.md), draft [PR #21](https://github.com/TechCorp25/CivicMaps-rebuild/pull/21) and Empirical checkpoint `6ad42e3dbeb1d96470603a5b`. Parent PR #20 was owner-merged at `26a49e0`; PR #21 was subsequently owner-merged at `b21e764` after final-head CI/review.
+- [x] Owner merged PRs #20/#21; F08 deployment, live HTTPS acceptance and compatible recovery passed according to the release handoff.
+- [ ] Complete the pending local receipt/manifest reconciliation and supplemental result inspection in [F08 closure](evidence/F08-release-closure.md); finish closure review/publication checks and owner review/merge of its draft PR.
+- [x] Prepare [F09 scope/dependencies/acceptance/TODOs](F09-next-phase-plan.md), preserving unresolved policy choices.
+- [ ] Resolve concrete F09 policy choices before dependent implementation; do not infer approval from the plan.
 - [ ] Later, non-blocking work after F08 completion: select the second branch against the confirmed reuse criterion and prepare a separate scope. This choice does not gate F08 or authorise a second concurrent feature.
 
 ## Resumption instruction
 
-Read current main, ledger, this plan and Empirical. PR #19 is merged; do not restart its implementation/review/merge or repeat D02. F07 source `2b73318` is deployed/live accepted with approved Alpha/Beta fixtures; do not repeat activation or permanently disable Alpha. F08 implementation is published in PR #21; its parent PR #20 is owner-merged at `26a49e0`, and the feature branch is reconciled with main. Use its evidence and published-head checks/review for owner review; do not restart implementation. Keep implementation, deployment, live acceptance and owner merge distinct in every record.
+Read current main, ledger, [F08 closure](evidence/F08-release-closure.md), [F09 plan](F09-next-phase-plan.md) and Empirical. PRs #19/#20/#21 are owner-merged; F08 source `b21e764` is deployed/live accepted with compatible recovery according to the handoff. Do not repeat activation, permanently disable Alpha, reimplement F08, redeploy it or replay migration 013. Retrieve the existing supplemental check through the normal approved path after AWS reauthentication, reconcile local receipts and scratch `artifact.json`, and preserve accurate pending status until inspected. Use compatible F08 code for recovery. F09 remains planning-only until its concrete policy choices are resolved before dependent implementation. Keep implementation, deployment, live acceptance, closure publication and owner merge distinct in every record.

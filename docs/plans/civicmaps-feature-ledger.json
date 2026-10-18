@@ -139,7 +139,7 @@
       "mergeCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
       "preparationPublishedHead": "52b19868429d5bed735477299ad61d18a171ca71",
       "deployedSourceCommit": "b5c9709cdfa176619d87b0444f307b015d9bfb9f",
-      "currentMainLiveAcceptance": "passed_F06Q_merged_source_3dfb031",
+      "currentMainLiveAcceptance": "historical_F06_F06Q_evidence_current_F08_b21e764_live_accepted_per_handoff",
       "alignedReleaseCommit": "8e916226571fb72f8ed15c2932b86be0a859f284"
     },
     {
@@ -154,7 +154,7 @@
       "empirical": "recorded",
       "blockers": [],
       "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
-      "nextAction": "Historical F06Q source3dfb031 release gate passed. F07 merged source2b73318 is now deployed/live accepted; use owner-approved D03 for F08, not another F07 release.",
+      "nextAction": "Historical F06Q release passed; F08 b21e764 is now deployed/live accepted per release handoff. Use F08 closure and F09 plan; do not repeat completed F06Q/F07/F08 release operations.",
       "implementation": "complete",
       "localAcceptancePassed": true,
       "liveAcceptance": "passed_for_merged_source",
@@ -168,7 +168,7 @@
       "releaseEvidencePR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/18",
       "releaseEvidenceMergeCommit": "e34646f4bb81a563916397ab04b3efdd0d70b1f6",
       "releaseEvidenceInMainCommit": "99b12b9bf5edc5c4154b27ac800f6a63d33ad301",
-      "currentMainLiveAcceptance": "historical_F06Q_source_3dfb031_superseded_by_F07_2b73318"
+      "currentMainLiveAcceptance": "historical_F06Q_source_3dfb031_superseded_by_F08_b21e764"
     },
     {
       "id": "F07",
@@ -181,7 +181,7 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "F07 release gate passed on2b73318 with approved Alpha/Beta fixtures; preserve Alpha administrator and disabled Beta state. Use owner-approved D03 for F08; do not repeat activation.",
+      "nextAction": "Historical F07 release passed on2b73318; current F08 b21e764 is deployed/live accepted per release handoff. Preserve usable Alpha and disabled Beta administrators; use compatible F08 recovery after013. Follow F08 closure and F09 plan, not another activation/release.",
       "preparationPath": "docs/plans/F07-next-phase-plan.md",
       "decisionPath": "docs/plans/F07-D02-decisions.md",
       "acceptanceScope": "local_and_hosted_disposable",
@@ -205,16 +205,16 @@
     },
     {
       "id": "F08",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-f08-entitlements",
-      "commit": "e460ac8a3a57745164d019a311b0696ab602bf2f",
+      "commit": "a21ef7c6ec2f2f139a328b1a9c7726a10c0eebbc",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/21",
       "evidencePath": "docs/plans/evidence/F08.md",
       "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Owner review of PR21 against main after owner-merged PR20 (26a49e0); require published-head CI and any external Codex findings resolved before merge. Qualify F08 live release separately. No agent merge.",
+      "nextAction": "Finish closure documentation review/publication, inspect existing supplemental SSM receipt through normal approval and reconcile local worktrees/receipts/artifact.json after AWS reauthentication. Do not redeploy/reimplement F08 or replay migration013. F09 plan prepared; resolve its concrete policy choices before dependent implementation.",
       "preparationPath": "docs/plans/F08-next-phase-plan.md",
       "firstBranchPackage": "Parking Services Branch",
       "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected.",
@@ -224,12 +224,30 @@
       "d03Decision": "owner_approved_2026-10-18",
       "d03MemoryId": "6ad42b2cbeb1d96470603894",
       "memoryId": "6ad42e3dbeb1d96470603a5b",
-      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39090811123",
-      "pushCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39090808901",
-      "deployed": false,
+      "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39090955491",
+      "pushCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39090951795",
+      "deployed": true,
       "parentMergeCommit": "26a49e03e08d0ce61767c4b2cc8b7c8e1741320a",
       "implementationCommit": "772d6fa4d0a663e77af42413ed95e9b72e079c6a",
-      "reviewFixCommit": "b3922ee40ca57e55ec6f8e1a551df25b7ec99c98"
+      "reviewFixCommit": "b3922ee40ca57e55ec6f8e1a551df25b7ec99c98",
+      "publishedHead": "a21ef7c6ec2f2f139a328b1a9c7726a10c0eebbc",
+      "mergeCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
+      "implementation": "complete",
+      "deployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
+      "deployedSourceAcceptancePassed": true,
+      "liveAcceptance": "passed_for_merged_source_per_release_handoff",
+      "compatibleRecovery": "passed_per_release_handoff",
+      "releaseStatus": "deployed_and_live_accepted_closure_pending",
+      "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39091194915",
+      "releaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
+      "releaseBranch": "codex/civicmaps-f08-release-acceptance",
+      "releaseEvidencePublication": "pending",
+      "releaseDocumentationReview": "Codex agent review completed; stale root pointers corrected; focused re-review found no remaining findings",
+      "releaseSupplementalCheck": "submitted_receipt_not_inspected",
+      "releaseLocalReconciliation": "current_git_inspected_release_worktree_recreated_original_receipts_missing",
+      "releaseArtifactManifestUpdate": "reconstructed_from_handoff_original_manifest_unavailable",
+      "releaseEvidenceProvenance": "Owner release handoff for live acceptance/recovery; deployment also recorded in Empirical; GitHub merge/CI independently verified. Original scratch receipts are unavailable; a normal approved AWS identity read reports expired session and standard remote login is pending.",
+      "releaseAWSAuthentication": "expired_at_resume_standard_remote_login_pending"
     },
     {
       "id": "F09",
@@ -241,8 +259,13 @@
       "acceptancePassed": false,
       "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "blockers": [
+        "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
+      ],
+      "nextAction": "Read F09 plan and confirm dependency evidence; finish outstanding F08 closure reconciliation/publication. Inventory current entry points and resolve concrete F09 policy choices before dependent implementation. Second-branch selection is non-blocking.",
+      "preparationPath": "docs/plans/F09-next-phase-plan.md",
+      "preparationStatus": "prepared_for_review",
+      "policyDecisionStatus": "proposed_not_approved"
     },
     {
       "id": "F10",
@@ -498,7 +521,8 @@
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "Owner review of PR21 against main after owner-merged PR20 (26a49e0); require published-head CI and any external Codex findings resolved before merge. Qualify F08 live release separately. No agent merge.",
-  "currentDeployedSourceCommit": "2b73318a57c97baecb52711beca401ed3a162339",
-  "currentReleaseEvidencePath": "docs/plans/evidence/F07-release-closure.md"
+  "nextAction": "Finish closure documentation review/publication, inspect existing supplemental SSM receipt through normal approval and reconcile local worktrees/receipts/artifact.json after AWS reauthentication. Do not redeploy/reimplement F08 or replay migration013. F09 plan prepared; resolve its concrete policy choices before dependent implementation.",
+  "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
+  "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
+  "releaseClosureFeature": "F08"
 }
