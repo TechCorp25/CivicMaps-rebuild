@@ -4,10 +4,10 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 ## Repository state
 
-- Governance branch: `codex/civicmaps-governance-workstream`, last pushed head `993ee2d7c271fe8222d520c8ba3297578aa05d0d`; F-011 implementation and evidence edits are in the current worktree and not yet committed.
+- Governance branch: `codex/civicmaps-governance-workstream`; F-011 implementation head `f1ae3a62b55e64355f9a8e0acb6ca3d32e22e980` is pushed. This checkpoint update is documentation-only and follows that code head.
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
 - PR #24: open, draft, no submitted reviews; exact-head CI passed.
-- PR #25: open, draft, no submitted reviews; latest pushed documentation head `993ee2d7` has Actions runs `39131570153` and `39131572172` in progress at last check.
+- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`. Current F-011 implementation head `f1ae3a6` has exact-head run `39131773353` in progress at last check.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
 ## Completed slice: G04 / GOV-10 / F-029
@@ -53,7 +53,7 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 - No actionable F-029 implementation finding. The reviewer found common pre-mutation reason validation and defensive display consistent with preserved auth, entitlement/context, CSRF, idempotency, version, transition and transactional audit behavior.
 - Reviewer limitation: source/document review only, not independent CI/browser/live execution or legal certification. Existing exact-head hosted CI evidence remains the execution evidence; the reviewer did not independently revalidate legislation. The new regression does not exhaustively cross every action/type combination or boundary length.
 
-**Evidence references:** route actions in `services/api/platform.mjs` and `services/api/routing.mjs`; request audit/receipt behavior in `services/api/app.mjs`; branch/main/code pins above; F-029 hosted run `39130614555` on `9b3afc2` and checkpoint-only run `39130875787` on `82efe6e` passed. Matrix corrections must receive exact-head hosted CI before publication status is updated.
+**Evidence references:** route actions in `services/api/platform.mjs` and `services/api/routing.mjs`; request audit/receipt behavior in `services/api/app.mjs`; branch/main/code pins above; F-029 hosted run `39130614555` on `9b3afc2` and checkpoint-only run `39130875787` on `82efe6e` passed. The corrected matrix/checkpoint at `993ee2d` passed exact-head hosted run `39131572172`, including application/API checks, ingress, CommandMAPS browser, platform browser and activation browser suites.
 
 **Specific reviewer questions:**
 
