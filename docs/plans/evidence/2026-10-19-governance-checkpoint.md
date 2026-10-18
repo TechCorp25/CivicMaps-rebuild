@@ -4,10 +4,10 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 ## Repository state
 
-- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `bde643f8da5a9cb394d9b351abda02da78338719` (F-009 overload response alignment). Current local worktree contains F-009 closeout evidence only.
+- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `a8e401a0d4c1a3524e0492e67872a7fbdfef7c67` (F-009 closeout and evidence). Current local worktree has only the G02 matrix/checkpoint documentation changes listed below.
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
 - PR #24: open, draft, no submitted reviews; exact-head CI passed.
-- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed run `39131572172`; F-011 head `f1ae3a6` passed `39131773353`; checkpoint head `bb3e35c` passed `39132040914`; F-002 code head `22fb3c8` passed `39133034582` and note head `bcf46f5` passed `39133456369`; F-009 candidate `5bcea20` failed only its 503 body expectation in `39133998653`, corrected head `bde643f` passed `39134202266`.
+- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed run `39131572172`; F-011 head `f1ae3a6` passed `39131773353`; checkpoint head `bb3e35c` passed `39132040914`; F-002 code head `22fb3c8` passed `39133034582` and note head `bcf46f5` passed `39133456369`; F-009 candidate `5bcea20` failed only its 503 body expectation in `39133998653`, corrected head `bde643f` passed `39134202266`; F-009 closeout docs at `a8e401a` passed exact-head run `39134550601`, including API/database, ingress, platform, CommandMAPS and first-admin activation browser steps.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
 ## Completed slice: G04 / GOV-10 / F-029
@@ -137,8 +137,51 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 - Confirmed F08 release remains closed; no deployment, migration replay or production change was performed.
 - Closed F-029 acceptance at the development boundary on the exact successful hosted head; no live exploit, production change or compliance claim.
 - Closed F-002 and F-009 acceptance at the development boundary on exact successful hosted heads; F-002 run `39133034582`, F-009 run `39134202266`. F-009's first hosted assertion mismatch was corrected; the rerun passed all 81 tests and browser checks.
+- F-009 closeout evidence at `a8e401a` passed exact-head hosted run `39134550601`; no live load/production availability claim is made.
 - Completed a source-pinned G01 actor/data-flow matrix with local documentation validation; no new law or customer policy was inferred.
 
 ## Next active outcome
 
-Prepare source-backed G02 actor/action and council self-administration evidence. Fetch and inspect current main and the relevant implementation before writing a short work contract. Do not introduce new grants or dependent council administration behavior until authority choices are explicit and Checkpoint B advanced review is available. Continue any independently validated bounded implementation; G02 policy dependencies do not become a blanket development gate.
+Prepare source-backed G02 actor/action and council self-administration evidence. The matrix extension below is under documentation validation and advanced Checkpoint B review. Do not introduce new grants or dependent council administration behavior until authority choices are explicit and Checkpoint B findings are available. Continue any independently validated bounded implementation; G02 policy dependencies do not become a blanket development gate.
+
+## Active slice contract: G02 / GOV-02 / GOV-03 / Checkpoint B preparation
+
+- **Goal and outcome:** extend the existing authority/data-flow matrix with source-pinned implemented actions, actual access boundaries and the missing council self-administration decisions, ready for advanced review before any cross-cutting authority implementation.
+- **Requirements:** G02, GOV-02 (actor/action authority), GOV-03 (council administration design), and Checkpoint B. This slice is evidence and decision preparation; it does not implement council identity or permissions.
+- **Source pins:** latest integrated `origin/main` `92b3eea8b8ecfd0505afb6d62d60a001903db161`; current governance branch at slice start `a8e401a0d4c1a3524e0492e67872a7fbdfef7c67`.
+- **Likely files:** existing `docs/plans/evidence/2026-10-19-authority-data-flow-matrix.md`, this checkpoint, and a concise pointer in `docs/plans/governance-workstream.md` if needed. No application/schema files expected.
+- **Preserve:** F08 Alpha usable administrator and Beta disabled administrator/no sessions; council/context/entitlement checks; existing `ADMIN` operational exclusion and direct API/RLS negatives; operator audit/idempotency/CSRF and route/version controls; current pack entitlement ceiling and route semantics.
+- **Unresolved decisions:** who may invite/disable council staff, assign operational roles, administer branches/contexts/settings, and activate licensed packs within an operator-controlled entitlement ceiling; admin cardinality and delegated approval; MFA/SSO; emergency recovery; and any support/operator access to council records. Do not infer these choices from the first-admin activation flow or F09 policy.
+- **Acceptance:** map each actor to observed routes/actions and denied scope with source/test evidence; distinguish platform app SQL grants from runtime/broker/database/infrastructure powers; state unknowns and limits; present bounded decision options and consequences with accountable decision owners; request independent assessment before boundary design/implementation. Validate document links and whitespace. No code, migration, grant, identity, product-policy or production changes.
+- **Current result:** matrix extension is source-backed by main `92b3eea…`, Platform and activation source, migrations and direct API/SQL negative assertions. Initial advanced GPT-6 Astra findings were received and source-checked; corrections are recorded below. No code or authority changed. A final read-only reassessment of the corrected evidence is pending.
+- **Out of scope:** new identities/roles/grants, staff lifecycle endpoints, pack activation semantics, IdP/domain selection, database/key/support architecture, destructive records behavior, F09 suspension policy, and production acceptance.
+
+## Advanced-model Checkpoint B — initial reassessment findings and correction record
+
+**Review pins:** GPT-6 Astra reviewed the current governance branch head `a8e401a0d4c1a3524e0492e67872a7fbdfef7c67`, integrated main `92b3eea8b8ecfd0505afb6d62d60a001903db161`, and the initial uncommitted G02 matrix/checkpoint draft. The governance source code did not change. The review was read-only; it did not run tests, validate legal claims or inspect live infrastructure.
+
+**Supported findings checked against source and incorporated into the matrix:**
+
+- First-admin flow is initial bootstrap, pending-token reissue and disable—not general recovery. Approved D02 excludes reactivation/general user management; issuance requires the designated identity remain pending. The operator receives a raw bearer URL; recipient verification is an operator assertion/email equality check and redemption proves token possession, not independent mailbox/IdP control. New staff grants attached to this bootstrap principal would expand trust and require an explicit decision.
+- Platform wrapper claims now cover business control-plane routes only. Login/logout use separate handling; logout is not an idempotent/audited business mutation. Business audit and specialized council-admin/route-event streams are distinguished.
+- Enabled operational packs grant all operational roles scoped officer-directory and resource-status reads; D03 retains already-authorized request/audit review after pack disable. Officer assignment scope and supervisor mutation denials remain explicit.
+- Runtime evidence is stronger than the narrower application-role grants: `civicmaps_f06_runtime` has `BYPASSRLS`, `SELECT` on all control tables and membership in both local and platform app roles. It is recorded as cross-council technical read/control-plane capability, a G03 boundary, not an alleged access event. Provisioning and routing workers are separated; routing worker and API share the development OS identity/environment.
+- Direct API/SQL negative evidence is scoped to the tested actor/context/app role and is not proof against forged settings or a compromised BYPASSRLS broker. The matrix now links the existing cross-plane, provisioning, officer/supervisor and context/cross-council negatives.
+- The decision set now includes global-vs-council-vs-context role scope, self/peer elevation and approval, immutable grant revocation/regrant and rehire, target/approver attribution, retained-record custody after staff/assignment/context/pack/route changes, and restore/recovery behavior.
+
+**Review recommendation:** the reviewer said this evidence is suitable as Checkpoint B preparation after corrections, but it does not approve a council-admin or isolation architecture. Independent bounded development may continue. The reviewer identified essential owner decisions before dependent implementation:
+
+1. Which council principals can administer staff, operational roles or administration itself, at what scope, and may they approve their own elevation?
+2. Is council identity authoritative in CivicMAPS, a customer IdP, or a defined combination; how do first-admin verification, extra admins, lockout recovery and IdP failure work?
+3. Who creates/replaces branches and contexts, regrants revoked access, and retains historical record access after staff/organisation changes?
+4. How are operator commercial entitlement and council feature activation represented separately, including disable/re-enable, concurrent writes and retained-record review?
+5. Is the provider boundary controlled privileged access or provider inability to obtain plaintext; which runtime, deployment, DB, key and support actors are trusted?
+6. Who are the named decision owners and records custodians for preservation, restore and exit?
+
+**Limitations and disposition:** no production isolation, independent identity assurance, complete support inventory, customer approval or legal certification is established. The first-admin design remains within already-approved synthetic D02; its limitation is documented, not changed. Existing Alpha-usable/Beta-disabled state and F08/D03 preserved-record behavior remain constraints. The corrections are documentation-only and do not change grants, identity, pack behavior, data access or deployment.
+
+**Follow-up questions for the advanced reviewer:** confirm each source correction is accurate; flag any remaining misleading authority or preservation claim; assess whether the unresolved decision set is sufficient to defer G02-dependent behavior without stopping independent development; and confirm whether the corrected evidence package is reviewable for an owner decision. No cross-cutting identity, council administration, DB isolation, key or privileged-support boundary may be implemented until its necessary owner decisions are explicit and reassessed.
+
+**Corrected-package follow-up (GPT-6 Astra):** read-only source review against the same governance source baseline `a8e401a…` and main `92b3eea…` found the substantive corrections supported and no remaining material mismatch. The reviewer identified that “Business actions append” could imply reads are audited; this was corrected to “Business mutations append.” The reviewer recommends the evidence is ready for owner decision preparation. It does not independently validate CI, deployed configuration, legislation or customer approval and is not legal/production certification. No files or tests were changed/run by the reviewer.
+
+**Checkpoint B disposition:** preparation and reassessment are complete for source-backed authority evidence. The next dependent implementation remains blocked only on the specific owner/customer decisions listed above, not on governance generally. Continue independent bounded corrective and functional work. Before a new cross-cutting authority boundary is implemented, pin its chosen actor/action semantics and obtain the required reassessment.
