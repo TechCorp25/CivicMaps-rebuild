@@ -2,7 +2,7 @@
 
 Prepared 18 October 2026 (Australia/Melbourne) by Codex (agent).
 
-**Assessment only. No application fix, deployment, migration replay, live exploit/load test or compliance certification was performed.** The owner has required governance and council isolation to be resolved before deeper feature implementation; see the [governance gate and requirements](../governance-and-production-readiness-gate.md).
+**Assessment only. No application fix, deployment, migration replay, live exploit/load test or compliance certification was performed.** The owner clarified that governance and council isolation must be actively resolved alongside continued functional development; there is no blanket development hold. Production acceptance and concrete feature dependencies remain; see the [governance gate and requirements](../governance-and-production-readiness-gate.md).
 
 ## Outcome
 
@@ -119,7 +119,7 @@ The [governance gate](../governance-and-production-readiness-gate.md) and [natio
 
 Codex documentation review found two stale sequencing instructions: the canonical roadmap still directed F08 implementation, and the standalone F09 resumption omitted the new governance gate. Both were corrected and the final review reported no remaining material findings, including after national scope was confirmed. This was a documentation/evidence review, not independent legal certification.
 
-Local checks passed for 12 documentation/artefact files, 72 relative links, all 65 IDs and queue ranks, current-source references/blob comparison, observation/checksum consistency, 30 ledger cards and the F09 hold. No application, infrastructure, domain or GIS source changed. Existing application tests were not rerun locally for this documentation-only change; hosted CI and publication state are recorded separately in the pull request and Empirical.
+Local checks passed for 12 documentation/artefact files, 72 relative links, all 65 IDs and queue ranks, current-source references/blob comparison, observation/checksum consistency, 30 ledger cards and the then-current F09 hold (superseded by the owner correction below). No application, infrastructure, domain or GIS source changed. Existing application tests were not rerun locally for this documentation-only change; hosted CI and publication state are recorded separately in the pull request and Empirical.
 
 ## Evidence artefacts and complete finding register
 
@@ -194,3 +194,7 @@ The following table retains input order. `not_actionable` is a security verdict;
 | F-063 | Authenticated reads take row locks on every request | intentional consistency control | not_actionable | FOR SHARE locks ensure revocation serialises with authorised work; shared readers do not inherently exclude each other. Missing expiry/user indexes are optimisation candidates. Removing locks without replacement would weaken revocation guarantees; load regression is unmeasured. |
 | F-064 | Platform UI polls detail every 2 s with no back-off while jobs or routes are pending | outdated in part | not_actionable | Pending work still polls every two seconds, but failures back off to fifteen seconds, settled views poll at fifteen seconds, requests time out and only one effect owns reads. No overlapping unbounded polling loop remains; healthy stuck jobs still warrant capacity measurement. |
 | F-065 | Routing worker sleeps without honouring SIGTERM | valid shutdown limitation | not_actionable | SIGTERM changes a flag but does not cancel the active probe or ten-second timer, so graceful exit can be delayed. This is bounded latency, not failure to handle SIGTERM at all; no actual service-manager shutdown failure is established. |
+
+## Owner sequencing correction — 18 October 2026 (Australia/Melbourne)
+
+The owner clarified that governance must be actively resolved while functional development continues, with dispatch as an example. The earlier blanket hold is superseded. Planning pointers now distinguish a parallel governance workstream, specific unresolved policy dependencies and production acceptance. Historical source observations, finding verdicts and prior review/CI evidence remain unchanged. The correction does not approve F09-P01–P06 or other unresolved production policies.
