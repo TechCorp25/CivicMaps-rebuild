@@ -25,7 +25,7 @@ Acceptance: successful create/edit/review/confirm and failed-save retry retain i
 
 ## Checkpoint
 
-Design sources inspected. Implementation in progress; no acceptance claim, application deployment or infrastructure change.
+Implementation and local qualification complete; draft PR #26 published. Evidence: [F11D](evidence/F11D.md). Hosted CI and independent PR review are separate; no application deployment or infrastructure change.
 
 ## Functional preview reference
 

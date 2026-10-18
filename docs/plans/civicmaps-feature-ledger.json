@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": "F11D",
+  "activeFeature": null,
   "nextFeature": "F09",
   "allowedStatuses": [
     "planned",
@@ -533,21 +533,21 @@
     {
       "id": "F11D",
       "title": "Dispatch workspace and workflow fidelity \u2014 bounded F11 precursor",
-      "status": "in_progress",
+      "status": "review_ready",
       "branch": "codex/civicmaps-dispatch-workspace",
-      "commit": null,
-      "pr": null,
+      "commit": "10bdab731b269f911cb0f135f2f30286db3c4cb1",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/26",
       "evidencePath": "docs/plans/evidence/F11D.md",
-      "acceptancePassed": false,
-      "publication": "local_qualification",
-      "empirical": "pending",
+      "acceptancePassed": true,
+      "publication": "remote_SHA_verified_draft_PR26_CI_pending",
+      "empirical": "6ad4c8e8beb1d9647060a602",
       "blockers": [],
       "dependencies": [
         "F06",
         "F07",
         "F08"
       ],
-      "nextAction": "Complete final local qualification, publish and verify remote SHA/CI; owner review and merge remain separate. Does not complete F11."
+      "nextAction": "Review draft PR26 and hosted CI. Owner merge is separate; governance consumes reviewed main after merge. F11 and F09 remain incomplete."
     }
   ],
   "integrationBase": "origin/main",
@@ -556,7 +556,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "Owner selected dispatch workspace and workflow fidelity. Qualify and publish bounded F11D while governance proceeds separately; PR24 supersedes older blanket pause language. Existing concrete F09 policy choices remain unapproved. No F08 deployment replay.",
+  "nextAction": "F11D locally qualified and published in draft PR26; verify hosted CI and review findings. Functional development continues alongside governance; PR24 supersedes older blanket pause text. Concrete F09 policy choices remain unapproved. No F08 deployment replay.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08",
@@ -579,6 +579,7 @@
     "prioritisedFeature": "F11D",
     "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
     "planPath": "docs/plans/dispatch-workspace-plan.md",
-    "governance": "active_in_separate_session_no_blanket_development_hold"
+    "governance": "active_in_separate_session_no_blanket_development_hold",
+    "status": "review_ready_PR26"
   }
 }
