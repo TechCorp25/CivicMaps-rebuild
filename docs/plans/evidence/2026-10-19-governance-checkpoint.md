@@ -7,7 +7,7 @@ Updated 19 October 2026 (Australia/Melbourne).
 - Governance branch: `codex/civicmaps-governance-workstream`; F-011 implementation head `f1ae3a62b55e64355f9a8e0acb6ca3d32e22e980` is pushed. This checkpoint update is documentation-only and follows that code head.
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
 - PR #24: open, draft, no submitted reviews; exact-head CI passed.
-- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`. Current F-011 implementation head `f1ae3a6` has exact-head run `39131773353` in progress at last check.
+- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`. The checkpoint-only head `3dfe43c` has run `39131878773` in progress at last check.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
 ## Completed slice: G04 / GOV-10 / F-029
@@ -64,7 +64,7 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 
 **Recommended next action:** publish the source-corrected matrix/checkpoint, verify its CI, then fetch and inspect `origin/main` before beginning one F-011 bounded slice. Do not choose production isolation/key/support or retention policies as part of F-011.
 
-## Active slice contract: G04 / GOV-10 / F-011
+## Completed slice: G04 / GOV-10 / F-011
 
 **Goal and outcome:** prevent an idle PostgreSQL client error from terminating the API or worker process, and demonstrate that the shared pool can serve a later query after the bad idle client is removed.
 
@@ -78,7 +78,9 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 
 **Out of scope:** live/fault/load tests against retained resources; blanket database retry; custom health/readiness policy; capacity tuning; provider/tenant isolation or support decisions; any F09 suspension behavior.
 
-**Implementation and local validation:** `services/api/database.mjs` now handles idle-client errors and logs only a validated five-character SQLSTATE or `unknown`, never the error message. `tests/database-pool.test.mjs` releases a test client, terminates only its disposable backend, waits for the pool error, then issues `SELECT 1` through the same pool. Lint, formatting, both app typechecks, both production builds, syntax checks and `git diff --check` passed. `npm test` could not execute its database-backed cases because the configured local PostgreSQL endpoint `127.0.0.1:55432` refuses connections; this includes the new test. No local integration assertion is claimed. Hosted exact-head CI will be required for database execution evidence.
+**Implementation and local validation:** `services/api/database.mjs` now handles idle-client errors and logs only a validated five-character SQLSTATE or `unknown`, never the error message. `tests/database-pool.test.mjs` releases a test client, terminates only its disposable backend, waits for the pool error, then issues `SELECT 1` through the same pool. Lint, formatting, both app typechecks, both production builds, syntax checks and `git diff --check` passed. `npm test` could not execute its database-backed cases because the configured local PostgreSQL endpoint `127.0.0.1:55432` refuses connections; this includes the new test. Hosted exact-head run `39131773353` passed all foundation workflow steps, including application/API checks, ingress, worker restart recovery, platform browser, CommandMAPS browser, council-admin activation browser and the full test suite with the disposable PostgreSQL regression. No production or live infrastructure test was performed.
+
+**Review of slice diff:** only the shared pool's idle-client error listener, the focused disposable recovery test, and governance status/evidence were changed. Pool size, transaction sequencing, writes/retries, schema, worker leases, F08 entitlements and production resources were not changed.
 
 ## Completed acceptance
 
