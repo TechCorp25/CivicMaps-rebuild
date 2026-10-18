@@ -357,7 +357,7 @@ export function createApp({
   });
   app.get('/api/resources/status', async (req, res) => {
     const release = resourceStatusGate.tryAcquire();
-    requireValue(release, 503, 'Resource status is temporarily busy');
+    if (!release) return res.status(503).json({ error: 'The operation could not be completed' });
     try {
       const result = await transaction(async (client) => {
         const user = await authenticated(client, req);

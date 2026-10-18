@@ -59,7 +59,7 @@ test('status admission rejects excess checks while unrelated API work proceeds a
 
   const excess = await request('/resources/status');
   assert.equal(excess.status, 503);
-  assert.deepEqual(await excess.json(), { error: 'Resource status is temporarily busy' });
+  assert.deepEqual(await excess.json(), { error: 'The operation could not be completed' });
   const unrelated = await request('/health');
   assert.equal(unrelated.status, 200);
   const requests = await request('/requests');
