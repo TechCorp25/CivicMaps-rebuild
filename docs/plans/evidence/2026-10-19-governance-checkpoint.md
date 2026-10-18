@@ -4,10 +4,10 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 ## Repository state
 
-- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `22fb3c8c88dc9c6fd1364f03be39d134e0a8af42` (F-002 implementation and close-flow correction).
+- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `bcf46f55f7d284b9ad0002398f42b80f467c957b` (F-002 acceptance notes). Current local worktree contains one active F-009 implementation slice.
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
 - PR #24: open, draft, no submitted reviews; exact-head CI passed.
-- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`; checkpoint head `bb3e35c` passed run `39132040914`; F-002 final head `22fb3c8` passed exact-head run `39133034582`.
+- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`; checkpoint head `bb3e35c` passed run `39132040914`; F-002 final head `22fb3c8` passed exact-head run `39133034582`; F-002 acceptance-note head `bcf46f5` passed exact-head run `39133456369`.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
 ## Completed slice: G04 / GOV-10 / F-029
@@ -105,6 +105,28 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 **Hosted run finding and correction:** run `39132708366` showed the API suite and new queue regression passing, then failed `tests/browser.mjs` because the detail assertion could not find the just-closed request. Server-side `active` filtering correctly removed it from the queue, but the client had also lost its selected detail. The fix switches to `closed` after a successful close from the active filter and retains the returned, authorized row while the closed page reloads. Exact-head run `39133034582` then passed every workflow step, including API/database tests, ingress, worker recovery, platform browser, CommandMAPS overflow/pagination browser, and activation browser. Local lint, formatting, typechecks, builds, syntax checks and diff checks passed. Local PostgreSQL-backed API/browser execution remains unavailable at `127.0.0.1:55432`; CI is the disposable database/browser evidence.
 
 **Review of slice diff:** changed only request-list API behavior, CommandMAPS queue handling, the focused API/browser regressions, and governance evidence. No schema migration or role/grant/authority change. Transaction and mutation ordering, F08 entitlement checks, RLS/council scope, officer assignment filtering and request/audit content are preserved. The queue page query stays capped at 100 rows; summary counts aggregate only rows visible under the active scoped session. No live or production testing was performed.
+
+## Active slice contract: G04 / GOV-10 / F-009
+
+**Goal and user-visible/security outcome:** bound simultaneous `/api/resources/status` provider checks so slow authorized checks cannot consume the shared control PostgreSQL pool without a limit; return a prompt temporary-capacity response to excess status requests and avoid the unnecessary STS/S3 credential call on this DB-readiness-only path.
+
+**Observed source path:** `services/api/app.mjs` authenticates session/route, rejects council ADMIN, resolves operating context, checks `resources.read`, and invokes `withMunicipalityResource` inside a shared-pool transaction. `services/api/data-resources.mjs` revalidates context and enabled/succeeded resource binding/registry ownership, then retrieves runtime secret metadata/value, opens the municipality DB connection, and currently assumes an S3 role even though status only probes `council.resource_records`. PostgreSQL pool max is 10. Context revocation serialization is transaction-bound and must remain intact.
+
+**Likely files/interfaces:** `services/api/app.mjs`, a small in-process admission helper, `services/api/data-resources.mjs`, `tests/data-resources.test.mjs`, focused admission/API acceptance, and this checkpoint/workstream evidence.
+
+**Preserve:** current authentication, route binding, non-ADMIN exclusion, resolved context, `resources.read` entitlement, revocation lock/transaction boundary, enabled succeeded resource and exact registry ownership checks before provider calls; runtime DB TLS connection closure; default storage behavior for existing direct/cloud helper callers. Leave existing F08, RLS and F09 policy behavior unchanged.
+
+**Dependencies/decisions:** none for this scoped development fix. Admission cap is per Node API process and only limits this status operation; it does not prove cluster-wide isolation or production capacity. No production threshold/budget is inferred.
+
+**Acceptance:** deterministic no-queue admission test proves one in-flight status permit, prompt rejection at capacity, and permit release after both success/failure; disposable/synthetic delayed-provider integration proves unrelated API DB work proceeds while one status operation is delayed; status does not request storage credentials; disabled resource, revoked/unbound context, and tampered registry binding deny before provider access; existing helper callers retain default storage behavior; exact-head hosted DB/API tests and relevant local static checks pass. No live cloud, saturation, fault or load test.
+
+**Candidate review disposition:** a separate GPT-6 Luna read-only review found no concrete regression in helper defaults, connection cleanup, or status route auth/context/entitlement ordering. It confirmed the gate is one permit per API process and noted `/api/resources/status` is not the only provider readiness path: CommandMAPS routing middleware also opens a resource connection and probes `council.resource_records`, outside this status-specific gate; direct helper/runtime callers likewise do not use it. This slice intentionally bounds the reported status endpoint only and does not claim all provider probes or multiple API processes are globally serialized. Reassess the routing middleware path separately if evidence shows it contributes material shared-pool pressure; no measured impact or live test is available.
+
+**Out of scope:** moving provider work outside the transaction, cross-process/global capacity coordination, production pool/budget changes, broad provider redesign, changing council grants, new architecture/retention policy, F09 suspension semantics, deployment or migration.
+
+**Implementation candidate:** `services/api/admission.mjs` adds a non-queuing process-local permit gate; `/api/resources/status` acquires one permit before opening its shared-pool transaction and returns 503 when busy, releasing in `finally`. The endpoint opts out of the helper's now-conditional storage credential object; existing helper callers still include it by default. The test app can inject a synthetic delayed status operation and gate; helper tests use synthetic connection/credential adapters and transactionally exercise disabled and revoked states, plus the existing altered-registry test covers owner/profile binding failure.
+
+**Local evidence so far:** `npm run lint`, `npm run format:check`, both app typechecks and builds, syntax checks and `git diff --check` pass. `node --test tests/admission.test.mjs` passes (1/1). Targeted DB-backed `node --test tests/data-resources.test.mjs tests/resource-admission.test.mjs` cannot initialize because PostgreSQL is unavailable at `127.0.0.1:55432` (`ECONNREFUSED`); exact-head hosted DB/API run is pending. Do not mark F-009 accepted until hosted CI exercises the disposable tests.
 
 ## Completed acceptance
 

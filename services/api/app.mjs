@@ -11,10 +11,12 @@ import { transition, statusLabels } from '../../domains/service-requests-dispatc
 import { resolveContext, permittedContexts } from './operating-context.mjs';
 import { platformRouter } from './platform.mjs';
 import { configuredDataTarget, withMunicipalityResource } from './data-resources.mjs';
+import { createAdmissionGate } from './admission.mjs';
 
 const digest = (value) => createHash('sha256').update(value).digest('hex');
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const dummyPassword = hashPassword(randomBytes(32).toString('hex'));
+const resourceStatusAdmission = createAdmissionGate(1);
 class HttpError extends Error {
   constructor(status, message) {
     super(message);
@@ -205,7 +207,11 @@ async function mutation(req, work, capability = 'requests.create') {
   );
 }
 
-export function createApp({ webRoot } = {}) {
+export function createApp({
+  webRoot,
+  resourceStatusGate = resourceStatusAdmission,
+  resourceStatusOperation,
+} = {}) {
   const app = express();
   app.locals.webRoot = webRoot;
   app.disable('x-powered-by');
@@ -350,28 +356,36 @@ export function createApp({ webRoot } = {}) {
     );
   });
   app.get('/api/resources/status', async (req, res) => {
-    const result = await transaction(async (client) => {
-      const user = await authenticated(client, req);
-      requireValue(user.role !== 'ADMIN', 403, 'Resource access is not granted to council ADMIN');
-      const context = await resolveContext(client, user, await routeContext(client, req, user));
-      requireCapability(await entitlements(client, context), 'resources.read');
-      return withMunicipalityResource(
-        client,
-        user,
-        context.context_id,
-        configuredDataTarget(),
-        async ({ connection, context }) => {
-          await connection.query('SELECT 1 FROM council.resource_records LIMIT 1');
-          return {
-            municipalityId: context.municipality_id,
-            contextId: context.context_id,
-            databaseReady: true,
-            syntheticDataOnly: true,
-          };
-        },
-      );
-    });
-    res.json(result);
+    const release = resourceStatusGate.tryAcquire();
+    requireValue(release, 503, 'Resource status is temporarily busy');
+    try {
+      const result = await transaction(async (client) => {
+        const user = await authenticated(client, req);
+        requireValue(user.role !== 'ADMIN', 403, 'Resource access is not granted to council ADMIN');
+        const context = await resolveContext(client, user, await routeContext(client, req, user));
+        requireCapability(await entitlements(client, context), 'resources.read');
+        if (resourceStatusOperation) return resourceStatusOperation(client, user, context);
+        return withMunicipalityResource(
+          client,
+          user,
+          context.context_id,
+          configuredDataTarget(),
+          async ({ connection, context }) => {
+            await connection.query('SELECT 1 FROM council.resource_records LIMIT 1');
+            return {
+              municipalityId: context.municipality_id,
+              contextId: context.context_id,
+              databaseReady: true,
+              syntheticDataOnly: true,
+            };
+          },
+          { includeStorage: false },
+        );
+      });
+      res.json(result);
+    } finally {
+      release();
+    }
   });
   app.get('/api/requests', async (req, res) => {
     const status = req.query.status ?? 'all';
