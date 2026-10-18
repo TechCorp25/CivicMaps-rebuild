@@ -528,6 +528,25 @@
       "empirical": "not_started",
       "blockers": [],
       "nextAction": "Read feature card and confirm dependency evidence before starting."
+    },
+    {
+      "id": "F11D",
+      "title": "Dispatch workspace and workflow fidelity \u2014 bounded F11 precursor",
+      "status": "review_ready",
+      "branch": "codex/civicmaps-dispatch-workspace",
+      "commit": "10bdab731b269f911cb0f135f2f30286db3c4cb1",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/26",
+      "evidencePath": "docs/plans/evidence/F11D.md",
+      "acceptancePassed": true,
+      "publication": "remote_SHA_verified_draft_PR26_CI_pending",
+      "empirical": "6ad4c8e8beb1d9647060a602",
+      "blockers": [],
+      "dependencies": [
+        "F06",
+        "F07",
+        "F08"
+      ],
+      "nextAction": "Review draft PR26 and hosted CI. Owner merge is separate; governance consumes reviewed main after merge. F11 and F09 remain incomplete."
     }
   ],
   "integrationBase": "origin/main",
@@ -536,7 +555,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "Continue functional development alongside active national governance, council administration and isolation work. Select a ready feature/task, including dispatch within established permissions; record concrete GOV dependencies and progress at each checkpoint. Resolve F09-P01\u2013P06 only before affected behaviour. F08 remains accepted; no redeployment or migration013 replay.",
+  "nextAction": "F11D implementation and local qualification are complete in review PR26. PR24 is owner-merged; national governance progresses alongside functional development, with no blanket development block. Verify post-integration CI/review before owner merge of PR26. Record relevant GOV dependencies at feature checkpoints and resolve F09-P01\u2013P06 only before affected behaviour. F08 remains accepted; no redeployment or migration013 replay.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08",
@@ -555,5 +574,12 @@
     "sourceCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
     "nationalObligationsPath": "docs/plans/national-governance-obligations-register.md",
     "blanketDevelopmentBlock": false
+  },
+  "functionalWorkstream": {
+    "prioritisedFeature": "F11D",
+    "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
+    "planPath": "docs/plans/dispatch-workspace-plan.md",
+    "governance": "active_in_separate_session_no_blanket_development_hold",
+    "status": "review_ready_PR26"
   }
 }

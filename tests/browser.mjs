@@ -36,9 +36,42 @@ try {
   await login(page, 'dispatch@alpha.example');
   await page.getByRole('button', { name: 'New request', exact: true }).click();
   const address = `Browser exercise ${Date.now()}`;
+  await expect(page.locator('.topbar')).toContainText('DISPATCH');
+  await expect(page.locator('.topbar')).not.toContainText('Alex · Dispatch');
+  await expect(page.locator('.topbar')).toHaveCSS('background-color', 'rgb(17, 90, 80)');
+  await expect(page.getByRole('dialog')).toBeVisible();
   await page.getByLabel('Location or address').fill(address);
+  await page.getByLabel('Latitude', { exact: true }).fill('-37.814');
+  await page.getByLabel('Longitude', { exact: true }).fill('144.963');
   await page.getByLabel('Dispatch notes').fill('Synthetic browser verification; no real incident.');
+  await page.getByRole('button', { name: 'Review request', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Review service request' })).toBeFocused();
+  await expect(page.getByRole('dialog')).toContainText(address);
+  await page.getByRole('button', { name: 'Edit', exact: true }).click();
+  await expect(page.getByLabel('Location or address')).toHaveValue(address);
+  await expect(page.getByLabel('Dispatch notes')).toHaveValue(
+    'Synthetic browser verification; no real incident.',
+  );
+  await page.getByRole('button', { name: 'Review request', exact: true }).click();
+  await mkdir('test-results', { recursive: true });
+  await page.screenshot({ path: 'test-results/commandmaps-create-review.png', fullPage: true });
+  await page.route('**/api/requests', async (route) => {
+    if (route.request().method() === 'POST') {
+      await route.fulfill({
+        status: 503,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Synthetic save failure; retry the request' }),
+      });
+    } else await route.continue();
+  });
+  await page.getByRole('button', { name: 'Create request', exact: true }).click();
+  await expect(page.getByRole('dialog').getByRole('alert')).toContainText('Synthetic save failure');
+  await expect(page.getByRole('dialog')).toContainText(address);
+  await expect(page.getByRole('button', { name: 'Create request', exact: true })).toBeEnabled();
+  await page.unroute('**/api/requests');
   const created = await save(page, 'Create request', 201);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
   await expect(page.locator('.detail')).toContainText(address);
   expect(
     (await database.query('SELECT notes FROM service_requests WHERE id=$1', [created.id])).rows[0]
@@ -48,12 +81,17 @@ try {
     .getByRole('combobox', { name: /^Assign officer/ })
     .selectOption('00000000-0000-4000-8000-000000000002');
   await save(page, 'Assign request');
-  await expect(page.locator('.detail .status')).toHaveText('Dispatched (not active)');
+  await expect(page.locator('.detail .status')).toHaveText('Dispatched · Not Active');
+  await page.getByLabel('Search loaded requests').fill('no-such-request-unique');
+  await expect(page.getByRole('heading', { name: 'No matching requests' })).toBeVisible();
+  await page.getByLabel('Search loaded requests').fill(address);
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await page.getByLabel('Search loaded requests').fill('');
   await mkdir('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/commandmaps-desktop.png', fullPage: true });
   await page.reload();
   await page.getByRole('button').filter({ hasText: address }).click();
-  await expect(page.locator('.detail .status')).toHaveText('Dispatched (not active)');
+  await expect(page.locator('.detail .status')).toHaveText('Dispatched · Not Active');
 
   const fieldContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const field = await fieldContext.newPage();
@@ -61,7 +99,7 @@ try {
   await expect(field.getByRole('button', { name: 'New request', exact: true })).toHaveCount(0);
   await field.getByRole('button').filter({ hasText: address }).click();
   await save(field, 'Acknowledge request');
-  await expect(field.locator('.detail .status')).toHaveText('Dispatched (active)');
+  await expect(field.locator('.detail .status')).toHaveText('Dispatched · Active');
   await save(field, 'Record attendance');
   await expect(field.locator('.detail .status')).toHaveText('Attended');
   expect(await field.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -91,6 +129,32 @@ try {
       ])
     ).rows.map((row) => row.action),
   ).toEqual(['created', 'assign', 'acknowledge', 'attend', 'close']);
+  const session = await (await page.request.get(`${origin}/api/auth/session`)).json();
+  for (let index = 0; index < 27; index++) {
+    const response = await page.request.post(`${origin}/api/requests`, {
+      headers: { 'x-csrf-token': session.csrfToken, 'Idempotency-Key': crypto.randomUUID() },
+      data: {
+        address: `Pagination check ${String(index).padStart(2, '0')}`,
+        latitude: -37.814,
+        longitude: 144.963,
+        notes: 'Disposable pagination fixture',
+      },
+    });
+    expect(response.status()).toBe(201);
+  }
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await page.getByLabel('Search loaded requests').fill('Pagination check');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(25);
+  await page.getByRole('button', { name: 'Next queue page' }).click();
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(2);
+  await expect(page.getByRole('navigation', { name: 'Queue pages' })).toContainText('Page 2 of 2');
+  await page
+    .getByRole('button', { name: 'Open', exact: false })
+    .filter({ hasText: 'Open' })
+    .first()
+    .click();
+  await expect(page.getByRole('navigation', { name: 'Queue pages' })).toContainText('Page 1 of 2');
+  await page.getByLabel('Search loaded requests').fill('');
   await database.query(
     "UPDATE platform_municipalities SET packs=packs-'parking-services' WHERE id='20000000-0000-4000-8000-000000000001'",
   );
@@ -102,6 +166,7 @@ try {
   });
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toHaveCount(0);
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
+  await page.getByLabel('Search loaded requests').fill(address);
   await page.getByRole('button').filter({ hasText: address }).click();
   await expect(page.locator('.detail')).toContainText(address);
   await expect(page.getByLabel('Closure reason')).toHaveCount(0);
@@ -111,6 +176,11 @@ try {
   );
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'New request', exact: true }).click();
+  await page.getByLabel('Location or address').fill('Discard this unsaved draft');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to operations' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/requests`)).status()).toBe(401);
