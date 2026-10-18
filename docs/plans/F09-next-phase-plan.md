@@ -1,6 +1,10 @@
 # F09 — Municipality suspension and resumption plan
 
-Prepared 18 October 2026 (Australia/Melbourne) by Codex (agent). **Status: planning only; suspension policy choices are not approved.**
+Prepared 18 October 2026 (Australia/Melbourne) by Codex (agent). **Status: planning only; implementation paused by the owner-required governance gate. Suspension policy choices are not approved.**
+
+## Current owner governance gate — 18 October 2026
+
+PR #22 is owner-merged at `0aba5e025f08e1f6dd8aefe00dc899b38cc94975`. The owner has since required the broader [governance, council administration and isolation gate](governance-and-production-readiness-gate.md) before deeper implementation. Read the [current 65-finding assessment](evidence/2026-10-18-governance-review.md). F09 is blocked; its authority/access/session proposals must be reconciled with that outcome before implementation. F08 remains deployed/live accepted; no release or migration replay is needed. References below to PR22 awaiting owner merge describe the earlier preparation checkpoint and do not reopen it.
 
 ## Goal and starting point
 
@@ -48,7 +52,7 @@ The roadmap does not specify these choices, and F08 pack-disable approval does n
 | F09-P05 state/authority | Permit versioned suspend from an agreed ready state and resume from Suspended; require an operator reason and attributable audit | Confirm allowed source states, permission granularity and whether provisioning/degraded states have separate handling |
 | F09-P06 public/future consumers | Fail closed for municipality-bound public intake and future payment/field consumers, while preserving trusted provider evidence for reconciliation when those features exist | Specify any public/status/reconciliation exceptions when those consumers are implemented; do not claim unavailable scaffold flows are tested |
 
-Owner choices may replace the recommendations. Record the exact approval source and accepted matrix in a separate decision section/sheet before implementation. Do not request broad governance approval or reopen D03; ask only for concrete unresolved F09 behaviour when it blocks implementation. Selecting a second branch is not one of those blockers.
+Owner choices may replace the recommendations. Record the exact approval source and accepted matrix in a separate decision section/sheet before implementation. Apply the owner-required governance gate above. Preserve approved D03 behaviour; resolve concrete F09 choices against the resulting authority model before dependent implementation. Selecting a second branch is not one of those blockers.
 
 ## Acceptance criteria
 
@@ -81,4 +85,4 @@ Owner choices may replace the recommendations. Record the exact approval source 
 
 ## Resumption instruction
 
-Continue from the current ledger and F08 closure record. F08 deployment, live acceptance, recovery and supplemental source verification passed and are reconciled with original inspected AWS receipts. Do not repeat those completed prerequisites; retain the disclosed original-local-manifest limitation. F09 is planned only. Resolve its concrete policy choices before dependent implementation, retain existing identity/entitlement boundaries, and never present this proposed suspension policy as owner-approved.
+Continue from the current ledger and F08 closure record. F08 deployment, live acceptance, recovery and supplemental source verification passed and are reconciled with original inspected AWS receipts. Do not repeat those completed prerequisites; retain the disclosed original-local-manifest limitation. F09 remains planning only and blocked by the owner-required [governance gate](governance-and-production-readiness-gate.md). Do not resume dependent implementation until that gate is explicitly released and F09-P01–P06 are reconciled with the approved authority model. Retain existing identity/entitlement boundaries and never present the proposed suspension policy as owner-approved.

@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": "F08",
+  "activeFeature": null,
   "nextFeature": "F09",
   "allowedStatuses": [
     "planned",
@@ -214,7 +214,7 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "All scoped F08 deployment/live/recovery/final-source gates passed; original receipts inspected. PR22 remains draft for owner review/merge; final publication-head CI is tracked in PR22/Empirical. Preserve resources/checkpoints and compatible F08 recovery. F09 scope/acceptance/TODO plan is published; resolve its concrete suspension policy choices before dependent implementation. Do not redeploy or replay013.",
+      "nextAction": "Complete for scoped synthetic development release. Owner merged release-closure PR22 at0aba5e0; preserve F08 deployed source, records/checkpoints and compatible recovery. Production governance gap is tracked separately; do not redeploy or replay013.",
       "preparationPath": "docs/plans/F08-next-phase-plan.md",
       "firstBranchPackage": "Parking Services Branch",
       "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected.",
@@ -250,19 +250,21 @@
       "releaseAWSAuthentication": "valid_after_standard_login_project_597663815195_verified",
       "releaseEvidencePR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/22",
       "releaseEvidenceContentCommit": "2121b3372d4863addc1f0ec9b444bbb5e95bfa3c",
-      "releaseEvidenceCI": "Validated publication head de0c3ef passed PR39109919024 and push39109916184; current-head results tracked in PR22 and Empirical",
-      "releaseEvidenceValidatedCommit": "de0c3ef05f66617b3108b6e2bfdb51316e90441d",
+      "releaseEvidenceCI": "Final PR22 head73d63bf passed PR39111553727 and push39111549196 first attempts; owner-merged.",
+      "releaseEvidenceValidatedCommit": "73d63bf6ae46e882732480469e7916101f1101c5",
       "releaseEvidenceValidatedCI": [
-        "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39109919024",
-        "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39109916184"
+        "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39111553727",
+        "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39111549196"
       ],
       "releaseSupplementalCommandId": "321b8ad1-bab7-468e-9c4d-08652c0207ed",
       "releaseInstanceStatus": "running_EC2_instance_and_system_checks_ok",
-      "releaseProjectPlan": "FREE_ACTIVE"
+      "releaseProjectPlan": "FREE_ACTIVE",
+      "releaseOwnerMerged": true,
+      "releaseEvidenceMergeCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975"
     },
     {
       "id": "F09",
-      "status": "planned",
+      "status": "blocked",
       "branch": null,
       "commit": null,
       "pr": null,
@@ -271,13 +273,15 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [
+        "Owner-required governance/council-administration/isolation gate remains open: docs/plans/governance-and-production-readiness-gate.md.",
         "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
       ],
-      "nextAction": "F08 scoped live gates including supplemental source verification are complete. Read F09 plan, refresh current integration/evidence and inventory entry points; resolve concrete suspension policy choices before dependent implementation. PR22 owner review/merge remains separate. Second-branch selection is non-blocking.",
+      "nextAction": "Planning only; PR22 preparation is owner-merged. Complete the current governance assessment and concrete authority/privacy/records/isolation decisions before resuming deeper implementation. Reconcile F09-P01\u2013P06 with the resulting model; no policy approval inferred from plan publication.",
       "preparationPath": "docs/plans/F09-next-phase-plan.md",
       "preparationStatus": "reviewed_and_published",
       "policyDecisionStatus": "proposed_not_approved",
-      "preparationPR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/22"
+      "preparationPR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/22",
+      "governanceGatePath": "docs/plans/governance-and-production-readiness-gate.md"
     },
     {
       "id": "F10",
@@ -529,12 +533,27 @@
   ],
   "integrationBase": "origin/main",
   "progressAssessment": "docs/plans/civicmaps-progress-assessment-2026-10-13.md",
-  "latestAssessmentDate": "2026-10-17",
-  "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
-  "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
-  "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "All scoped F08 deployment/live/recovery/final-source gates passed; original receipts inspected. PR22 remains draft for owner review/merge; final publication-head CI is tracked in PR22/Empirical. Preserve resources/checkpoints and compatible F08 recovery. F09 scope/acceptance/TODO plan is published; resolve its concrete suspension policy choices before dependent implementation. Do not redeploy or replay013.",
+  "latestAssessmentDate": "2026-10-18",
+  "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
+  "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
+  "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
+  "nextAction": "PR22 is owner-merged and F08 scoped release gates remain complete. Owner requires governance/compliance, council self-administration and isolation to be resolved before deeper implementation. Review the 65-finding reassessment and governance requirements; prepare bounded corrective work and concrete architecture/records/privacy decisions. F09 is blocked by this gate and its unresolved suspension policy. No F08 redeployment or migration013 replay.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
-  "releaseClosureFeature": "F08"
+  "releaseClosureFeature": "F08",
+  "governanceGate": {
+    "status": "open_feature_expansion_paused_by_owner",
+    "planPath": "docs/plans/governance-and-production-readiness-gate.md",
+    "assessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
+    "ownerRequirementMemoryId": "6ad4967ebeb1d96470608e05",
+    "dataScope": "employee_identity_service_requests_infringements_receipts_evidence_operational_location_audit_and_sensitive_health_where_applicable",
+    "jurisdictionBaseline": "all_Australian_states_and_territories_owner_confirmed_initial_register_pending_legal_validation",
+    "productionPolicies": "not_approved",
+    "remediation": "not_implemented",
+    "securityConfirmed": 2,
+    "securityNeedsReview": 7,
+    "findingsReassessed": 65,
+    "sourceCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
+    "nationalObligationsPath": "docs/plans/national-governance-obligations-register.md"
+  }
 }

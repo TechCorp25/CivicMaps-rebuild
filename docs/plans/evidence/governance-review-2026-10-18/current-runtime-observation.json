@@ -1,0 +1,83 @@
+{
+  "commandId": "798d529d-ed86-482c-9818-adeb91d9ed4b",
+  "instanceId": "i-0bbfbcd2d870cce97",
+  "status": "Success",
+  "responseCode": 0,
+  "executionStartDateTime": "2026-10-18T09:43:48.244Z",
+  "executionEndDateTime": "2026-10-18T09:43:48.244Z",
+  "observations": [
+    {
+      "checkedInstalledFiles": 83,
+      "mismatches": [],
+      "deployedRevision": "b21e764ad1151aa3e4dce6f91f29f24f69b31916"
+    },
+    {
+      "configurationPath": "/etc/civicmaps/runtime.env",
+      "mode": "0o600",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "configurationPath": "/etc/civicmaps/ingress.env",
+      "mode": "0o600",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "service": "postgresql",
+      "active": "active",
+      "exitCode": 0
+    },
+    {
+      "service": "civicmaps-api",
+      "active": "active",
+      "exitCode": 0
+    },
+    {
+      "service": "civicmaps-ingress",
+      "active": "active",
+      "exitCode": 0
+    },
+    {
+      "service": "civicmaps-routing",
+      "active": "active",
+      "exitCode": 0
+    },
+    {
+      "migration013": true
+    },
+    {
+      "role": "civicmaps_local_app",
+      "superuser": false,
+      "bypassRLS": false,
+      "createRole": false,
+      "createDB": false
+    },
+    {
+      "role": "civicmaps_platform_app",
+      "superuser": false,
+      "bypassRLS": false,
+      "createRole": false,
+      "createDB": false
+    },
+    {
+      "role": "civicmaps_f06_runtime",
+      "superuser": false,
+      "bypassRLS": true,
+      "createRole": false,
+      "createDB": false
+    },
+    {
+      "table": "audit_events",
+      "rls": true,
+      "forceRLS": true
+    },
+    {
+      "table": "service_requests",
+      "rls": true,
+      "forceRLS": true
+    }
+  ],
+  "stderrEmpty": true,
+  "method": "Read-only hashes, stat, service state and SQL catalogue SELECTs; no live acceptance replay or exploit/fault test."
+}

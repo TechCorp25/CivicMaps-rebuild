@@ -1,0 +1,392 @@
+[
+  {
+    "path": ".env.example",
+    "previousBlob": "53bf166746f64e12f6d72365487753e9f06272fd",
+    "currentBlob": "53bf166746f64e12f6d72365487753e9f06272fd",
+    "state": "unchanged"
+  },
+  {
+    "path": ".github/workflows/ci.yml",
+    "previousBlob": "790ab37f320457c82686a7a6d6297d5ad1bf86e6",
+    "currentBlob": "790ab37f320457c82686a7a6d6297d5ad1bf86e6",
+    "state": "unchanged"
+  },
+  {
+    "path": "AGENTS.md",
+    "previousBlob": "df8265bd90bc179b5b9a3121686db7e4bd4d0f80",
+    "currentBlob": "df8265bd90bc179b5b9a3121686db7e4bd4d0f80",
+    "state": "unchanged"
+  },
+  {
+    "path": "_ds/wireframes/annotations/support.js",
+    "previousBlob": "cb009b69ec6b5e00f48c6287a587fe7e0c6c421b",
+    "currentBlob": "cb009b69ec6b5e00f48c6287a587fe7e0c6c421b",
+    "state": "unchanged"
+  },
+  {
+    "path": "_ds/wireframes/print-replicas/Infringement Notice - Print Replica.dc.html",
+    "previousBlob": "03cb7f06458e875a69f828173b8ad8236bfe4ed9",
+    "currentBlob": "03cb7f06458e875a69f828173b8ad8236bfe4ed9",
+    "state": "unchanged"
+  },
+  {
+    "path": "_ds/wireframes/screens/support.js",
+    "previousBlob": "cb009b69ec6b5e00f48c6287a587fe7e0c6c421b",
+    "currentBlob": "cb009b69ec6b5e00f48c6287a587fe7e0c6c421b",
+    "state": "unchanged"
+  },
+  {
+    "path": "apps/civicmaps-platform/package.json",
+    "previousBlob": "7f1e5e537e0aa90d592d8e0da4a03a7a071871c8",
+    "currentBlob": "7f1e5e537e0aa90d592d8e0da4a03a7a071871c8",
+    "state": "unchanged"
+  },
+  {
+    "path": "apps/civicmaps-platform/src/Onboarding.tsx",
+    "previousBlob": "628e0c086f6807e23b46511bf1dde6f4bc964b6a",
+    "currentBlob": "c013a8b46f01744aa1165d19188b2e00d295bf27",
+    "state": "changed"
+  },
+  {
+    "path": "apps/civicmaps-platform/src/ProvisioningStatus.tsx",
+    "previousBlob": "171df0231ede7e21efdb261bc8ab50594553f686",
+    "currentBlob": "171df0231ede7e21efdb261bc8ab50594553f686",
+    "state": "unchanged"
+  },
+  {
+    "path": "apps/civicmaps-platform/src/RoutingStatus.tsx",
+    "previousBlob": "f210194f15991d0877c12507fb5547c8b0a8407d",
+    "currentBlob": "f210194f15991d0877c12507fb5547c8b0a8407d",
+    "state": "unchanged"
+  },
+  {
+    "path": "apps/civicmaps-platform/src/api.ts",
+    "previousBlob": "20afe9cd48847f66f94782fd11268b27e2603c1e",
+    "currentBlob": "cc28d1f45a71a4f125187bcd501486e4a2ae9498",
+    "state": "changed"
+  },
+  {
+    "path": "apps/civicmaps-platform/src/components.tsx",
+    "previousBlob": "79aead8ffcd9fd543fcea08d3553be801f53ef51",
+    "currentBlob": "1a592251f6fb731328b51262e0045a8ce80777ad",
+    "state": "changed"
+  },
+  {
+    "path": "apps/civicmaps-platform/src/main.tsx",
+    "previousBlob": "979eed92182c075d786adbb3bd296b0944bf4e1f",
+    "currentBlob": "75daf00c88552a1054a9311cb31eecaa76a61bc6",
+    "state": "changed"
+  },
+  {
+    "path": "apps/civicmaps-platform/stc/.gitkeep",
+    "previousBlob": "8b137891791fe96927ad78e64b0aad7bded08bdc",
+    "currentBlob": null,
+    "state": "removed"
+  },
+  {
+    "path": "apps/civicmaps-platform/vite.config.mjs",
+    "previousBlob": "5b5831313586abe94ad7ec650ccef08665647bf5",
+    "currentBlob": "5b5831313586abe94ad7ec650ccef08665647bf5",
+    "state": "unchanged"
+  },
+  {
+    "path": "apps/commandmaps/package.json",
+    "previousBlob": "c4ab90bf689160b4ea86628143b0fac76ea1635a",
+    "currentBlob": "c4ab90bf689160b4ea86628143b0fac76ea1635a",
+    "state": "unchanged"
+  },
+  {
+    "path": "apps/commandmaps/src/main.tsx",
+    "previousBlob": "f6f57e6a89fd344205af012d218bb17f3c3b95d2",
+    "currentBlob": "99c55fe5db09f71932c4388661d3296126e4d42d",
+    "state": "changed"
+  },
+  {
+    "path": "apps/commandmaps/vite.config.mjs",
+    "previousBlob": "8dce03174df3be9ad5f4d42feddb85ce86732b39",
+    "currentBlob": "8dce03174df3be9ad5f4d42feddb85ce86732b39",
+    "state": "unchanged"
+  },
+  {
+    "path": "docs/development/data-resources.md",
+    "previousBlob": "d2a1eba1feff1bfa823d1bb4037108b683b7bc43",
+    "currentBlob": "d2a1eba1feff1bfa823d1bb4037108b683b7bc43",
+    "state": "unchanged"
+  },
+  {
+    "path": "docs/development/local-build.md",
+    "previousBlob": "e8d0afe799bf71c22793c5755cecca394fb33956",
+    "currentBlob": "e8d0afe799bf71c22793c5755cecca394fb33956",
+    "state": "unchanged"
+  },
+  {
+    "path": "docs/development/service-routing.md",
+    "previousBlob": "937073307a54311db8a00a78d513e813bab17fb5",
+    "currentBlob": "937073307a54311db8a00a78d513e813bab17fb5",
+    "state": "unchanged"
+  },
+  {
+    "path": "domains/identity-access/package.json",
+    "previousBlob": "0b1c476db508a8c5f46bb63a51ef907bdd555831",
+    "currentBlob": "0b1c476db508a8c5f46bb63a51ef907bdd555831",
+    "state": "unchanged"
+  },
+  {
+    "path": "domains/service-requests-dispatch/lifecycle.mjs",
+    "previousBlob": "1792d654eac3e1ce39c2e9a1b329a79859c5f11e",
+    "currentBlob": "1792d654eac3e1ce39c2e9a1b329a79859c5f11e",
+    "state": "unchanged"
+  },
+  {
+    "path": "eslint.config.mjs",
+    "previousBlob": "12c959183f3de42aea849b1948ca13fbefdb1b10",
+    "currentBlob": "12c959183f3de42aea849b1948ca13fbefdb1b10",
+    "state": "unchanged"
+  },
+  {
+    "path": "geo-data/fetch-com-roads.mjs",
+    "previousBlob": "5992aa2ef8396755646472eedb13df539a266b3f",
+    "currentBlob": "5992aa2ef8396755646472eedb13df539a266b3f",
+    "state": "unchanged"
+  },
+  {
+    "path": "geo-data/generate_melbourne_cbd_street_blocks.py",
+    "previousBlob": "17b77215bae48072434f2ee2772aece30b1aa8d1",
+    "currentBlob": "17b77215bae48072434f2ee2772aece30b1aa8d1",
+    "state": "unchanged"
+  },
+  {
+    "path": "geo-data/package.json",
+    "previousBlob": "6cbccf1d5c95db1e07dcfbea960e0d90eceb4660",
+    "currentBlob": "6cbccf1d5c95db1e07dcfbea960e0d90eceb4660",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f05/aws-development.json",
+    "previousBlob": "f4e3a97d153beb1dafda0df61226fea55bbfdb0e",
+    "currentBlob": "f4e3a97d153beb1dafda0df61226fea55bbfdb0e",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f05/development.guard",
+    "previousBlob": "59a2f2b72b00345bf00a7dd5c14d6cf1e21c0c88",
+    "currentBlob": "59a2f2b72b00345bf00a7dd5c14d6cf1e21c0c88",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f06/Caddyfile",
+    "previousBlob": "9cf2858b887884000831bc5c7e5d3a68a8ff8ecc",
+    "currentBlob": "9cf2858b887884000831bc5c7e5d3a68a8ff8ecc",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f06/aws-development.json",
+    "previousBlob": "435d39c5c51525edef53b3c222b95237ca37dfff",
+    "currentBlob": "435d39c5c51525edef53b3c222b95237ca37dfff",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f06/bootstrap-runtime.sh",
+    "previousBlob": "1a9d01584b5c8fe714ba7b4ac79c27d754245dee",
+    "currentBlob": "1a9d01584b5c8fe714ba7b4ac79c27d754245dee",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f06/civicmaps-api.service",
+    "previousBlob": "6f7db6b05f11a7568fe85791c2677e9cc50c16b8",
+    "currentBlob": "6f7db6b05f11a7568fe85791c2677e9cc50c16b8",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f06/civicmaps-routing.service",
+    "previousBlob": "c57bf25332652ac17e30f67dea9fc219d3ca7068",
+    "currentBlob": "c57bf25332652ac17e30f67dea9fc219d3ca7068",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f06/configure-control-login.py",
+    "previousBlob": "b691f85455e0d0c9d1fc534c020fa9bbd772c984",
+    "currentBlob": "b691f85455e0d0c9d1fc534c020fa9bbd772c984",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f06/development.guard",
+    "previousBlob": "6c23501e96a33ac3d87f33df991de2bdc73e2991",
+    "currentBlob": "6c23501e96a33ac3d87f33df991de2bdc73e2991",
+    "state": "unchanged"
+  },
+  {
+    "path": "infrastructure/f06/release-runtime.sh",
+    "previousBlob": "de3739c432ac50b99c0a306d2d55ce213e935dbd",
+    "currentBlob": "de3739c432ac50b99c0a306d2d55ce213e935dbd",
+    "state": "unchanged"
+  },
+  {
+    "path": "package.json",
+    "previousBlob": "78738385889fdea1a62ed06c975dfa4752922ce0",
+    "currentBlob": "78738385889fdea1a62ed06c975dfa4752922ce0",
+    "state": "unchanged"
+  },
+  {
+    "path": "scripts/configure-development-routes.mjs",
+    "previousBlob": "a943241a10cc1a729d75b24533e869c82dae0a17",
+    "currentBlob": "a943241a10cc1a729d75b24533e869c82dae0a17",
+    "state": "unchanged"
+  },
+  {
+    "path": "scripts/local-database.mjs",
+    "previousBlob": "cd5aa7785e5774d678f5c58748a8147b7329d73a",
+    "currentBlob": "cd5aa7785e5774d678f5c58748a8147b7329d73a",
+    "state": "unchanged"
+  },
+  {
+    "path": "scripts/vite.mjs",
+    "previousBlob": "f16a1dcc7cbf1fe7f24f9ab56f502ca20cf19846",
+    "currentBlob": "f16a1dcc7cbf1fe7f24f9ab56f502ca20cf19846",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/admin-activation.mjs",
+    "previousBlob": "f3e92f0336bb5f1ace4f3bd49308396fb8299ea8",
+    "currentBlob": "f3e92f0336bb5f1ace4f3bd49308396fb8299ea8",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/app.mjs",
+    "previousBlob": "fbd207a3940d47fa90162cee8d945cfabab9ef6c",
+    "currentBlob": "fe65b4674bc1fe45e0941d1723dccf1f7d9832fe",
+    "state": "changed"
+  },
+  {
+    "path": "services/api/data-resources.mjs",
+    "previousBlob": "3df76960a92dddab2f10202a425885bffaa4675f",
+    "currentBlob": "3df76960a92dddab2f10202a425885bffaa4675f",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/database.mjs",
+    "previousBlob": "e313e1185682df34a585e5dc0aad9a3bbe6d84a2",
+    "currentBlob": "e313e1185682df34a585e5dc0aad9a3bbe6d84a2",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/login-throttle.mjs",
+    "previousBlob": "03198ad7204800e938f2f50e611012a642cdc067",
+    "currentBlob": "03198ad7204800e938f2f50e611012a642cdc067",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/migrations/001-foundation.sql",
+    "previousBlob": "d78c99ae9478f04ac4281c2c57ef9e6653c90dff",
+    "currentBlob": "d78c99ae9478f04ac4281c2c57ef9e6653c90dff",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/migrations/004-operating-context.sql",
+    "previousBlob": "9c698c99c4dc0b43039370cf1fc460deb017b585",
+    "currentBlob": "9c698c99c4dc0b43039370cf1fc460deb017b585",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/migrations/005-context-rls.sql",
+    "previousBlob": "c30899f2394be8dec3646c4e2d766881cc2906db",
+    "currentBlob": "c30899f2394be8dec3646c4e2d766881cc2906db",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/migrations/006-provisioning-jobs.sql",
+    "previousBlob": "ae33af0cd2b27054d476714399ca86624d73d410",
+    "currentBlob": "ae33af0cd2b27054d476714399ca86624d73d410",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/migrations/009-authentication-locks.sql",
+    "previousBlob": "ebc4b4319f08b55df4d4777961a74723e3de49d0",
+    "currentBlob": "ebc4b4319f08b55df4d4777961a74723e3de49d0",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/migrations/010-route-municipality-tokens.sql",
+    "previousBlob": "1055a2bc2a94a4a12ac639df5109dbd03ada5395",
+    "currentBlob": "1055a2bc2a94a4a12ac639df5109dbd03ada5395",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/migrations/012-first-admin-activation.sql",
+    "previousBlob": "b3709139342f65dc39e1e0df6f1f33f4e830f3b1",
+    "currentBlob": "b3709139342f65dc39e1e0df6f1f33f4e830f3b1",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/operating-context.mjs",
+    "previousBlob": "2f2bf046a3af98a9584a680528b075fca904d11d",
+    "currentBlob": "2f2bf046a3af98a9584a680528b075fca904d11d",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/passwords.mjs",
+    "previousBlob": "4ac312067d586245c937c772846d326216258615",
+    "currentBlob": "4ac312067d586245c937c772846d326216258615",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/platform.mjs",
+    "previousBlob": "d3184ac42e07f32f77d89f91dba7ab5add3fcc7c",
+    "currentBlob": "3d548c384220edda035527872ae5c7b261c3d103",
+    "state": "changed"
+  },
+  {
+    "path": "services/api/provisioning-worker.mjs",
+    "previousBlob": "ad0e456af876583e6a4fb7f6b9d1abf883e0af56",
+    "currentBlob": "ad0e456af876583e6a4fb7f6b9d1abf883e0af56",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/provisioning.mjs",
+    "previousBlob": "88c91f050dae2ad6ec99d353a7ab8c0da02549c1",
+    "currentBlob": "88c91f050dae2ad6ec99d353a7ab8c0da02549c1",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/routing-worker.mjs",
+    "previousBlob": "40a3d81c2e6559b093b52c3d3e0c4f5ec6a2f915",
+    "currentBlob": "40a3d81c2e6559b093b52c3d3e0c4f5ec6a2f915",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/routing.mjs",
+    "previousBlob": "89de41f72f88b335a8752e280849e11ded6dee89",
+    "currentBlob": "89de41f72f88b335a8752e280849e11ded6dee89",
+    "state": "unchanged"
+  },
+  {
+    "path": "services/api/seed-platform.mjs",
+    "previousBlob": "0e8cbea5caea6a216374ffed9e4017d51f8d7c01",
+    "currentBlob": "f1ecea133b0ca8667d5aa8a30ea9b7148aa79dd8",
+    "state": "changed"
+  },
+  {
+    "path": "services/api/seed.mjs",
+    "previousBlob": "59b1cff3b7ffc1b8c8bee9025b1d6afec7b2c883",
+    "currentBlob": "ce77b3a47e4cdec0f4165f07146ff8f8aeebf817",
+    "state": "changed"
+  },
+  {
+    "path": "services/api/service-naming.mjs",
+    "previousBlob": "3ca0362f3393199f7ded1f8a0ade1d526b74f42e",
+    "currentBlob": "3ca0362f3393199f7ded1f8a0ade1d526b74f42e",
+    "state": "unchanged"
+  },
+  {
+    "path": "tests/ingress-login.mjs",
+    "previousBlob": "05e69a21437ccd427d5bd568dbe8f3a45a2f6248",
+    "currentBlob": "05e69a21437ccd427d5bd568dbe8f3a45a2f6248",
+    "state": "unchanged"
+  },
+  {
+    "path": "tests/service-routing.test.mjs",
+    "previousBlob": "563d5ed3cfaa00305195569dcfc5fa3af974c806",
+    "currentBlob": "563d5ed3cfaa00305195569dcfc5fa3af974c806",
+    "state": "unchanged"
+  }
+]

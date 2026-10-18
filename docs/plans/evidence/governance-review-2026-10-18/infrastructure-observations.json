@@ -1,0 +1,379 @@
+{
+  "observedAt": "2026-10-18T09:43:00.852454+00:00",
+  "project": "597663815195",
+  "region": "ap-southeast-2",
+  "observations": {
+    "plan": {
+      "exitCode": 0,
+      "data": {
+        "accountPlanType": "FREE",
+        "accountPlanStatus": "ACTIVE"
+      }
+    },
+    "compute": {
+      "exitCode": 0,
+      "data": [
+        {
+          "Id": "i-0bdd5db2c27842748",
+          "State": "stopped",
+          "Type": "t3.micro",
+          "AZ": "ap-southeast-2a",
+          "Metadata": {
+            "State": "applied",
+            "HttpTokens": "required",
+            "HttpPutResponseHopLimit": 1,
+            "HttpEndpoint": "enabled",
+            "HttpProtocolIpv6": "disabled",
+            "InstanceMetadataTags": "disabled"
+          },
+          "SG": [
+            "sg-051846375e3e2960b"
+          ],
+          "Volumes": [
+            "vol-0c0a6667f67b09030"
+          ]
+        },
+        {
+          "Id": "i-0bbfbcd2d870cce97",
+          "State": "running",
+          "Type": "t3.micro",
+          "AZ": "ap-southeast-2a",
+          "Metadata": {
+            "State": "applied",
+            "HttpTokens": "required",
+            "HttpPutResponseHopLimit": 1,
+            "HttpEndpoint": "enabled",
+            "HttpProtocolIpv6": "disabled",
+            "InstanceMetadataTags": "disabled"
+          },
+          "SG": [
+            "sg-087a211c30dc6fbd1"
+          ],
+          "Volumes": [
+            "vol-0da93106c915230cc"
+          ]
+        }
+      ]
+    },
+    "volumes": {
+      "exitCode": 0,
+      "data": [
+        {
+          "Id": "vol-0da93106c915230cc",
+          "Encrypted": true,
+          "Size": 16,
+          "Type": "gp3"
+        },
+        {
+          "Id": "vol-0c0a6667f67b09030",
+          "Encrypted": true,
+          "Size": 12,
+          "Type": "gp3"
+        }
+      ]
+    },
+    "database": {
+      "exitCode": 0,
+      "data": [
+        {
+          "Id": "civicmaps-f05-development-database-siqbhsmut3gm",
+          "State": "available",
+          "Engine": "postgres",
+          "Version": "18.6",
+          "MultiAZ": false,
+          "Public": false,
+          "Encrypted": true,
+          "BackupDays": 1,
+          "DeletionProtection": true,
+          "MonitoringInterval": 0,
+          "LogExports": null
+        }
+      ]
+    },
+    "network": {
+      "exitCode": 0,
+      "data": [
+        {
+          "Id": "sg-051846375e3e2960b",
+          "Ingress": [],
+          "Egress": [
+            {
+              "IpProtocol": "tcp",
+              "FromPort": 5432,
+              "ToPort": 5432,
+              "UserIdGroupPairs": [],
+              "IpRanges": [
+                {
+                  "CidrIp": "172.31.0.0/16"
+                }
+              ],
+              "Ipv6Ranges": [],
+              "PrefixListIds": []
+            },
+            {
+              "IpProtocol": "tcp",
+              "FromPort": 443,
+              "ToPort": 443,
+              "UserIdGroupPairs": [],
+              "IpRanges": [
+                {
+                  "CidrIp": "0.0.0.0/0"
+                }
+              ],
+              "Ipv6Ranges": [],
+              "PrefixListIds": []
+            }
+          ]
+        },
+        {
+          "Id": "sg-07f2316eb7a0c8f59",
+          "Ingress": [
+            {
+              "IpProtocol": "tcp",
+              "FromPort": 5432,
+              "ToPort": 5432,
+              "UserIdGroupPairs": [
+                {
+                  "UserId": "597663815195",
+                  "GroupId": "sg-051846375e3e2960b"
+                },
+                {
+                  "UserId": "597663815195",
+                  "GroupId": "sg-087a211c30dc6fbd1"
+                }
+              ],
+              "IpRanges": [],
+              "Ipv6Ranges": [],
+              "PrefixListIds": []
+            }
+          ],
+          "Egress": [
+            {
+              "IpProtocol": "-1",
+              "UserIdGroupPairs": [],
+              "IpRanges": [
+                {
+                  "CidrIp": "0.0.0.0/0"
+                }
+              ],
+              "Ipv6Ranges": [],
+              "PrefixListIds": []
+            }
+          ]
+        },
+        {
+          "Id": "sg-087a211c30dc6fbd1",
+          "Ingress": [
+            {
+              "IpProtocol": "tcp",
+              "FromPort": 80,
+              "ToPort": 80,
+              "UserIdGroupPairs": [],
+              "IpRanges": [
+                {
+                  "CidrIp": "0.0.0.0/0"
+                }
+              ],
+              "Ipv6Ranges": [],
+              "PrefixListIds": []
+            },
+            {
+              "IpProtocol": "tcp",
+              "FromPort": 443,
+              "ToPort": 443,
+              "UserIdGroupPairs": [],
+              "IpRanges": [
+                {
+                  "CidrIp": "0.0.0.0/0"
+                }
+              ],
+              "Ipv6Ranges": [],
+              "PrefixListIds": []
+            }
+          ],
+          "Egress": [
+            {
+              "IpProtocol": "tcp",
+              "FromPort": 5432,
+              "ToPort": 5432,
+              "UserIdGroupPairs": [
+                {
+                  "UserId": "597663815195",
+                  "GroupId": "sg-07f2316eb7a0c8f59"
+                }
+              ],
+              "IpRanges": [],
+              "Ipv6Ranges": [],
+              "PrefixListIds": []
+            },
+            {
+              "IpProtocol": "tcp",
+              "FromPort": 443,
+              "ToPort": 443,
+              "UserIdGroupPairs": [],
+              "IpRanges": [
+                {
+                  "CidrIp": "0.0.0.0/0"
+                }
+              ],
+              "Ipv6Ranges": [],
+              "PrefixListIds": []
+            }
+          ]
+        }
+      ]
+    },
+    "storage-public-block": {
+      "exitCode": 0,
+      "data": {
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "IgnorePublicAcls": true,
+          "BlockPublicPolicy": true,
+          "RestrictPublicBuckets": true
+        }
+      }
+    },
+    "storage-encryption": {
+      "exitCode": 0,
+      "data": {
+        "ServerSideEncryptionConfiguration": {
+          "Rules": [
+            {
+              "ApplyServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              },
+              "BucketKeyEnabled": false,
+              "BlockedEncryptionTypes": {
+                "EncryptionType": [
+                  "SSE-C"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "storage-versioning": {
+      "exitCode": 0,
+      "data": {
+        "Status": "Enabled"
+      }
+    },
+    "storage-location": {
+      "exitCode": 0,
+      "data": {
+        "LocationConstraint": "ap-southeast-2"
+      }
+    },
+    "storage-lock": {
+      "exitCode": 254,
+      "error": "aws: [ERROR]: An error occurred (ObjectLockConfigurationNotFoundError) when calling the GetObjectLockConfiguration operation: Object Lock configuration does not exist for this bucket"
+    },
+    "storage-logging": {
+      "exitCode": 0,
+      "data": {}
+    },
+    "runtime-policy": {
+      "exitCode": 0,
+      "data": {
+        "RoleName": "civicmaps-f06-development-RuntimeRole-7RBuQW3qsJQg",
+        "PolicyName": "F06Resources",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret"
+              ],
+              "Resource": [
+                "arn:aws:secretsmanager:ap-southeast-2:597663815195:secret:civicmaps/f05/f0500000-0000-4000-8000-000000000001-*",
+                "arn:aws:secretsmanager:ap-southeast-2:597663815195:secret:civicmaps/f05/f0500000-0000-4000-8000-000000000002-*"
+              ],
+              "Effect": "Allow"
+            },
+            {
+              "Action": "s3:GetObject",
+              "Resource": "arn:aws:s3:::civicmaps-f05-development-storage-iq7jtwcoip2y/f06/releases/*",
+              "Effect": "Allow"
+            }
+          ]
+        }
+      }
+    },
+    "runtime-attached-policies": {
+      "exitCode": 0,
+      "data": {
+        "AttachedPolicies": [
+          {
+            "PolicyName": "AmazonSSMManagedInstanceCore",
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+          }
+        ]
+      }
+    },
+    "trails": {
+      "exitCode": 0,
+      "data": []
+    },
+    "runtime-storage-policy": {
+      "exitCode": 0,
+      "data": {
+        "RoleName": "civicmaps-f06-development-RuntimeRole-7RBuQW3qsJQg",
+        "PolicyName": "AssumeScopedStorage",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Resource": "arn:aws:iam::597663815195:role/civicmaps-f06-development-StorageRole-EsIEGSjisbvq",
+              "Effect": "Allow"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "https": {
+    "platform.dev.civicmaps.com.au": {
+      "status": 200,
+      "headers": {
+        "Strict-Transport-Security": "max-age=86400",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "same-origin",
+        "Content-Security-Policy": null,
+        "X-Frame-Options": null,
+        "Permissions-Policy": null
+      }
+    },
+    "alpha-commandmaps.dev.civicmaps.com.au": {
+      "status": 200,
+      "headers": {
+        "Strict-Transport-Security": "max-age=86400",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "same-origin",
+        "Content-Security-Policy": null,
+        "X-Frame-Options": null,
+        "Permissions-Policy": null
+      }
+    },
+    "beta-commandmaps.dev.civicmaps.com.au": {
+      "status": 200,
+      "headers": {
+        "Strict-Transport-Security": "max-age=86400",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "same-origin",
+        "Content-Security-Policy": null,
+        "X-Frame-Options": null,
+        "Permissions-Policy": null
+      }
+    }
+  },
+  "scopeLimitations": [
+    "Selected retained resources and named role metadata; not an exhaustive AWS security assessment.",
+    "No CloudTrail trails returned by this query; Lake/event history/other audit services not inventoried.",
+    "S3 lock configuration absent is an observed setting, not a universal legal breach.",
+    "No secrets or private configuration contents retrieved."
+  ]
+}
