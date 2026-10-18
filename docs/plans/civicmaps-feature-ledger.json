@@ -264,7 +264,7 @@
     },
     {
       "id": "F09",
-      "status": "blocked",
+      "status": "planned",
       "branch": null,
       "commit": null,
       "pr": null,
@@ -273,10 +273,9 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [
-        "Owner-required governance/council-administration/isolation gate remains open: docs/plans/governance-and-production-readiness-gate.md.",
         "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
       ],
-      "nextAction": "Planning only; PR22 preparation is owner-merged. Complete the current governance assessment and concrete authority/privacy/records/isolation decisions before resuming deeper implementation. Reconcile F09-P01\u2013P06 with the resulting model; no policy approval inferred from plan publication.",
+      "nextAction": "Continue independent ready work alongside active governance resolution. Resolve F09-P01\u2013P06 before dependent suspension behaviour; if a task depends on an unresolved choice, progress another ready task. PR22 preparation is owner-merged; no policy approval inferred.",
       "preparationPath": "docs/plans/F09-next-phase-plan.md",
       "preparationStatus": "reviewed_and_published",
       "policyDecisionStatus": "proposed_not_approved",
@@ -556,12 +555,12 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "F11D locally qualified and published in draft PR26; verify hosted CI and review findings. Functional development continues alongside governance; PR24 supersedes older blanket pause text. Concrete F09 policy choices remain unapproved. No F08 deployment replay.",
+  "nextAction": "F11D implementation and local qualification are complete in review PR26. PR24 is owner-merged; national governance progresses alongside functional development, with no blanket development block. Verify post-integration CI/review before owner merge of PR26. Record relevant GOV dependencies at feature checkpoints and resolve F09-P01\u2013P06 only before affected behaviour. F08 remains accepted; no redeployment or migration013 replay.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08",
   "governanceGate": {
-    "status": "open_feature_expansion_paused_by_owner",
+    "status": "active_parallel_workstream_production_acceptance_pending",
     "planPath": "docs/plans/governance-and-production-readiness-gate.md",
     "assessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
     "ownerRequirementMemoryId": "6ad4967ebeb1d96470608e05",
@@ -573,7 +572,8 @@
     "securityNeedsReview": 7,
     "findingsReassessed": 65,
     "sourceCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
-    "nationalObligationsPath": "docs/plans/national-governance-obligations-register.md"
+    "nationalObligationsPath": "docs/plans/national-governance-obligations-register.md",
+    "blanketDevelopmentBlock": false
   },
   "functionalWorkstream": {
     "prioritisedFeature": "F11D",
