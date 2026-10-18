@@ -177,7 +177,7 @@ try {
     'SELECT packs,version,status FROM platform_municipalities WHERE id=$1',
     [result.municipality.id],
   );
-  expect(record.rows[0]).toEqual({ packs: ['Local Laws'], version: 3, status: 'Provisioning' });
+  expect(record.rows[0]).toEqual({ packs: ['local-laws'], version: 3, status: 'Provisioning' });
   expect(
     (
       await pool.query('SELECT action FROM platform_audit WHERE municipality_id=$1 ORDER BY id', [
@@ -222,7 +222,7 @@ try {
       data: {
         name,
         slug: `recovery-${id}`,
-        packs: ['Local Laws'],
+        packs: ['local-laws'],
         firstName: 'Synthetic',
         lastName: 'Admin',
         email: `${id}@synthetic.example`,

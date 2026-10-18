@@ -1,3 +1,4 @@
+import type { PackOption } from './api';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { Check, ShieldCheck } from 'lucide-react';
 
@@ -30,24 +31,29 @@ export function Packs({
   selected,
   onChange,
 }: {
-  catalogue: string[];
+  catalogue: PackOption[];
   selected: string[];
   onChange: (packs: string[]) => void;
 }) {
   return (
     <div className="pack-grid">
       {catalogue.map((pack) => (
-        <label className={`pack-choice ${selected.includes(pack) ? 'chosen' : ''}`} key={pack}>
+        <label
+          className={`pack-choice ${selected.includes(pack.id) ? 'chosen' : ''}`}
+          key={pack.id}
+        >
           <input
             type="checkbox"
-            checked={selected.includes(pack)}
+            checked={selected.includes(pack.id)}
             onChange={(event) =>
               onChange(
-                event.target.checked ? [...selected, pack] : selected.filter((p) => p !== pack),
+                event.target.checked
+                  ? [...selected, pack.id]
+                  : selected.filter((p) => p !== pack.id),
               )
             }
           />
-          <span>{pack}</span>
+          <span>{pack.label}</span>
           <Check size={18} aria-hidden="true" />
         </label>
       ))}

@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { CheckCircle2, ArrowLeft, ArrowRight, Building2 } from 'lucide-react';
-import { api, type Onboarding as Input, type ProvisionResult } from './api';
+import { api, type Onboarding as Input, type PackOption, type ProvisionResult } from './api';
 import { Packs } from './components';
 
 export function Onboarding({
@@ -11,7 +11,7 @@ export function Onboarding({
   onCancel,
   onView,
 }: {
-  catalogue: string[];
+  catalogue: PackOption[];
   busy: boolean;
   result: ProvisionResult | null;
   onSubmit: (input: Input) => void;
@@ -191,8 +191,8 @@ export function Onboarding({
           {step === 2 && (
             <>
               <p>
-                The first administrator is scoped to this council. The server generates a temporary
-                password on registration.
+                The first administrator is scoped to this council. A verified Platform operator
+                issues a one-time activation link after registration.
               </p>
               <div className="form-grid">
                 <label>
@@ -245,7 +245,7 @@ export function Onboarding({
                   <dd className="chips">
                     {data.packs.map((pack) => (
                       <span className="chip" key={pack}>
-                        {pack}
+                        {catalogue.find((p) => p.id === pack)?.label ?? pack}
                       </span>
                     ))}
                   </dd>

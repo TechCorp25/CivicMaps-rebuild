@@ -8,14 +8,15 @@ import { hashPassword, verifyPassword } from './passwords.mjs';
 import { enqueueProvisioning, readProvisioning, controlProvisioning } from './provisioning.mjs';
 
 export const domainPacks = [
-  'Local Laws',
-  'Parks & Gardens',
-  'Animal Management',
-  'Cleaning',
-  'Waste',
-  'Safe City',
-  'Licensing / Permits',
-  'Asset Inspections',
+  'parking-services',
+  'local-laws',
+  'parks-gardens',
+  'animal-management',
+  'cleaning',
+  'waste',
+  'safe-city',
+  'licensing-permits',
+  'asset-inspections',
 ];
 const digest = (value) => createHash('sha256').update(value).digest('hex');
 const dummyHash = hashPassword(randomBytes(32).toString('hex'));
@@ -55,8 +56,20 @@ const validSlug = (value) =>
 const validPacks = (value) =>
   Array.isArray(value) &&
   value.length > 0 &&
-  value.every((pack) => domainPacks.includes(pack)) &&
+  value.every((pack) => typeof pack === 'string' && pack.length > 0 && pack.length <= 100) &&
   new Set(value).size === value.length;
+async function normalisePacks(client, packs) {
+  try {
+    return (
+      await client.query('SELECT civicmaps_normalise_packs($1::jsonb) AS packs', [
+        JSON.stringify(packs),
+      ])
+    ).rows[0].packs;
+  } catch (error) {
+    if (error.code === '22023') error.status = 400;
+    throw error;
+  }
+}
 async function authorised(req, mutate, work) {
   return transaction(async (client) => {
     await client.query('SELECT civicmaps_lock_auth_session($1,true,false)', [digest(cookie(req))]);
@@ -76,6 +89,7 @@ async function authorised(req, mutate, work) {
       );
     // Transaction-local roles cannot leak to the next pooled request.
     await client.query('SET LOCAL ROLE civicmaps_platform_app');
+    await client.query("SELECT set_config('civicmaps.operator',$1,true)", [actor.id]);
     return work(client, actor);
   });
 }
@@ -248,6 +262,8 @@ export function platformRouter() {
       await authorised(req, false, async (client) => ({
         municipalities: (await client.query(`${municipalityQuery} ORDER BY m.name`)).rows,
         domainPacks,
+        packCatalogue: (await client.query('SELECT id,label FROM pack_catalogue ORDER BY position'))
+          .rows,
         mode: 'local-synthetic',
       })),
     ),
@@ -319,11 +335,12 @@ export function platformRouter() {
     );
     try {
       const result = await mutation(req, async (client, actor) => {
+        const packs = await normalisePacks(client, data.packs);
         const id = randomUUID();
         const password = `${randomBytes(18).toString('base64url')}!Aa9`;
         const result = await client.query(
           "INSERT INTO platform_municipalities(id,name,slug,status,packs) VALUES ($1,$2,$3,'Provisioning',$4) RETURNING *",
-          [id, data.name.trim(), data.slug, JSON.stringify(data.packs)],
+          [id, data.name.trim(), data.slug, JSON.stringify(packs)],
         );
         await client.query(
           'INSERT INTO platform_first_admins(municipality_id,first_name,last_name,email,password_hash) VALUES ($1,$2,$3,$4,$5)',
@@ -340,7 +357,7 @@ export function platformRouter() {
           jobId,
           adapter: 'synthetic',
           slug: data.slug,
-          packs: data.packs,
+          packs,
           infrastructure: 'pending',
         });
         return {
@@ -376,7 +393,8 @@ export function platformRouter() {
   router.post('/municipalities/:id/packs', async (req, res) => {
     const data = input(req, ['pack', 'enabled', 'version', 'confirmed']);
     requireValue(
-      domainPacks.includes(data.pack) &&
+      typeof data.pack === 'string' &&
+        data.pack.length <= 100 &&
         typeof data.enabled === 'boolean' &&
         Number.isInteger(data.version) &&
         data.version > 0 &&
@@ -386,13 +404,14 @@ export function platformRouter() {
     );
     res.json(
       await mutation(req, async (client, actor) => {
+        const [pack] = await normalisePacks(client, [data.pack]);
         const municipality = await council(client, req.params.id, true);
         requireValue(
           municipality.version === data.version,
           409,
           'Municipality changed. Refresh before trying again.',
         );
-        const enabled = municipality.packs.includes(data.pack);
+        const enabled = municipality.packs.includes(pack);
         requireValue(enabled !== data.enabled, 409, 'Domain pack already has the requested state');
         requireValue(
           data.enabled || data.confirmed === true,
@@ -400,15 +419,15 @@ export function platformRouter() {
           'Confirm pack removal. Existing records will be retained.',
         );
         const packs = data.enabled
-          ? [...municipality.packs, data.pack]
-          : municipality.packs.filter((pack) => pack !== data.pack);
+          ? [...municipality.packs, pack]
+          : municipality.packs.filter((id) => id !== pack);
         const updated = await client.query(
           'UPDATE platform_municipalities SET packs=$2,version=version+1 WHERE id=$1 RETURNING *',
           [municipality.id, JSON.stringify(packs)],
         );
         const workload = await client.query(
           'SELECT open_count FROM platform_pack_workload WHERE municipality_id=$1 AND pack=$2',
-          [municipality.id, data.pack],
+          [municipality.id, pack],
         );
         await audit(
           client,
@@ -416,7 +435,8 @@ export function platformRouter() {
           municipality.id,
           data.enabled ? 'pack_enabled' : 'pack_disabled',
           {
-            pack: data.pack,
+            pack,
+            packVersion: updated.rows[0].pack_version,
             openCount: workload.rows[0]?.open_count ?? null,
             recordsRetained: true,
           },

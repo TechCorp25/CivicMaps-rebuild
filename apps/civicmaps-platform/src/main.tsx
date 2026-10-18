@@ -21,6 +21,7 @@ import {
   number,
   type Actor,
   type Municipality,
+  type PackOption,
   type Detail,
   type Onboarding as Input,
   type ProvisionResult,
@@ -52,7 +53,7 @@ function App() {
   const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
-  const [catalogue, setCatalogue] = useState<string[]>([]);
+  const [catalogue, setCatalogue] = useState<PackOption[]>([]);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [busy, setBusy] = useState(false);
   const [detailRefresh, setDetailRefresh] = useState(0);
@@ -66,6 +67,7 @@ function App() {
     key: 'name' | 'status' | 'officers_online' | 'code21_7d' | 'health';
     descending: boolean;
   }>({ key: 'name', descending: false });
+  const packLabel = (id: string) => catalogue.find((pack) => pack.id === id)?.label ?? id;
   const [confirmation, setConfirmation] = useState<string | null>(null);
   const [provisioned, setProvisioned] = useState<ProvisionResult | null>(null);
   const retry = useRef<{ payload: string; key: string } | null>(null);
@@ -129,23 +131,28 @@ function App() {
     content.current?.focus();
   }, [route.page, route.id]);
   async function load() {
-    const result = await api<{ municipalities: Municipality[]; domainPacks: string[] }>(
-      '/municipalities',
-    );
+    const result = await api<{
+      municipalities: Municipality[];
+      domainPacks: string[];
+      packCatalogue: PackOption[];
+    }>('/municipalities');
     setMunicipalities(result.municipalities);
-    setCatalogue(result.domainPacks);
+    setCatalogue(result.packCatalogue);
     setLoaded(true);
   }
   useEffect(() => {
     if (!actor) return;
     const controller = new AbortController();
-    api<{ municipalities: Municipality[]; domainPacks: string[] }>('/municipalities', {
-      signal: controller.signal,
-    })
+    api<{ municipalities: Municipality[]; domainPacks: string[]; packCatalogue: PackOption[] }>(
+      '/municipalities',
+      {
+        signal: controller.signal,
+      },
+    )
       .then((result) => {
         if (!controller.signal.aborted) {
           setMunicipalities(result.municipalities);
-          setCatalogue(result.domainPacks);
+          setCatalogue(result.packCatalogue);
           setLoaded(true);
         }
       })
@@ -245,7 +252,7 @@ function App() {
       setConfirmation(null);
       await load();
       setNotice(
-        `${pack} ${enabled ? 'enabled' : 'disabled'}. Configuration saved; existing records retained.`,
+        `${packLabel(pack)} ${enabled ? 'enabled' : 'disabled'}. Configuration saved; existing records retained.`,
       );
     });
   }
@@ -531,7 +538,7 @@ function App() {
                         {current.packs.length ? (
                           current.packs.map((pack) => (
                             <span key={pack} className="chip">
-                              {pack}
+                              {packLabel(pack)}
                             </span>
                           ))
                         ) : (
@@ -609,7 +616,7 @@ function App() {
                         <li key={event.id}>
                           <span>
                             {event.action.replaceAll('_', ' ')}
-                            {event.details.pack ? ` · ${event.details.pack}` : ''}
+                            {event.details.pack ? ` · ${packLabel(event.details.pack)}` : ''}
                           </span>
                           <time dateTime={event.created_at}>{date(event.created_at)}</time>
                         </li>
@@ -624,7 +631,7 @@ function App() {
               )}
               {confirmation && (
                 <Confirm
-                  title={`Turn off ${confirmation}?`}
+                  title={`Turn off ${packLabel(confirmation)}?`}
                   busy={busy}
                   onCancel={() => setConfirmation(null)}
                   onConfirm={() => toggle(confirmation, false)}
@@ -633,11 +640,12 @@ function App() {
                     {current.name} has{' '}
                     {detail?.workloads.find((w) => w.pack === confirmation)?.open_count ??
                       'an unknown number of'}{' '}
-                    open {confirmation} service requests in the synthetic workload snapshot.
+                    open {packLabel(confirmation)} service requests in the synthetic workload
+                    snapshot.
                   </p>
                   <p>
-                    When workflow enforcement is connected, officers will lose access to this pack
-                    until it is re-enabled. Existing records are retained.
+                    New work is blocked until this pack is re-enabled. Authorised users can still
+                    review retained requests and their audit history.
                   </p>
                   {error && (
                     <p className="error" role="alert">

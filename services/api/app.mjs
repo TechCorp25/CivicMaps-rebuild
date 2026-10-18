@@ -1,4 +1,5 @@
 import { redemptionRoute } from './admin-activation.mjs';
+import { entitlements, requireCapability } from './entitlements.mjs';
 import { loginThrottle } from './login-throttle.mjs';
 import { resolve } from 'node:path';
 import { routingMiddleware, deployedRouting, checkRouteSession, routeContext } from './routing.mjs';
@@ -89,7 +90,7 @@ async function authenticated(client, req) {
   checkRouteSession(req, auth.rows[0]);
   return auth.rows[0];
 }
-async function scoped(req, mutate, work, { profile = false } = {}) {
+async function scoped(req, mutate, work, { profile = false, capability = 'requests.read' } = {}) {
   return transaction(async (client) => {
     const user = await authenticated(client, req);
     const actor = await resolveContext(client, user, await routeContext(client, req, user));
@@ -110,6 +111,8 @@ async function scoped(req, mutate, work, { profile = false } = {}) {
         403,
         'Session verification failed',
       );
+    actor.entitlements = await entitlements(client, actor);
+    if (!profile) requireCapability(actor.entitlements, capability);
     // Transaction-local roles cannot leak to the next pooled request.
     await client.query('SET LOCAL ROLE civicmaps_local_app');
     for (const [name, value] of Object.entries({
@@ -143,7 +146,7 @@ async function audit(client, actor, request, action, details) {
     ],
   );
 }
-async function mutation(req, work) {
+async function mutation(req, work, capability = 'requests.create') {
   const key = req.headers['idempotency-key'];
   requireValue(
     typeof key === 'string' && /^[A-Za-z0-9_-]{8,128}$/.test(key),
@@ -151,50 +154,55 @@ async function mutation(req, work) {
     'A valid Idempotency-Key is required',
   );
   const fingerprint = digest(JSON.stringify([req.method, req.path, req.body]));
-  return scoped(req, true, async (client, actor) => {
-    await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [
-      `${actor.id}:${actor.context_association_id}:${key}`,
-    ]);
-    const legacy = await client.query(
-      'SELECT 1 FROM legacy_mutation_keys WHERE actor_id=$1 AND key=$2',
-      [actor.id, key],
-    );
-    requireValue(
-      legacy.rowCount === 0,
-      409,
-      'Legacy retry key has no operating context; refresh the record before using a new key',
-    );
-    const prior = await client.query(
-      'SELECT * FROM mutation_receipts WHERE actor_id=$1 AND binding_id=$2 AND key=$3',
-      [actor.id, actor.context_id, key],
-    );
-    if (prior.rowCount) {
+  return scoped(
+    req,
+    true,
+    async (client, actor) => {
+      await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [
+        `${actor.id}:${actor.context_association_id}:${key}`,
+      ]);
+      const legacy = await client.query(
+        'SELECT 1 FROM legacy_mutation_keys WHERE actor_id=$1 AND key=$2',
+        [actor.id, key],
+      );
       requireValue(
-        prior.rows[0].fingerprint === fingerprint,
+        legacy.rowCount === 0,
         409,
-        'Retry key already used for a different action',
+        'Legacy retry key has no operating context; refresh the record before using a new key',
       );
-      return prior.rows[0].response;
-    }
-    const response = await work(client, actor);
-    try {
-      await client.query(
-        'INSERT INTO mutation_receipts(actor_id,association_id,binding_id,key,fingerprint,response) VALUES ($1,$2,$3,$4,$5,$6)',
-        [actor.id, actor.context_association_id, actor.context_id, key, fingerprint, response],
+      const prior = await client.query(
+        'SELECT * FROM mutation_receipts WHERE actor_id=$1 AND binding_id=$2 AND key=$3',
+        [actor.id, actor.context_id, key],
       );
-    } catch (error) {
-      // The previous version's receipt is deliberately hidden by RLS. This collision
-      // rolls back the attempted write rather than exposing or repeating it.
-      if (error.code === '23505' && error.constraint === 'receipt_association_key') {
-        throw new HttpError(
+      if (prior.rowCount) {
+        requireValue(
+          prior.rows[0].fingerprint === fingerprint,
           409,
-          'Retry key belongs to another binding version; refresh before using a new key',
+          'Retry key already used for a different action',
         );
+        return prior.rows[0].response;
       }
-      throw error;
-    }
-    return response;
-  });
+      const response = await work(client, actor);
+      try {
+        await client.query(
+          'INSERT INTO mutation_receipts(actor_id,association_id,binding_id,key,fingerprint,response) VALUES ($1,$2,$3,$4,$5,$6)',
+          [actor.id, actor.context_association_id, actor.context_id, key, fingerprint, response],
+        );
+      } catch (error) {
+        // The previous version's receipt is deliberately hidden by RLS. This collision
+        // rolls back the attempted write rather than exposing or repeating it.
+        if (error.code === '23505' && error.constraint === 'receipt_association_key') {
+          throw new HttpError(
+            409,
+            'Retry key belongs to another binding version; refresh before using a new key',
+          );
+        }
+        throw error;
+      }
+      return response;
+    },
+    { capability },
+  );
 }
 
 export function createApp({ webRoot } = {}) {
@@ -299,6 +307,7 @@ export function createApp({ webRoot } = {}) {
         async (_client, actor) => ({
           actor: actorView(actor),
           csrfToken: actor.csrf_token,
+          entitlements: actor.entitlements,
         }),
         { profile: true },
       ),
@@ -327,22 +336,29 @@ export function createApp({ webRoot } = {}) {
   });
   app.get('/api/officers', async (req, res) => {
     res.json(
-      await scoped(req, false, async (client) => {
-        const result = await client.query(
-          `SELECT id,name,team_id FROM users WHERE active AND role='OFFICER' ORDER BY name`,
-        );
-        return result.rows;
-      }),
+      await scoped(
+        req,
+        false,
+        async (client) => {
+          const result = await client.query(
+            `SELECT id,name,team_id FROM users WHERE active AND role='OFFICER' ORDER BY name`,
+          );
+          return result.rows;
+        },
+        { capability: 'officers.read' },
+      ),
     );
   });
   app.get('/api/resources/status', async (req, res) => {
     const result = await transaction(async (client) => {
       const user = await authenticated(client, req);
       requireValue(user.role !== 'ADMIN', 403, 'Resource access is not granted to council ADMIN');
+      const context = await resolveContext(client, user, await routeContext(client, req, user));
+      requireCapability(await entitlements(client, context), 'resources.read');
       return withMunicipalityResource(
         client,
         user,
-        await routeContext(client, req, user),
+        context.context_id,
         configuredDataTarget(),
         async ({ connection, context }) => {
           await connection.query('SELECT 1 FROM council.resource_records LIMIT 1');
@@ -412,23 +428,28 @@ export function createApp({ webRoot } = {}) {
   app.get('/api/requests/:id/audit', async (req, res) => {
     requireValue(uuid.test(req.params.id), 400, 'Invalid request identifier');
     res.json(
-      await scoped(req, false, async (client, actor) => {
-        const request = await client.query('SELECT * FROM service_requests WHERE id=$1', [
-          req.params.id,
-        ]);
-        requireValue(
-          request.rowCount === 1 &&
-            (actor.role !== 'OFFICER' || request.rows[0].assigned_officer_id === actor.id),
-          404,
-          'Request not found',
-        );
-        return (
-          await client.query(
-            'SELECT id,actor_id,action,details,created_at FROM audit_events WHERE request_id=$1 ORDER BY id',
-            [req.params.id],
-          )
-        ).rows;
-      }),
+      await scoped(
+        req,
+        false,
+        async (client, actor) => {
+          const request = await client.query('SELECT * FROM service_requests WHERE id=$1', [
+            req.params.id,
+          ]);
+          requireValue(
+            request.rowCount === 1 &&
+              (actor.role !== 'OFFICER' || request.rows[0].assigned_officer_id === actor.id),
+            404,
+            'Request not found',
+          );
+          return (
+            await client.query(
+              'SELECT id,actor_id,action,details,created_at FROM audit_events WHERE request_id=$1 ORDER BY id',
+              [req.params.id],
+            )
+          ).rows;
+        },
+        { capability: 'requests.audit.read' },
+      ),
     );
   });
   app.post('/api/requests/:id/actions', async (req, res) => {
@@ -450,43 +471,48 @@ export function createApp({ webRoot } = {}) {
     if (input.action === 'close')
       requireValue(text(input.reason, 1000), 400, 'A closure reason is required');
     res.json(
-      await mutation(req, async (client, actor) => {
-        const found = await client.query('SELECT * FROM service_requests WHERE id=$1 FOR UPDATE', [
-          req.params.id,
-        ]);
-        requireValue(found.rowCount === 1, 404, 'Request not found');
-        const request = found.rows[0];
-        if (actor.role === 'OFFICER')
-          requireValue(request.assigned_officer_id === actor.id, 404, 'Request not found');
-        requireValue(actor.role !== 'SUPERVISOR', 403, 'This account has read-only access');
-        const next = transition(actor, request, input.action);
-        requireValue(next, 409, 'Action is not permitted in the current state');
-        requireValue(
-          request.version === input.version,
-          409,
-          'Request changed. Refresh before trying again.',
-        );
-        let officerId = request.assigned_officer_id;
-        if (input.action === 'assign') {
-          const officer = await client.query(
-            `SELECT id FROM users WHERE id=$1 AND active AND role='OFFICER'`,
-            [input.officerId],
+      await mutation(
+        req,
+        async (client, actor) => {
+          const found = await client.query(
+            'SELECT * FROM service_requests WHERE id=$1 FOR UPDATE',
+            [req.params.id],
           );
-          requireValue(officer.rowCount === 1, 403, 'Officer is outside the permitted scope');
-          officerId = input.officerId;
-        }
-        const updated = await client.query(
-          'UPDATE service_requests SET status=$2,assigned_officer_id=$3,version=version+1,updated_at=now() WHERE id=$1 RETURNING *',
-          [request.id, next, officerId],
-        );
-        await audit(client, actor, request, input.action, {
-          from: request.status,
-          to: next,
-          reason: input.reason ?? null,
-          officerId,
-        });
-        return updated.rows[0];
-      }),
+          requireValue(found.rowCount === 1, 404, 'Request not found');
+          const request = found.rows[0];
+          if (actor.role === 'OFFICER')
+            requireValue(request.assigned_officer_id === actor.id, 404, 'Request not found');
+          requireValue(actor.role !== 'SUPERVISOR', 403, 'This account has read-only access');
+          const next = transition(actor, request, input.action);
+          requireValue(next, 409, 'Action is not permitted in the current state');
+          requireValue(
+            request.version === input.version,
+            409,
+            'Request changed. Refresh before trying again.',
+          );
+          let officerId = request.assigned_officer_id;
+          if (input.action === 'assign') {
+            const officer = await client.query(
+              `SELECT id FROM users WHERE id=$1 AND active AND role='OFFICER'`,
+              [input.officerId],
+            );
+            requireValue(officer.rowCount === 1, 403, 'Officer is outside the permitted scope');
+            officerId = input.officerId;
+          }
+          const updated = await client.query(
+            'UPDATE service_requests SET status=$2,assigned_officer_id=$3,version=version+1,updated_at=now() WHERE id=$1 RETURNING *',
+            [request.id, next, officerId],
+          );
+          await audit(client, actor, request, input.action, {
+            from: request.status,
+            to: next,
+            reason: input.reason ?? null,
+            officerId,
+          });
+          return updated.rows[0];
+        },
+        `requests.${input.action}`,
+      ),
     );
   });
   app.use('/api/platform', platformRouter());

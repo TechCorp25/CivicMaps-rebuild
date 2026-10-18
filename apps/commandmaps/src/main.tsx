@@ -1,5 +1,5 @@
 import { Activation } from './Activation';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ClipboardList,
@@ -27,6 +27,14 @@ type Actor = {
   municipality_id?: string;
   municipality_name?: string;
 };
+type Entitlements = {
+  packId: string | null;
+  label?: string;
+  version: number | null;
+  mode: string;
+  capabilities: string[];
+};
+type Session = { actor: Actor; csrfToken: string; entitlements: Entitlements };
 type Request = {
   id: string;
   number: string;
@@ -72,6 +80,8 @@ const date = (value: string) =>
 function App() {
   const [actor, setActor] = useState<Actor | null>(null);
   const [csrf, setCsrf] = useState('');
+  const [entitlement, setEntitlement] = useState<Entitlements | null>(null);
+  const can = (capability: string) => entitlement?.capabilities.includes(capability) ?? false;
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -85,22 +95,40 @@ function App() {
   const [filter, setFilter] = useState('active');
   const retry = useRef<{ payload: string; key: string } | null>(null);
   const current = requests.find((request) => request.id === selected);
-  async function load() {
+  const loadGeneration = useRef(0);
+  const load = useCallback(async () => {
+    const generation = ++loadGeneration.current;
+    const session = await api<Session>('/auth/session');
+    if (generation !== loadGeneration.current) return;
+    setEntitlement(session.entitlements);
+    setCsrf(session.csrfToken);
+    const capabilities = session.entitlements.capabilities;
+    if (!capabilities.includes('requests.create')) setCreating(false);
     const [queue, roster] = await Promise.all([
-      api<{ requests: Request[]; statusLabels: Record<string, string> }>('/requests'),
-      api<Officer[]>('/officers'),
+      capabilities.includes('requests.read')
+        ? api<{ requests: Request[]; statusLabels: Record<string, string> }>('/requests')
+        : Promise.resolve({ requests: [], statusLabels: {} }),
+      capabilities.includes('officers.read')
+        ? api<Officer[]>('/officers').catch((error) => {
+            if (error instanceof ApiError && error.status === 403) return [];
+            throw error;
+          })
+        : Promise.resolve([]),
     ]);
+    if (generation !== loadGeneration.current) return;
     setRequests(queue.requests);
     setLabels(queue.statusLabels);
     setOfficers(roster);
-  }
+  }, []);
+
   useEffect(() => {
     let active = true;
-    api<{ actor: Actor; csrfToken: string }>('/auth/session')
+    api<Session>('/auth/session')
       .then((session) => {
         if (active) {
           setActor(session.actor);
           setCsrf(session.csrfToken);
+          setEntitlement(session.entitlements);
         }
       })
       .catch((err) => {
@@ -115,7 +143,19 @@ function App() {
   }, []);
   useEffect(() => {
     if (actor && actor.role !== 'ADMIN') void load().catch((err) => setError(err.message));
-  }, [actor]);
+  }, [actor, load]);
+  useEffect(() => {
+    if (!actor || actor.role === 'ADMIN') return;
+    const refresh = () => {
+      void load().catch((err) => setError(err.message));
+    };
+    const timer = setInterval(refresh, 10000);
+    addEventListener('focus', refresh);
+    return () => {
+      clearInterval(timer);
+      removeEventListener('focus', refresh);
+    };
+  }, [actor, load]);
   const currentId = current?.id;
   const currentVersion = current?.version;
   useEffect(() => {
@@ -147,7 +187,7 @@ function App() {
         setRequests([]);
         setSelected(null);
       }
-      if (err instanceof ApiError && err.status === 409) await load().catch(() => {});
+      if (err instanceof ApiError && [403, 409].includes(err.status)) await load().catch(() => {});
     } finally {
       setBusy(false);
     }
@@ -169,16 +209,14 @@ function App() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     void perform(async () => {
-      const session = await api<{ actor: Actor; csrfToken: string }>('/auth/login', {
+      await api<{ actor: Actor; csrfToken: string }>('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email: form.get('email'), password: form.get('password') }),
       });
-      const profile =
-        session.actor.role === 'ADMIN'
-          ? await api<{ actor: Actor; csrfToken: string }>('/auth/session')
-          : session;
+      const profile = await api<Session>('/auth/session');
       setActor(profile.actor);
       setCsrf(profile.csrfToken);
+      setEntitlement(profile.entitlements);
     });
   }
   function create(event: FormEvent<HTMLFormElement>) {
@@ -300,7 +338,7 @@ function App() {
         </div>
         <div className="scope">
           <p className="eyebrow">Operating context</p>
-          <strong>Parking Enforcement</strong>
+          <strong>{entitlement?.label ?? actor.branch_id}</strong>
           <p>
             {actor.tenant_id}
             <br />
@@ -333,6 +371,8 @@ function App() {
                     headers: { 'x-csrf-token': csrf },
                     body: '{}',
                   });
+                  ++loadGeneration.current;
+                  setEntitlement(null);
                   setActor(null);
                   setCsrf('');
                   setRequests([]);
@@ -357,7 +397,7 @@ function App() {
                 <RefreshCw size={18} aria-hidden="true" />
                 Refresh
               </button>
-              {actor.role === 'DISPATCHER' && (
+              {can('requests.create') && (
                 <button disabled={busy} onClick={() => setCreating(true)}>
                   <Plus size={18} aria-hidden="true" />
                   New request
@@ -365,6 +405,17 @@ function App() {
               )}
             </div>
           </div>
+          {entitlement?.mode === 'review' && (
+            <p className="notice" role="status">
+              This branch pack is disabled. You can review retained requests and audit history; new
+              work is unavailable.
+            </p>
+          )}
+          {entitlement?.mode === 'unavailable' && (
+            <p className="notice" role="status">
+              Operational capabilities are unavailable for this context.
+            </p>
+          )}
           {error && (
             <p className="error" role="alert">
               {error}
@@ -390,7 +441,7 @@ function App() {
               <strong>{requests.filter((r) => r.status === 'ATTENDED').length}</strong>
             </section>
           </div>
-          {creating && (
+          {creating && can('requests.create') && (
             <section className="panel create-panel">
               <div className="panel-heading">
                 <h2>New service request</h2>
@@ -487,7 +538,9 @@ function App() {
                         <strong>{request.address}</strong>
                         <span className="muted">
                           {officers.find((o) => o.id === request.assigned_officer_id)?.name ??
-                            'Unassigned'}
+                            (request.assigned_officer_id
+                              ? 'Assigned officer (directory unavailable)'
+                              : 'Unassigned')}
                         </span>
                         <small>Updated {date(request.updated_at)}</small>
                       </button>
@@ -519,12 +572,14 @@ function App() {
                     <dt>Assigned officer</dt>
                     <dd>
                       {officers.find((o) => o.id === current.assigned_officer_id)?.name ??
-                        'Unassigned'}
+                        (current.assigned_officer_id
+                          ? 'Assigned officer (directory unavailable)'
+                          : 'Unassigned')}
                     </dd>
                     <dt>Dispatch notes</dt>
                     <dd>{current.notes || 'No notes recorded'}</dd>
                   </dl>
-                  {actor.role === 'DISPATCHER' &&
+                  {can('requests.assign') &&
                     ['RECEIVED', 'DISPATCHED'].includes(current.status) && (
                       <form
                         onSubmit={(e) => {
@@ -557,17 +612,17 @@ function App() {
                         </button>
                       </form>
                     )}
-                  {actor.role === 'OFFICER' && current.status === 'DISPATCHED' && (
+                  {can('requests.acknowledge') && current.status === 'DISPATCHED' && (
                     <button disabled={busy} onClick={() => action('acknowledge')}>
                       Acknowledge request
                     </button>
                   )}
-                  {actor.role === 'OFFICER' && current.status === 'ACKNOWLEDGED' && (
+                  {can('requests.attend') && current.status === 'ACKNOWLEDGED' && (
                     <button disabled={busy} onClick={() => action('attend')}>
                       Record attendance
                     </button>
                   )}
-                  {actor.role === 'DISPATCHER' && current.status !== 'CLOSED' && (
+                  {can('requests.close') && current.status !== 'CLOSED' && (
                     <form
                       className="close-form"
                       onSubmit={(e) => {

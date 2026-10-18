@@ -32,7 +32,7 @@ try {
     for (const context of contexts) {
       await client.query(
         `INSERT INTO platform_municipalities(id,name,slug,status,packs)
-        VALUES ($1,$2,$3,'Active','["Local Laws"]') ON CONFLICT (id) DO NOTHING`,
+        VALUES ($1,$2,$3,'Active','["local-laws","parking-services"]') ON CONFLICT (id) DO NOTHING`,
         [context.municipalityId, context.name, context.slug],
       );
       await client.query(
