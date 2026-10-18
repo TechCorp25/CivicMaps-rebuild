@@ -1,6 +1,7 @@
 /* global document, innerWidth -- Executed in the browser by page.evaluate. */
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
 import pg from 'pg';
 const browser = await chromium.launch({ headless: true });
 const database = new pg.Pool({
@@ -29,6 +30,47 @@ async function save(page, button, expected = 200) {
   expect(result.status()).toBe(expected);
   await expect(page.getByRole('status')).toContainText('Saved to the operational record');
   return result.json();
+}
+async function seedQueueOverflow() {
+  const source = (
+    await database.query(
+      `SELECT capture_binding_id,capture_binding_version FROM service_requests
+       WHERE tenant_id='tenant-alpha' AND branch_id='parking' ORDER BY number DESC LIMIT 1`,
+    )
+  ).rows[0];
+  expect(source).toBeTruthy();
+  const rows = [
+    ...Array.from({ length: 105 }, (_, i) => ({
+      status: 'RECEIVED',
+      address: `Queue active ${i}`,
+    })),
+    ...Array.from({ length: 110 }, (_, i) => ({ status: 'CLOSED', address: `Queue closed ${i}` })),
+  ];
+  const values = [];
+  const tuples = rows.map((row, i) => {
+    values.push(
+      randomUUID(),
+      'tenant-alpha',
+      'jurisdiction-alpha',
+      'plane-alpha',
+      'organisation-alpha',
+      'parking',
+      row.address,
+      -37.814,
+      144.963,
+      '',
+      row.status,
+      null,
+      source.capture_binding_id,
+      source.capture_binding_version,
+    );
+    const start = i * 14;
+    return `(${Array.from({ length: 14 }, (_, j) => `$${start + j + 1}`).join(',')})`;
+  });
+  await database.query(
+    `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status,assigned_officer_id,capture_binding_id,capture_binding_version) VALUES ${tuples.join(',')}`,
+    values,
+  );
 }
 try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
@@ -120,12 +162,39 @@ try {
   );
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeVisible();
+  await seedQueueOverflow();
+  const activeQueue = page.waitForResponse((response) =>
+    response.url().includes('/api/requests?status=active'),
+  );
+  await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('active');
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await activeQueue;
+  await expect(page.locator('.request-list li')).toHaveCount(100);
+  const activeCount = Number(
+    await page.locator('.stats section').first().locator('strong').innerText(),
+  );
+  expect(activeCount).toBeGreaterThanOrEqual(105);
+  await page.getByRole('button', { name: 'Load older requests', exact: true }).click();
+  await expect(page.locator('.request-list li')).toHaveCount(105);
+  await expect(
+    page.locator('.request-list').getByText('Queue active 0', { exact: true }),
+  ).toBeVisible();
+  const allQueue = page.waitForResponse((response) =>
+    response.url().includes('/api/requests?status=all'),
+  );
+  await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await allQueue;
+  await expect(page.locator('.request-list li')).toHaveCount(100);
+  await expect(
+    page.getByRole('button', { name: 'Load older requests', exact: true }),
+  ).toBeVisible();
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to operations' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/requests`)).status()).toBe(401);
   expect(errors).toEqual([]);
   console.log(
-    'PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.',
+    'PASS: Chromium dispatch lifecycle, queue overflow filtering/pagination, complete counts, database/audit scope, logout and narrow layout verified.',
   );
 } finally {
   await browser.close();

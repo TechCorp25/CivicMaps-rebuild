@@ -31,6 +31,53 @@ async function create(notes = '') {
   assert.equal(result.status, 201);
   return result.data;
 }
+async function insertQueueFixtures(activeCount = 105, closedCount = 110) {
+  const origin = (
+    await pool.query(
+      `SELECT capture_binding_id,capture_binding_version FROM service_requests
+       WHERE tenant_id='tenant-alpha' AND branch_id='parking' ORDER BY number DESC LIMIT 1`,
+    )
+  ).rows[0];
+  assert.ok(origin, 'a real alpha request must establish the source binding');
+  const rows = [
+    ...Array.from({ length: activeCount }, (_, i) => ({
+      id: randomUUID(),
+      status: 'RECEIVED',
+      assignedOfficer: i % 2 ? officerId : null,
+    })),
+    ...Array.from({ length: closedCount }, () => ({
+      id: randomUUID(),
+      status: 'CLOSED',
+      assignedOfficer: null,
+    })),
+  ];
+  const values = [];
+  const tuples = rows.map((row, i) => {
+    values.push(
+      row.id,
+      'tenant-alpha',
+      'jurisdiction-alpha',
+      'plane-alpha',
+      'organisation-alpha',
+      'parking',
+      `Synthetic queue fixture ${i}`,
+      -37.814,
+      144.963,
+      '',
+      row.status,
+      row.assignedOfficer,
+      origin.capture_binding_id,
+      origin.capture_binding_version,
+    );
+    const start = i * 14;
+    return `(${Array.from({ length: 14 }, (_, j) => `$${start + j + 1}`).join(',')})`;
+  });
+  await pool.query(
+    `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status,assigned_officer_id,capture_binding_id,capture_binding_version) VALUES ${tuples.join(',')}`,
+    values,
+  );
+  return rows;
+}
 before(async () => {
   environment = await createTestEnvironment({ platform: false });
   ({ pool, origin } = environment);
@@ -115,6 +162,69 @@ test('creation is persisted and client ownership or number fields are rejected',
   const event = await call(`/requests/${request.id}/audit`);
   assert.equal(event.data.length, 1);
   assert.equal(event.data[0].action, 'created');
+});
+test('queue filters, counts and keyset pages retain older active work and scope', async () => {
+  const fixtures = await insertQueueFixtures();
+  const all = await call('/requests?status=all');
+  assert.equal(all.status, 200);
+  assert.equal(all.data.requests.length, 100);
+  assert.ok(all.data.requests.every((request) => request.status === 'CLOSED'));
+  assert.ok(BigInt(all.data.counts.total) >= 215n);
+  assert.ok(BigInt(all.data.counts.active) >= 105n);
+  assert.ok(BigInt(all.data.counts.closed) >= 110n);
+  assert.ok(all.data.nextCursor);
+  const closed = await call('/requests?status=closed');
+  assert.equal(closed.status, 200);
+  assert.ok(closed.data.requests.every((request) => request.status === 'CLOSED'));
+  assert.ok(closed.data.nextCursor);
+
+  const first = await call('/requests?status=active');
+  assert.equal(first.status, 200);
+  assert.equal(first.data.requests.length, 100);
+  assert.ok(first.data.requests.every((request) => request.status !== 'CLOSED'));
+  assert.ok(
+    first.data.requests.every(
+      (request) =>
+        request.tenant_id === 'tenant-alpha' &&
+        request.jurisdiction_id === 'jurisdiction-alpha' &&
+        request.data_plane_id === 'plane-alpha' &&
+        request.organisation_id === 'organisation-alpha' &&
+        request.branch_id === 'parking',
+    ),
+  );
+  assert.ok(
+    first.data.requests.some((request) =>
+      fixtures.slice(0, 105).some((row) => row.id === request.id),
+    ),
+  );
+
+  const newer = await create('Inserted between queue pages');
+  const second = await call(`/requests?status=active&before=${first.data.nextCursor}`);
+  assert.equal(second.status, 200);
+  const firstIds = new Set(first.data.requests.map((request) => request.id));
+  assert.ok(second.data.requests.every((request) => !firstIds.has(request.id)));
+  assert.ok(
+    second.data.requests.every((request) => BigInt(request.number) < BigInt(first.data.nextCursor)),
+  );
+  assert.ok(!second.data.requests.some((request) => request.id === newer.id));
+  const fetched = new Set(
+    [...first.data.requests, ...second.data.requests].map((request) => request.id),
+  );
+  assert.ok(fixtures.slice(0, 105).every((row) => fetched.has(row.id)));
+
+  const officer = await call('/requests?status=active', undefined, 'officer');
+  assert.equal(officer.status, 200);
+  assert.ok(officer.data.requests.length > 0);
+  assert.ok(officer.data.requests.every((request) => request.assigned_officer_id === officerId));
+  assert.ok(BigInt(officer.data.counts.total) < BigInt(first.data.counts.total));
+  const beta = await call('/requests?status=all', undefined, 'beta');
+  assert.equal(beta.status, 200);
+  assert.equal(beta.data.counts.total, '0');
+  assert.deepEqual(beta.data.requests, []);
+
+  assert.equal((await call('/requests?status=unknown')).status, 400);
+  assert.equal((await call('/requests?status=active&before=0')).status, 400);
+  assert.equal((await call('/requests?status=active&before=9223372036854775808')).status, 400);
 });
 test('scope denies cross-tenant list, audit, mutation and officer assignment', async () => {
   const request = await create();

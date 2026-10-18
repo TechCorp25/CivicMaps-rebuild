@@ -4,10 +4,10 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 ## Repository state
 
-- Governance branch: `codex/civicmaps-governance-workstream`; F-011 implementation head `f1ae3a62b55e64355f9a8e0acb6ca3d32e22e980` is pushed. This checkpoint update is documentation-only and follows that code head.
+- Governance branch: `codex/civicmaps-governance-workstream`; last pushed head `bb3e35c0290d19c7e65902f64ce3ef7725433836`. F-002 changes are in the current worktree and not yet committed.
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
 - PR #24: open, draft, no submitted reviews; exact-head CI passed.
-- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`. The checkpoint-only head `3dfe43c` has run `39131878773` in progress at last check.
+- PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed exact-head Actions run `39131572172`; F-011 implementation head `f1ae3a6` passed exact-head run `39131773353`; checkpoint head `bb3e35c` passed run `39132040914`.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
 ## Completed slice: G04 / GOV-10 / F-029
@@ -81,6 +81,26 @@ The review request pinned branch head `40a0efd440ca4233d1790ef4e76e2606298bd09f`
 **Implementation and local validation:** `services/api/database.mjs` now handles idle-client errors and logs only a validated five-character SQLSTATE or `unknown`, never the error message. `tests/database-pool.test.mjs` releases a test client, terminates only its disposable backend, waits for the pool error, then issues `SELECT 1` through the same pool. Lint, formatting, both app typechecks, both production builds, syntax checks and `git diff --check` passed. `npm test` could not execute its database-backed cases because the configured local PostgreSQL endpoint `127.0.0.1:55432` refuses connections; this includes the new test. Hosted exact-head run `39131773353` passed all foundation workflow steps, including application/API checks, ingress, worker restart recovery, platform browser, CommandMAPS browser, council-admin activation browser and the full test suite with the disposable PostgreSQL regression. No production or live infrastructure test was performed.
 
 **Review of slice diff:** only the shared pool's idle-client error listener, the focused disposable recovery test, and governance status/evidence were changed. Pool size, transaction sequencing, writes/retries, schema, worker leases, F08 entitlements and production resources were not changed.
+
+## Active slice contract: G04 / GOV-10 / F-002
+
+**Goal and outcome:** ensure older active and assigned requests remain discoverable beyond the current 100-row newest-first window, while keeping server-side scope and useful complete authorized counts.
+
+**Source state:** immediately before opening this slice, fetched `origin/main` at `92b3eea8b8ecfd0505afb6d62d60a001903db161`; inspected the incoming merge commit and current endpoint/UI. No new main commits were available; main is an ancestor of governance branch head `bb3e35c0290d19c7e65902f64ce3ef7725433836`.
+
+**Observed behavior:** `GET /api/requests` applies a role predicate and `ORDER BY number DESC LIMIT 100`; CommandMAPS filters the returned 100 client-side and calculates summary counts from that partial page. Thus older active work can be hidden behind newer closed requests. Request `number` is an immutable PostgreSQL `bigint` identity, suitable for a string keyset cursor.
+
+**Likely files:** `services/api/app.mjs`, `apps/commandmaps/src/main.tsx`, `tests/foundation.test.mjs` and focused browser acceptance, plus this checkpoint/workstream status.
+
+**Preserve:** session/context/tenant/jurisdiction/data-plane/organisation/branch RLS and predicates, officer assignment scoping, existing sort semantics, F08 entitlements and ADMIN operational exclusion, request detail/audit visibility, and all mutation/idempotency/version ordering. No migration, unbounded query or client-side expansion of authority.
+
+**Acceptance:** bounded server-side status filtering and stable keyset pagination; authorized aggregate counts independent of page size; invalid filter/cursor requests fail closed; more than 100 mixed-status synthetic requests demonstrate older active work is reachable and counts are complete; inserting newer work between page requests yields no duplicate or skipped cursor rows; direct API assertions retain council/branch/officer scope; CommandMAPS filter, counts and “load more” behavior use server results. Existing tests and exact-head hosted CI pass.
+
+**Unresolved decisions:** no customer-specific legal or retention decision is needed for this read-only queue correction. Preserve the current status categories; do not introduce new workflow states.
+
+**Out of scope:** queue redesign, search/sort changes, export, new roles, public intake, index/schema migration unless measured query needs prove one necessary, and F09 suspension or production architecture policy.
+
+**Implementation in current worktree:** the API returns at most 100 rows plus a `nextCursor`, validates `status` and signed-bigint cursor inputs, applies `active`/`closed` filters in SQL, and returns full actor-authorized aggregate counts. CommandMAPS uses server filters, displays those counts, loads older pages on demand, and refreshes all pages already opened. Added API regressions cover 215 synthetic mixed-state records, older active discovery, complete counts, cursor stability across a newer insertion, invalid inputs and council/officer/scope boundaries. Browser acceptance covers the 100-row page, complete count, loading older active records and switching to the mixed queue. Local lint, formatting, typechecks, builds, syntax checks and diff checks pass. PostgreSQL-backed API/browser execution is not available locally; exact-head hosted CI is still required.
 
 ## Completed acceptance
 

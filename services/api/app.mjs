@@ -374,13 +374,51 @@ export function createApp({ webRoot } = {}) {
     res.json(result);
   });
   app.get('/api/requests', async (req, res) => {
+    const status = req.query.status ?? 'all';
+    const before = req.query.before;
+    requireValue(
+      typeof status === 'string' && ['all', 'active', 'closed'].includes(status),
+      400,
+      'Invalid request status filter',
+    );
+    requireValue(
+      before === undefined ||
+        (typeof before === 'string' &&
+          /^[1-9][0-9]{0,18}$/.test(before) &&
+          BigInt(before) <= 9223372036854775807n),
+      400,
+      'Invalid request cursor',
+    );
     res.json(
       await scoped(req, false, async (client, actor) => {
+        const visibility = `($1::text<>'OFFICER' OR assigned_officer_id=$2)`;
+        const counts = (
+          await client.query(
+            `SELECT COUNT(*)::text AS total,
+                    COUNT(*) FILTER (WHERE status<>'CLOSED')::text AS active,
+                    COUNT(*) FILTER (WHERE status='CLOSED')::text AS closed,
+                    COUNT(*) FILTER (WHERE status='DISPATCHED')::text AS dispatched,
+                    COUNT(*) FILTER (WHERE status='ATTENDED')::text AS attended
+             FROM service_requests WHERE ${visibility}`,
+            [actor.role, actor.id],
+          )
+        ).rows[0];
         const result = await client.query(
-          `SELECT * FROM service_requests WHERE ($1::text<>'OFFICER' OR assigned_officer_id=$2) ORDER BY number DESC LIMIT 100`,
-          [actor.role, actor.id],
+          `SELECT * FROM service_requests
+           WHERE ${visibility}
+             AND ($3::text='all' OR ($3='active' AND status<>'CLOSED') OR ($3='closed' AND status='CLOSED'))
+             AND ($4::bigint IS NULL OR number<$4::bigint)
+           ORDER BY number DESC LIMIT 101`,
+          [actor.role, actor.id, status, before ?? null],
         );
-        return { requests: result.rows, statusLabels };
+        const hasMore = result.rows.length > 100;
+        const requests = result.rows.slice(0, 100);
+        return {
+          requests,
+          statusLabels,
+          counts,
+          nextCursor: hasMore ? requests.at(-1).number : null,
+        };
       }),
     );
   });

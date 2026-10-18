@@ -54,6 +54,19 @@ type Audit = {
   created_at: string;
   details: { reason?: string; from?: string; to?: string };
 };
+type QueueCounts = {
+  total: string;
+  active: string;
+  closed: string;
+  dispatched: string;
+  attended: string;
+};
+type QueuePage = {
+  requests: Request[];
+  statusLabels: Record<string, string>;
+  counts: QueueCounts;
+  nextCursor: string | null;
+};
 class ApiError extends Error {
   constructor(
     public status: number,
@@ -88,38 +101,72 @@ function App() {
   const [notice, setNotice] = useState('');
   const [requests, setRequests] = useState<Request[]>([]);
   const [labels, setLabels] = useState<Record<string, string>>({});
+  const [counts, setCounts] = useState<QueueCounts>({
+    total: '0',
+    active: '0',
+    closed: '0',
+    dispatched: '0',
+    attended: '0',
+  });
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [officers, setOfficers] = useState<Officer[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [events, setEvents] = useState<Audit[]>([]);
   const [creating, setCreating] = useState(false);
   const [filter, setFilter] = useState('active');
   const retry = useRef<{ payload: string; key: string } | null>(null);
+  const loadedPages = useRef(1);
+  const loadingMore = useRef(false);
   const current = requests.find((request) => request.id === selected);
   const loadGeneration = useRef(0);
-  const load = useCallback(async () => {
-    const generation = ++loadGeneration.current;
-    const session = await api<Session>('/auth/session');
-    if (generation !== loadGeneration.current) return;
-    setEntitlement(session.entitlements);
-    setCsrf(session.csrfToken);
-    const capabilities = session.entitlements.capabilities;
-    if (!capabilities.includes('requests.create')) setCreating(false);
-    const [queue, roster] = await Promise.all([
-      capabilities.includes('requests.read')
-        ? api<{ requests: Request[]; statusLabels: Record<string, string> }>('/requests')
-        : Promise.resolve({ requests: [], statusLabels: {} }),
-      capabilities.includes('officers.read')
-        ? api<Officer[]>('/officers').catch((error) => {
-            if (error instanceof ApiError && error.status === 403) return [];
-            throw error;
-          })
-        : Promise.resolve([]),
-    ]);
-    if (generation !== loadGeneration.current) return;
-    setRequests(queue.requests);
-    setLabels(queue.statusLabels);
-    setOfficers(roster);
-  }, []);
+  const load = useCallback(
+    async (preservePages = false) => {
+      if (!preservePages) loadedPages.current = 1;
+      const generation = ++loadGeneration.current;
+      const session = await api<Session>('/auth/session');
+      if (generation !== loadGeneration.current) return;
+      setEntitlement(session.entitlements);
+      setCsrf(session.csrfToken);
+      const capabilities = session.entitlements.capabilities;
+      if (!capabilities.includes('requests.create')) setCreating(false);
+      const [queue, roster] = await Promise.all([
+        capabilities.includes('requests.read')
+          ? (async () => {
+              const requests: Request[] = [];
+              let cursor: string | null = null;
+              let page: QueuePage;
+              const pageCount = preservePages ? loadedPages.current : 1;
+              for (let index = 0; index < pageCount; index += 1) {
+                const suffix = cursor ? `&before=${encodeURIComponent(cursor)}` : '';
+                page = await api<QueuePage>(`/requests?status=${filter}${suffix}`);
+                requests.push(...page.requests);
+                cursor = page.nextCursor;
+                if (!cursor) break;
+              }
+              return { ...page!, requests, nextCursor: cursor };
+            })()
+          : Promise.resolve({
+              requests: [],
+              statusLabels: {},
+              counts: { total: '0', active: '0', closed: '0', dispatched: '0', attended: '0' },
+              nextCursor: null,
+            }),
+        capabilities.includes('officers.read')
+          ? api<Officer[]>('/officers').catch((error) => {
+              if (error instanceof ApiError && error.status === 403) return [];
+              throw error;
+            })
+          : Promise.resolve([]),
+      ]);
+      if (generation !== loadGeneration.current) return;
+      setRequests(queue.requests);
+      setLabels(queue.statusLabels);
+      setCounts(queue.counts);
+      setNextCursor((previous) => (preservePages && previous ? previous : queue.nextCursor));
+      setOfficers(roster);
+    },
+    [filter],
+  );
 
   useEffect(() => {
     let active = true;
@@ -147,7 +194,8 @@ function App() {
   useEffect(() => {
     if (!actor || actor.role === 'ADMIN') return;
     const refresh = () => {
-      void load().catch((err) => setError(err.message));
+      if (loadingMore.current) return;
+      void load(true).catch((err) => setError(err.message));
     };
     const timer = setInterval(refresh, 10000);
     addEventListener('focus', refresh);
@@ -204,6 +252,29 @@ function App() {
     await load();
     setSelected(result.id);
     setNotice('Saved to the operational record');
+  }
+  async function loadMore() {
+    if (!nextCursor || loadingMore.current || busy) return;
+    loadingMore.current = true;
+    try {
+      await perform(async () => {
+        const page = await api<QueuePage>(
+          `/requests?status=${filter}&before=${encodeURIComponent(nextCursor)}`,
+        );
+        setRequests((previous) => {
+          const merged = new Map(previous.map((request) => [request.id, request]));
+          for (const request of page.requests) merged.set(request.id, request);
+          return [...merged.values()].sort((a, b) =>
+            BigInt(a.number) > BigInt(b.number) ? -1 : BigInt(a.number) < BigInt(b.number) ? 1 : 0,
+          );
+        });
+        setCounts(page.counts);
+        setNextCursor(page.nextCursor);
+        loadedPages.current += 1;
+      });
+    } finally {
+      loadingMore.current = false;
+    }
   }
   function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -430,15 +501,15 @@ function App() {
           <div className="stats">
             <section>
               <span>Active requests</span>
-              <strong>{requests.filter((r) => r.status !== 'CLOSED').length}</strong>
+              <strong>{counts.active}</strong>
             </section>
             <section>
               <span>Awaiting acknowledgement</span>
-              <strong>{requests.filter((r) => r.status === 'DISPATCHED').length}</strong>
+              <strong>{counts.dispatched}</strong>
             </section>
             <section>
               <span>Attended</span>
-              <strong>{requests.filter((r) => r.status === 'ATTENDED').length}</strong>
+              <strong>{counts.attended}</strong>
             </section>
           </div>
           {creating && can('requests.create') && (
@@ -506,7 +577,16 @@ function App() {
                 <h2>Operational queue</h2>
                 <label className="filter">
                   Show
-                  <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+                  <select
+                    value={filter}
+                    onChange={(e) => {
+                      setSelected(null);
+                      setRequests([]);
+                      setNextCursor(null);
+                      loadedPages.current = 1;
+                      setFilter(e.target.value);
+                    }}
+                  >
                     <option value="active">Active</option>
                     <option value="closed">Closed</option>
                     <option value="all">All requests</option>
@@ -547,6 +627,11 @@ function App() {
                     </li>
                   ))}
                 </ul>
+              )}
+              {nextCursor && (
+                <button className="secondary" disabled={busy} onClick={() => void loadMore()}>
+                  Load older requests
+                </button>
               )}
             </section>
             <section className="panel detail" aria-label="Request detail">
