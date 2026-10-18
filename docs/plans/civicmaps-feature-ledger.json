@@ -205,7 +205,7 @@
     },
     {
       "id": "F08",
-      "status": "blocked",
+      "status": "review_ready",
       "branch": "codex/civicmaps-f08-entitlements",
       "commit": "772d6fa4d0a663e77af42413ed95e9b72e079c6a",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/21",
@@ -213,10 +213,8 @@
       "acceptancePassed": true,
       "publication": "verified",
       "empirical": "recorded",
-      "blockers": [
-        "Owner review/merge of parent PR20 before PR21 advances from draft."
-      ],
-      "nextAction": "Keep PR21 draft while parent PR20 findings are resolved and owner merges it; then reconcile base, verify CI/review and advance for owner review. No F08 deployment or agent merge.",
+      "blockers": [],
+      "nextAction": "Owner review of PR21 against main after owner-merged PR20 (26a49e0); require published-head CI and any external Codex findings resolved before merge. Qualify F08 live release separately. No agent merge.",
       "preparationPath": "docs/plans/F08-next-phase-plan.md",
       "firstBranchPackage": "Parking Services Branch",
       "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected.",
@@ -228,7 +226,8 @@
       "memoryId": "6ad42e3dbeb1d96470603a5b",
       "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39090178780",
       "pushCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39090158405",
-      "deployed": false
+      "deployed": false,
+      "parentMergeCommit": "26a49e03e08d0ce61767c4b2cc8b7c8e1741320a"
     },
     {
       "id": "F09",
@@ -497,7 +496,7 @@
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "Keep PR21 draft while parent PR20 findings are resolved and owner merges it; then reconcile base, verify CI/review and advance for owner review. No F08 deployment or agent merge.",
+  "nextAction": "Owner review of PR21 against main after owner-merged PR20 (26a49e0); require published-head CI and any external Codex findings resolved before merge. Qualify F08 live release separately. No agent merge.",
   "currentDeployedSourceCommit": "2b73318a57c97baecb52711beca401ed3a162339",
   "currentReleaseEvidencePath": "docs/plans/evidence/F07-release-closure.md"
 }
