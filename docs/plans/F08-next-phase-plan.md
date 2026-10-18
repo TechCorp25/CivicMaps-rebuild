@@ -78,9 +78,9 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [x] Record owner direction: Parking Services Branch first, then a branch with little shared field code and substantial shared dispatch/management/administration.
 - [x] Prepare the source-pinned preview capability/reuse matrix and identify rebuild gaps; [baseline](F08-parking-capability-baseline.md). This inventory does not close later implementation/acceptance gaps.
 - [x] Record owner-approved D03 decisions after the F07 release gate; decision receipt in F08-D03-decisions.md.
-- [ ] Select the second branch against the confirmed reuse criterion and prepare its separate scope after the parking baseline.
-- [x] Implement bounded F08 entitlements; publish [evidence](evidence/F08.md), draft [PR #21](https://github.com/TechCorp25/CivicMaps-rebuild/pull/21) and Empirical checkpoint `6ad42e3dbeb1d96470603a5b`. Require published-head CI and external review completion before owner merge.
+- [x] Implement bounded F08 entitlements; publish [evidence](evidence/F08.md), draft [PR #21](https://github.com/TechCorp25/CivicMaps-rebuild/pull/21) and Empirical checkpoint `6ad42e3dbeb1d96470603a5b`. Keep PR #21 draft until parent PR #20 is owner-merged; require published-head CI and external review completion before owner merge.
 - [ ] Owner review/merge of resulting PRs; qualify any later F08 release separately.
+- [ ] Later, non-blocking work after F08 completion: select the second branch against the confirmed reuse criterion and prepare a separate scope. This choice does not gate F08 or authorise a second concurrent feature.
 
 ## Resumption instruction
 
