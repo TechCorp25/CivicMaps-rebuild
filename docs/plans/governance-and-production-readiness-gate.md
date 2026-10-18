@@ -2,6 +2,8 @@
 
 Prepared 18 October 2026 (Australia/Melbourne) by Codex (agent).
 
+**Current owner override:** governance proceeds alongside functional development on the dedicated [governance workstream](governance-workstream.md). Earlier blanket pause language below is superseded; PR #24 reconciles those historical planning pointers. Follow the workstream synchronisation contract after each owner merge to main.
+
 **Status: assessment and proposed remediation programme. Further feature expansion is paused by the owner's current instruction. Detailed production policy, architectural choices and compliance acceptance remain unresolved.**
 
 ## Purpose and authority
