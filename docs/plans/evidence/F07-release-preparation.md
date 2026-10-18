@@ -1,6 +1,6 @@
 # F07 release preparation — live gate pending
 
-Prepared 18 October 2026 by Codex (agent). This is preparation evidence, not a deployment or live-acceptance receipt.
+Prepared 18 October 2026 by Codex (agent). **Historical preparation checkpoint:** the inputs below were subsequently supplied and F07 deployed/live accepted. Use [release closure](F07-release-closure.md) for current state; the original preparation facts below are retained as history.
 
 - Selected merged source: `2b73318a57c97baecb52711beca401ed3a162339`, owner-merged PR #19. [Merged-source CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070898955) passed. Source was staged in a clean detached worktree, independently of PR #20's planning edits.
 - Clean Node24.19.0/npm11.9.0 setup/build succeeded with a workspace-local npm cache. `npm run check` passed lint, formatting, both typechecks/builds and **69/69 integration checks** against the existing dedicated local PostgreSQL17 instance, using uniquely owned disposable test databases. Initial verification lacked PostgreSQL tools in PATH; configuring the existing tool directory resolved both backup-test failures, then the complete check passed. No source change was required.

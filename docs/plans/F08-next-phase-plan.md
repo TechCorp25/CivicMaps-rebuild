@@ -7,14 +7,14 @@ Prepared 18 October 2026 (Australia/Melbourne), Codex (agent).
 - Owner merged [PR #19](https://github.com/TechCorp25/CivicMaps-rebuild/pull/19) into main at `2b73318a57c97baecb52711beca401ed3a162339`. F07 implementation is complete; do not implement it again or request its merge again.
 - Published F07 head `16d543578798c678f2bc24f0ffb9c0f646594de3` passed [PR CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070082654), [push CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070079337), and [external Codex review with no findings](https://github.com/TechCorp25/CivicMaps-rebuild/pull/19#issuecomment-6241237807). Evidence covers 69 integration checks, all three disposable browser suites and Caddy isolation.
 - [Merged-source CI](https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070898955) passed for `2b73318`. If a later source is needed, pin and verify that source independently.
-- Last verified AWS release remains F06Q `3dfb0316fbe7885c55adbb1861ff58d199ca5810`; F07 is not deployed. [F07 evidence](evidence/F07.md) is local/disposable and hosted CI evidence. [F06Q release evidence](evidence/F06Q-release-closure.md) does not establish F07 live acceptance.
+- F07 merged source `2b73318` is now deployed and its scoped live gate passed. [Release closure](evidence/F07-release-closure.md) records the exact artifact, preservation, real TLS activation/isolation/revocation and compatible recovery. The [implementation evidence](evidence/F07.md) and older [F06Q release evidence](evidence/F06Q-release-closure.md) retain their original scopes.
 - [D02](F07-D02-decisions.md) is approved and implemented. ADMIN keeps own profile/session and explicit context grants only. F08 must not expand those permissions.
 
-This is a plan. No deployment, recipient activation, entitlement implementation or new AWS resource is performed by publishing it. Existing AWS CLI authorisation, Sydney Region, Medium guidance, resource retention through the 21 October review and the saved US$50/month allocation remain the starting constraints; verify current runtime/spend facts at execution.
+This plan now includes an executed F07 release checkpoint. F08 entitlement implementation still awaits D03; no new AWS compute, DNS or council resource was created. Existing AWS CLI authorisation, Sydney Region, Medium guidance, resource retention through the 21 October review and the saved US$50/month allocation remain the starting constraints; verify current runtime/spend facts at execution.
 
 ## Execution checkpoint — 18 October 2026
 
-F07 release preparation has begun on the PR #20 workflow. The pinned merged-source archive is built and all 69 local checks pass; see [preparation evidence](evidence/F07-release-preparation.md). AWS reauthentication and concrete synthetic recipient/permanent-disable designations are pending. No deployment/live acceptance is claimed. The [parking/shared-map capability baseline](F08-parking-capability-baseline.md) records read-only inspection of preview source pinned to `e53ec8c`.
+F07 is deployed/live accepted on `2b73318`; see [release closure](evidence/F07-release-closure.md). The owner selected existing Alpha/Beta test councils: Alpha's synthetic administrator is retained, Beta's administrator is disabled and its sessions revoked. Preserved-data and compatible F07 recovery checks passed. Earlier [preparation evidence](evidence/F07-release-preparation.md) is historical. Next obtain the remaining [D03 decisions](F08-D03-decisions.md), then implement F08 on a fresh feature branch. The [shared-map capability baseline](F08-parking-capability-baseline.md) remains pinned to preview `e53ec8c`.
 
 ## Owner-confirmed branch sequence and reuse strategy
 
@@ -28,7 +28,7 @@ Build a capability/reuse matrix from the preview evidence: shared operational ma
 
 The second departmental branch should share **little parking-specific field-operational code**, while reusing substantial dispatch, management and administrative capability. Its identity is not yet selected. Choose it by that criterion after mapping the parking baseline, then give it a separate bounded plan and acceptance cases. Demonstrate reuse of the shared services without copying the parking workflow into a differently named branch; verify branch/council isolation and independent entitlement changes.
 
-## Phase A — qualify and release merged F07
+## Phase A — completed F07 release procedure (reference only)
 
 1. Refresh main, the [ledger](civicmaps-feature-ledger.json), [activation runbook](../development/first-admin-activation.md) and Empirical `6ad3d4bcbeb1d964705ff9ba`. Use a fresh release-evidence branch from current main, with one implementation feature active at most. Keep historical worktrees at their published heads.
 2. Before activation, record the exact existing synthetic municipality, designation, context/binding version, intended recipient and controlled delivery channel. Verify the recipient through the approved D02 operator workflow. Reserve a deliberately approved test designation for the **permanent disable** check; do not consume an intended continuing administrator merely to finish a test. If suitable fixtures or recipient details are missing, complete build/release preparation and obtain those concrete choices before issuing links or changing identity state.
@@ -42,7 +42,7 @@ The second departmental branch should share **little parking-specific field-oper
 
 ## Phase B — settle D03 before F08 implementation
 
-The owner has confirmed the Parking Services Branch package and first-branch sequence above. Remaining D03 policy and catalogue/migration details are **unapproved**. The following distinguish that confirmed direction from proposals still requiring an owner decision. Record the remaining accepted choices at F08 kickoff after the F07 release gate.
+The owner has confirmed the Parking Services Branch package and first-branch sequence above. Remaining D03 policy and catalogue/migration details are **unapproved**. The following distinguish that confirmed direction from proposals still requiring an owner decision. F07 release acceptance is complete; the concrete remaining approval request is [F08-D03-decisions.md](F08-D03-decisions.md). Record the accepted choices before F08 implementation.
 
 | Decision | Proposed initial development policy | Reason / acceptance consequence |
 | --- | --- | --- |
@@ -72,9 +72,9 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 - [x] Verify PR #19 owner merge and synchronise main to `2b73318`.
 - [x] Record current F07 implementation/review evidence and pending live-release boundary.
 - [x] Confirm selected merged source CI and build its pinned release artifact; local archive/checks recorded in preparation evidence.
-- [ ] Record concrete synthetic recipients/contexts and a reserved permanent-disable test designation.
-- [ ] Inspect existing AWS runtime/spend; verify private checkpoint and compatibility/recovery gates.
-- [ ] Deploy F07, complete scoped live acceptance/preservation/recovery and publish release evidence.
+- [x] Owner selected existing Alpha/Beta test councils; exact synthetic designations and outcomes recorded in release closure.
+- [x] Inspect AWS runtime/spend; verify private checkpoint, preservation and compatible F07 recovery.
+- [x] Deploy F07 and record scoped live acceptance/preservation/recovery in the release-closure evidence published with this update.
 - [x] Record owner direction: Parking Services Branch first, then a branch with little shared field code and substantial shared dispatch/management/administration.
 - [x] Prepare the source-pinned preview capability/reuse matrix and identify rebuild gaps; [baseline](F08-parking-capability-baseline.md). This inventory does not close later implementation/acceptance gaps.
 - [ ] Record remaining owner D03 decisions after the F07 release gate.
@@ -84,4 +84,4 @@ F08 acceptance requires direct server enforcement, no stale-access reopening, ap
 
 ## Resumption instruction
 
-Read current main, ledger, this plan and Empirical. PR #19 is merged; do not restart its implementation/review/merge or repeat D02. Execute the F07 release qualification against a pinned source with concrete approved synthetic recipients and preserved data. After its live gate passes, obtain D03 decisions and implement one F08 entitlement feature. Keep implementation, deployment, live acceptance and owner merge distinct in every record.
+Read current main, ledger, this plan and Empirical. PR #19 is merged; do not restart its implementation/review/merge or repeat D02. F07 source `2b73318` is deployed/live accepted with approved Alpha/Beta fixtures; do not repeat activation or permanently disable Alpha. Obtain the remaining D03 decisions and implement one F08 entitlement feature from the shared-map capability baseline. Keep implementation, deployment, live acceptance and owner merge distinct in every record.

@@ -22,4 +22,4 @@ F08 should resolve the current branch's authorised capabilities on the server an
 
 Before selecting the second branch, document its genuinely different field actions and data, shared map/service dependencies, and a branch-specific acceptance flow. Verify one council's or branch's entitlement change cannot reveal another's records or enable the parking toolset. Do not choose the second branch merely by relabelling parking, and do not treat a shared interface as a grant to share tenant data.
 
-Remaining D03 catalogue IDs/migration, disabled-record review and in-flight policies still require owner decisions after the F07 release gate. See the [execution plan](F08-next-phase-plan.md).
+The F07 [release gate](evidence/F07-release-closure.md) has passed. Remaining D03 catalogue IDs/migration, disabled-record review and in-flight policies require owner decisions before F08 implementation. See the [execution plan](F08-next-phase-plan.md).

@@ -18,4 +18,4 @@ PR #18 was merged into PR #17 at `e34646f`; the owner then merged PR #17 into ma
 
 - [x] Owner merged PR #17 into main at `99b12b9`.
 - [x] Owner merged PR #19 into main at `2b73318`.
-- [ ] Follow the [next-phase plan](F08-next-phase-plan.md) for controlled F07 deployment/current-source live acceptance, then D03/F08. Last verified AWS release remains F06Q `3dfb031`.
+- [x] F07 `2b73318` deployed/live accepted; [release closure](evidence/F07-release-closure.md). Continue the [next-phase plan](F08-next-phase-plan.md) with remaining D03 decisions, then F08.

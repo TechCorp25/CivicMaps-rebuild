@@ -154,7 +154,7 @@
       "empirical": "recorded",
       "blockers": [],
       "preparationPath": "docs/plans/F06Q-next-phase-prompt.md",
-      "nextAction": "F06Q release gate passed on deployed3dfb031; release evidence is merged into main. F07 PR19 is also owner-merged at2b73318. Follow F08-next-phase-plan.md for F07 controlled release/live acceptance, then D03/F08.",
+      "nextAction": "Historical F06Q source3dfb031 release gate passed. F07 merged source2b73318 is now deployed/live accepted; obtain remaining D03 decisions for F08, not another F07 release.",
       "implementation": "complete",
       "localAcceptancePassed": true,
       "liveAcceptance": "passed_for_merged_source",
@@ -167,7 +167,8 @@
       "releaseEvidencePath": "docs/plans/evidence/F06Q-release-closure.md",
       "releaseEvidencePR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/18",
       "releaseEvidenceMergeCommit": "e34646f4bb81a563916397ab04b3efdd0d70b1f6",
-      "releaseEvidenceInMainCommit": "99b12b9bf5edc5c4154b27ac800f6a63d33ad301"
+      "releaseEvidenceInMainCommit": "99b12b9bf5edc5c4154b27ac800f6a63d33ad301",
+      "currentMainLiveAcceptance": "historical_F06Q_source_3dfb031_superseded_by_F07_2b73318"
     },
     {
       "id": "F07",
@@ -180,7 +181,7 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "PR19 owner-merged at2b73318. Qualify controlled F07 deployment/current-source live acceptance with designated synthetic recipients; then resolve D03 for F08.",
+      "nextAction": "F07 release gate passed on2b73318 with approved Alpha/Beta fixtures; preserve Alpha administrator and disabled Beta state. Obtain remaining D03 decisions for F08; do not repeat activation.",
       "preparationPath": "docs/plans/F07-next-phase-plan.md",
       "decisionPath": "docs/plans/F07-D02-decisions.md",
       "acceptanceScope": "local_and_hosted_disposable",
@@ -188,7 +189,7 @@
       "implementation": "complete",
       "implementationLocation": "Merged into main by owner PR19",
       "localAcceptancePassed": true,
-      "liveAcceptance": "not_deployed",
+      "liveAcceptance": "passed_for_merged_source",
       "evidenceUrl": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/16d543578798c678f2bc24f0ffb9c0f646594de3/docs/plans/evidence/F07.md",
       "ci": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070082654",
       "stackedOn": "main",
@@ -196,8 +197,11 @@
       "mergeCommit": "2b73318a57c97baecb52711beca401ed3a162339",
       "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39070898955",
       "releasePreparationPath": "docs/plans/F08-next-phase-plan.md",
-      "releaseStatus": "preparing_awaiting_aws_reauthentication_and_recipient_designations",
-      "releasePreparationEvidencePath": "docs/plans/evidence/F07-release-preparation.md"
+      "releaseStatus": "deployed_and_live_accepted",
+      "releasePreparationEvidencePath": "docs/plans/evidence/F07-release-preparation.md",
+      "deployedSourceCommit": "2b73318a57c97baecb52711beca401ed3a162339",
+      "deployedSourceAcceptancePassed": true,
+      "releaseEvidencePath": "docs/plans/evidence/F07-release-closure.md"
     },
     {
       "id": "F08",
@@ -210,15 +214,15 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [
-        "F07 controlled deployment and current-source live acceptance remain pending.",
-        "Remaining D03 catalogue IDs/migration and disabled-record/in-flight policies require owner decisions; Parking Services Branch first-package direction is confirmed."
+        "Remaining D03 catalogue/migration and disabled-record/in-flight policies require owner approval; F07 live-release gate has passed."
       ],
-      "nextAction": "Complete F07 release gate, record D03 decisions, then implement one server-enforced entitlement feature.",
+      "nextAction": "Obtain owner approval of F08-D03-decisions.md, then implement bounded server-enforced entitlements on a fresh feature branch with the shared-map contract.",
       "preparationPath": "docs/plans/F08-next-phase-plan.md",
       "firstBranchPackage": "Parking Services Branch",
       "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected.",
       "sharedMapPolicy": "All departmental branches share the operational map interface; tools/layers/workflows vary by branch capabilities, entitlements and user/context permissions.",
-      "capabilityBaselinePath": "docs/plans/F08-parking-capability-baseline.md"
+      "capabilityBaselinePath": "docs/plans/F08-parking-capability-baseline.md",
+      "decisionPath": "docs/plans/F08-D03-decisions.md"
     },
     {
       "id": "F09",
@@ -487,5 +491,7 @@
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "F07 PR19 is owner-merged at2b73318. Follow F08-next-phase-plan.md: F07 controlled release/live acceptance, then owner D03 decisions and bounded F08 entitlements."
+  "nextAction": "F07 merged source2b73318 is deployed/live accepted. Obtain remaining D03 decisions, then implement F08 entitlements; retain Alpha admin and disabled Beta test state.",
+  "currentDeployedSourceCommit": "2b73318a57c97baecb52711beca401ed3a162339",
+  "currentReleaseEvidencePath": "docs/plans/evidence/F07-release-closure.md"
 }
