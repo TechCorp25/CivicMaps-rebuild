@@ -214,7 +214,7 @@
       "publication": "verified",
       "empirical": "recorded",
       "blockers": [],
-      "nextAction": "Finish closure documentation review/publication, inspect existing supplemental SSM receipt through normal approval and reconcile local worktrees/receipts/artifact.json after AWS reauthentication. Do not redeploy/reimplement F08 or replay migration013. F09 plan prepared; resolve its concrete policy choices before dependent implementation.",
+      "nextAction": "PR22 is published as draft with verified remote content commit2121b33 and Codex review complete. Inspect current-head CI and existing supplemental SSM receipt through normal approval after AWS reauthentication; reconcile missing original receipts/manifest if recovered. Do not redeploy/reimplement F08 or replay migration013. F09 plan prepared; concrete policy choices remain unapproved.",
       "preparationPath": "docs/plans/F08-next-phase-plan.md",
       "firstBranchPackage": "Parking Services Branch",
       "branchSequenceDecision": "Owner confirmed parking first, based on CivicMAPS-preview; next branch must share little field-operational code but substantial dispatch, management and administration. Second branch not yet selected.",
@@ -241,13 +241,16 @@
       "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39091194915",
       "releaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
       "releaseBranch": "codex/civicmaps-f08-release-acceptance",
-      "releaseEvidencePublication": "pending",
+      "releaseEvidencePublication": "verified",
       "releaseDocumentationReview": "Codex agent review completed; stale root pointers corrected; focused re-review found no remaining findings",
       "releaseSupplementalCheck": "submitted_receipt_not_inspected",
       "releaseLocalReconciliation": "current_git_inspected_release_worktree_recreated_original_receipts_missing",
       "releaseArtifactManifestUpdate": "reconstructed_from_handoff_original_manifest_unavailable",
       "releaseEvidenceProvenance": "Owner release handoff for live acceptance/recovery; deployment also recorded in Empirical; GitHub merge/CI independently verified. Original scratch receipts are unavailable; a normal approved AWS identity read reports expired session and standard remote login is pending.",
-      "releaseAWSAuthentication": "expired_at_resume_standard_remote_login_pending"
+      "releaseAWSAuthentication": "expired_at_resume_standard_remote_login_pending",
+      "releaseEvidencePR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/22",
+      "releaseEvidenceContentCommit": "2121b3372d4863addc1f0ec9b444bbb5e95bfa3c",
+      "releaseEvidenceCI": "pending_current_head_check"
     },
     {
       "id": "F09",
@@ -264,8 +267,9 @@
       ],
       "nextAction": "Read F09 plan and confirm dependency evidence; finish outstanding F08 closure reconciliation/publication. Inventory current entry points and resolve concrete F09 policy choices before dependent implementation. Second-branch selection is non-blocking.",
       "preparationPath": "docs/plans/F09-next-phase-plan.md",
-      "preparationStatus": "prepared_for_review",
-      "policyDecisionStatus": "proposed_not_approved"
+      "preparationStatus": "reviewed_and_published",
+      "policyDecisionStatus": "proposed_not_approved",
+      "preparationPR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/22"
     },
     {
       "id": "F10",
@@ -521,7 +525,7 @@
   "latestAssessedCommit": "8da79eec7ae56cd3d9a21930842b217967df049e",
   "latestAssessmentPath": "docs/plans/civicmaps-status-assessment-2026-10-17.md",
   "latestAssessmentMemoryId": "6ad2f4cebeb1d964705ec77e",
-  "nextAction": "Finish closure documentation review/publication, inspect existing supplemental SSM receipt through normal approval and reconcile local worktrees/receipts/artifact.json after AWS reauthentication. Do not redeploy/reimplement F08 or replay migration013. F09 plan prepared; resolve its concrete policy choices before dependent implementation.",
+  "nextAction": "PR22 is published as draft with verified remote content commit2121b33 and Codex review complete. Inspect current-head CI and existing supplemental SSM receipt through normal approval after AWS reauthentication; reconcile missing original receipts/manifest if recovered. Do not redeploy/reimplement F08 or replay migration013. F09 plan prepared; concrete policy choices remain unapproved.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08"

@@ -94,6 +94,10 @@ Codex documentation review identified stale root ledger pointers still naming F0
 
 Local documentation checks passed for seven changed documents, 86 relative links/anchors, all 30 ledger cards/statuses/evidence paths, deployed-source/manifest consistency and Git whitespace. Node/npm match the repository pins (24.19.0/11.9.0). The installed snapshot lacks the Prettier executable, so an attempted direct formatter invocation could not run; no formatter pass is claimed. Application code is unchanged; full hosted CI will be checked on the closure branch.
 
+## Publication receipt
+
+Draft [PR #22](https://github.com/TechCorp25/CivicMaps-rebuild/pull/22) targets current main. Content commit `2121b3372d4863addc1f0ec9b444bbb5e95bfa3c` was pushed and its remote SHA explicitly verified. A follow-up documentation commit records this publication receipt; inspect the PR current head and its CI rather than treating the content-commit pin as an unchanging branch head. Empirical `6ad42e3dbeb1d96470603a5b` records live acceptance/recovery success and the outstanding supplemental receipt; final publication/CI state is updated there and in the PR after inspection.
+
 ## Remaining TODOs
 
 - [x] Inspect current main/Git state and recreate the absent release worktree without unrelated changes.
@@ -101,6 +105,7 @@ Local documentation checks passed for seven changed documents, 86 relative links
 - [ ] Retrieve and inspect the existing supplemental final-source-check receipt through normal approval.
 - [x] Reconstruct scratch `artifact.json` with successful acceptance/recovery from the handoff, accurate supplemental pending state and explicit missing-original provenance.
 - [x] Record Codex documentation review, correct the validated stale root-ledger pointer finding and complete focused re-review with no remaining findings.
-- [ ] Publish/verify the closure branch SHA and draft PR; inspect its CI and update Empirical with exact publication state.
+- [x] Publish/verify the closure content commit and open draft PR #22.
+- [ ] Inspect current-head CI and record final SHA/CI state in the PR and Empirical.
 - [ ] Owner review/merge of the closure PR.
 - [x] Prepare [F09 scope, dependencies, acceptance criteria and TODOs](../F09-next-phase-plan.md); implementation and new policy approval remain separate.
