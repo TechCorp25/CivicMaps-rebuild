@@ -6,7 +6,7 @@ Updated 19 October 2026 (Australia/Melbourne).
 
 - Governance branch: `codex/civicmaps-governance-workstream`; last verified published package head `8ccb7930804ffafd38e31ac22049f58b0ce437d1` (G02 authority evidence and Checkpoint B reassessment).
 - Integrated main: `92b3eea8b8ecfd0505afb6d62d60a001903db161`; fetched `origin/main` currently matches.
-- PR #24: open, draft, no submitted reviews; exact-head CI passed.
+- PR #24: open and marked ready for review (not draft), no submitted reviews; exact-head run `39129233181` passed. It has not been merged.
 - PR #25: open, draft, no submitted reviews; matrix corrections at `993ee2d` passed run `39131572172`; F-011 head `f1ae3a6` passed `39131773353`; checkpoint head `bb3e35c` passed `39132040914`; F-002 code head `22fb3c8` passed `39133034582` and note head `bcf46f5` passed `39133456369`; F-009 candidate `5bcea20` failed only its 503 body expectation in `39133998653`, corrected head `bde643f` passed `39134202266`; F-009 closeout docs at `a8e401a` passed exact-head run `39134550601`, including API/database, ingress, platform, CommandMAPS and first-admin activation browser steps. G02 documentation head `8ccb7930804ffafd38e31ac22049f58b0ce437d1` was pushed, PR body refreshed, and exact-head run `39159642180` passed.
 - Worktree was absent from the resumed environment and has been attached at `/workspace/civicmaps-governance-workstream`. No other worktree was changed.
 
