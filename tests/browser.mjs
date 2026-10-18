@@ -232,6 +232,7 @@ try {
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
+  await page.getByLabel('Search loaded requests').fill('');
   await seedQueueOverflow();
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('active');
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
