@@ -74,6 +74,11 @@ async function binding({
 }
 test('single context restores resolved scope; selectors and platform sessions cannot forge it', async () => {
   const session = await login('dispatch@alpha.example');
+  assert.equal(
+    (await pool.query('SELECT municipality_id FROM sessions WHERE user_id=$1', [dispatcher]))
+      .rows[0].municipality_id,
+    '20000000-0000-4000-8000-000000000001',
+  );
   const restored = await call('/auth/session', session);
   assert.equal(restored.status, 200);
   assert.equal(restored.data.actor.context_id, alpha);
@@ -92,6 +97,30 @@ test('single context restores resolved scope; selectors and platform sessions ca
   });
   const cookie = operator.response.headers.get('set-cookie').split(';')[0];
   assert.equal((await call('/auth/contexts', { cookie })).status, 401);
+});
+test('wrong-council login is generic and replacing a cookie does not revoke another principal session', async () => {
+  const alphaSession = await login('dispatch@alpha.example');
+  const betaLogin = await call('/auth/login', alphaSession, {
+    data: {
+      email: 'dispatch@beta.example',
+      password: process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!',
+    },
+  });
+  assert.equal(betaLogin.status, 200);
+  const alphaSessionAfterReplacement = await call('/auth/session', alphaSession);
+  assert.equal(alphaSessionAfterReplacement.status, 200);
+  assert.equal(alphaSessionAfterReplacement.data.actor.id, dispatcher);
+
+  const wrongCouncil = await call('/auth/login', alphaSession, {
+    data: {
+      email: 'shared@alpha.example',
+      password: process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!',
+    },
+    context: shared,
+  });
+  assert.equal(wrongCouncil.status, 401);
+  assert.equal(wrongCouncil.data.error, 'Email or password is incorrect');
+  assert.equal((await call('/auth/session', alphaSession)).status, 200);
 });
 test('shared Alpha principal is restricted to Alpha after owner decision superseded cross-council fixture grant', async () => {
   const session = await login('shared@alpha.example');

@@ -83,6 +83,12 @@ function actorView(user) {
 }
 async function authenticated(client, req) {
   await client.query('SELECT civicmaps_lock_auth_session($1,false,false)', [digest(token(req))]);
+  const session = await client.query(
+    'SELECT user_id FROM sessions WHERE token_hash=$1 AND expires_at>now()',
+    [digest(token(req))],
+  );
+  if (!session.rowCount) return null;
+  await client.query("SELECT set_config('civicmaps.actor',$1,true)", [session.rows[0].user_id]);
   const auth = await client.query(
     `SELECT u.*, s.csrf_token,s.route_id,s.route_version,s.municipality_id AS session_municipality_id,
       o.municipality_id AS owner_municipality_id FROM sessions s JOIN users u ON u.id=s.user_id
@@ -264,6 +270,7 @@ export function createApp({
         401,
         'Email or password is incorrect',
       );
+      await client.query("SELECT set_config('civicmaps.actor',$1,true)", [current.id]);
       const owner = await client.query(
         'SELECT municipality_id FROM council_principal_owners WHERE user_id=$1',
         [current.id],

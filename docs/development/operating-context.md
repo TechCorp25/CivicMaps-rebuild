@@ -41,7 +41,7 @@ A structural update that commits first is observed by a waiting resolver. Revoca
 
 ## Migration and synthetic fixtures
 
-Apply migration `004-operating-context` through the explicit migration runner, then seed the dedicated local database. Six synthetic users include `shared@alpha.example`, which has Alpha and shared-service bindings and therefore requires explicit selection. The two new synthetic registry councils are labelled Synthetic Alpha/Beta; the shared association permits the Alpha organisation to operate in an explicitly separate Beta-jurisdiction data plane. Real council names/slugs are never used to infer authority.
+Apply migrations through the explicit runner, then seed the dedicated local database. Synthetic principals have an explicit immutable council owner. `shared@alpha.example` remains one Alpha principal; the old Beta grant is retired only when the migration runs with the explicit `CIVICMAPS_MIGRATION_PROFILE=synthetic-fixture` selector and its email, name, Beta municipality, binding and grant fields match the canonical synthetic fixtures. A populated database without that profile, or with conflicting fixture data, aborts without committing migration changes. Real council names/slugs are never used to infer authority.
 
 Only known fixture user IDs with matching stored fixture home dimensions receive seeded grants. Unknown historical users remain unmapped and receive 403 until explicitly granted. Repeated seeding preserves passwords, bindings and revoked grants. Repeated migration/seed operations do not append false audit entries: recording uses AFTER triggers so skipped conflicts are not audited.
 

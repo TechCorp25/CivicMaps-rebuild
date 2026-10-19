@@ -14,6 +14,7 @@ export async function createTestEnvironment({
   resourceStatusOperation,
 } = {}) {
   const previous = process.env.CIVICMAPS_DATABASE_URL;
+  const previousMigrationProfile = process.env.CIVICMAPS_MIGRATION_PROFILE;
   const base = previous ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres';
   const name = `civicmaps_test_${randomUUID().replaceAll('-', '')}`;
   const connection = new URL(base);
@@ -42,6 +43,8 @@ export async function createTestEnvironment({
         await admin.end();
         if (previous === undefined) delete process.env.CIVICMAPS_DATABASE_URL;
         else process.env.CIVICMAPS_DATABASE_URL = previous;
+        if (previousMigrationProfile === undefined) delete process.env.CIVICMAPS_MIGRATION_PROFILE;
+        else process.env.CIVICMAPS_MIGRATION_PROFILE = previousMigrationProfile;
       }
     }
   }
@@ -49,6 +52,7 @@ export async function createTestEnvironment({
     await admin.query(`CREATE DATABASE ${name}`);
     created = true;
     process.env.CIVICMAPS_DATABASE_URL = connection.href;
+    process.env.CIVICMAPS_MIGRATION_PROFILE = 'synthetic-fixture';
     // Upgrade tests initialise only this newly created disposable database.
     if (beforeMigrate) await beforeMigrate(connection.href);
     for (const script of ['migrate', 'seed', ...(platform ? ['seed-platform'] : [])]) {

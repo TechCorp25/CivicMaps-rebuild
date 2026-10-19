@@ -32,7 +32,7 @@ before(async () => {
           await client.query('INSERT INTO civicmaps_migrations(id) VALUES ($1)', [id]);
         }
         await client.query(
-          `INSERT INTO users VALUES ($1,'dispatch@alpha.example','Synthetic legacy user',$2,'DISPATCHER','tenant-alpha','jurisdiction-alpha','plane-alpha','organisation-alpha','parking','day-team',true)`,
+          `INSERT INTO users VALUES ($1,'dispatch@alpha.example','Alex · Dispatch',$2,'DISPATCHER','tenant-alpha','jurisdiction-alpha','plane-alpha','organisation-alpha','parking','day-team',true)`,
           [dispatcher, hash],
         );
         await client.query(

@@ -3,7 +3,8 @@
 CREATE TABLE council_principal_owners (
   user_id uuid PRIMARY KEY REFERENCES users(id),
   municipality_id uuid NOT NULL REFERENCES platform_municipalities(id),
-  assigned_at timestamptz NOT NULL DEFAULT clock_timestamp()
+  assigned_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+  UNIQUE (user_id, municipality_id)
 );
 ALTER TABLE sessions ADD COLUMN municipality_id uuid REFERENCES platform_municipalities(id);
 ALTER TABLE sessions ADD CONSTRAINT session_owner_pair UNIQUE (user_id, municipality_id);
@@ -25,7 +26,9 @@ CREATE FUNCTION validate_context_grant_owner() RETURNS trigger LANGUAGE plpgsql
 SET search_path=pg_catalog,public AS $$
 DECLARE owner_municipality uuid; binding_municipality uuid;
 BEGIN
-  IF TG_OP='UPDATE' AND OLD.revoked_at IS NULL AND NEW.revoked_at IS NOT NULL THEN
+  IF TG_OP='UPDATE' AND OLD.revoked_at IS NULL AND NEW.revoked_at IS NOT NULL
+    AND ROW(NEW.user_id,NEW.binding_id,NEW.effective_from,NEW.effective_to)
+      IS NOT DISTINCT FROM ROW(OLD.user_id,OLD.binding_id,OLD.effective_from,OLD.effective_to) THEN
     -- Revoking a known legacy mismatch preserves its pair/history while ending authority.
     RETURN NEW;
   END IF;

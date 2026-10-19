@@ -34,7 +34,7 @@ The ChromeOS USB filesystem does not preserve the permissions required by Postgr
 
 Installation uses `npm ci` and the committed root lockfile. It disables bin links and package install scripts. The pinned Rollup backend uses WebAssembly. The Vite wrapper copies the pinned esbuild binary into a private temporary Linux directory and gives it executable permissions. Source, lockfile, assets and build output stay on the USB drive. This wrapper currently targets Linux x64.
 
-`CIVICMAPS_DATABASE_URL` overrides the isolated database connection. Migration and seed commands are explicit writes to that destination; use only the dedicated local development database. `CIVICMAPS_API_PORT` changes the API port (also update the Vite proxy). `CIVICMAPS_ORIGINS` lists allowed browser mutation origins; the default allows localhost/127.0.0.1 on ports 5173 and 5174.
+`CIVICMAPS_DATABASE_URL` overrides the isolated database connection. Migration and seed commands are explicit writes to that destination; use only the dedicated local development database. A fresh empty database can run the migration step without a profile. A populated database upgrading the synthetic fixture must explicitly set `CIVICMAPS_MIGRATION_PROFILE=synthetic-fixture` for `npm run db:migrate`; migrations abort on populated databases without this selector, and the selector does not authorize or map customer data. `CIVICMAPS_API_PORT` changes the API port (also update the Vite proxy). `CIVICMAPS_ORIGINS` lists allowed browser mutation origins; the default allows localhost/127.0.0.1 on ports 5173 and 5174.
 
 ## Implemented unit
 
@@ -87,7 +87,7 @@ The shared test environment in `tests/helpers/environment.mjs` creates one uniqu
 
 ## Municipality context binding (F03)
 
-Migration 004 and the synthetic seed establish explicit municipality bindings and user grants. Existing Alpha/Beta accounts each retain one default context. `shared@alpha.example` is an API shared-service fixture with two contexts and requires `X-CivicMAPS-Context`; the web client does not yet provide a context chooser. Read the [context contract](operating-context.md) before testing expiry, revocation, upgrade or retry behaviour.
+Migration 004 and the synthetic seed establish explicit municipality bindings and user grants. The principal-ownership slice binds each synthetic principal to one council; `shared@alpha.example` remains one Alpha principal, and its old synthetic Beta grant is retired only by the explicitly selected, canonical-fixture migration path. Read the [context contract](operating-context.md) before testing expiry, revocation, upgrade or retry behaviour.
 
 ## Durable synthetic provisioning (F04)
 
