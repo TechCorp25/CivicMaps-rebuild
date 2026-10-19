@@ -266,11 +266,11 @@
       "id": "F09",
       "status": "planned",
       "branch": null,
-      "commit": "1d07412d93ffd3ecd5092d68cc751ba2458a216a",
+      "commit": "a47b7adbafba25f42d65596d604c42c02cf2163d",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/27",
       "evidencePath": null,
       "acceptancePassed": false,
-      "publication": "verified_remote_SHA_draft_PR27_CI_pending",
+      "publication": "review_findings_fixed_remote_SHA_verified_draft_PR27_CI_pending",
       "empirical": "not_started",
       "blockers": [
         "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
@@ -568,7 +568,7 @@
         "F11D",
         "existing request API and permissions"
       ],
-      "nextAction": "Verify hosted CI on PR27, request established Codex review and complete the advanced-model checkpoint; owner merge remains separate."
+      "nextAction": "Verify hosted CI and fresh Codex review on the review-fix head; complete advanced-model checkpoint. Owner merge remains separate."
     }
   ],
   "integrationBase": "origin/main",
