@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": null,
+  "activeFeature": "F11E",
   "nextFeature": "F09",
   "allowedStatuses": [
     "planned",
@@ -266,11 +266,11 @@
       "id": "F09",
       "status": "planned",
       "branch": null,
-      "commit": null,
-      "pr": null,
+      "commit": "a47b7adbafba25f42d65596d604c42c02cf2163d",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/27",
       "evidencePath": null,
       "acceptancePassed": false,
-      "publication": "not_started",
+      "publication": "review_findings_fixed_remote_SHA_verified_draft_PR27_CI_pending",
       "empirical": "not_started",
       "blockers": [
         "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
@@ -532,13 +532,13 @@
     {
       "id": "F11D",
       "title": "Dispatch workspace and workflow fidelity \u2014 bounded F11 precursor",
-      "status": "review_ready",
+      "status": "merged",
       "branch": "codex/civicmaps-dispatch-workspace",
       "commit": "10bdab731b269f911cb0f135f2f30286db3c4cb1",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/26",
       "evidencePath": "docs/plans/evidence/F11D.md",
       "acceptancePassed": true,
-      "publication": "remote_SHA_verified_draft_PR26_CI_pending",
+      "publication": "verified_merged",
       "empirical": "6ad4c8e8beb1d9647060a602",
       "blockers": [],
       "dependencies": [
@@ -546,7 +546,29 @@
         "F07",
         "F08"
       ],
-      "nextAction": "Review draft PR26 and hosted CI. Owner merge is separate; governance consumes reviewed main after merge. F11 and F09 remain incomplete."
+      "nextAction": "Owner merged PR #26 into main at 1bbfa7b; F11D evidence retained. F11E is the current bounded dispatch detail/action recovery feature.",
+      "mergeCommit": "1bbfa7bb68190278d6adb64bba39527b7a3e7e36",
+      "publishedHead": "0c6ae265c43a44ecb3b2f5a104fb58d0430b5ce4"
+    },
+    {
+      "id": "F11E",
+      "title": "Dispatch detail and action recovery",
+      "status": "in_progress",
+      "branch": "codex/civicmaps-f11e-dispatch-detail",
+      "baseCommit": "1bbfa7bb68190278d6adb64bba39527b7a3e7e36",
+      "commit": null,
+      "pr": null,
+      "planPath": "docs/plans/F11E-dispatch-detail-plan.md",
+      "evidencePath": "docs/plans/evidence/F11E.md",
+      "acceptancePassed": false,
+      "publication": "not_started",
+      "empirical": "not_started",
+      "blockers": [],
+      "dependencies": [
+        "F11D",
+        "existing request API and permissions"
+      ],
+      "nextAction": "Verify hosted CI and fresh Codex review on the review-fix head; complete advanced-model checkpoint. Owner merge remains separate."
     }
   ],
   "integrationBase": "origin/main",

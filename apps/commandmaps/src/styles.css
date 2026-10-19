@@ -283,6 +283,30 @@ textarea {
 }
 .detail {
   padding: 24px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.detail-confirmation {
+  margin: 12px 0 20px;
+  color: var(--civic-neutral-600);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.detail > .error,
+.detail > .notice,
+.audit .error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.detail > .error p,
+.audit .error p {
+  margin: 0;
+}
+.detail > .error button,
+.audit .error button {
+  max-width: 100%;
 }
 dl {
   margin: 24px 0;
