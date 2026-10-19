@@ -142,7 +142,11 @@ export function RequestQueue({
             </thead>
             <tbody>
               {visible.slice(currentPage * 25, (currentPage + 1) * 25).map((request) => (
-                <tr key={request.id} className={selected === request.id ? 'selected' : ''}>
+                <tr
+                  key={request.id}
+                  data-request-id={request.id}
+                  className={selected === request.id ? 'selected' : ''}
+                >
                   <td>
                     <button
                       className="request-link"
