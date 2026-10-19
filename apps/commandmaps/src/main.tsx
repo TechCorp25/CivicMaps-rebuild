@@ -116,9 +116,10 @@ function App() {
   const [selected, setSelected] = useState<string | null>(null);
   const selectedRef = useRef<string | null>(null);
   const [auditState, setAuditState] = useState<AuditState | null>(null);
-  const [actionRecovery, setActionRecovery] = useState<RecoveryAction | null>(null);
+  const [actionRecoveries, setActionRecoveries] = useState<Record<string, RecoveryAction>>({});
   const [assignmentDraft, setAssignmentDraft] = useState('');
   const [closureReasonDraft, setClosureReasonDraft] = useState('');
+  const assignmentDraftDirty = useRef(false);
   const [creating, setCreating] = useState(false);
   const [filter, setFilter] = useState('active');
   const retry = useRef<{ payload: string; key: string } | null>(null);
@@ -129,10 +130,19 @@ function App() {
   const current = requests.find((request) => request.id === selected);
   const currentId = current?.id;
   const currentVersion = current?.version;
+  const actionRecovery = currentId ? actionRecoveries[currentId] : undefined;
   const scopeKey = actor
     ? `${actor.id}:${actor.context_id ?? ''}:${actor.tenant_id}:${actor.jurisdiction_id}:${actor.branch_id}:${entitlement?.version ?? ''}`
     : '';
   const loadGeneration = useRef(0);
+  function updateActionRecovery(requestId: string, recovery: RecoveryAction | null) {
+    setActionRecoveries((existing) => {
+      const next = { ...existing };
+      if (recovery) next[requestId] = recovery;
+      else delete next[requestId];
+      return next;
+    });
+  }
   const load = useCallback(async () => {
     const generation = ++loadGeneration.current;
     if (!hasQueueSnapshot.current) setQueueState('loading');
@@ -150,7 +160,7 @@ function App() {
         selectedRef.current = null;
         setSelected(null);
         setAuditState(null);
-        setActionRecovery(null);
+        setActionRecoveries({});
         setQueueCheckedAt(null);
         setActor(session.actor);
         retry.current = null;
@@ -193,7 +203,7 @@ function App() {
           selectedRef.current = null;
           setSelected(null);
           setAuditState(null);
-          setActionRecovery(null);
+          setActionRecoveries({});
           setQueueCheckedAt(null);
           setQueueState('unavailable');
         } else {
@@ -271,7 +281,7 @@ function App() {
           selectedRef.current = null;
           setSelected(null);
           setAuditState(null);
-          setActionRecovery(null);
+          setActionRecoveries({});
           setQueueCheckedAt(null);
           setQueueState('unavailable');
           return;
@@ -288,9 +298,14 @@ function App() {
       active = false;
     };
   }, [actor, currentId, currentVersion, scopeKey]);
+  useEffect(() => {
+    if (current && !assignmentDraftDirty.current)
+      setAssignmentDraft(current.assigned_officer_id ?? '');
+  }, [current, currentId, currentVersion, current?.assigned_officer_id]);
   function selectRequest(id: string) {
     selectedRef.current = id;
     setSelected(id);
+    assignmentDraftDirty.current = false;
     setAssignmentDraft(requests.find((request) => request.id === id)?.assigned_officer_id ?? '');
     setClosureReasonDraft('');
   }
@@ -318,7 +333,7 @@ function App() {
         selectedRef.current = null;
         setSelected(null);
         setAuditState(null);
-        setActionRecovery(null);
+        setActionRecoveries({});
         setQueueCheckedAt(null);
         setQueueState('unavailable');
       }
@@ -328,15 +343,22 @@ function App() {
       setBusy(false);
     }
   }
-  async function mutate(path: string, input: object, expectedScope = scopeGeneration.current) {
+  async function mutate(
+    path: string,
+    input: object,
+    expectedScope = scopeGeneration.current,
+    idempotencyKey?: string,
+  ) {
     const payload = JSON.stringify([path, input]);
-    if (retry.current?.payload !== payload) retry.current = { payload, key: crypto.randomUUID() };
+    if (!idempotencyKey && retry.current?.payload !== payload)
+      retry.current = { payload, key: crypto.randomUUID() };
+    const key = idempotencyKey ?? retry.current!.key;
     const result = await api<Request>(path, {
       method: 'POST',
-      headers: { 'x-csrf-token': csrf, 'Idempotency-Key': retry.current.key },
+      headers: { 'x-csrf-token': csrf, 'Idempotency-Key': key },
       body: JSON.stringify(input),
     });
-    retry.current = null;
+    if (retry.current?.key === key) retry.current = null;
     if (expectedScope !== scopeGeneration.current) return result;
     setRequests((existing) => {
       const index = existing.findIndex((request) => request.id === result.id);
@@ -382,10 +404,13 @@ function App() {
       try {
         const result = await mutate(`/requests/${requestId}/actions`, input, generation);
         if (generation !== scopeGeneration.current) return;
-        setActionRecovery(null);
+        updateActionRecovery(requestId, null);
         if (selectedRef.current === requestId) {
           if (action === 'close') setClosureReasonDraft('');
-          if (action === 'assign') setAssignmentDraft(result.assigned_officer_id ?? '');
+          if (action === 'assign') {
+            assignmentDraftDirty.current = false;
+            setAssignmentDraft(result.assigned_officer_id ?? '');
+          }
         }
       } catch (err) {
         if (generation !== scopeGeneration.current) throw err;
@@ -405,7 +430,7 @@ function App() {
               : err instanceof Error
                 ? err.message
                 : 'The action was rejected. Review the request and try again.';
-        setActionRecovery({ requestId, action, version, input, key, kind, message });
+        updateActionRecovery(requestId, { requestId, action, version, input, key, kind, message });
         throw err;
       }
     });
@@ -419,7 +444,7 @@ function App() {
       if (!refreshed || generation !== scopeGeneration.current) return;
       const latest = refreshed.find((request) => request.id === recovery.requestId);
       if (!latest) {
-        setActionRecovery({
+        updateActionRecovery(recovery.requestId, {
           ...recovery,
           kind: 'reconciled',
           message:
@@ -430,14 +455,15 @@ function App() {
       }
       const history = await api<Audit[]>(`/requests/${recovery.requestId}/audit`);
       if (generation !== scopeGeneration.current) return;
-      setAuditState({
-        requestId: recovery.requestId,
-        scopeKey,
-        status: 'ready',
-        events: history,
-      });
+      if (selectedRef.current === recovery.requestId)
+        setAuditState({
+          requestId: recovery.requestId,
+          scopeKey,
+          status: 'ready',
+          events: history,
+        });
       const unchanged = latest.version === recovery.version;
-      setActionRecovery({
+      updateActionRecovery(recovery.requestId, {
         ...recovery,
         kind: 'reconciled',
         latestVersion: latest.version,
@@ -455,9 +481,14 @@ function App() {
     const generation = scopeGeneration.current;
     void perform(async () => {
       try {
-        await mutate(`/requests/${recovery.requestId}/actions`, recovery.input, generation);
+        await mutate(
+          `/requests/${recovery.requestId}/actions`,
+          recovery.input,
+          generation,
+          recovery.key ?? undefined,
+        );
         if (generation !== scopeGeneration.current) return;
-        setActionRecovery(null);
+        updateActionRecovery(recovery.requestId, null);
       } catch (err) {
         if (generation !== scopeGeneration.current) throw err;
         const kind =
@@ -466,7 +497,7 @@ function App() {
             : err instanceof ApiError && err.status < 500
               ? 'rejected'
               : 'uncertain';
-        setActionRecovery({
+        updateActionRecovery(recovery.requestId, {
           ...recovery,
           kind,
           retrySameAction: false,
@@ -634,7 +665,7 @@ function App() {
                   setSelected(null);
                   selectedRef.current = null;
                   setAuditState(null);
-                  setActionRecovery(null);
+                  setActionRecoveries({});
                   setQueueCheckedAt(null);
                   setQueueState('unavailable');
                   retry.current = null;
@@ -854,7 +885,10 @@ function App() {
                             name="officerId"
                             required
                             value={assignmentDraft}
-                            onChange={(event) => setAssignmentDraft(event.target.value)}
+                            onChange={(event) => {
+                              assignmentDraftDirty.current = true;
+                              setAssignmentDraft(event.target.value);
+                            }}
                           >
                             <option value="" disabled>
                               Select officer
@@ -997,7 +1031,7 @@ function App() {
                                   setOfficers([]);
                                   setSelected(null);
                                   setAuditState(null);
-                                  setActionRecovery(null);
+                                  setActionRecoveries({});
                                   setQueueCheckedAt(null);
                                   setQueueState('unavailable');
                                   return;

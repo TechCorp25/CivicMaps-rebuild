@@ -200,6 +200,40 @@ try {
   await page.unroute('**/api/requests/*/audit');
   await login(page, 'dispatch@alpha.example');
 
+  const secondOfficerId = '00000000-0000-4000-8000-000000000007';
+  await database.query(
+    `INSERT INTO users(id,email,name,password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id)
+     SELECT $1,'synthetic-second-officer@alpha.example','Synthetic second officer',password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id
+     FROM users WHERE id='00000000-0000-4000-8000-000000000002'`,
+    [secondOfficerId],
+  );
+  await database.query(
+    "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
+    [secondOfficerId],
+  );
+  const staleAssignment = await createSyntheticRequest(page, `F11E stale assignment ${Date.now()}`);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await page.locator(`[data-request-id="${staleAssignment.id}"] .request-link`).click();
+  const staleSession = await (await page.request.get(`${origin}/api/auth/session`)).json();
+  const concurrentAssignment = async (version, officerId) =>
+    page.request.post(`${origin}/api/requests/${staleAssignment.id}/actions`, {
+      headers: {
+        'x-csrf-token': staleSession.csrfToken,
+        'Idempotency-Key': crypto.randomUUID(),
+      },
+      data: { action: 'assign', version, officerId },
+    });
+  expect((await concurrentAssignment(1, secondOfficerId)).status()).toBe(200);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.locator('.detail')).toContainText('Server-confirmed version 2');
+  const assignmentControl = page.getByRole('combobox', { name: /^Assign officer/ });
+  await expect(assignmentControl).toHaveValue(secondOfficerId);
+  await assignmentControl.selectOption('00000000-0000-4000-8000-000000000002');
+  expect((await concurrentAssignment(2, secondOfficerId)).status()).toBe(200);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.locator('.detail')).toContainText('Server-confirmed version 3');
+  await expect(assignmentControl).toHaveValue('00000000-0000-4000-8000-000000000002');
+
   const uncertain = await createSyntheticRequest(page, `F11E uncertain ${Date.now()}`);
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   const uncertainRead = page.waitForRequest((request) =>
@@ -262,10 +296,93 @@ try {
   await expect(page.locator('.detail')).toContainText('Server-confirmed version 3');
   await independent.close();
 
+  const recoverA = await createSyntheticRequest(page, `F11E recover A ${Date.now()}`);
+  const recoverB = await createSyntheticRequest(page, `F11E recover B ${Date.now()}`);
+  const recoverySession = await (await page.request.get(`${origin}/api/auth/session`)).json();
+  const seedRecoveryB = await page.request.post(`${origin}/api/requests/${recoverB.id}/actions`, {
+    headers: {
+      'x-csrf-token': recoverySession.csrfToken,
+      'Idempotency-Key': crypto.randomUUID(),
+    },
+    data: { action: 'assign', version: 1, officerId: '00000000-0000-4000-8000-000000000002' },
+  });
+  expect(seedRecoveryB.status()).toBe(200);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await page.locator(`[data-request-id="${recoverA.id}"] .request-link`).click();
+  await page
+    .getByRole('combobox', { name: /^Assign officer/ })
+    .selectOption('00000000-0000-4000-8000-000000000002');
+  const originalRetryKeys = [];
+  const uncertainBeforeCommit = async (route) => {
+    originalRetryKeys.push(route.request().headers()['idempotency-key']);
+    await route.abort('failed');
+  };
+  await page.route(`**/api/requests/${recoverA.id}/actions`, uncertainBeforeCommit);
+  await page.getByRole('button', { name: 'Assign request' }).click();
+  await expect(page.locator('.detail')).toContainText(
+    'did not confirm whether this action completed',
+  );
+  await page.unroute(`**/api/requests/${recoverA.id}/actions`, uncertainBeforeCommit);
+
+  let reconciliationHistoryFinished = false;
+  const delayRecoveryHistory = async (route) => {
+    if (route.request().url().includes(`${recoverA.id}/audit`))
+      await new Promise((resolve) => setTimeout(resolve, 450));
+    await route.continue();
+    if (route.request().url().includes(`${recoverA.id}/audit`))
+      reconciliationHistoryFinished = true;
+  };
+  await page.route('**/api/requests/*/audit', delayRecoveryHistory);
+  const reconciliationRead = page.waitForRequest((request) =>
+    request.url().includes(`${recoverA.id}/audit`),
+  );
+  await page.getByRole('button', { name: 'Check server state and history' }).click();
+  await reconciliationRead;
+  await page.locator(`[data-request-id="${recoverB.id}"] .request-link`).click();
+  await expect(page.locator('.detail')).toContainText(`F11E recover B`);
+  await expect(page.locator('.audit')).toContainText('assign');
+  await expect.poll(() => reconciliationHistoryFinished).toBe(true);
+  await expect(page.locator('.audit')).toContainText('assign');
+  await page.unroute('**/api/requests/*/audit', delayRecoveryHistory);
+
+  const successfulB = page.waitForResponse(
+    (response) =>
+      response.request().method() === 'POST' &&
+      response.url().includes(`/api/requests/${recoverB.id}/actions`),
+  );
+  await page.getByRole('button', { name: 'Assign request' }).click();
+  expect((await successfulB).status()).toBe(200);
+  await page.locator(`[data-request-id="${recoverA.id}"] .request-link`).click();
+  await expect(page.getByRole('button', { name: 'Retry the same action' })).toBeVisible();
+  let replayedRetryKey;
+  const deliberateRetry = page.waitForRequest(
+    (request) =>
+      request.method() === 'POST' && request.url().includes(`/api/requests/${recoverA.id}/actions`),
+  );
+  const retryResponse = page.waitForResponse(
+    (response) =>
+      response.request().method() === 'POST' &&
+      response.url().includes(`/api/requests/${recoverA.id}/actions`),
+  );
+  await page.getByRole('button', { name: 'Retry the same action' }).click();
+  replayedRetryKey = (await deliberateRetry).headers()['idempotency-key'];
+  expect((await retryResponse).status()).toBe(200);
+  expect(originalRetryKeys).toHaveLength(1);
+  expect(replayedRetryKey).toBe(originalRetryKeys[0]);
+  await expect(page.locator('.detail')).toContainText('Server-confirmed version 2');
+  expect(
+    (
+      await database.query(
+        "SELECT count(*)::int AS count FROM audit_events WHERE request_id=$1 AND action='assign'",
+        [recoverA.id],
+      )
+    ).rows[0].count,
+  ).toBe(1);
+
   await mkdir('docs/plans/evidence/F11E', { recursive: true });
   await page.screenshot({ path: 'docs/plans/evidence/F11E/desktop-detail.png', fullPage: true });
   await page.getByRole('button', { name: 'Dismiss request detail' }).click();
-  await expect(page.locator(`[data-request-id="${uncertain.id}"] .request-link`)).toBeFocused();
+  await expect(page.locator(`[data-request-id="${recoverA.id}"] .request-link`)).toBeFocused();
   await page.locator(`[data-request-id="${created.id}"] .request-link`).click();
   await page
     .getByRole('combobox', { name: /^Assign officer/ })
