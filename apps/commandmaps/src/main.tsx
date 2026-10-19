@@ -53,11 +53,30 @@ type Request = {
 type Officer = { id: string; name: string };
 type Audit = {
   id: string;
+  actor_id: string;
   action: string;
   created_at: string;
   details: { reason?: string; from?: string; to?: string };
 };
 type QueuePage = { requests: Request[]; nextCursor: string | null };
+type AuditState = {
+  requestId: string;
+  scopeKey: string;
+  status: 'loading' | 'ready' | 'unavailable';
+  events: Audit[];
+  error?: string;
+};
+type RecoveryAction = {
+  requestId: string;
+  action: string;
+  version: number;
+  input: Record<string, unknown>;
+  key: string | null;
+  kind: 'rejected' | 'conflict' | 'uncertain' | 'reconciled';
+  message: string;
+  latestVersion?: number;
+  retrySameAction?: boolean;
+};
 class ApiError extends Error {
   constructor(
     public status: number,
@@ -91,50 +110,122 @@ function App() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [requests, setRequests] = useState<Request[]>([]);
+  const [queueState, setQueueState] = useState<'loading' | 'ready' | 'unavailable'>('loading');
+  const [queueError, setQueueError] = useState('');
+  const [queueCheckedAt, setQueueCheckedAt] = useState<string | null>(null);
   const [officers, setOfficers] = useState<Officer[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
-  const [events, setEvents] = useState<Audit[]>([]);
+  const selectedRef = useRef<string | null>(null);
+  const [auditState, setAuditState] = useState<AuditState | null>(null);
+  const [actionRecoveries, setActionRecoveries] = useState<Record<string, RecoveryAction>>({});
+  const [assignmentDraft, setAssignmentDraft] = useState('');
+  const [closureReasonDraft, setClosureReasonDraft] = useState('');
+  const assignmentDraftDirty = useRef(false);
   const [creating, setCreating] = useState(false);
   const [filter, setFilter] = useState('active');
   const retry = useRef<{ payload: string; key: string } | null>(null);
+  const pending = useRef(false);
+  const hasQueueSnapshot = useRef(false);
+  const scopeGeneration = useRef(0);
+  const activeScope = useRef<string | null>(null);
   const current = requests.find((request) => request.id === selected);
+  const currentId = current?.id;
+  const currentVersion = current?.version;
+  const actionRecovery = currentId ? actionRecoveries[currentId] : undefined;
+  const scopeKey = actor
+    ? `${actor.id}:${actor.context_id ?? ''}:${actor.tenant_id}:${actor.jurisdiction_id}:${actor.branch_id}:${entitlement?.version ?? ''}`
+    : '';
   const loadGeneration = useRef(0);
-  const load = useCallback(async (preserveSelection = false) => {
+  function updateActionRecovery(requestId: string, recovery: RecoveryAction | null) {
+    setActionRecoveries((existing) => {
+      const next = { ...existing };
+      if (recovery) next[requestId] = recovery;
+      else delete next[requestId];
+      return next;
+    });
+  }
+  const load = useCallback(async () => {
     const generation = ++loadGeneration.current;
-    const session = await api<Session>('/auth/session');
-    if (generation !== loadGeneration.current) return;
-    setEntitlement(session.entitlements);
-    setCsrf(session.csrfToken);
-    const capabilities = session.entitlements.capabilities;
-    if (!capabilities.includes('requests.create')) setCreating(false);
-    const [queue, roster] = await Promise.all([
-      capabilities.includes('requests.read')
-        ? (async () => {
-            const allRequests: Request[] = [];
-            let cursor: string | null = null;
-            do {
-              const page: QueuePage = await api<QueuePage>(
-                `/requests?status=all${cursor ? `&before=${encodeURIComponent(cursor)}` : ''}`,
-              );
-              allRequests.push(...page.requests);
-              cursor = page.nextCursor;
-              if (generation !== loadGeneration.current) return [];
-            } while (cursor);
-            return allRequests;
-          })()
-        : Promise.resolve([]),
-      capabilities.includes('officers.read')
-        ? api<Officer[]>('/officers').catch((error) => {
-            if (error instanceof ApiError && error.status === 403) return [];
-            throw error;
-          })
-        : Promise.resolve([]),
-    ]);
-    if (generation !== loadGeneration.current) return;
-    setRequests(queue);
-    setOfficers(roster);
-    if (!preserveSelection)
-      setSelected((currentId) => (queue.some((r) => r.id === currentId) ? currentId : null));
+    if (!hasQueueSnapshot.current) setQueueState('loading');
+    setQueueError('');
+    try {
+      const session = await api<Session>('/auth/session');
+      if (generation !== loadGeneration.current) return null;
+      const nextScope = `${session.actor.id}:${session.actor.context_id ?? ''}:${session.actor.tenant_id}:${session.actor.jurisdiction_id}:${session.actor.branch_id}:${session.entitlements.version ?? ''}`;
+      if (activeScope.current && activeScope.current !== nextScope) {
+        ++scopeGeneration.current;
+        hasQueueSnapshot.current = false;
+        setQueueState('loading');
+        setRequests([]);
+        setOfficers([]);
+        selectedRef.current = null;
+        setSelected(null);
+        setAuditState(null);
+        setActionRecoveries({});
+        setQueueCheckedAt(null);
+        setActor(session.actor);
+        retry.current = null;
+      }
+      activeScope.current = nextScope;
+      setEntitlement(session.entitlements);
+      setCsrf(session.csrfToken);
+      const capabilities = session.entitlements.capabilities;
+      if (!capabilities.includes('requests.create')) setCreating(false);
+      const [queue, roster] = await Promise.all([
+        capabilities.includes('requests.read')
+          ? (async () => {
+              const allRequests: Request[] = [];
+              let cursor: string | null = null;
+              do {
+                const page: QueuePage = await api<QueuePage>(
+                  `/requests?status=all${cursor ? `&before=${encodeURIComponent(cursor)}` : ''}`,
+                );
+                allRequests.push(...page.requests);
+                cursor = page.nextCursor;
+                if (generation !== loadGeneration.current) return [];
+              } while (cursor);
+              return allRequests;
+            })()
+          : Promise.resolve([] as Request[]),
+        capabilities.includes('officers.read')
+          ? api<Officer[]>('/officers').catch((error) => {
+              if (error instanceof ApiError && error.status === 403) return [];
+              throw error;
+            })
+          : Promise.resolve([]),
+      ]);
+      if (generation !== loadGeneration.current) return null;
+      setRequests(queue);
+      setOfficers(roster);
+      hasQueueSnapshot.current = true;
+      setQueueState('ready');
+      setQueueCheckedAt(new Date().toISOString());
+      return queue;
+    } catch (err) {
+      if (generation === loadGeneration.current) {
+        if (err instanceof ApiError && err.status === 401) {
+          ++loadGeneration.current;
+          ++scopeGeneration.current;
+          hasQueueSnapshot.current = false;
+          activeScope.current = null;
+          setActor(null);
+          setCsrf('');
+          setEntitlement(null);
+          setRequests([]);
+          setOfficers([]);
+          selectedRef.current = null;
+          setSelected(null);
+          setAuditState(null);
+          setActionRecoveries({});
+          setQueueCheckedAt(null);
+          setQueueState('unavailable');
+        } else {
+          setQueueState('unavailable');
+          setQueueError(err instanceof Error ? err.message : 'Requests could not be refreshed.');
+        }
+      }
+      throw err;
+    }
   }, []);
 
   useEffect(() => {
@@ -142,6 +233,7 @@ function App() {
     api<Session>('/auth/session')
       .then((session) => {
         if (active) {
+          activeScope.current = `${session.actor.id}:${session.actor.context_id ?? ''}:${session.actor.tenant_id}:${session.actor.jurisdiction_id}:${session.actor.branch_id}:${session.entitlements.version ?? ''}`;
           setActor(session.actor);
           setCsrf(session.csrfToken);
           setEntitlement(session.entitlements);
@@ -158,12 +250,12 @@ function App() {
     };
   }, []);
   useEffect(() => {
-    if (actor && actor.role !== 'ADMIN') void load().catch((err) => setError(err.message));
+    if (actor && actor.role !== 'ADMIN') void load().catch(() => {});
   }, [actor, load]);
   useEffect(() => {
     if (!actor || actor.role === 'ADMIN') return;
     const refresh = () => {
-      void load(true).catch((err) => setError(err.message));
+      void load().catch(() => {});
     };
     const timer = setInterval(refresh, 10000);
     addEventListener('focus', refresh);
@@ -172,24 +264,67 @@ function App() {
       removeEventListener('focus', refresh);
     };
   }, [actor, load]);
-  const currentId = current?.id;
-  const currentVersion = current?.version;
   useEffect(() => {
     let active = true;
-    setEvents([]);
-    if (currentId)
-      api<Audit[]>(`/requests/${currentId}/audit`)
-        .then((data) => {
-          if (active) setEvents(data);
-        })
-        .catch((err) => {
-          if (active) setError(err.message);
+    const generation = scopeGeneration.current;
+    if (!actor || !currentId) {
+      setAuditState(null);
+      return () => {
+        active = false;
+      };
+    }
+    setAuditState({ requestId: currentId, scopeKey, status: 'loading', events: [] });
+    api<Audit[]>(`/requests/${currentId}/audit`)
+      .then((data) => {
+        if (active && generation === scopeGeneration.current)
+          setAuditState({ requestId: currentId, scopeKey, status: 'ready', events: data });
+      })
+      .catch((err) => {
+        if (!active || generation !== scopeGeneration.current) return;
+        if (err instanceof ApiError && err.status === 401) {
+          ++loadGeneration.current;
+          ++scopeGeneration.current;
+          hasQueueSnapshot.current = false;
+          activeScope.current = null;
+          setActor(null);
+          setCsrf('');
+          setEntitlement(null);
+          setRequests([]);
+          setOfficers([]);
+          selectedRef.current = null;
+          setSelected(null);
+          setAuditState(null);
+          setActionRecoveries({});
+          setQueueCheckedAt(null);
+          setQueueState('unavailable');
+          return;
+        }
+        setAuditState({
+          requestId: currentId,
+          scopeKey,
+          status: 'unavailable',
+          events: [],
+          error: err instanceof Error ? err.message : 'History could not be loaded.',
         });
+      });
     return () => {
       active = false;
     };
-  }, [currentId, currentVersion]);
+  }, [actor, currentId, currentVersion, scopeKey]);
+  useEffect(() => {
+    if (current && !assignmentDraftDirty.current)
+      setAssignmentDraft(current.assigned_officer_id ?? '');
+  }, [current, currentId, currentVersion, current?.assigned_officer_id]);
+  function selectRequest(id: string) {
+    selectedRef.current = id;
+    setSelected(id);
+    assignmentDraftDirty.current = false;
+    setAssignmentDraft(requests.find((request) => request.id === id)?.assigned_officer_id ?? '');
+    setClosureReasonDraft('');
+  }
   async function perform(work: () => Promise<void>) {
+    if (pending.current) return;
+    pending.current = true;
     setBusy(true);
     setError('');
     setNotice('');
@@ -198,30 +333,58 @@ function App() {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'The operation could not be completed');
       if (err instanceof ApiError && err.status === 401) {
-        loadGeneration.current += 1;
+        ++loadGeneration.current;
+        ++scopeGeneration.current;
+        hasQueueSnapshot.current = false;
+        activeScope.current = null;
         setActor(null);
         setCreating(false);
         setCsrf('');
+        setEntitlement(null);
         setRequests([]);
+        setOfficers([]);
+        selectedRef.current = null;
         setSelected(null);
+        setAuditState(null);
+        setActionRecoveries({});
+        setQueueCheckedAt(null);
+        setQueueState('unavailable');
       }
       if (err instanceof ApiError && [403, 409].includes(err.status)) await load().catch(() => {});
     } finally {
+      pending.current = false;
       setBusy(false);
     }
   }
-  async function mutate(path: string, input: object) {
+  async function mutate(
+    path: string,
+    input: object,
+    expectedScope = scopeGeneration.current,
+    idempotencyKey?: string,
+  ) {
     const payload = JSON.stringify([path, input]);
-    if (retry.current?.payload !== payload) retry.current = { payload, key: crypto.randomUUID() };
+    if (!idempotencyKey && retry.current?.payload !== payload)
+      retry.current = { payload, key: crypto.randomUUID() };
+    const key = idempotencyKey ?? retry.current!.key;
     const result = await api<Request>(path, {
       method: 'POST',
-      headers: { 'x-csrf-token': csrf, 'Idempotency-Key': retry.current.key },
+      headers: { 'x-csrf-token': csrf, 'Idempotency-Key': key },
       body: JSON.stringify(input),
     });
-    retry.current = null;
-    await load(true);
-    setSelected(result.id);
+    if (retry.current?.key === key) retry.current = null;
+    if (expectedScope !== scopeGeneration.current) return result;
+    setRequests((existing) => {
+      const index = existing.findIndex((request) => request.id === result.id);
+      if (index < 0) return path === '/requests' ? [result, ...existing].slice(0, 100) : existing;
+      return existing.map((request) => (request.id === result.id ? result : request));
+    });
+    if (path === '/requests') {
+      selectedRef.current = result.id;
+      setSelected(result.id);
+    }
+    await load().catch(() => {});
     setNotice('Saved to the operational record');
+    return result;
   }
   function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -233,6 +396,7 @@ function App() {
       });
       const profile = await api<Session>('/auth/session');
       setActor(profile.actor);
+      activeScope.current = `${profile.actor.id}:${profile.actor.context_id ?? ''}:${profile.actor.tenant_id}:${profile.actor.jurisdiction_id}:${profile.actor.branch_id}:${profile.entitlements.version ?? ''}`;
       setCsrf(profile.csrfToken);
       setEntitlement(profile.entitlements);
     });
@@ -245,9 +409,121 @@ function App() {
   }
   function action(action: string, extra = {}) {
     if (!current) return;
-    void perform(() =>
-      mutate(`/requests/${current.id}/actions`, { action, version: current.version, ...extra }),
-    );
+    const requestId = current.id;
+    const version = current.version;
+    const generation = scopeGeneration.current;
+    const input = { action, version, ...extra };
+    void perform(async () => {
+      try {
+        const result = await mutate(`/requests/${requestId}/actions`, input, generation);
+        if (generation !== scopeGeneration.current) return;
+        updateActionRecovery(requestId, null);
+        if (selectedRef.current === requestId) {
+          if (action === 'close') setClosureReasonDraft('');
+          if (action === 'assign') {
+            assignmentDraftDirty.current = false;
+            setAssignmentDraft(result.assigned_officer_id ?? '');
+          }
+        }
+      } catch (err) {
+        if (generation !== scopeGeneration.current) throw err;
+        const payload = JSON.stringify([`/requests/${requestId}/actions`, input]);
+        const key = retry.current?.payload === payload ? retry.current.key : null;
+        const kind =
+          err instanceof ApiError && err.status === 409
+            ? 'conflict'
+            : err instanceof ApiError && err.status < 500
+              ? 'rejected'
+              : 'uncertain';
+        const message =
+          kind === 'conflict'
+            ? 'The request changed before this action was accepted. The latest server state is being loaded; review it before choosing an action.'
+            : kind === 'uncertain'
+              ? 'The service did not confirm whether this action completed. No write will be replayed automatically. Check the server state and history before continuing.'
+              : err instanceof Error
+                ? err.message
+                : 'The action was rejected. Review the request and try again.';
+        updateActionRecovery(requestId, { requestId, action, version, input, key, kind, message });
+        throw err;
+      }
+    });
+  }
+  async function reconcileAction() {
+    if (!actionRecovery || actionRecovery.kind !== 'uncertain') return;
+    const recovery = actionRecovery;
+    const generation = scopeGeneration.current;
+    await perform(async () => {
+      const refreshed = await load();
+      if (!refreshed || generation !== scopeGeneration.current) return;
+      const latest = refreshed.find((request) => request.id === recovery.requestId);
+      if (!latest) {
+        updateActionRecovery(recovery.requestId, {
+          ...recovery,
+          kind: 'reconciled',
+          message:
+            'The request is not present in the latest authorised queue snapshot. Choose another request or refresh the queue; this action has not been replayed.',
+          retrySameAction: false,
+        });
+        return;
+      }
+      const history = await api<Audit[]>(`/requests/${recovery.requestId}/audit`);
+      if (generation !== scopeGeneration.current) return;
+      if (selectedRef.current === recovery.requestId)
+        setAuditState({
+          requestId: recovery.requestId,
+          scopeKey,
+          status: 'ready',
+          events: history,
+        });
+      const unchanged = latest.version === recovery.version;
+      updateActionRecovery(recovery.requestId, {
+        ...recovery,
+        kind: 'reconciled',
+        latestVersion: latest.version,
+        retrySameAction: unchanged && recovery.key !== null,
+        message: unchanged
+          ? `Server state and history were refreshed. The request remains at version ${latest.version}. Review it before choosing whether to retry the same action.`
+          : `Server state and history were refreshed. The request is now at version ${latest.version}; the earlier action will not be replayed. Review the confirmed state before choosing another available action.`,
+      });
+    });
+  }
+  function retrySameAction() {
+    if (!actionRecovery?.retrySameAction || !current || actionRecovery.requestId !== current.id)
+      return;
+    const recovery = actionRecovery;
+    const generation = scopeGeneration.current;
+    void perform(async () => {
+      try {
+        await mutate(
+          `/requests/${recovery.requestId}/actions`,
+          recovery.input,
+          generation,
+          recovery.key ?? undefined,
+        );
+        if (generation !== scopeGeneration.current) return;
+        updateActionRecovery(recovery.requestId, null);
+      } catch (err) {
+        if (generation !== scopeGeneration.current) throw err;
+        const kind =
+          err instanceof ApiError && err.status === 409
+            ? 'conflict'
+            : err instanceof ApiError && err.status < 500
+              ? 'rejected'
+              : 'uncertain';
+        updateActionRecovery(recovery.requestId, {
+          ...recovery,
+          kind,
+          retrySameAction: false,
+          message:
+            kind === 'uncertain'
+              ? 'The retry response is also uncertain. Refresh server state and history before continuing.'
+              : err instanceof Error
+                ? err.message
+                : 'The action was rejected. Review the latest request state.',
+        });
+        throw err;
+      }
+    });
   }
   if (!ready)
     return (
@@ -391,11 +667,21 @@ function App() {
                     body: '{}',
                   });
                   ++loadGeneration.current;
+                  ++scopeGeneration.current;
+                  hasQueueSnapshot.current = false;
+                  activeScope.current = null;
                   setEntitlement(null);
                   setActor(null);
                   setCsrf('');
                   setRequests([]);
+                  setOfficers([]);
                   setSelected(null);
+                  selectedRef.current = null;
+                  setAuditState(null);
+                  setActionRecoveries({});
+                  setQueueCheckedAt(null);
+                  setQueueState('unavailable');
+                  retry.current = null;
                   setCreating(false);
                 })
               }
@@ -412,7 +698,11 @@ function App() {
               <p className="muted">Assign, monitor and review requests in the current context.</p>
             </div>
             <div className="toolbar">
-              <button className="secondary" disabled={busy} onClick={() => void perform(load)}>
+              <button
+                className="secondary"
+                disabled={busy}
+                onClick={() => void load().catch(() => {})}
+              >
                 <RefreshCw size={18} aria-hidden="true" />
                 Refresh
               </button>
@@ -452,6 +742,26 @@ function App() {
               {notice}
             </p>
           )}
+          {queueState === 'loading' && (
+            <p className="notice" role="status">
+              Loading requests from the current context…
+            </p>
+          )}
+          {queueState === 'unavailable' && (
+            <p className="error" role="alert">
+              {hasQueueSnapshot.current && queueCheckedAt
+                ? `Refresh failed. Showing the last confirmed queue from ${date(queueCheckedAt)}. `
+                : 'Requests are unavailable for the current session. '}
+              {queueError || 'Sign in again or retry the refresh.'}
+              <button
+                className="secondary"
+                disabled={busy}
+                onClick={() => void load().catch(() => {})}
+              >
+                Retry refresh
+              </button>
+            </p>
+          )}
           {creating && can('requests.create') && (
             <RequestComposer
               busy={busy}
@@ -468,16 +778,43 @@ function App() {
               requests={requests}
               officers={officers}
               selected={selected}
-              onSelect={setSelected}
+              onSelect={selectRequest}
               filter={filter}
               onFilter={setFilter}
             />
-            <section className="panel detail" aria-label="Request detail">
+            <section className="panel detail" aria-labelledby="detail-title">
               {!current ? (
                 <div className="empty">
                   <MapPin size={36} aria-hidden="true" />
-                  <h2>Select a request</h2>
-                  <p>Review the location, assignment and audit history.</p>
+                  {selected ? (
+                    <>
+                      <h2 id="detail-title">Selected request unavailable</h2>
+                      <p>
+                        This request is not present in the latest authorised queue snapshot. It may
+                        have left the disclosed latest-100 results or be unavailable in this
+                        context.
+                      </p>
+                      <button
+                        className="secondary"
+                        onClick={() => {
+                          selectedRef.current = null;
+                          setSelected(null);
+                        }}
+                      >
+                        Return to queue
+                      </button>
+                    </>
+                  ) : queueState === 'loading' ? (
+                    <>
+                      <h2 id="detail-title">Loading requests</h2>
+                      <p>The current context is being refreshed from the service.</p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 id="detail-title">Select a request</h2>
+                      <p>Review its confirmed status, assignment and read-only history.</p>
+                    </>
+                  )}
                 </div>
               ) : (
                 <>
@@ -486,13 +823,50 @@ function App() {
                     <button
                       className="icon-button"
                       aria-label="Dismiss request detail"
-                      onClick={() => setSelected(null)}
+                      onClick={() => {
+                        const requestId = current.id;
+                        selectedRef.current = null;
+                        setSelected(null);
+                        requestAnimationFrame(() => {
+                          const row = document.querySelector<HTMLElement>(
+                            `[data-request-id="${requestId}"] .request-link`,
+                          );
+                          (row ?? document.querySelector<HTMLElement>('.queue-scroll'))?.focus();
+                        });
+                      }}
                     >
                       <X size={18} aria-hidden="true" />
                     </button>
                   </div>
-                  <h2>{current.address}</h2>
+                  <h2 id="detail-title">{current.address}</h2>
                   <RequestStatus status={current.status} />
+                  <p className="detail-confirmation" role="status">
+                    Server-confirmed version <span className="mono">{current.version}</span> ·
+                    request updated {date(current.updated_at)}
+                    {queueCheckedAt && <> · queue checked {date(queueCheckedAt)}</>}
+                  </p>
+                  {actionRecovery?.requestId === current.id && (
+                    <div
+                      className={actionRecovery.kind === 'reconciled' ? 'notice' : 'error'}
+                      role={actionRecovery.kind === 'reconciled' ? 'status' : 'alert'}
+                    >
+                      <span>{actionRecovery.message}</span>
+                      {actionRecovery.kind === 'uncertain' && (
+                        <button
+                          className="secondary"
+                          disabled={busy}
+                          onClick={() => void reconcileAction()}
+                        >
+                          Check server state and history
+                        </button>
+                      )}
+                      {actionRecovery.kind === 'reconciled' && actionRecovery.retrySameAction && (
+                        <button className="secondary" disabled={busy} onClick={retrySameAction}>
+                          Retry the same action
+                        </button>
+                      )}
+                    </div>
+                  )}
                   <dl>
                     <dt>Coordinates</dt>
                     <dd className="mono">
@@ -523,8 +897,11 @@ function App() {
                           <select
                             name="officerId"
                             required
-                            defaultValue={current.assigned_officer_id ?? ''}
-                            key={`${current.id}-${current.version}`}
+                            value={assignmentDraft}
+                            onChange={(event) => {
+                              assignmentDraftDirty.current = true;
+                              setAssignmentDraft(event.target.value);
+                            }}
                           >
                             <option value="" disabled>
                               Select officer
@@ -536,18 +913,39 @@ function App() {
                             ))}
                           </select>
                         </label>
-                        <button type="submit" disabled={busy}>
+                        <button
+                          type="submit"
+                          disabled={
+                            busy ||
+                            (actionRecovery?.requestId === current.id &&
+                              actionRecovery.kind === 'uncertain')
+                          }
+                        >
                           Assign request
                         </button>
                       </form>
                     )}
                   {can('requests.acknowledge') && current.status === 'DISPATCHED' && (
-                    <button disabled={busy} onClick={() => action('acknowledge')}>
+                    <button
+                      disabled={
+                        busy ||
+                        (actionRecovery?.requestId === current.id &&
+                          actionRecovery.kind === 'uncertain')
+                      }
+                      onClick={() => action('acknowledge')}
+                    >
                       Acknowledge request
                     </button>
                   )}
                   {can('requests.attend') && current.status === 'ACKNOWLEDGED' && (
-                    <button disabled={busy} onClick={() => action('attend')}>
+                    <button
+                      disabled={
+                        busy ||
+                        (actionRecovery?.requestId === current.id &&
+                          actionRecovery.kind === 'uncertain')
+                      }
+                      onClick={() => action('attend')}
+                    >
                       Record attendance
                     </button>
                   )}
@@ -561,9 +959,23 @@ function App() {
                     >
                       <label>
                         Closure reason
-                        <input name="reason" maxLength={1000} required />
+                        <input
+                          name="reason"
+                          maxLength={1000}
+                          required
+                          value={closureReasonDraft}
+                          onChange={(event) => setClosureReasonDraft(event.target.value)}
+                        />
                       </label>
-                      <button type="submit" className="secondary" disabled={busy}>
+                      <button
+                        type="submit"
+                        className="secondary"
+                        disabled={
+                          busy ||
+                          (actionRecovery?.requestId === current.id &&
+                            actionRecovery.kind === 'uncertain')
+                        }
+                      >
                         Close request
                       </button>
                     </form>
@@ -576,17 +988,103 @@ function App() {
                   )}
                   <div className="audit">
                     <h3>Audit history</h3>
-                    <ol>
-                      {events.map((event) => (
-                        <li key={event.id}>
-                          <strong>{event.action}</strong>
-                          <time dateTime={event.created_at}>{date(event.created_at)}</time>
-                          {typeof event.details.reason === 'string' && event.details.reason && (
-                            <p>{event.details.reason}</p>
-                          )}
-                        </li>
-                      ))}
-                    </ol>
+                    {auditState?.requestId !== current.id ||
+                    auditState.scopeKey !== scopeKey ||
+                    auditState.status === 'loading' ? (
+                      <p role="status">Loading history for this request…</p>
+                    ) : auditState.status === 'unavailable' ? (
+                      <div className="error" role="alert">
+                        <p>
+                          History is unavailable for this request. Request state remains
+                          server-confirmed.
+                        </p>
+                        <p>{auditState.error}</p>
+                        <button
+                          className="secondary"
+                          disabled={busy}
+                          onClick={() => {
+                            const requestId = current.id;
+                            const requestScope = scopeKey;
+                            const generation = scopeGeneration.current;
+                            setAuditState({
+                              requestId,
+                              scopeKey: requestScope,
+                              status: 'loading',
+                              events: [],
+                            });
+                            void api<Audit[]>(`/requests/${requestId}/audit`)
+                              .then((events) => {
+                                if (
+                                  generation === scopeGeneration.current &&
+                                  selectedRef.current === requestId
+                                )
+                                  setAuditState({
+                                    requestId,
+                                    scopeKey: requestScope,
+                                    status: 'ready',
+                                    events,
+                                  });
+                              })
+                              .catch((err: unknown) => {
+                                if (
+                                  generation !== scopeGeneration.current ||
+                                  selectedRef.current !== requestId
+                                )
+                                  return;
+                                if (err instanceof ApiError && err.status === 401) {
+                                  ++loadGeneration.current;
+                                  ++scopeGeneration.current;
+                                  hasQueueSnapshot.current = false;
+                                  activeScope.current = null;
+                                  selectedRef.current = null;
+                                  setActor(null);
+                                  setCsrf('');
+                                  setEntitlement(null);
+                                  setRequests([]);
+                                  setOfficers([]);
+                                  setSelected(null);
+                                  setAuditState(null);
+                                  setActionRecoveries({});
+                                  setQueueCheckedAt(null);
+                                  setQueueState('unavailable');
+                                  return;
+                                }
+                                setAuditState({
+                                  requestId,
+                                  scopeKey: requestScope,
+                                  status: 'unavailable',
+                                  events: [],
+                                  error:
+                                    err instanceof Error
+                                      ? err.message
+                                      : 'History could not be loaded.',
+                                });
+                              });
+                          }}
+                        >
+                          Retry history
+                        </button>
+                      </div>
+                    ) : auditState.events.length === 0 ? (
+                      <p>No history has been recorded for this request.</p>
+                    ) : (
+                      <ol>
+                        {auditState.events.map((event) => (
+                          <li key={event.id}>
+                            <strong>{event.action}</strong>
+                            <time dateTime={event.created_at}>{date(event.created_at)}</time>
+                            {event.details.from && event.details.to && (
+                              <p>
+                                {event.details.from} → {event.details.to}
+                              </p>
+                            )}
+                            {typeof event.details.reason === 'string' && event.details.reason && (
+                              <p>{event.details.reason}</p>
+                            )}
+                          </li>
+                        ))}
+                      </ol>
+                    )}
                   </div>
                 </>
               )}
