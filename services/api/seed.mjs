@@ -7,9 +7,22 @@ const fixtures = JSON.parse(
 const contexts = JSON.parse(
   await readFile(new URL('../../data/fixtures/operating-contexts.json', import.meta.url), 'utf8'),
 );
+const ownership = JSON.parse(
+  await readFile(
+    new URL('../../data/fixtures/council-principal-ownership.json', import.meta.url),
+    'utf8',
+  ),
+);
 const password = process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!';
 try {
   await transaction(async (client) => {
+    for (const municipality of ownership.municipalities) {
+      await client.query(
+        `INSERT INTO platform_municipalities(id,name,slug,status,packs)
+        VALUES($1,$2,$3,'Active','["local-laws","parking-services"]') ON CONFLICT(id) DO NOTHING`,
+        [municipality.id, municipality.name, municipality.slug],
+      );
+    }
     for (const user of fixtures) {
       await client.query(
         `INSERT INTO users(id,email,name,password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id)
@@ -28,6 +41,24 @@ try {
           'day-team',
         ],
       );
+    }
+    const ownerTable = await client.query(
+      "SELECT to_regclass('public.council_principal_owners') AS name",
+    );
+    if (ownerTable.rows[0].name) {
+      for (const owner of ownership.owners) {
+        await client.query(
+          `INSERT INTO council_principal_owners(user_id,municipality_id)
+          SELECT id,$2 FROM users WHERE id=$1 ON CONFLICT(user_id) DO NOTHING`,
+          [owner.userId, owner.municipalityId],
+        );
+        const result = await client.query(
+          'SELECT municipality_id FROM council_principal_owners WHERE user_id=$1',
+          [owner.userId],
+        );
+        if (result.rows[0]?.municipality_id !== owner.municipalityId)
+          throw new Error(`Synthetic owner conflict for ${owner.userId}`);
+      }
     }
     for (const context of contexts) {
       await client.query(
@@ -50,9 +81,7 @@ try {
       );
       // Grant only explicitly known fixtures whose stored home scope still matches.
       // Re-seeding never resurrects revoked grants or maps unknown historical users.
-      for (const user of fixtures.filter(
-        (user) => user.scope === context.scope || context.userIds?.includes(user.id),
-      )) {
+      for (const user of fixtures.filter((user) => user.scope === context.scope)) {
         await client.query(
           `INSERT INTO operating_context_grants(user_id,binding_id,effective_from)
           SELECT id,$2,'2026-01-01T00:00:00Z' FROM users WHERE id=$1 AND tenant_id=$3

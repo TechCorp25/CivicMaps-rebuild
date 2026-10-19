@@ -1,0 +1,16 @@
+{
+  "description": "Synthetic development principal ownership only. Never use as a customer ownership algorithm.",
+  "municipalities": [
+    { "id": "20000000-0000-4000-8000-000000000001", "name": "Synthetic Alpha council", "slug": "synthetic-alpha" },
+    { "id": "20000000-0000-4000-8000-000000000002", "name": "Synthetic Beta council", "slug": "synthetic-beta" }
+  ],
+  "owners": [
+    { "userId": "00000000-0000-4000-8000-000000000001", "municipalityId": "20000000-0000-4000-8000-000000000001" },
+    { "userId": "00000000-0000-4000-8000-000000000002", "municipalityId": "20000000-0000-4000-8000-000000000001" },
+    { "userId": "00000000-0000-4000-8000-000000000003", "municipalityId": "20000000-0000-4000-8000-000000000001" },
+    { "userId": "00000000-0000-4000-8000-000000000006", "municipalityId": "20000000-0000-4000-8000-000000000001" },
+    { "userId": "00000000-0000-4000-8000-000000000004", "municipalityId": "20000000-0000-4000-8000-000000000002" },
+    { "userId": "00000000-0000-4000-8000-000000000005", "municipalityId": "20000000-0000-4000-8000-000000000002" },
+    { "userId": "00000000-0000-4000-8000-000000000099", "municipalityId": "20000000-0000-4000-8000-000000000001" }
+  ]
+}

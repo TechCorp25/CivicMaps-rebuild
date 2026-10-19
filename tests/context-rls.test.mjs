@@ -100,6 +100,14 @@ test('004 upgrade gates all operational tables on a complete consistent context 
     await client.query('SET LOCAL ROLE civicmaps_local_app');
     await assertHidden(client);
     await setScope(client, scope);
+    assert.equal((await client.query('SELECT * FROM council_principal_owners')).rowCount, 1);
+    await assert.rejects(
+      client.query('UPDATE council_principal_owners SET municipality_id=$2 WHERE user_id=$1', [
+        actor,
+        '20000000-0000-4000-8000-000000000002',
+      ]),
+      /permission denied/,
+    );
     for (const table of tables)
       assert.ok((await client.query(`SELECT * FROM ${table}`)).rowCount > 0, table);
     for (const key of Object.keys(scope)) {

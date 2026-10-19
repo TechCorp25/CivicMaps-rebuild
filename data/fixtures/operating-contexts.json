@@ -20,9 +20,6 @@
     "slug": "synthetic-beta",
     "scope": "shared",
     "organisationId": "organisation-alpha",
-    "jurisdictionId": "jurisdiction-beta",
-    "userIds": [
-      "00000000-0000-4000-8000-000000000006"
-    ]
+    "jurisdictionId": "jurisdiction-beta"
   }
 ]

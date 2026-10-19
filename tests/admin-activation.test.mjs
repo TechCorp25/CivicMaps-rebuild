@@ -157,6 +157,15 @@ test('F07 issuance, atomic activation, explicit least privilege, recovery and di
     const admin = await call('/auth/login', { email: 'admin@alpha.synthetic.example', password });
     assert.equal(admin.status, 200);
     assert.equal(admin.data.actor.role, 'ADMIN');
+    assert.equal(
+      (
+        await env.pool.query(
+          'SELECT municipality_id FROM council_principal_owners WHERE user_id=$1',
+          [admin.data.actor.id],
+        )
+      ).rows[0].municipality_id,
+      alpha,
+    );
     const headers = {
       cookie: admin.cookie,
       'x-csrf-token': admin.data.csrfToken,
@@ -358,6 +367,90 @@ test('F07 issuance, atomic activation, explicit least privilege, recovery and di
         await env.pool.query('SELECT count(*)::int AS n FROM sessions WHERE user_id=$1', [
           admin.data.actor.id,
         ])
+      ).rows[0].n,
+      0,
+    );
+    const alphaTokenState = (
+      await env.pool.query(
+        `SELECT count(*)::int AS total,
+      count(*) FILTER (WHERE redeemed_at IS NULL AND revoked_at IS NULL AND expires_at>now())::int AS usable
+      FROM council_admin_activations WHERE municipality_id=$1`,
+        [alpha],
+      )
+    ).rows[0];
+    assert.ok(alphaTokenState.total > 0);
+    assert.equal(alphaTokenState.usable, 0);
+
+    // A disabled council principal keeps its original grant pair and token history;
+    // inactivity makes that grant non-effective and no session remains usable.
+    const betaIssued = await call(
+      `/platform/municipalities/${beta}/activation`,
+      {
+        bindingId: otherBinding,
+        verifiedEmail: 'admin@beta.synthetic.example',
+        recipientVerified: true,
+      },
+      { ...operatorHeaders, 'Idempotency-Key': randomUUID() },
+    );
+    assert.equal(betaIssued.status, 200);
+    const betaToken = betaIssued.data.activationUrl.split('/').at(-1);
+    assert.equal(
+      (
+        await call('/activation/redeem', {
+          municipalityId: beta,
+          bindingId: otherBinding,
+          token: betaToken,
+          password,
+        })
+      ).status,
+      200,
+    );
+    const betaAdmin = await call('/auth/login', {
+      email: 'admin@beta.synthetic.example',
+      password,
+    });
+    assert.equal(betaAdmin.status, 200);
+    const betaUserId = betaAdmin.data.actor.id;
+    assert.equal(
+      (
+        await env.pool.query(
+          'SELECT municipality_id FROM council_principal_owners WHERE user_id=$1',
+          [betaUserId],
+        )
+      ).rows[0].municipality_id,
+      beta,
+    );
+    assert.equal(
+      (
+        await call(
+          `/platform/municipalities/${beta}/activation/disable`,
+          {},
+          {
+            ...operatorHeaders,
+            'Idempotency-Key': randomUUID(),
+          },
+        )
+      ).status,
+      200,
+    );
+    const betaState = (
+      await env.pool.query(
+        `SELECT u.active,g.revoked_at,s.token_hash
+      FROM users u JOIN operating_context_grants g ON g.user_id=u.id
+      LEFT JOIN sessions s ON s.user_id=u.id WHERE u.id=$1`,
+        [betaUserId],
+      )
+    ).rows[0];
+    assert.equal(betaState.active, false);
+    assert.equal(betaState.revoked_at, null);
+    assert.equal(betaState.token_hash, null);
+    assert.equal(
+      (
+        await env.pool.query(
+          `SELECT count(*)::int AS n FROM council_admin_activations
+      WHERE municipality_id=$1 AND redeemed_at IS NULL AND revoked_at IS NULL AND expires_at>now()`,
+          [beta],
+        )
       ).rows[0].n,
       0,
     );

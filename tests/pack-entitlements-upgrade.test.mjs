@@ -28,7 +28,9 @@ async function capture(c) {
   const result = {};
   for (const t of tables)
     result[t] = (
-      await c.query(`SELECT to_jsonb(t) row FROM ${t} t ORDER BY to_jsonb(t)::text`)
+      await c.query(
+        `SELECT ${t === 'sessions' ? "to_jsonb(t)-'municipality_id'" : 'to_jsonb(t)'} row FROM ${t} t ORDER BY to_jsonb(t)::text`,
+      )
     ).rows;
   return result;
 }

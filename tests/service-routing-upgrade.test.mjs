@@ -21,7 +21,7 @@ test('F06 upgrade retains F05 resources/history and historical sessions without 
     ])
       value[table] = (
         await client.query(
-          `SELECT to_jsonb(t)-'route_id'-'route_version' AS value FROM ${table} t ORDER BY (to_jsonb(t)-'route_id'-'route_version')::text`,
+          `SELECT ${table === 'sessions' ? "to_jsonb(t)-'route_id'-'route_version'-'municipality_id'" : "to_jsonb(t)-'route_id'-'route_version'"} AS value FROM ${table} t ORDER BY (to_jsonb(t)-'route_id'-'route_version')::text`,
         )
       ).rows;
     return value;

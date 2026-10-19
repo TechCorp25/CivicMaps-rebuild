@@ -23,7 +23,11 @@ async function capture(client) {
   const result = {};
   for (const table of tables) {
     const row =
-      table === 'platform_first_admins' ? "to_jsonb(t)-'user_id'-'binding_id'" : 'to_jsonb(t)';
+      table === 'platform_first_admins'
+        ? "to_jsonb(t)-'user_id'-'binding_id'"
+        : table === 'sessions'
+          ? "to_jsonb(t)-'municipality_id'"
+          : 'to_jsonb(t)';
     result[table] = (
       await client.query(
         `SELECT ${row} AS row FROM ${table} t ORDER BY ${table === 'platform_municipalities' ? 'id' : `(${row})::text`}`,

@@ -31,14 +31,10 @@ before(async () => {
           );
           await client.query('INSERT INTO civicmaps_migrations(id) VALUES ($1)', [id]);
         }
-        for (const [id, email] of [
-          [dispatcher, 'dispatch@alpha.example'],
-          [unknown, 'unmapped@synthetic.example'],
-        ])
-          await client.query(
-            `INSERT INTO users VALUES ($1,$2,'Synthetic legacy user',$3,'DISPATCHER','tenant-alpha','jurisdiction-alpha','plane-alpha','organisation-alpha','parking','day-team',true)`,
-            [id, email, hash],
-          );
+        await client.query(
+          `INSERT INTO users VALUES ($1,'dispatch@alpha.example','Synthetic legacy user',$2,'DISPATCHER','tenant-alpha','jurisdiction-alpha','plane-alpha','organisation-alpha','parking','day-team',true)`,
+          [dispatcher, hash],
+        );
         await client.query(
           `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status)
     VALUES ($1,'tenant-alpha','jurisdiction-alpha','plane-alpha','organisation-alpha','parking','Synthetic historical location',0,0,'Preserve me','RECEIVED')`,
@@ -56,6 +52,11 @@ before(async () => {
     },
   });
   ({ pool, origin } = environment);
+  await pool.query(
+    `INSERT INTO users SELECT $1,'unmapped@synthetic.example','Unmapped test principal',password_hash,
+    'DISPATCHER',tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id,true FROM users WHERE id=$2`,
+    [unknown, dispatcher],
+  );
 });
 after(async () => environment?.close());
 async function login(email) {
@@ -109,11 +110,12 @@ test('upgrade preserves records, passwords and legacy receipts without inferred 
   assert.equal(replay.status, 409);
   assert.match((await replay.json()).error, /Legacy retry key/);
   assert.equal((await pool.query('SELECT * FROM service_requests')).rowCount, 1);
-  const unmapped = await login('unmapped@synthetic.example');
-  assert.equal(
-    (await fetch(`${origin}/api/requests`, { headers: { Cookie: unmapped.cookie } })).status,
-    403,
-  );
+  const unmapped = await fetch(`${origin}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'unmapped@synthetic.example', password }),
+  });
+  assert.equal(unmapped.status, 401);
 });
 test('repeated migrations and seeds preserve grants and never resurrect revocations', async () => {
   const before = (await pool.query('SELECT count(*)::int AS count FROM operating_context_changes'))
@@ -130,7 +132,7 @@ test('repeated migrations and seeds preserve grants and never resurrect revocati
       .count,
     before,
   );
-  assert.equal((await pool.query('SELECT * FROM civicmaps_migrations')).rowCount, 13);
+  assert.equal((await pool.query('SELECT * FROM civicmaps_migrations')).rowCount, 15);
   await pool.query(
     'UPDATE operating_context_grants SET revoked_at=clock_timestamp() WHERE user_id=$1',
     [dispatcher],
@@ -152,4 +154,63 @@ test('repeated migrations and seeds preserve grants and never resurrect revocati
       .password_hash,
     hash,
   );
+});
+test('migration aborts atomically on an unclassified pre-existing principal', async () => {
+  const name = `civicmaps_owner_fail_${randomUUID().replaceAll('-', '')}`;
+  const admin = new pg.Pool({ connectionString: environment.connectionString });
+  let created = false;
+  const target = new URL(environment.connectionString);
+  target.pathname = `/${name}`;
+  try {
+    await admin.query(`CREATE DATABASE ${name}`);
+    created = true;
+    const client = new pg.Client({ connectionString: target.href });
+    await client.connect();
+    try {
+      await client.query(
+        'CREATE TABLE civicmaps_migrations (id text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())',
+      );
+      for (const id of ['001-foundation', '002-auth-scope', '003-platform']) {
+        await client.query(
+          await readFile(new URL(`../services/api/migrations/${id}.sql`, import.meta.url), 'utf8'),
+        );
+        await client.query('INSERT INTO civicmaps_migrations(id) VALUES($1)', [id]);
+      }
+      await client.query(
+        `INSERT INTO users VALUES($1,'unclassified@example.test','Unclassified', $2,
+        'DISPATCHER','tenant-x','jurisdiction-x','plane-x','organisation-x','branch-x','team-x',true)`,
+        [randomUUID(), hash],
+      );
+    } finally {
+      await client.end();
+    }
+    const run = spawnSync(process.execPath, ['services/api/migrate.mjs'], {
+      env: { ...process.env, CIVICMAPS_DATABASE_URL: target.href },
+      encoding: 'utf8',
+    });
+    assert.notEqual(run.status, 0);
+    assert.match(run.stderr, /Unclassified principal ownership/);
+    const check = new pg.Client({ connectionString: target.href });
+    await check.connect();
+    try {
+      assert.equal(
+        (
+          await check.query(
+            "SELECT 1 FROM civicmaps_migrations WHERE id='014-council-principal-ownership'",
+          )
+        ).rowCount,
+        0,
+      );
+      assert.equal(
+        (await check.query("SELECT to_regclass('public.council_principal_owners') AS name")).rows[0]
+          .name,
+        null,
+      );
+    } finally {
+      await check.end();
+    }
+  } finally {
+    if (created) await admin.query(`DROP DATABASE ${name}`);
+    await admin.end();
+  }
 });

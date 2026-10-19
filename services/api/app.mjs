@@ -84,7 +84,9 @@ function actorView(user) {
 async function authenticated(client, req) {
   await client.query('SELECT civicmaps_lock_auth_session($1,false,false)', [digest(token(req))]);
   const auth = await client.query(
-    `SELECT u.*, s.csrf_token,s.route_id,s.route_version FROM sessions s JOIN users u ON u.id=s.user_id
+    `SELECT u.*, s.csrf_token,s.route_id,s.route_version,s.municipality_id AS session_municipality_id,
+      o.municipality_id AS owner_municipality_id FROM sessions s JOIN users u ON u.id=s.user_id
+      JOIN council_principal_owners o ON o.user_id=u.id AND o.municipality_id=s.municipality_id
       WHERE s.token_hash=$1 AND s.expires_at>now() AND u.active`,
     [digest(token(req))],
   );
@@ -262,18 +264,34 @@ export function createApp({
         401,
         'Email or password is incorrect',
       );
-      await routeContext(client, req, current);
-      await client.query('DELETE FROM sessions WHERE token_hash=$1 OR expires_at<=now()', [
-        digest(token(req)),
-      ]);
+      const owner = await client.query(
+        'SELECT municipality_id FROM council_principal_owners WHERE user_id=$1',
+        [current.id],
+      );
+      requireValue(owner.rowCount === 1, 401, 'Email or password is incorrect');
+      try {
+        await routeContext(client, req, {
+          ...current,
+          municipality_id: owner.rows[0].municipality_id,
+        });
+      } catch (error) {
+        if (error.status !== 403) throw error;
+        requireValue(false, 401, 'Email or password is incorrect');
+      }
+      // A cookie from another principal/council is never revoked as a side effect of login.
       await client.query(
-        "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,route_id,route_version) VALUES ($1,$2,$3,now()+interval '8 hours',$4,$5)",
+        'DELETE FROM sessions WHERE token_hash=$1 AND user_id=$2 AND municipality_id=$3',
+        [digest(token(req)), current.id, owner.rows[0].municipality_id],
+      );
+      await client.query(
+        "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,route_id,route_version,municipality_id) VALUES ($1,$2,$3,now()+interval '8 hours',$4,$5,$6)",
         [
           digest(sessionToken),
           result.rows[0].id,
           csrfToken,
           req.serviceRoute?.id ?? null,
           req.serviceRoute?.version ?? null,
+          owner.rows[0].municipality_id,
         ],
       );
     });
