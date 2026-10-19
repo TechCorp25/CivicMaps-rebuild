@@ -75,7 +75,8 @@ Revert the focused F11E commit(s) or close the unmerged feature branch. No serve
 - [x] Add targeted tests; inspect synthetic desktop/narrow screenshots.
 - [x] Run requested checks and documentation/JSON/whitespace checks.
 - [x] Write F11E evidence and final review packet/checkpoint.
-- [ ] Commit, push branch, verify remote SHA, open draft PR, verify CI and request established Codex review.
+- [x] Commit, push branch, verify remote SHA, and open draft PR #27.
+- [ ] Verify hosted CI and request established Codex review on the final published head.
 - [ ] Update Empirical and mark review-ready only after all required acceptance/review/publication steps.
 
-**Checkpoint:** Base `1bbfa7bb68190278d6adb64bba39527b7a3e7e36`; implementation HEAD is not yet committed. Branch/worktree as above. Acceptance scenarios pass locally; `npm run check` passes lint, formatting, both app type checks/builds and 75/75 integration tests with the documented disposable PostgreSQL URL. CommandMAPS browser tests and activation browser regression pass. Synthetic desktop/narrow screenshots have been captured and inspected. Next: record final evidence, commit focused changes, publish branch, open draft PR and verify CI; then request established Codex/advanced review. No product-policy blocker; direct Git transport has been unreliable, so verify remote publication via GitHub API if needed.
+**Checkpoint:** Base `1bbfa7bb68190278d6adb64bba39527b7a3e7e36`; published implementation HEAD `1d07412d93ffd3ecd5092d68cc751ba2458a216a`. Branch/worktree as above; remote SHA verified. Draft PR #27 is open and hosted CI is running. Acceptance scenarios pass locally; `npm run check` passes lint, formatting, both app type checks/builds and 75/75 integration tests with the documented disposable PostgreSQL URL. CommandMAPS browser tests and activation browser regression pass. Synthetic desktop/narrow screenshots have been captured and inspected. Next: finalize metadata receipts, verify hosted CI and request Codex/advanced review on the final published head. No product-policy blocker.
