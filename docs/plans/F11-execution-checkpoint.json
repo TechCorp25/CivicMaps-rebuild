@@ -72,8 +72,9 @@
   "governancePR": 25,
   "verifiedRemote": {
     "main": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
-    "pr28Head": "145ff575d3ce907b15cb8b13d658aab599e477f6",
-    "pr28Tree": "d02c53fb0a69a57f4cbf4e87ed0fe14377e4c626",
+    "pr28Head": "1210cdd2d59c1d79e3b83999e4afeac0b5558c2a",
+    "pr28Tree": "1f088125cf55b84da694a9d4bc504d41a2f895b9",
+    "pr28Verification": "Verified remote branch snapshot on 20 October 2026 before the review fixes. Includes reconciled handoff e40ea194 and lifecycle/test-plan update 1210cdd2. This is a pinned resumption baseline, not a claim to track later PR heads; fetch and verify the current branch before continuing.",
     "pr25Head": "254423e103f86b30c94bd45cd518f1563d388d82"
   },
   "historicalAudit": {

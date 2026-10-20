@@ -3,8 +3,8 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": null,
-  "nextFeature": "F11",
+  "activeFeature": "F11",
+  "nextFeature": "F12",
   "allowedStatuses": [
     "planned",
     "in_progress",
