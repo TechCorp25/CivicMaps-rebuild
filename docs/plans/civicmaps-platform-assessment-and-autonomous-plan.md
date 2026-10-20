@@ -1,5 +1,7 @@
 # CivicMAPS Platform — ecosystem assessment and autonomous delivery plan
 
+**Current dispatch direction (21 October 2026):** [Shared-services dispatch build programme](dispatch-build/README.md). Owner requires Code2, assignment/routing, GIS, SOS and communications to be shared across branches; Parking Services is the first consumer. M0 preparation is not functional completion. Governance continues independently.
+
 Assessment date: 13 October 2026. Author: Codex (agent).
 Repository: TechCorp25/CivicMaps-rebuild.
 Assessed baseline: `work` at `34a6a2ec65bb43ca75e1df2ebfe37caed4517857` (platform implementation plus merge from main).

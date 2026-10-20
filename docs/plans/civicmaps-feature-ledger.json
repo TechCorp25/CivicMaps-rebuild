@@ -3,7 +3,7 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": "F11E",
+  "activeFeature": "DISPATCH-M0",
   "nextFeature": "F09",
   "allowedStatuses": [
     "planned",
@@ -275,7 +275,7 @@
       "blockers": [
         "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
       ],
-      "nextAction": "Continue independent ready work alongside active governance resolution. Resolve F09-P01\u2013P06 before dependent suspension behaviour; if a task depends on an unresolved choice, progress another ready task. PR22 preparation is owner-merged; no policy approval inferred.",
+      "nextAction": "Continue independent ready work alongside active governance resolution. Resolve F09-P01–P06 before dependent suspension behaviour; if a task depends on an unresolved choice, progress another ready task. PR22 preparation is owner-merged; no policy approval inferred.",
       "preparationPath": "docs/plans/F09-next-phase-plan.md",
       "preparationStatus": "reviewed_and_published",
       "policyDecisionStatus": "proposed_not_approved",
@@ -531,7 +531,7 @@
     },
     {
       "id": "F11D",
-      "title": "Dispatch workspace and workflow fidelity \u2014 bounded F11 precursor",
+      "title": "Dispatch workspace and workflow fidelity — bounded F11 precursor",
       "status": "merged",
       "branch": "codex/civicmaps-dispatch-workspace",
       "commit": "10bdab731b269f911cb0f135f2f30286db3c4cb1",
@@ -546,29 +546,41 @@
         "F07",
         "F08"
       ],
-      "nextAction": "Owner merged PR #26 into main at 1bbfa7b; F11D evidence retained. F11E is the current bounded dispatch detail/action recovery feature.",
+      "nextAction": "Merged and deployed with F11E; continue DISPATCH-M0.",
       "mergeCommit": "1bbfa7bb68190278d6adb64bba39527b7a3e7e36",
       "publishedHead": "0c6ae265c43a44ecb3b2f5a104fb58d0430b5ce4"
     },
     {
       "id": "F11E",
       "title": "Dispatch detail and action recovery",
-      "status": "in_progress",
+      "status": "merged",
       "branch": "codex/civicmaps-f11e-dispatch-detail",
       "baseCommit": "1bbfa7bb68190278d6adb64bba39527b7a3e7e36",
       "commit": null,
-      "pr": null,
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/27",
       "planPath": "docs/plans/F11E-dispatch-detail-plan.md",
       "evidencePath": "docs/plans/evidence/F11E.md",
-      "acceptancePassed": false,
-      "publication": "not_started",
+      "acceptancePassed": true,
+      "publication": "verified_merged",
       "empirical": "not_started",
       "blockers": [],
       "dependencies": [
         "F11D",
         "existing request API and permissions"
       ],
-      "nextAction": "Verify hosted CI and fresh Codex review on the review-fix head; complete advanced-model checkpoint. Owner merge remains separate."
+      "nextAction": "Merged and deployed. Continue shared-services programme DISPATCH-M0; historical F11E evidence remains.",
+      "mergeCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7"
+    },
+    {
+      "id": "DISPATCH-M0",
+      "title": "Shared-services dispatch architecture and programme",
+      "status": "in_progress",
+      "branch": "codex/civicmaps-dispatch-programme",
+      "planPath": "docs/plans/dispatch-build/README.md",
+      "evidencePath": "docs/plans/dispatch-build/evidence/M0.md",
+      "acceptancePassed": false,
+      "blockers": [],
+      "nextAction": "Complete M0 independent gate and publish programme; no functional completion claimed."
     }
   ],
   "integrationBase": "origin/main",
@@ -577,10 +589,10 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "F11D implementation and local qualification are complete in review PR26. PR24 is owner-merged; national governance progresses alongside functional development, with no blanket development block. Verify post-integration CI/review before owner merge of PR26. Record relevant GOV dependencies at feature checkpoints and resolve F09-P01\u2013P06 only before affected behaviour. F08 remains accepted; no redeployment or migration013 replay.",
-  "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
-  "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
-  "releaseClosureFeature": "F08",
+  "nextAction": "Review shared-services dispatch M0 programme; reconcile governance F-002 and outstanding operational decisions; implement ready bounded milestone after owner merge. F11D/F11E deployed; do not replay F08 migration.",
+  "currentDeployedSourceCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+  "currentReleaseEvidencePath": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/3438cc053cc9efee0a46a7cd99e4df005c8627d0/docs/plans/evidence/dispatch-release-closure.md",
+  "releaseClosureFeature": "F11D/F11E",
   "governanceGate": {
     "status": "active_parallel_workstream_production_acceptance_pending",
     "planPath": "docs/plans/governance-and-production-readiness-gate.md",
@@ -598,10 +610,18 @@
     "blanketDevelopmentBlock": false
   },
   "functionalWorkstream": {
-    "prioritisedFeature": "F11D",
+    "prioritisedFeature": "DISPATCH-M0",
     "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
-    "planPath": "docs/plans/dispatch-workspace-plan.md",
+    "planPath": "docs/plans/dispatch-build/README.md",
     "governance": "active_in_separate_session_no_blanket_development_hold",
-    "status": "review_ready_PR26"
+    "status": "programme_prepared_contract_gate_pending"
+  },
+  "dispatchBuildProgramme": {
+    "planPath": "docs/plans/dispatch-build/README.md",
+    "phase": "M0",
+    "status": "preparation_review_pending",
+    "empiricalMemoryId": "6ad7c3b6beb1d9647062ebd8",
+    "branch": "codex/civicmaps-dispatch-programme",
+    "sharedServicesRequired": true
   }
 }
