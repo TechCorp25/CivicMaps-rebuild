@@ -256,6 +256,10 @@ try {
     [secondOfficerId],
   );
   await database.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) VALUES ($1,$2)',
+    [secondOfficerId, '20000000-0000-4000-8000-000000000001'],
+  );
+  await database.query(
     "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
     [secondOfficerId],
   );
