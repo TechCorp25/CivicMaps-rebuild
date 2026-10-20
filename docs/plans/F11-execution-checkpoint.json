@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-20",
+  "feature": "F11",
+  "state": "prepared_awaiting_owner_model_switch",
+  "baselineCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+  "planPath": "docs/plans/F11-next-phase-build-plan.md",
+  "builder": {
+    "model": "GPT-6 Luna",
+    "reasoning": "medium"
+  },
+  "auditor": {
+    "model": "GPT-6 Astra",
+    "reasoning": "low",
+    "freshContext": true,
+    "inheritConversation": false,
+    "protocolPath": "docs/plans/independent-product-audit-protocol.md"
+  },
+  "goals": [
+    {
+      "id": "G0",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G1",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G2",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G3",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G4",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G5",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    }
+  ],
+  "nextAction": "Owner switches model; builder starts G0 then G1. No implementation or independent audit has begun.",
+  "environmentBlockers": [
+    "PostgreSQL 15 absent",
+    "Database connection EPERM on 127.0.0.1:55432",
+    "Configured HTTP proxy unreachable"
+  ],
+  "governancePR": 25
+}

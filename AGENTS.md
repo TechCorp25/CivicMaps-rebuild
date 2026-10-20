@@ -50,3 +50,7 @@ Follow `docs/plans/civicmaps-platform-assessment-and-autonomous-plan.md` and its
 Query Empirical before substantive work; record meaningful completed work there with explicit authorship. Never store secrets. Current user authorisation takes precedence over historical governance boilerplate. Continue authorised implementation in the existing stack; resolve concrete D01–D06 product/provider decisions at the feature that needs them. Do not infer a production boundary from the local build.
 
 Record recurring gotchas in Empirical with symptom, cause, verified fix and prevention, tagged with this project and feature. Check these notes on resumption. Add useful why-comments using the language’s syntax (`//` or `/* */` in JS/TS; `#` in shell/Python), rather than narrating obvious code. Keep relative documentation links current. Lint and formatting are enforced by `npm run check` and CI. Keep React Hooks dependency checks enabled.
+
+## Next F11 execution assignment (owner instruction, 20 October 2026)
+
+Read `docs/plans/F11-next-phase-build-plan.md` and `docs/plans/F11-execution-checkpoint.json` before continuing. Builder is GPT-6 Luna Medium; independent auditor is GPT-6 Astra Low. Follow `docs/plans/independent-product-audit-protocol.md`: fresh auditor context, no inherited conversation or builder reasoning/CoF/working notes; task requirements and resulting product only. No audit has occurred merely because a plan is present. Preserve separate governance PR25 ownership.
