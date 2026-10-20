@@ -1,5 +1,7 @@
 # F11E — Dispatch detail and action recovery
 
+> Current record correction — 20 October 2026: GitHub confirms PR27 owner-merged at `313d9a3fc5b2f66819bfaa52019600c3e167eda7`, published head `f2497442153a32b4e161a029aae39fd1695b92f3`. The implementation/publication/review-pending statements below are historical checkpoints, not current merge status. Historical local acceptance remains scoped to its original runs; this correction does not assert a new independent audit, hosted-CI verification or deployment. Continue with the [F11 plan](F11-next-phase-build-plan.md).
+
 **Status:** Implementation complete; publication/review pending
 **Base:** `main` at `1bbfa7bb68190278d6adb64bba39527b7a3e7e36` (owner-merged PR #26 / F11D). GitHub compare verified `main` identical to this SHA on 19 October 2026. A direct `git fetch origin main` was attempted but the workspace proxy refused the connection; the remote comparison was completed through the authenticated GitHub API.
 **Branch:** `codex/civicmaps-f11e-dispatch-detail`

@@ -1,5 +1,7 @@
 # CivicMAPS Platform — ecosystem assessment and autonomous delivery plan
 
+> Current execution pointer — 20 October 2026: F11D and F11E are owner-merged; verified main is `313d9a3`. The next functional target is full F11 council connection under the [goal-based build plan](F11-next-phase-build-plan.md) and [execution checkpoint](F11-execution-checkpoint.json). Builder GPT-6 Luna Medium; independent task/product-only auditor GPT-6 Astra Low. Governance PR25 continues separately. Older kickoff/status paragraphs below are historical and are superseded by this pointer and the current ledger.
+
 Assessment date: 13 October 2026. Author: Codex (agent).
 Repository: TechCorp25/CivicMaps-rebuild.
 Assessed baseline: `work` at `34a6a2ec65bb43ca75e1df2ebfe37caed4517857` (platform implementation plus merge from main).
