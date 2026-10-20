@@ -19,6 +19,10 @@ After each substantial checkpoint record base/HEAD, dirty paths, completed crite
 
 Stronger-model reviews at M0, M2–M4 integration, M5–M6 integration and M7. Supply exact evidence and resolve validated findings. Owner merges only; no auto-merge. Dependent milestones start from reviewed merged main. Continue independent work within scope when a dependency is blocked.
 
+## Owner steering — assessment timing
+
+21 October 2026: continue the authorised programme work through completion before running the fresh GPT-6 Astra assessment. Collect exact diffs, source trace, validation, CI and review evidence at each checkpoint, but do not stop the work solely to request Astra early. The final Astra assessment must cover the completed requested work; until it runs and findings are resolved, keep independent-review acceptance unclaimed. This timing instruction does not authorise bypassing unresolved owner policy, the PR #31 owner-merge boundary, governance-owned F-002, or deployment/release controls.
+
 ## Publication receipt
 
 This checkpoint initially records prepared documents, not functional completion. Final publication SHA/PR/review and next action are appended to evidence/M0.md and Empirical. Keep secrets and credential links out of all programme files.

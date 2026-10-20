@@ -5,7 +5,7 @@ Owner-approved: full staged build; Luna Medium with stronger-model gates; shared
 | ID | Decision/dependency | Required before | Safe independent work |
 |---|---|---|---|
 | D-DUTY | Code2 states, availability semantics, sign-off with open assignments, concurrent devices/session expiry, who can override | M2 operational transitions; M4 duty enforcement | Contract inspection, queue and intake |
-| D-INTAKE | Parking field requirements and authoritative catalogue; vehicle validation across jurisdictions | M3 enforcing new business rules | Typed package boundary, synthetic fixtures, existing optional fields |
+| D-INTAKE | Parking field requirements and authoritative catalogue; vehicle validation across jurisdictions | M3 enforcing new business rules | Typed common/package contract and synthetic fixtures are prepared; no parking fields, requiredness, catalogue, or vehicle rule is selected |
 | D-ROUTING | Cross-branch eligibility, manual override authority, any automatic assignment policy | M4 expanded authority | Preserve existing grants; recommendations never auto-commit |
 | D-GIS | Provider/licence/budget, approved address/zone data, travel-mode choices, disclosure scope | M5 live-provider acceptance | Deterministic local adapters and failure UI |
 | D-SAFETY | SOS recipients, escalation/acknowledgement authority, delivery guarantees, offline handling, retention/response ownership | Operational SOS/comms | Shared dependency design only |
