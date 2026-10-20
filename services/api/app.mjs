@@ -87,7 +87,7 @@ async function authenticated(client, req) {
     'SELECT user_id FROM sessions WHERE token_hash=$1 AND expires_at>now()',
     [digest(token(req))],
   );
-  if (!session.rowCount) return null;
+  requireValue(session.rowCount === 1, 401, 'Sign in to continue');
   await client.query("SELECT set_config('civicmaps.actor',$1,true)", [session.rows[0].user_id]);
   const auth = await client.query(
     `SELECT u.*, s.csrf_token,s.route_id,s.route_version,s.municipality_id AS session_municipality_id,
@@ -285,11 +285,12 @@ export function createApp({
         if (error.status !== 403) throw error;
         requireValue(false, 401, 'Email or password is incorrect');
       }
-      // A cookie from another principal/council is never revoked as a side effect of login.
-      await client.query(
-        'DELETE FROM sessions WHERE token_hash=$1 AND user_id=$2 AND municipality_id=$3',
-        [digest(token(req)), current.id, owner.rows[0].municipality_id],
-      );
+      // Replace only this principal's session for the resolved council. Sessions for
+      // every other principal/council remain untouched.
+      await client.query('DELETE FROM sessions WHERE user_id=$1 AND municipality_id=$2', [
+        current.id,
+        owner.rows[0].municipality_id,
+      ]);
       await client.query(
         "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,route_id,route_version,municipality_id) VALUES ($1,$2,$3,now()+interval '8 hours',$4,$5,$6)",
         [

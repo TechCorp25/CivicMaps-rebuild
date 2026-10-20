@@ -336,7 +336,7 @@ test('read-only broker takes authentication/context locks without identity updat
     await client.query(`CREATE ROLE ${role} NOLOGIN NOSUPERUSER BYPASSRLS`);
     await client.query(`GRANT USAGE ON SCHEMA public TO ${role}`);
     await client.query(
-      `GRANT SELECT ON users,sessions,platform_operators,platform_sessions,operating_context_bindings,operating_context_grants TO ${role}`,
+      `GRANT SELECT ON users,sessions,platform_operators,platform_sessions,operating_context_bindings,operating_context_grants,council_principal_owners TO ${role}`,
     );
     await client.query(
       `GRANT EXECUTE ON FUNCTION civicmaps_lock_user_contexts(uuid),civicmaps_lock_auth_session(text,boolean,boolean) TO ${role}`,
