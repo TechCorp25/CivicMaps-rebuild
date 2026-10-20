@@ -297,19 +297,23 @@
     },
     {
       "id": "F11",
-      "status": "planned",
-      "branch": null,
-      "commit": null,
+      "status": "blocked",
+      "branch": "codex/civicmaps-f11-next-phase-plan",
+      "commit": "2f8020bc7d40aa69acac3601315d24248540d101",
       "pr": null,
-      "evidencePath": null,
+      "evidencePath": "docs/plans/evidence/F11-G1-independent-audit-6210ac0.md",
       "acceptancePassed": false,
-      "publication": "not_started",
+      "publication": "not_published_after_local_scope_correction",
       "empirical": "not_started",
-      "blockers": [],
-      "nextAction": "GPT-6 Luna Medium executes G0 then G1; GPT-6 Astra Low independently audits task/product only under the audit protocol. Resolve concrete authority dependencies before dependent implementation.",
+      "blockers": [
+        "G0 runtime incomplete: PostgreSQL 15 unavailable and loopback database setup fails with EPERM; browsers not run.",
+        "G1 independent audit blocked because mandatory binding-correction content and the exact clean implementation contract are unavailable.",
+        "G2 schema/API implementation is not authorized until the source contract is recovered and a revised G1 product passes fresh independent audit."
+      ],
+      "nextAction": "Recover the approved first-slice contract and binding-correction source from PR25/owner records; map each requirement, revise the G1 product, and obtain a fresh GPT-6 Astra Low audit. Do not start G2.",
       "planPath": "docs/plans/F11-next-phase-build-plan.md",
       "checkpointPath": "docs/plans/F11-execution-checkpoint.json",
-      "preparationStatus": "prepared_awaiting_owner_model_switch"
+      "preparationStatus": "blocked_at_G1_independent_audit"
     },
     {
       "id": "F12",
@@ -583,7 +587,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "F11D implementation and local qualification are complete in review PR26. PR24 is owner-merged; national governance progresses alongside functional development, with no blanket development block. Verify post-integration CI/review before owner merge of PR26. Record relevant GOV dependencies at feature checkpoints and resolve F09-P01\u2013P06 only before affected behaviour. F08 remains accepted; no redeployment or migration013 replay.",
+  "nextAction": "F11 is blocked at G1. Recover approved source contract/corrections before G2; preserve PR25 as a separate draft. G0 local lint/format/types/build passed, but DB-backed tests and browsers were unavailable. No implementation or deployment.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08",
