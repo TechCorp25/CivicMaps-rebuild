@@ -276,11 +276,21 @@ export function createApp({
         [current.id],
       );
       requireValue(owner.rowCount === 1, 401, 'Email or password is incorrect');
+      const loginUser = {
+        ...current,
+        municipality_id: owner.rows[0].municipality_id,
+        owner_municipality_id: owner.rows[0].municipality_id,
+      };
       try {
-        await routeContext(client, req, {
-          ...current,
-          municipality_id: owner.rows[0].municipality_id,
-        });
+        const selector = await routeContext(client, req, loginUser);
+        if (selector !== undefined) {
+          const contexts = await permittedContexts(client, loginUser);
+          requireValue(
+            contexts.some((binding) => binding.id === selector),
+            403,
+            'Operating context is not permitted',
+          );
+        }
       } catch (error) {
         if (error.status !== 403) throw error;
         requireValue(false, 401, 'Email or password is incorrect');

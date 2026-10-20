@@ -101,6 +101,7 @@ test('004 upgrade gates all operational tables on a complete consistent context 
     await assertHidden(client);
     await setScope(client, scope);
     assert.equal((await client.query('SELECT * FROM council_principal_owners')).rowCount, 1);
+    await client.query('SAVEPOINT owner_update_denied');
     await assert.rejects(
       client.query('UPDATE council_principal_owners SET municipality_id=$2 WHERE user_id=$1', [
         actor,
@@ -108,6 +109,8 @@ test('004 upgrade gates all operational tables on a complete consistent context 
       ]),
       /permission denied/,
     );
+    await client.query('ROLLBACK TO SAVEPOINT owner_update_denied');
+    await client.query('RELEASE SAVEPOINT owner_update_denied');
     for (const table of tables)
       assert.ok((await client.query(`SELECT * FROM ${table}`)).rowCount > 0, table);
     for (const key of Object.keys(scope)) {

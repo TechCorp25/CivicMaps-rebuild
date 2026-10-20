@@ -343,8 +343,11 @@ test('read-only broker takes authentication/context locks without identity updat
     );
     await client.query('BEGIN');
     await client.query(`SET LOCAL ROLE ${role}`);
-    const user = (await client.query("SELECT * FROM users WHERE email='dispatch@alpha.example'"))
-      .rows[0];
+    const user = (
+      await client.query(`SELECT u.*,o.municipality_id AS owner_municipality_id
+        FROM users u JOIN council_principal_owners o ON o.user_id=u.id
+        WHERE u.email='dispatch@alpha.example'`)
+    ).rows[0];
     assert.ok((await permittedContexts(client, user)).length);
     await client.query("SELECT civicmaps_lock_auth_session(repeat('a',64),false,false)");
     await client.query("SELECT civicmaps_lock_auth_session(repeat('a',64),true,true)");
