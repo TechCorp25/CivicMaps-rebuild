@@ -297,23 +297,19 @@
     },
     {
       "id": "F11",
-      "status": "blocked",
-      "branch": "codex/civicmaps-f11-next-phase-plan",
-      "commit": "2f8020bc7d40aa69acac3601315d24248540d101",
+      "status": "in_progress",
+      "branch": null,
+      "commit": null,
       "pr": null,
-      "evidencePath": "docs/plans/evidence/F11-G1-independent-audit-6210ac0.md",
+      "evidencePath": null,
       "acceptancePassed": false,
-      "publication": "not_published_after_local_scope_correction",
+      "publication": "not_started",
       "empirical": "not_started",
-      "blockers": [
-        "G0 runtime incomplete: PostgreSQL 15 unavailable and loopback database setup fails with EPERM; browsers not run.",
-        "G1 independent audit blocked because mandatory binding-correction content and the exact clean implementation contract are unavailable.",
-        "G2 schema/API implementation is not authorized until the source contract is recovered and a revised G1 product passes fresh independent audit."
-      ],
-      "nextAction": "Recover the approved first-slice contract and binding-correction source from PR25/owner records; map each requirement, revise the G1 product, and obtain a fresh GPT-6 Astra Low audit. Do not start G2.",
+      "blockers": [],
+      "nextAction": "Continue authorised F11 G1 functional design; no owner approval or document request pending. See F11 handoff correction.",
       "planPath": "docs/plans/F11-next-phase-build-plan.md",
       "checkpointPath": "docs/plans/F11-execution-checkpoint.json",
-      "preparationStatus": "blocked_at_G1_independent_audit"
+      "preparationStatus": "prepared_awaiting_owner_model_switch"
     },
     {
       "id": "F12",
@@ -587,7 +583,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "F11 is blocked at G1. Recover approved source contract/corrections before G2; preserve PR25 as a separate draft. G0 local lint/format/types/build passed, but DB-backed tests and browsers were unavailable. No implementation or deployment.",
+  "nextAction": "Continue authorised F11 G1 functional design; no owner approval or document request pending. See F11 handoff correction.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08",

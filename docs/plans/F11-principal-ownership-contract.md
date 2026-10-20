@@ -1,3 +1,5 @@
+> Superseded candidate from an incorrect coordinator assignment. This is not the current F11 scope or an owner instruction. See [handoff correction](evidence/F11-handoff-correction-2026-10-20.md). Historical candidate content follows.
+
 # F11 G1 candidate: synthetic principal ownership
 
 Version: 0.1.0 (candidate for independent G1 review)  
