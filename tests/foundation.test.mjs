@@ -129,6 +129,10 @@ test('authentication denies missing and invalid credentials; cookie is HttpOnly 
   );
   assert.match(login.response.headers.get('set-cookie'), /HttpOnly/);
   assert.match(login.response.headers.get('set-cookie'), /SameSite=Strict/);
+  sessions.dispatch = {
+    ...login.data,
+    cookie: login.response.headers.get('set-cookie').split(';')[0],
+  };
 });
 test('creation is persisted and client ownership or number fields are rejected', async () => {
   const request = await create('Persisted note');
