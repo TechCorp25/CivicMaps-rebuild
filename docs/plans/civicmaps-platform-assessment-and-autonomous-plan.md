@@ -1,4 +1,8 @@
+> Current F11 status: execution authorised; G1 functional design resumes. No owner input is pending. See [handoff correction](evidence/F11-handoff-correction-2026-10-20.md).
+
 # CivicMAPS Platform — ecosystem assessment and autonomous delivery plan
+
+> Current execution pointer — 20 October 2026: F11D and F11E are owner-merged; verified main is `313d9a3`. The next functional target is full F11 council connection under the [goal-based build plan](F11-next-phase-build-plan.md) and [execution checkpoint](F11-execution-checkpoint.json). Builder GPT-6 Luna Medium; independent task/product-only auditor GPT-6 Astra Low. Governance PR25 continues separately. Older kickoff/status paragraphs below are historical and are superseded by this pointer and the current ledger.
 
 Assessment date: 13 October 2026. Author: Codex (agent).
 Repository: TechCorp25/CivicMaps-rebuild.
