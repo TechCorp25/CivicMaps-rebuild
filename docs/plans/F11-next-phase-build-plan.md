@@ -1,7 +1,7 @@
 # F11 — Council-to-CommandMAPS build plan
 
 Date: 20 October 2026 (Australia/Melbourne). Author: Codex.
-Status: prepared for owner model switch; implementation and independent audit not started.
+Status: G1 contract candidate independently audited and blocked; no schema/API implementation started.
 Executor: **GPT-6 Luna, Medium reasoning**. Independent auditor: **GPT-6 Astra, Low reasoning**.
 
 ## Outcome and boundaries
@@ -54,4 +54,4 @@ At G1, G2, G3/G4 and final G5, freeze the task contract and product SHA, then in
 
 ## Start instruction after model switch
 
-Run this plan as GPT-6 Luna Medium, beginning at G0 then G1. Read the current ledger and execution checkpoint; verify remote main and governance boundaries. Use GPT-6 Astra Low with a fresh, non-inheriting context at the defined checkpoints. Keep audit input restricted by the independent-product-audit protocol. Complete the authorised goals, fixes, checks, evidence and draft publication; stop only dependent work for a concrete unresolved decision. Do not merge or deploy. This preparation does not start that run.
+Execution update (20 October 2026): G0 baseline is recorded and G1 synthetic principal-ownership contract was audited in a fresh GPT-6 Astra Low context. Verdict is blocked because required binding-correction text and the exact approved implementation contract are unavailable. Do not start G2. Resume only after recovering those sources and preparing a revised contract for fresh independent audit. No merge or deployment.
