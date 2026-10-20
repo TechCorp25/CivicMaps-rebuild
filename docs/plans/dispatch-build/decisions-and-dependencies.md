@@ -10,7 +10,7 @@ Owner-approved: full staged build; Luna Medium with stronger-model gates; shared
 | D-GIS | Provider/licence/budget, approved address/zone data, travel-mode choices, disclosure scope | M5 live-provider acceptance | Deterministic local adapters and failure UI |
 | D-SAFETY | SOS recipients, escalation/acknowledgement authority, delivery guarantees, offline handling, retention/response ownership | Operational SOS/comms | Shared dependency design only |
 | D-LIFECYCLE | Extra state meaning, role transitions, evidence and outcome obligations | Extending current five states | Existing lifecycle tracking/recovery |
-| GOV-F002 | Queue completeness already assigned to governance | M1 final integration | M3 preparation; no duplicate fix without handover |
+| GOV-F002 | Queue completeness remains assigned to governance. PR #25 is still OPEN/DRAFT, unmerged, at `ac4bb265ad978641d0308ec284aaf3f3b4415678` against main `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (checked 21 October 2026); its implementation is not available on main. | M1 final integration | M3 preparation; no duplicate fix without handover. Reconcile the reviewed F-002 contract after the governance PR is owner-merged. |
 | GOV-F009/F011/F029 | Shared capacity, pool recovery, audit validation/rendering | Affected acceptance | Reconcile current governance/main state; consume reviewed interfaces |
 | RELEASE | PR30 evidence still separate; source already deployed | New release reconciliation | Do not redeploy or replay migration013 |
 

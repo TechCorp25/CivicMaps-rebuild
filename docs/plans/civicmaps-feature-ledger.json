@@ -556,20 +556,23 @@
       "status": "merged",
       "branch": "codex/civicmaps-f11e-dispatch-detail",
       "baseCommit": "1bbfa7bb68190278d6adb64bba39527b7a3e7e36",
-      "commit": null,
+      "commit": "1d07412d93ffd3ecd5092d68cc751ba2458a216a",
       "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/27",
       "planPath": "docs/plans/F11E-dispatch-detail-plan.md",
       "evidencePath": "docs/plans/evidence/F11E.md",
       "acceptancePassed": true,
       "publication": "verified_merged",
-      "empirical": "not_started",
+      "empirical": "6ad7d760beb1d964706302de",
       "blockers": [],
       "dependencies": [
         "F11D",
         "existing request API and permissions"
       ],
-      "nextAction": "Merged and deployed. Continue shared-services programme DISPATCH-M0; historical F11E evidence remains.",
-      "mergeCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7"
+      "nextAction": "Merged and deployed; final PR head f2497442153a32b4e161a029aae39fd1695b92f3 passed CI and Codex review. Continue shared-services DISPATCH-M0.",
+      "mergeCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+      "publishedHead": "f2497442153a32b4e161a029aae39fd1695b92f3",
+      "hostedCiRuns": ["39197541244", "39197537687"],
+      "codexReview": "completed_no_findings"
     },
     {
       "id": "DISPATCH-M0",
@@ -580,7 +583,7 @@
       "evidencePath": "docs/plans/dispatch-build/evidence/M0.md",
       "acceptancePassed": false,
       "blockers": [],
-      "nextAction": "Complete M0 independent gate and publish programme; no functional completion claimed."
+      "nextAction": "Complete the explicit stronger-model M0 review; keep F-002 queue work pending the reviewed governance interface and owner merge. No functional completion claimed."
     }
   ],
   "integrationBase": "origin/main",
