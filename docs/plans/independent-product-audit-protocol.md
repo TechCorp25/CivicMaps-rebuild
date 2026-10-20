@@ -26,3 +26,5 @@ Required checkpoints: G1 authority/API contract; G2 server/schema product; G3/G4
 ## Report fields
 
 Task ID/version; baseline/candidate SHA; auditor model/effort; input manifest/hash; independence declaration; tests executed/results; findings with severity, location, impact and reproduction; unverified requirements; verdict; timestamp. Store the audit report separately from builder working notes. Publication/ledger status must not claim an audit occurred before its report exists.
+
+The final release assessment occurs after tests, docs/Empirical updates and push, against the verified remote candidate. Passing assessment and required CI gate merge; deployment verification follows merge. Record exact candidate and merged/deployed artifact identities. Any material change after assessment requires affected checks and independent reassessment.

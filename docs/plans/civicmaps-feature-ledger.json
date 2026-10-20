@@ -306,7 +306,7 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Continue authorised F11 G1 functional design; no owner approval or document request pending. See F11 handoff correction.",
+      "nextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
       "planPath": "docs/plans/F11-next-phase-build-plan.md",
       "checkpointPath": "docs/plans/F11-execution-checkpoint.json",
       "preparationStatus": "prepared_awaiting_owner_model_switch"
@@ -583,7 +583,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "Continue authorised F11 G1 functional design; no owner approval or document request pending. See F11 handoff correction.",
+  "nextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08",

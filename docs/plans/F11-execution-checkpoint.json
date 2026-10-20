@@ -65,7 +65,7 @@
       "audit": null
     }
   ],
-  "nextAction": "Luna Medium resumes functional F11 G1 design from approved sources; fresh Astra Low product-only audit follows. No owner input requested.",
+  "nextAction": "Execute G1 functional contract then G2\u2013G5 through mandatory development sequence; build missing persistent tests and wire nested discovery into local checks/CI. This update is planning only.",
   "environmentBlockers": [
     "Runtime validation pending: PostgreSQL 15 absent and database connection EPERM; investigate supported environment access."
   ],
@@ -101,5 +101,22 @@
       }
     },
     "correctionPath": "docs/plans/evidence/F11-handoff-correction-2026-10-20.md"
+  },
+  "developmentSequence": [
+    "plan",
+    "build",
+    "test",
+    "update_docs_and_empirical",
+    "push",
+    "independent_assessment",
+    "merge",
+    "deploy",
+    "plan_next_phase"
+  ],
+  "testInventoryPath": "tests/f11/README.md",
+  "releaseStatus": {
+    "assessment": "not_completed",
+    "merge": "not_started",
+    "deploy": "not_started"
   }
 }
