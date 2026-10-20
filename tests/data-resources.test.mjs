@@ -125,8 +125,11 @@ test('backend denies unbound context, forged selector and tampered resource regi
 });
 
 test('resource status helper skips storage credentials and denies revoked or disabled scope before connection', async () => {
-  const user = (await pool.query("SELECT * FROM users WHERE email='dispatch@alpha.example'"))
-    .rows[0];
+  const user = (
+    await pool.query(`SELECT u.*,o.municipality_id AS owner_municipality_id
+      FROM users u JOIN council_principal_owners o ON o.user_id=u.id
+      WHERE u.email='dispatch@alpha.example'`)
+  ).rows[0];
   const client = await pool.connect();
   let connectionCalls = 0;
   const fakeConnection = {

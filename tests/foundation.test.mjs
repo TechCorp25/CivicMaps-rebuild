@@ -28,7 +28,7 @@ async function create(notes = '') {
     longitude: 144.963,
     notes,
   });
-  assert.equal(result.status, 201);
+  assert.equal(result.status, 201, JSON.stringify(result.data));
   return result.data;
 }
 async function insertQueueFixtures(activeCount = 105, closedCount = 110) {
