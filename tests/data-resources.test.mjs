@@ -88,8 +88,11 @@ test('explicit AWS profile checkpoints registry without promoting historical job
   }
 });
 test('backend denies unbound context, forged selector and tampered resource registry before external access', async () => {
-  const user = (await pool.query("SELECT * FROM users WHERE email='dispatch@alpha.example'"))
-    .rows[0];
+  const user = (
+    await pool.query(`SELECT u.*,o.municipality_id AS owner_municipality_id
+      FROM users u JOIN council_principal_owners o ON o.user_id=u.id
+      WHERE u.email='dispatch@alpha.example'`)
+  ).rows[0];
   const client = await pool.connect();
   try {
     await client.query('BEGIN');

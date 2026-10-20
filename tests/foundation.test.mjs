@@ -98,6 +98,10 @@ before(async () => {
       cookie: result.response.headers.get('set-cookie').split(';')[0],
     };
   }
+  for (const account of Object.keys(sessions)) {
+    const session = await call('/auth/session', undefined, account);
+    assert.equal(session.status, 200, `newly issued ${account} session remains usable`);
+  }
 });
 after(async () => {
   await environment?.close();

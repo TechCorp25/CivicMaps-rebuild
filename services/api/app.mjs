@@ -293,6 +293,7 @@ export function createApp({
         }
       } catch (error) {
         if (error.status !== 403) throw error;
+        if (req.serviceRoute) throw error;
         requireValue(false, 401, 'Email or password is incorrect');
       }
       // Replace only this principal's session for the resolved council. Sessions for
