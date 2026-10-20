@@ -56,7 +56,14 @@ try {
           'SELECT municipality_id FROM council_principal_owners WHERE user_id=$1',
           [owner.userId],
         );
-        if (result.rows[0]?.municipality_id !== owner.municipalityId)
+        if (!result.rowCount) {
+          const testOnlyPrincipal = ownership.testPrincipals.some(
+            (principal) => principal.userId === owner.userId,
+          );
+          if (testOnlyPrincipal) continue;
+          throw new Error(`Synthetic owner principal missing for ${owner.userId}`);
+        }
+        if (result.rows[0].municipality_id !== owner.municipalityId)
           throw new Error(`Synthetic owner conflict for ${owner.userId}`);
       }
     }
