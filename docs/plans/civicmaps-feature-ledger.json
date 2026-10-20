@@ -3,8 +3,8 @@
   "project": "civicmaps-platform",
   "assessmentDate": "2026-10-13",
   "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
-  "activeFeature": null,
-  "nextFeature": "F09",
+  "activeFeature": "F11",
+  "nextFeature": "F12",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -266,16 +266,16 @@
       "id": "F09",
       "status": "planned",
       "branch": null,
-      "commit": "a47b7adbafba25f42d65596d604c42c02cf2163d",
-      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/27",
+      "commit": null,
+      "pr": null,
       "evidencePath": null,
       "acceptancePassed": false,
-      "publication": "review_findings_fixed_remote_SHA_verified_draft_PR27_CI_pending",
+      "publication": "not_started",
       "empirical": "not_started",
       "blockers": [
         "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
       ],
-      "nextAction": "Continue independent ready work alongside active governance resolution. Resolve F09-P01–P06 before dependent suspension behaviour; if a task depends on an unresolved choice, progress another ready task. PR22 preparation is owner-merged; no policy approval inferred.",
+      "nextAction": "Continue independent ready work alongside active governance resolution. Resolve F09-P01\u2013P06 before dependent suspension behaviour; if a task depends on an unresolved choice, progress another ready task. PR22 preparation is owner-merged; no policy approval inferred.",
       "preparationPath": "docs/plans/F09-next-phase-plan.md",
       "preparationStatus": "reviewed_and_published",
       "policyDecisionStatus": "proposed_not_approved",
@@ -297,7 +297,7 @@
     },
     {
       "id": "F11",
-      "status": "planned",
+      "status": "in_progress",
       "branch": null,
       "commit": null,
       "pr": null,
@@ -306,7 +306,10 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Read feature card and confirm dependency evidence before starting."
+      "nextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
+      "planPath": "docs/plans/F11-next-phase-build-plan.md",
+      "checkpointPath": "docs/plans/F11-execution-checkpoint.json",
+      "preparationStatus": "prepared_awaiting_owner_model_switch"
     },
     {
       "id": "F12",
@@ -531,7 +534,7 @@
     },
     {
       "id": "F11D",
-      "title": "Dispatch workspace and workflow fidelity — bounded F11 precursor",
+      "title": "Dispatch workspace and workflow fidelity \u2014 bounded F11 precursor",
       "status": "merged",
       "branch": "codex/civicmaps-dispatch-workspace",
       "commit": "10bdab731b269f911cb0f135f2f30286db3c4cb1",
@@ -546,7 +549,7 @@
         "F07",
         "F08"
       ],
-      "nextAction": "Merged and deployed; retain feature evidence and release receipt. Select the next bounded development phase separately.",
+      "nextAction": "Merged and deployed bounded dispatch precursor; retain release evidence and continue the full F11 plan at its current checkpoint.",
       "mergeCommit": "1bbfa7bb68190278d6adb64bba39527b7a3e7e36",
       "publishedHead": "0c6ae265c43a44ecb3b2f5a104fb58d0430b5ce4",
       "releaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
@@ -564,16 +567,18 @@
       "evidencePath": "docs/plans/evidence/F11E.md",
       "acceptancePassed": true,
       "publication": "verified_merged",
-      "empirical": "6ad4c8e8beb1d9647060a602",
+      "empirical": "6ad7d760beb1d964706302de",
       "blockers": [],
       "dependencies": [
         "F11D",
         "existing request API and permissions"
       ],
-      "nextAction": "Merged and deployed; retain feature evidence and release receipt. Select the next bounded development phase separately.",
+      "nextAction": "Merged and deployed bounded dispatch precursor; retain release evidence and continue the full F11 plan at its current checkpoint.",
+      "publishedHead": "f2497442153a32b4e161a029aae39fd1695b92f3",
+      "mergeCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+      "acceptanceScope": "historical_local_evidence_not_rerun_2026_10_20",
       "releaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
-      "deployedCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
-      "mergeCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7"
+      "deployedCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7"
     }
   ],
   "integrationBase": "origin/main",
@@ -582,10 +587,10 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "F11D implementation and local qualification are complete in review PR26. PR24 is owner-merged; national governance progresses alongside functional development, with no blanket development block. Verify post-integration CI/review before owner merge of PR26. Record relevant GOV dependencies at feature checkpoints and resolve F09-P01–P06 only before affected behaviour. F08 remains accepted; no redeployment or migration013 replay.",
-  "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
-  "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
-  "releaseClosureFeature": "F08",
+  "nextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
+  "currentDeployedSourceCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+  "currentReleaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
+  "releaseClosureFeature": "F11E",
   "governanceGate": {
     "status": "active_parallel_workstream_production_acceptance_pending",
     "planPath": "docs/plans/governance-and-production-readiness-gate.md",
@@ -603,10 +608,11 @@
     "blanketDevelopmentBlock": false
   },
   "functionalWorkstream": {
-    "prioritisedFeature": "F11D",
+    "prioritisedFeature": "F11",
     "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
-    "planPath": "docs/plans/dispatch-workspace-plan.md",
+    "planPath": "docs/plans/F11-next-phase-build-plan.md",
     "governance": "active_in_separate_session_no_blanket_development_hold",
-    "status": "review_ready_PR26"
-  }
+    "status": "in_progress_g1_design"
+  },
+  "currentCheckpointPath": "docs/plans/F11-execution-checkpoint.json"
 }
