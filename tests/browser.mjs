@@ -263,6 +263,21 @@ try {
     "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
     [secondOfficerId],
   );
+  const secondDispatcherId = '00000000-0000-4000-8000-000000000008';
+  await database.query(
+    `INSERT INTO users(id,email,name,password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id)
+     SELECT $1,'synthetic-second-dispatcher@alpha.example','Synthetic second dispatcher',password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id
+     FROM users WHERE id='00000000-0000-4000-8000-000000000001'`,
+    [secondDispatcherId],
+  );
+  await database.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) VALUES ($1,$2)',
+    [secondDispatcherId, '20000000-0000-4000-8000-000000000001'],
+  );
+  await database.query(
+    "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
+    [secondDispatcherId],
+  );
   const staleAssignment = await createSyntheticRequest(page, `F11E stale assignment ${Date.now()}`);
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await page.locator(`[data-request-id="${staleAssignment.id}"] .request-link`).click();
@@ -318,7 +333,9 @@ try {
   await page.unroute(`**/api/requests/${uncertain.id}/actions`, uncertainWrite);
 
   const independent = await browser.newPage();
-  await login(independent, 'dispatch@alpha.example');
+  // Use an independently owned principal so the separate cookie does not replace
+  // the primary browser's single council-bound session.
+  await login(independent, 'synthetic-second-dispatcher@alpha.example');
   const independentSession = await (
     await independent.request.get(`${origin}/api/auth/session`)
   ).json();
