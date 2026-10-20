@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "date": "2026-10-20",
   "feature": "F11",
-  "state": "g1_contract_candidate_for_independent_audit",
+  "state": "blocked_g1_missing_approved_corrections",
   "baselineCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
   "planPath": "docs/plans/F11-next-phase-build-plan.md",
   "builder": {
@@ -33,13 +33,25 @@
     },
     {
       "id": "G1",
-      "status": "candidate_ready_for_audit",
+      "status": "blocked_audit",
       "evidence": {
         "contract": "docs/plans/F11-principal-ownership-contract.md",
         "scopeCorrection": "Synthetic/test-only principal ownership enforcement with binding corrections; broader staff provisioning deferred.",
         "sourceLimit": "Exact /workspace/work/council-principal-ownership-implementation-contract.md absent; PR25 source objects unavailable locally. Contract records this limitation explicitly."
       },
-      "audit": null
+      "audit": {
+        "verdict": "blocked",
+        "reportPath": "docs/plans/evidence/F11-G1-independent-audit-6210ac0.md",
+        "reportSha256": "4f8811a1d321e3e691a4efad159c01c6cf2d4cb5c2ecdd6a1744ea71b1f0799c",
+        "auditor": "GPT-6 Astra",
+        "reasoning": "low",
+        "freshContext": "collaboration spawn with fork_turns=none",
+        "candidateCommit": "6210ac02ca81738ba943c6096d56238728316d10",
+        "candidateTree": "372a6d96aec959f0eb1975c505e202c45461127d",
+        "inputSha256": "33e68899331de5df6f71b6f062b6072f25628374dd2b7e9179079701742591f3",
+        "finding": "Mandatory binding-correction content and clean source contract are unavailable; schema design and existing enforcement dependencies remain unverified.",
+        "g2Authorized": false
+      }
     },
     {
       "id": "G2",
@@ -66,7 +78,7 @@
       "audit": null
     }
   ],
-  "nextAction": "Freeze G1 candidate product SHA and submit task/approved constraints/contract only to fresh GPT-6 Astra Low. Stop dependent schema/API work on blocked or changes_required verdict.",
+  "nextAction": "Recover the approved first-slice contract and binding-correction source from PR25/owner records; map all requirements and complete a new G1 product and fresh independent audit. Do not start G2 meanwhile.",
   "environmentBlockers": [
     "PostgreSQL 15 binaries absent",
     "Database test setup fails before subtests; prior diagnostic reports EPERM binding 127.0.0.1:55432",
