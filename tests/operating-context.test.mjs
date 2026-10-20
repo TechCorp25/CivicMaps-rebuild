@@ -408,6 +408,9 @@ test('effective periods include the lower bound and exclude the upper bound usin
     '2020-01-01',clock_timestamp(),NULL,now() FROM operating_context_bindings WHERE id=$2`,
     [ended, alpha],
   );
-  const denied = await account([ended]);
-  assert.equal((await call('/requests', denied.session, { context: ended })).status, 403);
+  await pool.query(
+    "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,$2,'2020-01-01')",
+    [expired.id, ended],
+  );
+  assert.equal((await call('/requests', expired.session, { context: ended })).status, 403);
 });
