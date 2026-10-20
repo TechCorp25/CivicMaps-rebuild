@@ -1,6 +1,9 @@
+Warning: truncated output (original token count: 10217)
+Total output lines: 319
+
 # CivicMAPS Platform — ecosystem assessment and autonomous delivery plan
 
-> Current execution pointer — 20 October 2026: F11D and F11E are owner-merged; verified main is `313d9a3`. The next functional target is full F11 council connection under the [goal-based build plan](F11-next-phase-build-plan.md) and [execution checkpoint](F11-execution-checkpoint.json). Builder GPT-6 Luna Medium; independent task/product-only auditor GPT-6 Astra Low. Governance PR25 continues separately. Older kickoff/status paragraphs below are historical and are superseded by this pointer and the current ledger.
+> Current execution pointer — 20 October 2026: F11D and F11E are owner-merged; verified main is `313d9a3`. F11 is blocked at G1: a fresh GPT-6 Astra Low audit found the required binding-correction source and clean implementation contract unavailable. Do not begin G2 until those approved inputs are recovered and a revised contract passes independent audit. See the [goal-based build plan](F11-next-phase-build-plan.md), [execution checkpoint](F11-execution-checkpoint.json), and [G1 audit report](evidence/F11-G1-independent-audit-6210ac0.md). Governance PR25 continues separately. Older kickoff/status paragraphs below are historical and are superseded by this pointer and the current ledger.
 
 Assessment date: 13 October 2026. Author: Codex (agent).
 Repository: TechCorp25/CivicMaps-rebuild.
@@ -84,146 +87,7 @@ This is a proposed logical connection map, not a selection of hosting provider, 
 2. Select the lowest-numbered ready feature whose dependencies have evidence of completion. Keep exactly one feature `in_progress`. Clarify only an unresolved decision that blocks that feature; work on another independent ready feature if available.
 3. Create a fresh `codex/civicmaps-fNN-<slug>` branch from the reviewed integration base. Use a separate worktree for isolation where possible. If a dependent feature must continue before owner merge, explicitly stack its branch on the completed prerequisite and target that prerequisite branch in its draft PR.
 4. Capture a failing acceptance scenario where meaningful, implement only the stated feature, then run its targeted checks and affected regression checks. Use synthetic Alpha/Beta municipalities, distinct accounts and isolated disposable resources.
-5. Record acceptance results, exact commands, source SHA, environment, changed files, screenshots where relevant, remaining limitations and rollback steps in `docs/plans/evidence/FNN.md`. A mock/provider simulator result is not live-provider evidence.
-6. Commit feature code and evidence; push the fresh branch; verify the remote SHA. Open a focused draft PR for owner review. Do not merge or enable auto-merge. Keep any existing implementation changes out of unrelated feature PRs.
-7. Update Empirical with explicit `authorType: agent`, tags `CivicMaps-rebuild,civicmaps-platform,work-history,FNN`, outcome, commit, branch, PR, checks, limitations and next feature. Never include secrets, citizen records or temporary passwords. Retry failed memory calls once under the Empirical skill.
-8. Mark `review_ready` only after acceptance checks, publication and memory update succeed. Track implementation status separately from publication/memory status so a network failure cannot falsely mark work complete. Owner merge changes status to `merged`; an agent must not infer merge from a pushed branch.
-9. Checkpoint after each meaningful milestone and before compaction/interruption: feature ID, branch/HEAD, dirty paths, completed criteria, exact next action, failed command and blocker. Resume from evidence instead of repeating completed operations. Retry transient failures at most twice per checkpoint; investigate repeat failures and mark blocked rather than looping.
-10. Continue while ready work exists. Stop only when all authorised goals are review-ready, an essential decision/access dependency blocks all remaining work, or the user stops the session. Do not broaden a feature to fill waiting time.
-
-A feature is implementation-complete only when its observable goal, negative cases, relevant regression checks and rollback evidence pass. Builds alone cannot close an API, tenancy, payment or deployment feature.
-
-## Decisions to resolve at the relevant boundary
-
-These are concrete product/operating inputs, not blanket approval gates on routine coding:
-
-- D01: sandbox isolation level, hosting account/provider, region/residency, resource budget and retention; platform/public hostnames. Existing unresolved OQ12-1 and current local runtime do not select a production deployment boundary.
-- D02: [F07 permissions and activation delivery/recovery policy are owner-approved](F07-D02-decisions.md). Later organisation/team administration still needs its own explicit scope and audited operator authority.
-- D03: [owner-approved F08 policy](F08-D03-decisions.md), implemented and owner-merged: stable IDs/parking mapping, retained authorised request/audit review (ADMIN excluded), write-before-disable ordering and audited re-enable. F09 municipality-wide suspension is a distinct policy boundary; its proposed choices are in the [F09 plan](F09-next-phase-plan.md).
-- D04: public-report categories, anonymous-report tracking/privacy rule, attachment limits/retention. S22 says anonymous reports have no status link; preserve that default until changed explicitly.
-- D05: payment provider and council merchant ownership, currencies, authoritative amounts, infringement lookup factors, refunds/partial payments, and permit approve-versus-issue sequencing. S25/OQ25-1 explicitly conflicts with earlier permit issuance timing.
-- D06: service health thresholds, freshness, support alerts and agreed recovery objectives. Synthetic Healthy labels are not an SLO.
-
-Prepare adapter contracts and local synthetic proofs while external choices are pending. Do not pick a provider, real merchant account, legal penalty schedule or live hostname implicitly. Historical ADR boilerplate must not prevent evidence gathering or work already authorised by the user.
-
-## Feature queue
-
-Each card is a single independently reviewable outcome. Dependencies refer to these cards; all begin planned. Target order is the order below, skipping only blocked cards whose dependants are not being executed.
-
-### F01 — Reproducible build baseline
-**Depends on:** none. **Goal:** a fresh checkout installs and builds deterministically.
-**Scope:** restore a valid root lockfile against the existing manifest; reconcile obsolete AGENTS/build documentation; add CI for existing apps with disposable PostgreSQL.
-**Done when:** clean install, both typechecks/builds and current foundation suite pass from the pinned commit; CI does not claim scaffold apps were tested.
-**Rollback:** revert build/configuration changes; retain prior source. No feature logic changes.
-
-### F02 — Platform registration acceptance coverage
-**Depends on:** F01. **Goal:** prove the current S12–S15 contract.
-**Scope:** platform API tests plus browser registration/pack flows.
-**Done when:** duplicate slug/email and parallel retry create one municipality/audit; replay omits plaintext password; stale versions and missing CSRF fail; council cookies cannot access platform routes and platform role cannot read operational tables; keyboard navigation, reload/session restoration and errors verified.
-**Rollback:** test/configuration commit only; defects needing new behaviour get a separately scoped card.
-
-### F02Q — Enforced code quality baseline
-**Depends on:** F02. **Goal:** keep implemented application code readable and automatically checked before context binding expands it.
-**Scope:** pinned ESLint flat configuration for JavaScript/TypeScript and React Hooks; separately configured Prettier; root lint/format checks in CI. Include implemented app source, API, active scripts and tests; explicitly exclude archives, generated tokens, build output and scaffolds. Format in a mechanical commit, then make bounded lint/DRY corrections. Retain existing auth-plane separation and framework choices.
-**Done when:** lint reports zero warnings, formatter check passes, both typechecks/builds, all 18 API cases and platform browser acceptance pass; generated tokens remain unchanged. Resolve effect dependencies without blanket suppressions; preserve cancellation and same-ID page navigation. Extract shared disposable test lifecycle where it removes repeated ownership/cleanup logic, retain explicit test scenarios, and remove duplicate narrow screenshot capture. Add short why-comments for route-page refetch, table positioning, retry-secret omission and role/transaction boundaries, with relative links to evidence where useful. Inspect formatted components; split only coherent views that materially reduce branching/ownership complexity. No arbitrary line-count target or speculative abstractions.
-**Evidence:** `docs/plans/evidence/F02Q.md` with exact versions, commands, exclusions, CI URL, behavioural diff and unresolved findings. Record each gotcha with symptom, cause, fix and prevention in Empirical.
-**Rollback:** revert tooling and refactor commits; no schema changes. Keep existing acceptance tests.
-
-### F03 — Municipality-to-operating-context binding
-**Depends on:** F02, F02Q. **Goal:** registry entries resolve to explicit permitted operating contexts.
-**Scope:** versioned municipality/tenant/organisation/jurisdiction/data-plane associations and realm resolution; no infrastructure.
-**Done when:** Alpha/Beta isolation and a shared-service association fixture pass; forged/unset/expired context fails closed; operational origin remains immutable; mapping migration is repeatable.
-**Rollback:** disable new bindings without deleting operational records; document migration compatibility.
-
-### F04 — Durable provisioning job lifecycle
-**Depends on:** F03. **Goal:** registration can request an observable, restartable provisioning operation.
-**Scope:** job state, idempotent steps, retry/lease handling, status UI and fake adapter.
-**Done when:** crash/restart and duplicate delivery resume the same job; failed steps never mark municipality Active; audit links actor/job/resource IDs; reconcile and retry are visible.
-**Rollback:** pause worker; preserve jobs and registry for diagnosis. Fake adapter must remain visibly synthetic.
-
-### F05 — Provision isolated municipality data resources
-**Depends on:** F04; D01. **Goal:** a chosen sandbox boundary is created through the job adapter.
-**Scope:** one approved data isolation implementation, migrations, least-privilege runtime credentials and evidence storage namespace; no public routing.
-**Done when:** create two disposable sandboxes; API, direct runtime DB credentials and object access cannot cross boundaries; failed creation leaves recoverable state; migration replay works without data loss.
-**Rollback:** remove only explicitly tagged empty test resources; retain populated resources and disable access. Record exact resource inventory.
-
-### F06 — Municipality service routing
-**Depends on:** F05; D01 hostname decision. **Goal:** a registered sandbox has verified service destinations.
-**Scope:** trusted host-to-context resolution, routing manifest, TLS/ingress adapter and readiness probes.
-**Done when:** Alpha/Beta hosts resolve correctly; unknown/forged Host and forwarded-host values fail closed; credentials do not travel to another tenant; routes remain unavailable until resources are ready.
-**Rollback:** withdraw new route mapping; retain data and job history.
-
-### F06Q — Routing reliability and release alignment
-**Depends on:** merged F06. **Goal:** recoverable routing, isolated login throttling and truthful current status on the existing approved development release.
-**Scope:** bounded durable retries and restricted out-of-band Platform recovery; trusted-ingress client key with route/client/identity limits; serial detail polling and readiness expiry; truthful health mode; controlled release of migrations 010/011 with owned backup and data-preserving rollback.
-**Done when:** transient/terminal/crashed/stale workers, withdrawal, genuine Caddy client isolation, forged/duplicate headers and Chromium refresh/expiry/navigation pass; exact-source deployment, current live TLS/isolation and rollback are executed and recorded. Local proof alone cannot close release alignment.
-**Evidence:** [F06Q evidence](evidence/F06Q.md), [runbook](../development/service-routing.md#f06q-reliability-update), [17 October assessment](civicmaps-status-assessment-2026-10-17.md), and [implementation prompt](F06Q-next-phase-prompt.md).
-**Rollback:** pause routing first; restore the recorded previous application/Caddy source with compatible additive schema; retain populated control data, ownership, sessions and history. Withdrawn routes stay closed.
-
-### F07 — First council-admin activation
-**Depends on:** F03, F05, F06Q; D02. **Goal:** pending first admin becomes an authorised council user.
-**Scope:** one-time expiring activation, credential recovery and minimal council ADMIN permissions; preserve operator/council identity separation.
-**Done when:** activation is single-use, scoped and audited; expired/replayed tokens fail; lost initial response has safe recovery; council admin cannot gain platform rights; account disable revokes access.
-**Rollback:** revoke activation/session state and disable account; preserve audit.
-
-### F08 — Server-enforced pack entitlements
-**Depends on:** F03, F07; D03. **Goal:** pack changes govern operational service access.
-**Scope:** stable pack catalogue, branch/capability mapping, versioned entitlement resolution and server checks; UI consumes the same result.
-**Done when:** disabled capability is denied through direct API calls as well as UI; stale cached grants cannot reopen access; retained records obey the agreed review policy; re-enable restores authorised access without recreating records.
-**Rollback:** restore previous configuration version, not a permissive bypass.
-
-### F09 — Municipality suspension and resumption
-**Depends on:** F06–F08. **Goal:** an operator can suspend a sandbox without deleting its records.
-**Scope:** audited status transition, access/session enforcement and UI state.
-**Done when:** in-flight and subsequent operations follow a tested suspension policy across staff/public entry points; resumption requires healthy resources; another municipality is unaffected.
-**Rollback:** audited resume to prior state after readiness checks. Later public/payment features must extend these tests.
-**Preparation:** [F09 plan](F09-next-phase-plan.md) defines bounded scope, dependencies, acceptance and TODOs. Access/session/in-flight/readiness choices there are proposals, not owner-approved policy. F08 deployment/live acceptance/recovery and supplemental source verification are complete, supported by inspected original AWS receipts in [F08 closure](evidence/F08-release-closure.md).
-
-### F10 — Audited council organisation management
-**Depends on:** F03, F07; D02. **Goal:** authorised platform operators manage a council's team structure through explicit actions.
-**Scope:** one organisation/team editing API and UI slice, with version conflicts and audit.
-**Done when:** no silent tenant override; wrong-realm edits fail; referenced teams cannot be destructively removed; concurrent edits conflict; council users see only permitted structure.
-**Rollback:** restore prior configuration version; preserve audit and record origins.
-
-### F11 — CommandMAPS sandbox connection
-**Depends on:** F06–F08. **Goal:** a newly provisioned council can use the existing request lifecycle.
-**Scope:** replace fixture-only context assumptions with resolved municipality configuration and permissions in CommandMAPS.
-**Done when:** activated council admin provisions authorised dispatch/officer access; create → assign → acknowledge → attend → close succeeds within its realm; a second council cannot list, assign or inspect its audit; disabled pack is denied.
-**Rollback:** disable service route for affected sandbox; preserve requests.
-
-### F12 — EnforcementMAPS web dispatch slice
-**Depends on:** F11. **Goal:** officers use a dedicated web surface for assigned work.
-**Scope:** replace web scaffold with sign-in, assigned-request list/detail, acknowledgement and attendance using existing API contracts.
-**Done when:** real browser workflow passes for two municipalities; officer cannot see unassigned/other-council work; refresh/version conflict and session expiry recover; narrow-screen and keyboard checks pass.
-**Rollback:** disable EnforcementMAPS web route; existing request state remains valid. Excludes infringement issuance and offline operation.
-
-### F13 — EnforcementMAPS mobile dispatch slice
-**Depends on:** F12; selected mobile runtime where required. **Goal:** the same bounded officer workflow works on a device.
-**Scope:** mobile sign-in, assigned requests, acknowledge/attend; online mode only, with explicit unavailable state offline.
-**Done when:** device/emulator demonstration and API isolation tests pass; credentials use platform secure storage; disconnect never implies success; no public-portal or CommandMAPS chrome is substituted for mobile acceptance.
-**Rollback:** disable release/feature flag. Durable offline sync remains a separate follow-up, not a claimed capability.
-
-### F14 — Public case intake contract
-**Depends on:** F03, F08; D04. **Goal:** one public report becomes one council-owned case.
-**Scope:** restricted unauthenticated intake API, case schema, category validation, consent/provenance and idempotent submission; no uploads yet.
-**Done when:** untrusted payload cannot select ownership, staff role or internal state; host resolves council; disabled/non-public categories fail; anonymous reports carry no tracking credential; duplicate submit does not duplicate cases; abuse limits are exercised.
-**Rollback:** disable intake; retain accepted cases and audit.
-
-### F15 — CommandMAPS public-report triage
-**Depends on:** F11, F14. **Goal:** council staff can triage submitted public cases.
-**Scope:** one case queue/detail/assign/outcome slice, following S17 rather than silently converting public reports to Code21.
-**Done when:** F14 report appears in its council queue; permitted staff assign and close it; internal notes/reporter contact are permission-scoped; other council cannot read it.
-**Rollback:** hide triage entry, retain cases; public status reports unavailable until restored.
-
-### F16 — Public reporting portal
-**Depends on:** F06, F14, F15. **Goal:** residents submit a report from the correct council portal.
-**Scope:** replace portal scaffold with S22 identity/category/location/description/review/receipt flow.
-**Done when:** mobile and desktop browser submission reaches F15 exactly once; council branding/context is correct; disabled category, validation, retry and unavailable states are accessible; anonymous/no-contact behaviour matches D04.
-**Rollback:** disable submit route with a service-unavailable explanation; do not discard accepted submissions.
-
-### F17 — Private public-report tracking
-**Depends on:** F16; D04. **Goal:** eligible reporters see a safe status projection.
-**Scope:** high-entropy revocable tracking capability and public status projection, with optional configured notification adapter.
+5. Record acceptance results, exact commands, source SHA, environment, changed files, screenshots where relevant, remaining limi…4217 tokens truncated…th optional configured notification adapter.
 **Done when:** sequential references alone cannot expose records; expired/revoked/wrong-council tokens fail without revealing existence; internal notes, staff details and other reporters' data never appear; anonymous reports receive no link under current S22 rule.
 **Rollback:** revoke capabilities/disable tracking; staff records remain intact.
 

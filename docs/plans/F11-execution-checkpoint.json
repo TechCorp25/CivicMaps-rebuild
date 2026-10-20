@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "date": "2026-10-20",
   "feature": "F11",
-  "state": "prepared_awaiting_owner_model_switch",
+  "state": "blocked_g1_missing_approved_corrections",
   "baselineCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
   "planPath": "docs/plans/F11-next-phase-build-plan.md",
   "builder": {
@@ -19,15 +19,39 @@
   "goals": [
     {
       "id": "G0",
-      "status": "not_started",
-      "evidence": null,
+      "status": "blocked_environment",
+      "evidence": {
+        "localCommit": "20fd9fa",
+        "localTree": "d02c53fb0a69a57f4cbf4e87ed0fe14377e4c626",
+        "remoteVerification": "Authenticated GitHub check confirmed main and PR28/PR25 heads; fetch from executor failed due unreachable configured proxy.",
+        "runtime": "Node 24.19.0; npm 11.9.0; npm ls --depth=0 --omit=optional exit 0; PostgreSQL 15 binaries absent.",
+        "checks": "npm run check: lint, format, both typechecks and both builds pass; integration phase: 1 pass, 17 fail at test setup. Direct node --test tests/foundation.test.mjs fails before subtests; prior execution record reports EPERM binding 127.0.0.1:55432.",
+        "browser": "Not run; no database runtime.",
+        "limitations": "Cannot install PostgreSQL or bypass network/egress policy. No F11 runtime acceptance claimed."
+      },
       "audit": null
     },
     {
       "id": "G1",
-      "status": "not_started",
-      "evidence": null,
-      "audit": null
+      "status": "blocked_audit",
+      "evidence": {
+        "contract": "docs/plans/F11-principal-ownership-contract.md",
+        "scopeCorrection": "Synthetic/test-only principal ownership enforcement with binding corrections; broader staff provisioning deferred.",
+        "sourceLimit": "Exact /workspace/work/council-principal-ownership-implementation-contract.md absent; PR25 source objects unavailable locally. Contract records this limitation explicitly."
+      },
+      "audit": {
+        "verdict": "blocked",
+        "reportPath": "docs/plans/evidence/F11-G1-independent-audit-6210ac0.md",
+        "reportSha256": "4f8811a1d321e3e691a4efad159c01c6cf2d4cb5c2ecdd6a1744ea71b1f0799c",
+        "auditor": "GPT-6 Astra",
+        "reasoning": "low",
+        "freshContext": "collaboration spawn with fork_turns=none",
+        "candidateCommit": "6210ac02ca81738ba943c6096d56238728316d10",
+        "candidateTree": "372a6d96aec959f0eb1975c505e202c45461127d",
+        "inputSha256": "33e68899331de5df6f71b6f062b6072f25628374dd2b7e9179079701742591f3",
+        "finding": "Mandatory binding-correction content and clean source contract are unavailable; schema design and existing enforcement dependencies remain unverified.",
+        "g2Authorized": false
+      }
     },
     {
       "id": "G2",
@@ -54,11 +78,18 @@
       "audit": null
     }
   ],
-  "nextAction": "Owner switches model; builder starts G0 then G1. No implementation or independent audit has begun.",
+  "nextAction": "Recover the approved first-slice contract and binding-correction source from PR25/owner records; map all requirements and complete a new G1 product and fresh independent audit. Do not start G2 meanwhile.",
   "environmentBlockers": [
-    "PostgreSQL 15 absent",
-    "Database connection EPERM on 127.0.0.1:55432",
-    "Configured HTTP proxy unreachable"
+    "PostgreSQL 15 binaries absent",
+    "Database test setup fails before subtests; prior diagnostic reports EPERM binding 127.0.0.1:55432",
+    "Configured proxy unreachable; do not bypass egress policy or install through blocked apt host",
+    "Browser acceptance unavailable without permitted local database runtime"
   ],
-  "governancePR": 25
+  "governancePR": 25,
+  "verifiedRemote": {
+    "main": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+    "pr28Head": "145ff575d3ce907b15cb8b13d658aab599e477f6",
+    "pr28Tree": "d02c53fb0a69a57f4cbf4e87ed0fe14377e4c626",
+    "pr25Head": "254423e103f86b30c94bd45cd518f1563d388d82"
+  }
 }

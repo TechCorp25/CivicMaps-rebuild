@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 6848)
+Total output lines: 618
+
 {
   "schemaVersion": 1,
   "project": "civicmaps-platform",
@@ -230,56 +233,7 @@
       "parentMergeCommit": "26a49e03e08d0ce61767c4b2cc8b7c8e1741320a",
       "implementationCommit": "772d6fa4d0a663e77af42413ed95e9b72e079c6a",
       "reviewFixCommit": "b3922ee40ca57e55ec6f8e1a551df25b7ec99c98",
-      "publishedHead": "a21ef7c6ec2f2f139a328b1a9c7726a10c0eebbc",
-      "mergeCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
-      "implementation": "complete",
-      "deployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
-      "deployedSourceAcceptancePassed": true,
-      "liveAcceptance": "passed_for_merged_source_original_SSM_receipt_inspected",
-      "compatibleRecovery": "passed_original_SSM_receipt_inspected",
-      "releaseStatus": "deployed_live_accepted_final_source_verified",
-      "mergeCI": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39091194915",
-      "releaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
-      "releaseBranch": "codex/civicmaps-f08-release-acceptance",
-      "releaseEvidencePublication": "verified",
-      "releaseDocumentationReview": "Codex agent review completed; root pointer finding corrected; receipt follow-up reviewed against original AWS invocations with no findings",
-      "releaseSupplementalCheck": "passed_original_receipt_inspected",
-      "releaseLocalReconciliation": "Git_reconciled_original_AWS_receipts_recovered_original_local_manifest_unavailable",
-      "releaseArtifactManifestUpdate": "reconstructed_and_reconciled_with_inspected_original_AWS_receipts",
-      "releaseEvidenceProvenance": "Original deployment/live/recovery/final-source SSM receipts retrieved and inspected; GitHub/Git source and CI independently verified. Original local manifest unavailable; reconstruction remains labelled.",
-      "releaseAWSAuthentication": "valid_after_standard_login_project_597663815195_verified",
-      "releaseEvidencePR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/22",
-      "releaseEvidenceContentCommit": "2121b3372d4863addc1f0ec9b444bbb5e95bfa3c",
-      "releaseEvidenceCI": "Final PR22 head73d63bf passed PR39111553727 and push39111549196 first attempts; owner-merged.",
-      "releaseEvidenceValidatedCommit": "73d63bf6ae46e882732480469e7916101f1101c5",
-      "releaseEvidenceValidatedCI": [
-        "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39111553727",
-        "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/39111549196"
-      ],
-      "releaseSupplementalCommandId": "321b8ad1-bab7-468e-9c4d-08652c0207ed",
-      "releaseInstanceStatus": "running_EC2_instance_and_system_checks_ok",
-      "releaseProjectPlan": "FREE_ACTIVE",
-      "releaseOwnerMerged": true,
-      "releaseEvidenceMergeCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975"
-    },
-    {
-      "id": "F09",
-      "status": "planned",
-      "branch": null,
-      "commit": null,
-      "pr": null,
-      "evidencePath": null,
-      "acceptancePassed": false,
-      "publication": "not_started",
-      "empirical": "not_started",
-      "blockers": [
-        "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
-      ],
-      "nextAction": "Continue independent ready work alongside active governance resolution. Resolve F09-P01\u2013P06 before dependent suspension behaviour; if a task depends on an unresolved choice, progress another ready task. PR22 preparation is owner-merged; no policy approval inferred.",
-      "preparationPath": "docs/plans/F09-next-phase-plan.md",
-      "preparationStatus": "reviewed_and_published",
-      "policyDecisionStatus": "proposed_not_approved",
-      "preparationPR": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/22",
+      "publishedHead": "a21ef7c6ec2f…848 tokens truncated…b.com/TechCorp25/CivicMaps-rebuild/pull/22",
       "governanceGatePath": "docs/plans/governance-and-production-readiness-gate.md"
     },
     {
@@ -297,19 +251,23 @@
     },
     {
       "id": "F11",
-      "status": "planned",
-      "branch": null,
-      "commit": null,
+      "status": "blocked",
+      "branch": "codex/civicmaps-f11-next-phase-plan",
+      "commit": "2f8020bc7d40aa69acac3601315d24248540d101",
       "pr": null,
-      "evidencePath": null,
+      "evidencePath": "docs/plans/evidence/F11-G1-independent-audit-6210ac0.md",
       "acceptancePassed": false,
-      "publication": "not_started",
+      "publication": "not_published_after_local_scope_correction",
       "empirical": "not_started",
-      "blockers": [],
-      "nextAction": "GPT-6 Luna Medium executes G0 then G1; GPT-6 Astra Low independently audits task/product only under the audit protocol. Resolve concrete authority dependencies before dependent implementation.",
+      "blockers": [
+        "G0 runtime incomplete: PostgreSQL 15 unavailable and loopback database setup fails with EPERM; browsers not run.",
+        "G1 independent audit blocked because mandatory binding-correction content and the exact clean implementation contract are unavailable.",
+        "G2 schema/API implementation is not authorized until the source contract is recovered and a revised G1 product passes fresh independent audit."
+      ],
+      "nextAction": "Recover the approved first-slice contract and binding-correction source from PR25/owner records; map each requirement, revise the G1 product, and obtain a fresh GPT-6 Astra Low audit. Do not start G2.",
       "planPath": "docs/plans/F11-next-phase-build-plan.md",
       "checkpointPath": "docs/plans/F11-execution-checkpoint.json",
-      "preparationStatus": "prepared_awaiting_owner_model_switch"
+      "preparationStatus": "blocked_at_G1_independent_audit"
     },
     {
       "id": "F12",
@@ -583,7 +541,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "F11D implementation and local qualification are complete in review PR26. PR24 is owner-merged; national governance progresses alongside functional development, with no blanket development block. Verify post-integration CI/review before owner merge of PR26. Record relevant GOV dependencies at feature checkpoints and resolve F09-P01\u2013P06 only before affected behaviour. F08 remains accepted; no redeployment or migration013 replay.",
+  "nextAction": "F11 is blocked at G1. Recover approved source contract/corrections before G2; preserve PR25 as a separate draft. G0 local lint/format/types/build passed, but DB-backed tests and browsers were unavailable. No implementation or deployment.",
   "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
   "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
   "releaseClosureFeature": "F08",
