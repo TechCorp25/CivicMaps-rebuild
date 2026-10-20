@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "role": "DISPATCH",
+      "width": 1440,
+      "login": "passed",
+      "logout": "passed"
+    },
+    {
+      "role": "OFFICER",
+      "width": 390,
+      "login": "passed",
+      "logout": "passed"
+    },
+    {
+      "role": "SUPERVISOR",
+      "width": 1440,
+      "login": "passed",
+      "logout": "passed"
+    }
+  ],
+  "pageErrors": [],
+  "tlsVerification": true,
+  "requestWrites": 0
+}
