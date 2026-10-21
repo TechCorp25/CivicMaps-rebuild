@@ -188,6 +188,7 @@ export function checkRouteSession(req, session) {
   );
 }
 export async function routeContext(client, req, user) {
+  const ownerMunicipality = user.owner_municipality_id ?? user.municipality_id;
   if (!req.serviceRoute) return req.headers['x-civicmaps-context'];
   const selector = req.headers['x-civicmaps-context'];
   requireValue(
@@ -197,7 +198,10 @@ export async function routeContext(client, req, user) {
   );
   const contexts = await permittedContexts(client, user);
   requireValue(
-    contexts.some((b) => b.id === req.serviceRoute.binding_id),
+    req.serviceRoute.municipality_id === ownerMunicipality &&
+      contexts.some(
+        (b) => b.id === req.serviceRoute.binding_id && b.municipality_id === ownerMunicipality,
+      ),
     403,
     'Service access is not permitted',
   );

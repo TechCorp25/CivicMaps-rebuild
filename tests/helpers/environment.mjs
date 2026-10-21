@@ -6,8 +6,15 @@ import pg from 'pg';
 
 // One environment per test process: database.mjs caches its pool on first import.
 // Never drop the configured base database; cleanup owns only the generated name.
-export async function createTestEnvironment({ platform = false, beforeMigrate, webRoot } = {}) {
+export async function createTestEnvironment({
+  platform = false,
+  beforeMigrate,
+  webRoot,
+  resourceStatusGate,
+  resourceStatusOperation,
+} = {}) {
   const previous = process.env.CIVICMAPS_DATABASE_URL;
+  const previousMigrationProfile = process.env.CIVICMAPS_MIGRATION_PROFILE;
   const base = previous ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres';
   const name = `civicmaps_test_${randomUUID().replaceAll('-', '')}`;
   const connection = new URL(base);
@@ -36,6 +43,8 @@ export async function createTestEnvironment({ platform = false, beforeMigrate, w
         await admin.end();
         if (previous === undefined) delete process.env.CIVICMAPS_DATABASE_URL;
         else process.env.CIVICMAPS_DATABASE_URL = previous;
+        if (previousMigrationProfile === undefined) delete process.env.CIVICMAPS_MIGRATION_PROFILE;
+        else process.env.CIVICMAPS_MIGRATION_PROFILE = previousMigrationProfile;
       }
     }
   }
@@ -43,6 +52,7 @@ export async function createTestEnvironment({ platform = false, beforeMigrate, w
     await admin.query(`CREATE DATABASE ${name}`);
     created = true;
     process.env.CIVICMAPS_DATABASE_URL = connection.href;
+    process.env.CIVICMAPS_MIGRATION_PROFILE = 'synthetic-fixture';
     // Upgrade tests initialise only this newly created disposable database.
     if (beforeMigrate) await beforeMigrate(connection.href);
     for (const script of ['migrate', 'seed', ...(platform ? ['seed-platform'] : [])]) {
@@ -54,7 +64,10 @@ export async function createTestEnvironment({ platform = false, beforeMigrate, w
     }
     ({ pool } = await import('../../services/api/database.mjs'));
     const { createApp } = await import('../../services/api/app.mjs');
-    server = createApp({ webRoot }).listen(0, '127.0.0.1');
+    server = createApp({ webRoot, resourceStatusGate, resourceStatusOperation }).listen(
+      0,
+      '127.0.0.1',
+    );
     await once(server, 'listening');
     return {
       pool,

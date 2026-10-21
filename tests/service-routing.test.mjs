@@ -207,15 +207,37 @@ test('login, manually copied cookies, context and origins are bound to exact rou
   assert.doesNotMatch(login.cookie, /Domain=/);
   assert.equal((await request(hosts[0], '/api/auth/session', null, login.cookie)).status, 200);
   assert.equal((await request(hosts[1], '/api/auth/session', null, login.cookie)).status, 401);
-  assert.equal(
-    (
-      await request(hosts[1], '/api/auth/login', {
-        email: 'dispatch@alpha.example',
-        password: 'CivicMAPS-local-2026!',
-      })
-    ).status,
-    403,
-  );
+  const selectors = [
+    {},
+    { 'x-civicmaps-context': '10000000-0000-4000-8000-000000000002' },
+    { 'x-civicmaps-context': '10000000-0000-4000-8000-000000000001' },
+  ];
+  const attempts = [
+    { email: 'dispatch@alpha.example', password: 'CivicMAPS-local-2026!' },
+    { email: 'unknown@synthetic.example', password: 'CivicMAPS-local-2026!' },
+    { email: 'dispatch@beta.example', password: 'incorrect synthetic password' },
+    { email: 'dispatch@beta.example', password: 'CivicMAPS-local-2026!', disabled: true },
+  ];
+  const failures = [];
+  for (const attempt of attempts) {
+    if (attempt.disabled)
+      await pool.query("UPDATE users SET active=false WHERE email='dispatch@beta.example'");
+    try {
+      const { disabled: _disabled, ...credentials } = attempt;
+      for (const selector of selectors)
+        failures.push(await request(hosts[1], '/api/auth/login', credentials, null, selector));
+    } finally {
+      if (attempt.disabled)
+        await pool.query("UPDATE users SET active=true WHERE email='dispatch@beta.example'");
+    }
+  }
+  assert.equal(failures.length, 12);
+  for (const failure of failures) {
+    assert.equal(failure.status, 401);
+    assert.deepEqual(failure.body, failures[0].body);
+    assert.equal(failure.cookie, undefined);
+  }
+  assert.equal((await request(hosts[0], '/api/auth/session', null, login.cookie)).status, 200);
   assert.equal(
     (
       await request(hosts[0], '/api/auth/session', null, login.cookie, {
@@ -336,15 +358,38 @@ test('read-only broker takes authentication/context locks without identity updat
     await client.query(`CREATE ROLE ${role} NOLOGIN NOSUPERUSER BYPASSRLS`);
     await client.query(`GRANT USAGE ON SCHEMA public TO ${role}`);
     await client.query(
-      `GRANT SELECT ON users,sessions,platform_operators,platform_sessions,operating_context_bindings,operating_context_grants TO ${role}`,
+      `GRANT SELECT ON users,sessions,platform_operators,platform_sessions,operating_context_bindings,operating_context_grants,council_principal_owners TO ${role}`,
     );
     await client.query(
       `GRANT EXECUTE ON FUNCTION civicmaps_lock_user_contexts(uuid),civicmaps_lock_auth_session(text,boolean,boolean) TO ${role}`,
     );
     await client.query('BEGIN');
     await client.query(`SET LOCAL ROLE ${role}`);
-    const user = (await client.query("SELECT * FROM users WHERE email='dispatch@alpha.example'"))
-      .rows[0];
+    const ownershipPrivileges = await client.query(`
+      SELECT has_table_privilege(current_user,'council_principal_owners','SELECT') AS owner_read,
+             has_table_privilege(current_user,'council_principal_owners','INSERT') AS owner_insert,
+             has_table_privilege(current_user,'council_principal_owners','UPDATE') AS owner_update,
+             has_table_privilege(current_user,'council_principal_owners','DELETE') AS owner_delete,
+             has_table_privilege(current_user,'operating_context_grants','SELECT') AS grant_read,
+             has_table_privilege(current_user,'operating_context_grants','INSERT') AS grant_insert,
+             has_table_privilege(current_user,'operating_context_grants','UPDATE') AS grant_update,
+             has_table_privilege(current_user,'operating_context_grants','DELETE') AS grant_delete`);
+    assert.deepEqual(ownershipPrivileges.rows[0], {
+      owner_read: true,
+      owner_insert: false,
+      owner_update: false,
+      owner_delete: false,
+      grant_read: true,
+      grant_insert: false,
+      grant_update: false,
+      grant_delete: false,
+    });
+    assert.ok((await client.query('SELECT * FROM council_principal_owners')).rowCount > 1);
+    const user = (
+      await client.query(`SELECT u.*,o.municipality_id AS owner_municipality_id
+        FROM users u JOIN council_principal_owners o ON o.user_id=u.id
+        WHERE u.email='dispatch@alpha.example'`)
+    ).rows[0];
     assert.ok((await permittedContexts(client, user)).length);
     await client.query("SELECT civicmaps_lock_auth_session(repeat('a',64),false,false)");
     await client.query("SELECT civicmaps_lock_auth_session(repeat('a',64),true,true)");

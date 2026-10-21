@@ -100,6 +100,17 @@ test('004 upgrade gates all operational tables on a complete consistent context 
     await client.query('SET LOCAL ROLE civicmaps_local_app');
     await assertHidden(client);
     await setScope(client, scope);
+    assert.equal((await client.query('SELECT * FROM council_principal_owners')).rowCount, 1);
+    await client.query('SAVEPOINT owner_update_denied');
+    await assert.rejects(
+      client.query('UPDATE council_principal_owners SET municipality_id=$2 WHERE user_id=$1', [
+        actor,
+        '20000000-0000-4000-8000-000000000002',
+      ]),
+      /permission denied/,
+    );
+    await client.query('ROLLBACK TO SAVEPOINT owner_update_denied');
+    await client.query('RELEASE SAVEPOINT owner_update_denied');
     for (const table of tables)
       assert.ok((await client.query(`SELECT * FROM ${table}`)).rowCount > 0, table);
     for (const key of Object.keys(scope)) {
@@ -167,6 +178,113 @@ test('database gate denies ungranted actors and ineffective bindings or grants',
     await client.query('SET LOCAL ROLE civicmaps_local_app');
     await setScope(client, { ...scope, actor: '00000000-0000-4000-8000-000000000004' });
     await assertHidden(client);
+  } finally {
+    await client.query('ROLLBACK');
+    client.release();
+  }
+});
+test('ownership constraints and grants protect session and council pairs independently of API checks', async () => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const unownedUser = randomUUID();
+    await client.query(
+      `INSERT INTO users(id,email,name,password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id)
+       VALUES($1,$2,'Unowned synthetic user','unused','DISPATCHER','tenant-alpha','jurisdiction-alpha','plane-alpha','organisation-alpha','parking','day-team')`,
+      [unownedUser, `${unownedUser}@synthetic.example`],
+    );
+    const rejected = async (name, action, expected) => {
+      await client.query(`SAVEPOINT ${name}`);
+      await assert.rejects(action(), expected);
+      await client.query(`ROLLBACK TO SAVEPOINT ${name}`);
+      await client.query(`RELEASE SAVEPOINT ${name}`);
+    };
+    await rejected(
+      'wrong_session_owner',
+      () =>
+        client.query(
+          `INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,municipality_id)
+         VALUES($1,$2,'csrf',now()+interval '1 hour',$3)`,
+          [randomUUID(), actor, '20000000-0000-4000-8000-000000000002'],
+        ),
+      /foreign key|does not match/i,
+    );
+    await rejected(
+      'missing_session_owner',
+      () =>
+        client.query(
+          `INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,municipality_id)
+           VALUES($1,$2,'csrf',now()+interval '1 hour',$3)`,
+          [randomUUID(), unownedUser, '20000000-0000-4000-8000-000000000001'],
+        ),
+      /does not match/i,
+    );
+    await rejected(
+      'immutable_owner',
+      () =>
+        client.query('UPDATE council_principal_owners SET municipality_id=$2 WHERE user_id=$1', [
+          actor,
+          '20000000-0000-4000-8000-000000000002',
+        ]),
+      /immutable/i,
+    );
+    await rejected(
+      'immutable_session',
+      () =>
+        client.query('UPDATE sessions SET municipality_id=$2 WHERE user_id=$1', [
+          actor,
+          '20000000-0000-4000-8000-000000000002',
+        ]),
+      /immutable|foreign key/i,
+    );
+    await rejected(
+      'wrong_grant_owner',
+      async () => {
+        await client.query(
+          `INSERT INTO operating_context_grants(user_id,binding_id,effective_from)
+       VALUES($1,$2,now())`,
+          [actor, beta],
+        );
+        return client.query('SET CONSTRAINTS context_grant_owner IMMEDIATE');
+      },
+      /does not match/i,
+    );
+    await client.query('ROLLBACK');
+    const permissions = await pool.query(`
+      SELECT has_table_privilege('civicmaps_platform_app','council_principal_owners','SELECT') AS platform_read,
+             has_table_privilege('civicmaps_platform_app','council_principal_owners','INSERT') AS platform_insert,
+             has_table_privilege('civicmaps_platform_app','council_principal_owners','UPDATE') AS platform_update,
+             has_table_privilege('civicmaps_platform_app','council_principal_owners','DELETE') AS platform_delete,
+             has_table_privilege('civicmaps_local_app','council_principal_owners','SELECT') AS app_owner_read,
+             has_table_privilege('civicmaps_local_app','council_principal_owners','INSERT') AS app_insert,
+             has_table_privilege('civicmaps_local_app','council_principal_owners','UPDATE') AS app_update,
+             has_table_privilege('civicmaps_local_app','council_principal_owners','DELETE') AS app_delete,
+             has_table_privilege('civicmaps_local_app','operating_context_grants','SELECT') AS app_grant_read,
+             has_table_privilege('civicmaps_local_app','operating_context_grants','INSERT') AS app_grant_insert,
+             has_table_privilege('civicmaps_local_app','operating_context_grants','UPDATE') AS app_grant_update,
+             has_table_privilege('civicmaps_local_app','operating_context_grants','DELETE') AS app_grant_delete,
+             has_table_privilege('civicmaps_platform_app','operating_context_grants','SELECT') AS platform_grant_read,
+             has_table_privilege('civicmaps_platform_app','operating_context_grants','INSERT') AS platform_grant_insert,
+             has_table_privilege('civicmaps_platform_app','operating_context_grants','UPDATE') AS platform_grant_update,
+             has_table_privilege('civicmaps_platform_app','operating_context_grants','DELETE') AS platform_grant_delete`);
+    assert.deepEqual(permissions.rows[0], {
+      platform_read: false,
+      platform_insert: false,
+      platform_update: false,
+      platform_delete: false,
+      app_owner_read: true,
+      app_insert: false,
+      app_update: false,
+      app_delete: false,
+      app_grant_read: true,
+      app_grant_insert: false,
+      app_grant_update: false,
+      app_grant_delete: false,
+      platform_grant_read: false,
+      platform_grant_insert: false,
+      platform_grant_update: false,
+      platform_grant_delete: false,
+    });
   } finally {
     await client.query('ROLLBACK');
     client.release();

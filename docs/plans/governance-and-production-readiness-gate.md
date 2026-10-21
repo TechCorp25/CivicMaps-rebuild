@@ -4,6 +4,8 @@ Prepared 18 October 2026 (Australia/Melbourne) by Codex (agent).
 
 **Status: assessment and proposed remediation programme. The owner clarified that functional development continues while governance is actively resolved in parallel; there is no blanket development gate. Detailed production policy, architectural choices and compliance acceptance remain unresolved.**
 
+Governance proceeds alongside functional development on the dedicated [governance workstream](governance-workstream.md). Earlier blanket pause language is superseded; PR #24 reconciles those historical planning pointers. Follow the workstream synchronisation contract after each owner merge to main.
+
 ## Purpose and authority
 
 The owner requires council administration, operator authority, cloud services and handling of the platform's full range of records to be actively resolved alongside continued functional development, including dispatch. Councils require their own administration surface for branches, functionality and staff. CommandMAPS is operational software; its current ADMIN profile is not a completed council administration portal.

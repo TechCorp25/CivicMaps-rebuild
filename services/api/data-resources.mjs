@@ -402,7 +402,18 @@ export function awsResourceAdapter(target = configuredDataTarget()) {
     },
   };
 }
-export async function withMunicipalityResource(client, user, selector, target, work) {
+export async function withMunicipalityResource(
+  client,
+  user,
+  selector,
+  target,
+  work,
+  {
+    includeStorage = true,
+    runtimeConnection: connectResource = runtimeConnection,
+    storageCredentials: getStorageCredentials = storageCredentials,
+  } = {},
+) {
   const context = await resolveContext(client, user, selector);
   const found = await client.query(
     `SELECT r.*,j.adapter,j.id FROM municipality_resources r JOIN provisioning_jobs j ON j.id=r.job_id JOIN municipality_resource_contexts rc ON rc.job_id=r.job_id WHERE r.municipality_id=$1 AND rc.binding_id=$2 AND r.disabled_at IS NULL AND j.state='succeeded'`,
@@ -418,17 +429,19 @@ export async function withMunicipalityResource(client, user, selector, target, w
   )
     throw new Error('Resource registry binding conflict');
   // Independent connections avoid pooled session state surviving a context switch.
-  const connection = await runtimeConnection(job, target);
+  const connection = await connectResource(job, target);
   try {
-    return await work({
+    const resource = {
       connection,
       context,
-      storage: {
+    };
+    if (includeStorage)
+      resource.storage = {
         bucket: target.bucket,
         prefix: names.storage_prefix,
-        credentials: await storageCredentials(job, target),
-      },
-    });
+        credentials: await getStorageCredentials(job, target),
+      };
+    return await work(resource);
   } finally {
     await connection.end();
   }

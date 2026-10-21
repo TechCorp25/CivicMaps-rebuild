@@ -2,6 +2,7 @@
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
+import { verifySlowQueueRefresh } from './browser/queue-refresh.mjs';
 const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
 const database = new pg.Pool({
   connectionString:
@@ -30,20 +31,6 @@ async function save(page, button, expected = 200) {
   await expect(page.locator('#content > .notice')).toContainText('Saved to the operational record');
   return result.json();
 }
-async function createSyntheticRequest(page, address) {
-  const session = await (await page.request.get(`${origin}/api/auth/session`)).json();
-  const response = await page.request.post(`${origin}/api/requests`, {
-    headers: { 'x-csrf-token': session.csrfToken, 'Idempotency-Key': crypto.randomUUID() },
-    data: {
-      address,
-      latitude: -37.814,
-      longitude: 144.963,
-      notes: 'Synthetic F11E browser scenario.',
-    },
-  });
-  expect(response.status()).toBe(201);
-  return response.json();
-}
 async function seedQueueOverflow() {
   const source = (
     await database.query(
@@ -52,15 +39,14 @@ async function seedQueueOverflow() {
   ).rows[0];
   expect(source).toBeTruthy();
   const rows = [
-    ...Array.from({ length: 120 }, (_, i) => ({
+    ...Array.from({ length: 1005 }, (_, i) => ({
       status: 'RECEIVED',
       address: `Queue active ${i}`,
     })),
-    ...Array.from({ length: 12 }, (_, i) => ({ status: 'CLOSED', address: `Queue closed ${i}` })),
+    ...Array.from({ length: 110 }, (_, i) => ({ status: 'CLOSED', address: `Queue closed ${i}` })),
   ];
   const values = [];
   const tuples = rows.map((row, i) => {
-    const start = i * 14;
     values.push(
       crypto.randomUUID(),
       'tenant-alpha',
@@ -77,6 +63,7 @@ async function seedQueueOverflow() {
       source.capture_binding_id,
       source.capture_binding_version,
     );
+    const start = i * 14;
     return `(${Array.from({ length: 14 }, (_, j) => `$${start + j + 1}`).join(',')})`;
   });
   await database.query(
@@ -84,10 +71,30 @@ async function seedQueueOverflow() {
     values,
   );
 }
+async function createSyntheticRequest(page, address) {
+  const session = await (await page.request.get(`${origin}/api/auth/session`)).json();
+  const response = await page.request.post(`${origin}/api/requests`, {
+    headers: { 'x-csrf-token': session.csrfToken, 'Idempotency-Key': crypto.randomUUID() },
+    data: {
+      address,
+      latitude: -37.814,
+      longitude: 144.963,
+      notes: 'Synthetic F11E browser scenario.',
+    },
+  });
+  expect(response.status()).toBe(201);
+  return response.json();
+}
 try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await dispatcher.newPage();
   await login(page, 'dispatch@alpha.example');
+  await page.route('**/api/requests/*/audit', async (route) => {
+    const response = await route.fetch();
+    const history = await response.json();
+    if (history[0]) history[0].details.reason = { legacy: 'malformed historical value' };
+    await route.fulfill({ response, json: history });
+  });
   await page.getByRole('button', { name: 'New request', exact: true }).click();
   const address = `Browser exercise ${Date.now()}`;
   await expect(page.locator('.topbar')).toContainText('DISPATCH');
@@ -129,6 +136,8 @@ try {
   await expect(page.locator('.detail')).toContainText(address);
   await expect(page.locator('.detail')).toContainText('Server-confirmed version 1');
   await expect(page.locator('.audit')).toContainText('created');
+  await expect(page.locator('.audit')).not.toContainText('malformed historical value');
+  await page.unroute('**/api/requests/*/audit');
   expect(
     (await database.query('SELECT notes FROM service_requests WHERE id=$1', [created.id])).rows[0]
       .notes,
@@ -248,8 +257,27 @@ try {
     [secondOfficerId],
   );
   await database.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) VALUES ($1,$2)',
+    [secondOfficerId, '20000000-0000-4000-8000-000000000001'],
+  );
+  await database.query(
     "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
     [secondOfficerId],
+  );
+  const secondDispatcherId = '00000000-0000-4000-8000-000000000008';
+  await database.query(
+    `INSERT INTO users(id,email,name,password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id)
+     SELECT $1,'synthetic-second-dispatcher@alpha.example','Synthetic second dispatcher',password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id
+     FROM users WHERE id='00000000-0000-4000-8000-000000000001'`,
+    [secondDispatcherId],
+  );
+  await database.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) VALUES ($1,$2)',
+    [secondDispatcherId, '20000000-0000-4000-8000-000000000001'],
+  );
+  await database.query(
+    "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
+    [secondDispatcherId],
   );
   const staleAssignment = await createSyntheticRequest(page, `F11E stale assignment ${Date.now()}`);
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
@@ -306,7 +334,9 @@ try {
   await page.unroute(`**/api/requests/${uncertain.id}/actions`, uncertainWrite);
 
   const independent = await browser.newPage();
-  await login(independent, 'dispatch@alpha.example');
+  // Use an independently owned principal so the separate cookie does not replace
+  // the primary browser's single council-bound session.
+  await login(independent, 'synthetic-second-dispatcher@alpha.example');
   const independentSession = await (
     await independent.request.get(`${origin}/api/auth/session`)
   ).json();
@@ -505,18 +535,26 @@ try {
   await page.getByLabel('Search loaded requests').fill('');
   await seedQueueOverflow();
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('active');
-  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await verifySlowQueueRefresh(page, expect);
   await expect(page.locator('.queue-pagination .muted')).toContainText(
-    /Page 1 of [5-9] · [1-9][0-9]{2} matching loaded records/,
+    /Page 1 of [4-9][0-9] · [1-9][0-9]{2,} matching loaded records/,
   );
   await page.getByLabel('Search loaded requests').fill('Queue active 119');
   await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
   await expect(page.locator('.request-table tbody')).toContainText('Queue active 119');
   await page.getByLabel('Search loaded requests').fill('');
+  await page.getByLabel('Search loaded requests').fill('Queue active 1004');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.request-table tbody')).toContainText('Queue active 1004');
+  await page.getByLabel('Search loaded requests').fill('');
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
   await page.getByLabel('Search loaded requests').fill('Queue closed 11');
   await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
   await expect(page.locator('.request-table tbody')).toContainText('Queue closed 11');
+  await page.getByLabel('Search loaded requests').fill('');
+  await page.getByLabel('Search loaded requests').fill('Queue closed 109');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.request-table tbody')).toContainText('Queue closed 109');
   await page.getByLabel('Search loaded requests').fill('');
   await database.query(
     "UPDATE platform_municipalities SET packs=packs-'parking-services' WHERE id='20000000-0000-4000-8000-000000000001'",

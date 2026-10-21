@@ -30,7 +30,14 @@ CREATE TABLE synthetic_provisioning_effects (
 );
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='civicmaps_provisioning_worker') THEN
-    CREATE ROLE civicmaps_provisioning_worker NOLOGIN NOSUPERUSER NOBYPASSRLS;
+    -- Roles are cluster-wide; migrations in another database can win this race.
+    BEGIN
+      CREATE ROLE civicmaps_provisioning_worker NOLOGIN NOSUPERUSER NOBYPASSRLS;
+    EXCEPTION WHEN duplicate_object OR unique_violation THEN
+      IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='civicmaps_provisioning_worker') THEN
+        RAISE;
+      END IF;
+    END;
   END IF;
 END $$;
 GRANT USAGE ON SCHEMA public TO civicmaps_provisioning_worker;

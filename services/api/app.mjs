@@ -11,10 +11,12 @@ import { transition, statusLabels } from '../../domains/service-requests-dispatc
 import { resolveContext, permittedContexts } from './operating-context.mjs';
 import { platformRouter } from './platform.mjs';
 import { configuredDataTarget, withMunicipalityResource } from './data-resources.mjs';
+import { createAdmissionGate } from './admission.mjs';
 
 const digest = (value) => createHash('sha256').update(value).digest('hex');
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const dummyPassword = hashPassword(randomBytes(32).toString('hex'));
+const resourceStatusAdmission = createAdmissionGate(1);
 class HttpError extends Error {
   constructor(status, message) {
     super(message);
@@ -81,8 +83,16 @@ function actorView(user) {
 }
 async function authenticated(client, req) {
   await client.query('SELECT civicmaps_lock_auth_session($1,false,false)', [digest(token(req))]);
+  const session = await client.query(
+    'SELECT user_id FROM sessions WHERE token_hash=$1 AND expires_at>now()',
+    [digest(token(req))],
+  );
+  requireValue(session.rowCount === 1, 401, 'Sign in to continue');
+  await client.query("SELECT set_config('civicmaps.actor',$1,true)", [session.rows[0].user_id]);
   const auth = await client.query(
-    `SELECT u.*, s.csrf_token,s.route_id,s.route_version FROM sessions s JOIN users u ON u.id=s.user_id
+    `SELECT u.*, s.csrf_token,s.route_id,s.route_version,s.municipality_id AS session_municipality_id,
+      o.municipality_id AS owner_municipality_id FROM sessions s JOIN users u ON u.id=s.user_id
+      JOIN council_principal_owners o ON o.user_id=u.id AND o.municipality_id=s.municipality_id
       WHERE s.token_hash=$1 AND s.expires_at>now() AND u.active`,
     [digest(token(req))],
   );
@@ -205,7 +215,11 @@ async function mutation(req, work, capability = 'requests.create') {
   );
 }
 
-export function createApp({ webRoot } = {}) {
+export function createApp({
+  webRoot,
+  resourceStatusGate = resourceStatusAdmission,
+  resourceStatusOperation,
+} = {}) {
   const app = express();
   app.locals.webRoot = webRoot;
   app.disable('x-powered-by');
@@ -256,18 +270,48 @@ export function createApp({ webRoot } = {}) {
         401,
         'Email or password is incorrect',
       );
-      await routeContext(client, req, current);
-      await client.query('DELETE FROM sessions WHERE token_hash=$1 OR expires_at<=now()', [
-        digest(token(req)),
+      await client.query("SELECT set_config('civicmaps.actor',$1,true)", [current.id]);
+      const owner = await client.query(
+        'SELECT municipality_id FROM council_principal_owners WHERE user_id=$1',
+        [current.id],
+      );
+      requireValue(owner.rowCount === 1, 401, 'Email or password is incorrect');
+      const loginUser = {
+        ...current,
+        municipality_id: owner.rows[0].municipality_id,
+        owner_municipality_id: owner.rows[0].municipality_id,
+      };
+      try {
+        const selector = await routeContext(client, req, loginUser);
+        if (selector !== undefined) {
+          const contexts = await permittedContexts(client, loginUser);
+          requireValue(
+            contexts.some((binding) => binding.id === selector),
+            403,
+            'Operating context is not permitted',
+          );
+        }
+      } catch (error) {
+        if (error.status !== 403) throw error;
+        // An invalid council audience or selected context is an authentication
+        // failure here. Keep it indistinguishable from unknown/bad credentials.
+        requireValue(false, 401, 'Email or password is incorrect');
+      }
+      // Replace only this principal's session for the resolved council. Sessions for
+      // every other principal/council remain untouched.
+      await client.query('DELETE FROM sessions WHERE user_id=$1 AND municipality_id=$2', [
+        current.id,
+        owner.rows[0].municipality_id,
       ]);
       await client.query(
-        "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,route_id,route_version) VALUES ($1,$2,$3,now()+interval '8 hours',$4,$5)",
+        "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,route_id,route_version,municipality_id) VALUES ($1,$2,$3,now()+interval '8 hours',$4,$5,$6)",
         [
           digest(sessionToken),
           result.rows[0].id,
           csrfToken,
           req.serviceRoute?.id ?? null,
           req.serviceRoute?.version ?? null,
+          owner.rows[0].municipality_id,
         ],
       );
     });
@@ -350,28 +394,36 @@ export function createApp({ webRoot } = {}) {
     );
   });
   app.get('/api/resources/status', async (req, res) => {
-    const result = await transaction(async (client) => {
-      const user = await authenticated(client, req);
-      requireValue(user.role !== 'ADMIN', 403, 'Resource access is not granted to council ADMIN');
-      const context = await resolveContext(client, user, await routeContext(client, req, user));
-      requireCapability(await entitlements(client, context), 'resources.read');
-      return withMunicipalityResource(
-        client,
-        user,
-        context.context_id,
-        configuredDataTarget(),
-        async ({ connection, context }) => {
-          await connection.query('SELECT 1 FROM council.resource_records LIMIT 1');
-          return {
-            municipalityId: context.municipality_id,
-            contextId: context.context_id,
-            databaseReady: true,
-            syntheticDataOnly: true,
-          };
-        },
-      );
-    });
-    res.json(result);
+    const release = resourceStatusGate.tryAcquire();
+    if (!release) return res.status(503).json({ error: 'The operation could not be completed' });
+    try {
+      const result = await transaction(async (client) => {
+        const user = await authenticated(client, req);
+        requireValue(user.role !== 'ADMIN', 403, 'Resource access is not granted to council ADMIN');
+        const context = await resolveContext(client, user, await routeContext(client, req, user));
+        requireCapability(await entitlements(client, context), 'resources.read');
+        if (resourceStatusOperation) return resourceStatusOperation(client, user, context);
+        return withMunicipalityResource(
+          client,
+          user,
+          context.context_id,
+          configuredDataTarget(),
+          async ({ connection, context }) => {
+            await connection.query('SELECT 1 FROM council.resource_records LIMIT 1');
+            return {
+              municipalityId: context.municipality_id,
+              contextId: context.context_id,
+              databaseReady: true,
+              syntheticDataOnly: true,
+            };
+          },
+          { includeStorage: false },
+        );
+      });
+      res.json(result);
+    } finally {
+      release();
+    }
   });
   app.get('/api/requests', async (req, res) => {
     const status = req.query.status ?? 'all';
@@ -392,17 +444,19 @@ export function createApp({ webRoot } = {}) {
     res.json(
       await scoped(req, false, async (client, actor) => {
         const visibility = `($1::text<>'OFFICER' OR assigned_officer_id=$2)`;
-        const counts = (
-          await client.query(
-            `SELECT COUNT(*)::text AS total,
-                    COUNT(*) FILTER (WHERE status<>'CLOSED')::text AS active,
-                    COUNT(*) FILTER (WHERE status='CLOSED')::text AS closed,
-                    COUNT(*) FILTER (WHERE status='DISPATCHED')::text AS dispatched,
-                    COUNT(*) FILTER (WHERE status='ATTENDED')::text AS attended
-             FROM service_requests WHERE ${visibility}`,
-            [actor.role, actor.id],
-          )
-        ).rows[0];
+        const counts = before
+          ? undefined
+          : (
+              await client.query(
+                `SELECT COUNT(*)::text AS total,
+                        COUNT(*) FILTER (WHERE status<>'CLOSED')::text AS active,
+                        COUNT(*) FILTER (WHERE status='CLOSED')::text AS closed,
+                        COUNT(*) FILTER (WHERE status='DISPATCHED')::text AS dispatched,
+                        COUNT(*) FILTER (WHERE status='ATTENDED')::text AS attended
+                 FROM service_requests WHERE ${visibility}`,
+                [actor.role, actor.id],
+              )
+            ).rows[0];
         const result = await client.query(
           `SELECT * FROM service_requests
            WHERE ${visibility}
@@ -416,7 +470,7 @@ export function createApp({ webRoot } = {}) {
         return {
           requests,
           statusLabels,
-          counts,
+          ...(counts ? { counts } : {}),
           nextCursor: hasMore ? requests.at(-1).number : null,
         };
       }),
@@ -506,6 +560,11 @@ export function createApp({ webRoot } = {}) {
         400,
         'Select an officer',
       );
+    requireValue(
+      input.reason == null || (typeof input.reason === 'string' && input.reason.length <= 1000),
+      400,
+      'Reason must be a string of at most 1000 characters',
+    );
     if (input.action === 'close')
       requireValue(text(input.reason, 1000), 400, 'A closure reason is required');
     res.json(

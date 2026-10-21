@@ -32,7 +32,14 @@ CREATE TABLE mutation_receipts (
 );
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'civicmaps_local_app') THEN
-    CREATE ROLE civicmaps_local_app NOLOGIN NOSUPERUSER NOBYPASSRLS;
+    -- Roles are cluster-wide; migrations in another database can win this race.
+    BEGIN
+      CREATE ROLE civicmaps_local_app NOLOGIN NOSUPERUSER NOBYPASSRLS;
+    EXCEPTION WHEN duplicate_object OR unique_violation THEN
+      IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='civicmaps_local_app') THEN
+        RAISE;
+      END IF;
+    END;
   END IF;
 END $$;
 GRANT USAGE ON SCHEMA public TO civicmaps_local_app;

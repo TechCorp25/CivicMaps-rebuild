@@ -88,8 +88,11 @@ test('explicit AWS profile checkpoints registry without promoting historical job
   }
 });
 test('backend denies unbound context, forged selector and tampered resource registry before external access', async () => {
-  const user = (await pool.query("SELECT * FROM users WHERE email='dispatch@alpha.example'"))
-    .rows[0];
+  const user = (
+    await pool.query(`SELECT u.*,o.municipality_id AS owner_municipality_id
+      FROM users u JOIN council_principal_owners o ON o.user_id=u.id
+      WHERE u.email='dispatch@alpha.example'`)
+  ).rows[0];
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -115,6 +118,126 @@ test('backend denies unbound context, forged selector and tampered resource regi
       withMunicipalityResource(client, user, undefined, {}, () => assert.fail('Access granted')),
       /registry binding conflict/,
     );
+  } finally {
+    await client.query('ROLLBACK');
+    client.release();
+  }
+});
+
+test('resource status helper skips storage credentials and denies revoked or disabled scope before connection', async () => {
+  const user = (
+    await pool.query(`SELECT u.*,o.municipality_id AS owner_municipality_id
+      FROM users u JOIN council_principal_owners o ON o.user_id=u.id
+      WHERE u.email='dispatch@alpha.example'`)
+  ).rows[0];
+  const client = await pool.connect();
+  let connectionCalls = 0;
+  const fakeConnection = {
+    async query(sql) {
+      assert.equal(sql, 'SELECT 1');
+      return { rowCount: 1 };
+    },
+    async end() {},
+  };
+  const options = {
+    includeStorage: false,
+    async runtimeConnection() {
+      connectionCalls += 1;
+      return fakeConnection;
+    },
+    async storageCredentials() {
+      assert.fail('DB readiness check must not request STS storage credentials');
+    },
+  };
+  try {
+    await client.query('BEGIN');
+    const binding = (
+      await client.query('SELECT binding_id FROM operating_context_grants WHERE user_id=$1', [
+        user.id,
+      ])
+    ).rows[0].binding_id;
+    await client.query(
+      `INSERT INTO municipality_resource_contexts(job_id,binding_id)
+       SELECT job_id,$2 FROM municipality_resources WHERE municipality_id=$1`,
+      [alpha, binding],
+    );
+    const target = { bucket: 'synthetic-f05-bucket' };
+    const ready = await withMunicipalityResource(
+      client,
+      user,
+      binding,
+      target,
+      async ({ connection, storage }) => {
+        assert.equal(storage, undefined);
+        await connection.query('SELECT 1');
+        return true;
+      },
+      options,
+    );
+    assert.equal(ready, true);
+    assert.equal(connectionCalls, 1);
+
+    const withStorage = await withMunicipalityResource(
+      client,
+      user,
+      binding,
+      target,
+      async ({ storage }) => storage,
+      {
+        runtimeConnection: async () => {
+          connectionCalls += 1;
+          return fakeConnection;
+        },
+        storageCredentials: async () => ({ AccessKeyId: 'synthetic-only' }),
+      },
+    );
+    assert.deepEqual(withStorage, {
+      bucket: target.bucket,
+      prefix: (
+        await pool.query(
+          'SELECT storage_prefix FROM municipality_resources WHERE municipality_id=$1',
+          [alpha],
+        )
+      ).rows[0].storage_prefix,
+      credentials: { AccessKeyId: 'synthetic-only' },
+    });
+    assert.equal(connectionCalls, 2);
+
+    await client.query(
+      'UPDATE municipality_resources SET disabled_at=clock_timestamp() WHERE municipality_id=$1',
+      [alpha],
+    );
+    await assert.rejects(
+      withMunicipalityResource(
+        client,
+        user,
+        binding,
+        target,
+        () => assert.fail('Disabled resource reached'),
+        options,
+      ),
+      { status: 403 },
+    );
+    await client.query(
+      'UPDATE municipality_resources SET disabled_at=NULL WHERE municipality_id=$1',
+      [alpha],
+    );
+    await client.query(
+      'UPDATE operating_context_bindings SET revoked_at=clock_timestamp() WHERE id=$1',
+      [binding],
+    );
+    await assert.rejects(
+      withMunicipalityResource(
+        client,
+        user,
+        binding,
+        target,
+        () => assert.fail('Revoked context reached'),
+        options,
+      ),
+      { status: 403 },
+    );
+    assert.equal(connectionCalls, 2, 'denied states fail before opening the resource connection');
   } finally {
     await client.query('ROLLBACK');
     client.release();

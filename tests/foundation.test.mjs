@@ -28,33 +28,35 @@ async function create(notes = '') {
     longitude: 144.963,
     notes,
   });
-  assert.equal(result.status, 201);
+  assert.equal(result.status, 201, JSON.stringify(result.data));
   return result.data;
 }
-async function insertQueueFixtures(activeCount, closedCount) {
+async function insertQueueFixtures(activeCount = 105, closedCount = 110) {
   const source = (
     await pool.query(
       "SELECT capture_binding_id,capture_binding_version FROM service_requests WHERE tenant_id='tenant-alpha' AND branch_id='parking' ORDER BY number DESC LIMIT 1",
     )
   ).rows[0];
-  assert.ok(source);
+  assert.ok(source, 'a real alpha request must establish the source binding');
   const rows = [
     ...Array.from({ length: activeCount }, (_, index) => ({
+      id: randomUUID(),
       status: 'RECEIVED',
       address: `Scoped queue active ${index}`,
-      assigned: index % 2 === 0,
+      assignedOfficer: index % 2 === 0 ? officerId : null,
     })),
     ...Array.from({ length: closedCount }, (_, index) => ({
+      id: randomUUID(),
       status: 'CLOSED',
       address: `Scoped queue closed ${index}`,
-      assigned: index % 2 === 0,
+      assignedOfficer: index % 2 === 0 ? officerId : null,
     })),
   ];
   const values = [];
   const tuples = rows.map((row, index) => {
     const offset = index * 14;
     values.push(
-      randomUUID(),
+      row.id,
       'tenant-alpha',
       'jurisdiction-alpha',
       'plane-alpha',
@@ -65,7 +67,7 @@ async function insertQueueFixtures(activeCount, closedCount) {
       144.963,
       '',
       row.status,
-      row.assigned ? officerId : null,
+      row.assignedOfficer,
       source.capture_binding_id,
       source.capture_binding_version,
     );
@@ -75,6 +77,7 @@ async function insertQueueFixtures(activeCount, closedCount) {
     `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status,assigned_officer_id,capture_binding_id,capture_binding_version) VALUES ${tuples.join(',')}`,
     values,
   );
+  return rows;
 }
 before(async () => {
   environment = await createTestEnvironment({ platform: false });
@@ -95,6 +98,10 @@ before(async () => {
       ...result.data,
       cookie: result.response.headers.get('set-cookie').split(';')[0],
     };
+  }
+  for (const account of Object.keys(sessions)) {
+    const session = await call('/auth/session', undefined, account);
+    assert.equal(session.status, 200, `newly issued ${account} session remains usable`);
   }
 });
 after(async () => {
@@ -123,6 +130,10 @@ test('authentication denies missing and invalid credentials; cookie is HttpOnly 
   );
   assert.match(login.response.headers.get('set-cookie'), /HttpOnly/);
   assert.match(login.response.headers.get('set-cookie'), /SameSite=Strict/);
+  sessions.dispatch = {
+    ...login.data,
+    cookie: login.response.headers.get('set-cookie').split(';')[0],
+  };
 });
 test('request pages and counts stay complete and scoped to each authorised actor', async () => {
   await create('Queue pagination baseline');
@@ -141,6 +152,7 @@ test('request pages and counts stay complete and scoped to each authorised actor
   const second = await call(`/requests?status=all&before=${first.data.nextCursor}`);
   assert.equal(second.status, 200);
   assert.equal(second.data.requests.length, Number(first.data.counts.total) - 100);
+  assert.equal(second.data.counts, undefined);
   assert.equal(second.data.nextCursor, null);
   const all = [...first.data.requests, ...second.data.requests];
   assert.equal(new Set(all.map((request) => request.id)).size, Number(first.data.counts.total));
@@ -154,6 +166,7 @@ test('request pages and counts stay complete and scoped to each authorised actor
   assert.equal(Number(active.data.counts.active) - Number(dispatchBefore.active), 110);
   const activeNext = await call(`/requests?status=active&before=${active.data.nextCursor}`);
   assert.equal(activeNext.data.requests.length, Number(active.data.counts.active) - 100);
+  assert.equal(activeNext.data.counts, undefined);
   assert.ok(activeNext.data.requests.every((request) => request.status !== 'CLOSED'));
   const closed = await call('/requests?status=closed');
   assert.equal(closed.data.requests.length, 6);
@@ -202,6 +215,69 @@ test('creation is persisted and client ownership or number fields are rejected',
   const event = await call(`/requests/${request.id}/audit`);
   assert.equal(event.data.length, 1);
   assert.equal(event.data[0].action, 'created');
+});
+test('queue filters, counts and keyset pages retain older active work and scope', async () => {
+  const fixtures = await insertQueueFixtures();
+  const all = await call('/requests?status=all');
+  assert.equal(all.status, 200);
+  assert.equal(all.data.requests.length, 100);
+  assert.ok(all.data.requests.every((request) => request.status === 'CLOSED'));
+  assert.ok(BigInt(all.data.counts.total) >= 215n);
+  assert.ok(BigInt(all.data.counts.active) >= 105n);
+  assert.ok(BigInt(all.data.counts.closed) >= 110n);
+  assert.ok(all.data.nextCursor);
+  const closed = await call('/requests?status=closed');
+  assert.equal(closed.status, 200);
+  assert.ok(closed.data.requests.every((request) => request.status === 'CLOSED'));
+  assert.ok(closed.data.nextCursor);
+
+  const first = await call('/requests?status=active');
+  assert.equal(first.status, 200);
+  assert.equal(first.data.requests.length, 100);
+  assert.ok(first.data.requests.every((request) => request.status !== 'CLOSED'));
+  assert.ok(
+    first.data.requests.every(
+      (request) =>
+        request.tenant_id === 'tenant-alpha' &&
+        request.jurisdiction_id === 'jurisdiction-alpha' &&
+        request.data_plane_id === 'plane-alpha' &&
+        request.organisation_id === 'organisation-alpha' &&
+        request.branch_id === 'parking',
+    ),
+  );
+  assert.ok(
+    first.data.requests.some((request) =>
+      fixtures.slice(0, 105).some((row) => row.id === request.id),
+    ),
+  );
+
+  const newer = await create('Inserted between queue pages');
+  const second = await call(`/requests?status=active&before=${first.data.nextCursor}`);
+  assert.equal(second.status, 200);
+  const firstIds = new Set(first.data.requests.map((request) => request.id));
+  assert.ok(second.data.requests.every((request) => !firstIds.has(request.id)));
+  assert.ok(
+    second.data.requests.every((request) => BigInt(request.number) < BigInt(first.data.nextCursor)),
+  );
+  assert.ok(!second.data.requests.some((request) => request.id === newer.id));
+  const fetched = new Set(
+    [...first.data.requests, ...second.data.requests].map((request) => request.id),
+  );
+  assert.ok(fixtures.slice(0, 105).every((row) => fetched.has(row.id)));
+
+  const officer = await call('/requests?status=active', undefined, 'officer');
+  assert.equal(officer.status, 200);
+  assert.ok(officer.data.requests.length > 0);
+  assert.ok(officer.data.requests.every((request) => request.assigned_officer_id === officerId));
+  assert.ok(BigInt(officer.data.counts.total) < BigInt(first.data.counts.total));
+  const beta = await call('/requests?status=all', undefined, 'beta');
+  assert.equal(beta.status, 200);
+  assert.equal(beta.data.counts.total, '0');
+  assert.deepEqual(beta.data.requests, []);
+
+  assert.equal((await call('/requests?status=unknown')).status, 400);
+  assert.equal((await call('/requests?status=active&before=0')).status, 400);
+  assert.equal((await call('/requests?status=active&before=9223372036854775808')).status, 400);
 });
 test('scope denies cross-tenant list, audit, mutation and officer assignment', async () => {
   const request = await create();
@@ -298,6 +374,35 @@ test('dispatch to acknowledgement, attendance and closure records all transition
     audit.data.map((event) => event.action),
     ['created', 'assign', 'acknowledge', 'attend', 'close'],
   );
+});
+test('action reasons reject malformed JSON before mutation and preserve allowed audit values', async () => {
+  const request = await create();
+  const path = `/requests/${request.id}/actions`;
+  for (const reason of [{ malformed: true }, ['malformed'], 42, true, 'x'.repeat(1001)]) {
+    assert.equal(
+      (await call(path, { action: 'assign', version: 1, officerId, reason })).status,
+      400,
+    );
+  }
+  assert.deepEqual(
+    (await pool.query('SELECT status,version FROM service_requests WHERE id=$1', [request.id]))
+      .rows[0],
+    { status: 'RECEIVED', version: 1 },
+  );
+  assert.equal((await call(`/requests/${request.id}/audit`)).data.length, 1);
+
+  assert.equal(
+    (await call(path, { action: 'assign', version: 1, officerId, reason: null })).status,
+    200,
+  );
+  assert.equal(
+    (await call(path, { action: 'acknowledge', version: 2, reason: 'Accepted note' }, 'officer'))
+      .status,
+    200,
+  );
+  const audit = await call(`/requests/${request.id}/audit`);
+  assert.equal(audit.data[1].details.reason, null);
+  assert.equal(audit.data[2].details.reason, 'Accepted note');
 });
 test('parallel duplicate retries create exactly one request and audit event', async () => {
   const key = randomUUID();

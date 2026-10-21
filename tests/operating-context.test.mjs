@@ -42,12 +42,21 @@ async function account(bindings = []) {
     `INSERT INTO users SELECT $1,$2,name,password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id,true FROM users WHERE id=$3`,
     [id, email, dispatcher],
   );
+  const municipalityId = (
+    await pool.query('SELECT municipality_id FROM operating_context_bindings WHERE id=$1', [
+      bindings[0] ?? alpha,
+    ])
+  ).rows[0].municipality_id;
+  await pool.query('INSERT INTO council_principal_owners(user_id,municipality_id) VALUES($1,$2)', [
+    id,
+    municipalityId,
+  ]);
   for (const binding of bindings)
     await pool.query(
       "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,$2,'2020-01-01')",
       [id, binding],
     );
-  return { id, session: await login(email) };
+  return { id, municipalityId, session: await login(email) };
 }
 async function binding({
   from = '2020-01-01',
@@ -65,6 +74,11 @@ async function binding({
 }
 test('single context restores resolved scope; selectors and platform sessions cannot forge it', async () => {
   const session = await login('dispatch@alpha.example');
+  assert.equal(
+    (await pool.query('SELECT municipality_id FROM sessions WHERE user_id=$1', [dispatcher]))
+      .rows[0].municipality_id,
+    '20000000-0000-4000-8000-000000000001',
+  );
   const restored = await call('/auth/session', session);
   assert.equal(restored.status, 200);
   assert.equal(restored.data.actor.context_id, alpha);
@@ -84,80 +98,75 @@ test('single context restores resolved scope; selectors and platform sessions ca
   const cookie = operator.response.headers.get('set-cookie').split(';')[0];
   assert.equal((await call('/auth/contexts', { cookie })).status, 401);
 });
-test('shared-service organisation needs explicit contexts and keeps each origin isolated', async () => {
+test('wrong-council login is generic and replacing a cookie does not revoke another principal session', async () => {
+  const alphaSession = await login('dispatch@alpha.example');
+  const betaLogin = await call('/auth/login', alphaSession, {
+    data: {
+      email: 'dispatch@beta.example',
+      password: process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!',
+    },
+  });
+  assert.equal(betaLogin.status, 200);
+  const alphaSessionAfterReplacement = await call('/auth/session', alphaSession);
+  assert.equal(alphaSessionAfterReplacement.status, 200);
+  assert.equal(alphaSessionAfterReplacement.data.actor.id, dispatcher);
+
+  const wrongCouncil = await call('/auth/login', alphaSession, {
+    data: {
+      email: 'shared@alpha.example',
+      password: process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!',
+    },
+    context: shared,
+  });
+  assert.equal(wrongCouncil.status, 401);
+  assert.equal(wrongCouncil.data.error, 'Email or password is incorrect');
+  assert.equal((await call('/auth/session', alphaSession)).status, 200);
+});
+test('shared Alpha principal is restricted to Alpha after owner decision superseded cross-council fixture grant', async () => {
   const session = await login('shared@alpha.example');
   const contexts = await call('/auth/contexts', session);
   assert.equal(contexts.status, 200);
-  assert.deepEqual(contexts.data.map((b) => b.id).sort(), [alpha, shared].sort());
-  assert.ok(contexts.data.every((b) => b.organisation_id === 'organisation-alpha'));
-  assert.equal((await call('/requests', session)).status, 403);
-  const key = randomUUID();
-  const first = await call('/requests', session, { context: alpha, data: payload, key });
-  const second = await call('/requests', session, { context: shared, data: payload, key });
-  assert.equal(first.status, 201);
-  assert.equal(second.status, 201);
-  assert.notEqual(first.data.id, second.data.id);
-  assert.equal(first.data.capture_binding_id, alpha);
-  assert.equal(second.data.capture_binding_id, shared);
-  assert.equal(second.data.jurisdiction_id, 'jurisdiction-beta');
-  assert.equal(second.data.organisation_id, 'organisation-alpha');
-  assert.equal(
-    (await call('/requests', session, { context: shared, data: payload, key })).data.id,
-    second.data.id,
-  );
-  for (const [context, other] of [
-    [alpha, second.data],
-    [shared, first.data],
-  ]) {
-    const listed = await call('/requests', session, { context });
-    assert.ok(!listed.data.requests.some((r) => r.id === other.id));
-    assert.equal((await call(`/requests/${other.id}/audit`, session, { context })).status, 404);
-    assert.equal(
-      (
-        await call(`/requests/${other.id}/actions`, session, {
-          context,
-          data: { action: 'assign', version: 1, officerId: '00000000-0000-4000-8000-000000000002' },
-        })
-      ).status,
-      404,
-    );
-  }
-  assert.deepEqual((await call('/officers', session, { context: shared })).data, []);
-  assert.equal(
-    (
-      await call(`/requests/${second.data.id}/actions`, session, {
-        context: shared,
-        data: { action: 'assign', version: 1, officerId: '00000000-0000-4000-8000-000000000002' },
-      })
-    ).status,
-    403,
-  );
-  assert.equal(
-    (await call('/requests', await login('dispatch@beta.example'), { context: shared })).status,
-    403,
-  );
-  // An explicit grant makes an officer eligible in the shared realm despite their Alpha home fields.
-  const officerId = '00000000-0000-4000-8000-000000000002';
-  await pool.query("INSERT INTO operating_context_grants VALUES ($1,$2,'2020-01-01',NULL,NULL)", [
-    officerId,
-    shared,
-  ]);
   assert.deepEqual(
-    (await call('/officers', session, { context: shared })).data.map((o) => o.id),
-    [officerId],
+    contexts.data.map((b) => b.id),
+    [alpha],
   );
-  const assigned = await call(`/requests/${second.data.id}/actions`, session, {
-    context: shared,
-    data: { action: 'assign', version: 1, officerId },
-  });
-  assert.equal(assigned.status, 200);
-  const officer = await login('officer@alpha.example');
-  const queue = await call('/requests', officer, { context: shared });
-  assert.equal(queue.status, 200);
-  assert.deepEqual(
-    queue.data.requests.map((r) => r.id),
-    [second.data.id],
+  assert.equal((await call('/requests', session, { context: shared })).status, 403);
+  const retired = await pool.query(
+    'SELECT revoked_at FROM operating_context_grants WHERE user_id=$1 AND binding_id=$2',
+    [sharedUser, shared],
   );
+  // A fresh corrected seed never creates the historical mismatch; upgrade migration
+  // coverage verifies that a pre-existing row is retired with its history.
+  assert.equal(retired.rowCount, 0);
+  // A copied Alpha cookie and an Alpha officer cannot acquire a Beta binding grant.
+  await assert.rejects(
+    pool.query("INSERT INTO operating_context_grants VALUES ($1,$2,'2020-01-01',NULL,NULL)", [
+      '00000000-0000-4000-8000-000000000002',
+      shared,
+    ]),
+    /does not match council principal owner/,
+  );
+  const betaSession = await login('dispatch@beta.example');
+  assert.equal((await call('/requests', betaSession, { context: beta })).status, 200);
+  assert.equal((await call('/requests', session, { context: alpha })).status, 200);
+});
+test('principal ownership is data-driven for a third council', async () => {
+  const municipality = randomUUID();
+  const context = randomUUID();
+  await pool.query(
+    `INSERT INTO platform_municipalities(id,name,slug,status,packs)
+    VALUES($1,'Synthetic Gamma council',$2,'Active','[]')`,
+    [municipality, `synthetic-gamma-${municipality.slice(0, 8)}`],
+  );
+  await pool.query(
+    `INSERT INTO operating_context_bindings
+    SELECT $1,$1,1,$2,'tenant-gamma','organisation-gamma','jurisdiction-gamma','plane-gamma',
+      'parking','2020-01-01',NULL,NULL,now() FROM operating_context_bindings WHERE id=$3`,
+    [context, municipality, alpha],
+  );
+  const gamma = await account([context]);
+  assert.equal((await call('/requests', gamma.session, { context })).status, 200);
+  assert.equal((await call('/requests', gamma.session, { context: alpha })).status, 403);
 });
 test('missing grants, future/expired/revoked bindings and grants fail closed on existing sessions', async () => {
   const missing = await account();
@@ -318,7 +327,7 @@ test('binding and grant revocation wait for an already resolved transaction', as
   let change;
   try {
     await reader.query('BEGIN');
-    await resolveContext(reader, { id: user.id }, id);
+    await resolveContext(reader, { id: user.id, municipality_id: user.municipalityId }, id);
     const {
       rows: [{ pid }],
     } = await writer.query('SELECT pg_backend_pid() AS pid');
@@ -399,6 +408,9 @@ test('effective periods include the lower bound and exclude the upper bound usin
     '2020-01-01',clock_timestamp(),NULL,now() FROM operating_context_bindings WHERE id=$2`,
     [ended, alpha],
   );
-  const denied = await account([ended]);
-  assert.equal((await call('/requests', denied.session, { context: ended })).status, 403);
+  await pool.query(
+    "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,$2,'2020-01-01')",
+    [expired.id, ended],
+  );
+  assert.equal((await call('/requests', expired.session, { context: ended })).status, 403);
 });
