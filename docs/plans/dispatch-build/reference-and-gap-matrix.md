@@ -16,6 +16,13 @@ Rebuild programme-preparation base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7`. 
 | Shared SOS/comms | Not established by dispatch-kit demo banner/WS indicator | emergency-response, notification-delivery, recipient-groups | Future shared gates |
 | Department identity | Role/department header already required | DR-28 and owner instruction | All UI |
 
+## Pinned S6 source conflicts
+
+The S6 annotations are rebuild design authority; the pinned preview is behavioral reference only. Where they conflict, preserve the approved rebuild intent and record the preview behavior as evidence, not policy:
+
+- **Zone resolution method:** `_ds/wireframes/annotations/WF-S6 - Code21 Create and Dispatch - Annotations.md`, marker 6b.4, specifies `POST /admin/code21/zone-resolve`. At pinned preview `e53ec8caa902ced7b38f688a2b249320276545b4`, `civicmaps/commandmaps/src/features/code21/Code21CreateForm.tsx:382` sends a GET-style query and `civicmaps/server/src/modules/code21/code21.routes.ts:297` registers `router.get('/zone-resolve')`. This verb mismatch must be resolved in the rebuild API contract; do not treat the preview method as an override to the annotation.
+- **Dispatch failure recovery:** S6 annotations 6e.5 and 6f describe staying on or reopening the review screen with an error and allowing retry or edit. At the same preview pin, `civicmaps/commandmaps/src/features/code21/Code21CreateForm.tsx` `handleDispatch` catch path (around line 570) calls `setShowReview(false)`, returning to the form instead. M3's retain/edit/retry behavior is the intended rebuild target; it is not proven by this preview implementation.
+
 Design entrypoints are `_ds/SKILL.md`, README, decision register, colours/tokens, accessibility specification; use the canonical `_ds/wireframes` screens AND matching annotations. Examples can contain simulated transitions. Existing request audit access is preserved even where kit prose says no global Audit navigation.
 
 Preview inspection starts with `civicmaps/commandmaps/src/features/code21/Code21CreateForm.tsx`, `Code21Page.tsx`, and shell; inspect corresponding backend and shared contracts before treating a UI interaction as functional reference. A checked-out filename is not implementation evidence. For every new behaviour, add exact source symbols/annotation markers, test and evidence link to this matrix.
