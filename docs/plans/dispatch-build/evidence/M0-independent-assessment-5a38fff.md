@@ -1,6 +1,6 @@
 # Independent M0 architecture assessment
 
-**Historical record; current acceptance is pending.** The reviewed tree named below is not available in the current repository object database, so this report cannot be tied to or used as acceptance of the current reachable product. Preserve the original verdict as a historical record only. A fresh assessment of a reachable, committed candidate is required before M0 architecture/backlog acceptance can be claimed.
+**Historical record; superseded.** The reviewed tree named below remains unavailable in this repository object database, so this report cannot establish acceptance of the current product. Its original verdict is retained only as historical context. M0 architecture/backlog acceptance was later established by the [final assessment of reachable candidate `a1a9a9a969d1d2efc9d1630980adcff3ebaf2b60`](M0-independent-assessment-a1a9a9a.md), tree `72611aaa7ea2094eef65d1a21b3dcd06761d1f8e`.
 
 Date: 22 October 2026 (Australia/Melbourne)
 
