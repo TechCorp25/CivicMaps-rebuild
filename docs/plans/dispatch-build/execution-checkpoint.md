@@ -28,6 +28,6 @@ Before dependent functional work, apply the [F11 audit protocol](../independent-
 
 Keep independent-review acceptance unclaimed until the applicable report exists and findings are resolved. PR #31's owner-merge gate is satisfied by merge `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`. PR #35 is open and ready for review; its owner review remains pending. Fresh M0 architecture/backlog assessment of the reachable candidate is pending because the historical report cites an unavailable tree. The timing instruction does not bypass owner policy, governance-owned PR25 ownership, or deployment/release controls.
 
-## Publication receipt
+## Historical publication receipt
 
-This checkpoint records architecture/backlog acceptance, not functional completion. The corrected packet is published in draft [PR #35](https://github.com/TechCorp25/CivicMaps-rebuild/pull/35) at initial head `4543bcc7ef759f6a9a0479250b66b1116b1d4628`; exact-head workflow run `39660131573` passed. Owner review remains the next action and is recorded in evidence/M0.md and Empirical. Keep secrets and credential links out of all programme files.
+PR #35 was initially published at head `4543bcc7ef759f6a9a0479250b66b1116b1d4628`, and exact-head workflow run `39660131573` passed. This records publication and CI only; the prior assessment cites an unavailable tree, so M0 architecture/backlog acceptance of the current reachable product remains pending. Current next action: obtain fresh M0 assessment of a reachable committed candidate, then proceed to owner review and merge of [PR #35](https://github.com/TechCorp25/CivicMaps-rebuild/pull/35). Keep secrets and credential links out of all programme files.
