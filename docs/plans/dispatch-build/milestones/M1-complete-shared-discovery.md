@@ -8,7 +8,7 @@ Consume governance F-002 from reviewed main. Wire server search/filter/counts an
 
 ## Dependencies and stop conditions
 
-Governance F-002 or explicit ownership handover; M0 reviewed.
+Governance F-002 or explicit ownership handover; accepted M0 packet and owner merge.
 
 Read current decisions/dependencies before starting. Ask only for unresolved policy affecting this contract. Continue a ready independent milestone when blocked, recording the reason. Do not expand scope to hide an unresolved dependency.
 

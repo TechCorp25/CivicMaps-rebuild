@@ -2,6 +2,8 @@
 
 Owner-approved: full staged build; Luna Medium with stronger-model gates; shared services across all branches; Parking first consumer; core dispatch first; `_ds` design authority; department/role headers; no blanket governance hold.
 
+Current signed owner selections and their limits are reconciled in the [signed decision assessment](../evidence/2026-10-19-signed-owner-decisions-assessment.md) and [independent reassessment](../evidence/2026-10-19-signed-owner-decisions-review.md). Use those exact sources before asking for new policy input. Their provenance limits remain: the facsimile signature was not cryptographically authenticated, and the records do not grant production spend, release, deployment, customer acceptance, or legal certification.
+
 | ID | Decision/dependency | Required before | Safe independent work |
 |---|---|---|---|
 | D-DUTY | Code2 states, availability semantics, sign-off with open assignments, concurrent devices/session expiry, who can override | M2 operational transitions; M4 duty enforcement | Contract inspection, queue and intake |
@@ -10,7 +12,7 @@ Owner-approved: full staged build; Luna Medium with stronger-model gates; shared
 | D-GIS | Provider/licence/budget, approved address/zone data, travel-mode choices, disclosure scope | M5 live-provider acceptance | Deterministic local adapters and failure UI |
 | D-SAFETY | SOS recipients, escalation/acknowledgement authority, delivery guarantees, offline handling, retention/response ownership | Operational SOS/comms | Shared dependency design only |
 | D-LIFECYCLE | Extra state meaning, role transitions, evidence and outcome obligations | Extending current five states | Existing lifecycle tracking/recovery |
-| GOV-F002 | Queue completeness remains assigned to governance. PR #25 is still OPEN/DRAFT, unmerged, at `ac4bb265ad978641d0308ec284aaf3f3b4415678` against main `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (checked 21 October 2026); its implementation is not available on main. | M1 final integration | M3 preparation; no duplicate fix without handover. Reconcile the reviewed F-002 contract after the governance PR is owner-merged. |
+| GOV-F002 | Queue completeness remains governance-owned and is merged through PR25 at source head `2e79563e82fb07b3e1747d72403aa7e5eaa1a028`; PR32's correction is merged at `ddc1810f6afc9bfbc2563cdf2d8741778fcaf768`. Current main `65757b67669e7f9e79fcd160d5e5de23d9d7d42f` contains the status/count/cursor contract and officer-scoped queries. | M1 verification/consumption after M0 acceptance and owner merge | M3 package boundary; do not duplicate F-002. |
 | GOV-F009/F011/F029 | Shared capacity, pool recovery, audit validation/rendering | Affected acceptance | Reconcile current governance/main state; consume reviewed interfaces |
 | RELEASE | PR30 evidence merged into main at `1e658fd8b7f725148640d6ed68e81e3f9b2eaed3`; [release receipt](../evidence/dispatch-release-closure.md) is available locally. Deployed source remains `313d9a3fc5b2f66819bfaa52019600c3e167eda7`. | Consult receipt before a new release | Preserve the completed release; do not redeploy or replay migration013 |
 

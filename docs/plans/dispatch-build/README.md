@@ -1,8 +1,8 @@
 # Shared-services dispatch build programme
 
-Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: M0 architecture and handoff prepared; independent gate review pending. No new functional capability or deployment is claimed.**
+Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: PR #35 is open and ready for review; fresh M0 architecture/backlog assessment of a reachable committed candidate and owner review are pending. No new functional capability or deployment is claimed.**
 
-Repository: TechCorp25/CivicMaps-rebuild. Base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). PR30 release documentation was open at preparation and is now merged into main at `1e658fd8b7f725148640d6ed68e81e3f9b2eaed3`; see the [release receipt](../evidence/dispatch-release-closure.md). Branch: `codex/civicmaps-dispatch-programme`.
+Repository: TechCorp25/CivicMaps-rebuild. Programme-preparation base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). Current verified main: `65757b67669e7f9e79fcd160d5e5de23d9d7d42f`, including PR30 release evidence (merge `1e658fd8b7f725148640d6ed68e81e3f9b2eaed3`), the owner-merged M0 packet PR31 (merge `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`), and governance PR25/PR32. See the [release receipt](../evidence/dispatch-release-closure.md) and current [M0 evidence](evidence/M0.md). Active M0 worktree: `/workspace/CivicMaps-f11-m0-architecture`, branch `codex/civicmaps-f11-m0-architecture`.
 Empirical programme memory: **6ad7c3b6beb1d9647062ebd8**. Requirements memory: 6ad4c84fbeb1d9647060a4f3. Release memory: 6ad4c8e8beb1d9647060a602.
 
 ## Outcome
@@ -13,7 +13,7 @@ Shared code does not grant shared access. Council, branch, role, capability and 
 
 ## Authority
 
-Current owner decisions take precedence. `_ds` decisions, canonical tokens/components, accessibility rules, wireframes and annotations are design authority; approved rebuild contracts govern server behaviour. CivicMAPS/CivicMaps-preview supplies behavioural evidence only. Do not copy its single-parking schema, role assumptions, credentials, hardcoded travel mode or offence catalogue. Record source conflicts; do not resolve policy by copying UI-kit demonstrations.
+Current owner decisions take precedence; use the [signed decision assessment](../evidence/2026-10-19-signed-owner-decisions-assessment.md) and [independent reassessment](../evidence/2026-10-19-signed-owner-decisions-review.md) as the current reconciled direction, with their stated provenance and release limits. `_ds` decisions, canonical tokens/components, accessibility rules, wireframes and annotations are design authority; approved rebuild contracts govern server behaviour. CivicMAPS/CivicMaps-preview supplies behavioural evidence only. Do not copy its single-parking schema, role assumptions, credentials, hardcoded travel mode or offence catalogue. Record source conflicts; do not resolve policy by copying UI-kit demonstrations.
 
 Headers show department/role identity, not personal names. Shared lifecycle presentation must be truthful. Do not invent live WebSockets, officer positions, ETA, auto-dispatch, infringement outcomes or SOS delivery.
 

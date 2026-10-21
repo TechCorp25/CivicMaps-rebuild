@@ -8,7 +8,7 @@ Implement approved operational duty transitions separately from authentication; 
 
 ## Dependencies and stop conditions
 
-D-DUTY approved; M0 reviewed.
+D-DUTY approved; accepted M0 packet and owner merge.
 
 Read current decisions/dependencies before starting. Ask only for unresolved policy affecting this contract. Continue a ready independent milestone when blocked, recording the reason. Do not expand scope to hide an unresolved dependency.
 
