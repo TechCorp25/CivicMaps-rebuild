@@ -549,9 +549,11 @@
         "F07",
         "F08"
       ],
-      "nextAction": "Complete bounded F11D; F11E subsequently owner-merged. Continue full F11 plan.",
+      "nextAction": "Merged and deployed bounded dispatch precursor; retain release evidence and continue the full F11 plan at its current checkpoint.",
       "mergeCommit": "1bbfa7bb68190278d6adb64bba39527b7a3e7e36",
-      "publishedHead": "0c6ae265c43a44ecb3b2f5a104fb58d0430b5ce4"
+      "publishedHead": "0c6ae265c43a44ecb3b2f5a104fb58d0430b5ce4",
+      "releaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
+      "deployedCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7"
     },
     {
       "id": "F11E",
@@ -565,16 +567,18 @@
       "evidencePath": "docs/plans/evidence/F11E.md",
       "acceptancePassed": true,
       "publication": "verified_merged",
-      "empirical": "6ad6bb00beb1d9647061f27b",
+      "empirical": "6ad7d760beb1d964706302de",
       "blockers": [],
       "dependencies": [
         "F11D",
         "existing request API and permissions"
       ],
-      "nextAction": "Complete bounded F11E; F11 full council connection remains planned. No new independent audit claimed.",
+      "nextAction": "Merged and deployed bounded dispatch precursor; retain release evidence and continue the full F11 plan at its current checkpoint.",
       "publishedHead": "f2497442153a32b4e161a029aae39fd1695b92f3",
       "mergeCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
-      "acceptanceScope": "historical_local_evidence_not_rerun_2026_10_20"
+      "acceptanceScope": "historical_local_evidence_not_rerun_2026_10_20",
+      "releaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
+      "deployedCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7"
     }
   ],
   "integrationBase": "origin/main",
@@ -584,9 +588,9 @@
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
   "nextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
-  "currentDeployedSourceCommit": "b21e764ad1151aa3e4dce6f91f29f24f69b31916",
-  "currentReleaseEvidencePath": "docs/plans/evidence/F08-release-closure.md",
-  "releaseClosureFeature": "F08",
+  "currentDeployedSourceCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+  "currentReleaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
+  "releaseClosureFeature": "F11E",
   "governanceGate": {
     "status": "active_parallel_workstream_production_acceptance_pending",
     "planPath": "docs/plans/governance-and-production-readiness-gate.md",
@@ -604,11 +608,11 @@
     "blanketDevelopmentBlock": false
   },
   "functionalWorkstream": {
-    "prioritisedFeature": "F11D",
+    "prioritisedFeature": "F11",
     "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
-    "planPath": "docs/plans/dispatch-workspace-plan.md",
+    "planPath": "docs/plans/F11-next-phase-build-plan.md",
     "governance": "active_in_separate_session_no_blanket_development_hold",
-    "status": "review_ready_PR26"
+    "status": "in_progress_g1_design"
   },
   "currentCheckpointPath": "docs/plans/F11-execution-checkpoint.json"
 }

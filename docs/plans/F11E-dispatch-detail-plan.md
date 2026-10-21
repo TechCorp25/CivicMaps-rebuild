@@ -79,6 +79,6 @@ Revert the focused F11E commit(s) or close the unmerged feature branch. No serve
 - [x] Write F11E evidence and final review packet/checkpoint.
 - [x] Commit, push branch, verify remote SHA, and open draft PR #27.
 - [ ] Verify hosted CI and request established Codex review on the final published head.
-- [ ] Update Empirical and mark review-ready only after all required acceptance/review/publication steps.
+- [x] Update Empirical: F11E completion record `6ad7d760beb1d964706302de` records the merged/deployed bounded precursor, historical checks, limitations and full F11 next step; see [current evidence checkpoint](evidence/F11E.md). PR27 is owner-merged; historical review-ready steps do not describe current status.
 
 **Checkpoint:** Base `1bbfa7bb68190278d6adb64bba39527b7a3e7e36`; review-fix commit `a47b7adbafba25f42d65596d604c42c02cf2163d` is pushed and remote SHA verified on PR #27. The prior hosted CI (`39196618185`) and Codex review completed on pre-fix head `e6dd6cc`; CI passed and review raised three actionable findings. All three have been fixed and verified locally: full check (75/75 integration tests), expanded CommandMAPS browser suite, activation browser regression, screenshots, JSON and whitespace checks pass. Next: update final evidence/ledger, verify new hosted CI and Codex review on the latest head. No product-policy blocker.
