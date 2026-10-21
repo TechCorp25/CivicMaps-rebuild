@@ -7,7 +7,8 @@ You are implementing the CivicMAPS shared-services dispatch programme, not redes
 1. Read applicable AGENTS, current roadmap/ledger, programme files and Empirical memory6ad7c3b6beb1d9647062ebd8. Read current signed governance decision integration, not stale hold text.
 2. Verify planning publication/review and owner merge. Do not assume M0 approved merely because documents exist.
 3. Finish M0 source inspection where the evidence lists a gap. Obtain stronger-model architecture review and fix findings. Do not select Code2, cross-branch, catalogue, provider or SOS policy yourself.
-4. Inspect governance F-002 status. If available on main, implement M1; otherwise keep that integration pending and prepare M3's approved common/package boundary. M2 transitions wait for D-DUTY.
+4. Schedule the [required F11 G1–G4 authority track](README.md#required-council-authority-work): G1 during M0, dedicated G2 server provisioning and G3 council administration before G4 new-council integration in M4/M6. M7 requires their accepted products, tests and audit reports; dispatch milestones alone cannot qualify the release.
+5. Inspect governance F-002 status. If available on main, implement M1; otherwise keep that integration pending and prepare M3's approved common/package boundary. M2 transitions wait for D-DUTY.
 
 ## Working loop
 

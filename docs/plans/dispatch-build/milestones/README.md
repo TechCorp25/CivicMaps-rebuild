@@ -10,3 +10,5 @@ Every contract is an executable goal, not permission to invent unresolved policy
 - [M5 — Shared spatial and travel-routing context](M5-shared-spatial-and-travel-routing-context.md)
 - [M6 — Shared tracking and lifecycle recovery](M6-shared-tracking-and-lifecycle-recovery.md)
 - [M7 — Integrated qualification and owner release](M7-integrated-qualification-and-owner-release.md)
+
+The [required F11 authority track](../README.md#required-council-authority-work) runs alongside these milestones: G1 during M0, dedicated G2 server provisioning and G3 council administration, G4 integration across M4/M6, then G5 at M7. M7 cannot proceed without G1–G4 acceptance and required independent reports.

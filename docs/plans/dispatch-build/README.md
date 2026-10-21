@@ -32,6 +32,20 @@ The ledger retains F11 as the single active implementation feature and F12 as it
 
 M0 architecture/contracts → M1 complete discovery → M2 Code2/duty → M3 package-aware intake → M4 assignment/dispatch routing → M5 maps/zones/travel routing → M6 tracking/recovery → M7 qualification/release. Dependencies, rather than numbering alone, determine readiness: progress independent work when an affected contract is blocked; never start competing governance fixes.
 
+### Required council authority work
+
+The F11 authority track is part of this programme's release contract and is owned by the functional builder. It is separate from the governance-owned PR25 corrections. M1–M6 do not implicitly implement staff provisioning or council administration; complete the explicit G2/G3 products below as bounded F11 work before integrated qualification.
+
+| F11 goal | Place in the programme | Required product and gate |
+| --- | --- | --- |
+| G1 — Council staff authority contract | During M0, before G2 implementation | Actor/action/context matrix, API and migration contract using approved decisions; fresh-context Astra Low acceptance before dependent code. M0 shared-service design alone does not satisfy G1. |
+| G2 — Server staff provisioning | Dedicated F11 authority implementation after accepted G1; independent M1–M3 work may proceed where it does not depend on G2 | Council-bound staff invitation/activation, grants/revocation/disable, expiry/replay, concurrency/idempotency and immutable audit, with direct API denials and synthetic migration tests. Require G2 audit before dependent integration. |
+| G3 — Council administration UI | Dedicated F11 council administration implementation after G2; integrate before the M4/M6 new-council journeys | Separate authorised administration UI for G2, safe retries and accessible feedback; retain ADMIN operational exclusion. Include it in the G3/G4 independent assessment. |
+| G4 — Connected council-to-CommandMAPS lifecycle | Across M4/M6 integration, after G2/G3; required before M7 | Two newly provisioned councils: activated admin provisions staff, then create → assign → acknowledge → attend → close; test cross-council/context denials, revocation, disabled-pack retained review and recovery. Existing seeded staff cannot substitute for this acceptance. Require the G3/G4 audit. |
+| G5 — Final assessed release | M7, only after accepted G1–G4 and applicable M0–M6 milestones | Final published candidate assessment, required CI, owner merge and verified deployment/recovery evidence under the established release procedure. |
+
+M7 must stop if any G1–G4 product, executable acceptance evidence or required audit is missing. Record exact accepted commits/reports in the F11 checkpoint and M7 release packet. Independent preparation can continue, but missing council authority cannot be deferred past release or labelled complete by dispatch-only tests.
+
 Luna Medium implements bounded milestones. Stronger-model gates: M0 architecture, duty/intake/assignment integration, spatial/tracking integration, final release. Each milestone uses a new branch from verified main, evidence, exact remote SHA, draft PR, CI and Codex review. Owner merges; dependent implementation waits for owner merge. No auto-merge.
 
 ## Completion and exclusions
