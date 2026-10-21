@@ -207,33 +207,36 @@ test('login, manually copied cookies, context and origins are bound to exact rou
   assert.doesNotMatch(login.cookie, /Domain=/);
   assert.equal((await request(hosts[0], '/api/auth/session', null, login.cookie)).status, 200);
   assert.equal((await request(hosts[1], '/api/auth/session', null, login.cookie)).status, 401);
-  const wrongAudience = await request(hosts[1], '/api/auth/login', {
-    email: 'dispatch@alpha.example',
-    password: 'CivicMAPS-local-2026!',
-  });
-  const unknownPrincipal = await request(hosts[1], '/api/auth/login', {
-    email: 'unknown@synthetic.example',
-    password: 'CivicMAPS-local-2026!',
-  });
-  const wrongPassword = await request(hosts[1], '/api/auth/login', {
-    email: 'dispatch@beta.example',
-    password: 'incorrect synthetic password',
-  });
-  await pool.query("UPDATE users SET active=false WHERE email='dispatch@beta.example'");
-  let disabledPrincipal;
-  try {
-    disabledPrincipal = await request(hosts[1], '/api/auth/login', {
-      email: 'dispatch@beta.example',
-      password: 'CivicMAPS-local-2026!',
-    });
-  } finally {
-    await pool.query("UPDATE users SET active=true WHERE email='dispatch@beta.example'");
+  const selectors = [
+    {},
+    { 'x-civicmaps-context': '10000000-0000-4000-8000-000000000002' },
+    { 'x-civicmaps-context': '10000000-0000-4000-8000-000000000001' },
+  ];
+  const attempts = [
+    { email: 'dispatch@alpha.example', password: 'CivicMAPS-local-2026!' },
+    { email: 'unknown@synthetic.example', password: 'CivicMAPS-local-2026!' },
+    { email: 'dispatch@beta.example', password: 'incorrect synthetic password' },
+    { email: 'dispatch@beta.example', password: 'CivicMAPS-local-2026!', disabled: true },
+  ];
+  const failures = [];
+  for (const attempt of attempts) {
+    if (attempt.disabled)
+      await pool.query("UPDATE users SET active=false WHERE email='dispatch@beta.example'");
+    try {
+      const { disabled: _disabled, ...credentials } = attempt;
+      for (const selector of selectors)
+        failures.push(await request(hosts[1], '/api/auth/login', credentials, null, selector));
+    } finally {
+      if (attempt.disabled)
+        await pool.query("UPDATE users SET active=true WHERE email='dispatch@beta.example'");
+    }
   }
-  assert.equal(wrongAudience.status, 401);
-  assert.deepEqual(wrongAudience.body, unknownPrincipal.body);
-  assert.deepEqual(wrongAudience.body, wrongPassword.body);
-  assert.deepEqual(wrongAudience.body, disabledPrincipal.body);
-  assert.equal(wrongAudience.cookie, undefined);
+  assert.equal(failures.length, 12);
+  for (const failure of failures) {
+    assert.equal(failure.status, 401);
+    assert.deepEqual(failure.body, failures[0].body);
+    assert.equal(failure.cookie, undefined);
+  }
   assert.equal((await request(hosts[0], '/api/auth/session', null, login.cookie)).status, 200);
   assert.equal(
     (

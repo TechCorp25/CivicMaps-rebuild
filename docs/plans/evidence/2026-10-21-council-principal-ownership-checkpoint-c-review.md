@@ -103,3 +103,19 @@ Not assessed or complete here: general council staff administration/delegation, 
 - Exact changed-source commit and hosted CI disposition are to be appended after publishing the follow-up code head. The initial audit is not a pass, and the follow-up Astra review remains required.
 
 No production migration, deployment, PR merge or auto-merge is authorized by this packet. The new test evidence does not claim production isolation or readiness.
+
+### GPT-6 Astra Low follow-up on 86f40d6
+
+- Outcome: **changes required**, limited to the same synthetic ownership task. The follow-up was read-only and assessed the exact published source `86f40d6dcdd857e8232da1fd97be2ab266a5f0f7` against main `1e658fd8b7f725148640d6ed68e81e3f9b2eaed3`.
+- **Medium — routed login response remained distinguishable with an explicit wrong context selector.** Astra identified the ingress error path in `services/api/app.mjs` and selected-context denial in `services/api/routing.mjs:207`. The local remediation maps a 403 during login audience/context resolution to the same generic 401. The expanded `tests/service-routing.test.mjs` covers wrong-council valid credentials, unknown identity, incorrect password and disabled identity across absent, route-matching and mismatching context selectors; it compares status/body and checks that the Alpha session remains valid.
+- **Medium — an explicitly listed test-only principal could be owner-mapped from UUID alone.** Astra identified the `ownership.testPrincipals` loop in `services/api/seed.mjs`. The local remediation validates every present test-only principal against its canonical fixture attributes before owner assignment; absent declared test principals remain allowed. `tests/ownership-seed.test.mjs` covers a conflicting `...0099` row, preservation of identity/credentials/owners/grants/history on failure, valid canonical reseed, and exclusion of an unknown `...0098` user.
+- **Low — role-coverage claims exceeded direct evidence.** The prior test used a bespoke read-only `BYPASSRLS` broker role, not the configured F06 runtime role and its real memberships. `tests/context-rls.test.mjs` now checks local/platform owner and grant table privileges separately and keeps the broker-role assertion. The configured production runtime role and membership graph remain unassessed; this is an explicit limitation, not a claim of full runtime privilege verification.
+
+**Verification and disposition of this follow-up**
+
+- Local formatting, ESLint on the five changed implementation/test files, Node syntax checks, typecheck, both application builds and `git diff --check` pass for the local remediation.
+- Database-backed focused tests are not yet verified in this workspace: Docker and PostgreSQL server binaries are absent. The test additions above are source changes, not observed passing results. The prior 86f hosted CI success does not cover these later changes; exact-head hosted CI is required after publication.
+- The local remediation is not yet published or independently reviewed. Freeze its exact commit after a usable disposable PostgreSQL test environment is available, then obtain a fresh Astra Low follow-up on that source. If the environment remains unavailable, publish the limitation and keep Checkpoint C pending rather than infer a pass.
+- Astra also noted that prior evidence did not establish the complete configured-runtime privilege matrix. No new production-runtime privilege claim is made here.
+
+The pre-code contract hash discrepancy remains as stated above. No production migration, deployment, PR merge or auto-merge is authorized by this packet.

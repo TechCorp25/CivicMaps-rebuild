@@ -72,6 +72,26 @@ try {
       )
         throw new Error(`Synthetic principal conflicts with canonical fixture ${user.id}`);
     }
+    for (const user of ownership.testPrincipals) {
+      const canonical = await client.query(
+        `SELECT email,name,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id
+         FROM users WHERE id=$1`,
+        [user.userId],
+      );
+      if (!canonical.rowCount) continue;
+      const expected = {
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        tenant_id: `tenant-${user.scope}`,
+        jurisdiction_id: `jurisdiction-${user.scope}`,
+        data_plane_id: `plane-${user.scope}`,
+        organisation_id: `organisation-${user.scope}`,
+        branch_id: 'parking',
+      };
+      if (Object.entries(expected).some(([key, value]) => canonical.rows[0][key] !== value))
+        throw new Error(`Synthetic test principal conflicts with canonical fixture ${user.userId}`);
+    }
     const ownerTable = await client.query(
       "SELECT to_regclass('public.council_principal_owners') AS name",
     );
