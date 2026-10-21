@@ -2,7 +2,7 @@
 
 Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: M0 architecture and handoff prepared; independent gate review pending. No new functional capability or deployment is claimed.**
 
-Repository: TechCorp25/CivicMaps-rebuild. Base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). PR30 release documentation remains separate and open at preparation. Branch: `codex/civicmaps-dispatch-programme`.
+Repository: TechCorp25/CivicMaps-rebuild. Base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). PR30 release documentation was open at preparation and is now merged into main at `1e658fd8b7f725148640d6ed68e81e3f9b2eaed3`; see the [release receipt](../evidence/dispatch-release-closure.md). Branch: `codex/civicmaps-dispatch-programme`.
 Empirical programme memory: **6ad7c3b6beb1d9647062ebd8**. Requirements memory: 6ad4c84fbeb1d9647060a4f3. Release memory: 6ad4c8e8beb1d9647060a602.
 
 ## Outcome
@@ -25,6 +25,8 @@ Headers show department/role identity, not personal names. Shared lifecycle pres
 4. [Decisions and dependencies](decisions-and-dependencies.md).
 5. [Milestone contracts](milestones/README.md).
 6. [M0 assessment and evidence](evidence/M0.md).
+
+The ledger retains F11 as the single active implementation feature and F12 as its successor. DISPATCH-M0 is current preparation within that workstream, with functional acceptance still pending. The [F11 authority plan](../F11-next-phase-build-plan.md) and [checkpoint](../F11-execution-checkpoint.json) remain required for council staff authority; this programme does not grant or complete that authority.
 
 ## Programme sequence
 

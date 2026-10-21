@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-20",
+  "feature": "F11",
+  "state": "in_progress_g1_design",
+  "baselineCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+  "planPath": "docs/plans/F11-next-phase-build-plan.md",
+  "builder": {
+    "model": "GPT-6 Luna",
+    "reasoning": "medium"
+  },
+  "auditor": {
+    "model": "GPT-6 Astra",
+    "reasoning": "low",
+    "freshContext": true,
+    "inheritConversation": false,
+    "protocolPath": "docs/plans/independent-product-audit-protocol.md"
+  },
+  "goals": [
+    {
+      "id": "G0",
+      "status": "runtime_validation_pending",
+      "evidence": {
+        "localCommit": "20fd9fa",
+        "localTree": "d02c53fb0a69a57f4cbf4e87ed0fe14377e4c626",
+        "remoteVerification": "Authenticated GitHub check confirmed main and PR28/PR25 heads; fetch from executor failed due unreachable configured proxy.",
+        "runtime": "Node 24.19.0; npm 11.9.0; npm ls --depth=0 --omit=optional exit 0; PostgreSQL 15 binaries absent.",
+        "checks": "Prior lint, format, typechecks and both builds passed; integration setup failed. Direct database connection returned EPERM at 127.0.0.1:55432. No runtime acceptance claimed.",
+        "browser": "Not run; no database runtime.",
+        "limitations": "PostgreSQL 15 absent; supported runtime/network diagnosis remains to do. No confirmed policy rejection established."
+      },
+      "audit": null
+    },
+    {
+      "id": "G1",
+      "status": "in_progress",
+      "evidence": {
+        "scope": "Original council-to-CommandMAPS staff authority design; governance ownership implementation remains in PR25.",
+        "requirements": "Signed Q01\u2013Q12 and governance correction records available at pinned PR25 head."
+      },
+      "audit": null
+    },
+    {
+      "id": "G2",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G3",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G4",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G5",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    }
+  ],
+  "nextAction": "Execute G1 functional contract then G2\u2013G5 through mandatory development sequence; build missing persistent tests and wire nested discovery into local checks/CI. This update is planning only.",
+  "environmentBlockers": [
+    "Runtime validation pending: PostgreSQL 15 absent and database connection EPERM; investigate supported environment access."
+  ],
+  "governancePR": 25,
+  "verifiedRemote": {
+    "main": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+    "pr28Head": "1210cdd2d59c1d79e3b83999e4afeac0b5558c2a",
+    "pr28Tree": "1f088125cf55b84da694a9d4bc504d41a2f895b9",
+    "pr28Verification": "Verified remote branch snapshot on 20 October 2026 before the review fixes. Includes reconciled handoff e40ea194 and lifecycle/test-plan update 1210cdd2. This is a pinned resumption baseline, not a claim to track later PR heads; fetch and verify the current branch before continuing.",
+    "pr25Head": "254423e103f86b30c94bd45cd518f1563d388d82"
+  },
+  "historicalAudit": {
+    "status": "superseded_incomplete_wrong_scope_packet",
+    "record": {
+      "id": "G1",
+      "status": "blocked_audit",
+      "evidence": {
+        "contract": "docs/plans/F11-principal-ownership-contract.md",
+        "scopeCorrection": "Synthetic/test-only principal ownership enforcement with binding corrections; broader staff provisioning deferred.",
+        "sourceLimit": "Exact /workspace/work/council-principal-ownership-implementation-contract.md absent; PR25 source objects unavailable locally. Contract records this limitation explicitly."
+      },
+      "audit": {
+        "verdict": "blocked",
+        "reportPath": "docs/plans/evidence/F11-G1-independent-audit-6210ac0.md",
+        "reportSha256": "4f8811a1d321e3e691a4efad159c01c6cf2d4cb5c2ecdd6a1744ea71b1f0799c",
+        "auditor": "GPT-6 Astra",
+        "reasoning": "low",
+        "freshContext": "collaboration spawn with fork_turns=none",
+        "candidateCommit": "6210ac02ca81738ba943c6096d56238728316d10",
+        "candidateTree": "372a6d96aec959f0eb1975c505e202c45461127d",
+        "inputSha256": "33e68899331de5df6f71b6f062b6072f25628374dd2b7e9179079701742591f3",
+        "finding": "Mandatory binding-correction content and clean source contract are unavailable; schema design and existing enforcement dependencies remain unverified.",
+        "g2Authorized": false
+      }
+    },
+    "correctionPath": "docs/plans/evidence/F11-handoff-correction-2026-10-20.md"
+  },
+  "developmentSequence": [
+    "plan",
+    "build",
+    "test",
+    "update_docs_and_empirical",
+    "push",
+    "independent_assessment",
+    "merge",
+    "deploy",
+    "plan_next_phase"
+  ],
+  "testInventoryPath": "tests/f11/README.md",
+  "releaseStatus": {
+    "assessment": "not_completed",
+    "merge": "not_started",
+    "deploy": "not_started"
+  }
+}

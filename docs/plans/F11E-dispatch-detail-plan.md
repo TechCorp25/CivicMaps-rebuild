@@ -1,5 +1,7 @@
 # F11E — Dispatch detail and action recovery
 
+> Current record correction — 20 October 2026: GitHub confirms PR27 owner-merged at `313d9a3fc5b2f66819bfaa52019600c3e167eda7`, published head `f2497442153a32b4e161a029aae39fd1695b92f3`. The implementation/publication/review-pending statements below are historical checkpoints, not current merge status. Historical local acceptance remains scoped to its original runs; this correction does not assert a new independent audit, hosted-CI verification or deployment. Continue with the [F11 plan](F11-next-phase-build-plan.md).
+
 **Status:** Implementation complete; publication/review pending
 **Base:** `main` at `1bbfa7bb68190278d6adb64bba39527b7a3e7e36` (owner-merged PR #26 / F11D). GitHub compare verified `main` identical to this SHA on 19 October 2026. A direct `git fetch origin main` was attempted but the workspace proxy refused the connection; the remote comparison was completed through the authenticated GitHub API.
 **Branch:** `codex/civicmaps-f11e-dispatch-detail`
@@ -76,7 +78,7 @@ Revert the focused F11E commit(s) or close the unmerged feature branch. No serve
 - [x] Run requested checks and documentation/JSON/whitespace checks.
 - [x] Write F11E evidence and final review packet/checkpoint.
 - [x] Commit, push branch, verify remote SHA, and open draft PR #27.
-- [ ] Verify hosted CI and request established Codex review on the final published head.
-- [ ] Update Empirical and mark review-ready only after all required acceptance/review/publication steps.
+- [x] Verify hosted CI and established Codex review on final published head `f249744`: CI runs `39197541244`/`39197537687` passed and the [Codex receipt](https://github.com/TechCorp25/CivicMaps-rebuild/pull/27#issuecomment-6259412262) reports no major issues.
+- [x] Update Empirical: F11E completion record `6ad7d760beb1d964706302de` records the merged/deployed bounded precursor, historical checks, limitations and full F11 next step; see [current evidence checkpoint](evidence/F11E.md). PR27 is owner-merged; historical review-ready steps do not describe current status.
 
-**Checkpoint:** Base `1bbfa7bb68190278d6adb64bba39527b7a3e7e36`; review-fix commit `a47b7adbafba25f42d65596d604c42c02cf2163d` is pushed and remote SHA verified on PR #27. The prior hosted CI (`39196618185`) and Codex review completed on pre-fix head `e6dd6cc`; CI passed and review raised three actionable findings. All three have been fixed and verified locally: full check (75/75 integration tests), expanded CommandMAPS browser suite, activation browser regression, screenshots, JSON and whitespace checks pass. Next: update final evidence/ledger, verify new hosted CI and Codex review on the latest head. No product-policy blocker.
+**Checkpoint:** Base `1bbfa7bb68190278d6adb64bba39527b7a3e7e36`; review-fix commit `a47b7adbafba25f42d65596d604c42c02cf2163d` is pushed and remote SHA verified on PR #27. The prior hosted CI (`39196618185`) and Codex review completed on pre-fix head `e6dd6cc`; CI passed and review raised three actionable findings. All three have been fixed and verified locally: full check (75/75 integration tests), expanded CommandMAPS browser suite, activation browser regression, screenshots, JSON and whitespace checks pass. This historical checkpoint is superseded by the [final publication and review reconciliation](evidence/F11E.md#final-publication-and-review-reconciliation), which records completed CI/review, owner merge, deployment and Empirical receipt.
