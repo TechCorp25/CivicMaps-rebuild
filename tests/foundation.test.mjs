@@ -31,6 +31,51 @@ async function create(notes = '') {
   assert.equal(result.status, 201);
   return result.data;
 }
+async function insertQueueFixtures(activeCount, closedCount) {
+  const source = (
+    await pool.query(
+      "SELECT capture_binding_id,capture_binding_version FROM service_requests WHERE tenant_id='tenant-alpha' AND branch_id='parking' ORDER BY number DESC LIMIT 1",
+    )
+  ).rows[0];
+  assert.ok(source);
+  const rows = [
+    ...Array.from({ length: activeCount }, (_, index) => ({
+      status: 'RECEIVED',
+      address: `Scoped queue active ${index}`,
+      assigned: index % 2 === 0,
+    })),
+    ...Array.from({ length: closedCount }, (_, index) => ({
+      status: 'CLOSED',
+      address: `Scoped queue closed ${index}`,
+      assigned: index % 2 === 0,
+    })),
+  ];
+  const values = [];
+  const tuples = rows.map((row, index) => {
+    const offset = index * 14;
+    values.push(
+      randomUUID(),
+      'tenant-alpha',
+      'jurisdiction-alpha',
+      'plane-alpha',
+      'organisation-alpha',
+      'parking',
+      row.address,
+      -37.814,
+      144.963,
+      '',
+      row.status,
+      row.assigned ? officerId : null,
+      source.capture_binding_id,
+      source.capture_binding_version,
+    );
+    return `(${Array.from({ length: 14 }, (_, field) => `$${offset + field + 1}`).join(',')})`;
+  });
+  await pool.query(
+    `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status,assigned_officer_id,capture_binding_id,capture_binding_version) VALUES ${tuples.join(',')}`,
+    values,
+  );
+}
 before(async () => {
   environment = await createTestEnvironment({ platform: false });
   ({ pool, origin } = environment);
@@ -78,6 +123,48 @@ test('authentication denies missing and invalid credentials; cookie is HttpOnly 
   );
   assert.match(login.response.headers.get('set-cookie'), /HttpOnly/);
   assert.match(login.response.headers.get('set-cookie'), /SameSite=Strict/);
+});
+test('request pages and counts stay complete and scoped to each authorised actor', async () => {
+  await create('Queue pagination baseline');
+  const dispatchBefore = (await call('/requests?status=all')).data.counts;
+  const officerBefore = (await call('/requests?status=all', undefined, 'officer')).data.counts;
+  await insertQueueFixtures(110, 6);
+
+  const first = await call('/requests?status=all');
+  assert.equal(first.status, 200);
+  assert.equal(first.data.requests.length, 100);
+  assert.ok(first.data.nextCursor);
+  assert.equal(Number(first.data.counts.total) - Number(dispatchBefore.total), 116);
+  assert.equal(Number(first.data.counts.active) - Number(dispatchBefore.active), 110);
+  assert.equal(Number(first.data.counts.closed) - Number(dispatchBefore.closed), 6);
+
+  const second = await call(`/requests?status=all&before=${first.data.nextCursor}`);
+  assert.equal(second.status, 200);
+  assert.equal(second.data.requests.length, Number(first.data.counts.total) - 100);
+  assert.equal(second.data.nextCursor, null);
+  const all = [...first.data.requests, ...second.data.requests];
+  assert.equal(new Set(all.map((request) => request.id)).size, Number(first.data.counts.total));
+  assert.ok(
+    all.some((request) => request.address === 'Scoped queue active 109'),
+    'active records older than the first 100 remain discoverable',
+  );
+
+  const active = await call('/requests?status=active');
+  assert.equal(active.data.requests.length, 100);
+  assert.equal(Number(active.data.counts.active) - Number(dispatchBefore.active), 110);
+  const activeNext = await call(`/requests?status=active&before=${active.data.nextCursor}`);
+  assert.equal(activeNext.data.requests.length, Number(active.data.counts.active) - 100);
+  assert.ok(activeNext.data.requests.every((request) => request.status !== 'CLOSED'));
+  const closed = await call('/requests?status=closed');
+  assert.equal(closed.data.requests.length, 6);
+  assert.ok(closed.data.requests.every((request) => request.status === 'CLOSED'));
+
+  const officer = await call('/requests?status=all', undefined, 'officer');
+  assert.equal(Number(officer.data.counts.total) - Number(officerBefore.total), 58);
+  assert.ok(officer.data.requests.every((request) => request.assigned_officer_id === officerId));
+  assert.equal((await call('/requests?status=invalid')).status, 400);
+  assert.equal((await call('/requests?before=0')).status, 400);
+  assert.equal((await call('/requests?before=9223372036854775808')).status, 400);
 });
 test('creation is persisted and client ownership or number fields are rejected', async () => {
   const request = await create('Persisted note');
