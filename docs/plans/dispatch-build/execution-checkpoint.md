@@ -21,7 +21,11 @@ Stronger-model reviews at M0, M2–M4 integration, M5–M6 integration and M7. S
 
 ## Owner steering — assessment timing
 
-21 October 2026: continue the authorised programme work through completion before running the fresh GPT-6 Astra assessment. Collect exact diffs, source trace, validation, CI and review evidence at each checkpoint, but do not stop the work solely to request Astra early. The final Astra assessment must cover the completed requested work; until it runs and findings are resolved, keep independent-review acceptance unclaimed. This timing instruction does not authorise bypassing unresolved owner policy, the PR #31 owner-merge boundary, governance-owned F-002, or deployment/release controls.
+21 October 2026: complete the requested M0/M3 preparation packet before its fresh GPT-6 Astra assessment. Collect exact diffs, source trace, validation, CI and review evidence while completing that packet. This defers an early assessment of incomplete preparation; it does not defer required implementation gates until the end of the programme.
+
+Before dependent functional work, apply the [F11 audit protocol](../independent-product-audit-protocol.md) and [F11 goal contract](../F11-next-phase-build-plan.md): fresh-context GPT-6 Astra Low audit of G1 authority/API design **before G2 implementation**, then G2 server/schema, G3/G4 UI/connected lifecycle, and G5 final published candidate. Use task requirements and resulting product only, without inherited builder context. Unresolved blocking findings prevent acceptance and dependent implementation. The programme's M0 architecture and subsequent integration/release gates also remain required. Its final assessment supplements these checkpoints; it does not replace them.
+
+Keep independent-review acceptance unclaimed until the applicable report exists and findings are resolved. The timing instruction does not bypass owner policy, PR #31 owner merge, governance-owned F-002, or deployment/release controls.
 
 ## Publication receipt
 
