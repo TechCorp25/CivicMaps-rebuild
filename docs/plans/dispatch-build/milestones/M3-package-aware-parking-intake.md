@@ -1,6 +1,6 @@
 # M3 — Package-aware parking intake
 
-Status: contract prepared; implementation has not started. PR #31 is still draft and must be owner-merged before a dependent implementation branch is created.
+Status: contract prepared; implementation has not started. PR #31 was owner-merged at `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`. Dependent implementation still waits for independent M0 architecture acceptance and the applicable policy decisions.
 
 ## Goal and work
 

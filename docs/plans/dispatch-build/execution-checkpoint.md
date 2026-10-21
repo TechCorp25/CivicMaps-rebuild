@@ -1,14 +1,14 @@
 # Next-run prompt — GPT-6 Luna Medium
 
-You are implementing the CivicMAPS shared-services dispatch programme, not redesigning its scope. Start at this directory's README and milestone contracts. Current prepared baseline is main313d9a3; verify actual Git/main/PR/governance state before action. Worktree for this planning packet: /workspace/civicmaps-dispatch-programme; branch codex/civicmaps-dispatch-programme.
+You are implementing the CivicMAPS shared-services dispatch programme, not redesigning its scope. Start at this directory's README and milestone contracts. Current verified baseline is main `65757b67669e7f9e79fcd160d5e5de23d9d7d42f`, including the owner merge of M0 packet PR31 at `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`, plus merged governance PR25/PR32. Verify actual Git/main/PR/governance state before action. Current M0 worktree: `/workspace/CivicMaps-f11-m0-architecture`; branch `codex/civicmaps-f11-m0-architecture`.
 
 ## First actions
 
 1. Read applicable AGENTS, current roadmap/ledger, programme files and Empirical memory6ad7c3b6beb1d9647062ebd8. Read current signed governance decision integration, not stale hold text.
-2. Verify planning publication/review and owner merge. Do not assume M0 approved merely because documents exist.
+2. Verify planning publication/review and owner merge. PR31 is owner-merged, and M0 architecture/backlog acceptance passed on tree `5a38fff82cf0c8350ed02c0497e3de049e9bcdca`; see the independent assessment report. The corrected packet still needs draft publication and owner review. Do not infer functional acceptance.
 3. Finish M0 source inspection where the evidence lists a gap. Obtain stronger-model architecture review and fix findings. Do not select Code2, cross-branch, catalogue, provider or SOS policy yourself.
 4. Schedule the [required F11 G1–G4 authority track](README.md#required-council-authority-work): G1 during M0, dedicated G2 server provisioning and G3 council administration before G4 new-council integration in M4/M6. M7 requires their accepted products, tests and audit reports; dispatch milestones alone cannot qualify the release.
-5. Inspect governance F-002 status. If available on main, implement M1; otherwise keep that integration pending and prepare M3's approved common/package boundary. M2 transitions wait for D-DUTY.
+5. F-002 is owner-merged through PR25 on main `65757b6…`. `GET /api/requests` supports status filters, complete first-page counts, and keyset pagination with officer scoping. M1 must consume and preserve this interface after M0 acceptance/owner merge, then complete its remaining client discovery, selection and recovery contract. Do not duplicate the queue fix. M2 transitions wait for D-DUTY.
 
 ## Working loop
 
@@ -26,7 +26,7 @@ Stronger-model reviews at M0, M2–M4 integration, M5–M6 integration and M7. S
 
 Before dependent functional work, apply the [F11 audit protocol](../independent-product-audit-protocol.md) and [F11 goal contract](../F11-next-phase-build-plan.md): fresh-context GPT-6 Astra Low audit of G1 authority/API design **before G2 implementation**, then G2 server/schema, G3/G4 UI/connected lifecycle, and G5 final published candidate. Use task requirements and resulting product only, without inherited builder context. Unresolved blocking findings prevent acceptance and dependent implementation. The programme's M0 architecture and subsequent integration/release gates also remain required. Its final assessment supplements these checkpoints; it does not replace them.
 
-Keep independent-review acceptance unclaimed until the applicable report exists and findings are resolved. The timing instruction does not bypass owner policy, PR #31 owner merge, governance-owned F-002, or deployment/release controls.
+Keep independent-review acceptance unclaimed until the applicable report exists and findings are resolved. PR #31's owner-merge gate is satisfied by merge `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`; M0 architecture acceptance passed on reviewed tree `5a38fff82cf0c8350ed02c0497e3de049e9bcdca`; corrected-packet publication and owner review remain pending. The timing instruction does not bypass owner policy, governance-owned PR25 ownership, or deployment/release controls.
 
 ## Publication receipt
 
