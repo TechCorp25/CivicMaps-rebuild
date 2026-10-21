@@ -1,6 +1,6 @@
 # M3 — Package-aware parking intake
 
-Status: contract prepared; implementation has not started. PR #31 was owner-merged at `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`. Dependent implementation still waits for independent M0 architecture acceptance and the applicable policy decisions.
+Status: contract prepared; implementation has not started. PR #31 was owner-merged at `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`. Dependent implementation still waits for fresh independent M0 architecture acceptance on a reachable committed candidate and the applicable policy decisions.
 
 ## Goal and work
 
@@ -8,7 +8,7 @@ Build common location/review/submit/recovery flow plus allowlisted Parking paylo
 
 ## Dependencies and stop conditions
 
-M0 reviewed; D-INTAKE for affected mandatory rules. Independent of queue fix for contract work.
+Accepted M0 packet and owner merge; D-INTAKE for affected mandatory rules. Independent of queue fix for contract work.
 
 Read current decisions/dependencies before starting. Ask only for unresolved policy affecting this contract. Continue a ready independent milestone when blocked, recording the reason. Do not expand scope to hide an unresolved dependency.
 
@@ -56,7 +56,7 @@ Use the existing server-resolved `entitlements.packId` and enabled capability ch
 
 The additive columns are nullable so historical rows and the existing application remain readable during rollout. The compatibility review must test both old application/new schema and new application/old rows. Rollback is an application revert with unused nullable columns retained; do not drop captured data or run a destructive down migration. No seed/bootstrap replay or live data migration is required.
 
-This contract is a proposed review target, not an implementation approval. Pin exact field validators only after D-INTAKE is resolved and this contract has passed the M0/Astra review gate.
+This contract is a proposed review target, not an implementation approval. Pin exact field validators only after D-INTAKE is resolved and this contract has passed the M0/Astra review gate and owner merge.
 
 ## Acceptance
 

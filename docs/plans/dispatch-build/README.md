@@ -1,6 +1,6 @@
 # Shared-services dispatch build programme
 
-Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: M0 architecture/backlog acceptance passed; corrected packet publication and owner review are pending. No new functional capability or deployment is claimed.**
+Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: PR #35 is open and ready for review; fresh M0 architecture/backlog assessment of a reachable committed candidate and owner review are pending. No new functional capability or deployment is claimed.**
 
 Repository: TechCorp25/CivicMaps-rebuild. Programme-preparation base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). Current verified main: `65757b67669e7f9e79fcd160d5e5de23d9d7d42f`, including PR30 release evidence (merge `1e658fd8b7f725148640d6ed68e81e3f9b2eaed3`), the owner-merged M0 packet PR31 (merge `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`), and governance PR25/PR32. See the [release receipt](../evidence/dispatch-release-closure.md) and current [M0 evidence](evidence/M0.md). Active M0 worktree: `/workspace/CivicMaps-f11-m0-architecture`, branch `codex/civicmaps-f11-m0-architecture`.
 Empirical programme memory: **6ad7c3b6beb1d9647062ebd8**. Requirements memory: 6ad4c84fbeb1d9647060a4f3. Release memory: 6ad4c8e8beb1d9647060a602.

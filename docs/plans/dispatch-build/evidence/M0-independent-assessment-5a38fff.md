@@ -1,5 +1,7 @@
 # Independent M0 architecture assessment
 
+**Historical record; current acceptance is pending.** The reviewed tree named below is not available in the current repository object database, so this report cannot be tied to or used as acceptance of the current reachable product. Preserve the original verdict as a historical record only. A fresh assessment of a reachable, committed candidate is required before M0 architecture/backlog acceptance can be claimed.
+
 Date: 22 October 2026 (Australia/Melbourne)
 
 Reviewer: fresh GPT-6 Astra, low effort; independent context.
