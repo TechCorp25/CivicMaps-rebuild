@@ -14,8 +14,8 @@
     "hostedCheck": "foundation check run 119141981170 in workflow run 39576128426 passed on verified main.",
     "runtime": "Pinned PostgreSQL 15 image ran as a disposable container; Node connected at 127.0.0.1:55432. For the preserved full check, matching client executables were copied into /tmp/civicmaps-s0-evidence/postgres-client and used from PATH; no system installation. Local browser suites not run.",
     "audit": {
-      "status": "accepted",
-      "verdict": "pass",
+      "status": "historical_pass_unbound_to_reachable_candidate",
+      "verdict": "historical_pass_candidate_unverifiable",
       "reportPath": "docs/plans/evidence/F11-S0-independent-audit-6a590e4.md",
       "reportSha256": "b4c0c4e859e4be2a55c6a6023cca3aca07cc4cf34e8d1fd4395b11a9770e7c1e",
       "auditor": "GPT-6 Astra",
@@ -23,8 +23,9 @@
       "freshContext": "collaboration spawn with fork_turns=none",
       "candidateTree": "6a590e4321b37eb609fbb17b22cdcca36b1b9380",
       "baseline": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
-      "limitations": "Hosted CI is supported by the retained connected-API response summary; local browser suites were not run. This is S0 inventory acceptance only, not functional F11 acceptance."
-    }
+      "limitations": "Hosted CI is supported by the retained connected-API response summary; local browser suites were not run. This is S0 inventory acceptance only, not functional F11 acceptance. The reported candidateTree is not present in the fetched Git object database and cannot be reconstructed from the retained manifest; this report therefore does not bind to the published branch commit. A fresh assessment is required for a committed candidate."
+    },
+    "auditReview": "See evidence/F11-S0-audit-reference-correction.md; retain historical report, but do not treat its pass as current candidate acceptance."
   },
   "planPath": "docs/plans/F11-next-phase-build-plan.md",
   "builder": {
@@ -41,7 +42,7 @@
   "goals": [
     {
       "id": "G0",
-        "status": "locally_validated",
+      "status": "locally_validated",
       "evidence": {
         "localCommit": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
         "localTree": "verified main tree d127a33620d9226ca6dccc62d337e17cb1d346af",
@@ -58,7 +59,7 @@
       "status": "in_progress",
       "evidence": {
         "scope": "Original council-to-CommandMAPS staff authority design; governance ownership implementation is merged through PR25 on main.",
-        "requirements": "Signed Q01\u2013Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
+        "requirements": "Signed Q01–Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
       },
       "audit": null
     },
@@ -87,7 +88,7 @@
       "audit": null
     }
   ],
-  "nextAction": "Continue in the separate M0 architecture worktree from verified main: reconcile the packet's evidence with merged PR25/PR32, complete source inspection, and prepare the requested M0 architecture review. Keep dependent implementation and owner-merge gates intact.",
+  "nextAction": "Prepare a committed S0 documentation candidate, verify its tree and included evidence, then obtain a fresh independent assessment against that reachable candidate.",
   "environmentBlockers": [],
   "governancePR": 25,
   "verifiedRemote": {
