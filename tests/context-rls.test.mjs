@@ -183,3 +183,70 @@ test('database gate denies ungranted actors and ineffective bindings or grants',
     client.release();
   }
 });
+test('ownership constraints and grants protect session and council pairs independently of API checks', async () => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const rejected = async (name, action, expected) => {
+      await client.query(`SAVEPOINT ${name}`);
+      await assert.rejects(action(), expected);
+      await client.query(`ROLLBACK TO SAVEPOINT ${name}`);
+      await client.query(`RELEASE SAVEPOINT ${name}`);
+    };
+    await rejected(
+      'wrong_session_owner',
+      () =>
+        client.query(
+          `INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,municipality_id)
+         VALUES($1,$2,'csrf',now()+interval '1 hour',$3)`,
+          [randomUUID(), actor, '20000000-0000-4000-8000-000000000002'],
+        ),
+      /foreign key|does not match/i,
+    );
+    await rejected(
+      'immutable_owner',
+      () =>
+        client.query('UPDATE council_principal_owners SET municipality_id=$2 WHERE user_id=$1', [
+          actor,
+          '20000000-0000-4000-8000-000000000002',
+        ]),
+      /immutable/i,
+    );
+    await rejected(
+      'immutable_session',
+      () =>
+        client.query('UPDATE sessions SET municipality_id=$2 WHERE user_id=$1', [
+          actor,
+          '20000000-0000-4000-8000-000000000002',
+        ]),
+      /immutable|foreign key/i,
+    );
+    await rejected(
+      'wrong_grant_owner',
+      async () => {
+        await client.query(
+          `INSERT INTO operating_context_grants(user_id,binding_id,effective_from)
+       VALUES($1,$2,now())`,
+          [actor, beta],
+        );
+        return client.query('SET CONSTRAINTS context_grant_owner IMMEDIATE');
+      },
+      /does not match/i,
+    );
+    await client.query('ROLLBACK');
+    const permissions = await pool.query(`
+      SELECT has_table_privilege('civicmaps_platform_app','council_principal_owners','SELECT') AS platform_read,
+             has_table_privilege('civicmaps_local_app','council_principal_owners','INSERT') AS app_insert,
+             has_table_privilege('civicmaps_local_app','council_principal_owners','UPDATE') AS app_update,
+             has_table_privilege('civicmaps_local_app','council_principal_owners','DELETE') AS app_delete`);
+    assert.deepEqual(permissions.rows[0], {
+      platform_read: false,
+      app_insert: false,
+      app_update: false,
+      app_delete: false,
+    });
+  } finally {
+    await client.query('ROLLBACK');
+    client.release();
+  }
+});

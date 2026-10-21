@@ -83,4 +83,23 @@ Not assessed or complete here: general council staff administration/delegation, 
 
 ## Audit disposition record
 
-Pending GPT-6 Astra Low's read-only review of the frozen implementation and evidence. Record outcome, exact source, severity and line evidence, affected acceptance criterion, required verification, limitations, and recommendation here after the initial report. Luna validates each finding before any code change. Material fixes require fresh applicable checks and follow-up Astra review. No production migration, deployment, PR merge or auto-merge is authorized by this packet.
+### Initial GPT-6 Astra Low review
+
+- Outcome: **changes required**, limited to the reviewed synthetic ownership task.
+- Exact source: governance PR #25 at `2e72476fe78b5ac070da0da6f4e111d504869e6d`; base `main` `1e658fd8b7f725148640d6ed68e81e3f9b2eaed3`. Astra confirmed implementation files matched tested source `22356fbde0a3073f8767fb4acc3b9c6c3f4d0696`; later changes were documentation only.
+- Method: read-only initial audit; Astra did not run tests or modify files.
+
+**Findings and Luna disposition**
+
+1. **Medium — wrong-council routed login had a distinguishable 403.** `services/api/app.mjs` now maps the wrong-audience `Service access is not permitted` case to the same generic 401 as unknown identity, bad password and disabled identity. The service-routing regression exercises all four on the same council ingress, compares response bodies and verifies Alpha's existing session survives.
+2. **Medium — seed trusted UUID collisions without canonical attribute checks.** `services/api/seed.mjs` now verifies canonical municipality name/slug and fixture identity fields before proceeding to owner/grant assignment. `tests/ownership-seed.test.mjs` checks municipality and user collision failure, transactional preservation of owner/grant state, valid reseed and no resurrection of a revoked grant. Test-only absent principal handling remains explicitly bounded by the manifest; unknown IDs are not added to it.
+3. **Medium — incomplete DB-role/session/activation and populated-D02 evidence.** Tests now exercise mismatched session insertion and pair mutation, immutable owner and session behavior, cross-council grant rejection, local/platform/runtime owner/grant permission boundaries, and owner-write failure rollback during activation. `tests/council-principal-ownership-migration.test.mjs` now migrates populated Alpha-active and Beta-disabled D02 state, checks exact owners, retains token/event/grant/session history, confirms Alpha can log in after migration and Beta remains denied with no session or usable token.
+
+**Verification after findings**
+
+- The five directly affected filesuites (routing, context RLS, activation, ownership migration, seed) passed locally: 19 tests total. The expanded routed-login module passed again at 12/12.
+- Lint, format check, typecheck and both builds passed after the implementation changes.
+- `npm run check` ran 88 tests: 86 passed and two unrelated backup/release tests could not start `pg_dump` (missing executable; `spawnSync` returned `status: null`). The affected ownership suites passed separately. This is recorded as an environment limitation, not a product regression.
+- Exact changed-source commit and hosted CI disposition are to be appended after publishing the follow-up code head. The initial audit is not a pass, and the follow-up Astra review remains required.
+
+No production migration, deployment, PR merge or auto-merge is authorized by this packet. The new test evidence does not claim production isolation or readiness.

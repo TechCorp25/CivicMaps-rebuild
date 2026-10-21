@@ -293,7 +293,10 @@ export function createApp({
         }
       } catch (error) {
         if (error.status !== 403) throw error;
-        if (req.serviceRoute) throw error;
+        // A valid principal arriving at another council's ingress is an invalid
+        // audience just like an unknown email or bad password. Keep that result
+        // indistinguishable while preserving explicit context-selector errors.
+        if (req.serviceRoute && error.message !== 'Service access is not permitted') throw error;
         requireValue(false, 401, 'Email or password is incorrect');
       }
       // Replace only this principal's session for the resolved council. Sessions for

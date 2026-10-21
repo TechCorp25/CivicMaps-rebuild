@@ -152,6 +152,31 @@ test('F07 issuance, atomic activation, explicit least privilege, recovery and di
       if (originalIngress === undefined) delete process.env.CIVICMAPS_INGRESS_TOKEN;
       else process.env.CIVICMAPS_INGRESS_TOKEN = originalIngress;
     }
+    await env.pool
+      .query(`CREATE FUNCTION reject_synthetic_owner() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN RAISE EXCEPTION 'synthetic owner write rejected'; END $$`);
+    await env.pool
+      .query(`CREATE TRIGGER reject_synthetic_owner BEFORE INSERT ON council_principal_owners
+      FOR EACH ROW EXECUTE FUNCTION reject_synthetic_owner()`);
+    assert.equal((await redeem(finalToken)).status, 500);
+    assert.equal(
+      (
+        await env.pool.query('SELECT user_id FROM platform_first_admins WHERE municipality_id=$1', [
+          alpha,
+        ])
+      ).rows[0].user_id,
+      null,
+    );
+    assert.equal(
+      (
+        await env.pool.query('SELECT redeemed_at FROM council_admin_activations WHERE id=$1', [
+          final.data.id,
+        ])
+      ).rows[0].redeemed_at,
+      null,
+    );
+    await env.pool.query('DROP TRIGGER reject_synthetic_owner ON council_principal_owners');
+    await env.pool.query('DROP FUNCTION reject_synthetic_owner()');
     const results = await Promise.all([redeem(finalToken), redeem(finalToken)]);
     assert.deepEqual(results.map((r) => r.status).sort(), [200, 409]);
     const admin = await call('/auth/login', { email: 'admin@alpha.synthetic.example', password });

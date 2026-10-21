@@ -207,15 +207,34 @@ test('login, manually copied cookies, context and origins are bound to exact rou
   assert.doesNotMatch(login.cookie, /Domain=/);
   assert.equal((await request(hosts[0], '/api/auth/session', null, login.cookie)).status, 200);
   assert.equal((await request(hosts[1], '/api/auth/session', null, login.cookie)).status, 401);
-  assert.equal(
-    (
-      await request(hosts[1], '/api/auth/login', {
-        email: 'dispatch@alpha.example',
-        password: 'CivicMAPS-local-2026!',
-      })
-    ).status,
-    403,
-  );
+  const wrongAudience = await request(hosts[1], '/api/auth/login', {
+    email: 'dispatch@alpha.example',
+    password: 'CivicMAPS-local-2026!',
+  });
+  const unknownPrincipal = await request(hosts[1], '/api/auth/login', {
+    email: 'unknown@synthetic.example',
+    password: 'CivicMAPS-local-2026!',
+  });
+  const wrongPassword = await request(hosts[1], '/api/auth/login', {
+    email: 'dispatch@beta.example',
+    password: 'incorrect synthetic password',
+  });
+  await pool.query("UPDATE users SET active=false WHERE email='dispatch@beta.example'");
+  let disabledPrincipal;
+  try {
+    disabledPrincipal = await request(hosts[1], '/api/auth/login', {
+      email: 'dispatch@beta.example',
+      password: 'CivicMAPS-local-2026!',
+    });
+  } finally {
+    await pool.query("UPDATE users SET active=true WHERE email='dispatch@beta.example'");
+  }
+  assert.equal(wrongAudience.status, 401);
+  assert.deepEqual(wrongAudience.body, unknownPrincipal.body);
+  assert.deepEqual(wrongAudience.body, wrongPassword.body);
+  assert.deepEqual(wrongAudience.body, disabledPrincipal.body);
+  assert.equal(wrongAudience.cookie, undefined);
+  assert.equal((await request(hosts[0], '/api/auth/session', null, login.cookie)).status, 200);
   assert.equal(
     (
       await request(hosts[0], '/api/auth/session', null, login.cookie, {
@@ -343,6 +362,26 @@ test('read-only broker takes authentication/context locks without identity updat
     );
     await client.query('BEGIN');
     await client.query(`SET LOCAL ROLE ${role}`);
+    const ownershipPrivileges = await client.query(`
+      SELECT has_table_privilege(current_user,'council_principal_owners','SELECT') AS owner_read,
+             has_table_privilege(current_user,'council_principal_owners','INSERT') AS owner_insert,
+             has_table_privilege(current_user,'council_principal_owners','UPDATE') AS owner_update,
+             has_table_privilege(current_user,'council_principal_owners','DELETE') AS owner_delete,
+             has_table_privilege(current_user,'operating_context_grants','SELECT') AS grant_read,
+             has_table_privilege(current_user,'operating_context_grants','INSERT') AS grant_insert,
+             has_table_privilege(current_user,'operating_context_grants','UPDATE') AS grant_update,
+             has_table_privilege(current_user,'operating_context_grants','DELETE') AS grant_delete`);
+    assert.deepEqual(ownershipPrivileges.rows[0], {
+      owner_read: true,
+      owner_insert: false,
+      owner_update: false,
+      owner_delete: false,
+      grant_read: true,
+      grant_insert: false,
+      grant_update: false,
+      grant_delete: false,
+    });
+    assert.ok((await client.query('SELECT * FROM council_principal_owners')).rowCount > 1);
     const user = (
       await client.query(`SELECT u.*,o.municipality_id AS owner_municipality_id
         FROM users u JOIN council_principal_owners o ON o.user_id=u.id

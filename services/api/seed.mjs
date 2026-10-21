@@ -22,6 +22,16 @@ try {
         VALUES($1,$2,$3,'Active','["local-laws","parking-services"]') ON CONFLICT(id) DO NOTHING`,
         [municipality.id, municipality.name, municipality.slug],
       );
+      const canonical = await client.query(
+        'SELECT name,slug FROM platform_municipalities WHERE id=$1',
+        [municipality.id],
+      );
+      if (
+        !canonical.rowCount ||
+        canonical.rows[0].name !== municipality.name ||
+        canonical.rows[0].slug !== municipality.slug
+      )
+        throw new Error('Synthetic municipality conflicts with canonical fixture');
     }
     for (const user of fixtures) {
       await client.query(
@@ -41,6 +51,26 @@ try {
           'day-team',
         ],
       );
+      const expected = {
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        tenant_id: `tenant-${user.scope}`,
+        jurisdiction_id: `jurisdiction-${user.scope}`,
+        data_plane_id: `plane-${user.scope}`,
+        organisation_id: `organisation-${user.scope}`,
+        branch_id: 'parking',
+      };
+      const canonical = await client.query(
+        `SELECT email,name,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id
+         FROM users WHERE id=$1`,
+        [user.id],
+      );
+      if (
+        !canonical.rowCount ||
+        Object.entries(expected).some(([key, value]) => canonical.rows[0][key] !== value)
+      )
+        throw new Error(`Synthetic principal conflicts with canonical fixture ${user.id}`);
     }
     const ownerTable = await client.query(
       "SELECT to_regclass('public.council_principal_owners') AS name",
