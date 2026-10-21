@@ -1,9 +1,31 @@
 {
   "schemaVersion": 1,
-  "date": "2026-10-20",
+  "date": "2026-10-21",
   "feature": "F11",
-  "state": "in_progress_g1_design",
-  "baselineCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+  "state": "s0_complete",
+  "baselineCommit": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+  "sessionS0": {
+    "status": "complete",
+    "evidencePath": "docs/plans/evidence/F11-S0-baseline-2026-10-21.md",
+    "verifiedMain": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+    "activeBranch": "codex/civicmaps-f11-autonomous-build",
+    "localCheck": "npm run check passed lint, format, both typechecks, both builds and all 92 Node tests; 92 passed, 0 failed/skipped/cancelled. PostgreSQL 15.19 server and matching client tools were used from a disposable container/test-only work path.",
+    "testDiscovery": "node --test 'tests/**/*.test.mjs'; 92 tests discovered; tests/f11 has README only and no executable suite.",
+    "hostedCheck": "foundation check run 119141981170 in workflow run 39576128426 passed on verified main.",
+    "runtime": "Pinned PostgreSQL 15 image ran as a disposable container; Node connected at 127.0.0.1:55432. For the preserved full check, matching client executables were copied into /tmp/civicmaps-s0-evidence/postgres-client and used from PATH; no system installation. Local browser suites not run.",
+    "audit": {
+      "status": "accepted",
+      "verdict": "pass",
+      "reportPath": "docs/plans/evidence/F11-S0-independent-audit-6a590e4.md",
+      "reportSha256": "b4c0c4e859e4be2a55c6a6023cca3aca07cc4cf34e8d1fd4395b11a9770e7c1e",
+      "auditor": "GPT-6 Astra",
+      "reasoning": "low",
+      "freshContext": "collaboration spawn with fork_turns=none",
+      "candidateTree": "6a590e4321b37eb609fbb17b22cdcca36b1b9380",
+      "baseline": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+      "limitations": "Hosted CI is supported by the retained connected-API response summary; local browser suites were not run. This is S0 inventory acceptance only, not functional F11 acceptance."
+    }
+  },
   "planPath": "docs/plans/F11-next-phase-build-plan.md",
   "builder": {
     "model": "GPT-6 Luna",
@@ -19,15 +41,15 @@
   "goals": [
     {
       "id": "G0",
-      "status": "runtime_validation_pending",
+        "status": "locally_validated",
       "evidence": {
-        "localCommit": "20fd9fa",
-        "localTree": "d02c53fb0a69a57f4cbf4e87ed0fe14377e4c626",
-        "remoteVerification": "Authenticated GitHub check confirmed main and PR28/PR25 heads; fetch from executor failed due unreachable configured proxy.",
-        "runtime": "Node 24.19.0; npm 11.9.0; npm ls --depth=0 --omit=optional exit 0; PostgreSQL 15 binaries absent.",
-        "checks": "Prior lint, format, typechecks and both builds passed; integration setup failed. Direct database connection returned EPERM at 127.0.0.1:55432. No runtime acceptance claimed.",
-        "browser": "Not run; no database runtime.",
-        "limitations": "PostgreSQL 15 absent; supported runtime/network diagnosis remains to do. No confirmed policy rejection established."
+        "localCommit": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+        "localTree": "verified main tree d127a33620d9226ca6dccc62d337e17cb1d346af",
+        "remoteVerification": "GitHub branch API and Git fetch verify main at 65757b67669e7f9e79fcd160d5e5de23d9d7d42f; PR25 and PR32 are merged.",
+        "runtime": "Node 24.19.0; npm 11.9.0; pinned PostgreSQL 15.19 disposable container reachable on 127.0.0.1:55432; host pg_dump/pg_restore absent.",
+        "checks": "On verified main, npm run check passed lint, format, both typechecks, both builds and all 92 Node tests (92/92 passed) using the pinned disposable PostgreSQL 15 image and matching test-only utilities. Hosted exact-main CI also passed.",
+        "browser": "Not run locally; the exact-main hosted CI workflow passed its browser stages.",
+        "limitations": "Browser suites were not run locally; exact-main hosted CI passed ingress and all three browser suites. No functional F11 acceptance is claimed."
       },
       "audit": null
     },
@@ -35,8 +57,8 @@
       "id": "G1",
       "status": "in_progress",
       "evidence": {
-        "scope": "Original council-to-CommandMAPS staff authority design; governance ownership implementation remains in PR25.",
-        "requirements": "Signed Q01\u2013Q12 and governance correction records available at pinned PR25 head."
+        "scope": "Original council-to-CommandMAPS staff authority design; governance ownership implementation is merged through PR25 on main.",
+        "requirements": "Signed Q01\u2013Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
       },
       "audit": null
     },
@@ -65,17 +87,20 @@
       "audit": null
     }
   ],
-  "nextAction": "Execute G1 functional contract then G2\u2013G5 through mandatory development sequence; build missing persistent tests and wire nested discovery into local checks/CI. This update is planning only.",
-  "environmentBlockers": [
-    "Runtime validation pending: PostgreSQL 15 absent and database connection EPERM; investigate supported environment access."
-  ],
+  "nextAction": "Continue in the separate M0 architecture worktree from verified main: reconcile the packet's evidence with merged PR25/PR32, complete source inspection, and prepare the requested M0 architecture review. Keep dependent implementation and owner-merge gates intact.",
+  "environmentBlockers": [],
   "governancePR": 25,
   "verifiedRemote": {
-    "main": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+    "main": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
     "pr28Head": "1210cdd2d59c1d79e3b83999e4afeac0b5558c2a",
     "pr28Tree": "1f088125cf55b84da694a9d4bc504d41a2f895b9",
     "pr28Verification": "Verified remote branch snapshot on 20 October 2026 before the review fixes. Includes reconciled handoff e40ea194 and lifecycle/test-plan update 1210cdd2. This is a pinned resumption baseline, not a claim to track later PR heads; fetch and verify the current branch before continuing.",
-    "pr25Head": "254423e103f86b30c94bd45cd518f1563d388d82"
+    "pr25Head": "2e79563e82fb07b3e1747d72403aa7e5eaa1a028",
+    "pr25Merge": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+    "pr25Status": "merged; ownership preserved",
+    "pr32Head": "96b1b10d38054dc5ea24a379fa3d37d3e1b5c5ac",
+    "pr32Merge": "ddc1810f6afc9bfbc2563cdf2d8741778fcaf768",
+    "pr32Status": "merged; F-002 is owned by main and must not be duplicated"
   },
   "historicalAudit": {
     "status": "superseded_incomplete_wrong_scope_packet",
