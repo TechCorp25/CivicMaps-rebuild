@@ -75,8 +75,8 @@ export function RequestQueue({
       <div className="queue-heading">
         <h2 id="queue-title">Operational queue</h2>
         <p className="muted" id="queue-limit">
-          Latest {requests.length} loaded requests · up to 100 returned by the service. Search,
-          filters and counts apply to these records.
+          {requests.length} authorised requests loaded across service pages. Search, filters and
+          counts apply to this complete set.
         </p>
         <div className="queue-filters" aria-label="Queue filters">
           {[

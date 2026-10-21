@@ -58,6 +58,7 @@ type Audit = {
   created_at: string;
   details: { reason?: string; from?: string; to?: string };
 };
+type QueuePage = { requests: Request[]; nextCursor: string | null };
 type AuditState = {
   requestId: string;
   scopeKey: string;
@@ -172,8 +173,20 @@ function App() {
       if (!capabilities.includes('requests.create')) setCreating(false);
       const [queue, roster] = await Promise.all([
         capabilities.includes('requests.read')
-          ? api<{ requests: Request[]; statusLabels: Record<string, string> }>('/requests')
-          : Promise.resolve({ requests: [], statusLabels: {} }),
+          ? (async () => {
+              const allRequests: Request[] = [];
+              let cursor: string | null = null;
+              do {
+                const page: QueuePage = await api<QueuePage>(
+                  `/requests?status=all${cursor ? `&before=${encodeURIComponent(cursor)}` : ''}`,
+                );
+                allRequests.push(...page.requests);
+                cursor = page.nextCursor;
+                if (generation !== loadGeneration.current) return [];
+              } while (cursor);
+              return allRequests;
+            })()
+          : Promise.resolve([] as Request[]),
         capabilities.includes('officers.read')
           ? api<Officer[]>('/officers').catch((error) => {
               if (error instanceof ApiError && error.status === 403) return [];
@@ -182,12 +195,12 @@ function App() {
           : Promise.resolve([]),
       ]);
       if (generation !== loadGeneration.current) return null;
-      setRequests(queue.requests);
+      setRequests(queue);
       setOfficers(roster);
       hasQueueSnapshot.current = true;
       setQueueState('ready');
       setQueueCheckedAt(new Date().toISOString());
-      return queue.requests;
+      return queue;
     } catch (err) {
       if (generation === loadGeneration.current) {
         if (err instanceof ApiError && err.status === 401) {

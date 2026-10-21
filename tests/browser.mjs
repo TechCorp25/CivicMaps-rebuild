@@ -2,7 +2,7 @@
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
 const database = new pg.Pool({
   connectionString:
     process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres',
@@ -43,6 +43,46 @@ async function createSyntheticRequest(page, address) {
   });
   expect(response.status()).toBe(201);
   return response.json();
+}
+async function seedQueueOverflow() {
+  const source = (
+    await database.query(
+      "SELECT capture_binding_id,capture_binding_version FROM service_requests WHERE tenant_id='tenant-alpha' AND branch_id='parking' ORDER BY number DESC LIMIT 1",
+    )
+  ).rows[0];
+  expect(source).toBeTruthy();
+  const rows = [
+    ...Array.from({ length: 120 }, (_, i) => ({
+      status: 'RECEIVED',
+      address: `Queue active ${i}`,
+    })),
+    ...Array.from({ length: 12 }, (_, i) => ({ status: 'CLOSED', address: `Queue closed ${i}` })),
+  ];
+  const values = [];
+  const tuples = rows.map((row, i) => {
+    const start = i * 14;
+    values.push(
+      crypto.randomUUID(),
+      'tenant-alpha',
+      'jurisdiction-alpha',
+      'plane-alpha',
+      'organisation-alpha',
+      'parking',
+      row.address,
+      -37.814,
+      144.963,
+      '',
+      row.status,
+      null,
+      source.capture_binding_id,
+      source.capture_binding_version,
+    );
+    return `(${Array.from({ length: 14 }, (_, j) => `$${start + j + 1}`).join(',')})`;
+  });
+  await database.query(
+    `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status,assigned_officer_id,capture_binding_id,capture_binding_version) VALUES ${tuples.join(',')}`,
+    values,
+  );
 }
 try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
@@ -462,6 +502,21 @@ try {
     .first()
     .click();
   await expect(page.getByRole('navigation', { name: 'Queue pages' })).toContainText('Page 1 of 2');
+  await page.getByLabel('Search loaded requests').fill('');
+  await seedQueueOverflow();
+  await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('active');
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.locator('.queue-pagination .muted')).toContainText(
+    /Page 1 of [5-9] · [1-9][0-9]{2} matching loaded records/,
+  );
+  await page.getByLabel('Search loaded requests').fill('Queue active 119');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.request-table tbody')).toContainText('Queue active 119');
+  await page.getByLabel('Search loaded requests').fill('');
+  await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
+  await page.getByLabel('Search loaded requests').fill('Queue closed 11');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.request-table tbody')).toContainText('Queue closed 11');
   await page.getByLabel('Search loaded requests').fill('');
   await database.query(
     "UPDATE platform_municipalities SET packs=packs-'parking-services' WHERE id='20000000-0000-4000-8000-000000000001'",
