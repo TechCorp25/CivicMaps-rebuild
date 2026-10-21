@@ -2,7 +2,8 @@
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
-const browser = await chromium.launch({ headless: true });
+import { verifySlowQueueRefresh } from './browser/queue-refresh.mjs';
+const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
 const database = new pg.Pool({
   connectionString:
     process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres',
@@ -534,15 +535,23 @@ try {
   await page.getByLabel('Search loaded requests').fill('');
   await seedQueueOverflow();
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('active');
-  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await verifySlowQueueRefresh(page, expect);
   await expect(page.locator('.queue-pagination .muted')).toContainText(
-    /Page 1 of [4-9][0-9] · [1-9][0-9]{3,} matching loaded records/,
+    /Page 1 of [4-9][0-9] · [1-9][0-9]{2,} matching loaded records/,
   );
+  await page.getByLabel('Search loaded requests').fill('Queue active 119');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.request-table tbody')).toContainText('Queue active 119');
+  await page.getByLabel('Search loaded requests').fill('');
   await page.getByLabel('Search loaded requests').fill('Queue active 1004');
   await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
   await expect(page.locator('.request-table tbody')).toContainText('Queue active 1004');
   await page.getByLabel('Search loaded requests').fill('');
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
+  await page.getByLabel('Search loaded requests').fill('Queue closed 11');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.request-table tbody')).toContainText('Queue closed 11');
+  await page.getByLabel('Search loaded requests').fill('');
   await page.getByLabel('Search loaded requests').fill('Queue closed 109');
   await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
   await expect(page.locator('.request-table tbody')).toContainText('Queue closed 109');

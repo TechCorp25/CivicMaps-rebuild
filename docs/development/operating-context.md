@@ -18,6 +18,7 @@ Council cookie authentication remains separate from platform authentication. Log
 | --- | --- |
 | `GET /api/auth/contexts` | With a valid council session, list only currently effective granted binding versions and their explicit scope |
 | `GET /api/auth/session` | Resolve the selected/default context; actor includes `context_id`, `context_version` and `municipality_id` |
+| `GET /api/requests?status=all&before=<number>` | Return up to 100 authorised requests in descending request-number order; the first page includes complete actor-scoped counts and `nextCursor`, while later cursor pages omit counts |
 | Council operational reads/writes | Resolve binding and grant on every operation, then set transaction-local RLS dimensions |
 | `X-CivicMAPS-Context: <binding UUID>` | Select an exact permitted version; a selector is never trusted ownership data |
 

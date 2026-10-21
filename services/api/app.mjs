@@ -444,17 +444,19 @@ export function createApp({
     res.json(
       await scoped(req, false, async (client, actor) => {
         const visibility = `($1::text<>'OFFICER' OR assigned_officer_id=$2)`;
-        const counts = (
-          await client.query(
-            `SELECT COUNT(*)::text AS total,
-                    COUNT(*) FILTER (WHERE status<>'CLOSED')::text AS active,
-                    COUNT(*) FILTER (WHERE status='CLOSED')::text AS closed,
-                    COUNT(*) FILTER (WHERE status='DISPATCHED')::text AS dispatched,
-                    COUNT(*) FILTER (WHERE status='ATTENDED')::text AS attended
-             FROM service_requests WHERE ${visibility}`,
-            [actor.role, actor.id],
-          )
-        ).rows[0];
+        const counts = before
+          ? undefined
+          : (
+              await client.query(
+                `SELECT COUNT(*)::text AS total,
+                        COUNT(*) FILTER (WHERE status<>'CLOSED')::text AS active,
+                        COUNT(*) FILTER (WHERE status='CLOSED')::text AS closed,
+                        COUNT(*) FILTER (WHERE status='DISPATCHED')::text AS dispatched,
+                        COUNT(*) FILTER (WHERE status='ATTENDED')::text AS attended
+                 FROM service_requests WHERE ${visibility}`,
+                [actor.role, actor.id],
+              )
+            ).rows[0];
         const result = await client.query(
           `SELECT * FROM service_requests
            WHERE ${visibility}
@@ -468,7 +470,7 @@ export function createApp({
         return {
           requests,
           statusLabels,
-          counts,
+          ...(counts ? { counts } : {}),
           nextCursor: hasMore ? requests.at(-1).number : null,
         };
       }),

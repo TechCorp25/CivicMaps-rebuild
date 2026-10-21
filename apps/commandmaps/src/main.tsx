@@ -136,6 +136,7 @@ function App() {
     ? `${actor.id}:${actor.context_id ?? ''}:${actor.tenant_id}:${actor.jurisdiction_id}:${actor.branch_id}:${entitlement?.version ?? ''}`
     : '';
   const loadGeneration = useRef(0);
+  const activeLoadCount = useRef(0);
   function updateActionRecovery(requestId: string, recovery: RecoveryAction | null) {
     setActionRecoveries((existing) => {
       const next = { ...existing };
@@ -144,7 +145,10 @@ function App() {
       return next;
     });
   }
-  const load = useCallback(async () => {
+  const load = useCallback(async (scheduled = false) => {
+    // A timer must not invalidate a cursor walk that is still collecting later pages.
+    if (scheduled && activeLoadCount.current > 0) return null;
+    activeLoadCount.current++;
     const generation = ++loadGeneration.current;
     if (!hasQueueSnapshot.current) setQueueState('loading');
     setQueueError('');
@@ -225,6 +229,8 @@ function App() {
         }
       }
       throw err;
+    } finally {
+      activeLoadCount.current--;
     }
   }, []);
 
@@ -255,7 +261,7 @@ function App() {
   useEffect(() => {
     if (!actor || actor.role === 'ADMIN') return;
     const refresh = () => {
-      void load().catch(() => {});
+      void load(true).catch(() => {});
     };
     const timer = setInterval(refresh, 10000);
     addEventListener('focus', refresh);

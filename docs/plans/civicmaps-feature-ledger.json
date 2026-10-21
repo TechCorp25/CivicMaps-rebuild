@@ -578,7 +578,25 @@
       "mergeCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
       "acceptanceScope": "historical_local_evidence_not_rerun_2026_10_20",
       "releaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
-      "deployedCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7"
+      "deployedCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
+      "hostedCiRuns": [
+        "39197541244",
+        "39197537687"
+      ],
+      "codexReview": "completed_no_findings",
+      "codexReviewEvidenceUrl": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/27#issuecomment-6259412262"
+    },
+    {
+      "id": "DISPATCH-M0",
+      "title": "Shared-services dispatch architecture and programme",
+      "status": "planned",
+      "branch": "codex/civicmaps-dispatch-programme",
+      "planPath": "docs/plans/dispatch-build/README.md",
+      "evidencePath": "docs/plans/dispatch-build/evidence/M0.md",
+      "acceptancePassed": false,
+      "blockers": [],
+      "nextAction": "Complete M0 preparation and review within the active F11 workstream; no functional acceptance claimed. Keep F-002 integration pending its reviewed governance interface and owner merge.",
+      "preparationStatus": "in_progress_review_pending"
     }
   ],
   "integrationBase": "origin/main",
@@ -587,7 +605,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
+  "nextAction": "Continue active F11 through shared-services dispatch M0 preparation and its pending review gates; preserve the F11 council authority contract and checkpoint. Governance-owned F-002 and unresolved operational decisions gate dependent implementation. F11D/F11E are deployed; do not replay their release or migrations.",
   "currentDeployedSourceCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
   "currentReleaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
   "releaseClosureFeature": "F11E",
@@ -610,9 +628,19 @@
   "functionalWorkstream": {
     "prioritisedFeature": "F11",
     "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
-    "planPath": "docs/plans/F11-next-phase-build-plan.md",
+    "planPath": "docs/plans/dispatch-build/README.md",
     "governance": "active_in_separate_session_no_blanket_development_hold",
-    "status": "in_progress_g1_design"
+    "status": "programme_prepared_contract_gate_pending",
+    "currentPreparation": "DISPATCH-M0"
   },
-  "currentCheckpointPath": "docs/plans/F11-execution-checkpoint.json"
+  "currentCheckpointPath": "docs/plans/dispatch-build/execution-checkpoint.md",
+  "dispatchBuildProgramme": {
+    "planPath": "docs/plans/dispatch-build/README.md",
+    "phase": "M0",
+    "status": "preparation_review_pending",
+    "empiricalMemoryId": "6ad7c3b6beb1d9647062ebd8",
+    "branch": "codex/civicmaps-dispatch-programme",
+    "sharedServicesRequired": true
+  },
+  "f11CheckpointPath": "docs/plans/F11-execution-checkpoint.json"
 }

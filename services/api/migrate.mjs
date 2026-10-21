@@ -235,6 +235,19 @@ async function stagePrincipalOwnership(client) {
     await client.query('DELETE FROM sessions WHERE token_hash=ANY($1::text[])', [
       retireSessionTokens,
     ]);
+  // Pre-014 allowed multiple cookie jars per user; retain the longest-lived session before enforcing one owner pair.
+  await client.query(`DELETE FROM sessions legacy
+    USING council_principal_owners o
+    WHERE legacy.user_id=o.user_id AND legacy.municipality_id IS NULL
+      AND (
+        EXISTS (SELECT 1 FROM sessions assigned
+          WHERE assigned.user_id=o.user_id AND assigned.municipality_id=o.municipality_id)
+        OR legacy.token_hash<>(
+          SELECT candidate.token_hash FROM sessions candidate
+          WHERE candidate.user_id=o.user_id AND candidate.municipality_id IS NULL
+          ORDER BY candidate.expires_at DESC,candidate.token_hash ASC LIMIT 1
+        )
+      )`);
   await client.query(`UPDATE sessions s SET municipality_id=o.municipality_id
     FROM council_principal_owners o WHERE s.user_id=o.user_id AND s.municipality_id IS NULL`);
   return retired.rowCount;

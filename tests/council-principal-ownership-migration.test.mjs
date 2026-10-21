@@ -29,6 +29,7 @@ const migrations = [
 async function createPreOwnershipDatabase({
   noncanonical = false,
   wrongRouteSession = false,
+  duplicateSessions = false,
   seedFixtures = true,
 } = {}) {
   const admin = new pg.Pool({ connectionString: baseUrl });
@@ -117,6 +118,13 @@ async function createPreOwnershipDatabase({
           [sharedUser, route.rows[0].id, route.rows[0].version],
         );
       }
+      if (duplicateSessions)
+        await fixtureClient.query(
+          `INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at)
+           VALUES(repeat('d',64),$1,'synthetic-earlier-session',now()+interval '1 hour'),
+                 (repeat('e',64),$1,'synthetic-later-session',now()+interval '2 hours')`,
+          [sharedUser],
+        );
     } finally {
       await fixtureClient.end();
     }
@@ -196,7 +204,10 @@ test('ownership migration retires only the canonical synthetic grant and rolls b
     await empty.drop();
   }
 
-  const canonical = await createPreOwnershipDatabase({ wrongRouteSession: true });
+  const canonical = await createPreOwnershipDatabase({
+    wrongRouteSession: true,
+    duplicateSessions: true,
+  });
   try {
     const migrated = runMigration(canonical.databaseUrl, 'synthetic-fixture');
     assert.equal(migrated.status, 0, migrated.stderr || migrated.error?.message);
@@ -228,6 +239,20 @@ test('ownership migration retires only the canonical synthetic grant and rolls b
       assert.equal(
         (await client.query("SELECT 1 FROM sessions WHERE token_hash=repeat('c',64)")).rowCount,
         0,
+      );
+      assert.deepEqual(
+        (
+          await client.query(
+            'SELECT token_hash,municipality_id FROM sessions WHERE user_id=$1 ORDER BY token_hash',
+            [sharedUser],
+          )
+        ).rows,
+        [
+          {
+            token_hash: 'e'.repeat(64),
+            municipality_id: '20000000-0000-4000-8000-000000000001',
+          },
+        ],
       );
     } finally {
       await client.end();
