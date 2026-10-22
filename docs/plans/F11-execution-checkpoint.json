@@ -59,7 +59,7 @@
       "status": "in_progress",
       "evidence": {
         "scope": "Original council-to-CommandMAPS staff authority design; governance ownership implementation is merged through PR25 on main.",
-        "requirements": "Signed Q01–Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
+        "requirements": "Signed Q01\u2013Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
       },
       "audit": null
     },
@@ -88,7 +88,7 @@
       "audit": null
     }
   ],
-  "nextAction": "Prepare a committed S0 documentation candidate, verify its tree and included evidence, then obtain a fresh independent assessment against that reachable candidate.",
+  "nextAction": "Complete P0 publication; owner switches to GPT-6 Luna Medium before implementation.",
   "environmentBlockers": [],
   "governancePR": 25,
   "verifiedRemote": {
@@ -145,5 +145,67 @@
     "assessment": "not_completed",
     "merge": "not_started",
     "deploy": "not_started"
+  },
+  "currentBoundedPhase": {
+    "schemaVersion": 1,
+    "planVersion": "1.0.0",
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "planSha256": "71670ccb2a90d9557f00bb32da57fa00ee2002ae6a7abe8b5efef99efe083b50",
+    "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+    "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "planningBranch": "codex/civicmaps-m1-g1-phase-plan",
+    "preparationStatus": "awaiting_publication_and_model_switch",
+    "excluded": [
+      "G2",
+      "M2-M7",
+      "merge",
+      "deployment"
+    ],
+    "goals": [
+      {
+        "id": "P0",
+        "status": "implemented",
+        "branch": "codex/civicmaps-m1-g1-phase-plan",
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "pending",
+        "prerequisites": [],
+        "blockers": [],
+        "nextAction": "Publish, verify Git/Empirical hash, then Luna launches fresh Astra planning audit."
+      },
+      {
+        "id": "M1",
+        "status": "planned",
+        "branch": null,
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "not_started",
+        "prerequisites": [
+          "P0 publication",
+          "merged M0",
+          "merged F-002"
+        ],
+        "blockers": [],
+        "nextAction": "After model switch verify baseline, run checks and implement discovery."
+      },
+      {
+        "id": "G1",
+        "status": "planned",
+        "branch": null,
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "not_started",
+        "prerequisites": [
+          "signed Q01-Q12",
+          "merged governance"
+        ],
+        "blockers": [],
+        "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
+      }
+    ],
+    "nextAction": "Complete P0 publication; owner switches to GPT-6 Luna Medium before implementation."
   }
 }

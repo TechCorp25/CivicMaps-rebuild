@@ -60,3 +60,7 @@ Read `docs/plans/F11-next-phase-build-plan.md` and `docs/plans/F11-execution-che
 Plan → build → test → update docs and Empirical → push to Git → independent assessment → merge → deploy → plan next phase. Follow the gates in `docs/plans/F11-next-phase-build-plan.md`; do not stop at draft publication when execution is authorised. Merge and deploy only the tested, independently assessed product using the established release procedure. Preserve separate governance ownership.
 
 All new tests belong in the appropriate `tests/` subdirectory. Create missing directories and executable tests, commit them, and wire nested test discovery into local commands and CI. Scratch-only tests, placeholders and zero-test runs do not satisfy acceptance.
+
+## Current bounded phase — owner instruction, 22 October 2026
+
+Use `docs/plans/dispatch-build/next-build-phase.md` and its checkpoint as the current run contract. GPT-6 Luna Medium implements M1 discovery and prepares G1 authority contract; fresh GPT-6 Astra Low audits each frozen goal with no inherited builder context. The current phase excludes G2, M2–M7, merge and deployment, superseding the broader historical lifecycle instructions above for this run. Finish P0 publication before the owner model switch; no implementation during preparation. Preserve M0 architecture-only acceptance and merged governance ownership.

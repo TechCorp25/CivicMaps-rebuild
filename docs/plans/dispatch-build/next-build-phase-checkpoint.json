@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "planVersion": "1.0.0",
+  "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+  "planSha256": "71670ccb2a90d9557f00bb32da57fa00ee2002ae6a7abe8b5efef99efe083b50",
+  "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+  "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+  "planningBranch": "codex/civicmaps-m1-g1-phase-plan",
+  "preparationStatus": "awaiting_publication_and_model_switch",
+  "excluded": [
+    "G2",
+    "M2-M7",
+    "merge",
+    "deployment"
+  ],
+  "goals": [
+    {
+      "id": "P0",
+      "status": "implemented",
+      "branch": "codex/civicmaps-m1-g1-phase-plan",
+      "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+      "candidate": null,
+      "audit": null,
+      "publication": "pending",
+      "prerequisites": [],
+      "blockers": [],
+      "nextAction": "Publish, verify Git/Empirical hash, then Luna launches fresh Astra planning audit."
+    },
+    {
+      "id": "M1",
+      "status": "planned",
+      "branch": null,
+      "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+      "candidate": null,
+      "audit": null,
+      "publication": "not_started",
+      "prerequisites": [
+        "P0 publication",
+        "merged M0",
+        "merged F-002"
+      ],
+      "blockers": [],
+      "nextAction": "After model switch verify baseline, run checks and implement discovery."
+    },
+    {
+      "id": "G1",
+      "status": "planned",
+      "branch": null,
+      "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+      "candidate": null,
+      "audit": null,
+      "publication": "not_started",
+      "prerequisites": [
+        "signed Q01-Q12",
+        "merged governance"
+      ],
+      "blockers": [],
+      "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
+    }
+  ],
+  "nextAction": "Complete P0 publication; owner switches to GPT-6 Luna Medium before implementation."
+}
