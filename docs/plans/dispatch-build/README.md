@@ -1,8 +1,8 @@
 # Shared-services dispatch build programme
 
-Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: M0 architecture/backlog assessment passed on `a1a9a9a969d1d2efc9d1630980adcff3ebaf2b60`; PR #35 merged at `a547b50d2bd641470dbe7f8d26a5ef75ee7ba747`. Receipt-only follow-up updates are in draft [PR #37](https://github.com/TechCorp25/CivicMaps-rebuild/pull/37), awaiting review/integration. No new functional capability or deployment is claimed.** See the [final assessment](evidence/M0-independent-assessment-a1a9a9a.md).
+Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: M0 architecture/backlog assessment passed on its recorded candidate; this is not functional acceptance. The receipt-only PR #37 is merged in current main `6761cd6adcd9f922aed939ccafb75f81cf7eba62`. This phase plan is on `codex/civicmaps-m1-g1-build-phase`; its review and both functional goals remain pending.** See the [final assessment](evidence/M0-independent-assessment-a1a9a9a.md).
 
-Repository: TechCorp25/CivicMaps-rebuild. Programme-preparation base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). Current verified main: `48066cb37684b88280147b265991675f5ccd187c`; it includes M0 PR35 merge `a547b50d2bd641470dbe7f8d26a5ef75ee7ba747` and subsequent PR36. The M0 source-reconciliation baseline `65757b67669e7f9e79fcd160d5e5de23d9d7d42f` is historical. See the [release receipt](../evidence/dispatch-release-closure.md) and current [M0 evidence](evidence/M0.md). Active M0 worktree: `/workspace/CivicMaps-f11-m0-architecture`, branch `codex/civicmaps-f11-m0-architecture`.
+Repository: TechCorp25/CivicMaps-rebuild. Programme-preparation base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). Current verified main: `6761cd6adcd9f922aed939ccafb75f81cf7eba62`; it includes M0 PR35 merge `a547b50d2bd641470dbe7f8d26a5ef75ee7ba747` and subsequent PR36. The M0 source-reconciliation baseline `65757b67669e7f9e79fcd160d5e5de23d9d7d42f` is historical. See the [release receipt](../evidence/dispatch-release-closure.md) and current [M0 evidence](evidence/M0.md). Active M0 worktree: `/workspace/CivicMaps-f11-m0-architecture`, branch `codex/civicmaps-f11-m0-architecture`.
 Empirical programme memory: **6ad7c3b6beb1d9647062ebd8**. Requirements memory: 6ad4c84fbeb1d9647060a4f3. Release memory: 6ad4c8e8beb1d9647060a602.
 
 ## Outcome
@@ -18,6 +18,8 @@ Current owner decisions take precedence; use the [signed decision assessment](..
 Headers show department/role identity, not personal names. Shared lifecycle presentation must be truthful. Do not invent live WebSockets, officer positions, ETA, auto-dispatch, infringement outcomes or SOS delivery.
 
 ## Read order and deliverables
+
+0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.0.0; draft review and implementation pending).
 
 1. [Luna execution handoff](execution-checkpoint.md).
 2. [Reference and gap matrix](reference-and-gap-matrix.md).
