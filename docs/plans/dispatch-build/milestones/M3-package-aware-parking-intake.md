@@ -1,6 +1,6 @@
 # M3 — Package-aware parking intake
 
-Status: contract prepared; implementation has not started. PR #31 was owner-merged at `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`; M0 architecture/backlog assessment passed on the reachable candidate `a1a9a9a969d1d2efc9d1630980adcff3ebaf2b60`. Dependent implementation still waits for PR #35 owner review and merge and the applicable policy decisions.
+Status: contract prepared; implementation has not started. PR #31 was owner-merged at `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`; M0 architecture/backlog assessment passed on the reachable candidate `a1a9a9a969d1d2efc9d1630980adcff3ebaf2b60`. The M0 owner-merge dependency is satisfied. Implementation remains subject to applicable policy decisions; receipt-only follow-up in draft PR #37 is not an M3 dependency.
 
 ## Goal and work
 
