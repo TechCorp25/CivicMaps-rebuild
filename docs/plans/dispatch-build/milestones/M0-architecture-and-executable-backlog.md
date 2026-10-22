@@ -1,6 +1,6 @@
 # M0 — Architecture and executable backlog
 
-Status: prepared; independent gate pending.
+Status: architecture/backlog assessment passed on `a1a9a9a969d1d2efc9d1630980adcff3ebaf2b60` (tree `72611aaa7ea2094eef65d1a21b3dcd06761d1f8e`); see [final assessment](../evidence/M0-independent-assessment-a1a9a9a.md). PR #35 merged at `a547b50d2bd641470dbe7f8d26a5ef75ee7ba747`. Receipt-only follow-up is pending review/integration in draft [PR #37](https://github.com/TechCorp25/CivicMaps-rebuild/pull/37).
 
 ## Goal and work
 
@@ -22,8 +22,8 @@ Required targeted scenarios: docs only; sources exist, links/JSON valid, claims 
 
 1. Continue on the programme branch; reconcile current references and governance decisions.
 2. Finish source inspection and architecture/contract evidence; no application implementation in this planning packet.
-3. Obtain stronger-model review; fix supported findings and record pending policy/wire contracts.
-4. Validate documentation links, JSON and whitespace. Publish draft PR and Empirical pointer; owner merge remains separate.
+3. Stronger-model assessment passed on the candidate identified above; retain applicable policy/wire contracts as pending prerequisites for affected implementation.
+4. Validation, publication in PR #35 and its recorded CI receipt are complete. Maintain the evidence and Empirical pointer; follow-up review/integration is tracked in PR #37.
 
 ## Review packet
 
