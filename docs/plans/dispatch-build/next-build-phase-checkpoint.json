@@ -6,7 +6,7 @@
   "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
   "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
   "planningBranch": "codex/civicmaps-m1-g1-phase-plan",
-  "preparationStatus": "awaiting_publication_and_model_switch",
+  "preparationStatus": "published_verified_awaiting_owner_model_switch",
   "excluded": [
     "G2",
     "M2-M7",
@@ -16,12 +16,12 @@
   "goals": [
     {
       "id": "P0",
-      "status": "implemented",
+      "status": "audit_pending",
       "branch": "codex/civicmaps-m1-g1-phase-plan",
       "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
-      "candidate": null,
+      "candidate": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
       "audit": null,
-      "publication": "pending",
+      "publication": "verified",
       "prerequisites": [],
       "blockers": [],
       "nextAction": "Publish, verify Git/Empirical hash, then Luna launches fresh Astra planning audit."
@@ -58,5 +58,13 @@
       "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
     }
   ],
-  "nextAction": "Complete P0 publication; owner switches to GPT-6 Luna Medium before implementation."
+  "nextAction": "Owner switches to GPT-6 Luna Medium; fetch PR39, verify plan hash and current main, launch fresh P0 Astra Low audit and start M1 baseline validation.",
+  "publication": {
+    "commit": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
+    "tree": "86a29ea8ef93abae954cc860b589500144aacadf",
+    "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/39",
+    "memoryId": "6ad9d075beb1d96470651ac7",
+    "memoryReadback": "complete text equals canonical bytes; SHA-256 verified",
+    "transport": "repository-owner GitHub connector; environment Git identity returned 403"
+  }
 }
