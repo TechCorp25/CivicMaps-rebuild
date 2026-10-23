@@ -242,7 +242,7 @@
       "priorAudit": "CHANGES_REQUIRED",
       "priorAuditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.0/report.md",
       "priorAuditReportSha256": "587f4dba0884172ac82b2735368304be1c26defc40bbe4f7d526b70bc7c7bd7f",
-      "empirical": "v1.1.0_verified; v1.1.1_pending_write_and_readback"
+      "empirical": "v1.1.1 full plan stored and read back byte-for-byte; content hash and permalink verified"
     },
     "merge": "not_authorized",
     "deployment": "excluded",

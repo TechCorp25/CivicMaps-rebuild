@@ -685,12 +685,14 @@
     "sharedServicesRequired": true,
     "baseline": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
     "phasePlanVersion": "1.1.1",
-    "p0Status": "v1.1.0_changes_required_findings_addressed; fresh_reassessment_and_empirical_readback_pending",
+    "p0Status": "v1.1.0_findings_addressed; v1.1.1_fresh_reassessment_pending; Empirical_readback_verified",
     "p0PlanVersion": "1.1.1",
-    "p0PlanSha256": "44e6bb15b003c668cd5a8d71c618b4071694a2121f5eb12f8c98161b46ed4f29",
-    "p0ContentCommit": "52b6af2bf8779e7760c651b5adf8274b5939a818",
+    "p0PlanSha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180",
+    "p0ContentCommit": "e4f42dd0f3dcb07565d49bf97e0a3f151d715247",
     "p0DraftPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/41",
-    "p0PriorAuditReport": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.0/report.md"
+    "p0PriorAuditReport": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.0/report.md",
+    "p0ContentTree": "16aaae2219bad85b79cabf556326f323802999c4",
+    "p0GitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/e4f42dd0f3dcb07565d49bf97e0a3f151d715247/docs/plans/dispatch-build/next-build-phase.md"
   },
   "f11CheckpointPath": "docs/plans/F11-execution-checkpoint.json",
   "nextBuildPhase": {
@@ -732,10 +734,12 @@
     "g1PullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/42",
     "g1Audit": "pending_after_owner_choice",
     "m1IndependentAuditReport": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
-    "p0Status": "v1.1.0_changes_required_findings_addressed; v1.1.1_fresh_reassessment_pending",
+    "p0Status": "v1.1.0_findings_addressed; v1.1.1_fresh_reassessment_pending; Empirical_readback_verified",
     "p0PlanSha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180",
-    "p0ContentCommit": "be3ce8607221b98ecdfe480dfcd0fc81ba1d9723",
-    "p0ContentTree": "ae65a91f982113c20c65ece91d37113b684f20a3",
-    "p0GitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/be3ce8607221b98ecdfe480dfcd0fc81ba1d9723/docs/plans/dispatch-build/next-build-phase.md"
+    "p0ContentCommit": "e4f42dd0f3dcb07565d49bf97e0a3f151d715247",
+    "p0ContentTree": "16aaae2219bad85b79cabf556326f323802999c4",
+    "p0GitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/e4f42dd0f3dcb07565d49bf97e0a3f151d715247/docs/plans/dispatch-build/next-build-phase.md",
+    "p0PlanVersion": "1.1.1",
+    "p0DraftPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/41"
   }
 }
