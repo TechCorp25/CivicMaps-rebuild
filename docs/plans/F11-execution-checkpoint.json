@@ -216,7 +216,16 @@
       "audit": "pending_after_owner_choice"
     },
     "p0": {
-      "status": "remote_publication_content_hash_empirical_readback_and_independent_audit_pending"
+      "status": "published_draft_pr_audit_and_empirical_readback_pending",
+      "version": "1.1.0",
+      "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+      "planSha256": "44e6bb15b003c668cd5a8d71c618b4071694a2121f5eb12f8c98161b46ed4f29",
+      "contentCommit": "52b6af2bf8779e7760c651b5adf8274b5939a818",
+      "contentTree": "f84883fee1958a01ccf99621b6bf0f7963da0460",
+      "gitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/52b6af2bf8779e7760c651b5adf8274b5939a818/docs/plans/dispatch-build/next-build-phase.md",
+      "draftPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/41",
+      "manifest": "docs/plans/dispatch-build/plan-manifest.json",
+      "independentAudit": "pending_fresh_context"
     },
     "merge": "not_authorized",
     "deployment": "excluded",
