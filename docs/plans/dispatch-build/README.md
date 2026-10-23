@@ -1,8 +1,12 @@
 # Shared-services dispatch build programme
 
-Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: M0 architecture/backlog assessment passed on its recorded candidate; this is not functional acceptance. The receipt-only PR #37 is merged in current main `6761cd6adcd9f922aed939ccafb75f81cf7eba62`. This phase plan is on `codex/civicmaps-m1-g1-build-phase`; its review and both functional goals remain pending.** See the [final assessment](evidence/M0-independent-assessment-a1a9a9a.md).
+## Current phase checkpoint — 23 October 2026
 
-Repository: TechCorp25/CivicMaps-rebuild. Programme-preparation base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). Current verified main: `6761cd6adcd9f922aed939ccafb75f81cf7eba62`; it includes M0 PR35 merge `a547b50d2bd641470dbe7f8d26a5ef75ee7ba747` and subsequent PR36. The M0 source-reconciliation baseline `65757b67669e7f9e79fcd160d5e5de23d9d7d42f` is historical. See the [release receipt](../evidence/dispatch-release-closure.md) and current [M0 evidence](evidence/M0.md). Active M0 worktree: `/workspace/CivicMaps-f11-m0-architecture`, branch `codex/civicmaps-f11-m0-architecture`.
+Canonical phase plan: [M1 discovery and F11 G1 authority contract, v1.1.0](next-build-phase.md). Verified current main is `d4921eb1c37550d9ca1b53a5615242922abfa4ad` (PR #38 merge), replacing PR37 as the execution base. M1 is accepted at audited candidate `d905b85ca7f0c2a20eaa956b0448ed7f5581f47b`; draft PR #40 remains open for owner review/merge. Hosted PostgreSQL-backed run `39895161432` passed all checks, and docs-only rerun `39895991685` also passed; desktop/narrow screenshots and keyboard load-more operation were exercised. Fresh Astra Low reassessment passed; see [the independent report](evidence/M1-independent-assessment-d905b85.md). G1's first independent review required contract corrections and confirmation of the initial appointment bootstrap. The corrections are committed locally in contract v1.3; the owner choice remains pending, so G1 is blocked. M1 is accepted; G1 remains unaccepted. G2 remains excluded and blocked until G1 acceptance and owner merge. Historical checkpoints below remain evidence of their dates and are not current state.
+
+Historical snapshot prepared 21 October 2026 (Australia/Melbourne); superseded by the current checkpoint above. At that time, the receipt-only PR #37 and M0 review were being tracked against then-current main `6761cd6adcd9f922aed939ccafb75f81cf7eba62`. The current verified execution base is `d4921eb1c37550d9ca1b53a5615242922abfa4ad`; see the canonical v1.1.0 phase plan. M0 architecture/backlog acceptance remains distinct from functional acceptance. See the [final assessment](evidence/M0-independent-assessment-a1a9a9a.md).
+
+Historical preparation metadata: repository `TechCorp25/CivicMaps-rebuild`; programme-preparation base `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately); then-current main `6761cd6adcd9f922aed939ccafb75f81cf7eba62`, including PR35 and PR36. These are retained as historical provenance and are not the current phase base. The M0 source-reconciliation baseline `65757b67669e7f9e79fcd160d5e5de23d9d7d42f` is historical. See the [release receipt](../evidence/dispatch-release-closure.md) and [M0 evidence](evidence/M0.md).
 Empirical programme memory: **6ad7c3b6beb1d9647062ebd8**. Requirements memory: 6ad4c84fbeb1d9647060a4f3. Release memory: 6ad4c8e8beb1d9647060a602.
 
 ## Outcome
@@ -19,7 +23,7 @@ Headers show department/role identity, not personal names. Shared lifecycle pres
 
 ## Read order and deliverables
 
-0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.0.0; draft review and implementation pending).
+0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.1.0; P0 independent audit and Empirical readback pending).
 
 1. [Luna execution handoff](execution-checkpoint.md).
 2. [Reference and gap matrix](reference-and-gap-matrix.md).

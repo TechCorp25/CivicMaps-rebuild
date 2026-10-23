@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "date": "2026-10-22",
+  "date": "2026-10-23",
   "feature": "F11",
   "state": "s0_complete",
   "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
@@ -90,7 +90,7 @@
   ],
   "nextAction": "Prepare a committed S0 documentation candidate, verify its tree and included evidence, then obtain a fresh independent assessment against that reachable candidate.",
   "environmentBlockers": [
-    "Selected execution environment remained unavailable after retry; exec_command returns 'No usable execution environment is available'. Local dependency/runtime and test verification are not possible in this session."
+    "Historical S0 environment limitation as recorded on 2026-10-22; superseded for the current M1 phase by hosted PostgreSQL-backed verification in runs 39895161432 and 39895991685. Local PostgreSQL remains unavailable."
   ],
   "governancePR": 25,
   "verifiedRemote": {
@@ -177,5 +177,50 @@
       "deployment"
     ],
     "blocker": "No usable execution environment; shell commands fail before process launch. Remote GitHub API access works."
-  }
+  },
+  "phaseM1G1Status": {
+    "date": "2026-10-23",
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "planVersion": "1.1.0",
+    "verifiedMain": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+    "m1": {
+      "status": "accepted",
+      "functionalCandidate": "ff894d664d4cafe049c47d1e83c79ab421a20831",
+      "audit": "pass_gpt6_astra_low_fresh_context",
+      "reportPath": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
+      "localHead": "581a064f7e9b129f744f00a8c4e8897b8a86ae8c",
+      "remoteHead": "d905b85ca7f0c2a20eaa956b0448ed7f5581f47b",
+      "pullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/40",
+      "hostedWorkflowRun": "39895161432_success;39895991685_success",
+      "currentReceipt": "docs/plans/dispatch-build/evidence/M1-handoff-ff894d6.md",
+      "tree": "9f2950e421c230c03b05efbdcc76a8b4e4fda1da",
+      "keyboard": "browser_keyboard_load_more_enter_verified",
+      "candidate": "d905b85ca7f0c2a20eaa956b0448ed7f5581f47b",
+      "auditReportPath": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
+      "auditReportSha256": "d23a1a9cca4149c322e2790804c1bedc37c57be7237cf9bd2bdf90c3dc9d2123",
+      "auditPacketPath": "docs/plans/dispatch-build/evidence/M1-audit-d905b85/",
+      "localLimit": "Database setup unavailable (initdb absent/connection EPERM); hosted PostgreSQL-backed CI passed.",
+      "currentPrHead": "8c6cce9fcbfc0c813dc916aec18410459c2a2ee4",
+      "currentPrTree": "2cc566026973ae9688f68b5c99c024d000dd171e",
+      "ownerMerge": "required_before_dependent_implementation"
+    },
+    "g1": {
+      "status": "blocked_owner_choice_pending",
+      "auditedCandidate": "0f2bbcb7f233abdb8bb9ef1ba848dcca439ce62d",
+      "auditFinding": "staff_only_authorization_boundary_and_incomplete_recovery_and_initial_appointment_paths",
+      "ownerBootstrapChoice": "initial_authority_commissioning_path_pending",
+      "dependentG2": "blocked",
+      "correctedCandidate": "ee4ea9d5f2155c69e74e5894a3202f7c9eeefc87",
+      "correctedTree": "55c3ffbf3bc69d5ef8f6a21a996eb7b7d4f31a90",
+      "contractVersion": "1.3",
+      "audit": "pending_after_owner_choice"
+    },
+    "p0": {
+      "status": "remote_publication_content_hash_empirical_readback_and_independent_audit_pending"
+    },
+    "merge": "not_authorized",
+    "deployment": "excluded",
+    "historyPolicy": "The initial snapshot above remains historical. Current phase status is in phaseM1G1Status; M1 passed fresh Astra Low reassessment on exact implementation candidate d905b85 and hosted PostgreSQL-backed runs 39895161432 and 39895991685 passed all suites. Local PostgreSQL remains unavailable. G1 initial authority commissioning remains owner-blocked. No G2 implementation, merge or deployment is included."
+  },
+  "legacySnapshotNote": "Fields before phaseM1G1Status are retained as the 2026-10-22 checkpoint snapshot. Their baseline, environment status and nextAction are historical; phaseM1G1Status is the authoritative current checkpoint."
 }
