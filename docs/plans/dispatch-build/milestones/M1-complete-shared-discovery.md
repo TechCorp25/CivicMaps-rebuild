@@ -2,7 +2,7 @@
 
 Status: implementation complete; acceptance blocked pending required database-backed and browser verification.
 
-The audited functional candidate `600eca9cec38d65d605965842f540e8c9045379a` (tree `f3a169da01ab70639dcaead315c5a7d062fb0dde`), based on verified main `d4921eb1c37550d9ca1b53a5615242922abfa4ad`, received an independent Astra source review. Static gates passed; runtime verification was blocked because the disposable PostgreSQL service and PostgreSQL 15 server binaries are unavailable. The assessor found no blocking source defect but could not execute required integration/browser, screenshots, or keyboard checks. See the [independent report](../evidence/M1-independent-audit-600eca9.md) and [candidate handoff](../evidence/M1-handoff-600eca9.md). M1 is not accepted. The current branch is local only; remote publication and hosted CI are pending.
+The audited functional candidate `600eca9cec38d65d605965842f540e8c9045379a` (tree `f3a169da01ab70639dcaead315c5a7d062fb0dde`), based on verified main `d4921eb1c37550d9ca1b53a5615242922abfa4ad`, received an independent Astra source review. Static gates passed; runtime verification was blocked because the disposable PostgreSQL service and PostgreSQL 15 server binaries are unavailable. The assessor found no blocking source defect but could not execute required integration/browser, screenshots, or keyboard checks. See the [independent report](../evidence/M1-independent-audit-600eca9.md) and [candidate handoff](../evidence/M1-handoff-600eca9.md). M1 is not accepted. The branch is published as draft PR #40 with hosted CI pending; the remote commit has the exact local handoff tree.
 
 ## Goal and work
 
