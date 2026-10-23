@@ -1,10 +1,12 @@
 # M1 — Complete shared discovery
 
-Status: planned; not implemented.
+Status: implementation complete; acceptance blocked pending required database-backed and browser verification.
+
+The audited functional candidate `600eca9cec38d65d605965842f540e8c9045379a` (tree `f3a169da01ab70639dcaead315c5a7d062fb0dde`), based on verified main `d4921eb1c37550d9ca1b53a5615242922abfa4ad`, received an independent Astra source review. Static gates passed; runtime verification was blocked because the disposable PostgreSQL service and PostgreSQL 15 server binaries are unavailable. The assessor found no blocking source defect but could not execute required integration/browser, screenshots, or keyboard checks. See the [independent report](../evidence/M1-independent-audit-600eca9.md) and [candidate handoff](../evidence/M1-handoff-600eca9.md). M1 is not accepted. The current branch is local only; remote publication and hosted CI are pending.
 
 ## Goal and work
 
-Consume governance F-002 from reviewed main. Wire server search/filter/counts and stable pagination, independent detail retrieval and selection recovery.
+Consume the merged governance F-002 status/filter/count/keyset-pagination endpoint. The client loads the first 100 authorized requests, offers explicit Load more, resets pagination on search/filter/context changes, and rejects stale pages. The API supports optional parameterized literal request-number/address search (trimmed, case-insensitive, maximum 250 characters); first-page counts cover the authorized search set before status/pagination. Selected detail is fetched independently of loaded pages and remains bound to request/context through refresh/failure. No schema migration was required.
 
 ## Dependencies and stop conditions
 
@@ -14,7 +16,7 @@ Read current decisions/dependencies before starting. Ask only for unresolved pol
 
 ## Acceptance
 
-Older active work beyond 100 records discoverable; counts match scoped dataset; stale selections/history cannot cross records.
+Older active work beyond 100 records discoverable through search and explicit cursor loading; counts match authorized search results; paging retries, stale responses, selected inaccessible detail, and refresh-bound audit history remain correct.
 
 Required targeted scenarios: over-100 fixture, concurrent inserts/paging, denied scope, filters/counts, inaccessible selected detail.
 
@@ -32,3 +34,8 @@ Required targeted scenarios: over-100 fixture, concurrent inserts/paging, denied
 ## Review packet
 
 Goal/result, exact diff/SHA, source trace, shared-service reuse proof, tests/screenshots, migrations/recovery, policy dependencies, residual gaps. Stronger-model approval must be explicit, never inferred from a running review or Luna's self-assessment.
+
+
+## Candidate implementation and checks
+
+The 100-row API page is a page size, not the discoverable queue limit. Search and “Load more” reach older active requests without automatic full-dataset loading. The current candidate's static checks, runtime limitations, acceptance state, and next action are recorded in its linked audit and handoff receipt above.
