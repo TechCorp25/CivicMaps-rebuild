@@ -229,7 +229,7 @@
       "initialAuditPortableReport": "unavailable_for_candidate_0f2bbcb; first finding summary preserved in current plan"
     },
     "p0": {
-      "status": "v1.1.1_P0_03_findings_addressed_pending_fresh_reassessment_Empirical_verified",
+      "status": "accepted",
       "version": "1.1.1",
       "planPath": "docs/plans/dispatch-build/next-build-phase.md",
       "planSha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180",
@@ -238,17 +238,21 @@
       "gitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/e4f42dd0f3dcb07565d49bf97e0a3f151d715247/docs/plans/dispatch-build/next-build-phase.md",
       "draftPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/41",
       "manifest": "docs/plans/dispatch-build/plan-manifest.json",
-      "independentAudit": "CHANGES_REQUIRED_P0_03_findings_addressed_pending_fresh_reassessment",
+      "independentAudit": "PASS_GPT6_ASTRA_LOW_FRESH_CONTEXT",
       "priorAudit": "CHANGES_REQUIRED",
       "priorAuditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.0/report.md",
       "priorAuditReportSha256": "587f4dba0884172ac82b2735368304be1c26defc40bbe4f7d526b70bc7c7bd7f",
       "empirical": "v1.1.1 full plan read back byte-for-byte; hash/permalink/dependencies verified",
-      "auditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.1/report-round2.md",
-      "auditReportSha256": "c1192e1dff5c6bffff4ee8079895dbd15451e6c0036f2f4806517ffc8911e10f"
+      "auditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.1-final/report.md",
+      "auditReportSha256": "c8f195ca49d4b8d6a10f09aa2dff46d9edf121482d971ecd103f6e47be8b64b7",
+      "auditCandidate": "5b1333c9c607a651b2c0af05ab793edd09888c58",
+      "auditTree": "e85db4a5fc7bebce2f35ee379a1148fe394462d3",
+      "remoteEvidencePath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.1-final/remote-verification.json",
+      "empiricalReadbackEvidencePath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.1-final/empirical-plan.json"
     },
     "merge": "not_authorized",
     "deployment": "excluded",
-    "historyPolicy": "The initial snapshot above remains historical. Current phase status is in phaseM1G1Status; M1 passed fresh Astra Low reassessment on exact implementation candidate d905b85 and hosted PostgreSQL-backed runs 39895161432 and 39895991685 passed all suites. Local PostgreSQL remains unavailable. G1 initial authority commissioning remains owner-blocked. No G2 implementation, merge or deployment is included."
+    "historyPolicy": "The initial snapshot above remains historical. Current phase status is in phaseM1G1Status; M1 passed fresh Astra Low reassessment on exact implementation candidate d905b85 and hosted PostgreSQL-backed runs 39895161432 and 39895991685 passed all suites. Local PostgreSQL remains unavailable. G1 initial authority commissioning remains owner-blocked. No G2 implementation, merge or deployment is included. P0 v1.1.1 passed fresh Astra Low assessment on PR #41 candidate 5b1333c; see its report and evidence packet. G1 remains owner-blocked."
   },
   "legacySnapshotNote": "Fields before phaseM1G1Status are retained as the 2026-10-22 checkpoint snapshot. Their baseline, environment status and nextAction are historical; phaseM1G1Status is the authoritative current checkpoint."
 }
