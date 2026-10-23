@@ -2,6 +2,8 @@
 
 Status: planned coverage; these executable suites must be built during implementation. This inventory is not a claim that tests exist or pass.
 
+The proposed G1 authority source is [F11 G1 — council staff authority contract](../../docs/plans/F11-G1-council-staff-authority-contract.md). G1 defines the actor/action/scope and provenance rules for the suites below; independent acceptance of that contract is still pending. Do not treat these proposed cases as implemented or authorize G2 provisioning from this inventory alone.
+
 | Planned file | Required behaviour | Execution integration |
 | --- | --- | --- |
 | `staff-authority.test.mjs` | Approved actor/action pairs; self-elevation and cross-council/context denials; ADMIN operational exclusion | Node integration suite included in root check and CI |

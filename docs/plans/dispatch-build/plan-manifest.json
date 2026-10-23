@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "plan": "docs/plans/dispatch-build/next-build-phase.md",
-  "version": "1.1.0",
-  "sha256": "44e6bb15b003c668cd5a8d71c618b4071694a2121f5eb12f8c98161b46ed4f29",
-  "contentCommit": "52b6af2bf8779e7760c651b5adf8274b5939a818",
-  "contentTree": "f84883fee1958a01ccf99621b6bf0f7963da0460",
-  "gitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/52b6af2bf8779e7760c651b5adf8274b5939a818/docs/plans/dispatch-build/next-build-phase.md",
+  "version": "1.1.1",
+  "sha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180",
+  "contentCommit": "be3ce8607221b98ecdfe480dfcd0fc81ba1d9723",
+  "contentTree": "ae65a91f982113c20c65ece91d37113b684f20a3",
+  "gitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/be3ce8607221b98ecdfe480dfcd0fc81ba1d9723/docs/plans/dispatch-build/next-build-phase.md",
   "draftPullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/41",
   "dependencies": {
     "M1": {
@@ -15,8 +15,10 @@
     },
     "G1": {
       "status": "blocked_owner_choice_pending",
-      "candidate": "ee4ea9d5f2155c69e74e5894a3202f7c9eeefc87",
-      "openChoice": "initial council authority commissioning path"
+      "candidate": "97776474e97d286b07a8b9f0baadb4d86ac54c2e",
+      "openChoice": "initial council authority commissioning path",
+      "contractVersion": "1.3",
+      "draftPullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/42"
     }
   }
 }
