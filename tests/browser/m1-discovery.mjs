@@ -90,7 +90,7 @@ export async function verifyM1Discovery(page, expect) {
   let failedFirstPage = false;
   const denyDetailAndFailFirstPage = async (route) => {
     const url = new URL(route.request().url());
-    if (!deniedSelectedDetail && /\/api\/requests\/[0-9a-f-]+$/.test(url.pathname)) {
+    if (/\/api\/requests\/[0-9a-f-]+$/.test(url.pathname)) {
       deniedSelectedDetail = true;
       await route.fulfill({
         status: 404,

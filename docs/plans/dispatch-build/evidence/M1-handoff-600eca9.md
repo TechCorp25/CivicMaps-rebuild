@@ -13,7 +13,7 @@
 | Audit | [M1 independent audit](M1-independent-audit-600eca9.md) |
 | Published mirror | Remote commit `f52ff977c92815d45ea070889ee67e123d57446a`, exact tree match `50781565896ff80455f1c480c3de49b6bf75b938` |
 | Draft PR | [#40](https://github.com/TechCorp25/CivicMaps-rebuild/pull/40) |
-| Hosted CI | Run `39894026827` started on the published mirror; status `in_progress` at handoff update |
+| Hosted CI | Current run `39894279378` on the exact same-tree remote mirror failed at a CommandMAPS failure-path browser assertion; details in [hosted CI evidence](M1-hosted-ci-39894279378.md) |
 
 Reproduction commands:
 
@@ -26,4 +26,4 @@ npm run test:activation:browser
 
 Static lint, formatting, typechecks, and builds passed in the independent audit. Database-backed integration and CommandMAPS browser execution stopped before application scenarios because the PostgreSQL service and server binaries are unavailable in the current environment. Platform/activation browsers, screenshot inspection, and keyboard verification remain unrun. No source defect was identified by the source review; M1 acceptance remains blocked on this verification evidence.
 
-**Exact next action:** restore a disposable PostgreSQL 15 service and rerun all four commands above on the frozen candidate; record counts, failures, screenshots, and keyboard results. Then obtain independent reassessment. Hosted checks on PR #40 are pending. The direct Git push credential returned HTTP 403; publication was completed through the connected GitHub account using a same-tree remote mirror commit, whose SHA is recorded above.
+**Exact next action:** the first hosted run found a failure-path assertion that allowed an overlapping successful detail refresh. The route now denies detail throughout that scenario. Commit and publish the correction, rerun the exact hosted workflow, restore a disposable PostgreSQL 15 service for local evidence, inspect generated desktop/narrow screenshots and keyboard behavior, and obtain independent reassessment. The direct Git push credential returned HTTP 403; publication is managed through the connected GitHub account using same-tree remote mirror commits.
