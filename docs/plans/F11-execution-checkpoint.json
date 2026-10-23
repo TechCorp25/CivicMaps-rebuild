@@ -229,7 +229,7 @@
       "initialAuditPortableReport": "unavailable_for_candidate_0f2bbcb; first finding summary preserved in current plan"
     },
     "p0": {
-      "status": "v1.1.0_findings_addressed; v1.1.1_changes_required_findings_addressed_pending_reassessment",
+      "status": "v1.1.1_P0_03_findings_addressed_pending_fresh_reassessment_Empirical_verified",
       "version": "1.1.1",
       "planPath": "docs/plans/dispatch-build/next-build-phase.md",
       "planSha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180",
@@ -238,13 +238,13 @@
       "gitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/e4f42dd0f3dcb07565d49bf97e0a3f151d715247/docs/plans/dispatch-build/next-build-phase.md",
       "draftPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/41",
       "manifest": "docs/plans/dispatch-build/plan-manifest.json",
-      "independentAudit": "CHANGES_REQUIRED",
+      "independentAudit": "CHANGES_REQUIRED_P0_03_findings_addressed_pending_fresh_reassessment",
       "priorAudit": "CHANGES_REQUIRED",
       "priorAuditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.0/report.md",
       "priorAuditReportSha256": "587f4dba0884172ac82b2735368304be1c26defc40bbe4f7d526b70bc7c7bd7f",
       "empirical": "v1.1.1 full plan read back byte-for-byte; hash/permalink/dependencies verified",
-      "auditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.1/report.md",
-      "auditReportSha256": "ab0b3ea5eb165e3a6556a3fec368355ad2b0df2e91e7f2f4c38be546af843480"
+      "auditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.1/report-round2.md",
+      "auditReportSha256": "c1192e1dff5c6bffff4ee8079895dbd15451e6c0036f2f4806517ffc8911e10f"
     },
     "merge": "not_authorized",
     "deployment": "excluded",

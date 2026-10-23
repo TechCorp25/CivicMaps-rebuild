@@ -23,7 +23,7 @@ Headers show department/role identity, not personal names. Shared lifecycle pres
 
 ## Read order and deliverables
 
-0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.1.1; P0 independent audit and Empirical readback pending).
+0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.1.1; P0 fresh reassessment pending; Empirical readback verified).
 
 1. [Luna execution handoff](execution-checkpoint.md).
 2. [Reference and gap matrix](reference-and-gap-matrix.md).
