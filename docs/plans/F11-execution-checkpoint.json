@@ -59,7 +59,7 @@
       "status": "in_progress",
       "evidence": {
         "scope": "Original council-to-CommandMAPS staff authority design; governance ownership implementation is merged through PR25 on main.",
-        "requirements": "Signed Q01–Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
+        "requirements": "Signed Q01\u2013Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
       },
       "audit": null
     },
@@ -88,11 +88,11 @@
       "audit": null
     }
   ],
-  "nextAction": "Owner switches to GPT-6 Luna Medium; fetch PR39, verify plan hash and current main, launch fresh P0 Astra Low audit and start M1 baseline validation.",
+  "nextAction": "Review reconciled PR39 for owner merge; then resume bounded M1/G1 work using the canonical plan. Publication and prior code review do not establish goal acceptance.",
   "environmentBlockers": [],
   "governancePR": 25,
   "verifiedRemote": {
-    "main": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+    "main": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
     "pr28Head": "1210cdd2d59c1d79e3b83999e4afeac0b5558c2a",
     "pr28Tree": "1f088125cf55b84da694a9d4bc504d41a2f895b9",
     "pr28Verification": "Verified remote branch snapshot on 20 October 2026 before the review fixes. Includes reconciled handoff e40ea194 and lifecycle/test-plan update 1210cdd2. This is a pinned resumption baseline, not a claim to track later PR heads; fetch and verify the current branch before continuing.",
@@ -206,7 +206,7 @@
         "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
       }
     ],
-    "nextAction": "Owner switches to GPT-6 Luna Medium; fetch PR39, verify plan hash and current main, launch fresh P0 Astra Low audit and start M1 baseline validation.",
+    "nextAction": "Review reconciled PR39 for owner merge; then resume bounded M1/G1 work using the canonical plan. Publication and prior code review do not establish goal acceptance.",
     "publication": {
       "commit": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
       "tree": "86a29ea8ef93abae954cc860b589500144aacadf",
@@ -215,5 +215,34 @@
       "memoryReadback": "complete text equals canonical bytes; SHA-256 verified",
       "transport": "repository-owner GitHub connector; environment Git identity returned 403"
     }
+  },
+  "nextBuildPhase": {
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "planVersion": "1.0.0",
+    "branch": "codex/civicmaps-m1-g1-build-phase",
+    "baseCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "status": "audit_pending",
+    "goals": {
+      "P0": "published_review_pending",
+      "M1": "planned",
+      "G1": "planned"
+    },
+    "executor": {
+      "model": "GPT-6 Luna",
+      "reasoning": "medium"
+    },
+    "auditor": {
+      "model": "GPT-6 Astra",
+      "reasoning": "low",
+      "freshContext": true,
+      "inheritConversation": false
+    },
+    "boundaries": [
+      "G2 provisioning implementation",
+      "M2-M7",
+      "merge",
+      "deployment"
+    ],
+    "blocker": null
   }
 }

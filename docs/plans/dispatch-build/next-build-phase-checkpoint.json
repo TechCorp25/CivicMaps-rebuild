@@ -58,7 +58,7 @@
       "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
     }
   ],
-  "nextAction": "Owner switches to GPT-6 Luna Medium; fetch PR39, verify plan hash and current main, launch fresh P0 Astra Low audit and start M1 baseline validation.",
+  "nextAction": "Review reconciled PR39 for owner merge; then resume bounded M1/G1 work using the canonical plan. Publication and prior code review do not establish goal acceptance.",
   "publication": {
     "commit": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
     "tree": "86a29ea8ef93abae954cc860b589500144aacadf",
@@ -66,5 +66,10 @@
     "memoryId": "6ad9d075beb1d96470651ac7",
     "memoryReadback": "complete text equals canonical bytes; SHA-256 verified",
     "transport": "repository-owner GitHub connector; environment Git identity returned 403"
+  },
+  "reconciliation": {
+    "main": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+    "priorReviewedHead": "fb18966156343f145a76f9ca1e9946a14f9a1682",
+    "resolution": "Retain the more detailed PR39 canonical plan and its original hash; preserve PR38 phase receipt in F11 nextBuildPhase. Environment blocker cleared by completed bootstrap. Goal acceptance remains pending."
   }
 }

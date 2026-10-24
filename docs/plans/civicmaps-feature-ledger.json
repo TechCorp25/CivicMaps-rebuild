@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "project": "civicmaps-platform",
-  "assessmentDate": "2026-10-13",
-  "assessedCommit": "7bbee4347d1c5f3dabc39956475e50cbe182a215",
+  "assessmentDate": "2026-10-22",
+  "assessedCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
   "activeFeature": "F11",
   "nextFeature": "F12",
   "allowedStatuses": [
@@ -275,7 +275,7 @@
       "blockers": [
         "Concrete municipality suspension access/session/in-flight/readiness policy remains unresolved before dependent implementation."
       ],
-      "nextAction": "Continue independent ready work alongside active governance resolution. Resolve F09-P01\u2013P06 before dependent suspension behaviour; if a task depends on an unresolved choice, progress another ready task. PR22 preparation is owner-merged; no policy approval inferred.",
+      "nextAction": "Continue independent ready work alongside active governance resolution. Resolve F09-P01–P06 before dependent suspension behaviour; if a task depends on an unresolved choice, progress another ready task. PR22 preparation is owner-merged; no policy approval inferred.",
       "preparationPath": "docs/plans/F09-next-phase-plan.md",
       "preparationStatus": "reviewed_and_published",
       "policyDecisionStatus": "proposed_not_approved",
@@ -537,7 +537,7 @@
     },
     {
       "id": "F11D",
-      "title": "Dispatch workspace and workflow fidelity \u2014 bounded F11 precursor",
+      "title": "Dispatch workspace and workflow fidelity — bounded F11 precursor",
       "status": "merged",
       "branch": "codex/civicmaps-dispatch-workspace",
       "commit": "10bdab731b269f911cb0f135f2f30286db3c4cb1",
@@ -608,7 +608,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "Continue active F11 through shared-services dispatch M0 preparation and its pending review gates; preserve the F11 council authority contract and checkpoint. Governance-owned F-002 and unresolved operational decisions gate dependent implementation. F11D/F11E are deployed; do not replay their release or migrations.",
+  "nextAction": "Follow docs/plans/dispatch-build/next-build-phase.md v1.0.0: complete plan review, then M1 and F11 G1 on fresh branches from verified main. Runtime environment availability is currently blocked; no functional acceptance is claimed.",
   "currentDeployedSourceCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
   "currentReleaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
   "releaseClosureFeature": "F11E",
@@ -633,17 +633,32 @@
     "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
     "planPath": "docs/plans/dispatch-build/README.md",
     "governance": "active_in_separate_session_no_blanket_development_hold",
-    "status": "programme_prepared_contract_gate_pending",
-    "currentPreparation": "DISPATCH-M0"
+    "status": "phase_plan_published_implementation_pending",
+    "currentPreparation": "M1-G1-plan",
+    "phasePlanPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "phasePlanBranch": "codex/civicmaps-m1-g1-build-phase",
+    "phasePlanBase": "6761cd6adcd9f922aed939ccafb75f81cf7eba62"
   },
   "currentCheckpointPath": "docs/plans/dispatch-build/execution-checkpoint.md",
   "dispatchBuildProgramme": {
-    "planPath": "docs/plans/dispatch-build/README.md",
-    "phase": "M0",
-    "status": "preparation_review_pending",
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "phase": "M1+G1",
+    "status": "plan_published_review_pending",
     "empiricalMemoryId": "6ad7c3b6beb1d9647062ebd8",
-    "branch": "codex/civicmaps-dispatch-programme",
-    "sharedServicesRequired": true
+    "branch": "codex/civicmaps-m1-g1-build-phase",
+    "sharedServicesRequired": true,
+    "baseline": "6761cd6adcd9f922aed939ccafb75f81cf7eba62"
   },
-  "f11CheckpointPath": "docs/plans/F11-execution-checkpoint.json"
+  "f11CheckpointPath": "docs/plans/F11-execution-checkpoint.json",
+  "nextBuildPhase": {
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "version": "1.0.0",
+    "status": "audit_pending",
+    "baseline": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "branch": "codex/civicmaps-m1-g1-build-phase",
+    "m1": "blocked_environment_unavailable",
+    "g1": "planned",
+    "merge": "not_authorized",
+    "deployment": "excluded"
+  }
 }
