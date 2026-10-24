@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "date": "2026-10-22",
+  "date": "2026-10-21",
   "feature": "F11",
   "state": "s0_complete",
-  "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+  "baselineCommit": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
   "sessionS0": {
     "status": "complete",
     "evidencePath": "docs/plans/evidence/F11-S0-baseline-2026-10-21.md",
@@ -59,7 +59,7 @@
       "status": "in_progress",
       "evidence": {
         "scope": "Original council-to-CommandMAPS staff authority design; governance ownership implementation is merged through PR25 on main.",
-        "requirements": "Signed Q01–Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
+        "requirements": "Signed Q01\u2013Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
       },
       "audit": null
     },
@@ -88,13 +88,11 @@
       "audit": null
     }
   ],
-  "nextAction": "Prepare a committed S0 documentation candidate, verify its tree and included evidence, then obtain a fresh independent assessment against that reachable candidate.",
-  "environmentBlockers": [
-    "Selected execution environment remained unavailable after retry; exec_command returns 'No usable execution environment is available'. Local dependency/runtime and test verification are not possible in this session."
-  ],
+  "nextAction": "Review reconciled PR39 for owner merge; then resume bounded M1/G1 work using the canonical plan. Publication and prior code review do not establish goal acceptance.",
+  "environmentBlockers": [],
   "governancePR": 25,
   "verifiedRemote": {
-    "main": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "main": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
     "pr28Head": "1210cdd2d59c1d79e3b83999e4afeac0b5558c2a",
     "pr28Tree": "1f088125cf55b84da694a9d4bc504d41a2f895b9",
     "pr28Verification": "Verified remote branch snapshot on 20 October 2026 before the review fixes. Includes reconciled handoff e40ea194 and lifecycle/test-plan update 1210cdd2. This is a pinned resumption baseline, not a claim to track later PR heads; fetch and verify the current branch before continuing.",
@@ -103,8 +101,7 @@
     "pr25Status": "merged; ownership preserved",
     "pr32Head": "96b1b10d38054dc5ea24a379fa3d37d3e1b5c5ac",
     "pr32Merge": "ddc1810f6afc9bfbc2563cdf2d8741778fcaf768",
-    "pr32Status": "merged; F-002 is owned by main and must not be duplicated",
-    "verification": "GitHub API confirmed main exact SHA and PR37 merge; local checkout unavailable."
+    "pr32Status": "merged; F-002 is owned by main and must not be duplicated"
   },
   "historicalAudit": {
     "status": "superseded_incomplete_wrong_scope_packet",
@@ -149,6 +146,76 @@
     "merge": "not_started",
     "deploy": "not_started"
   },
+  "currentBoundedPhase": {
+    "schemaVersion": 1,
+    "planVersion": "1.0.0",
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "planSha256": "71670ccb2a90d9557f00bb32da57fa00ee2002ae6a7abe8b5efef99efe083b50",
+    "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+    "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "planningBranch": "codex/civicmaps-m1-g1-phase-plan",
+    "preparationStatus": "published_verified_awaiting_owner_model_switch",
+    "excluded": [
+      "G2",
+      "M2-M7",
+      "merge",
+      "deployment"
+    ],
+    "goals": [
+      {
+        "id": "P0",
+        "status": "audit_pending",
+        "branch": "codex/civicmaps-m1-g1-phase-plan",
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
+        "audit": null,
+        "publication": "verified",
+        "prerequisites": [],
+        "blockers": [],
+        "nextAction": "Publish, verify Git/Empirical hash, then Luna launches fresh Astra planning audit."
+      },
+      {
+        "id": "M1",
+        "status": "planned",
+        "branch": null,
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "not_started",
+        "prerequisites": [
+          "P0 publication",
+          "merged M0",
+          "merged F-002"
+        ],
+        "blockers": [],
+        "nextAction": "After model switch verify baseline, run checks and implement discovery."
+      },
+      {
+        "id": "G1",
+        "status": "planned",
+        "branch": null,
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "not_started",
+        "prerequisites": [
+          "signed Q01-Q12",
+          "merged governance"
+        ],
+        "blockers": [],
+        "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
+      }
+    ],
+    "nextAction": "Review reconciled PR39 for owner merge; then resume bounded M1/G1 work using the canonical plan. Publication and prior code review do not establish goal acceptance.",
+    "publication": {
+      "commit": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
+      "tree": "86a29ea8ef93abae954cc860b589500144aacadf",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/39",
+      "memoryId": "6ad9d075beb1d96470651ac7",
+      "memoryReadback": "complete text equals canonical bytes; SHA-256 verified",
+      "transport": "repository-owner GitHub connector; environment Git identity returned 403"
+    }
+  },
   "nextBuildPhase": {
     "planPath": "docs/plans/dispatch-build/next-build-phase.md",
     "planVersion": "1.0.0",
@@ -157,7 +224,7 @@
     "status": "audit_pending",
     "goals": {
       "P0": "published_review_pending",
-      "M1": "blocked_environment_unavailable",
+      "M1": "planned",
       "G1": "planned"
     },
     "executor": {
@@ -176,6 +243,6 @@
       "merge",
       "deployment"
     ],
-    "blocker": "No usable execution environment; shell commands fail before process launch. Remote GitHub API access works."
+    "blocker": null
   }
 }

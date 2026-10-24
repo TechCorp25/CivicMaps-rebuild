@@ -1,78 +1,70 @@
 # Next build phase: M1 discovery and F11 G1 authority contract
 
-Version: 1.0.0  
-Prepared: 22 October 2026 (Australia/Melbourne)  
-Repository: TechCorp25/CivicMaps-rebuild  
-Verified base: `main@6761cd6adcd9f922aed939ccafb75f81cf7eba62` (PR37 merge)  
-Plan status: published for review; implementation and independent goal audits have not started.
+Version: 1.0.0. Date: 22 October 2026 (Australia/Melbourne). Guidance: Medium.
+Repository: https://github.com/TechCorp25/CivicMaps-rebuild
+Planning branch: `codex/civicmaps-m1-g1-phase-plan`.
+Canonical path: `docs/plans/dispatch-build/next-build-phase.md`.
 
-## Purpose and boundary
+## Scope and baseline
 
-GPT-6 Luna Medium completes two bounded goals: shared request discovery (M1) and the council staff-authority contract (F11 G1). GPT-6 Astra Low independently audits the frozen planning product and each completed goal while Luna continues only independent ready work. M0 architecture acceptance is retained; it does not establish functional acceptance.
+Owner instruction for this bounded phase supersedes broader historical run/merge/deploy instructions: GPT-6 Luna Medium completes M1 shared discovery and G1 council staff-authority contract. GPT-6 Astra Low independently audits each completed goal while Luna continues ready independent work. G2 implementation, M2–M7, merge and deployment are excluded. Stop this preparation after P0 publication for the owner to switch the builder model; do not start implementation during preparation.
 
-This phase excludes G2 provisioning implementation, M2–M7, merge and deployment. Owner merge remains required before dependent implementation. No automatic merge or deployment is authorised.
+Remote main was verified by authenticated Git fetch on 22 October 2026 at `6761cd6adcd9f922aed939ccafb75f81cf7eba62`, containing PR37. The prior proxy-unreachable limitation is resolved for Git with supported per-command network permission; preserve proxy and CA configuration. Reverify remote main at run start. PR25/PR32 F-002 and governance controls are merged; consume them without duplicating or taking over governance work. PR35 M0 architecture acceptance at `a1a9a9a969d1d2efc9d1630980adcff3ebaf2b60` remains valid for its recorded scope; PR37 receipt follow-up is merged. Neither establishes M1 or G1 functional acceptance.
 
-## Reconciled baseline
+Bootstrap verified Node 24.19.0/npm 11.9.0, lockfile installation, PostgreSQL readiness and Playwright Chromium launch. Both app typechecks/builds passed on the preserved earlier local checkout `8f61ee4`; these are tooling checks, NOT acceptance of the new baseline. Luna must install from the current lockfile and run the required baseline suites. No full runtime/browser acceptance is claimed by P0.
 
-GitHub API verified public repository `TechCorp25/CivicMaps-rebuild`, connected TechCorp25 account permission `admin` and `push`, default branch `main`, at exact commit `6761cd6adcd9f922aed939ccafb75f81cf7eba62`. The commit is the PR37 merge. Local checkout/runtime verification was unavailable when this plan was prepared; no local tests or runtime claims are made.
+## Goals and dependencies
 
-PR25 governance work remains separately owned and merged. Consume its current interfaces and approved governance controls; do not duplicate its fixes. M0 architecture/backlog assessment remains accepted at its recorded candidate. This does not establish M1 functional acceptance or F11 G1 contract acceptance.
+| Goal | Deliverable | Acceptance and dependencies |
+| --- | --- | --- |
+| P0 | Portable reconciled plan, checkpoints and developer instructions in Git and Empirical | Verified remote baseline; stale PR37 references corrected; complete versioned plan and matching SHA-256 retrievable from both destinations; draft PR and publication receipt. Independent planning audit remains separately pending until its report exists. |
+| M1 | Server-backed request search, filters, counts, pagination and independent detail | Start after P0 publication and verified merged M0/F-002 dependencies. Older active requests beyond 100 discoverable; authorised counts, paging, selection and audit survive refresh/failure. Fresh Astra pass required for acceptance. |
+| G1 | Versioned staff actor/action/context matrix, proposed API/schema/migration contract, provenance and test inventory | Independent of M1; use signed Q01–Q12 and merged controls. Every action has explicit authority, scope, revocation, audit and retry semantics. Required unresolved policy blocks acceptance and future G2. Fresh Astra pass required. |
 
-## Goals and acceptance
+G2 remains out of scope even after G1 passes. Owner merge is required before any future dependent implementation. Publication never implies acceptance.
 
-| Goal | Deliverable | Acceptance |
-|---|---|---|
-| P0 — Portable execution plan | Reconciled baseline, goal contracts, checkpoints and developer instructions in Git and Empirical | Verified remote baseline; stale PR37 references corrected; matching plan version and content hash retrievable from both destinations |
-| M1 — Shared discovery | Server-backed request search, filters, counts, pagination and independent detail retrieval | Older active requests beyond 100 records are discoverable; counts reflect authorised scope; paging, selection and audit history remain correct through refresh and failures |
-| G1 — Council staff-authority contract | Versioned actor/action/context matrix, proposed API and schema/migration contract, decision provenance and acceptance inventory | Every staff-management action has explicit authority, scope, revocation, audit and retry semantics; unresolved policy is identified without inventing permissions |
+## M1 implementation contract
 
-### M1 implementation contract
+Consume F-002 status/count/keyset pagination and preserve authorisation. Replace automatic full-dataset loading with first-page loading and explicit **Load more**. Reset pagination on search, filter or operating-context change; reject stale responses and deduplicate by request ID. Failed page loads retain truthful retry state without losing already confirmed pages.
 
-- Consume the existing F-002 status/count/keyset-pagination implementation; preserve governance ownership and current authorisation.
-- Replace automatic full-dataset loading with first-page loading and explicit “Load more”. Reset pagination when search, filter or operating context changes; reject stale responses and deduplicate by request ID.
-- Add optional server-side `q` search for request number and address: trimmed, case-insensitive literal matching, maximum 250 characters, parameterised SQL. Empty search preserves existing behaviour.
-- Preserve `status`, `before`, `requests`, `nextCursor` and first-page `counts`. Counts cover the authorised search result before status filtering and pagination; subsequent pages omit counts.
-- Fetch selected detail independently of loaded queue pages. Keep detail and audit keyed to request and context; inaccessible detail clears actionable content and displays truthful recovery feedback.
-- Preserve current lifecycle, retained-review rules, ADMIN exclusion, officer assignment scope and F11E recovery behaviour. No schema migration is planned.
+Add optional server-side `q` search for request number and address: trimmed, case-insensitive literal matching, maximum 250 characters, parameterised SQL. Escape SQL wildcard characters so `%` and `_` remain literal, and test escaping/backslashes. Reject over-limit input consistently; empty search preserves existing behaviour. Preserve `status`, `before`, `requests`, `nextCursor` and first-page counts. Counts cover the authorised search result before status filtering and pagination; subsequent pages omit counts. Retain descending keyset behaviour during concurrent inserts and define refresh/reset explicitly.
 
-### G1 contract
+Fetch selected detail independently of queue pages. Detail and audit are keyed to request and operating context; prevent late responses from restoring another selection/context. Inaccessible detail clears actionable content and displays truthful recovery feedback. Preserve lifecycle, retained-review rules, ADMIN exclusion, officer assignment scope and F11E uncertain-response recovery. No schema migration is planned.
 
-Use signed Q01–Q12 decisions and current merged governance controls as authority. Specify create/invite/activate/read/grant/revoke/disable actions, allowed roles, council/context ownership, approval provenance, expiry/replay, reissue, session invalidation and transaction/audit atomicity.
+## G1 contract deliverables
 
-Define proposed endpoint inputs, outputs and errors, additive migration compatibility, populated-data verification and the G2 test matrix. Keep council administration separate from operational CommandMAPS and platform-operator authority.
+Use signed Q01–Q12 decisions and current merged governance controls as authority. Begin with `docs/plans/evidence/2026-10-19-signed-owner-decisions-review.md`, its referenced signed source and assessment, and the current merged governance contracts. Pin exact source path/version/hash and decision identifiers; a summary or old wireframe is not a replacement for signed wording. Existing F11 principal-ownership work is a dependency, not acceptance of staff provisioning.
 
-Resolve only genuinely missing product choices with the owner. An unresolved required choice blocks G1 acceptance and dependent G2 work, while M1 may continue. Do not infer policy from preview behaviour or prior incomplete contracts.
+Specify create/invite/activate/read/grant/revoke/disable, allowed roles, council/context ownership, approval provenance, expiry/replay, reissue, session invalidation and transaction/audit atomicity. Include positive and negative actor/action pairs, self-elevation prevention, cross-council denial and no silent regrant. Define proposed endpoint inputs/outputs/errors, retry/idempotency/version conflicts, additive migration compatibility, populated-data verification and the G2 executable-test matrix. Keep council administration separate from operational CommandMAPS and platform-operator authority. Clearly label proposed schema and endpoints as unimplemented.
+
+Resolve only genuinely missing product choices with the owner after checking signed decisions and Empirical. Record each unresolved choice and affected criterion; do not invent permission. Missing required choices block G1 acceptance and dependent G2, while M1 can continue. Deliver a versioned contract under `docs/plans/`, linked from F11 checkpoint, and update `tests/f11/README.md` with proposed G2 coverage without claiming tests exist.
 
 ## Execution and concurrent audit
 
-1. Luna verifies remote main, dependencies and supported local runtime; records exact baseline and current limitations.
-2. Publish P0, then begin M1 while Astra audits the frozen planning product.
-3. On M1 completion, freeze its commit and neutral audit packet. Start a fresh Astra audit while Luna prepares G1 on a separate branch from verified main.
-4. On G1 completion, start another fresh Astra audit. Luna addresses returned M1 findings or prepares portable handoff material while that audit runs.
-5. Fix findings on the relevant branch, rerun affected checks and obtain reassessment. Finish only when both goals pass or a concrete blocker is recorded.
+1. Luna verifies remote main, dependencies, worktree ownership and local runtime. Read AGENTS, this plan, programme contracts, M1 milestone, F11 requirements, affected domain READMEs and current design annotations. Record exact base and limitations. Use one Luna implementation worker and a designated publisher.
+2. Publish P0, then begin M1 while a fresh Astra audits the frozen P0 planning product. Preparation can hand over with P0 audit pending; Luna starts that audit immediately after model switch. Planning defects must be fixed and reassessed before P0 acceptance.
+3. On M1 completion freeze its commit and neutral packet, then start fresh Astra assessment in an isolated detached checkout. Luna prepares G1 on a separate branch from freshly verified main while review runs. Carry the portable plan as a pinned reference if its PR is unmerged; do not import M1 implementation into G1.
+4. On G1 completion start another fresh Astra assessment. Luna addresses M1 findings or prepares portable handoff while that audit runs. Bound the backlog to one pending review and one active goal; finish or checkpoint earlier review before starting another when needed.
+5. Fix findings on the relevant branch, rerun affected checks and obtain fresh reassessment. Finish only when both goals pass or concrete blockers are recorded. No merge/deploy.
 
-Use one Luna implementation worker. Every Astra assessment uses `fork_turns="none"`, `model="gpt-6-astra"` and `reasoning_effort="low"` in an isolated checkout. Supply frozen requirements, authoritative constraints, exact candidate/base SHAs, product files and raw evidence—never builder conversation, reasoning or self-review conclusions.
+Every assessment uses `fork_turns="none"`, `model="gpt-6-astra"`, `reasoning_effort="low"`, isolated checkout and frozen requirements, authoritative constraints, exact base/candidate/tree SHAs, product files and raw evidence. Follow `docs/plans/independent-product-audit-protocol.md`. Never supply builder conversation, reasoning, scratch diaries or self-review conclusions. Give a standalone neutral acceptance contract; this operational handoff is not an auditor narrative. Auditor may inspect necessary dependencies and independently reproduce checks, but does not edit/publish. Reports record model/effort, independence, manifest hash, actual checks, findings, limits and pass/changes_required/blocked. Missing evidence is not a pass. Material product changes require reassessment.
 
-Track `implemented`, `audit_pending`, `changes_required`, `blocked` and `accepted` separately. Candidate publication does not imply acceptance. Owner merge remains required before dependent implementation; no automatic merge or deployment.
+Track `planned`, `implemented`, `audit_pending`, `changes_required`, `blocked`, `accepted` separately from publication and CI. Freeze commits before audit; retain accepted ancestry and never label unreviewed work accepted.
 
 ## Verification
 
-Run `npm run check` and existing CommandMAPS, Platform and activation browser suites; sequence suites where ports collide. Commit M1 integration/browser tests under `tests/`, wire browser discovery into local commands and CI, and verify non-zero execution.
+Run `npm run setup` with writable cache, then `npm run check` and `npm run test:commandmaps:browser`, `npm run test:platform:browser`, `npm run test:activation:browser`; sequence suites where ports collide. Configure dedicated disposable synthetic PostgreSQL and matching Chromium via `docs/development/local-build.md`; do not replay migrations/seeds against retained data. New checkout installations must use their own exact lockfile. No dependency on a specific machine path is allowed.
 
-Cover more than 100 requests, older active work, concurrent inserts, search/filter/count agreement, paging retry, stale responses and inaccessible selected detail. Exercise council/context isolation, officer restrictions, ADMIN exclusion, disabled-pack review, session loss and existing uncertain-response recovery.
+Commit M1 integration/browser tests under `tests/`; wire new browser discovery into local commands and CI and verify non-zero execution. Existing recursive Node discovery does not automatically run standalone browser scripts. Cover >100 and >200 requests, older active work, concurrent inserts, literal/empty/over-limit search, search/filter/count agreement, paging retries, stale responses, refresh, independent detail and inaccessible selection. Exercise council/context isolation, officer restrictions, ADMIN exclusion, disabled-pack retained review, session loss and uncertain-response recovery. Inspect desktop/narrow screenshots and keyboard operation against `_ds` annotations.
 
-Inspect desktop and narrow-view screenshots and keyboard operation against current design annotations. Validate G1 action coverage, decision provenance, API/schema consistency and migration/test specifications. Contract acceptance must not claim provisioning implementation.
+Validate G1 action coverage, exact decision provenance, API/schema consistency, populated-data/migration/recovery specifications and G2 test matrix. Contract acceptance must not claim provisioning implementation. Record exact candidate SHAs, commands, counts, failures and limitations; skipped tests/setup failures are not passes. Planning validation is JSON/link/hash/whitespace and scope reconciliation, not application acceptance.
 
-Record exact candidate SHAs, commands, counts, failures and limitations. Setup failures and skipped tests are not passes.
+## Portable publication and handoff
 
-## Git and Empirical handoff
+Canonical plan is this file. Its exact UTF-8 bytes, including final newline, are hashed with SHA-256; `next-build-phase.sha256` stores the digest. The digest is outside this file to avoid self-reference. Commit/push the planning branch, verify its remote SHA, publish a draft PR against main, and store complete text/version/hash/Git commit permalink/dependencies in Empirical workspace `civicmaps_rebuild`. Read it back and recompute the hash. A post-publication receipt may reference the immutable plan commit without changing the canonical text.
 
-Canonical plan: `docs/plans/dispatch-build/next-build-phase.md`. Link it from the programme entrypoint and reconcile the execution checkpoint, feature ledger and F11 checkpoint without erasing historical evidence.
+Maintain `next-build-phase-checkpoint.json`, programme entrypoint/execution checkpoint, feature ledger and F11 checkpoint. Preserve historical evidence as history; current scope overrides broader old merge/deploy instructions. Each goal receipt includes repository URL, branch/base/candidate SHAs, prerequisites, commands/counts/results, status, audit report and hash, CI/publication status, blockers and exact next action. Null candidate/audit fields mean not completed, never implicit acceptance.
 
-Each goal handoff includes repository URL, branch/base/candidate SHAs, prerequisites, reproduction commands, acceptance status, audit report, remaining blockers and exact next action. Avoid dependence on workspace paths or transient logs.
+Record separate P0/M1/G1 work-history receipts in Empirical with `authorType=agent`, mass 1 and `CivicMaps-rebuild` tags; owner workflow/decisions use `authorType=user`. Never store secrets. On memory failure, preserve an unsaved receipt and pause memory-dependent publication under policy. Keep raw evidence portable in committed safe files or retrievable artifacts, not transient absolute paths.
 
-Commit and push the plan, verify its remote SHA and publish a draft PR. Store the complete versioned plan in Empirical—not a local-file pointer—with content hash, Git permalink and goal dependencies. Store separate goal receipts and the Luna/Astra workflow requirement, tagged `CivicMaps-rebuild`, with explicit authorship. Read back the stored plan to verify completeness.
-
-## Explicit exclusions and status
-
-G2 provisioning implementation, M2–M7, owner merge and deployment are outside this phase. No code or functional acceptance is inferred from this plan. The verified remote baseline is available through GitHub; local execution environment access remains to be restored before implementation evidence can be produced.
+Checkpoint after each meaningful edit, test, freeze, review and push. At allowance warning stop new goals, preserve unaccepted work explicitly and save restart pointers while capacity remains. No automatic allowance refresh/resume is promised. Exact next action after preparation: switch builder to GPT-6 Luna Medium, fetch the published P0 branch, verify plan hash/checkpoint and remote main, launch fresh P0 Astra Low audit, then start M1 with baseline validation. Do not start G2 or merge/deploy.

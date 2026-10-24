@@ -306,10 +306,13 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [],
-      "nextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
+      "nextAction": "Follow dispatch-build/next-build-phase.md: P0 then Luna Medium M1 and G1 only; no G2, M2-M7, merge or deployment.",
       "planPath": "docs/plans/F11-next-phase-build-plan.md",
       "checkpointPath": "docs/plans/F11-execution-checkpoint.json",
-      "preparationStatus": "prepared_awaiting_owner_model_switch"
+      "preparationStatus": "prepared_awaiting_owner_model_switch",
+      "historicalNextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
+      "currentPhasePlanPath": "docs/plans/dispatch-build/next-build-phase.md",
+      "currentPhaseCheckpointPath": "docs/plans/dispatch-build/next-build-phase-checkpoint.json"
     },
     {
       "id": "F12",
