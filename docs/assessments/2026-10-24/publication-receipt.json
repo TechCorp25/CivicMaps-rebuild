@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "frozenProductCommit": "43423d7671468417914dc2d15841f59fd0ede0e8",
+  "frozenProductTree": "36edf45b17f2c9ea7de023521b5f10ea625a923a",
+  "verifiedRemoteMain": "346dfd2d74cdd52d88bf9e4b7bd046a500a4c390",
+  "remoteBranch": "codex/civicmaps-code-quality-assessment-2026-10-24",
+  "pullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/43",
+  "independentVerdict": "PASS",
+  "independentReport": "evidence/independent-review-43423d7.md",
+  "independentReportSha256": "2fd259d30450cbf5c532831d717f36e552c5cfc6adcef6d8d68c2e812308526a",
+  "planMemoryId": "6adcb100ba781229b953f72c",
+  "planVersion": "1.0.0",
+  "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
+  "planReadback": "full_text_equal",
+  "hostedPRRunAtReceipt": {
+    "id": 40097955002,
+    "status": "in_progress",
+    "conclusion": null
+  },
+  "scopeOfReceiptCommit": "Publication/audit/runtime receipts only; frozen assessment, plan, register, references, reproduction and implementation unchanged",
+  "merge": "not_performed",
+  "deployment": "not_performed"
+}
