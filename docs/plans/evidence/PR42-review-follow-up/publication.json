@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+  "pullRequest": 42,
+  "branch": "codex/civicmaps-dispatch-g1",
+  "baseCommit": "2a20b81cc7c67f90a8063d66acddac303bd0c845",
+  "productCommit": "4ab717cd51a9a122799fc500ea0b5977e7008637",
+  "productTree": "dd07e6e0a4d5b4f95a8ca86611d948d5415eb0db",
+  "contractVersion": "1.6",
+  "planVersion": "1.1.3",
+  "planSha256": "618a5555f94b231cf46e44a993b5320a4a5fdf4abb802b71762a06755401d1cc",
+  "planPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/4ab717cd51a9a122799fc500ea0b5977e7008637/docs/plans/dispatch-build/next-build-phase.md",
+  "independentAssessment": {
+    "verdict": "pass_targeted_defect_closure_and_scoped_coherence",
+    "candidate": "4ab717cd51a9a122799fc500ea0b5977e7008637",
+    "path": "docs/plans/evidence/PR42-review-follow-up/closure-assessment-4ab717cd.md",
+    "sha256": "9edebcd2d2181201086453f1820d4a783b79f4f126c7fcaf2d1b18e9373f3fb3",
+    "g1Acceptance": "blocked_owner_decisions"
+  },
+  "empirical": {
+    "workspace": "civicmaps_rebuild",
+    "fullPlanMemoryId": "6adc87d9ba781229b953dbb7",
+    "planReadbackByteIdentical": true
+  },
+  "verification": {
+    "localCheck": "94 passed; zero failures/skips",
+    "browserSuites": [
+      "CommandMAPS PASS",
+      "Platform PASS",
+      "first-admin activation PASS"
+    ],
+    "productHostedRun": "https://github.com/TechCorp25/CivicMaps-rebuild/actions/runs/40085888027",
+    "productHostedStatus": "in_progress_at_receipt",
+    "applicationChangesSinceTestedTree": false
+  },
+  "remainingOwnerDecisions": [
+    "Commissioning actor designation and appointment authority",
+    "External council trust-root, source/admitter and initial council approver authority evidence",
+    "Approved approver authentication method",
+    "Commissioning expiry and revocation policy"
+  ],
+  "g1Status": "blocked_owner_decisions",
+  "g2Status": "blocked",
+  "mergeReadiness": "not_ready",
+  "merged": false,
+  "deployed": false,
+  "note": "This receipt and accompanying reports/logs add evidence only to the assessed product. Historical failed reports are retained; they do not imply acceptance."
+}

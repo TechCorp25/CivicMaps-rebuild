@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "planVersion": "1.1.1",
+  "planVersion": "1.1.3",
   "planPath": "docs/plans/dispatch-build/next-build-phase.md",
-  "planSha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180",
+  "planSha256": "618a5555f94b231cf46e44a993b5320a4a5fdf4abb802b71762a06755401d1cc",
   "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
   "baselineCommit": "c92667e8bd9b12055f2714bac16e6d97008c0d70",
   "planningBranch": "codex/civicmaps-phase-status",
-  "preparationStatus": "P0_accepted_M1_merged_G1_blocked_owner_choice",
+  "preparationStatus": "P0_v1.1.1_accepted_v1.1.3_audit_pending_M1_merged_G1_v1.5_changes_required_v1.6_pending_publication",
   "excluded": [
     "G2",
     "M2-M7",
@@ -16,17 +16,23 @@
   "goals": [
     {
       "id": "P0",
-      "status": "accepted",
+      "status": "audit_pending_amendment",
       "branch": "codex/civicmaps-phase-status",
       "base": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
       "candidate": "5b1333c9c607a651b2c0af05ab793edd09888c58",
-      "audit": "PASS_GPT6_ASTRA_LOW_FRESH_CONTEXT",
+      "audit": "PASS_GPT6_ASTRA_LOW_FRESH_CONTEXT_FOR_V1.1.1_ONLY",
       "publication": "verified",
       "prerequisites": [],
       "blockers": [],
-      "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded.",
+      "nextAction": "Obtain owner decisions on commissioning authority, external trust-record source/admission, initial council approver evidence, and approver authentication method; publish and reassess G1 v1.6 and phase plan v1.1.3. G2 remains blocked; merge and deployment remain excluded.",
       "auditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.1-final/report.md",
-      "auditReportSha256": "c8f195ca49d4b8d6a10f09aa2dff46d9edf121482d971ecd103f6e47be8b64b7"
+      "auditReportSha256": "c8f195ca49d4b8d6a10f09aa2dff46d9edf121482d971ecd103f6e47be8b64b7",
+      "version": "1.1.1",
+      "amendmentVersion": "1.1.3",
+      "amendmentStatus": "pending_publication_and_independent_reassessment",
+      "amendmentAudit": "pending",
+      "amendmentPublication": "pending",
+      "amendmentSha256": "618a5555f94b231cf46e44a993b5320a4a5fdf4abb802b71762a06755401d1cc"
     },
     {
       "id": "M1",
@@ -42,30 +48,36 @@
         "merged F-002"
       ],
       "blockers": [],
-      "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded.",
+      "nextAction": "M1 remains accepted at audited candidate d905b85; owner decisions and fresh G1 v1.6 / phase plan v1.1.3 reassessment remain necessary before G2.",
       "mergeCommit": "c92667e8bd9b12055f2714bac16e6d97008c0d70",
       "auditReportPath": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
       "auditReportSha256": "d23a1a9cca4149c322e2790804c1bedc37c57be7237cf9bd2bdf90c3dc9d2123"
     },
     {
       "id": "G1",
-      "status": "blocked_owner_choice_pending",
+      "status": "changes_required_owner_decisions_and_v1.6_pending_publication",
       "branch": "codex/civicmaps-dispatch-g1",
       "base": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
-      "candidate": "97776474e97d286b07a8b9f0baadb4d86ac54c2e",
-      "audit": "pending_after_owner_choice",
-      "publication": "verified",
+      "candidate": "717885cf684a5c856367c9965575fb32054497a8",
+      "audit": "changes_required_on_v1.5; v1.6_reassessment_pending",
+      "publication": "v1.5_verified; v1.6_pending",
       "prerequisites": [
         "signed Q01-Q12",
         "merged governance"
       ],
       "blockers": [
-        "Initial council authority commissioning owner decision; fresh G1 reassessment."
+        "Published v1.5 lacks admitted/proofed initial approver identity and exact-payload approval before pending creation/activation. Owner decisions on authority, external trust admission, initial approver, and approver authentication remain unresolved."
       ],
-      "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded."
+      "nextAction": "Obtain owner decisions on commissioning authority, external trust-record source/admission, initial council approver evidence, and approver authentication method; publish and reassess G1 v1.6 and phase plan v1.1.3. G2 remains blocked; merge and deployment remain excluded.",
+      "contractVersion": "1.5",
+      "correctedContractVersion": "1.6",
+      "correctedCandidate": "pending_publication",
+      "priorV13Candidate": "97776474e97d286b07a8b9f0baadb4d86ac54c2e",
+      "priorV13Tree": "55c3ffbf3bc69d5ef8f6a21a996eb7b7d4f31a90",
+      "correctedPublicationPending": true
     }
   ],
-  "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded.",
+  "nextAction": "Obtain owner decisions on commissioning authority, external trust-record source/admission, initial council approver evidence, and approver authentication method; publish and reassess G1 v1.6 and phase plan v1.1.3. G2 remains blocked; merge and deployment remain excluded.",
   "historicalPublication": {
     "schemaVersion": 1,
     "planVersion": "1.0.0",

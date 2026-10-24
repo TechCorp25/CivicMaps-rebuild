@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "plan": "docs/plans/dispatch-build/next-build-phase.md",
-  "version": "1.1.1",
-  "sha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180",
-  "contentCommit": "e4f42dd0f3dcb07565d49bf97e0a3f151d715247",
-  "contentTree": "16aaae2219bad85b79cabf556326f323802999c4",
-  "gitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/e4f42dd0f3dcb07565d49bf97e0a3f151d715247/docs/plans/dispatch-build/next-build-phase.md",
-  "draftPullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/41",
+  "version": "1.1.3",
+  "sha256": "618a5555f94b231cf46e44a993b5320a4a5fdf4abb802b71762a06755401d1cc",
+  "contentCommit": "pending_final_publication_receipt",
+  "contentTree": "pending_final_publication_receipt",
+  "gitPermalink": "pending_final_publication_receipt",
+  "draftPullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/42",
   "dependencies": {
     "M1": {
       "status": "accepted",
@@ -14,11 +14,20 @@
       "auditReportSha256": "d23a1a9cca4149c322e2790804c1bedc37c57be7237cf9bd2bdf90c3dc9d2123"
     },
     "G1": {
-      "status": "blocked_owner_choice_pending",
-      "candidate": "97776474e97d286b07a8b9f0baadb4d86ac54c2e",
-      "openChoice": "initial council authority commissioning path",
-      "contractVersion": "1.3",
+      "status": "changes_required_owner_decisions_and_v1.6_pending_publication",
+      "candidate": "717885cf684a5c856367c9965575fb32054497a8",
+      "contractVersion": "1.5",
+      "audit": "changes_required; corrected_v1.6_reassessment_pending",
+      "correctedContractVersion": "1.6",
+      "correctedPublicationPending": true,
       "draftPullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/42"
+    },
+    "P0": {
+      "status": "accepted_historical_amendment_pending",
+      "acceptedVersion": "1.1.1",
+      "acceptedCandidate": "5b1333c9c607a651b2c0af05ab793edd09888c58",
+      "amendmentVersion": "1.1.3",
+      "amendmentStatus": "pending_publication_and_independent_reassessment"
     }
   }
 }

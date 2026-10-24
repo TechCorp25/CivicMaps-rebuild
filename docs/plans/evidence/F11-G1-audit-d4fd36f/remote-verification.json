@@ -1,0 +1,17 @@
+{
+  "source": "Parent agent live GitHub connector response; sanitized for independent audit packet",
+  "capturedAt": "2026-10-24T01:54:14Z",
+  "repository": "TechCorp25/CivicMaps-rebuild",
+  "pullRequest": 42,
+  "state": "open",
+  "draft": true,
+  "merged": false,
+  "mergeable": true,
+  "base": "main",
+  "baseSha": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+  "branch": "codex/civicmaps-dispatch-g1",
+  "headSha": "d4fd36f22493e15e3dd82539e5a25ab0f7d74b73",
+  "treeSha": "acda5f94ffb2b8f205189f8b60e205d00a0b3987",
+  "contractBlobSha": "358c2c79c8e1333e0d79e49cbb5590970fbe39c5",
+  "ownerDecisionReceiptBlobSha": "9a073885048df1dacc703c5a3c8465bf563005b8"
+}
