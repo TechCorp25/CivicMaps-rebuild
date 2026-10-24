@@ -2,11 +2,11 @@
 
 ## Current reconciliation — 24 October 2026
 
-Verified `main@c92667e8bd9b12055f2714bac16e6d97008c0d70` includes owner-merged PR #39 and M1 PR #40, including its later Codex review fixes. P0 v1.1.1 remains accepted at its recorded candidate; the corrected canonical plan is v1.1.2 and requires fresh reassessment. M1’s Astra acceptance remains scoped to `d905b85`, with subsequent review fixes recorded separately. G1 commissioning remains owner-blocked: the 24 October receipt records authentication direction only. Use the [current machine-readable checkpoint](next-build-phase-checkpoint.json) for current status. The [v1.0.0 plan retained from main](next-build-phase-v1.0.0.md) preserves the detailed verification, provenance and audit requirements alongside the current [v1.1.2 plan](next-build-phase.md). Historical audit and publication receipts remain scoped to their recorded candidates.
+Verified `main@c92667e8bd9b12055f2714bac16e6d97008c0d70` includes owner-merged PR #39 and M1 PR #40, including its later Codex review fixes. P0 v1.1.1 remains accepted only at its recorded candidate; the current plan amendment is v1.1.3 and requires fresh reassessment. M1’s Astra acceptance remains scoped to `d905b85`, with subsequent review fixes recorded separately. The most recently published G1 v1.5 candidate `717885cf684a5c856367c9965575fb32054497a8` received a finding on the initial approver path. Proposed v1.6 corrections require fresh reassessment. G1 commissioning remains owner-blocked: the 24 October receipt records authentication direction only. Use the [current machine-readable checkpoint](next-build-phase-checkpoint.json) for current status. The [v1.0.0 plan retained from main](next-build-phase-v1.0.0.md) preserves the detailed verification, provenance and audit requirements alongside the current [v1.1.3 plan](next-build-phase.md). Historical audit and publication receipts remain scoped to their recorded candidates.
 
-## Historical phase checkpoint — 23 October 2026
+## Current phase checkpoint — 24 October 2026
 
-Canonical phase plan: [M1 discovery and F11 G1 authority contract, v1.1.2](next-build-phase.md). Verified current main is `c92667e8bd9b12055f2714bac16e6d97008c0d70` (PR #40 merge). M1 is accepted at audited candidate `d905b85ca7f0c2a20eaa956b0448ed7f5581f47b`; its recorded Astra acceptance remains scoped to that candidate. G1 v1.5 is a proposal in PR #42 and remains blocked pending owner designation of commissioning authority, external council trust-record source/admission procedure, and initial council decision-maker evidence. The 24 October receipt records authentication direction only. Fresh G1 and amended-plan reassessment are pending. G2 remains excluded and blocked until G1 acceptance and owner merge.
+Canonical phase plan: [M1 discovery and F11 G1 authority contract, v1.1.3](next-build-phase.md). Verified current main is `c92667e8bd9b12055f2714bac16e6d97008c0d70` (PR #40 merge). M1 is accepted at audited candidate `d905b85ca7f0c2a20eaa956b0448ed7f5581f47b`; its recorded Astra acceptance remains scoped to that candidate. Published G1 v1.5 candidate `717885cf684a5c856367c9965575fb32054497a8` has an open approver-path finding. Proposed v1.6 corrections and the amended plan require fresh reassessment. G1 remains blocked pending owner designation of commissioning authority, external council trust-record source/admission procedure, initial council decision-maker evidence, and approver authentication method. The 24 October receipt records authentication direction only. G2 remains excluded and blocked until G1 acceptance and owner merge.
 
 Historical snapshot prepared 21 October 2026 (Australia/Melbourne); superseded by the current checkpoint above. At that time, the receipt-only PR #37 and M0 review were being tracked against then-current main `6761cd6adcd9f922aed939ccafb75f81cf7eba62`. The then-current execution base was `d4921eb1c37550d9ca1b53a5615242922abfa4ad`. M0 architecture/backlog acceptance remains distinct from functional acceptance. See the [final assessment](evidence/M0-independent-assessment-a1a9a9a.md).
 
@@ -27,7 +27,7 @@ Headers show department/role identity, not personal names. Shared lifecycle pres
 
 ## Read order and deliverables
 
-0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.1.2; amended plan and G1 reassessment pending).
+0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.1.3; amended plan and G1 reassessment pending).
 
 1. [Luna execution handoff](execution-checkpoint.md).
 2. [Reference and gap matrix](reference-and-gap-matrix.md).
