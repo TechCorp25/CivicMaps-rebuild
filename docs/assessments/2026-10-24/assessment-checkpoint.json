@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "date": "2026-10-24",
+  "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+  "baselineCommit": "346dfd2d74cdd52d88bf9e4b7bd046a500a4c390",
+  "baselineTree": "adeb4903db4d07633c99d7fd10f140f6a244af8b",
+  "branch": "codex/civicmaps-code-quality-assessment-2026-10-24",
+  "assessment": "assessment.md",
+  "plan": "remediation-plan.md",
+  "findings": "findings.json",
+  "scope": "Current-main engineering quality assurance; no governance hold or feature implementation",
+  "assessmentStatus": "completed_with_explicit_coverage_limits",
+  "remediationStatus": "proposed_not_started",
+  "independentAssessmentStatus": "pass_on_frozen_product_43423d7",
+  "publicationStatus": "draft_PR43_verified_remote_43423d7",
+  "empiricalStatus": "complete_plan_recorded_and_read_back_byte_equal",
+  "nextAction": "Owner review of published QA product; next implementation starts with Q1 parser/advisory package under established lifecycle. No implementation, merge or deployment performed in this assessment.",
+  "securityCoverage": {
+    "dependencyAudit": "completed_one_high_advisory",
+    "sourceReview": "completed_with_reported_limits",
+    "codexSecurityDeepScan": "unavailable_missing_coordinator",
+    "liveTesting": "not_performed"
+  },
+  "verification": {
+    "postgres15FullCheck": {
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0
+    },
+    "postgres17Tests": {
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0
+    },
+    "commandmapsBrowser": "initial_PG17_failure_then_PG17_and_PG15_pass",
+    "platformBrowser": "PG17_and_PG15_pass",
+    "activationBrowser": "PG17_and_PG15_pass",
+    "caddyIngress": "pass_loopback_HTTP",
+    "cfnLint": "pass_ap-southeast-2",
+    "ruffBaseline": "three_diagnostics_outside_current_CI"
+  },
+  "prohibitedByScope": [
+    "feature_implementation",
+    "merge",
+    "deployment",
+    "cloud_mutation",
+    "customer_data_operations"
+  ],
+  "empiricalPlanMemoryId": "6adcb100ba781229b953f72c",
+  "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
+  "independentAssessment": {
+    "candidate": "43423d7671468417914dc2d15841f59fd0ede0e8",
+    "tree": "36edf45b17f2c9ea7de023521b5f10ea625a923a",
+    "report": "evidence/independent-review-43423d7.md",
+    "sha256": "2fd259d30450cbf5c532831d717f36e552c5cfc6adcef6d8d68c2e812308526a",
+    "auditor": "GPT-6 Astra",
+    "reasoning": "low",
+    "freshContext": true,
+    "scope": "Assessment/report and proposed remediation plan; does not accept fixes or certify codebase"
+  },
+  "pullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/43",
+  "runtimeReady": {
+    "environmentFile": "/workspace/.assessment-2026-10-24-pg15/session-env.sh",
+    "database": "dedicated_synthetic_loopback_55440",
+    "migrationsAndSeeds": "passed_on_new_dedicated_database",
+    "evidence": "evidence/development-bootstrap-pg15.log"
+  }
+}

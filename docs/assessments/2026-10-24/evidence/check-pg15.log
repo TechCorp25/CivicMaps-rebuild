@@ -1,0 +1,241 @@
+
+> civicmaps-local@0.1.0 check
+> npm run lint && npm run format:check && npm run typecheck && npm run build && npm test
+
+
+> civicmaps-local@0.1.0 lint
+> node node_modules/eslint/bin/eslint.js . --max-warnings=0
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> civicmaps-local@0.1.0 format:check
+> node node_modules/prettier/bin/prettier.cjs --check "apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}" "{services/api,scripts,tests}/**/*.mjs" "eslint.config.mjs" ".prettierrc.json" "package.json" ".github/workflows/ci.yml"
+
+Checking formatting...
+All matched files use Prettier code style!
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> civicmaps-local@0.1.0 typecheck
+> npm --prefix apps/commandmaps run typecheck && npm --prefix apps/civicmaps-platform run typecheck
+
+
+> @civicmaps/commandmaps@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> @civicmaps/civicmaps-platform@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> civicmaps-local@0.1.0 build
+> npm run tokens && npm --prefix apps/commandmaps run build && npm --prefix apps/civicmaps-platform run build
+
+
+> civicmaps-local@0.1.0 tokens
+> node scripts/generate-tokens.mjs
+
+Canonical CivicMAPS tokens generated
+
+> @civicmaps/commandmaps@0.1.0 build
+> node ../../node_modules/typescript/bin/tsc --noEmit && node ../../scripts/vite.mjs build
+
+vite v6.4.4 building for production...
+transforming...
+✓ 1584 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                  0.40 kB │ gzip:  0.28 kB
+dist/assets/DMSans-VariableFont_opsz_wght-D_B5dL4R.ttf         238.98 kB
+dist/assets/DMSans-Italic-VariableFont_opsz_wght-CT59GZwy.ttf  283.52 kB
+dist/assets/index-BdUhjxuC.css                                  22.15 kB │ gzip:  5.30 kB
+dist/assets/index-XJ5I2avy.js                                  237.79 kB │ gzip: 73.48 kB
+✓ built in 2.32s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> @civicmaps/civicmaps-platform@0.1.0 build
+> node ../../node_modules/typescript/bin/tsc --noEmit && node ../../scripts/vite.mjs build
+
+vite v6.4.4 building for production...
+transforming...
+✓ 1586 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                           0.53 kB │ gzip:  0.35 kB
+dist/assets/DMSans-VariableFont_opsz_wght-D_B5dL4R.ttf  238.98 kB
+dist/assets/index-C7DT0TPs.css                           17.02 kB │ gzip:  4.13 kB
+dist/assets/index-0aPLI-Ib.js                           236.05 kB │ gzip: 72.34 kB
+✓ built in 2.30s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> civicmaps-local@0.1.0 test
+> node --test 'tests/**/*.test.mjs'
+
+✔ F07 populated upgrade and replay preserve pending registration, credentials, contexts and sessions without activation (2099.238703ms)
+API operation failed: synthetic owner write rejected
+✔ F07 issuance, atomic activation, explicit least privilege, recovery and disable preserve ownership (3131.670673ms)
+✔ admission gate rejects without queueing and releases permits idempotently (1.096728ms)
+✔ upgrade preserves records, passwords and legacy receipts without inferred capture or unknown grants (1049.814663ms)
+✔ repeated migrations and seeds preserve grants and never resurrect revocations (1127.843828ms)
+✔ migration aborts atomically on an unclassified pre-existing principal (420.495572ms)
+✔ 004 upgrade gates all operational tables on a complete consistent context and resets on reuse (1059.861102ms)
+✔ database gate denies ungranted actors and ineffective bindings or grants (47.00514ms)
+✔ ownership constraints and grants protect session and council pairs independently of API checks (10.991697ms)
+✔ ownership migration retires only the canonical synthetic grant and rolls back unsafe collisions (3621.276416ms)
+✔ populated D02 owners migrate without changing Alpha access or disabled Beta history (1070.182783ms)
+✔ F05 upgrade and seed replay preserve F04 history without provisioning it (1717.974782ms)
+✔ resource identifiers are stable and reject SQL/path injection (1127.303191ms)
+✔ explicit AWS profile checkpoints registry without promoting historical jobs (30.346601ms)
+✔ backend denies unbound context, forged selector and tampered resource registry before external access (12.058395ms)
+✔ resource status helper skips storage credentials and denies revoked or disabled scope before connection (15.980856ms)
+✔ data schema upgrade rolls back failure and preserves populated records on retry/replay (27.164856ms)
+✔ maintenance pause and two-municipality capacity reject new jobs before effects (4.543792ms)
+Idle PostgreSQL client error { code: '57P01' }
+✔ an idle PostgreSQL client error is handled and the shared pool recovers (768.648769ms)
+✔ authentication denies missing and invalid credentials; cookie is HttpOnly and Strict (1263.00924ms)
+✔ request pages and counts stay complete and scoped to each authorised actor (165.059993ms)
+✔ creation is persisted and client ownership or number fields are rejected (39.984567ms)
+✔ queue filters, counts and keyset pages retain older active work and scope (190.097408ms)
+✔ scope denies cross-tenant list, audit, mutation and officer assignment (69.016749ms)
+✔ database row controls deny unset context and each mismatched scope dimension (41.480501ms)
+✔ officer and supervisor permissions are enforced on server (40.011716ms)
+✔ dispatch to acknowledgement, attendance and closure records all transitions (90.362757ms)
+✔ action reasons reject malformed JSON before mutation and preserve allowed audit values (69.372305ms)
+✔ parallel duplicate retries create exactly one request and audit event (43.740163ms)
+✔ competing updates with the same version cannot both commit (39.887226ms)
+✔ missing CSRF and hostile browser origins are denied without persistence (8.822152ms)
+✔ deactivation and logout revoke existing sessions (15.151858ms)
+✔ 001-foundation tolerates concurrent cluster role creation (50.225383ms)
+✔ 003-platform tolerates concurrent cluster role creation (36.049915ms)
+✔ 006-provisioning-jobs tolerates concurrent cluster role creation (16.432761ms)
+✔ single context restores resolved scope; selectors and platform sessions cannot forge it (1490.627922ms)
+✔ wrong-council login is generic and replacing a cookie does not revoke another principal session (278.338723ms)
+✔ shared Alpha principal is restricted to Alpha after owner decision superseded cross-council fixture grant (223.702183ms)
+✔ principal ownership is data-driven for a third council (128.4892ms)
+✔ missing grants, future/expired/revoked bindings and grants fail closed on existing sessions (622.000887ms)
+✔ revocation prevents old receipt replay and preserves the stored origin (135.817368ms)
+✔ a replacement binding version preserves historical capture and scope-safe access (148.145693ms)
+✔ committed revocation wins over a request waiting to resolve the binding (109.690906ms)
+✔ binding and grant revocation wait for an already resolved transaction (120.176064ms)
+✔ app roles cannot author structures or expose other context grants (6.380415ms)
+✔ effective periods include the lower bound and exclude the upper bound using database time (176.586132ms)
+✔ synthetic reseed rejects UUID collisions and preserves revoked grants (1787.402688ms)
+✔ populated F07 upgrade preserves identities, sessions and captured history; only explicit fixtures gain parking and replay never re-enables it (2272.884257ms)
+✔ stable catalogue preserves labels and aliases without granting unrelated registrations parking (2031.635398ms)
+✔ freshly seeded workload IDs drive pack detail and disable audit counts (28.02679ms)
+✔ unmapped contexts fail closed without rewriting bindings or affecting other councils (33.362189ms)
+✔ disable denies stale sessions and receipt replay while retaining authorised request/audit scope; re-enable adds audited version (216.790222ms)
+✔ a direct application write holds disable until commit; a write waiting behind disable observes denial (92.992385ms)
+✔ operator and council cookies cannot cross authentication boundaries (1473.640661ms)
+✔ registration retries persist one pending council/admin/audit without issuing credentials (66.995176ms)
+✔ duplicate slug and email registrations leave no partial rows (141.985633ms)
+✔ slug, catalogue and unknown-field validation reject invalid registration (76.724241ms)
+✔ pack confirmations, retry receipts and concurrent versions retain records (80.866637ms)
+✔ CSRF and hostile origins deny changes without side effects (6.792289ms)
+✔ database roles cannot read the opposite plane (4.555751ms)
+✔ operator deactivation and logout revoke platform sessions (13.723676ms)
+✔ registration atomically enqueues one job and secret-free steps; replay remains safe (1380.259681ms)
+API operation failed: Synthetic enqueue unavailable
+✔ enqueue failure rolls back council, admin, receipt and audit (125.862698ms)
+✔ two workers claim one lease, skip locked jobs and reject late checkpoints (91.081397ms)
+✔ separate worker processes recover crashes before and after effect without duplicate resources (686.722225ms)
+✔ automatic retries are bounded; operator retry/reconcile preserve successful checkpoints (171.29141ms)
+✔ repeated crashes exhaust the lease attempt budget without endless restarts (98.543946ms)
+✔ job controls deny council sessions, missing CSRF, hostile origin and mismatched resource IDs (151.007347ms)
+✔ interleaved councils retain resource and audit ownership; runtime roles stay separated (137.862857ms)
+✔ simultaneous retry actions with different keys cannot start two recovery cycles (71.876241ms)
+✔ repeat migration and seeds retain jobs, resource IDs, passwords and audit history (1170.298227ms)
+✔ release verification cleans owned restore databases after success, assertion failure and interruption (2928.800033ms)
+✔ server search is literal, scoped, count-complete and independently selects detail (1318.555246ms)
+✔ displayed references retain seven-digit padding and longer bigint numbers (95.520564ms)
+API operation failed: synthetic delayed provider failure
+✔ status admission rejects excess checks while unrelated API work proceeds and always releases (1331.567775ms)
+✔ bootstrap preserves registry identities, replays owned routes and rejects conflicting ownership (1700.62688ms)
+✔ routing retry upgrade and replay preserve ownership, sessions, history and compatible restricted-role reads (2395.085006ms)
+✔ all product labels fit DNS at registry boundaries and mapping is repeatable (1.849871ms)
+✔ long shared prefixes and reserved-prefix registry slugs cannot collide (0.208548ms)
+✔ missing or malformed identity and unrecognised products fail before route creation (0.308246ms)
+✔ acceptance aliases are reserved to their immutable fixture identities (0.14094ms)
+✔ F06 upgrade retains F05 resources/history and historical sessions without implicit routing (1850.407661ms)
+✔ token upgrade preserves owned routes and registry data, and rejects incompatible history (1314.179502ms)
+API operation failed: F05 target configuration is incomplete
+✔ authority canonicalisation and untrusted/forged forwarding fail closed (34.669408ms)
+API operation failed: Web service unavailable
+✔ ingress serves each owned web app before the API 404 boundary (20.238742ms)
+✔ login, manually copied cookies, context and origins are bound to exact route (728.072047ms)
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+✔ resource failure, stale probes, withdrawal/version and retries fail closed and preserve history (110.626167ms)
+✔ route worker reconciles exact identity, rejects mismatches and fences a stale completion (17.756547ms)
+✔ read-only broker takes authentication/context locks without identity update grants (13.101821ms)
+API operation failed: Service route unavailable
+✔ Platform transient retry is durable, bounded, fenced and recoverable only by an operator (179.510216ms)
+✔ login limits isolate clients and routes, and limit one identity across addresses (1752.672145ms)
+API operation failed: Service route unavailable
+✔ repeated crashed routing leases exhaust the durable attempt budget and retain audit (17.591248ms)
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+✔ legacy ready routes start a fresh three-claim budget for failed rechecks (57.353924ms)
+API operation failed: Service route unavailable
+✔ crashes during a legacy ready-route recheck consume the same finite budget (29.381932ms)
+ℹ tests 94
+ℹ suites 0
+ℹ pass 94
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 53865.283085
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

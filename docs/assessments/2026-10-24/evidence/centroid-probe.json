@@ -1,0 +1,15 @@
+{
+  "samePolygonGeometry": true,
+  "areaCentroid": [
+    5,
+    5
+  ],
+  "originalResult": [
+    4,
+    4
+  ],
+  "resampledResult": [
+    4.642857142857143,
+    1.4285714285714286
+  ]
+}

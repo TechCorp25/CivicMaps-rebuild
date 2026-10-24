@@ -1,0 +1,23 @@
+[
+  {
+    "encoding": "gzip",
+    "responseStatus": 400,
+    "requestError": null,
+    "unexpectedExit": false,
+    "stderr": ""
+  },
+  {
+    "encoding": "deflate",
+    "responseStatus": 404,
+    "requestError": null,
+    "unexpectedExit": false,
+    "stderr": ""
+  },
+  {
+    "encoding": "br",
+    "responseStatus": 404,
+    "requestError": null,
+    "unexpectedExit": false,
+    "stderr": ""
+  }
+]

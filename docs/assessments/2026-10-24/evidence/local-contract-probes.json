@@ -1,0 +1,32 @@
+{
+  "scrypt": {
+    "calls": 10,
+    "blockingBatchMs": 537.703765,
+    "timerDelayMs": 574.12897
+  },
+  "malformedHash": "ERR_CRYPTO_TIMING_SAFE_EQUAL_LENGTH",
+  "pool": {
+    "max": 10,
+    "connectionTimeoutMillis": 0,
+    "statement_timeout": 0,
+    "query_timeout": 0,
+    "lock_timeout": 0
+  },
+  "naming": [
+    {
+      "slug": "alpha",
+      "displayed": "alpha-commandmaps.dev.civicmaps.com.au",
+      "authoritative": "id-12345678123442348234123456789abc-commandmaps.dev.civicmaps.com.au"
+    },
+    {
+      "slug": "id-melbourne",
+      "displayed": "id-melbourne-commandmaps.dev.civicmaps.com.au",
+      "authoritative": "id-12345678123442348234123456789abc-commandmaps.dev.civicmaps.com.au"
+    },
+    {
+      "slug": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "displayed": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-commandmaps.dev.civicmaps.com.au",
+      "authoritative": "id-12345678123442348234123456789abc-commandmaps.dev.civicmaps.com.au"
+    }
+  ]
+}

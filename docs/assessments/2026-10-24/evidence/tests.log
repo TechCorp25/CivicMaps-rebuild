@@ -1,0 +1,132 @@
+
+> civicmaps-local@0.1.0 test
+> node --test 'tests/**/*.test.mjs'
+
+✔ F07 populated upgrade and replay preserve pending registration, credentials, contexts and sessions without activation (4452.780956ms)
+API operation failed: synthetic owner write rejected
+✔ F07 issuance, atomic activation, explicit least privilege, recovery and disable preserve ownership (3702.046577ms)
+✔ admission gate rejects without queueing and releases permits idempotently (3.199219ms)
+✔ upgrade preserves records, passwords and legacy receipts without inferred capture or unknown grants (1219.52157ms)
+✔ repeated migrations and seeds preserve grants and never resurrect revocations (2282.097875ms)
+✔ migration aborts atomically on an unclassified pre-existing principal (654.912265ms)
+✔ 004 upgrade gates all operational tables on a complete consistent context and resets on reuse (1095.221795ms)
+✔ database gate denies ungranted actors and ineffective bindings or grants (65.947537ms)
+✔ ownership constraints and grants protect session and council pairs independently of API checks (11.752143ms)
+✔ ownership migration retires only the canonical synthetic grant and rolls back unsafe collisions (4450.981589ms)
+✔ populated D02 owners migrate without changing Alpha access or disabled Beta history (1253.918756ms)
+✔ F05 upgrade and seed replay preserve F04 history without provisioning it (3637.298516ms)
+✔ resource identifiers are stable and reject SQL/path injection (1139.597022ms)
+✔ explicit AWS profile checkpoints registry without promoting historical jobs (34.463842ms)
+✔ backend denies unbound context, forged selector and tampered resource registry before external access (12.269369ms)
+✔ resource status helper skips storage credentials and denies revoked or disabled scope before connection (17.488983ms)
+✔ data schema upgrade rolls back failure and preserves populated records on retry/replay (31.946438ms)
+✔ maintenance pause and two-municipality capacity reject new jobs before effects (4.006531ms)
+Idle PostgreSQL client error { code: '57P01' }
+✔ an idle PostgreSQL client error is handled and the shared pool recovers (801.569139ms)
+✔ authentication denies missing and invalid credentials; cookie is HttpOnly and Strict (1416.406339ms)
+✔ request pages and counts stay complete and scoped to each authorised actor (165.09913ms)
+✔ creation is persisted and client ownership or number fields are rejected (51.266741ms)
+✔ queue filters, counts and keyset pages retain older active work and scope (185.306418ms)
+✔ scope denies cross-tenant list, audit, mutation and officer assignment (60.589206ms)
+✔ database row controls deny unset context and each mismatched scope dimension (54.167348ms)
+✔ officer and supervisor permissions are enforced on server (47.315133ms)
+✔ dispatch to acknowledgement, attendance and closure records all transitions (110.132897ms)
+✔ action reasons reject malformed JSON before mutation and preserve allowed audit values (78.552121ms)
+✔ parallel duplicate retries create exactly one request and audit event (42.917995ms)
+✔ competing updates with the same version cannot both commit (46.097695ms)
+✔ missing CSRF and hostile browser origins are denied without persistence (12.22043ms)
+✔ deactivation and logout revoke existing sessions (15.612915ms)
+✔ 001-foundation tolerates concurrent cluster role creation (57.785746ms)
+✔ 003-platform tolerates concurrent cluster role creation (37.281151ms)
+✔ 006-provisioning-jobs tolerates concurrent cluster role creation (39.33503ms)
+✔ single context restores resolved scope; selectors and platform sessions cannot forge it (1382.22116ms)
+✔ wrong-council login is generic and replacing a cookie does not revoke another principal session (251.009817ms)
+✔ shared Alpha principal is restricted to Alpha after owner decision superseded cross-council fixture grant (210.714295ms)
+✔ principal ownership is data-driven for a third council (100.899022ms)
+✔ missing grants, future/expired/revoked bindings and grants fail closed on existing sessions (616.318667ms)
+✔ revocation prevents old receipt replay and preserves the stored origin (131.009706ms)
+✔ a replacement binding version preserves historical capture and scope-safe access (159.606106ms)
+✔ committed revocation wins over a request waiting to resolve the binding (121.015048ms)
+✔ binding and grant revocation wait for an already resolved transaction (97.285594ms)
+✔ app roles cannot author structures or expose other context grants (8.354033ms)
+✔ effective periods include the lower bound and exclude the upper bound using database time (184.934258ms)
+✔ synthetic reseed rejects UUID collisions and preserves revoked grants (2257.219938ms)
+✔ populated F07 upgrade preserves identities, sessions and captured history; only explicit fixtures gain parking and replay never re-enables it (2494.673175ms)
+✔ stable catalogue preserves labels and aliases without granting unrelated registrations parking (1651.891396ms)
+✔ freshly seeded workload IDs drive pack detail and disable audit counts (26.542299ms)
+✔ unmapped contexts fail closed without rewriting bindings or affecting other councils (25.736208ms)
+✔ disable denies stale sessions and receipt replay while retaining authorised request/audit scope; re-enable adds audited version (249.469817ms)
+✔ a direct application write holds disable until commit; a write waiting behind disable observes denial (176.886981ms)
+✔ operator and council cookies cannot cross authentication boundaries (1665.067656ms)
+✔ registration retries persist one pending council/admin/audit without issuing credentials (71.904139ms)
+✔ duplicate slug and email registrations leave no partial rows (144.135431ms)
+✔ slug, catalogue and unknown-field validation reject invalid registration (76.023022ms)
+✔ pack confirmations, retry receipts and concurrent versions retain records (93.892648ms)
+✔ CSRF and hostile origins deny changes without side effects (7.835636ms)
+✔ database roles cannot read the opposite plane (6.142155ms)
+✔ operator deactivation and logout revoke platform sessions (20.442342ms)
+✔ registration atomically enqueues one job and secret-free steps; replay remains safe (1567.669153ms)
+API operation failed: Synthetic enqueue unavailable
+✔ enqueue failure rolls back council, admin, receipt and audit (125.184935ms)
+✔ two workers claim one lease, skip locked jobs and reject late checkpoints (80.198903ms)
+✔ separate worker processes recover crashes before and after effect without duplicate resources (751.409377ms)
+✔ automatic retries are bounded; operator retry/reconcile preserve successful checkpoints (173.640821ms)
+✔ repeated crashes exhaust the lease attempt budget without endless restarts (92.062552ms)
+✔ job controls deny council sessions, missing CSRF, hostile origin and mismatched resource IDs (151.51024ms)
+✔ interleaved councils retain resource and audit ownership; runtime roles stay separated (130.357814ms)
+✔ simultaneous retry actions with different keys cannot start two recovery cycles (84.549236ms)
+✔ repeat migration and seeds retain jobs, resource IDs, passwords and audit history (1390.216976ms)
+✔ release verification cleans owned restore databases after success, assertion failure and interruption (4365.638904ms)
+✔ server search is literal, scoped, count-complete and independently selects detail (1420.674826ms)
+✔ displayed references retain seven-digit padding and longer bigint numbers (114.29693ms)
+API operation failed: synthetic delayed provider failure
+✔ status admission rejects excess checks while unrelated API work proceeds and always releases (1403.106919ms)
+✔ bootstrap preserves registry identities, replays owned routes and rejects conflicting ownership (1577.325363ms)
+✔ routing retry upgrade and replay preserve ownership, sessions, history and compatible restricted-role reads (3014.370753ms)
+✔ all product labels fit DNS at registry boundaries and mapping is repeatable (2.044874ms)
+✔ long shared prefixes and reserved-prefix registry slugs cannot collide (0.295984ms)
+✔ missing or malformed identity and unrecognised products fail before route creation (0.440046ms)
+✔ acceptance aliases are reserved to their immutable fixture identities (0.170363ms)
+✔ F06 upgrade retains F05 resources/history and historical sessions without implicit routing (2399.536784ms)
+✔ token upgrade preserves owned routes and registry data, and rejects incompatible history (1511.425663ms)
+API operation failed: F05 target configuration is incomplete
+✔ authority canonicalisation and untrusted/forged forwarding fail closed (43.953694ms)
+API operation failed: Web service unavailable
+✔ ingress serves each owned web app before the API 404 boundary (22.561656ms)
+✔ login, manually copied cookies, context and origins are bound to exact route (889.138214ms)
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+✔ resource failure, stale probes, withdrawal/version and retries fail closed and preserve history (155.83172ms)
+✔ route worker reconciles exact identity, rejects mismatches and fences a stale completion (26.955094ms)
+✔ read-only broker takes authentication/context locks without identity update grants (20.629227ms)
+API operation failed: Service route unavailable
+✔ Platform transient retry is durable, bounded, fenced and recoverable only by an operator (176.259342ms)
+✔ login limits isolate clients and routes, and limit one identity across addresses (2020.577226ms)
+API operation failed: Service route unavailable
+✔ repeated crashed routing leases exhaust the durable attempt budget and retain audit (22.151157ms)
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+✔ legacy ready routes start a fresh three-claim budget for failed rechecks (59.474052ms)
+API operation failed: Service route unavailable
+✔ crashes during a legacy ready-route recheck consume the same finite budget (18.361479ms)
+ℹ tests 94
+ℹ suites 0
+ℹ pass 94
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 66455.394314
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

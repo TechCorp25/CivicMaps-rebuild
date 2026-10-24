@@ -1,0 +1,102 @@
+{
+  "trackedFiles": 997,
+  "extensions": {
+    ".example": 2,
+    ".yml": 1,
+    "": 73,
+    ".json": 109,
+    ".md": 253,
+    ".pdf": 2,
+    ".js": 11,
+    ".png": 58,
+    ".svg": 2,
+    ".css": 7,
+    ".ttf": 150,
+    ".ts": 7,
+    ".jsx": 28,
+    ".html": 154,
+    ".tsx": 11,
+    ".mjs": 74,
+    ".csv": 2,
+    ".xlsx": 1,
+    ".sha256": 7,
+    ".txt": 7,
+    ".gz": 6,
+    ".sh": 5,
+    ".log": 4,
+    ".docx": 1,
+    ".py": 2,
+    ".guard": 2,
+    ".service": 3,
+    ".sql": 15
+  },
+  "largestTrackedFiles": [
+    [
+      "_ds/uploads/Screenshot 2026-08-09 17.14.29-2a6c3866.png",
+      1070412
+    ],
+    [
+      "_ds/uploads/Screenshot 2026-08-09 17.14.29.png",
+      1070412
+    ],
+    [
+      "_ds/CivicMAPS Design System.pdf",
+      877437
+    ],
+    [
+      "docs/parking-areas/sign-plate-to-parking-area/sign-plates-located-in-each-parking-zone.json",
+      329448
+    ],
+    [
+      "_ds/uploads/Screenshot 2026-08-09 17.16.08.png",
+      317840
+    ],
+    [
+      "docs/plans/evidence/governance-review-2026-10-18/triage-result.json",
+      312799
+    ],
+    [
+      "docs/plans/dispatch-build/evidence/M1-audit-d905b85/m1-discovery-desktop.png",
+      312460
+    ],
+    [
+      "docs/plans/dispatch-build/evidence/P0-audit-v1.1.0/inputs/docs/plans/dispatch-build/evidence/M1-audit-d905b85/m1-discovery-desktop.png",
+      312460
+    ],
+    [
+      "_ds/civicmaps-design-system-99ee051b-1cbe-44d2-8c2f-c6bf19b33f1c/fonts/DMSans-Italic-VariableFont_opsz_wght.ttf",
+      283524
+    ],
+    [
+      "_ds/fonts/DMSans-Italic-VariableFont_opsz_wght.ttf",
+      283524
+    ]
+  ],
+  "placeholderManifests": [
+    "apps/enforcementmaps-mobile/package.json",
+    "apps/enforcementmaps-web/package.json",
+    "apps/public-portal/package.json",
+    "domains/asset-management/package.json",
+    "domains/audit-records/package.json",
+    "domains/calendar-business-time/package.json",
+    "domains/case-investigations/package.json",
+    "domains/controlled-data-exchange/package.json",
+    "domains/emergency-response/package.json",
+    "domains/evidence-collection/package.json",
+    "domains/gis-operations/package.json",
+    "domains/identity-access/package.json",
+    "domains/identity-federation/package.json",
+    "domains/infringement-management/package.json",
+    "domains/legislative-policy-catalogue/package.json",
+    "domains/notification-delivery/package.json",
+    "domains/officer-management/package.json",
+    "domains/organisation-jurisdiction-tenancy/package.json",
+    "domains/recipient-groups/package.json",
+    "domains/reporting-analytics/package.json",
+    "domains/service-requests-dispatch/package.json",
+    "domains/shared-reference-data/package.json",
+    "domains/workflow-configuration/package.json"
+  ],
+  "secretPatternMatches": [],
+  "secretScanLimit": "Current tracked text files <2MB; three specific credential/key formats only; not generic secret detection or history scanning"
+}

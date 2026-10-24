@@ -1,0 +1,11 @@
+{"level":"info","ts":1792847454.903288,"msg":"using config from file","file":"infrastructure/f06/Caddyfile"}
+{"level":"warn","ts":1792847454.9052224,"logger":"caddyfile","msg":"Unnecessary header_up Host: the reverse proxy's default behavior is to pass headers to the upstream"}
+{"level":"warn","ts":1792847454.905262,"logger":"caddyfile","msg":"Unnecessary header_up X-Forwarded-Host: the reverse proxy's default behavior is to pass headers to the upstream"}
+{"level":"info","ts":1792847454.9073918,"msg":"adapted config to JSON","adapter":"caddyfile"}
+{"level":"info","ts":1792847454.908198,"logger":"http.auto_https","msg":"server is listening only on the HTTPS port but has no TLS connection policies; adding one to enable TLS","server_name":"srv0","https_port":443}
+{"level":"info","ts":1792847454.9082675,"logger":"http.auto_https","msg":"automatic HTTP->HTTPS redirects are disabled","server_name":"srv0"}
+{"level":"warn","ts":1792847454.9082716,"logger":"http.auto_https","msg":"server is listening only on the HTTP port, so no automatic HTTPS will be applied to this server","server_name":"srv1","http_port":80}
+{"level":"info","ts":1792847454.9096508,"logger":"tls.cache.maintenance","msg":"started background certificate maintenance","cache":"0xc0005fc680"}
+{"level":"info","ts":1792847454.9177516,"logger":"http","msg":"servers shutting down with eternal grace period"}
+{"level":"info","ts":1792847454.91804,"logger":"tls.cache.maintenance","msg":"stopped background certificate maintenance","cache":"0xc0005fc680"}
+Valid configuration

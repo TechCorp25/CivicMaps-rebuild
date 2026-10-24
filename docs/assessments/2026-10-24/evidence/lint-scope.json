@@ -1,0 +1,18 @@
+[
+  {
+    "file": "domains/service-requests-dispatch/lifecycle.mjs",
+    "hasConfiguredRules": 0
+  },
+  {
+    "file": "geo-data/fetch-com-roads.mjs",
+    "hasConfiguredRules": 0
+  },
+  {
+    "file": "services/api/app.mjs",
+    "hasConfiguredRules": 64
+  },
+  {
+    "file": "apps/commandmaps/src/main.tsx",
+    "hasConfiguredRules": 48
+  }
+]
