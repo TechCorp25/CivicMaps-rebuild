@@ -72,13 +72,24 @@
     "package": "Q1",
     "branch": "codex/civicmaps-quality-q1",
     "packageBase": "ea76b23f15b0d13feada592a88b14b587f8b12de",
-    "implementationCommit": null,
-    "candidateCommit": null,
+    "implementationCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
+    "candidateCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
     "localAcceptance": "passed",
-    "publication": "pending_single_integration_writer",
-    "independentAssessment": "pending_fresh_GPT-6_Astra_Low",
+    "publication": "verified_remote",
+    "independentAssessment": "pass",
     "merge": "not_authorised",
     "deployment": "not_authorised",
-    "evidenceDirectory": "evidence/"
+    "evidenceDirectory": "evidence/",
+    "runtimeEnvironment": "/workspace/work/quality-bootstrap/session-env.sh",
+    "acceptedCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
+    "auditorReport": "evidence/q1-independent/report.md",
+    "auditorReportSha256": "945b84dc6832137a1893ef905e270c12980fcd9b84621c1a2103aeb3fc7eef7d",
+    "nextAction": "Q2 active on isolated package branch codex/civicmaps-quality-q2",
+    "hostedCI": {
+      "candidate": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
+      "applicationRun": 40139639476,
+      "advisoryRun": 40139639375,
+      "status": "success"
+    }
   }
 }

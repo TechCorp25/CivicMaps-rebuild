@@ -35,19 +35,22 @@
         "evidence/q1-check.log",
         "evidence/q1-lockfile.diff"
       ],
-      "status": "implemented_pending_independent_review",
-      "implementationCommit": null,
+      "status": "accepted",
+      "implementationCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
       "closureEvidence": {
-        "implementationCommit": null,
-        "candidateCommit": null,
+        "implementationCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
+        "candidateCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
         "localChecks": [
           "npm run setup",
           "npm run check (95 passed, 0 failed, 0 skipped)",
           "focused compressed-body child-process regression",
           "npm audit production and complete tree (0 findings)"
         ],
-        "independentAssessment": "pending"
-      }
+        "independentAssessment": "pending",
+        "independentReport": "evidence/q1-independent/report.md",
+        "acceptedCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0"
+      },
+      "acceptedCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0"
     },
     {
       "id": "QA02",
@@ -400,7 +403,16 @@
         "advisory": "implemented_pending_independent_review",
         "python": "open_Q5",
         "infrastructure": "open_Q5"
-      }
+      },
+      "advisoryDisposition": {
+        "status": "accepted",
+        "acceptedCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
+        "report": "evidence/q1-independent/report.md"
+      },
+      "remainingPortions": [
+        "Python",
+        "infrastructure"
+      ]
     }
   ]
 }

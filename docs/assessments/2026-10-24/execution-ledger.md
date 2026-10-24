@@ -11,8 +11,8 @@ No merge or deployment is in scope.
 
 | Goal | Status | Implementation | Independent acceptance |
 | --- | --- | --- | --- |
-| Q1 | Implemented and locally tested; publication and review pending | Candidate commit recorded after commit | Pending fresh GPT-6 Astra Low review |
-| Q2 | Not started | — | Depends on Q1 acceptance |
+| Q1 | Accepted | `1cb963d8eee9e12e62de39fa106d439d0af61ea0` | PASS on `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
+| Q2 | In progress | Pending | Q1 dependency satisfied |
 | Q3 | Not started | — | Pending |
 | Q4 | Not started | — | Pending |
 | Q5 | Not started | — | Pending Python contract from Q4 |
@@ -20,7 +20,7 @@ No merge or deployment is in scope.
 | Q7 | Not started | — | Depends on stable Q1–Q6 baseline |
 
 Q1 covers QA01 and only the advisory portion of QA18. QA01 is implemented and
-locally tested, pending publication and independent review. QA18's advisory portion
+locally tested, published and pending independent review. QA18's advisory portion
 is implemented and tested; its Python and infrastructure checks remain open for Q5.
 No issue is marked accepted or closed before independent review.
 
@@ -70,3 +70,11 @@ Record the committed implementation SHA and exact candidate SHA, publish through
 single integration writer, then provide the pinned product, neutral Q1 task contract,
 file inventory, reproduction commands and evidence hashes to a fresh GPT-6 Astra Low
 audit context. Keep Q2 blocked until Q1 is accepted.
+
+## Publication receipt
+
+Published candidate and implementation: `1cb963d8eee9e12e62de39fa106d439d0af61ea0`; verified remote publication branch matches. Shell git push returned 403 for configured techcorp-dev credentials. Owner GitHub connector published the identical implementation tree `4368c1a7c9931f48dcabf5dd165e305335eddd46` with parent `ea76b23f15b0d13feada592a88b14b587f8b12de`. Local builder implementation `fc4799855695a2c34dad10edee853350a930f522` has the same tree; local receipt head `5cbc7093dae1bf3b96fab30d3e7b97ed5577ee99` is retained on package branch. Hosted advisory run 40139639375 passed; application run 40139639476 passed. Fresh Astra Low assessment uses detached candidate checkout.
+
+## Q1 independent acceptance
+
+Accepted exact product `1cb963d8eee9e12e62de39fa106d439d0af61ea0`. Fresh GPT-6 Astra Low report: [evidence/q1-independent/report.md](evidence/q1-independent/report.md), SHA256 `945b84dc6832137a1893ef905e270c12980fcd9b84621c1a2103aeb3fc7eef7d`. Independent setup/audit/parser/full check (95/95, zero skips), three browser suites and two Caddy checks passed. QA01 and QA18 advisory portion accepted; remaining QA18 portions stay open. Receipt commits are not the audited product identity. Q2 now active at `/workspace/work/quality-q2`, branch `codex/civicmaps-quality-q2`, stacked on accepted Q1.
