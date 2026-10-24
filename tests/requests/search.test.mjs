@@ -94,9 +94,12 @@ test('server search is literal, scoped, count-complete and independently selects
 });
 test('displayed references retain seven-digit padding and longer bigint numbers', async () => {
   for (const number of ['42', '10000000', '9223372036854775806']) {
+    // Advance only this disposable database's identity sequence; exercise normal API creation.
+    await pool.query(
+      "SELECT setval(pg_get_serial_sequence('service_requests','number'),$1::bigint,false)",
+      [number],
+    );
     const request = await create('', `Reference width ${number}`);
-    // Override only this disposable fixture; leave the identity sequence unchanged.
-    await pool.query('UPDATE service_requests SET number=$1 WHERE id=$2', [number, request.id]);
     const reference = `SR-${number.padStart(7, '0')}`;
     const result = await call(`/requests?status=all&q=${reference.toLowerCase()}`);
     assert.equal(result.status, 200);
