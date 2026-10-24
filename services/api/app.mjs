@@ -452,8 +452,8 @@ export function createApp({
     res.json(
       await scoped(req, false, async (client, actor) => {
         const visibility = `($1::text<>'OFFICER' OR assigned_officer_id=$2)`;
-        const countSearch = `($3::text IS NULL OR POSITION(LOWER($3) IN LOWER(address))>0 OR POSITION(LOWER($3) IN number::text)>0 OR POSITION(LOWER($3) IN LOWER('SR-' || LPAD(number::text,7,'0')))>0)`;
-        const pageSearch = `($5::text IS NULL OR POSITION(LOWER($5) IN LOWER(address))>0 OR POSITION(LOWER($5) IN number::text)>0 OR POSITION(LOWER($5) IN LOWER('SR-' || LPAD(number::text,7,'0')))>0)`;
+        const countSearch = `($3::text IS NULL OR POSITION(LOWER($3) IN LOWER(address))>0 OR POSITION(LOWER($3) IN number::text)>0 OR POSITION(LOWER($3) IN LOWER('SR-' || LPAD(number::text,GREATEST(7,LENGTH(number::text)),'0')))>0)`;
+        const pageSearch = `($5::text IS NULL OR POSITION(LOWER($5) IN LOWER(address))>0 OR POSITION(LOWER($5) IN number::text)>0 OR POSITION(LOWER($5) IN LOWER('SR-' || LPAD(number::text,GREATEST(7,LENGTH(number::text)),'0')))>0)`;
         const counts = before
           ? undefined
           : (

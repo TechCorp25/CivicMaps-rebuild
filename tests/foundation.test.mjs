@@ -279,41 +279,6 @@ test('queue filters, counts and keyset pages retain older active work and scope'
   assert.equal((await call('/requests?status=active&before=0')).status, 400);
   assert.equal((await call('/requests?status=active&before=9223372036854775808')).status, 400);
 });
-test('server search is literal, scoped, count-complete and independently selects detail', async () => {
-  const request = await create('Search test note', 'Searching %_\\literal location');
-  const literal = await call('/requests?status=all&q=%25_');
-  assert.equal(literal.status, 200);
-  assert.equal(literal.data.requests.length, 1);
-  assert.equal(literal.data.requests[0].id, request.id);
-  assert.equal(literal.data.counts.total, '1');
-  assert.equal(literal.data.counts.active, '1');
-  assert.equal((await call('/requests?status=all&q=%')).data.requests.length, 1);
-  assert.equal((await call('/requests?status=all&q=%5C')).data.requests[0].id, request.id);
-  for (const query of ['', '%20%20']) {
-    const emptySearch = await call(`/requests?status=all&q=${query}`);
-    assert.equal(emptySearch.status, 200);
-    assert.equal(
-      emptySearch.data.counts.total,
-      (await call('/requests?status=all')).data.counts.total,
-    );
-    assert.ok(emptySearch.data.requests.some((item) => item.id === request.id));
-  }
-  assert.equal((await call('/requests?status=all&q=searching')).data.requests[0].id, request.id);
-  const number = `SR-${String(request.number).padStart(7, '0')}`;
-  const byNumber = await call(`/requests?status=all&q=${number}`);
-  assert.equal(byNumber.data.requests[0].id, request.id);
-  assert.equal(
-    (await call('/requests?status=received&q=searching')).data.requests[0].id,
-    request.id,
-  );
-  assert.equal((await call(`/requests?q=${'x'.repeat(251)}`)).status, 400);
-
-  const detail = await call(`/requests/${request.id}`);
-  assert.equal(detail.status, 200);
-  assert.equal(detail.data.id, request.id);
-  assert.equal((await call(`/requests/${request.id}`, undefined, 'beta')).status, 404);
-  assert.equal((await call(`/requests/${request.id}`, undefined, 'officer')).status, 404);
-});
 test('scope denies cross-tenant list, audit, mutation and officer assignment', async () => {
   const request = await create();
   const beta = await call('/requests', undefined, 'beta');

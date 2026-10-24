@@ -209,6 +209,7 @@ function App() {
       const capabilities = session.entitlements.capabilities;
       if (!capabilities.includes('requests.create')) setCreating(false);
       const selectedAtStart = selectedRef.current;
+      const selectedScopeGeneration = scopeGeneration.current;
       const selectedDetailGeneration =
         !cursor && selectedAtStart && capabilities.includes('requests.read')
           ? ++detailRequestGeneration.current
@@ -243,8 +244,10 @@ function App() {
             )
           : Promise.resolve(null),
       ]);
-      if (generation !== loadGeneration.current) return null;
+      // Detail refreshes belong to their selection and scope, independently of queue paging.
       if (
+        selectedScopeGeneration === scopeGeneration.current &&
+        activeScope.current === nextScope &&
         selectedAtStart &&
         selectedRef.current === selectedAtStart &&
         selectedDetailGeneration === detailRequestGeneration.current &&
@@ -262,6 +265,7 @@ function App() {
                 : 'Request is unavailable in the current operating context.',
           });
       }
+      if (generation !== loadGeneration.current) return null;
       if ('error' in queueResult) throw queueResult.error;
       if ('error' in rosterResult) throw rosterResult.error;
       const queue = queueResult.data;

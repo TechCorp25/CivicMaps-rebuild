@@ -1,4 +1,5 @@
 import { mkdir } from 'node:fs/promises';
+import { verifyDetailDuringPagination } from './selected-detail-pagination.mjs';
 
 export async function verifyM1Discovery(page, expect) {
   const search = page.getByLabel('Search all requests');
@@ -67,6 +68,8 @@ export async function verifyM1Discovery(page, expect) {
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(queueStatus).toContainText('300 loaded results');
   await expect(page.getByRole('navigation', { name: 'Queue pages' })).toContainText('Page 2');
+
+  await verifyDetailDuringPagination(page, expect);
 
   // A server search must find an older active record without traversing preceding pages.
   await search.fill('Queue active 119');
