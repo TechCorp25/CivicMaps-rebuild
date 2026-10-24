@@ -3,7 +3,7 @@
   "date": "2026-10-23",
   "feature": "F11",
   "state": "s0_complete",
-  "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+  "baselineCommit": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
   "sessionS0": {
     "status": "complete",
     "evidencePath": "docs/plans/evidence/F11-S0-baseline-2026-10-21.md",
@@ -94,7 +94,7 @@
   ],
   "governancePR": 25,
   "verifiedRemote": {
-    "main": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "main": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
     "pr28Head": "1210cdd2d59c1d79e3b83999e4afeac0b5558c2a",
     "pr28Tree": "1f088125cf55b84da694a9d4bc504d41a2f895b9",
     "pr28Verification": "Verified remote branch snapshot on 20 October 2026 before the review fixes. Includes reconciled handoff e40ea194 and lifecycle/test-plan update 1210cdd2. This is a pinned resumption baseline, not a claim to track later PR heads; fetch and verify the current branch before continuing.",
@@ -103,8 +103,7 @@
     "pr25Status": "merged; ownership preserved",
     "pr32Head": "96b1b10d38054dc5ea24a379fa3d37d3e1b5c5ac",
     "pr32Merge": "ddc1810f6afc9bfbc2563cdf2d8741778fcaf768",
-    "pr32Status": "merged; F-002 is owned by main and must not be duplicated",
-    "verification": "GitHub API confirmed main exact SHA and PR37 merge; local checkout unavailable."
+    "pr32Status": "merged; F-002 is owned by main and must not be duplicated"
   },
   "historicalAudit": {
     "status": "superseded_incomplete_wrong_scope_packet",
@@ -157,7 +156,7 @@
     "status": "P0_v1.1.0_findings_addressed_v1.1.1_reassessment_pending",
     "goals": {
       "P0": "published_review_pending",
-      "M1": "blocked_environment_unavailable",
+      "M1": "planned",
       "G1": "planned"
     },
     "executor": {
@@ -184,10 +183,10 @@
     "planSha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180"
   },
   "phaseM1G1Status": {
-    "date": "2026-10-23",
+    "date": "2026-10-24",
     "planPath": "docs/plans/dispatch-build/next-build-phase.md",
     "planVersion": "1.1.1",
-    "verifiedMain": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+    "verifiedMain": "c92667e8bd9b12055f2714bac16e6d97008c0d70",
     "m1": {
       "status": "accepted",
       "functionalCandidate": "ff894d664d4cafe049c47d1e83c79ab421a20831",
@@ -205,9 +204,10 @@
       "auditReportSha256": "d23a1a9cca4149c322e2790804c1bedc37c57be7237cf9bd2bdf90c3dc9d2123",
       "auditPacketPath": "docs/plans/dispatch-build/evidence/M1-audit-d905b85/",
       "localLimit": "Database setup unavailable (initdb absent/connection EPERM); hosted PostgreSQL-backed CI passed.",
-      "currentPrHead": "8c6cce9fcbfc0c813dc916aec18410459c2a2ee4",
-      "currentPrTree": "2cc566026973ae9688f68b5c99c024d000dd171e",
-      "ownerMerge": "required_before_dependent_implementation"
+      "currentPrHead": "144b2894f6cf81e79e544ce1db1a7d1678fc9109",
+      "currentPrTree": "0697ee5ae21ff239ab6486768996083823fa5ce5",
+      "ownerMerge": "merged",
+      "mergeCommit": "c92667e8bd9b12055f2714bac16e6d97008c0d70"
     },
     "g1": {
       "status": "blocked_owner_choice_pending",
@@ -252,7 +252,89 @@
     },
     "merge": "not_authorized",
     "deployment": "excluded",
-    "historyPolicy": "The initial snapshot above remains historical. Current phase status is in phaseM1G1Status; M1 passed fresh Astra Low reassessment on exact implementation candidate d905b85 and hosted PostgreSQL-backed runs 39895161432 and 39895991685 passed all suites. Local PostgreSQL remains unavailable. G1 initial authority commissioning remains owner-blocked. No G2 implementation, merge or deployment is included. P0 v1.1.1 passed fresh Astra Low assessment on PR #41 candidate 5b1333c; see its report and evidence packet. G1 remains owner-blocked."
+    "historyPolicy": "The initial snapshot above remains historical. Current phase status is in phaseM1G1Status; M1 passed fresh Astra Low reassessment on exact implementation candidate d905b85 and hosted PostgreSQL-backed runs 39895161432 and 39895991685 passed all suites. Local PostgreSQL remains unavailable. G1 initial authority commissioning remains owner-blocked. No G2 implementation, merge or deployment is included. P0 v1.1.1 passed fresh Astra Low assessment on PR #41 candidate 5b1333c; see its report and evidence packet. G1 remains owner-blocked. Update 24 October: PR40 is owner-merged at c92667e, including subsequent Codex review fixes. The Astra pass remains scoped to d905b85; it is not a new assessment of those later commits. PR41 stays in review; merge and deployment remain excluded."
   },
-  "legacySnapshotNote": "Fields before phaseM1G1Status are retained as the 2026-10-22 checkpoint snapshot. Their baseline, environment status and nextAction are historical; phaseM1G1Status is the authoritative current checkpoint."
+  "legacySnapshotNote": "Fields before phaseM1G1Status are retained as the 2026-10-22 checkpoint snapshot. Their baseline, environment status and nextAction are historical; phaseM1G1Status is the authoritative current checkpoint.",
+  "historicalBoundedPhase": {
+    "schemaVersion": 1,
+    "planVersion": "1.0.0",
+    "planPath": "docs/plans/dispatch-build/next-build-phase-v1.0.0.md",
+    "planSha256": "71670ccb2a90d9557f00bb32da57fa00ee2002ae6a7abe8b5efef99efe083b50",
+    "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+    "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "planningBranch": "codex/civicmaps-m1-g1-phase-plan",
+    "preparationStatus": "published_verified_awaiting_owner_model_switch",
+    "excluded": [
+      "G2",
+      "M2-M7",
+      "merge",
+      "deployment"
+    ],
+    "goals": [
+      {
+        "id": "P0",
+        "status": "audit_pending",
+        "branch": "codex/civicmaps-m1-g1-phase-plan",
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
+        "audit": null,
+        "publication": "verified",
+        "prerequisites": [],
+        "blockers": [],
+        "nextAction": "Publish, verify Git/Empirical hash, then Luna launches fresh Astra planning audit."
+      },
+      {
+        "id": "M1",
+        "status": "planned",
+        "branch": null,
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "not_started",
+        "prerequisites": [
+          "P0 publication",
+          "merged M0",
+          "merged F-002"
+        ],
+        "blockers": [],
+        "nextAction": "After model switch verify baseline, run checks and implement discovery."
+      },
+      {
+        "id": "G1",
+        "status": "planned",
+        "branch": null,
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "not_started",
+        "prerequisites": [
+          "signed Q01-Q12",
+          "merged governance"
+        ],
+        "blockers": [],
+        "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
+      }
+    ],
+    "nextAction": "Review reconciled PR39 for owner merge; then resume bounded M1/G1 work using the canonical plan. Publication and prior code review do not establish goal acceptance.",
+    "publication": {
+      "commit": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
+      "tree": "86a29ea8ef93abae954cc860b589500144aacadf",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/39",
+      "memoryId": "6ad9d075beb1d96470651ac7",
+      "memoryReadback": "complete text equals canonical bytes; SHA-256 verified",
+      "transport": "repository-owner GitHub connector; environment Git identity returned 403"
+    }
+  },
+  "currentBoundedPhase": {
+    "planVersion": "1.1.1",
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "checkpointPath": "docs/plans/dispatch-build/next-build-phase-checkpoint.json",
+    "status": "P0_accepted_M1_merged_G1_blocked_owner_choice",
+    "excluded": [
+      "G2",
+      "M2-M7",
+      "merge",
+      "deployment"
+    ]
+  }
 }

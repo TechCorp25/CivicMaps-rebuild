@@ -306,9 +306,9 @@
       "publication": "not_started",
       "empirical": "not_started",
       "blockers": [
-        "G1 v1.3 is corrected and committed locally; initial authority commissioning remains owner-blocked, so G1 acceptance and dependent G2 remain blocked. Owner merge of M1 PR #40 remains required before dependent implementation."
+        "G1 v1.3 is published; initial authority commissioning remains owner-blocked. G1 acceptance and dependent G2 remain blocked. M1 PR40 is owner-merged at c92667e."
       ],
-      "nextAction": "Obtain the pending owner decision on initial council authority commissioning; then freeze and independently reassess the corrected G1 contract. M1 is accepted at candidate d905b85 with evidence in PR #40; owner merge remains required before dependent work. G2 remains blocked until G1 acceptance and owner merge.",
+      "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded.",
       "planPath": "docs/plans/F11-next-phase-build-plan.md",
       "checkpointPath": "docs/plans/F11-execution-checkpoint.json",
       "preparationStatus": "M1_accepted_G1_blocked_owner_choice",
@@ -326,8 +326,10 @@
           "audit": "pass",
           "auditReport": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
           "auditReportSha256": "d23a1a9cca4149c322e2790804c1bedc37c57be7237cf9bd2bdf90c3dc9d2123",
-          "currentPrHead": "8c6cce9fcbfc0c813dc916aec18410459c2a2ee4",
-          "next": "Owner review/merge of PR #40; no dependent implementation before merge."
+          "currentPrHead": "144b2894f6cf81e79e544ce1db1a7d1678fc9109",
+          "next": "M1 merged; retain exact-candidate audit provenance and later review-fix history. No deployment in this phase.",
+          "ownerMerge": "merged",
+          "mergeCommit": "c92667e8bd9b12055f2714bac16e6d97008c0d70"
         },
         "G1": {
           "auditedCandidate": "0f2bbcb7f233abdb8bb9ef1ba848dcca439ce62d",
@@ -345,7 +347,10 @@
           "contractPath": "docs/plans/F11-G1-council-staff-authority-contract.md",
           "ownerDecisionReceiptPath": "docs/plans/evidence/F11-G1-owner-decisions-2026-10-22.md"
         }
-      }
+      },
+      "historicalNextAction": "Execute F11 using plan/build/test/docs+Empirical/push/independent assessment/merge/deploy/next-phase plan; persistent nested tests required.",
+      "currentPhasePlanPath": "docs/plans/dispatch-build/next-build-phase.md",
+      "currentPhaseCheckpointPath": "docs/plans/dispatch-build/next-build-phase-checkpoint.json"
     },
     {
       "id": "F12",
@@ -643,7 +648,7 @@
   "latestAssessedCommit": "0aba5e025f08e1f6dd8aefe00dc899b38cc94975",
   "latestAssessmentPath": "docs/plans/evidence/2026-10-18-governance-review.md",
   "latestAssessmentMemoryId": "6ad4bc60beb1d964706099c3",
-  "nextAction": "Obtain the pending owner decision on initial council appointment bootstrap before G1 acceptance; then independently reassess corrected G1 v1.3. M1 is accepted at candidate d905b85, with its report and raw packet in the P0 branch and M1 PR #40. Owner merge of M1 remains required before dependent work; G2 remains blocked.",
+  "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded.",
   "currentDeployedSourceCommit": "313d9a3fc5b2f66819bfaa52019600c3e167eda7",
   "currentReleaseEvidencePath": "docs/plans/evidence/dispatch-release-closure.md",
   "releaseClosureFeature": "F11E",
@@ -668,12 +673,13 @@
     "ownerRequirementMemoryId": "6ad4c84fbeb1d9647060a4f3",
     "planPath": "docs/plans/dispatch-build/README.md",
     "governance": "active_in_separate_session_no_blanket_development_hold",
-    "status": "M1_accepted_G1_blocked_owner_choice",
+    "status": "M1_merged_G1_blocked_owner_choice",
     "currentPreparation": "M1-G1-execution",
     "phasePlanPath": "docs/plans/dispatch-build/next-build-phase.md",
     "phasePlanBranch": "codex/civicmaps-phase-status",
     "phasePlanBase": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
-    "phasePlanVersion": "1.1.1"
+    "phasePlanVersion": "1.1.1",
+    "verifiedMain": "c92667e8bd9b12055f2714bac16e6d97008c0d70"
   },
   "currentCheckpointPath": "docs/plans/dispatch-build/execution-checkpoint.md",
   "dispatchBuildProgramme": {
@@ -697,7 +703,8 @@
     "p0AuditReportSha256": "c8f195ca49d4b8d6a10f09aa2dff46d9edf121482d971ecd103f6e47be8b64b7",
     "p0AuditCandidate": "5b1333c9c607a651b2c0af05ab793edd09888c58",
     "p0AuditTree": "e85db4a5fc7bebce2f35ee379a1148fe394462d3",
-    "p0EmpiricalReadback": "verified_byte_for_byte_memory_6adb3490d522e6a4b87dd2a3"
+    "p0EmpiricalReadback": "verified_byte_for_byte_memory_6adb3490d522e6a4b87dd2a3",
+    "verifiedMain": "c92667e8bd9b12055f2714bac16e6d97008c0d70"
   },
   "f11CheckpointPath": "docs/plans/F11-execution-checkpoint.json",
   "nextBuildPhase": {
@@ -706,7 +713,7 @@
     "status": "v1.1.1_P0_accepted_G1_blocked_owner_choice",
     "baseline": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
     "branch": "codex/civicmaps-phase-status",
-    "m1": "accepted",
+    "m1": "merged",
     "g1": "blocked_owner_choice_pending",
     "merge": "not_authorized",
     "deployment": "excluded",
@@ -717,7 +724,7 @@
     "m1HostedRun": "39895161432_success;39895991685_success",
     "g1AuditedCandidate": "0f2bbcb7f233abdb8bb9ef1ba848dcca439ce62d",
     "g1OpenChoice": "initial_council_appointment_bootstrap_confirmation_pending",
-    "m1HandoffPath": "docs/plans/dispatch-build/evidence/M1-handoff-ff894d6.md (published in draft PR #40)",
+    "m1HandoffPath": "docs/plans/dispatch-build/evidence/M1-handoff-ff894d6.md",
     "g1ContractPath": "docs/plans/F11-G1-council-staff-authority-contract.md",
     "m1Tree": "9f2950e421c230c03b05efbdcc76a8b4e4fda1da",
     "m1IndependentAudit": "pass",
@@ -726,7 +733,7 @@
     "m1Audit": "pass",
     "m1AuditReport": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
     "m1AuditReportSha256": "d23a1a9cca4149c322e2790804c1bedc37c57be7237cf9bd2bdf90c3dc9d2123",
-    "m1CurrentPrHead": "8c6cce9fcbfc0c813dc916aec18410459c2a2ee4",
+    "m1CurrentPrHead": "144b2894f6cf81e79e544ce1db1a7d1678fc9109",
     "candidate": "e4f42dd0f3dcb07565d49bf97e0a3f151d715247",
     "tree": "16aaae2219bad85b79cabf556326f323802999c4",
     "gitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/e4f42dd0f3dcb07565d49bf97e0a3f151d715247/docs/plans/dispatch-build/next-build-phase.md",
@@ -750,6 +757,10 @@
     "p0AuditReportSha256": "c8f195ca49d4b8d6a10f09aa2dff46d9edf121482d971ecd103f6e47be8b64b7",
     "p0AuditCandidate": "5b1333c9c607a651b2c0af05ab793edd09888c58",
     "p0AuditTree": "e85db4a5fc7bebce2f35ee379a1148fe394462d3",
-    "p0EmpiricalReadback": "verified_byte_for_byte_memory_6adb3490d522e6a4b87dd2a3"
+    "p0EmpiricalReadback": "verified_byte_for_byte_memory_6adb3490d522e6a4b87dd2a3",
+    "verifiedMain": "c92667e8bd9b12055f2714bac16e6d97008c0d70",
+    "m1OwnerMerge": "merged",
+    "m1MergeCommit": "c92667e8bd9b12055f2714bac16e6d97008c0d70",
+    "m1ReviewFollowUp": "docs/plans/dispatch-build/evidence/M1-pr40-review-follow-up.md"
   }
 }

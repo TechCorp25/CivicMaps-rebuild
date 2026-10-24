@@ -58,7 +58,17 @@ type Audit = {
   created_at: string;
   details: { reason?: string; from?: string; to?: string };
 };
-type QueuePage = { requests: Request[]; nextCursor: string | null };
+type QueuePage = {
+  requests: Request[];
+  nextCursor: string | null;
+  counts?: { total: string; active: string; closed: string; received: string };
+};
+type SelectedDetail = {
+  id: string;
+  data?: Request;
+  status: 'loading' | 'ready' | 'unavailable';
+  error?: string;
+};
 type AuditState = {
   requestId: string;
   scopeKey: string;
@@ -110,12 +120,19 @@ function App() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [requests, setRequests] = useState<Request[]>([]);
+  const [queueCounts, setQueueCounts] = useState<QueuePage['counts']>();
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [loadMoreError, setLoadMoreError] = useState('');
+  const [search, setSearch] = useState('');
+  const [detailState, setDetailState] = useState<SelectedDetail | null>(null);
   const [queueState, setQueueState] = useState<'loading' | 'ready' | 'unavailable'>('loading');
   const [queueError, setQueueError] = useState('');
   const [queueCheckedAt, setQueueCheckedAt] = useState<string | null>(null);
   const [officers, setOfficers] = useState<Officer[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const selectedRef = useRef<string | null>(null);
+  const detailRequestGeneration = useRef(0);
   const [auditState, setAuditState] = useState<AuditState | null>(null);
   const [actionRecoveries, setActionRecoveries] = useState<Record<string, RecoveryAction>>({});
   const [assignmentDraft, setAssignmentDraft] = useState('');
@@ -128,7 +145,8 @@ function App() {
   const hasQueueSnapshot = useRef(false);
   const scopeGeneration = useRef(0);
   const activeScope = useRef<string | null>(null);
-  const current = requests.find((request) => request.id === selected);
+  const current =
+    detailState?.id === selected && detailState.status === 'ready' ? detailState.data : undefined;
   const currentId = current?.id;
   const currentVersion = current?.version;
   const actionRecovery = currentId ? actionRecoveries[currentId] : undefined;
@@ -137,6 +155,11 @@ function App() {
     : '';
   const loadGeneration = useRef(0);
   const activeLoadCount = useRef(0);
+  const loadedRequestCount = useRef(0);
+  const queueFilter = useRef(filter);
+  const queueSearch = useRef(search.trim());
+  queueFilter.current = filter;
+  queueSearch.current = search.trim();
   function updateActionRecovery(requestId: string, recovery: RecoveryAction | null) {
     setActionRecoveries((existing) => {
       const next = { ...existing };
@@ -145,12 +168,16 @@ function App() {
       return next;
     });
   }
-  const load = useCallback(async (scheduled = false) => {
+  const load = useCallback(async (scheduled = false, cursor: string | null = null) => {
     // A timer must not invalidate a cursor walk that is still collecting later pages.
     if (scheduled && activeLoadCount.current > 0) return null;
     activeLoadCount.current++;
     const generation = ++loadGeneration.current;
-    if (!hasQueueSnapshot.current) setQueueState('loading');
+    if (!cursor && !hasQueueSnapshot.current) setQueueState('loading');
+    if (cursor) {
+      setLoadingMore(true);
+      setLoadMoreError('');
+    }
     setQueueError('');
     try {
       const session = await api<Session>('/auth/session');
@@ -161,6 +188,10 @@ function App() {
         hasQueueSnapshot.current = false;
         setQueueState('loading');
         setRequests([]);
+        setQueueCounts(undefined);
+        setNextCursor(null);
+        loadedRequestCount.current = 0;
+        setDetailState(null);
         setOfficers([]);
         selectedRef.current = null;
         setSelected(null);
@@ -173,40 +204,121 @@ function App() {
       activeScope.current = nextScope;
       setEntitlement(session.entitlements);
       setCsrf(session.csrfToken);
+      const refreshLoadedExtent = !cursor && hasQueueSnapshot.current;
+      const previousLoadedCount = refreshLoadedExtent ? loadedRequestCount.current : 0;
       const capabilities = session.entitlements.capabilities;
       if (!capabilities.includes('requests.create')) setCreating(false);
-      const [queue, roster] = await Promise.all([
+      const selectedAtStart = selectedRef.current;
+      const selectedScopeGeneration = scopeGeneration.current;
+      const selectedDetailGeneration =
+        !cursor && selectedAtStart && capabilities.includes('requests.read')
+          ? ++detailRequestGeneration.current
+          : null;
+      const [queueResult, rosterResult, selectedDetail] = await Promise.all([
         capabilities.includes('requests.read')
           ? (async () => {
-              const allRequests: Request[] = [];
-              let cursor: string | null = null;
-              do {
-                const page: QueuePage = await api<QueuePage>(
-                  `/requests?status=all${cursor ? `&before=${encodeURIComponent(cursor)}` : ''}`,
-                );
-                allRequests.push(...page.requests);
-                cursor = page.nextCursor;
-                if (generation !== loadGeneration.current) return [];
-              } while (cursor);
-              return allRequests;
-            })()
-          : Promise.resolve([] as Request[]),
+              const params = new URLSearchParams({
+                status: queueFilter.current,
+                ...(queueSearch.current ? { q: queueSearch.current } : {}),
+                ...(cursor ? { before: cursor } : {}),
+              });
+              return api<QueuePage>(`/requests?${params}`);
+            })().then(
+              (data) => ({ data }),
+              (error) => ({ error }),
+            )
+          : Promise.resolve({ data: [] as Request[] }),
         capabilities.includes('officers.read')
-          ? api<Officer[]>('/officers').catch((error) => {
-              if (error instanceof ApiError && error.status === 403) return [];
-              throw error;
-            })
-          : Promise.resolve([]),
+          ? api<Officer[]>('/officers').then(
+              (data) => ({ data }),
+              (error) =>
+                error instanceof ApiError && error.status === 403
+                  ? { data: [] as Officer[] }
+                  : { error },
+            )
+          : Promise.resolve({ data: [] as Officer[] }),
+        !cursor && selectedAtStart && capabilities.includes('requests.read')
+          ? api<Request>(`/requests/${selectedAtStart}`).then(
+              (data) => ({ data }),
+              (error) => ({ error }),
+            )
+          : Promise.resolve(null),
       ]);
+      // Detail refreshes belong to their selection and scope, independently of queue paging.
+      if (
+        selectedScopeGeneration === scopeGeneration.current &&
+        activeScope.current === nextScope &&
+        selectedAtStart &&
+        selectedRef.current === selectedAtStart &&
+        selectedDetailGeneration === detailRequestGeneration.current &&
+        selectedDetail
+      ) {
+        if ('data' in selectedDetail)
+          setDetailState({ id: selectedAtStart, status: 'ready', data: selectedDetail.data });
+        else
+          setDetailState({
+            id: selectedAtStart,
+            status: 'unavailable',
+            error:
+              selectedDetail.error instanceof Error
+                ? selectedDetail.error.message
+                : 'Request is unavailable in the current operating context.',
+          });
+      }
       if (generation !== loadGeneration.current) return null;
-      setRequests(queue);
+      if ('error' in queueResult) throw queueResult.error;
+      if ('error' in rosterResult) throw rosterResult.error;
+      const queue = queueResult.data;
+      const roster = rosterResult.data;
+      let page = (
+        Array.isArray(queue) ? { requests: queue, nextCursor: null } : queue
+      ) as QueuePage;
+      if (!cursor && refreshLoadedExtent && previousLoadedCount > page.requests.length) {
+        const refreshed = [...page.requests];
+        const seen = new Set(refreshed.map((request) => request.id));
+        let continuation = page.nextCursor;
+        while (continuation && seen.size < previousLoadedCount) {
+          const params = new URLSearchParams({
+            status: queueFilter.current,
+            ...(queueSearch.current ? { q: queueSearch.current } : {}),
+            before: continuation,
+          });
+          const nextPage = await api<QueuePage>(`/requests?${params}`);
+          if (generation !== loadGeneration.current) return null;
+          for (const request of nextPage.requests) {
+            if (!seen.has(request.id)) {
+              seen.add(request.id);
+              refreshed.push(request);
+            }
+          }
+          continuation = nextPage.nextCursor;
+        }
+        page = { ...page, requests: refreshed, nextCursor: continuation };
+      }
+      setRequests((existing) => {
+        if (!cursor) {
+          loadedRequestCount.current = page.requests.length;
+          return page.requests;
+        }
+        const combined = new Map(existing.map((request) => [request.id, request]));
+        for (const request of page.requests) combined.set(request.id, request);
+        const result = [...combined.values()];
+        loadedRequestCount.current = result.length;
+        return result;
+      });
+      if (!cursor) setQueueCounts(page.counts);
+      setNextCursor(page.nextCursor);
       setOfficers(roster);
       hasQueueSnapshot.current = true;
       setQueueState('ready');
       setQueueCheckedAt(new Date().toISOString());
-      return queue;
+      return page.requests;
     } catch (err) {
       if (generation === loadGeneration.current) {
+        if (cursor)
+          setLoadMoreError(
+            err instanceof Error ? err.message : 'More requests could not be loaded.',
+          );
         if (err instanceof ApiError && err.status === 401) {
           ++loadGeneration.current;
           ++scopeGeneration.current;
@@ -216,6 +328,7 @@ function App() {
           setCsrf('');
           setEntitlement(null);
           setRequests([]);
+          loadedRequestCount.current = 0;
           setOfficers([]);
           selectedRef.current = null;
           setSelected(null);
@@ -223,7 +336,7 @@ function App() {
           setActionRecoveries({});
           setQueueCheckedAt(null);
           setQueueState('unavailable');
-        } else {
+        } else if (!cursor) {
           setQueueState('unavailable');
           setQueueError(err instanceof Error ? err.message : 'Requests could not be refreshed.');
         }
@@ -231,6 +344,7 @@ function App() {
       throw err;
     } finally {
       activeLoadCount.current--;
+      if (cursor) setLoadingMore(false);
     }
   }, []);
 
@@ -256,8 +370,16 @@ function App() {
     };
   }, []);
   useEffect(() => {
-    if (actor && actor.role !== 'ADMIN') void load().catch(() => {});
-  }, [actor, load]);
+    if (!actor || actor.role === 'ADMIN') return;
+    ++loadGeneration.current;
+    hasQueueSnapshot.current = false;
+    setRequests([]);
+    loadedRequestCount.current = 0;
+    setQueueCounts(undefined);
+    setNextCursor(null);
+    const timer = setTimeout(() => void load().catch(() => {}), 250);
+    return () => clearTimeout(timer);
+  }, [actor, filter, search, load]);
   useEffect(() => {
     if (!actor || actor.role === 'ADMIN') return;
     const refresh = () => {
@@ -273,17 +395,62 @@ function App() {
   useEffect(() => {
     let active = true;
     const generation = scopeGeneration.current;
-    if (!actor || !currentId) {
+    const requestGeneration = ++detailRequestGeneration.current;
+    if (!actor || !selected) {
+      setDetailState(null);
       setAuditState(null);
       return () => {
         active = false;
       };
     }
-    setAuditState({ requestId: currentId, scopeKey, status: 'loading', events: [] });
-    api<Audit[]>(`/requests/${currentId}/audit`)
+    const requestId = selected;
+    setDetailState({ id: requestId, status: 'loading' });
+    api<Request>(`/requests/${requestId}`)
+      .then((data) => {
+        if (
+          active &&
+          generation === scopeGeneration.current &&
+          requestGeneration === detailRequestGeneration.current
+        )
+          setDetailState({ id: requestId, status: 'ready', data });
+      })
+      .catch((err) => {
+        if (
+          active &&
+          generation === scopeGeneration.current &&
+          requestGeneration === detailRequestGeneration.current
+        )
+          setDetailState({
+            id: requestId,
+            status: 'unavailable',
+            error: err instanceof Error ? err.message : 'Request is unavailable in this context.',
+          });
+      });
+    return () => {
+      active = false;
+    };
+  }, [actor, selected, scopeKey]);
+  useEffect(() => {
+    let active = true;
+    const generation = scopeGeneration.current;
+    if (!actor || !selected) {
+      setAuditState(null);
+      return () => {
+        active = false;
+      };
+    }
+    const requestId = selected;
+    if (current?.id !== requestId) {
+      setAuditState({ requestId, scopeKey, status: 'loading', events: [] });
+      return () => {
+        active = false;
+      };
+    }
+    setAuditState({ requestId, scopeKey, status: 'loading', events: [] });
+    api<Audit[]>(`/requests/${requestId}/audit`)
       .then((data) => {
         if (active && generation === scopeGeneration.current)
-          setAuditState({ requestId: currentId, scopeKey, status: 'ready', events: data });
+          setAuditState({ requestId, scopeKey, status: 'ready', events: data });
       })
       .catch((err) => {
         if (!active || generation !== scopeGeneration.current) return;
@@ -296,6 +463,7 @@ function App() {
           setCsrf('');
           setEntitlement(null);
           setRequests([]);
+          loadedRequestCount.current = 0;
           setOfficers([]);
           selectedRef.current = null;
           setSelected(null);
@@ -306,7 +474,7 @@ function App() {
           return;
         }
         setAuditState({
-          requestId: currentId,
+          requestId,
           scopeKey,
           status: 'unavailable',
           events: [],
@@ -316,14 +484,16 @@ function App() {
     return () => {
       active = false;
     };
-  }, [actor, currentId, currentVersion, scopeKey]);
+  }, [actor, selected, scopeKey, currentVersion, current?.id]);
   useEffect(() => {
     if (current && !assignmentDraftDirty.current)
       setAssignmentDraft(current.assigned_officer_id ?? '');
   }, [current, currentId, currentVersion, current?.assigned_officer_id]);
   function selectRequest(id: string) {
+    if (selectedRef.current === id) return;
     selectedRef.current = id;
     setSelected(id);
+    setDetailState({ id, status: 'loading' });
     assignmentDraftDirty.current = false;
     setAssignmentDraft(requests.find((request) => request.id === id)?.assigned_officer_id ?? '');
     setClosureReasonDraft('');
@@ -348,6 +518,10 @@ function App() {
         setCsrf('');
         setEntitlement(null);
         setRequests([]);
+        loadedRequestCount.current = 0;
+        setQueueCounts(undefined);
+        setNextCursor(null);
+        setDetailState(null);
         setOfficers([]);
         selectedRef.current = null;
         setSelected(null);
@@ -379,6 +553,8 @@ function App() {
     });
     if (retry.current?.key === key) retry.current = null;
     if (expectedScope !== scopeGeneration.current) return result;
+    if (selectedRef.current === result.id)
+      setDetailState({ id: result.id, status: 'ready', data: result });
     setRequests((existing) => {
       const index = existing.findIndex((request) => request.id === result.id);
       if (index < 0) return path === '/requests' ? [result, ...existing].slice(0, 100) : existing;
@@ -459,28 +635,49 @@ function App() {
     const recovery = actionRecovery;
     const generation = scopeGeneration.current;
     await perform(async () => {
-      const refreshed = await load();
-      if (!refreshed || generation !== scopeGeneration.current) return;
-      const latest = refreshed.find((request) => request.id === recovery.requestId);
-      if (!latest) {
+      let latest: Request;
+      try {
+        latest = await api<Request>(`/requests/${recovery.requestId}`);
+      } catch (err) {
+        if (!(err instanceof ApiError) || err.status !== 404) throw err;
+        if (selectedRef.current === recovery.requestId) {
+          setDetailState({
+            id: recovery.requestId,
+            status: 'unavailable',
+            error: 'Selected request unavailable in the current operating context.',
+          });
+          setAuditState({
+            requestId: recovery.requestId,
+            scopeKey,
+            status: 'unavailable',
+            events: [],
+            error: 'History is unavailable because the selected request is inaccessible.',
+          });
+        }
         updateActionRecovery(recovery.requestId, {
           ...recovery,
           kind: 'reconciled',
           message:
-            'The request is not present in the latest authorised queue snapshot. Choose another request or refresh the queue; this action has not been replayed.',
+            'The selected request is no longer accessible. The earlier action was not replayed.',
           retrySameAction: false,
         });
         return;
       }
+      if (generation !== scopeGeneration.current) return;
       const history = await api<Audit[]>(`/requests/${recovery.requestId}/audit`);
       if (generation !== scopeGeneration.current) return;
-      if (selectedRef.current === recovery.requestId)
+      if (selectedRef.current === recovery.requestId) {
+        setDetailState({ id: recovery.requestId, status: 'ready', data: latest });
         setAuditState({
           requestId: recovery.requestId,
           scopeKey,
           status: 'ready',
           events: history,
         });
+      }
+      setRequests((existing) =>
+        existing.map((request) => (request.id === latest.id ? latest : request)),
+      );
       const unchanged = latest.version === recovery.version;
       updateActionRecovery(recovery.requestId, {
         ...recovery,
@@ -488,9 +685,10 @@ function App() {
         latestVersion: latest.version,
         retrySameAction: unchanged && recovery.key !== null,
         message: unchanged
-          ? `Server state and history were refreshed. The request remains at version ${latest.version}. Review it before choosing whether to retry the same action.`
-          : `Server state and history were refreshed. The request is now at version ${latest.version}; the earlier action will not be replayed. Review the confirmed state before choosing another available action.`,
+          ? `Server state and history were refreshed independently. The request remains at version ${latest.version}. Review it before choosing whether to retry the same action.`
+          : `Server state and history were refreshed independently. The request is now at version ${latest.version}; the earlier action will not be replayed. Review the confirmed state before choosing another available action.`,
       });
+      void load(true).catch(() => {});
     });
   }
   function retrySameAction() {
@@ -680,6 +878,7 @@ function App() {
                   setActor(null);
                   setCsrf('');
                   setRequests([]);
+                  loadedRequestCount.current = 0;
                   setOfficers([]);
                   setSelected(null);
                   selectedRef.current = null;
@@ -787,6 +986,13 @@ function App() {
               onSelect={selectRequest}
               filter={filter}
               onFilter={setFilter}
+              search={search}
+              onSearch={setSearch}
+              counts={queueCounts}
+              hasMore={Boolean(nextCursor)}
+              loadingMore={loadingMore}
+              loadMoreError={loadMoreError}
+              onLoadMore={() => nextCursor && void load(false, nextCursor).catch(() => {})}
             />
             <section className="panel detail" aria-labelledby="detail-title">
               {!current ? (
@@ -794,11 +1000,16 @@ function App() {
                   <MapPin size={36} aria-hidden="true" />
                   {selected ? (
                     <>
-                      <h2 id="detail-title">Selected request unavailable</h2>
+                      <h2 id="detail-title">
+                        {detailState?.id === selected && detailState.status === 'loading'
+                          ? 'Loading selected request'
+                          : 'Selected request unavailable'}
+                      </h2>
                       <p>
-                        This request is not present in the latest authorised queue snapshot. It may
-                        have left the disclosed latest-100 results or be unavailable in this
-                        context.
+                        {detailState?.id === selected && detailState.status === 'loading'
+                          ? 'The service is checking this request in the current operating context.'
+                          : (detailState?.error ??
+                            'This request is unavailable in the current operating context.')}
                       </p>
                       <button
                         className="secondary"
@@ -1047,6 +1258,7 @@ function App() {
                                   setCsrf('');
                                   setEntitlement(null);
                                   setRequests([]);
+                                  loadedRequestCount.current = 0;
                                   setOfficers([]);
                                   setSelected(null);
                                   setAuditState(null);

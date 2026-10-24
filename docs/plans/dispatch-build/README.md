@@ -1,6 +1,10 @@
 # Shared-services dispatch build programme
 
-## Current phase checkpoint — 23 October 2026
+## Current reconciliation — 24 October 2026
+
+Verified `main@c92667e8bd9b12055f2714bac16e6d97008c0d70` includes owner-merged PR #39 and M1 PR #40, including its later Codex review fixes. P0 v1.1.1 remains accepted at its recorded candidate; M1’s Astra acceptance remains scoped to `d905b85`, with subsequent review fixes recorded separately. G1 initial authority commissioning remains owner-blocked. PR #41 is open for review; no merge or deployment is included in this task. Use the [current machine-readable checkpoint](next-build-phase-checkpoint.json) and [reconciliation receipt](evidence/PR41-main-reconciliation-2026-10-24.md) for current status. The [v1.0.0 plan retained from main](next-build-phase-v1.0.0.md) preserves the detailed verification, provenance and audit requirements alongside the byte-identical audited [v1.1.1 plan](next-build-phase.md). Publication-time pending statements in both plans and the dated checkpoints below are historical.
+
+## Historical phase checkpoint — 23 October 2026
 
 Canonical phase plan: [M1 discovery and F11 G1 authority contract, v1.1.1](next-build-phase.md). Verified current main is `d4921eb1c37550d9ca1b53a5615242922abfa4ad` (PR #38 merge), replacing PR37 as the execution base. M1 is accepted at audited candidate `d905b85ca7f0c2a20eaa956b0448ed7f5581f47b`; draft PR #40 remains open for owner review/merge. Hosted PostgreSQL-backed run `39895161432` passed all checks, and docs-only rerun `39895991685` also passed; desktop/narrow screenshots and keyboard load-more operation were exercised. Fresh Astra Low reassessment passed; see [the independent report](evidence/M1-independent-assessment-d905b85.md). G1 v1.3 contract is published in draft PR #42; the initial authority-commissioning owner choice remains pending, so G1 is blocked. M1 is accepted; G1 remains unaccepted. G2 remains excluded and blocked until G1 acceptance and owner merge. Historical checkpoints below remain evidence of their dates and are not current state.
 

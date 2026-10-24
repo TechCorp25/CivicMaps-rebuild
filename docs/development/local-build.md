@@ -62,22 +62,23 @@ Browser exercise records remain labelled synthetic and closed in the development
 | GET `/api/auth/session` | Current actor and CSRF token |
 | POST `/api/auth/logout` | Revoke session |
 | GET `/api/officers` | Officers in the actor's permitted context |
-| GET `/api/requests` | Most recent 100 scoped requests; officers see their assignments |
+| GET `/api/requests` | Scoped 100-row page with status and keyset cursor; optional case-insensitive literal `q` search for request number/address (max 250 characters); first-page counts cover the authorised search scope before status/paging. Officers see only assigned requests. |
+| GET `/api/requests/:id` | Independently read one scoped request, including when it is outside the loaded queue pages; inaccessible requests return 404 |
 | POST `/api/requests` | Create from address, coordinates and notes |
 | POST `/api/requests/:id/actions` | Assign, acknowledge, attend or close with current version |
-| GET `/api/requests/:id/audit` | Read-only scoped audit events |
+| GET `/api/requests/:id/audit` | Read-only scoped audit events, tied to the independently selected request/context |
 
 Authenticated mutations require `x-csrf-token`; operational writes also require `Idempotency-Key`. Reusing a key with a different operation returns 409. Stale versions return 409. Out-of-scope object access returns 404. Unknown fields, client-issued numbers and client-selected ownership are rejected.
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` uses the committed Node version and npm 11.9.0, installs with `npm ci`, and runs `npm run check` against a pinned disposable PostgreSQL 15 service. It verifies generated token files remain unchanged. This covers CommandMAPS, Platform and the current API suite; scaffold applications are excluded. Browser and native-device checks are separate acceptance work.
+`.github/workflows/ci.yml` uses the committed Node version and npm 11.9.0, installs with `npm ci`, and runs `npm run check` against a pinned disposable PostgreSQL 15 service. It verifies generated token files remain unchanged, then runs the CommandMAPS, Platform, and first-admin activation browser suites sequentially. The CommandMAPS browser entry executes the shared-discovery checks. Browser artifacts include desktop and narrow screenshots. Scaffold applications are excluded; native-device checks remain separate acceptance work.
 
 When using an already running dedicated PostgreSQL instance, set `CIVICMAPS_DATABASE_URL` before `npm run check`; skip `db:start`. The test login needs permission to create/drop only its uniquely named disposable databases. Never point these commands at production. A writable npm cache can be selected with `npm_config_cache` in restricted workspaces.
 
 ## Code quality gates (F02Q)
 
-`npm run check` runs lint (zero warnings), formatting verification, both app typechecks/builds and the API suite. CI invokes the same command, followed by the platform browser check. Run `npm run format` to apply formatting; `npm run format:check` is read-only.
+`npm run check` runs lint (zero warnings), formatting verification, both app typechecks/builds and the API suite. CI invokes the same command followed by the CommandMAPS, Platform and activation browser suites. Run `npm run format` to apply formatting; `npm run format:check` is read-only.
 
 ESLint flat configuration covers implemented CommandMAPS/Platform TypeScript, API JavaScript, active scripts and tests. Recommended JavaScript/TypeScript rules and both runtime React Hooks rules are enabled; React Compiler-specific rules and type-aware linting are not enabled. TypeScript compilation remains a separate gate. Prettier handles layout separately, using two spaces, single quotes and a 100-column target. No conflicting stylistic lint preset is installed.
 
