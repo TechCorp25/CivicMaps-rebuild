@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "date": "2026-10-24",
+  "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+  "baselineCommit": "346dfd2d74cdd52d88bf9e4b7bd046a500a4c390",
+  "baselineTree": "adeb4903db4d07633c99d7fd10f140f6a244af8b",
+  "branch": "codex/civicmaps-code-quality-assessment-2026-10-24",
+  "assessment": "assessment.md",
+  "plan": "remediation-plan.md",
+  "findings": "findings.json",
+  "scope": "Current-main engineering quality assurance; no governance hold or feature implementation",
+  "assessmentStatus": "completed_with_explicit_coverage_limits",
+  "remediationStatus": "proposed_not_started",
+  "independentAssessmentStatus": "pending_frozen_candidate_review",
+  "publicationStatus": "pending",
+  "empiricalStatus": "complete_plan_recorded_and_read_back_byte_equal",
+  "nextAction": "Freeze and publish assessment evidence, record and read back complete remediation plan in Empirical, obtain independent product review; implement no fixes in this assessment task.",
+  "securityCoverage": {
+    "dependencyAudit": "completed_one_high_advisory",
+    "sourceReview": "completed_with_reported_limits",
+    "codexSecurityDeepScan": "unavailable_missing_coordinator",
+    "liveTesting": "not_performed"
+  },
+  "verification": {
+    "postgres15FullCheck": {
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0
+    },
+    "postgres17Tests": {
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0
+    },
+    "commandmapsBrowser": "initial_PG17_failure_then_PG17_and_PG15_pass",
+    "platformBrowser": "PG17_and_PG15_pass",
+    "activationBrowser": "PG17_and_PG15_pass",
+    "caddyIngress": "pass_loopback_HTTP",
+    "cfnLint": "pass_ap-southeast-2",
+    "ruffBaseline": "three_diagnostics_outside_current_CI"
+  },
+  "prohibitedByScope": [
+    "feature_implementation",
+    "merge",
+    "deployment",
+    "cloud_mutation",
+    "customer_data_operations"
+  ],
+  "empiricalPlanMemoryId": "6adcb100ba781229b953f72c",
+  "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea"
+}

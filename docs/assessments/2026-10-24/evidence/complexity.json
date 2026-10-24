@@ -1,0 +1,122 @@
+[
+  {
+    "file": "services/api/app.mjs",
+    "messages": [
+      {
+        "line": 218,
+        "rule": "max-lines-per-function",
+        "message": "Function 'createApp' has too many lines (454). Maximum allowed is 150."
+      }
+    ]
+  },
+  {
+    "file": "services/api/migrate.mjs",
+    "messages": [
+      {
+        "line": 132,
+        "rule": "complexity",
+        "message": "Async function 'stagePrincipalOwnership' has a complexity of 30. Maximum allowed is 20."
+      }
+    ]
+  },
+  {
+    "file": "services/api/platform.mjs",
+    "messages": [
+      {
+        "line": 150,
+        "rule": "max-lines-per-function",
+        "message": "Function 'platformRouter' has too many lines (300). Maximum allowed is 150."
+      }
+    ]
+  },
+  {
+    "file": "services/api/routing.mjs",
+    "messages": [
+      {
+        "line": 42,
+        "rule": "complexity",
+        "message": "Async function 'routingMiddleware' has a complexity of 31. Maximum allowed is 20."
+      }
+    ]
+  },
+  {
+    "file": "apps/commandmaps/src/RequestComposer.tsx",
+    "messages": [
+      {
+        "line": 6,
+        "rule": "max-lines-per-function",
+        "message": "Function 'RequestComposer' has too many lines (159). Maximum allowed is 150."
+      }
+    ]
+  },
+  {
+    "file": "apps/commandmaps/src/RequestQueue.tsx",
+    "messages": [
+      {
+        "line": 37,
+        "rule": "max-lines-per-function",
+        "message": "Function 'RequestQueue' has too many lines (187). Maximum allowed is 150."
+      }
+    ]
+  },
+  {
+    "file": "apps/commandmaps/src/main.tsx",
+    "messages": [
+      {
+        "line": 113,
+        "rule": "max-lines-per-function",
+        "message": "Function 'App' has too many lines (1203). Maximum allowed is 150."
+      },
+      {
+        "line": 113,
+        "rule": "complexity",
+        "message": "Function 'App' has a complexity of 93. Maximum allowed is 20."
+      },
+      {
+        "line": 171,
+        "rule": "max-lines-per-function",
+        "message": "Async arrow function has too many lines (177). Maximum allowed is 150."
+      },
+      {
+        "line": 171,
+        "rule": "complexity",
+        "message": "Async arrow function has a complexity of 55. Maximum allowed is 20."
+      }
+    ]
+  },
+  {
+    "file": "apps/civicmaps-platform/src/AdminActivation.tsx",
+    "messages": [
+      {
+        "line": 10,
+        "rule": "max-lines-per-function",
+        "message": "Function 'AdminActivation' has too many lines (165). Maximum allowed is 150."
+      }
+    ]
+  },
+  {
+    "file": "apps/civicmaps-platform/src/Onboarding.tsx",
+    "messages": [
+      {
+        "line": 6,
+        "rule": "max-lines-per-function",
+        "message": "Function 'Onboarding' has too many lines (286). Maximum allowed is 150."
+      }
+    ]
+  },
+  {
+    "file": "apps/civicmaps-platform/src/main.tsx",
+    "messages": [
+      {
+        "line": 49,
+        "rule": "max-lines-per-function",
+        "message": "Function 'App' has too many lines (840). Maximum allowed is 150."
+      },
+      {
+        "line": 49,
+        "rule": "complexity",
+        "message": "Function 'App' has a complexity of 56. Maximum allowed is 20."
+      }
+    ]
+  }
+]

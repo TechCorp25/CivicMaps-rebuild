@@ -1,0 +1,8 @@
+{
+  "responseStatus": 503,
+  "observed": {
+    "name": "SyntaxError",
+    "message": "Unexpected token '<', \"<html>Serv\"... is not valid JSON",
+    "status": null
+  }
+}

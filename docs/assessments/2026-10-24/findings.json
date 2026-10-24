@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "assessmentVersion": "1.0.0",
+  "baselineCommit": "346dfd2d74cdd52d88bf9e4b7bd046a500a4c390",
+  "priorityMeaning": "Engineering priority, not a CVSS rating for non-security items",
+  "counts": {
+    "high": 1,
+    "medium": 5,
+    "low": 12,
+    "total": 18
+  },
+  "findings": [
+    {
+      "id": "QA01",
+      "priority": "high",
+      "category": "security-dependency",
+      "title": "Affected body-parser production dependency",
+      "validation": "affected_version_and_configuration_confirmed_exploit_not_reproduced",
+      "workPackages": [
+        "Q1"
+      ],
+      "source": [
+        "package-lock.json",
+        "services/api/app.mjs:227"
+      ],
+      "evidence": [
+        "evidence/npm-audit.json",
+        "evidence/body-parser-advisory.json",
+        "evidence/dependency-tree.json",
+        "evidence/compressed-body-probe.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA02",
+      "priority": "medium",
+      "category": "reliability",
+      "title": "Unbounded shared control-database waits",
+      "validation": "configuration_and_pool_wait_confirmed",
+      "workPackages": [
+        "Q2"
+      ],
+      "source": [
+        "services/api/database.mjs:4"
+      ],
+      "evidence": [
+        "evidence/local-contract-probes.json",
+        "evidence/pool-wait-probe.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA03",
+      "priority": "medium",
+      "category": "performance",
+      "title": "Synchronous password derivation blocks the event loop",
+      "validation": "measured_local_blocking",
+      "workPackages": [
+        "Q2"
+      ],
+      "source": [
+        "services/api/passwords.mjs:4",
+        "services/api/passwords.mjs:8",
+        "services/api/app.mjs:271"
+      ],
+      "evidence": [
+        "evidence/local-contract-probes.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA04",
+      "priority": "medium",
+      "category": "test-quality",
+      "title": "Intermittent overlapping-detail browser acceptance",
+      "validation": "observed_failure_then_passes_cause_unresolved",
+      "workPackages": [
+        "Q3"
+      ],
+      "source": [
+        "tests/browser/m1-discovery.mjs:147",
+        "tests/browser/m1-discovery.mjs:168"
+      ],
+      "evidence": [
+        "evidence/commandmaps-browser.log",
+        "evidence/commandmaps-browser-rerun.log",
+        "evidence/commandmaps-browser-pg15.log"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA05",
+      "priority": "medium",
+      "category": "data-correctness",
+      "title": "GIS address fallback changes source street",
+      "validation": "reproduced_with_original_module_and_real_geometry",
+      "workPackages": [
+        "Q4"
+      ],
+      "source": [
+        "geo-data/generate_melbourne_cbd_street_blocks.py:389",
+        "geo-data/generate_melbourne_cbd_street_blocks.py:583"
+      ],
+      "evidence": [
+        "evidence/geo-real-geometry-probe.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA06",
+      "priority": "low",
+      "category": "lint-coverage",
+      "title": "Active imports excluded from lint/format gates",
+      "validation": "configuration_and_format_failures_confirmed",
+      "workPackages": [
+        "Q5"
+      ],
+      "source": [
+        "eslint.config.mjs",
+        "package.json",
+        "domains/service-requests-dispatch/lifecycle.mjs",
+        "apps/commandmaps/src/RequestQueue.tsx:3"
+      ],
+      "evidence": [
+        "evidence/lint-scope.json",
+        "evidence/excluded-format.log"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA07",
+      "priority": "medium",
+      "category": "maintainability",
+      "title": "Large high-complexity state and route functions",
+      "validation": "diagnostic_metrics_confirmed_not_a_vulnerability",
+      "workPackages": [
+        "Q7"
+      ],
+      "source": [
+        "apps/commandmaps/src/main.tsx:113",
+        "apps/civicmaps-platform/src/main.tsx:49",
+        "services/api/app.mjs:218",
+        "services/api/routing.mjs:42",
+        "services/api/migrate.mjs:132"
+      ],
+      "evidence": [
+        "evidence/complexity.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA08",
+      "priority": "low",
+      "category": "resilience",
+      "title": "Non-JSON error responses lose HTTP status",
+      "validation": "original_platform_helper_reproduced",
+      "workPackages": [
+        "Q3"
+      ],
+      "source": [
+        "apps/civicmaps-platform/src/api.ts:82",
+        "apps/commandmaps/src/main.tsx:103",
+        "apps/commandmaps/src/Activation.tsx"
+      ],
+      "evidence": [
+        "evidence/api-error-probe.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA09",
+      "priority": "low",
+      "category": "resilience",
+      "title": "Browser requests lack common deadlines",
+      "validation": "source_confirmed_missing_budgets",
+      "workPackages": [
+        "Q3"
+      ],
+      "source": [
+        "apps/civicmaps-platform/src/api.ts:77",
+        "apps/commandmaps/src/main.tsx:98",
+        "apps/commandmaps/src/Activation.tsx"
+      ],
+      "evidence": [],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA10",
+      "priority": "low",
+      "category": "data-correctness",
+      "title": "Polygon zone assignment changes under vertex resampling",
+      "validation": "original_function_reproduced",
+      "workPackages": [
+        "Q4"
+      ],
+      "source": [
+        "geo-data/fetch-com-roads.mjs:60",
+        "geo-data/fetch-com-roads.mjs:149"
+      ],
+      "evidence": [
+        "evidence/centroid-probe.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA11",
+      "priority": "low",
+      "category": "ingestion-reliability",
+      "title": "GIS ingestion deadlines and rejection diagnostics incomplete",
+      "validation": "source_confirmed",
+      "workPackages": [
+        "Q4"
+      ],
+      "source": [
+        "geo-data/fetch-com-roads.mjs:135",
+        "geo-data/generate_melbourne_cbd_street_blocks.py:180"
+      ],
+      "evidence": [],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA12",
+      "priority": "low",
+      "category": "reproducibility",
+      "title": "Undeclared Python dependency and lint baseline",
+      "validation": "manifest_absence_and_explicit_lint_confirmed",
+      "workPackages": [
+        "Q4"
+      ],
+      "source": [
+        "geo-data/generate_melbourne_cbd_street_blocks.py:32",
+        "infrastructure/f06/configure-control-login.py"
+      ],
+      "evidence": [
+        "evidence/ruff-baseline.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA13",
+      "priority": "low",
+      "category": "tooling",
+      "title": "Scaffold commands and GIS entry points absent",
+      "validation": "tracked_file_inventory_confirmed",
+      "workPackages": [
+        "Q5"
+      ],
+      "source": [
+        "geo-data/package.json:4",
+        "domains/service-requests-dispatch/package.json"
+      ],
+      "evidence": [
+        "evidence/static-inventory.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA14",
+      "priority": "low",
+      "category": "configuration",
+      "title": "Environment template does not match implemented runtime",
+      "validation": "source_and_launch_commands_confirmed",
+      "workPackages": [
+        "Q5"
+      ],
+      "source": [
+        ".env.example:29",
+        "services/api/server.mjs",
+        "services/api/database.mjs"
+      ],
+      "evidence": [],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA15",
+      "priority": "low",
+      "category": "security-hardening",
+      "title": "Missing CSP and framing policy",
+      "validation": "configuration_absence_confirmed_no_exploit_claim",
+      "workPackages": [
+        "Q6"
+      ],
+      "source": [
+        "infrastructure/f06/Caddyfile",
+        "services/api/app.mjs:218"
+      ],
+      "evidence": [],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA16",
+      "priority": "low",
+      "category": "presentation",
+      "title": "Hostname initials mode and timezone source mismatches",
+      "validation": "naming_reproduced_other_fields_source_confirmed",
+      "workPackages": [
+        "Q6"
+      ],
+      "source": [
+        "apps/civicmaps-platform/src/Onboarding.tsx",
+        "apps/civicmaps-platform/src/main.tsx:348",
+        "services/api/platform.mjs:267",
+        "apps/civicmaps-platform/src/RoutingStatus.tsx:44",
+        "apps/civicmaps-platform/src/ProvisioningStatus.tsx:48"
+      ],
+      "evidence": [
+        "evidence/local-contract-probes.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA17",
+      "priority": "low",
+      "category": "defensive-correctness",
+      "title": "Malformed stored hash throws during authentication",
+      "validation": "original_helper_reproduced_conditional_on_bad_stored_data",
+      "workPackages": [
+        "Q2"
+      ],
+      "source": [
+        "services/api/passwords.mjs:8"
+      ],
+      "evidence": [
+        "evidence/local-contract-probes.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    },
+    {
+      "id": "QA18",
+      "priority": "low",
+      "category": "verification-coverage",
+      "title": "CI omits advisory Python and infrastructure checks",
+      "validation": "workflow_inspection_confirmed",
+      "workPackages": [
+        "Q1",
+        "Q5"
+      ],
+      "source": [
+        ".github/workflows/ci.yml"
+      ],
+      "evidence": [
+        "evidence/npm-audit.json",
+        "evidence/ruff-baseline.json",
+        "evidence/cfn-lint.json"
+      ],
+      "status": "open",
+      "implementationCommit": null,
+      "closureEvidence": null
+    }
+  ]
+}
