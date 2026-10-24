@@ -1,8 +1,16 @@
 # Shared-services dispatch build programme
 
-Prepared 21 October 2026, Australia/Melbourne. Owner approved the staged programme and explicitly required shared services across branches. **Status: M0 architecture/backlog assessment passed on its recorded candidate; this is not functional acceptance. The receipt-only PR #37 is merged in current main `6761cd6adcd9f922aed939ccafb75f81cf7eba62`. This phase plan is on `codex/civicmaps-m1-g1-build-phase`; its review and both functional goals remain pending.** See the [final assessment](evidence/M0-independent-assessment-a1a9a9a.md).
+## Current reconciliation — 24 October 2026
 
-Repository: TechCorp25/CivicMaps-rebuild. Programme-preparation base: `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately). Current verified main: `6761cd6adcd9f922aed939ccafb75f81cf7eba62`; it includes M0 PR35 merge `a547b50d2bd641470dbe7f8d26a5ef75ee7ba747` and subsequent PR36. The M0 source-reconciliation baseline `65757b67669e7f9e79fcd160d5e5de23d9d7d42f` is historical. See the [release receipt](../evidence/dispatch-release-closure.md) and current [M0 evidence](evidence/M0.md). Active M0 worktree: `/workspace/CivicMaps-f11-m0-architecture`, branch `codex/civicmaps-f11-m0-architecture`.
+Verified `main@c92667e8bd9b12055f2714bac16e6d97008c0d70` includes owner-merged PR #39 and M1 PR #40, including its later Codex review fixes. P0 v1.1.1 remains accepted at its recorded candidate; the corrected canonical plan is v1.1.2 and requires fresh reassessment. M1’s Astra acceptance remains scoped to `d905b85`, with subsequent review fixes recorded separately. G1 commissioning remains owner-blocked: the 24 October receipt records authentication direction only. Use the [current machine-readable checkpoint](next-build-phase-checkpoint.json) for current status. The [v1.0.0 plan retained from main](next-build-phase-v1.0.0.md) preserves the detailed verification, provenance and audit requirements alongside the current [v1.1.2 plan](next-build-phase.md). Historical audit and publication receipts remain scoped to their recorded candidates.
+
+## Historical phase checkpoint — 23 October 2026
+
+Canonical phase plan: [M1 discovery and F11 G1 authority contract, v1.1.2](next-build-phase.md). Verified current main is `c92667e8bd9b12055f2714bac16e6d97008c0d70` (PR #40 merge). M1 is accepted at audited candidate `d905b85ca7f0c2a20eaa956b0448ed7f5581f47b`; its recorded Astra acceptance remains scoped to that candidate. G1 v1.5 is a proposal in PR #42 and remains blocked pending owner designation of commissioning authority, external council trust-record source/admission procedure, and initial council decision-maker evidence. The 24 October receipt records authentication direction only. Fresh G1 and amended-plan reassessment are pending. G2 remains excluded and blocked until G1 acceptance and owner merge.
+
+Historical snapshot prepared 21 October 2026 (Australia/Melbourne); superseded by the current checkpoint above. At that time, the receipt-only PR #37 and M0 review were being tracked against then-current main `6761cd6adcd9f922aed939ccafb75f81cf7eba62`. The then-current execution base was `d4921eb1c37550d9ca1b53a5615242922abfa4ad`. M0 architecture/backlog acceptance remains distinct from functional acceptance. See the [final assessment](evidence/M0-independent-assessment-a1a9a9a.md).
+
+Historical preparation metadata: repository `TechCorp25/CivicMaps-rebuild`; programme-preparation base `313d9a3fc5b2f66819bfaa52019600c3e167eda7` (owner-merged PR27 including PR26; deployed separately); then-current main `6761cd6adcd9f922aed939ccafb75f81cf7eba62`, including PR35 and PR36. These are retained as historical provenance and are not the current phase base. The M0 source-reconciliation baseline `65757b67669e7f9e79fcd160d5e5de23d9d7d42f` is historical. See the [release receipt](../evidence/dispatch-release-closure.md) and [M0 evidence](evidence/M0.md).
 Empirical programme memory: **6ad7c3b6beb1d9647062ebd8**. Requirements memory: 6ad4c84fbeb1d9647060a4f3. Release memory: 6ad4c8e8beb1d9647060a602.
 
 ## Outcome
@@ -19,7 +27,7 @@ Headers show department/role identity, not personal names. Shared lifecycle pres
 
 ## Read order and deliverables
 
-0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.0.0; draft review and implementation pending).
+0. [Current next build phase: M1 and F11 G1](next-build-phase.md) (canonical v1.1.2; amended plan and G1 reassessment pending).
 
 1. [Luna execution handoff](execution-checkpoint.md).
 2. [Reference and gap matrix](reference-and-gap-matrix.md).

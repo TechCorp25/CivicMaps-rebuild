@@ -2,7 +2,7 @@
 
 Status: planned coverage; these executable suites must be built during implementation. This inventory is not a claim that tests exist or pass.
 
-The proposed G1 authority source is [F11 G1 — council staff authority contract](../../docs/plans/F11-G1-council-staff-authority-contract.md). G1 defines the actor/action/scope and provenance rules for the suites below; independent acceptance of that contract is still pending. Do not treat these proposed cases as implemented or authorize G2 provisioning from this inventory alone.
+The proposed G1 authority source is [F11 G1 — council staff authority contract](../../docs/plans/F11-G1-council-staff-authority-contract.md). G1 defines the actor/action/scope and provenance rules for the suites below; independent acceptance and required owner decisions are still pending. Do not treat these proposed cases as implemented or authorize G2 provisioning from this inventory alone. Commissioning cases must cover externally admitted council trust records, strict setup-only limits, exact payload approval, separate Q07 operators, pending-role activation, verification inventory, expiry/revocation, replay, same-payload retries, changed-payload conflicts, concurrent submissions, and audit-preserving failure recovery; no test should encode an unapproved commissioner or trust source as authority.
 
 | Planned file | Required behaviour | Execution integration |
 | --- | --- | --- |

@@ -428,8 +428,16 @@ export function createApp({
   app.get('/api/requests', async (req, res) => {
     const status = req.query.status ?? 'all';
     const before = req.query.before;
+    const query = req.query.q;
     requireValue(
-      typeof status === 'string' && ['all', 'active', 'closed'].includes(status),
+      query === undefined || (typeof query === 'string' && query.length <= 250),
+      400,
+      'Search query must be 250 characters or fewer',
+    );
+    const search = typeof query === 'string' ? query.trim() : '';
+    const pattern = search || null;
+    requireValue(
+      typeof status === 'string' && ['all', 'active', 'closed', 'received'].includes(status),
       400,
       'Invalid request status filter',
     );
@@ -444,6 +452,8 @@ export function createApp({
     res.json(
       await scoped(req, false, async (client, actor) => {
         const visibility = `($1::text<>'OFFICER' OR assigned_officer_id=$2)`;
+        const countSearch = `($3::text IS NULL OR POSITION(LOWER($3) IN LOWER(address))>0 OR POSITION(LOWER($3) IN number::text)>0 OR POSITION(LOWER($3) IN LOWER('SR-' || LPAD(number::text,GREATEST(7,LENGTH(number::text)),'0')))>0)`;
+        const pageSearch = `($5::text IS NULL OR POSITION(LOWER($5) IN LOWER(address))>0 OR POSITION(LOWER($5) IN number::text)>0 OR POSITION(LOWER($5) IN LOWER('SR-' || LPAD(number::text,GREATEST(7,LENGTH(number::text)),'0')))>0)`;
         const counts = before
           ? undefined
           : (
@@ -452,18 +462,20 @@ export function createApp({
                         COUNT(*) FILTER (WHERE status<>'CLOSED')::text AS active,
                         COUNT(*) FILTER (WHERE status='CLOSED')::text AS closed,
                         COUNT(*) FILTER (WHERE status='DISPATCHED')::text AS dispatched,
-                        COUNT(*) FILTER (WHERE status='ATTENDED')::text AS attended
-                 FROM service_requests WHERE ${visibility}`,
-                [actor.role, actor.id],
+                        COUNT(*) FILTER (WHERE status='ATTENDED')::text AS attended,
+                        COUNT(*) FILTER (WHERE status='RECEIVED')::text AS received
+                 FROM service_requests WHERE ${visibility} AND ${countSearch}`,
+                [actor.role, actor.id, pattern],
               )
             ).rows[0];
         const result = await client.query(
           `SELECT * FROM service_requests
            WHERE ${visibility}
-             AND ($3::text='all' OR ($3='active' AND status<>'CLOSED') OR ($3='closed' AND status='CLOSED'))
+             AND ($3='all' OR ($3='active' AND status<>'CLOSED') OR ($3='closed' AND status='CLOSED') OR ($3='received' AND status='RECEIVED'))
              AND ($4::bigint IS NULL OR number<$4::bigint)
+             AND ${pageSearch}
            ORDER BY number DESC LIMIT 101`,
-          [actor.role, actor.id, status, before ?? null],
+          [actor.role, actor.id, status, before ?? null, pattern],
         );
         const hasMore = result.rows.length > 100;
         const requests = result.rows.slice(0, 100);
@@ -516,6 +528,27 @@ export function createApp({
         return result.rows[0];
       }),
     );
+  });
+  app.get('/api/requests/:id', async (req, res) => {
+    requireValue(uuid.test(req.params.id), 400, 'Invalid request identifier');
+    const result = await scoped(
+      req,
+      false,
+      async (client, actor) => {
+        const request = await client.query('SELECT * FROM service_requests WHERE id=$1', [
+          req.params.id,
+        ]);
+        requireValue(
+          request.rowCount === 1 &&
+            (actor.role !== 'OFFICER' || request.rows[0].assigned_officer_id === actor.id),
+          404,
+          'Request not found',
+        );
+        return request.rows[0];
+      },
+      { capability: 'requests.read' },
+    );
+    res.json(result);
   });
   app.get('/api/requests/:id/audit', async (req, res) => {
     requireValue(uuid.test(req.params.id), 400, 'Invalid request identifier');

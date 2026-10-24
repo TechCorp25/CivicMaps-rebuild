@@ -2,7 +2,7 @@
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
-import { verifySlowQueueRefresh } from './browser/queue-refresh.mjs';
+import { verifyM1Discovery } from './browser/m1-discovery.mjs';
 const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
 const database = new pg.Pool({
   connectionString:
@@ -326,11 +326,15 @@ try {
     'did not confirm whether this action completed',
   );
   expect(uncertainWriteCount).toBe(1);
+  await page.getByLabel('Search all requests').fill('No matching queue row');
+  await expect(page.locator('.request-table tbody tr')).toHaveCount(0);
   await page.getByRole('button', { name: 'Check server state and history' }).click();
   await expect(page.locator('.detail')).toContainText('Server-confirmed version 2');
   await expect(page.locator('.audit')).toContainText('assign');
   await expect(page.getByRole('button', { name: 'Retry the same action' })).toHaveCount(0);
   expect(uncertainWriteCount).toBe(1);
+  await page.getByLabel('Search all requests').fill('');
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await page.unroute(`**/api/requests/${uncertain.id}/actions`, uncertainWrite);
 
   const independent = await browser.newPage();
@@ -459,11 +463,11 @@ try {
     .selectOption('00000000-0000-4000-8000-000000000002');
   await save(page, 'Assign request');
   await expect(page.locator('.detail .status')).toHaveText('Dispatched · Not Active');
-  await page.getByLabel('Search loaded requests').fill('no-such-request-unique');
+  await page.getByLabel('Search all requests').fill('no-such-request-unique');
   await expect(page.getByRole('heading', { name: 'No matching requests' })).toBeVisible();
-  await page.getByLabel('Search loaded requests').fill(address);
+  await page.getByLabel('Search all requests').fill(address);
   await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
-  await page.getByLabel('Search loaded requests').fill('');
+  await page.getByLabel('Search all requests').fill('');
   await mkdir('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/commandmaps-desktop.png', fullPage: true });
   await page.reload();
@@ -521,7 +525,7 @@ try {
     expect(response.status()).toBe(201);
   }
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
-  await page.getByLabel('Search loaded requests').fill('Pagination check');
+  await page.getByLabel('Search all requests').fill('Pagination check');
   await expect(page.locator('.request-table tbody tr')).toHaveCount(25);
   await page.getByRole('button', { name: 'Next queue page' }).click();
   await expect(page.locator('.request-table tbody tr')).toHaveCount(2);
@@ -532,30 +536,11 @@ try {
     .first()
     .click();
   await expect(page.getByRole('navigation', { name: 'Queue pages' })).toContainText('Page 1 of 2');
-  await page.getByLabel('Search loaded requests').fill('');
+  await page.getByLabel('Search all requests').fill('');
   await seedQueueOverflow();
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('active');
-  await verifySlowQueueRefresh(page, expect);
-  await expect(page.locator('.queue-pagination .muted')).toContainText(
-    /Page 1 of [4-9][0-9] · [1-9][0-9]{2,} matching loaded records/,
-  );
-  await page.getByLabel('Search loaded requests').fill('Queue active 119');
-  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
-  await expect(page.locator('.request-table tbody')).toContainText('Queue active 119');
-  await page.getByLabel('Search loaded requests').fill('');
-  await page.getByLabel('Search loaded requests').fill('Queue active 1004');
-  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
-  await expect(page.locator('.request-table tbody')).toContainText('Queue active 1004');
-  await page.getByLabel('Search loaded requests').fill('');
-  await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
-  await page.getByLabel('Search loaded requests').fill('Queue closed 11');
-  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
-  await expect(page.locator('.request-table tbody')).toContainText('Queue closed 11');
-  await page.getByLabel('Search loaded requests').fill('');
-  await page.getByLabel('Search loaded requests').fill('Queue closed 109');
-  await expect(page.locator('.request-table tbody tr')).toHaveCount(1);
-  await expect(page.locator('.request-table tbody')).toContainText('Queue closed 109');
-  await page.getByLabel('Search loaded requests').fill('');
+  await verifyM1Discovery(page, expect);
+  await page.getByLabel('Search all requests').fill('');
   await database.query(
     "UPDATE platform_municipalities SET packs=packs-'parking-services' WHERE id='20000000-0000-4000-8000-000000000001'",
   );
@@ -567,7 +552,7 @@ try {
   });
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toHaveCount(0);
   await page.getByRole('combobox', { name: 'Show', exact: true }).selectOption('all');
-  await page.getByLabel('Search loaded requests').fill(address);
+  await page.getByLabel('Search all requests').fill(address);
   await page.getByRole('button').filter({ hasText: address }).click();
   await expect(page.locator('.detail')).toContainText(address);
   await expect(page.getByLabel('Closure reason')).toHaveCount(0);

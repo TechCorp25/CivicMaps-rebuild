@@ -41,6 +41,13 @@ export function RequestQueue({
   onSelect,
   filter,
   onFilter,
+  search,
+  onSearch,
+  counts,
+  hasMore,
+  loadingMore,
+  loadMoreError,
+  onLoadMore,
 }: {
   requests: QueueRequest[];
   officers: { id: string; name: string }[];
@@ -48,22 +55,16 @@ export function RequestQueue({
   onSelect: (id: string) => void;
   filter: string;
   onFilter: (value: string) => void;
+  search: string;
+  onSearch: (value: string) => void;
+  counts?: { total: string; active: string; closed: string; received: string };
+  hasMore: boolean;
+  loadingMore: boolean;
+  loadMoreError: string;
+  onLoadMore: () => void;
 }) {
-  const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
-  const query = search.trim().toLowerCase();
-  const visible = requests.filter(
-    (request) =>
-      (filter === 'all' ||
-        (filter === 'closed'
-          ? request.status === 'CLOSED'
-          : filter === 'received'
-            ? request.status === 'RECEIVED'
-            : request.status !== 'CLOSED')) &&
-      (!query ||
-        request.address.toLowerCase().includes(query) ||
-        requestNumber(request.number).toLowerCase().includes(query)),
-  );
+  const visible = requests;
   const pages = Math.max(1, Math.ceil(visible.length / 25));
   const currentPage = Math.min(page, pages - 1);
   const chooseFilter = (value: string) => {
@@ -75,14 +76,22 @@ export function RequestQueue({
       <div className="queue-heading">
         <h2 id="queue-title">Operational queue</h2>
         <p className="muted" id="queue-limit">
-          {requests.length} authorised requests loaded across service pages. Search, filters and
-          counts apply to this complete set.
+          {counts?.total ?? requests.length} authorised requests match this search.{' '}
+          {requests.length} loaded.
         </p>
         <div className="queue-filters" aria-label="Queue filters">
           {[
-            ['active', 'Open', requests.filter((r) => r.status !== 'CLOSED').length],
-            ['received', 'Needs dispatch', requests.filter((r) => r.status === 'RECEIVED').length],
-            ['all', 'All', requests.length],
+            [
+              'active',
+              'Open',
+              counts?.active ?? requests.filter((r) => r.status !== 'CLOSED').length,
+            ],
+            [
+              'received',
+              'Needs dispatch',
+              counts?.received ?? requests.filter((r) => r.status === 'RECEIVED').length,
+            ],
+            ['all', 'All', counts?.total ?? requests.length],
           ].map(([value, label, count]) => (
             <button
               key={value}
@@ -97,14 +106,15 @@ export function RequestQueue({
         </div>
         <div className="queue-controls">
           <label className="queue-search">
-            Search loaded requests
+            Search all requests
             <span>
               <Search size={16} aria-hidden="true" />
               <input
                 type="search"
+                maxLength={250}
                 value={search}
                 onChange={(e) => {
-                  setSearch(e.target.value);
+                  onSearch(e.target.value);
                   setPage(0);
                 }}
                 placeholder="Address or SR number"
@@ -127,7 +137,7 @@ export function RequestQueue({
         <div className="empty">
           <ClipboardList size={36} aria-hidden="true" />
           <h3>No matching requests</h3>
-          <p>Change the search or filter to review other loaded requests.</p>
+          <p>Change the search or filter, or load more results.</p>
         </div>
       ) : (
         <div className="queue-scroll" tabIndex={0} role="region" aria-label="Service request table">
@@ -177,7 +187,7 @@ export function RequestQueue({
       )}
       <nav className="queue-pagination" aria-label="Queue pages">
         <span className="muted">
-          25 per page · Page {currentPage + 1} of {pages} · {visible.length} matching loaded records
+          25 per page · Page {currentPage + 1} of {pages} · {visible.length} loaded results
         </span>
         <button
           className="icon-button"
@@ -196,6 +206,18 @@ export function RequestQueue({
           <ChevronRight size={18} aria-hidden="true" />
         </button>
       </nav>
+      {hasMore && (
+        <div className="queue-load-more">
+          {loadMoreError && (
+            <p className="error" role="alert">
+              {loadMoreError}
+            </p>
+          )}
+          <button className="secondary" disabled={loadingMore} onClick={onLoadMore}>
+            {loadingMore ? 'Loading…' : 'Load more requests'}
+          </button>
+        </div>
+      )}
     </section>
   );
 }
