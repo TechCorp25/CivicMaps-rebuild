@@ -23,13 +23,14 @@
     "setup": "npm ci --ignore-scripts --bin-links=false --no-audit --no-fund",
     "test:platform:browser": "node tests/browser-platform.mjs",
     "lint": "node node_modules/eslint/bin/eslint.js . --max-warnings=0",
-    "format": "node node_modules/prettier/bin/prettier.cjs --write \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/ci.yml\"",
-    "format:check": "node node_modules/prettier/bin/prettier.cjs --check \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/ci.yml\"",
+    "format": "node node_modules/prettier/bin/prettier.cjs --write \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/*.yml\"",
+    "format:check": "node node_modules/prettier/bin/prettier.cjs --check \"apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}\" \"{services/api,scripts,tests}/**/*.mjs\" \"eslint.config.mjs\" \".prettierrc.json\" \"package.json\" \".github/workflows/*.yml\"",
     "worker:provisioning": "node services/api/provisioning-worker.mjs",
     "test:provisioning": "node --test tests/provisioning.test.mjs",
     "test:resources:cloud": "node tests/cloud-data-resources.mjs",
     "test:commandmaps:browser": "node tests/browser-commandmaps.mjs",
-    "test:activation:browser": "node tests/browser-activation.mjs"
+    "test:activation:browser": "node tests/browser-activation.mjs",
+    "audit:dependencies": "node scripts/dependency-audit.mjs"
   },
   "dependencies": {
     "express": "5.2.1",

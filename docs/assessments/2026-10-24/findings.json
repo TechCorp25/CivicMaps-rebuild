@@ -27,11 +27,27 @@
         "evidence/npm-audit.json",
         "evidence/body-parser-advisory.json",
         "evidence/dependency-tree.json",
-        "evidence/compressed-body-probe.json"
+        "evidence/compressed-body-probe.json",
+        "evidence/q1-dependency-tree.json",
+        "evidence/q1-advisory/production.json",
+        "evidence/q1-advisory/all.json",
+        "evidence/q1-body-parser.log",
+        "evidence/q1-check.log",
+        "evidence/q1-lockfile.diff"
       ],
-      "status": "open",
+      "status": "implemented_pending_independent_review",
       "implementationCommit": null,
-      "closureEvidence": null
+      "closureEvidence": {
+        "implementationCommit": null,
+        "candidateCommit": null,
+        "localChecks": [
+          "npm run setup",
+          "npm run check (95 passed, 0 failed, 0 skipped)",
+          "focused compressed-body child-process regression",
+          "npm audit production and complete tree (0 findings)"
+        ],
+        "independentAssessment": "pending"
+      }
     },
     {
       "id": "QA02",
@@ -379,7 +395,12 @@
       ],
       "status": "open",
       "implementationCommit": null,
-      "closureEvidence": null
+      "closureEvidence": null,
+      "subdispositions": {
+        "advisory": "implemented_pending_independent_review",
+        "python": "open_Q5",
+        "infrastructure": "open_Q5"
+      }
     }
   ]
 }

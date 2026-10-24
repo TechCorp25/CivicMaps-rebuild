@@ -72,7 +72,7 @@ Authenticated mutations require `x-csrf-token`; operational writes also require 
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` uses the committed Node version and npm 11.9.0, installs with `npm ci`, and runs `npm run check` against a pinned disposable PostgreSQL 15 service. It verifies generated token files remain unchanged, then runs the CommandMAPS, Platform, and first-admin activation browser suites sequentially. The CommandMAPS browser entry executes the shared-discovery checks. Browser artifacts include desktop and narrow screenshots. Scaffold applications are excluded; native-device checks remain separate acceptance work.
+`.github/workflows/ci.yml` uses the committed Node version and npm 11.9.0, installs with `npm ci`, and runs `npm run check` against a pinned disposable PostgreSQL 15 service. It verifies generated token files remain unchanged, then runs the CommandMAPS, Platform, and first-admin activation browser suites sequentially. The CommandMAPS browser entry executes the shared-discovery checks. A separate [dependency advisory workflow](../security/dependency-audits.md) audits both the production-only and complete lockfile trees on pull requests, pushes, weekly, and on demand. Browser artifacts include desktop and narrow screenshots. Scaffold applications are excluded; native-device checks remain separate acceptance work.
 
 When using an already running dedicated PostgreSQL instance, set `CIVICMAPS_DATABASE_URL` before `npm run check`; skip `db:start`. The test login needs permission to create/drop only its uniquely named disposable databases. Never point these commands at production. A writable npm cache can be selected with `npm_config_cache` in restricted workspaces.
 

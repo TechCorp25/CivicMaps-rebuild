@@ -1,0 +1,8 @@
+
+> civicmaps-local@0.1.0 test:commandmaps:browser
+> node tests/browser-commandmaps.mjs
+
+10:36:09 PM [vite] (client) Re-optimizing dependencies because lockfile has changed
+10:36:12 PM [vite] (client) ✨ new dependencies optimized: react/jsx-dev-runtime
+10:36:12 PM [vite] (client) ✨ optimized dependencies changed. reloading
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.

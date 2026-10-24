@@ -1,0 +1,18 @@
+{
+  "version": "0.1.0",
+  "name": "civicmaps-local",
+  "dependencies": {
+    "express": {
+      "version": "5.2.1",
+      "resolved": "https://registry.npmjs.org/express/-/express-5.2.1.tgz",
+      "overridden": false,
+      "dependencies": {
+        "body-parser": {
+          "version": "2.4.0",
+          "resolved": "https://registry.npmjs.org/body-parser/-/body-parser-2.4.0.tgz",
+          "overridden": false
+        }
+      }
+    }
+  }
+}

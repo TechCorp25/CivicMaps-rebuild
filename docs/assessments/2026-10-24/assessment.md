@@ -111,6 +111,10 @@ The first Python lint invocation inherited environment configuration and produce
 assessment uses the explicit isolated 3-diagnostic baseline, not the inherited count.
 Expected negative-case API messages in passing test logs are not additional failures.
 
+## Remediation execution status
+
+This report remains the frozen baseline assessment. The receiving developer has begun Q1 on the separately stacked package branch; the assessment itself applied no fixes. Q1 now has a patched lockfile resolution, a child-process compressed-body regression, and production/full-tree advisory checks. Local acceptance passed with 95 tests and no skips, three browser suites, both Caddy checks, and zero npm audit findings. Publication and fresh independent Q1 review are pending. See the [execution ledger](execution-ledger.md) and Q1 evidence; this status does not close QA01 or QA18 before that review.
+
 ## Findings
 
 ### QA01 — High: vulnerable production body-parser dependency
