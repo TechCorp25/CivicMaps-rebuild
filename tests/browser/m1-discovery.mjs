@@ -179,12 +179,11 @@ export async function verifyM1Discovery(page, expect) {
   await expect(queueStatus).toContainText('200 loaded results');
   await page.locator('.request-table tbody .request-link').first().click();
   await expect(page.locator('.detail')).toContainText('Queue active');
-  let deniedDuringRefresh = false;
   let failedRefreshContinuation = false;
   const denyDetailAndFailContinuation = async (route) => {
     const url = new URL(route.request().url());
-    if (!deniedDuringRefresh && /\/api\/requests\/[0-9a-f-]+$/.test(url.pathname)) {
-      deniedDuringRefresh = true;
+    // Keep the denial in force across overlapping scheduled refreshes until assertions finish.
+    if (/\/api\/requests\/[0-9a-f-]+$/.test(url.pathname)) {
       await route.fulfill({
         status: 404,
         contentType: 'application/json',
