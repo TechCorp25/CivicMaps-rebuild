@@ -1,0 +1,22 @@
+[
+  {
+    "command": [
+      "git",
+      "cat-file",
+      "-e",
+      "dfde2e461c530c25d1beff1902c9c7ece057e022:docs/plans/F11-G1-council-staff-authority-contract.md"
+    ],
+    "exit": 128,
+    "stderr": "fatal: path 'docs/plans/F11-G1-council-staff-authority-contract.md' does not exist in 'dfde2e461c530c25d1beff1902c9c7ece057e022'\n"
+  },
+  {
+    "command": [
+      "git",
+      "cat-file",
+      "-e",
+      "dfde2e461c530c25d1beff1902c9c7ece057e022:docs/plans/evidence/F11-G1-owner-decisions-2026-10-22.md"
+    ],
+    "exit": 128,
+    "stderr": "fatal: path 'docs/plans/evidence/F11-G1-owner-decisions-2026-10-22.md' does not exist in 'dfde2e461c530c25d1beff1902c9c7ece057e022'\n"
+  }
+]

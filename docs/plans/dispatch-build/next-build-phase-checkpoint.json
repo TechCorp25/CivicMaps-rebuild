@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "planVersion": "1.0.0",
+  "planVersion": "1.1.1",
   "planPath": "docs/plans/dispatch-build/next-build-phase.md",
-  "planSha256": "71670ccb2a90d9557f00bb32da57fa00ee2002ae6a7abe8b5efef99efe083b50",
+  "planSha256": "d3fc4acb06f94cef2b23ce0a2aecc34669db3a0e79b97f22ed4f11bcc73dd180",
   "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
-  "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
-  "planningBranch": "codex/civicmaps-m1-g1-phase-plan",
-  "preparationStatus": "published_verified_awaiting_owner_model_switch",
+  "baselineCommit": "c92667e8bd9b12055f2714bac16e6d97008c0d70",
+  "planningBranch": "codex/civicmaps-phase-status",
+  "preparationStatus": "P0_accepted_M1_merged_G1_blocked_owner_choice",
   "excluded": [
     "G2",
     "M2-M7",
@@ -16,60 +16,137 @@
   "goals": [
     {
       "id": "P0",
-      "status": "audit_pending",
-      "branch": "codex/civicmaps-m1-g1-phase-plan",
-      "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
-      "candidate": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
-      "audit": null,
+      "status": "accepted",
+      "branch": "codex/civicmaps-phase-status",
+      "base": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+      "candidate": "5b1333c9c607a651b2c0af05ab793edd09888c58",
+      "audit": "PASS_GPT6_ASTRA_LOW_FRESH_CONTEXT",
       "publication": "verified",
       "prerequisites": [],
       "blockers": [],
-      "nextAction": "Publish, verify Git/Empirical hash, then Luna launches fresh Astra planning audit."
+      "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded.",
+      "auditReportPath": "docs/plans/dispatch-build/evidence/P0-audit-v1.1.1-final/report.md",
+      "auditReportSha256": "c8f195ca49d4b8d6a10f09aa2dff46d9edf121482d971ecd103f6e47be8b64b7"
     },
     {
       "id": "M1",
-      "status": "planned",
-      "branch": null,
-      "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
-      "candidate": null,
-      "audit": null,
-      "publication": "not_started",
+      "status": "merged",
+      "branch": "codex/civicmaps-dispatch-m1",
+      "base": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+      "candidate": "d905b85ca7f0c2a20eaa956b0448ed7f5581f47b",
+      "audit": "pass_gpt6_astra_low_fresh_context",
+      "publication": "verified",
       "prerequisites": [
         "P0 publication",
         "merged M0",
         "merged F-002"
       ],
       "blockers": [],
-      "nextAction": "After model switch verify baseline, run checks and implement discovery."
+      "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded.",
+      "mergeCommit": "c92667e8bd9b12055f2714bac16e6d97008c0d70",
+      "auditReportPath": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
+      "auditReportSha256": "d23a1a9cca4149c322e2790804c1bedc37c57be7237cf9bd2bdf90c3dc9d2123"
     },
     {
       "id": "G1",
-      "status": "planned",
-      "branch": null,
-      "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
-      "candidate": null,
-      "audit": null,
-      "publication": "not_started",
+      "status": "blocked_owner_choice_pending",
+      "branch": "codex/civicmaps-dispatch-g1",
+      "base": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+      "candidate": "97776474e97d286b07a8b9f0baadb4d86ac54c2e",
+      "audit": "pending_after_owner_choice",
+      "publication": "verified",
       "prerequisites": [
         "signed Q01-Q12",
         "merged governance"
       ],
-      "blockers": [],
-      "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
+      "blockers": [
+        "Initial council authority commissioning owner decision; fresh G1 reassessment."
+      ],
+      "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded."
     }
   ],
-  "nextAction": "Review reconciled PR39 for owner merge; then resume bounded M1/G1 work using the canonical plan. Publication and prior code review do not establish goal acceptance.",
-  "publication": {
-    "commit": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
-    "tree": "86a29ea8ef93abae954cc860b589500144aacadf",
-    "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/39",
-    "memoryId": "6ad9d075beb1d96470651ac7",
-    "memoryReadback": "complete text equals canonical bytes; SHA-256 verified",
-    "transport": "repository-owner GitHub connector; environment Git identity returned 403"
+  "nextAction": "Obtain the owner decision on initial council authority commissioning, then freeze and independently reassess G1 v1.3. M1 PR40 is owner-merged at c92667e, including later review fixes; its recorded Astra acceptance remains scoped to d905b85. G2 remains blocked; PR41 merge and deployment remain excluded.",
+  "historicalPublication": {
+    "schemaVersion": 1,
+    "planVersion": "1.0.0",
+    "planPath": "docs/plans/dispatch-build/next-build-phase-v1.0.0.md",
+    "planSha256": "71670ccb2a90d9557f00bb32da57fa00ee2002ae6a7abe8b5efef99efe083b50",
+    "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+    "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "planningBranch": "codex/civicmaps-m1-g1-phase-plan",
+    "preparationStatus": "published_verified_awaiting_owner_model_switch",
+    "excluded": [
+      "G2",
+      "M2-M7",
+      "merge",
+      "deployment"
+    ],
+    "goals": [
+      {
+        "id": "P0",
+        "status": "audit_pending",
+        "branch": "codex/civicmaps-m1-g1-phase-plan",
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
+        "audit": null,
+        "publication": "verified",
+        "prerequisites": [],
+        "blockers": [],
+        "nextAction": "Publish, verify Git/Empirical hash, then Luna launches fresh Astra planning audit."
+      },
+      {
+        "id": "M1",
+        "status": "planned",
+        "branch": null,
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "not_started",
+        "prerequisites": [
+          "P0 publication",
+          "merged M0",
+          "merged F-002"
+        ],
+        "blockers": [],
+        "nextAction": "After model switch verify baseline, run checks and implement discovery."
+      },
+      {
+        "id": "G1",
+        "status": "planned",
+        "branch": null,
+        "base": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+        "candidate": null,
+        "audit": null,
+        "publication": "not_started",
+        "prerequisites": [
+          "signed Q01-Q12",
+          "merged governance"
+        ],
+        "blockers": [],
+        "nextAction": "After M1 freeze, prepare independent staff authority contract; resolve required missing choices."
+      }
+    ],
+    "nextAction": "Review reconciled PR39 for owner merge; then resume bounded M1/G1 work using the canonical plan. Publication and prior code review do not establish goal acceptance.",
+    "publication": {
+      "commit": "c2ba7b74b345dee9bcb637f316c37f2bb8202710",
+      "tree": "86a29ea8ef93abae954cc860b589500144aacadf",
+      "pr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/39",
+      "memoryId": "6ad9d075beb1d96470651ac7",
+      "memoryReadback": "complete text equals canonical bytes; SHA-256 verified",
+      "transport": "repository-owner GitHub connector; environment Git identity returned 403"
+    },
+    "reconciliation": {
+      "main": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+      "priorReviewedHead": "fb18966156343f145a76f9ca1e9946a14f9a1682",
+      "resolution": "Retain the more detailed PR39 canonical plan and its original hash; preserve PR38 phase receipt in F11 nextBuildPhase. Environment blocker cleared by completed bootstrap. Goal acceptance remains pending."
+    }
   },
   "reconciliation": {
-    "main": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
-    "priorReviewedHead": "fb18966156343f145a76f9ca1e9946a14f9a1682",
-    "resolution": "Retain the more detailed PR39 canonical plan and its original hash; preserve PR38 phase receipt in F11 nextBuildPhase. Environment blocker cleared by completed bootstrap. Goal acceptance remains pending."
+    "date": "2026-10-24",
+    "main": "c92667e8bd9b12055f2714bac16e6d97008c0d70",
+    "priorReviewedHead": "bcc8e9526eeb87a2fc186c1a60502e092383aef9",
+    "receiptPath": "docs/plans/dispatch-build/evidence/PR41-main-reconciliation-2026-10-24.md",
+    "retainedPriorPlan": "docs/plans/dispatch-build/next-build-phase-v1.0.0.md",
+    "guidance": "Medium"
   }
 }

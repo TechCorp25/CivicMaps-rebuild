@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-23",
+  "feature": "F11",
+  "state": "s0_complete",
+  "baselineCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+  "sessionS0": {
+    "status": "complete",
+    "evidencePath": "docs/plans/evidence/F11-S0-baseline-2026-10-21.md",
+    "verifiedMain": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+    "activeBranch": "codex/civicmaps-f11-autonomous-build",
+    "localCheck": "npm run check passed lint, format, both typechecks, both builds and all 92 Node tests; 92 passed, 0 failed/skipped/cancelled. PostgreSQL 15.19 server and matching client tools were used from a disposable container/test-only work path.",
+    "testDiscovery": "node --test 'tests/**/*.test.mjs'; 92 tests discovered; tests/f11 has README only and no executable suite.",
+    "hostedCheck": "foundation check run 119141981170 in workflow run 39576128426 passed on verified main.",
+    "runtime": "Pinned PostgreSQL 15 image ran as a disposable container; Node connected at 127.0.0.1:55432. For the preserved full check, matching client executables were copied into /tmp/civicmaps-s0-evidence/postgres-client and used from PATH; no system installation. Local browser suites not run.",
+    "audit": {
+      "status": "historical_pass_unbound_to_reachable_candidate",
+      "verdict": "historical_pass_candidate_unverifiable",
+      "reportPath": "docs/plans/evidence/F11-S0-independent-audit-6a590e4.md",
+      "reportSha256": "b4c0c4e859e4be2a55c6a6023cca3aca07cc4cf34e8d1fd4395b11a9770e7c1e",
+      "auditor": "GPT-6 Astra",
+      "reasoning": "low",
+      "freshContext": "collaboration spawn with fork_turns=none",
+      "candidateTree": "6a590e4321b37eb609fbb17b22cdcca36b1b9380",
+      "baseline": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+      "limitations": "Hosted CI is supported by the retained connected-API response summary; local browser suites were not run. This is S0 inventory acceptance only, not functional F11 acceptance. The reported candidateTree is not present in the fetched Git object database and cannot be reconstructed from the retained manifest; this report therefore does not bind to the published branch commit. A fresh assessment is required for a committed candidate."
+    },
+    "auditReview": "See evidence/F11-S0-audit-reference-correction.md; retain historical report, but do not treat its pass as current candidate acceptance."
+  },
+  "planPath": "docs/plans/F11-next-phase-build-plan.md",
+  "builder": {
+    "model": "GPT-6 Luna",
+    "reasoning": "medium"
+  },
+  "auditor": {
+    "model": "GPT-6 Astra",
+    "reasoning": "low",
+    "freshContext": true,
+    "inheritConversation": false,
+    "protocolPath": "docs/plans/independent-product-audit-protocol.md"
+  },
+  "goals": [
+    {
+      "id": "G0",
+      "status": "locally_validated",
+      "evidence": {
+        "localCommit": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+        "localTree": "verified main tree d127a33620d9226ca6dccc62d337e17cb1d346af",
+        "remoteVerification": "GitHub branch API and Git fetch verify main at 65757b67669e7f9e79fcd160d5e5de23d9d7d42f; PR25 and PR32 are merged.",
+        "runtime": "Node 24.19.0; npm 11.9.0; pinned PostgreSQL 15.19 disposable container reachable on 127.0.0.1:55432; host pg_dump/pg_restore absent.",
+        "checks": "On verified main, npm run check passed lint, format, both typechecks, both builds and all 92 Node tests (92/92 passed) using the pinned disposable PostgreSQL 15 image and matching test-only utilities. Hosted exact-main CI also passed.",
+        "browser": "Not run locally; the exact-main hosted CI workflow passed its browser stages.",
+        "limitations": "Browser suites were not run locally; exact-main hosted CI passed ingress and all three browser suites. No functional F11 acceptance is claimed."
+      },
+      "audit": null
+    },
+    {
+      "id": "G1",
+      "status": "in_progress",
+      "evidence": {
+        "scope": "Original council-to-CommandMAPS staff authority design; governance ownership implementation is merged through PR25 on main.",
+        "requirements": "Signed Q01–Q12 and governance correction records are available at pinned PR25 head 2e79563e82fb07b3e1747d72403aa7e5eaa1a028; fetch and inspect the merged main source before design work."
+      },
+      "audit": null
+    },
+    {
+      "id": "G2",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G3",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G4",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    },
+    {
+      "id": "G5",
+      "status": "not_started",
+      "evidence": null,
+      "audit": null
+    }
+  ],
+  "nextAction": "Prepare a committed S0 documentation candidate, verify its tree and included evidence, then obtain a fresh independent assessment against that reachable candidate.",
+  "environmentBlockers": [
+    "Historical S0 environment limitation as recorded on 2026-10-22; superseded for the current M1 phase by hosted PostgreSQL-backed verification in runs 39895161432 and 39895991685. Local PostgreSQL remains unavailable."
+  ],
+  "governancePR": 25,
+  "verifiedRemote": {
+    "main": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "pr28Head": "1210cdd2d59c1d79e3b83999e4afeac0b5558c2a",
+    "pr28Tree": "1f088125cf55b84da694a9d4bc504d41a2f895b9",
+    "pr28Verification": "Verified remote branch snapshot on 20 October 2026 before the review fixes. Includes reconciled handoff e40ea194 and lifecycle/test-plan update 1210cdd2. This is a pinned resumption baseline, not a claim to track later PR heads; fetch and verify the current branch before continuing.",
+    "pr25Head": "2e79563e82fb07b3e1747d72403aa7e5eaa1a028",
+    "pr25Merge": "65757b67669e7f9e79fcd160d5e5de23d9d7d42f",
+    "pr25Status": "merged; ownership preserved",
+    "pr32Head": "96b1b10d38054dc5ea24a379fa3d37d3e1b5c5ac",
+    "pr32Merge": "ddc1810f6afc9bfbc2563cdf2d8741778fcaf768",
+    "pr32Status": "merged; F-002 is owned by main and must not be duplicated",
+    "verification": "GitHub API confirmed main exact SHA and PR37 merge; local checkout unavailable."
+  },
+  "historicalAudit": {
+    "status": "superseded_incomplete_wrong_scope_packet",
+    "record": {
+      "id": "G1",
+      "status": "blocked_audit",
+      "evidence": {
+        "contract": "docs/plans/F11-principal-ownership-contract.md",
+        "scopeCorrection": "Synthetic/test-only principal ownership enforcement with binding corrections; broader staff provisioning deferred.",
+        "sourceLimit": "Exact /workspace/work/council-principal-ownership-implementation-contract.md absent; PR25 source objects unavailable locally. Contract records this limitation explicitly."
+      },
+      "audit": {
+        "verdict": "blocked",
+        "reportPath": "docs/plans/evidence/F11-G1-independent-audit-6210ac0.md",
+        "reportSha256": "4f8811a1d321e3e691a4efad159c01c6cf2d4cb5c2ecdd6a1744ea71b1f0799c",
+        "auditor": "GPT-6 Astra",
+        "reasoning": "low",
+        "freshContext": "collaboration spawn with fork_turns=none",
+        "candidateCommit": "6210ac02ca81738ba943c6096d56238728316d10",
+        "candidateTree": "372a6d96aec959f0eb1975c505e202c45461127d",
+        "inputSha256": "33e68899331de5df6f71b6f062b6072f25628374dd2b7e9179079701742591f3",
+        "finding": "Mandatory binding-correction content and clean source contract are unavailable; schema design and existing enforcement dependencies remain unverified.",
+        "g2Authorized": false
+      }
+    },
+    "correctionPath": "docs/plans/evidence/F11-handoff-correction-2026-10-20.md"
+  },
+  "developmentSequence": [
+    "plan",
+    "build",
+    "test",
+    "update_docs_and_empirical",
+    "push",
+    "independent_assessment",
+    "merge",
+    "deploy",
+    "plan_next_phase"
+  ],
+  "testInventoryPath": "tests/f11/README.md",
+  "releaseStatus": {
+    "assessment": "not_completed",
+    "merge": "not_started",
+    "deploy": "not_started"
+  },
+  "nextBuildPhase": {
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "planVersion": "1.0.0",
+    "branch": "codex/civicmaps-m1-g1-build-phase",
+    "baseCommit": "6761cd6adcd9f922aed939ccafb75f81cf7eba62",
+    "status": "audit_pending",
+    "goals": {
+      "P0": "published_review_pending",
+      "M1": "blocked_environment_unavailable",
+      "G1": "planned"
+    },
+    "executor": {
+      "model": "GPT-6 Luna",
+      "reasoning": "medium"
+    },
+    "auditor": {
+      "model": "GPT-6 Astra",
+      "reasoning": "low",
+      "freshContext": true,
+      "inheritConversation": false
+    },
+    "boundaries": [
+      "G2 provisioning implementation",
+      "M2-M7",
+      "merge",
+      "deployment"
+    ],
+    "blocker": "No usable execution environment; shell commands fail before process launch. Remote GitHub API access works."
+  },
+  "phaseM1G1Status": {
+    "date": "2026-10-23",
+    "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+    "planVersion": "1.1.0",
+    "verifiedMain": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+    "m1": {
+      "status": "accepted",
+      "functionalCandidate": "ff894d664d4cafe049c47d1e83c79ab421a20831",
+      "audit": "pass_gpt6_astra_low_fresh_context",
+      "reportPath": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
+      "localHead": "581a064f7e9b129f744f00a8c4e8897b8a86ae8c",
+      "remoteHead": "d905b85ca7f0c2a20eaa956b0448ed7f5581f47b",
+      "pullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/40",
+      "hostedWorkflowRun": "39895161432_success;39895991685_success",
+      "currentReceipt": "docs/plans/dispatch-build/evidence/M1-handoff-ff894d6.md",
+      "tree": "9f2950e421c230c03b05efbdcc76a8b4e4fda1da",
+      "keyboard": "browser_keyboard_load_more_enter_verified",
+      "candidate": "d905b85ca7f0c2a20eaa956b0448ed7f5581f47b",
+      "auditReportPath": "docs/plans/dispatch-build/evidence/M1-independent-assessment-d905b85.md",
+      "auditReportSha256": "d23a1a9cca4149c322e2790804c1bedc37c57be7237cf9bd2bdf90c3dc9d2123",
+      "auditPacketPath": "docs/plans/dispatch-build/evidence/M1-audit-d905b85/",
+      "localLimit": "Database setup unavailable (initdb absent/connection EPERM); hosted PostgreSQL-backed CI passed.",
+      "currentPrHead": "8c6cce9fcbfc0c813dc916aec18410459c2a2ee4",
+      "currentPrTree": "2cc566026973ae9688f68b5c99c024d000dd171e",
+      "ownerMerge": "required_before_dependent_implementation"
+    },
+    "g1": {
+      "status": "blocked_owner_choice_pending",
+      "auditedCandidate": "0f2bbcb7f233abdb8bb9ef1ba848dcca439ce62d",
+      "auditFinding": "staff_only_authorization_boundary_and_incomplete_recovery_and_initial_appointment_paths",
+      "ownerBootstrapChoice": "initial_authority_commissioning_path_pending",
+      "dependentG2": "blocked",
+      "correctedCandidate": "ee4ea9d5f2155c69e74e5894a3202f7c9eeefc87",
+      "correctedTree": "55c3ffbf3bc69d5ef8f6a21a996eb7b7d4f31a90",
+      "contractVersion": "1.3",
+      "audit": "pending_after_owner_choice"
+    },
+    "p0": {
+      "status": "published_draft_pr_audit_and_empirical_readback_pending",
+      "version": "1.1.0",
+      "planPath": "docs/plans/dispatch-build/next-build-phase.md",
+      "planSha256": "44e6bb15b003c668cd5a8d71c618b4071694a2121f5eb12f8c98161b46ed4f29",
+      "contentCommit": "52b6af2bf8779e7760c651b5adf8274b5939a818",
+      "contentTree": "f84883fee1958a01ccf99621b6bf0f7963da0460",
+      "gitPermalink": "https://github.com/TechCorp25/CivicMaps-rebuild/blob/52b6af2bf8779e7760c651b5adf8274b5939a818/docs/plans/dispatch-build/next-build-phase.md",
+      "draftPr": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/41",
+      "manifest": "docs/plans/dispatch-build/plan-manifest.json",
+      "independentAudit": "pending_fresh_context"
+    },
+    "merge": "not_authorized",
+    "deployment": "excluded",
+    "historyPolicy": "The initial snapshot above remains historical. Current phase status is in phaseM1G1Status; M1 passed fresh Astra Low reassessment on exact implementation candidate d905b85 and hosted PostgreSQL-backed runs 39895161432 and 39895991685 passed all suites. Local PostgreSQL remains unavailable. G1 initial authority commissioning remains owner-blocked. No G2 implementation, merge or deployment is included."
+  },
+  "legacySnapshotNote": "Fields before phaseM1G1Status are retained as the 2026-10-22 checkpoint snapshot. Their baseline, environment status and nextAction are historical; phaseM1G1Status is the authoritative current checkpoint."
+}

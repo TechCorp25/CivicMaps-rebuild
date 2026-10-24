@@ -1,0 +1,51 @@
+[
+  {
+    "command": [
+      "git",
+      "rev-parse",
+      "dfde2e461c530c25d1beff1902c9c7ece057e022",
+      "dfde2e461c530c25d1beff1902c9c7ece057e022^{tree}",
+      "d4921eb1c37550d9ca1b53a5615242922abfa4ad^{tree}"
+    ],
+    "exit": 0,
+    "stdout": "dfde2e461c530c25d1beff1902c9c7ece057e022\n12738412b57590ae20c1596e6e73719b7a5ec58f\n0b5f55e855a59574e1063d20f7f85f102559a99d\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "merge-base",
+      "--is-ancestor",
+      "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+      "dfde2e461c530c25d1beff1902c9c7ece057e022"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "sha256sum",
+      "-c",
+      "docs/plans/dispatch-build/next-build-phase.sha256"
+    ],
+    "exit": 0,
+    "stdout": "docs/plans/dispatch-build/next-build-phase.md: OK\n",
+    "stderr": ""
+  },
+  {
+    "check": "immutable remote plan equals candidate bytes",
+    "equal": true,
+    "remote_sha256": "44e6bb15b003c668cd5a8d71c618b4071694a2121f5eb12f8c98161b46ed4f29"
+  }
+]

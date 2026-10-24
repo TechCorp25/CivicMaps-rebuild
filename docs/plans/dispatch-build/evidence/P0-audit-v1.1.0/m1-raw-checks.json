@@ -1,0 +1,145 @@
+{
+  "hash_checks": [
+    {
+      "file": "requirements.md",
+      "sha256": "e7b04e7a8c0c65bb1994d2c06e57df4ee5d628014745c838d77258e7bb7991e9",
+      "matches": true
+    },
+    {
+      "file": "protocol.md",
+      "sha256": "02ced655e48f0b183dfecd1ff97283682943dca3e0b1855ea12d1578807e3106",
+      "matches": true
+    },
+    {
+      "file": "input-sha256.txt",
+      "sha256": "3268cd6adf3e2015f90b120c8f2772c1be1374a99b3a7f2e88cb4019595dc2eb",
+      "matches": true
+    },
+    {
+      "file": "job-120223781860.log",
+      "sha256": "bf7e244fa6369635abf745566a0a93f63b00ba4d120a1329a1dd9c54fcec57ce",
+      "matches": true
+    },
+    {
+      "file": "job-120226461231.log",
+      "sha256": "3cbac1bcbd20c24716c8687c5e6fda2c68ac91e5f884cf0f89aa09a0419a8ff7",
+      "matches": true
+    },
+    {
+      "file": "local-activation-browser.log",
+      "sha256": "52139c9372de5c3977adfa499c3f817e78d59ff82a799e5d492cdf441deb1c81",
+      "matches": true
+    },
+    {
+      "file": "local-check.log",
+      "sha256": "27e8a278e9266a0f2ed58deca2ed87d2a516698aa30de17bd91248dce8bfc5d8",
+      "matches": true
+    },
+    {
+      "file": "local-commandmaps-browser.log",
+      "sha256": "9c2e9721de87e08263ac34351c9843e1a4a52b56ea419839faa9d9a104f2daed",
+      "matches": true
+    },
+    {
+      "file": "local-platform-browser.log",
+      "sha256": "935eb857c0bc30c1174b2bac7183597226ea7a02a0eb83a55c8f9d85c7093c85",
+      "matches": true
+    },
+    {
+      "file": "steps120223781860.json",
+      "sha256": "8558bcb099ad75645842334e42a2b295f4ad1db723d7cf315c3f141d770a7192",
+      "matches": true
+    },
+    {
+      "file": "steps120226461231.json",
+      "sha256": "8558bcb099ad75645842334e42a2b295f4ad1db723d7cf315c3f141d770a7192",
+      "matches": true
+    },
+    {
+      "file": "jobs39895161432.json",
+      "sha256": "07f866588d67bae3b60a3fb41301dddda71d8a764e4cfea19a85fd9aa697c71d",
+      "matches": true
+    },
+    {
+      "file": "jobs39895991685.json",
+      "sha256": "93078406c6768ee565ba077af3d1b1929752d0eac4dc94623b4e4a1d84e3045b",
+      "matches": true
+    },
+    {
+      "file": "runs.json",
+      "sha256": "d43741cc973b2123fd8b6116d3fbcd5de50abafb0673f03e478ecb071eae2d72",
+      "matches": true
+    },
+    {
+      "file": "artifacts-39895161432.json",
+      "sha256": "4e5b74f7ddba84e3ded4d9b1628356ca313c0751ab5786c3968af60f8b13fe25",
+      "matches": true
+    },
+    {
+      "file": "artifacts-39895991685.json",
+      "sha256": "4b0918a34feb40061ab46dacfe28dbbfeed04d988447007322a66d36e1024d80",
+      "matches": true
+    },
+    {
+      "file": "m1-discovery-desktop.png",
+      "sha256": "2e1848c5782d839bbae00de9655af01ba7346fd526ab17036798ccc98921f927",
+      "matches": true
+    },
+    {
+      "file": "m1-discovery-narrow.png",
+      "sha256": "c89108f903ac05ff449b63900f2dc80d8b4c0f79d018b81c6fadfc4bce639c8f",
+      "matches": true
+    }
+  ],
+  "log_excerpts": [
+    {
+      "file": "local-check.log.gz",
+      "relevant_lines": []
+    },
+    {
+      "file": "local-platform-browser.log.gz",
+      "relevant_lines": [
+        "9: Error: connect EPERM 127.0.0.1:55432 - Local (undefined:undefined)",
+        "15:   code: 'EPERM',"
+      ]
+    },
+    {
+      "file": "job-120223781860.log.gz",
+      "relevant_lines": [
+        "122: 2026-10-23T03:28:14.4802870Z ##[command]/usr/bin/docker create --name 99860f8a2d184720bed2edc582ba3ef0_postgres15bookwormsha256d4a8e1f88f475ee3e0137fa89d21ebc59f6c6ab16bf369ee92907607cc3455ae_5c540e --label 2a201c --network github_network_6b39b51b3631467383b28147d4bd754e --network-alias postgres -p 5432:5432 --health-cmd \"pg_isready -U civicmaps_local -d postgres\" --health-interval 5s --health-timeout 5s --health-retries 12 -e \"POSTGRES_USER=civicmaps_local\" -e \"POSTGRES_PASSWORD=[REDACTED]\" -e \"POSTGRES_DB=postgres\" -e GITHUB_ACTIONS=true -e CI=true postgres:15-bookworm@sha256:d4a8e1f88f475ee3e0137fa89d21ebc59f6c6ab16bf369ee92907607cc3455ae",
+        "230: 2026-10-23T03:28:22.4240357Z HEAD is now at b9fad21 Merge 1ecbb801c6c4ec7de74f698540ca7dc74833ac47 into d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+        "501: 2026-10-23T03:29:14.5518671Z PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).",
+        "502: 2026-10-23T03:29:17.3308734Z PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).",
+        "769: 2026-10-23T03:29:56.9210630Z PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.",
+        "782: 2026-10-23T03:30:19.7505014Z PASS: Chromium create \u2192 assign \u2192 reload \u2192 officer acknowledge \u2192 attend \u2192 close; database, audit, cross-scope denial, logout and narrow layout verified.",
+        "794: 2026-10-23T03:30:24.7937977Z PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation."
+      ]
+    },
+    {
+      "file": "local-activation-browser.log.gz",
+      "relevant_lines": [
+        "9: Error: connect EPERM 127.0.0.1:55432 - Local (undefined:undefined)",
+        "15:   code: 'EPERM',"
+      ]
+    },
+    {
+      "file": "job-120226461231.log.gz",
+      "relevant_lines": [
+        "123: 2026-10-23T03:37:36.7624136Z ##[command]/usr/bin/docker create --name a0c15bea226a412484909c17b19fda9d_postgres15bookwormsha256d4a8e1f88f475ee3e0137fa89d21ebc59f6c6ab16bf369ee92907607cc3455ae_f83dbd --label c90cd5 --network github_network_bd92ee1047ae4503b27366fa79488933 --network-alias postgres -p 5432:5432 --health-cmd \"pg_isready -U civicmaps_local -d postgres\" --health-interval 5s --health-timeout 5s --health-retries 12 -e \"POSTGRES_USER=civicmaps_local\" -e \"POSTGRES_PASSWORD=[REDACTED]\" -e \"POSTGRES_DB=postgres\" -e GITHUB_ACTIONS=true -e CI=true postgres:15-bookworm@sha256:d4a8e1f88f475ee3e0137fa89d21ebc59f6c6ab16bf369ee92907607cc3455ae",
+        "231: 2026-10-23T03:37:44.5488866Z HEAD is now at 79c70fc Merge d905b85ca7f0c2a20eaa956b0448ed7f5581f47b into d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+        "503: 2026-10-23T03:38:38.8220488Z PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).",
+        "504: 2026-10-23T03:38:42.0122801Z PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).",
+        "773: 2026-10-23T03:39:20.5847856Z PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.",
+        "786: 2026-10-23T03:39:44.3157968Z PASS: Chromium create \u2192 assign \u2192 reload \u2192 officer acknowledge \u2192 attend \u2192 close; database, audit, cross-scope denial, logout and narrow layout verified.",
+        "798: 2026-10-23T03:39:49.4039881Z PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation."
+      ]
+    },
+    {
+      "file": "local-commandmaps-browser.log.gz",
+      "relevant_lines": [
+        "9: Error: connect EPERM 127.0.0.1:55432 - Local (undefined:undefined)",
+        "15:   code: 'EPERM',"
+      ]
+    }
+  ]
+}

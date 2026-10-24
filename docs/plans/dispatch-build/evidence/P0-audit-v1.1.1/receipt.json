@@ -1,0 +1,15 @@
+{
+  "goal": "P0",
+  "planVersion": "1.1.1",
+  "assessmentCandidate": "3a8a58ee371e43ef9e41bfd5b6d3a316394341be",
+  "assessmentTree": "9cd6c008bc967a1743c51638bee9618d5058660c",
+  "base": "d4921eb1c37550d9ca1b53a5615242922abfa4ad",
+  "auditor": "GPT-6 Astra",
+  "reasoning": "low",
+  "freshContext": true,
+  "verdict": "CHANGES_REQUIRED",
+  "reportSha256": "ab0b3ea5eb165e3a6556a3fec368355ad2b0df2e91e7f2f4c38be546af843480",
+  "finding": "Reconcile five current feature-ledger publication metadata fields to plan v1.1.1 content hash and the published content commit/tree/permalink.",
+  "EmpiricalReadback": "verified_after_assessment",
+  "nextAction": "Fix the ledger fields, freeze and obtain a fresh Astra reassessment."
+}
