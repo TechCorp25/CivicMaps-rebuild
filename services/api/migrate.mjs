@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { pool, transaction } from './database.mjs';
+import { maintenancePool, transaction } from './database.mjs';
 
 const ownershipManifest = JSON.parse(
   await readFile(
@@ -287,8 +287,8 @@ try {
         await client.query('INSERT INTO civicmaps_migrations(id) VALUES ($1)', [id]);
       }
     }
-  });
+  }, maintenancePool);
   console.log('Foundation migrations applied or already present');
 } finally {
-  await pool.end();
+  await maintenancePool.end();
 }

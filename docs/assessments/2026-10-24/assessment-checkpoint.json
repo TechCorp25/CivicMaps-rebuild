@@ -11,11 +11,11 @@
   "findings": "findings.json",
   "scope": "Current-main engineering quality assurance; no governance hold or feature implementation",
   "assessmentStatus": "completed_with_explicit_coverage_limits",
-  "remediationStatus": "in_progress_Q1_implemented_pending_independent_review",
+  "remediationStatus": "Q1_accepted_Q2_implemented_pending_independent_review",
   "independentAssessmentStatus": "pass_on_frozen_product_43423d7",
   "publicationStatus": "draft_PR43_verified_remote_43423d7",
   "empiricalStatus": "complete_plan_recorded_and_read_back_byte_equal",
-  "nextAction": "Publish the tested Q1 candidate through the single integration writer and obtain a fresh GPT-6 Astra Low independent review. Q2 remains dependent on Q1 acceptance; no merge or deployment is authorised.",
+  "nextAction": "Publish the locally verified Q2 candidate through the single integration writer and obtain a fresh GPT-6 Astra Low review. No merge or deployment is authorized.",
   "securityCoverage": {
     "dependencyAudit": "completed_one_high_advisory",
     "sourceReview": "completed_with_reported_limits",
@@ -38,7 +38,14 @@
     "activationBrowser": "PG17_and_PG15_pass",
     "caddyIngress": "pass_loopback_HTTP",
     "cfnLint": "pass_ap-southeast-2",
-    "ruffBaseline": "three_diagnostics_outside_current_CI"
+    "ruffBaseline": "three_diagnostics_outside_current_CI",
+    "q2Postgres15FullCheck": {
+      "passed": 104,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q2DatabaseBudgets": "saturation_timeout_cancellation_lock_timeout_connection_recovery_pass",
+    "q2AsyncAuthentication": "legacy_hash_malformed_hash_overload_and_health_burst_pass"
   },
   "prohibitedByScope": [
     "feature_implementation",
@@ -69,14 +76,14 @@
   "execution": {
     "ledger": "execution-ledger.md",
     "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
-    "package": "Q1",
-    "branch": "codex/civicmaps-quality-q1",
-    "packageBase": "ea76b23f15b0d13feada592a88b14b587f8b12de",
-    "implementationCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
-    "candidateCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
-    "localAcceptance": "passed",
-    "publication": "verified_remote",
-    "independentAssessment": "pass",
+    "package": "Q2",
+    "branch": "codex/civicmaps-quality-q2",
+    "packageBase": "bc180f0ae8c74a58815dfe7dc1614c667eb4d187",
+    "implementationCommit": null,
+    "candidateCommit": null,
+    "localAcceptance": "passed_104_tests_zero_failures_zero_skips_three_browsers_two_caddy_checks",
+    "publication": "pending_single_integration_writer",
+    "independentAssessment": "pending_fresh_GPT-6_Astra_Low",
     "merge": "not_authorised",
     "deployment": "not_authorised",
     "evidenceDirectory": "evidence/",
@@ -84,7 +91,7 @@
     "acceptedCommit": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
     "auditorReport": "evidence/q1-independent/report.md",
     "auditorReportSha256": "945b84dc6832137a1893ef905e270c12980fcd9b84621c1a2103aeb3fc7eef7d",
-    "nextAction": "Q2 active on isolated package branch codex/civicmaps-quality-q2",
+    "nextAction": "Root publishes the exact Q2 tested tree, then provides it with the neutral Q2 contract to a fresh independent reviewer.",
     "hostedCI": {
       "candidate": "1cb963d8eee9e12e62de39fa106d439d0af61ea0",
       "applicationRun": 40139639476,

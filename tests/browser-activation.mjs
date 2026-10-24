@@ -23,7 +23,7 @@ try {
       'Synthetic',
       'Administrator',
       'browser-admin@alpha.synthetic.example',
-      hashPassword('unused-registration-secret'),
+      await hashPassword('unused-registration-secret'),
     ],
   );
   const server = async (app, port) => {

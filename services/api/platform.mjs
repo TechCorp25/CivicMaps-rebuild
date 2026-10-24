@@ -4,7 +4,7 @@ import { deployedRouting, checkRouteSession, controlRoute } from './routing.mjs'
 import express from 'express';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { pool, transaction } from './database.mjs';
-import { hashPassword, verifyPassword } from './passwords.mjs';
+import { hashPassword, verifyPasswordSafely } from './passwords.mjs';
 import { enqueueProvisioning, readProvisioning, controlProvisioning } from './provisioning.mjs';
 
 export const domainPacks = [
@@ -19,7 +19,7 @@ export const domainPacks = [
   'asset-inspections',
 ];
 const digest = (value) => createHash('sha256').update(value).digest('hex');
-const dummyHash = hashPassword(randomBytes(32).toString('hex'));
+const dummyHash = await hashPassword(randomBytes(32).toString('hex'));
 const slugPattern = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 const reservedSlugs = new Set(['platform', 'admin', 'api', 'www', 'localhost', 'auth']);
 const cookieName = 'civicmaps_platform_session';
@@ -195,7 +195,11 @@ export function platformRouter() {
     const result = await pool.query('SELECT * FROM platform_operators WHERE email=$1 AND active', [
       data.email.trim().toLowerCase(),
     ]);
-    const valid = verifyPassword(data.password, result.rows[0]?.password_hash ?? dummyHash);
+    const valid = await verifyPasswordSafely(
+      data.password,
+      result.rows[0]?.password_hash ?? dummyHash,
+      dummyHash,
+    );
     requireValue(
       result.rowCount === 1 && valid,
       401,
@@ -349,7 +353,7 @@ export function platformRouter() {
             data.firstName.trim(),
             data.lastName.trim(),
             data.email.trim().toLowerCase(),
-            hashPassword(password),
+            await hashPassword(password),
           ],
         );
         const jobId = await enqueueProvisioning(client, id, actor.id);

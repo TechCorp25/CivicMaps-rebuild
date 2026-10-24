@@ -5,8 +5,8 @@ import { resolve } from 'node:path';
 import { routingMiddleware, deployedRouting, checkRouteSession, routeContext } from './routing.mjs';
 import express from 'express';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
-import { pool, transaction } from './database.mjs';
-import { verifyPassword, hashPassword } from './passwords.mjs';
+import { isTransientDatabaseError, pool, transaction } from './database.mjs';
+import { verifyPasswordSafely, hashPassword } from './passwords.mjs';
 import { transition, statusLabels } from '../../domains/service-requests-dispatch/lifecycle.mjs';
 import { resolveContext, permittedContexts } from './operating-context.mjs';
 import { platformRouter } from './platform.mjs';
@@ -15,7 +15,7 @@ import { createAdmissionGate } from './admission.mjs';
 
 const digest = (value) => createHash('sha256').update(value).digest('hex');
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const dummyPassword = hashPassword(randomBytes(32).toString('hex'));
+const dummyPassword = await hashPassword(randomBytes(32).toString('hex'));
 const resourceStatusAdmission = createAdmissionGate(1);
 class HttpError extends Error {
   constructor(status, message) {
@@ -255,7 +255,11 @@ export function createApp({
     const result = await pool.query('SELECT * FROM users WHERE email=$1 AND active', [
       input.email.toLowerCase().trim(),
     ]);
-    const valid = verifyPassword(input.password, result.rows[0]?.password_hash ?? dummyPassword);
+    const valid = await verifyPasswordSafely(
+      input.password,
+      result.rows[0]?.password_hash ?? dummyPassword,
+      dummyPassword,
+    );
     requireValue(result.rowCount === 1 && valid, 401, 'Email or password is incorrect');
     const sessionToken = randomBytes(32).toString('hex');
     const csrfToken = randomBytes(32).toString('hex');
@@ -266,7 +270,8 @@ export function createApp({
         await client.query('SELECT * FROM users WHERE id=$1 AND active', [result.rows[0].id])
       ).rows[0];
       requireValue(
-        current && verifyPassword(input.password, current.password_hash),
+        current &&
+          (await verifyPasswordSafely(input.password, current.password_hash, dummyPassword)),
         401,
         'Email or password is incorrect',
       );
@@ -667,8 +672,16 @@ export function createApp({
   }
   app.use((_req, res) => res.status(404).json({ error: 'Endpoint not found' }));
   app.use((error, _req, res, _next) => {
-    const status = error.status ?? (error.type === 'entity.parse.failed' ? 400 : 500);
-    if (status >= 500) console.error('API operation failed:', error.message);
+    const transientDatabaseFailure = isTransientDatabaseError(error);
+    const status = transientDatabaseFailure
+      ? 503
+      : (error.status ?? (error.type === 'entity.parse.failed' ? 400 : 500));
+    if (status === 503) res.set('Retry-After', '1');
+    if (status >= 500 && error.code !== 'PASSWORD_WORK_CAPACITY') {
+      if (transientDatabaseFailure)
+        console.error('Transient database request failure', { code: error.code ?? 'pool-timeout' });
+      else console.error('API operation failed:', error.message);
+    }
     res
       .status(status)
       .json({ error: status >= 500 ? 'The operation could not be completed' : error.message });

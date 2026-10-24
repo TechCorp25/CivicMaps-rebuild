@@ -86,6 +86,32 @@ Formatting scope is explicit in the root scripts. Archives, scaffold application
 
 The shared test environment in `tests/helpers/environment.mjs` creates one unique disposable database per process, starts its API and closes resources on setup failure and teardown. Do not create a second environment in the same process: the API database module caches its pool. Separate test files run in isolated Node test processes. Never use the configured base database for fixture writes.
 
+## Request database and password work budgets (Q2)
+
+The request PostgreSQL pool allows ten clients, waits at most 1,000 ms to acquire
+one, uses a 1,000 ms lock timeout and a 5,000 ms server-side statement timeout.
+Migrations and seeding use a separate two-client maintenance pool with 10,000 ms
+acquisition, 30,000 ms lock and 120,000 ms statement budgets; these longer DDL
+allowances do not consume request pool connections. On the synthetic local
+workload, 50 read-only indexed counts at concurrency ten had a maximum of
+23.5 ms. The one-second checkout/lock budget is about 42 times that maximum and
+the five-second statement budget is over 200 times it. These are local test
+budgets, not a production latency or throughput guarantee. Transient database
+timeouts and unavailable connections return a generic retryable 503 with
+`Retry-After: 1`.
+
+Password derivation and verification use asynchronous Scrypt with a shared
+two-operation admission limit, leaving two workers of Node's default four
+libuv workers available to unrelated work. Saturation returns a generic
+retryable 503 instead of queueing unbounded work. Existing hashes remain
+`32-hex-salt:128-hex-derived-key`; damaged stored values fail as generic login
+errors and emit only a fixed integrity log message. The synthetic 12-request
+login burst measured the lightweight health endpoint at 20.3 ms, within the
+250 ms test budget. Reproduce database and async password measurements with
+`node scripts/measure-q2-baseline.mjs` against an already seeded synthetic
+database. Raw Q2 checks and workload outputs are retained in
+`docs/assessments/2026-10-24/evidence/`.
+
 ## Municipality context binding (F03)
 
 Migration 004 and the synthetic seed establish explicit municipality bindings and user grants. The principal-ownership slice binds each synthetic principal to one council; `shared@alpha.example` remains one Alpha principal, and its old synthetic Beta grant is retired only by the explicitly selected, canonical-fixture migration path. Read the [context contract](operating-context.md) before testing expiry, revocation, upgrade or retry behaviour.

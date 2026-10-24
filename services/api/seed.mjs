@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { pool, transaction } from './database.mjs';
+import { maintenancePool, transaction } from './database.mjs';
 import { hashPassword } from './passwords.mjs';
 const fixtures = JSON.parse(
   await readFile(new URL('../../data/fixtures/development-users.json', import.meta.url), 'utf8'),
@@ -41,7 +41,7 @@ try {
           user.id,
           user.email,
           user.name,
-          hashPassword(password),
+          await hashPassword(password),
           user.role,
           `tenant-${user.scope}`,
           `jurisdiction-${user.scope}`,
@@ -155,10 +155,10 @@ try {
         );
       }
     }
-  });
+  }, maintenancePool);
   console.log(
     `${fixtures.length} synthetic users seeded; existing passwords and records preserved`,
   );
 } finally {
-  await pool.end();
+  await maintenancePool.end();
 }

@@ -113,7 +113,7 @@ Expected negative-case API messages in passing test logs are not additional fail
 
 ## Remediation execution status
 
-This report remains the frozen baseline assessment. The receiving developer has begun Q1 on the separately stacked package branch; the assessment itself applied no fixes. Q1 now has a patched lockfile resolution, a child-process compressed-body regression, and production/full-tree advisory checks. Local acceptance passed with 95 tests and no skips, three browser suites, both Caddy checks, and zero npm audit findings. Publication and fresh independent Q1 review are pending. See the [execution ledger](execution-ledger.md) and Q1 evidence; this status does not close QA01 or QA18 before that review.
+This report remains the frozen baseline assessment; the assessment itself applied no fixes. Q1's exact product `1cb963d8eee9e12e62de39fa106d439d0af61ea0` was published and independently accepted. Q2 implements QA02, QA03 and QA17 on the accepted Q1 base. Local acceptance passed with 104 tests and no skips, three browser suites and both Caddy checks. Q2 is pending publication and fresh independent review; its findings remain open until that review. See the [execution ledger](execution-ledger.md) and Q2 evidence. No merge or deployment is in scope.
 
 ## Findings
 

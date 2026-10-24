@@ -12,24 +12,28 @@ No merge or deployment is in scope.
 | Goal | Status | Implementation | Independent acceptance |
 | --- | --- | --- | --- |
 | Q1 | Accepted | `1cb963d8eee9e12e62de39fa106d439d0af61ea0` | PASS on `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
-| Q2 | In progress | Pending | Q1 dependency satisfied |
+| Q2 | Implemented; local gates pass; independent review pending | Candidate pending | Q1 dependency satisfied |
 | Q3 | Not started | — | Pending |
 | Q4 | Not started | — | Pending |
 | Q5 | Not started | — | Pending Python contract from Q4 |
 | Q6 | Not started | — | Pending |
 | Q7 | Not started | — | Depends on stable Q1–Q6 baseline |
 
-Q1 covers QA01 and only the advisory portion of QA18. QA01 is implemented and
-locally tested, published and pending independent review. QA18's advisory portion
-is implemented and tested; its Python and infrastructure checks remain open for Q5.
-No issue is marked accepted or closed before independent review.
+Q1 covers QA01 and only the advisory portion of QA18. Q1 was independently
+accepted at exact product `1cb963d8eee9e12e62de39fa106d439d0af61ea0`; QA18's
+Python and infrastructure checks remain open for Q5. Q2 implements QA02, QA03
+and QA17 and has passed its local gates; independent review is pending. No Q2
+finding is marked accepted or closed before that review.
 
 ## QA01–QA18 dispositions
 
 | Finding | Current disposition |
 | --- | --- |
 | QA01 | Implemented in Q1; local evidence recorded; independent review pending |
-| QA02–QA17 | Open; assigned to their planned Q packages |
+| QA02 | Implemented in Q2; local evidence recorded; independent review pending |
+| QA03 | Implemented in Q2; local evidence recorded; independent review pending |
+| QA04–QA16 | Open; assigned to their planned Q packages |
+| QA17 | Implemented in Q2; local evidence recorded; independent review pending |
 | QA18 advisory | Implemented in Q1; review pending |
 | QA18 Python and infrastructure | Open; assigned to Q5 |
 
@@ -64,12 +68,11 @@ screenshots were restored after the browser run. No node/Vite process remained a
 the suites. Socket-listener inspection was unavailable because the executor denied
 netlink access.
 
-## Next action
+## Q1 checkpoint action (completed)
 
-Record the committed implementation SHA and exact candidate SHA, publish through the
-single integration writer, then provide the pinned product, neutral Q1 task contract,
-file inventory, reproduction commands and evidence hashes to a fresh GPT-6 Astra Low
-audit context. Keep Q2 blocked until Q1 is accepted.
+The single integration writer published the Q1 implementation and a fresh GPT-6
+Astra Low reviewer accepted the exact product, as recorded below. Q2 was unblocked
+only after that acceptance.
 
 ## Publication receipt
 
@@ -78,3 +81,52 @@ Published candidate and implementation: `1cb963d8eee9e12e62de39fa106d439d0af61ea
 ## Q1 independent acceptance
 
 Accepted exact product `1cb963d8eee9e12e62de39fa106d439d0af61ea0`. Fresh GPT-6 Astra Low report: [evidence/q1-independent/report.md](evidence/q1-independent/report.md), SHA256 `945b84dc6832137a1893ef905e270c12980fcd9b84621c1a2103aeb3fc7eef7d`. Independent setup/audit/parser/full check (95/95, zero skips), three browser suites and two Caddy checks passed. QA01 and QA18 advisory portion accepted; remaining QA18 portions stay open. Receipt commits are not the audited product identity. Q2 now active at `/workspace/work/quality-q2`, branch `codex/civicmaps-quality-q2`, stacked on accepted Q1.
+
+## Q2 implementation and local evidence
+
+Q2 is based on accepted Q1 receipt `bc180f0ae8c74a58815dfe7dc1614c667eb4d187`.
+Request pools use maximum 10 clients, 1,000 ms acquisition and lock budgets,
+and a 5,000 ms PostgreSQL statement timeout. Migration and seed operations use
+a separate two-client pool with 10,000 ms acquisition, 30,000 ms lock and
+120,000 ms statement budgets. This keeps maintenance DDL out of request pool
+capacity. The raw synthetic read workload measured maximum 23.5 ms for 50
+concurrent-ten indexed service-request counts; 1,000 ms is about 42 times that
+observed maximum and 5,000 ms exceeds it by more than 200 times. These local
+synthetic timings are budget evidence, not a production throughput claim.
+
+PostgreSQL enforces cancellation server-side. Tests saturate all ten request
+connections, hold an actual identity row lock during login, and cancel a
+transaction after a write. They prove bounded retryable 503 responses, no
+session change, rollback of the partial write, stopped server query and usable
+pool capacity afterwards. A terminated backend also proves the checked-out
+client is discarded and the pool reconnects. During this test a transport error
+could otherwise be emitted while pg-pool has removed its idle error listener
+from a checked-out client; the transaction now handles that event, discards the
+broken client and classifies the driver transport failure for a safe retryable
+response.
+
+Password Scrypt derivation and comparison now use Node's async API behind a
+shared two-operation admission gate. This leaves two of Node's default four
+libuv workers for other work. The gate returns a generic retryable 503 when
+full; login keeps the existing 16-byte random hex salt and 64-byte derived hex
+hash, dummy verification, throttling and under-lock recheck. Hashes are checked
+against the exact legacy format; invalid stored values reject generically and
+log a fixed message without credential data. In a 12-request auth burst,
+`/api/health` completed in 20.3 ms (under the documented 250 ms synthetic
+acceptance bound); the response distribution was two invalid-credential 401s
+and ten overload 503s.
+
+Raw command outputs are retained as `evidence/q2-*.log` and the measured
+workload as `evidence/q2-baseline-workload.json`; `scripts/measure-q2-baseline.mjs`
+reproduces the read-only database and async password measurements. With the
+session's PostgreSQL 15 `CIVICMAPS_DATABASE_URL` set, reproduce the gates with
+`npm run setup`, `npm run check`, `npm run test:commandmaps:browser`,
+`npm run test:platform:browser`, `npm run test:activation:browser`,
+`node tests/ingress-contract.mjs` and `node tests/ingress-login.mjs`; run the
+workload probe with `node scripts/measure-q2-baseline.mjs`. The final
+candidate's complete evidence hash manifest is `evidence/q2-SHA256SUMS.txt`.
+Clean setup, lint, formatting, typechecks, both builds and the complete API suite
+passed: 104 tests, zero failures and zero skips. Three browser suites and both
+Caddy loopback contracts passed against the same application implementation.
+The candidate remains pending publication and fresh independent audit; no merge
+or deployment is authorized.

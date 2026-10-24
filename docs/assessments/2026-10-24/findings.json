@@ -68,9 +68,14 @@
         "evidence/local-contract-probes.json",
         "evidence/pool-wait-probe.json"
       ],
-      "status": "open",
+      "status": "implemented_pending_independent_review",
       "implementationCommit": null,
-      "closureEvidence": null
+      "closureEvidence": [
+        "execution-ledger.md",
+        "evidence/q2-database-budgets.log",
+        "evidence/q2-password-work.log",
+        "evidence/q2-check.log"
+      ]
     },
     {
       "id": "QA03",
@@ -89,9 +94,14 @@
       "evidence": [
         "evidence/local-contract-probes.json"
       ],
-      "status": "open",
+      "status": "implemented_pending_independent_review",
       "implementationCommit": null,
-      "closureEvidence": null
+      "closureEvidence": [
+        "execution-ledger.md",
+        "evidence/q2-database-budgets.log",
+        "evidence/q2-password-work.log",
+        "evidence/q2-check.log"
+      ]
     },
     {
       "id": "QA04",
@@ -374,9 +384,14 @@
       "evidence": [
         "evidence/local-contract-probes.json"
       ],
-      "status": "open",
+      "status": "implemented_pending_independent_review",
       "implementationCommit": null,
-      "closureEvidence": null
+      "closureEvidence": [
+        "execution-ledger.md",
+        "evidence/q2-database-budgets.log",
+        "evidence/q2-password-work.log",
+        "evidence/q2-check.log"
+      ]
     },
     {
       "id": "QA18",
