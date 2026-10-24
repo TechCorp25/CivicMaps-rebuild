@@ -63,8 +63,7 @@
         "Owner must designate/approve setup-only commissioning authority, external council trust-record source/admission, and initial council decision-maker evidence; fresh reassessment of G1 v1.5 and amended phase plan."
       ],
       "nextAction": "Obtain the specified owner decisions; then independently reassess G1 v1.5 and phase plan v1.1.2. M1 remains accepted at audited candidate d905b85. G2 remains blocked; merge and deployment remain excluded.",
-      "contractVersion": "1.5",
-      "candidate": "pending_review_candidate_publication"
+      "contractVersion": "1.5"
     }
   ],
   "nextAction": "Obtain owner decisions on setup-only commissioning authority, external council trust-record source/admission, and initial approver evidence; then independently reassess G1 v1.5 and the amended plan. M1 remains accepted at audited candidate d905b85. G2 remains blocked; merge and deployment remain excluded.",

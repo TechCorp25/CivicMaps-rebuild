@@ -214,8 +214,11 @@
       "auditedCandidate": "0f2bbcb7f233abdb8bb9ef1ba848dcca439ce62d",
       "auditFinding": "staff_only_authorization_boundary_and_incomplete_recovery_and_initial_appointment_paths",
       "ownerBootstrapChoice": "initial_authority_commissioning_path_pending",
-      "ownerDecisionReceiptPath": "docs/plans/evidence/F11-G1-owner-decisions-2026-10-24.md",
-      "ownerDecisionReceiptMeaning": "Authentication direction only; no commissioning authority, external trust-record source/admission, or council appointment approval.",
+      "ownerDecisionReceipts": {
+        "policyDecisions22October": "docs/plans/evidence/F11-G1-owner-decisions-2026-10-22.md",
+        "authenticationDirection24October": "docs/plans/evidence/F11-G1-owner-decisions-2026-10-24.md"
+      },
+      "authenticationDirectionReceiptMeaning": "Owner authentication direction only; no commissioning authority, external trust-record source/admission, or council appointment approval.",
       "dependentG2": "blocked",
       "correctedCandidate": "ee4ea9d5f2155c69e74e5894a3202f7c9eeefc87",
       "correctedTree": "55c3ffbf3bc69d5ef8f6a21a996eb7b7d4f31a90",
@@ -228,7 +231,6 @@
       "branch": "codex/civicmaps-dispatch-g1",
       "pullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/42",
       "contractPath": "docs/plans/F11-G1-council-staff-authority-contract.md",
-      "ownerDecisionReceiptPath": "docs/plans/evidence/F11-G1-owner-decisions-2026-10-22.md",
       "initialAuditPortableReport": "unavailable_for_candidate_0f2bbcb; first finding summary preserved in current plan"
     },
     "p0": {
