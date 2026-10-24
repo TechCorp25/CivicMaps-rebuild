@@ -21,9 +21,9 @@ async function call(path, input, account = 'dispatch', key = randomUUID()) {
   });
   return { status: response.status, data: await response.json(), response };
 }
-async function create(notes = '') {
+async function create(notes = '', address = 'Synthetic test location') {
   const result = await call('/requests', {
-    address: 'Synthetic test location',
+    address,
     latitude: -37.814,
     longitude: 144.963,
     notes,
