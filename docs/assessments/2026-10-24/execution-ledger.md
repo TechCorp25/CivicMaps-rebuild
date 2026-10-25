@@ -291,3 +291,39 @@ The final exact-tree `npm run check` passed lint, format, both typechecks/builds
 ## Q3 follow-up 2 transport-timeout coverage
 
 Final code review extended Platform reconciliation to timeout/network write failures as well as `ApiError` responses. The shared type guard now identifies both transport and HTTP uncertain-write errors; Platform independently checks `/auth/session` and refreshes authorized state, clearing the local session only on a confirmed 401. A unit test asserts a bounded POST timeout is uncertain while an ordinary GET timeout is not. The TypeScript guard declaration required a correction; the first check failure is retained as `evidence/q3-fix2/intermediate-type-guard-check-failure.log`. The corrected exact tree passed `npm run check` (106/106, 0 failures/skips), all three serial browser suites and both Caddy loopback checks. The final full output is `evidence/q3-fix2/final-check-3.log`. This candidate remains pending fresh review.
+
+## Q3 follow-up 3: scope the uncertain-write reconciliation session
+
+The fresh review of the published follow-up 2 product
+`6fab138ffe0290ab66358d272518b0630d0fae76` found a stale Platform reconciliation
+session read. Its immutable report is preserved at
+`evidence/q3-independent-original-fix2/report.md` (SHA-256
+`be85f7bca2613998bf54e5316d59cd08d375d80f7c970bb31b05e8c839bd6c0e`), with the
+auditor's original script, raw log and evidence manifest in the same directory.
+The original schedule held the post-503 `/auth/session` GET, navigated to Network
+health, and then released HTML 401. The stale response replaced the signed-in page
+with sign-in even though a separate server-session read remained HTTP 200.
+
+The new local candidate is based on that exact published product in isolated
+worktree `/workspace/work/quality-q3-fix3`. Platform `perform` now captures the
+write's scope signal once and passes it into both session revalidation and
+directory refresh. Success, rejection, post-refresh, and final busy-state paths
+check that same captured generation and signal. A route change or session clear
+resets busy state explicitly, so stale operations do not strand the login control.
+No uncertain write is replayed.
+
+The Platform browser test reproduces the schedule with a synthetic operator,
+HTML 503 mutation response, held session read, route change and released HTML 401.
+It asserts cancellation of the held request, completion of the obsolete response
+handler, preservation of the Network health page, and a current server-session
+status of 200. Its retained trace is in `evidence/q3-fix3/browser-platform.log`.
+
+The final candidate validation passed `npm run check` (lint, format, both
+typechecks/builds, 106 tests, 0 failed/skipped), the three browser suites
+sequentially, and both actual Caddy loopback ingress checks. Raw outputs and the
+clean 238-package lockfile setup are in `evidence/q3-fix3/`; its hash manifest
+binds the product/test inputs and outputs. Plan SHA-256 remains
+`1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea`. The exact
+candidate commit is pending; root publishes it for a fresh independent review.
+Q3 remains unaccepted until that review passes. No push, merge or deployment was
+performed.

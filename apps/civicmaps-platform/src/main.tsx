@@ -87,6 +87,7 @@ function App() {
   const clearSession = useCallback(() => {
     loginController.current?.abort();
     advanceScope();
+    setBusy(false);
     setActor(null);
     setCsrf('');
     setMunicipalities([]);
@@ -129,6 +130,7 @@ function App() {
       loginController.current?.abort();
       advanceScope();
       setRoute(readRoute());
+      setBusy(false);
       setDetail(null);
       setDetailError('');
       setError('');
@@ -143,8 +145,10 @@ function App() {
   useEffect(() => {
     content.current?.focus();
   }, [route.page, route.id]);
-  async function load(expectedScope = detailScope.current) {
-    const signal = scopeController.current.signal;
+  async function load(
+    expectedScope = detailScope.current,
+    signal = scopeController.current.signal,
+  ) {
     const result = await api<{
       municipalities: Municipality[];
       domainPacks: string[];
@@ -215,33 +219,43 @@ function App() {
   }, [actor, route.page, route.id, current?.version, detailRefresh, fail]);
   async function perform(work: () => Promise<void>) {
     const expectedScope = detailScope.current;
+    const scopeSignal = scopeController.current.signal;
+    const isCurrentScope = () => expectedScope === detailScope.current && !scopeSignal.aborted;
     setBusy(true);
     setError('');
     setNotice('');
     try {
       await work();
     } catch (err) {
-      if (isRequestCancelled(err) || expectedScope !== detailScope.current) return;
+      if (isRequestCancelled(err) || !isCurrentScope()) return;
       fail(err);
       if (isUncertainWriteError(err)) {
         setNotice(`${err.message} Refreshing the server state without replaying the write.`);
         try {
-          const session = await api<{ actor: Actor; csrfToken: string }>('/auth/session');
-          if (expectedScope !== detailScope.current) return;
+          const session = await api<{ actor: Actor; csrfToken: string }>('/auth/session', {
+            signal: scopeSignal,
+          });
+          if (!isCurrentScope()) return;
           setActor(session.actor);
           setCsrf(session.csrfToken);
         } catch (sessionError) {
+          if (!isCurrentScope() || isRequestCancelled(sessionError)) return;
           if (sessionError instanceof ApiError && sessionError.status === 401) {
             clearSession();
             return;
           }
         }
-        await load(expectedScope).catch(() => {});
+        if (!isCurrentScope()) return;
+        await load(expectedScope, scopeSignal).catch(() => {});
+        if (!isCurrentScope()) return;
         if (route.id) setDetailRefresh((value) => value + 1);
       }
-      if (err instanceof ApiError && err.status === 409) await load().catch(fail);
+      if (err instanceof ApiError && err.status === 409 && isCurrentScope())
+        await load(expectedScope, scopeSignal).catch((loadError) => {
+          if (isCurrentScope()) fail(loadError);
+        });
     } finally {
-      setBusy(false);
+      if (isCurrentScope()) setBusy(false);
     }
   }
   async function mutate<T>(path: string, data: object) {
@@ -277,25 +291,28 @@ function App() {
   function register(data: Input) {
     void perform(async () => {
       const expectedScope = detailScope.current;
+      const scopeSignal = scopeController.current.signal;
       const result = await mutate<ProvisionResult>('/municipalities', data);
-      if (expectedScope !== detailScope.current) return;
+      if (expectedScope !== detailScope.current || scopeSignal.aborted) return;
       setProvisioned(result);
-      await load(expectedScope);
+      await load(expectedScope, scopeSignal);
     });
   }
   function toggle(pack: string, enabled: boolean) {
     if (!current) return;
     void perform(async () => {
       const expectedScope = detailScope.current;
+      const scopeSignal = scopeController.current.signal;
       await mutate(`/municipalities/${current.id}/packs`, {
         pack,
         enabled,
         version: current.version,
         confirmed: !enabled,
       });
-      if (expectedScope !== detailScope.current) return;
+      if (expectedScope !== detailScope.current || scopeSignal.aborted) return;
       setConfirmation(null);
-      await load(expectedScope);
+      await load(expectedScope, scopeSignal);
+      if (expectedScope !== detailScope.current || scopeSignal.aborted) return;
       setNotice(
         `${packLabel(pack)} ${enabled ? 'enabled' : 'disabled'}. Configuration saved; existing records retained.`,
       );
@@ -311,16 +328,17 @@ function App() {
       return;
     }
     const scope = detailScope.current;
+    const scopeSignal = scopeController.current.signal;
     void perform(async () => {
       try {
         if (detail?.job)
           await mutate(`/municipalities/${current.id}/jobs/${detail.job.id}/actions`, { action });
       } catch (err) {
         // A completed mutation may belong to a council or session that has been left.
-        if (scope !== detailScope.current) return;
+        if (scope !== detailScope.current || scopeSignal.aborted) return;
         throw err;
       }
-      if (scope !== detailScope.current) return;
+      if (scope !== detailScope.current || scopeSignal.aborted) return;
       setDetailRefresh((value) => value + 1);
       setNotice(`Job ${action} requested. Completed steps are retained.`);
     });
@@ -647,11 +665,12 @@ function App() {
                   onRefresh={() => refreshJob()}
                   onAction={(item, action) => {
                     const scope = detailScope.current;
+                    const scopeSignal = scopeController.current.signal;
                     void perform(async () => {
                       await mutate(`/municipalities/${current.id}/routes/${item.id}/${action}`, {
                         version: item.version,
                       });
-                      if (scope !== detailScope.current) return;
+                      if (scope !== detailScope.current || scopeSignal.aborted) return;
                       setDetailRefresh((v) => v + 1);
                       setNotice(`Route ${action} requested. Data is retained.`);
                     });

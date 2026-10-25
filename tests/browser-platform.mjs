@@ -465,6 +465,68 @@ try {
   await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
   await page.unroute(mutationPath);
   page.off('requestfailed', mutationFailureListener);
+  // An uncertain write may reconcile the session, but that follow-on read belongs
+  // to the same route scope as the write and must not clear a newer page's session.
+  await page.goto(`${origin}/#packs/${cloudCouncil.municipality.id}`);
+  const reconcilePack = page.getByRole('switch', { name: 'Local Laws', exact: true });
+  await expect(reconcilePack).toBeVisible();
+  await reconcilePack.click();
+  const reconcileDialog = page.getByRole('dialog');
+  const sessionReadEntered = Promise.withResolvers();
+  const sessionReadGate = Promise.withResolvers();
+  let sessionReadCancelled = false;
+  let obsoleteResponseReleased = false;
+  const sessionFailSafe = setTimeout(() => sessionReadGate.resolve(), 10000);
+  const uncertainPackPath = `**/api/platform/municipalities/${cloudCouncil.municipality.id}/packs`;
+  await page.route(uncertainPackPath, (route) =>
+    route.fulfill({ status: 503, contentType: 'text/html', body: '<html>uncertain write</html>' }),
+  );
+  await page.route('**/api/platform/auth/session', async (route) => {
+    sessionReadEntered.resolve();
+    await sessionReadGate.promise;
+    await route
+      .fulfill({ status: 401, contentType: 'text/html', body: '<html>obsolete denial</html>' })
+      .catch(() => {});
+    obsoleteResponseReleased = true;
+  });
+  const sessionFailureListener = (request) => {
+    if (request.url().endsWith('/api/platform/auth/session')) sessionReadCancelled = true;
+  };
+  page.on('requestfailed', sessionFailureListener);
+  const uncertainPost = page.waitForRequest(
+    (request) =>
+      request.method() === 'POST' &&
+      request.url().endsWith(`/municipalities/${cloudCouncil.municipality.id}/packs`),
+    { timeout: 5000 },
+  );
+  await reconcileDialog.getByRole('button', { name: 'Turn off pack', exact: true }).click();
+  await uncertainPost;
+  await sessionReadEntered.promise;
+  await page.evaluate(() => {
+    window.location.hash = 'health';
+  });
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await expect.poll(() => sessionReadCancelled, { timeout: 5000 }).toBe(true);
+  sessionReadGate.resolve();
+  clearTimeout(sessionFailSafe);
+  await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toHaveCount(0);
+  expect(obsoleteResponseReleased).toBe(true);
+  const currentSessionStatus = (
+    await page.request.get(`${origin}/api/platform/auth/session`)
+  ).status();
+  expect(currentSessionStatus).toBe(200);
+  console.log(
+    JSON.stringify({
+      operation: 'uncertain-session-reconciliation-scope',
+      sessionReadCancelled,
+      obsoleteHtml401Released: obsoleteResponseReleased,
+      currentSessionStatus,
+      currentPage: 'health',
+    }),
+  );
+  await page.unroute(uncertainPackPath);
+  await page.unroute('**/api/platform/auth/session');
+  page.off('requestfailed', sessionFailureListener);
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/platform/municipalities`)).status()).toBe(401);
