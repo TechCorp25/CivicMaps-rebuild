@@ -527,6 +527,58 @@ try {
   await page.unroute(uncertainPackPath);
   await page.unroute('**/api/platform/auth/session');
   page.off('requestfailed', sessionFailureListener);
+  // An explicit detail denial invalidates cached action state and stops automatic
+  // retries until a new route scope performs a fresh detail read.
+  await page.goto(`${origin}/#packs/${cloudCouncil.municipality.id}`);
+  const deniedPackSwitches = page.getByRole('switch');
+  await expect(deniedPackSwitches.first()).toBeEnabled();
+  await page.getByRole('switch', { name: 'Local Laws', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  let deniedDetailReads = 0;
+  const deniedDetailPath = `**/api/platform/municipalities/${cloudCouncil.municipality.id}`;
+  await page.route(
+    deniedDetailPath,
+    (route) => {
+      deniedDetailReads += 1;
+      return route.fulfill({
+        status: 403,
+        contentType: 'text/html',
+        body: '<html>denied audit marker</html>',
+      });
+    },
+    { times: 1 },
+  );
+  await page.clock.runFor(16000);
+  await expect.poll(() => deniedDetailReads, { timeout: 5000 }).toBe(1);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('alert')).toContainText('operation could not be completed');
+  const deniedSwitchStates = await deniedPackSwitches.evaluateAll((items) =>
+    items.map((item) => item.disabled),
+  );
+  expect(deniedSwitchStates.length).toBeGreaterThan(0);
+  expect(deniedSwitchStates.every(Boolean)).toBe(true);
+  await page.clock.runFor(16000);
+  expect(deniedDetailReads).toBe(1);
+  await expect(page.locator('main')).not.toContainText('denied audit marker');
+  await page.unroute(deniedDetailPath);
+  await page.evaluate(() => {
+    window.location.hash = 'health';
+  });
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await page.evaluate((id) => {
+    window.location.hash = `packs/${id}`;
+  }, cloudCouncil.municipality.id);
+  await expect(deniedPackSwitches.first()).toBeEnabled();
+  console.log(
+    JSON.stringify({
+      operation: 'explicit-detail-denial',
+      status: 403,
+      deniedDetailReads,
+      disabledSwitches: deniedSwitchStates.filter(Boolean).length,
+      automaticRetriesAfterDenial: deniedDetailReads - 1,
+      controlsRestoredByFreshScope: true,
+    }),
+  );
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/platform/municipalities`)).status()).toBe(401);

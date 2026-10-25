@@ -205,7 +205,16 @@ function App() {
         if (isRequestCancelled(err)) return;
         if (!controller.signal.aborted) {
           setDetailError(err instanceof Error ? err.message : 'Status refresh unavailable');
-          if (err instanceof ApiError && err.status === 401) fail(err);
+          if (err instanceof ApiError && err.status === 401) {
+            setDetail(null);
+            fail(err);
+            return;
+          }
+          if (err instanceof ApiError && [403, 404].includes(err.status)) {
+            setDetail(null);
+            setConfirmation(null);
+            return;
+          }
           timer = setTimeout(refresh, 15000);
         }
       }

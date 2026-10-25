@@ -327,3 +327,49 @@ binds the product/test inputs and outputs. Plan SHA-256 remains
 candidate commit is pending; root publishes it for a fresh independent review.
 Q3 remains unaccepted until that review passes. No push, merge or deployment was
 performed.
+
+## Q3 follow-up 4: invalidate denied Platform detail
+
+Fresh Astra Low review of published follow-up 3 product
+`44895f86f6d6683d4f0b8e2013848dcec98a6c38` found Q3-A1: an explicit HTML 403
+from a selected municipality detail poll displayed a safe error but retained the
+last successful detail object. Nine pack switches remained enabled 16 seconds
+later. The immutable report is preserved at
+`evidence/q3-independent-original-fix3/report.md`, SHA-256
+`0fea607c463cad57705a43e3258c0fae6003c79bcddd6619f6da152d61ca0881`; its entire
+raw audit evidence directory and output manifest are retained beside it. The
+finding is a stale client action-state defect, not an observed server authorization
+bypass.
+
+The isolated local follow-up is based on that exact published product in
+`/workspace/work/quality-q3-fix4`. Platform detail polling now clears cached detail
+on explicit 401, 403, or 404 responses. 401 also clears the current session; 403/404
+stop automatic retries. Other transient failures retain their scheduled recovery.
+The existing request controller still cancels the read on route/session scope
+changes, and successful authorized detail reads restore action controls. This
+prevents stale detail from silently making the pack controls actionable after an
+explicit denial.
+
+The Platform browser regression first confirms the nine controls are enabled and
+opens a pack disable confirmation. It returns HTML 403 from the exact selected
+municipality detail URL, advances through 32 seconds of fake time, and asserts the
+confirmation closes, the safe generic error remains, all nine switches are disabled,
+the denial body is not leaked, and no automatic retry occurs. It then changes route
+scope and verifies a fresh successful detail response restores the controls. The
+retained trace is `evidence/q3-fix4/browser-platform.log`.
+
+The prior auditor's focused M1 harness evidence is also preserved. The no-fixture
+harness failed before entering the controlled race. The fixture-adjusted intermediate
+log records two completed iterations and a third missing `refresh-complete` event;
+the final settled harness added a network-idle barrier and recorded three passes.
+The immutable review explicitly leaves the cause of that intermediate missing
+completion unexplained and does not treat the final passes as causal closure. This
+candidate does not change the CommandMAPS M1 scheduler.
+
+Local final checks passed: `npm run check` (106 passed, 0 failed/skipped), all three
+browser suites sequentially, and both Caddy loopback ingress checks. Raw setup,
+check, browser, Caddy and preserved original-audit evidence with hashes are under
+`evidence/q3-fix4/` and `evidence/q3-independent-original-fix3/`. The plan hash
+remains `1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea`.
+Q3 remains unaccepted pending publication and fresh independent review; no push,
+merge, deployment or live data operation occurred.

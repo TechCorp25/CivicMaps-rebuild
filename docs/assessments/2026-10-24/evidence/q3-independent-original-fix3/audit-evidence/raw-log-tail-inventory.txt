@@ -1,0 +1,173 @@
+docs/assessments/2026-10-24/evidence/q3-api-transport.log
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 196.187321
+
+docs/assessments/2026-10-24/evidence/q3-setup.log
+> npm ci --ignore-scripts --bin-links=false --no-audit --no-fund
+
+
+added 238 packages in 5s
+
+docs/assessments/2026-10-24/evidence/q3-activation-browser.log
+> node tests/browser-activation.mjs
+
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-commandmaps-browser.log
+> civicmaps-local@0.1.0 test:commandmaps:browser
+> node tests/browser-commandmaps.mjs
+
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-ingress-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
+
+docs/assessments/2026-10-24/evidence/q3-check.log
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 83596.517462
+
+docs/assessments/2026-10-24/evidence/q3-ingress-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-platform-browser.log
+> civicmaps-local@0.1.0 test:platform:browser
+> node tests/browser-platform.mjs
+
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/earlier-full-check.log
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84027.399505
+
+docs/assessments/2026-10-24/evidence/q3-fix2/final-check-3.log
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85486.323198
+
+docs/assessments/2026-10-24/evidence/q3-fix2/activation-browser.log
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-type-guard-check-failure.log
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+src/AdminActivation.tsx(91,18): error TS18046: 'reason' is of type 'unknown'.
+src/main.tsx(227,22): error TS18046: 'err' is of type 'unknown'.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/pre-session-reconcile-check.log
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85230.855805
+
+docs/assessments/2026-10-24/evidence/q3-fix2/setup.log
+$ npm ci --ignore-scripts --bin-links=false --no-audit --no-fund
+added 238 packages in 5s
+
+Committed package manifests and package-lock.json were not modified by setup.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/caddy-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-fix2/platform-browser.log
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, committed malformed-pack response reconciliation, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/commandmaps-browser.log
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"78f2ae23-2efc-465e-8f89-e43ececec3fe","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"59937a3b-69cb-46a9-b82d-c65bb2e36155","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"fb34a015-cae9-415b-ac29-16418529641a","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/caddy-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
+
+docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-commandmaps-failure.log
+    at file:///workspace/work/quality-q3-fix2/tests/browser-commandmaps.mjs:29:25
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0
+
+docs/assessments/2026-10-24/evidence/q3-fix/npm-check.log
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85050.468493
+
+docs/assessments/2026-10-24/evidence/q3-fix/activation-browser.log
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-fix/initial-platform-dialog-failure.log
+  <dialog open="" aria-labelledby="confirm-title">…</dialog> from <main id="content" tabindex="-1">…</main> subtree intercepts pointer events
+  retrying click action until timeout
+
+The browser's native confirmation dialog intentionally blocks interaction outside it. The regression now installs the held POST handler before confirmation, then changes the route hash directly while the dialog is open. Its wait and route fail-safe are bounded; the final sequential Platform suite passed.
+
+docs/assessments/2026-10-24/evidence/q3-fix/setup.log
+Command: npm ci --ignore-scripts --bin-links=false --no-audit --no-fund
+Result: added 238 packages in 5s
+Workspace: /workspace/work/quality-q3-fix
+The lockfile was used without modification.
+
+docs/assessments/2026-10-24/evidence/q3-fix/caddy-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-fix/initial-lint-failure.log
+
+✖ 2 problems (2 errors, 0 warnings)
+
+The final effect dependency includes current?.id (stable through queue filtering because it derives from the selected detail state), and the browser test declares its page-evaluate global. Subsequent full `npm run check` passed.
+
+docs/assessments/2026-10-24/evidence/q3-fix/platform-browser.log
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-fix/commandmaps-browser.log
+{"operation":"history-filter-race","requestId":"6a7ad697-fdb4-48cb-8cf3-232724d1d044","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-fix/caddy-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
+
+docs/assessments/2026-10-24/evidence/q3-fix/initial-parallel-commandmaps-failure.log
+      - unexpected value "Audit historycreated25/10/26, 3:38 pm"
+    at tests/browser.mjs:255:40
+
+This exposed that removing the current-row guard allowed history requests while the selected detail was still unresolved; a later successful read raced the expected synthetic 503. The final implementation waits for the selected detail to be ready, tracks its version, and keeps that version stable across queue filtering. A later sequential CommandMAPS suite passed with the controlled search/history regression.
+
+docs/assessments/2026-10-24/evidence/q3-fix3/browser-commandmaps.log
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"724f9ea5-5f1b-4f2d-bdc6-a62a749079f1","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"4e6fb787-1540-46a5-ac1d-530bf10e0425","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"cab7e245-215d-4fd7-bccb-9b0dc4d513fc","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-fix3/npm-check.log
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81798.604484
+
+docs/assessments/2026-10-24/evidence/q3-fix3/browser-activation.log
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-fix3/setup.log
+
+added 238 packages in 6s
+
+docs/assessments/2026-10-24/evidence/q3-fix3/caddy-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-fix3/browser-platform.log
+{"operation":"uncertain-session-reconciliation-scope","sessionReadCancelled":true,"obsoleteHtml401Released":true,"currentSessionStatus":200,"currentPage":"health"}
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, committed malformed-pack response reconciliation, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-fix3/caddy-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
