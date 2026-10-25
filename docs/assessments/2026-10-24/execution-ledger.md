@@ -12,8 +12,8 @@ No merge or deployment is in scope.
 | Goal | Status | Implementation | Independent acceptance |
 | --- | --- | --- | --- |
 | Q1 | Accepted | `1cb963d8eee9e12e62de39fa106d439d0af61ea0` | PASS on `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
-| Q2 | Follow-up transport fixes implemented; all local gates pass; fresh review pending | Candidate pending | Q1 dependency satisfied |
-| Q3 | Not started | — | Pending |
+| Q2 | Accepted | `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` | Full fresh Astra PASS |
+| Q3 | In progress | Pending | Q2 dependency satisfied |
 | Q4 | Not started | — | Pending |
 | Q5 | Not started | — | Pending Python contract from Q4 |
 | Q6 | Not started | — | Pending |
@@ -173,3 +173,7 @@ The first local pre-fix replay of the old backend test happened to pass in
 and failed its classifier assertion. This observed timing sensitivity is why
 the new test waits for the client error event and asserts the exact secondary
 query message before it accepts the transient classification.
+
+## Q2 acceptance receipt
+
+Accepted exact published product `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7`, full fresh GPT-6 Astra Low PASS. Report [evidence/q2-independent-accepted/report.md](evidence/q2-independent-accepted/report.md), SHA256 `04ad939ca92f2a06a73fb1a9efa4e8fc1f261632f817610c1e579e1b59edf263`. Independently passed focused12/12, full105/105, three browser suites, two Caddy checks and additional workload/credential probes. Hosted app40159555198 and advisory40159555010 SUCCESS. Earlier candidate fe736c3 remains changes_required with original immutable report preserved. QA02, QA03, QA17 accepted; Q3 now active isolated `/workspace/work/quality-q3`, stacked on accepted Q2. Receipt commits are not audited product SHAs.
