@@ -68,13 +68,14 @@
         "evidence/local-contract-probes.json",
         "evidence/pool-wait-probe.json"
       ],
-      "status": "implemented_pending_independent_review",
+      "status": "changes_required_pending_followup_review",
       "implementationCommit": null,
       "closureEvidence": [
         "execution-ledger.md",
-        "evidence/q2-database-budgets.log",
-        "evidence/q2-password-work.log",
-        "evidence/q2-check.log"
+        "evidence/q2-independent-original/report.md",
+        "evidence/q2-fix-backend-after.log",
+        "evidence/q2-fix-connect-timeout-after.log",
+        "evidence/q2-fix-check.log"
       ]
     },
     {
@@ -94,7 +95,7 @@
       "evidence": [
         "evidence/local-contract-probes.json"
       ],
-      "status": "implemented_pending_independent_review",
+      "status": "implemented_pending_Q2_acceptance",
       "implementationCommit": null,
       "closureEvidence": [
         "execution-ledger.md",
@@ -384,7 +385,7 @@
       "evidence": [
         "evidence/local-contract-probes.json"
       ],
-      "status": "implemented_pending_independent_review",
+      "status": "implemented_pending_Q2_acceptance",
       "implementationCommit": null,
       "closureEvidence": [
         "execution-ledger.md",

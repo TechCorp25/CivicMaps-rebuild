@@ -1,0 +1,16 @@
+✔ request and maintenance PostgreSQL budgets are explicit and isolated (1735.479968ms)
+Transient database request failure { code: 'pool-timeout' }
+✔ a saturated request pool returns a bounded retryable response and recovers (1078.812751ms)
+✔ statement timeout cancels server work, rolls back partial writes and reuses the client (5025.615763ms)
+Transient database request failure { code: '55P03' }
+✔ row-lock timeout maps login to retryable failure and preserves the existing session state (1126.883577ms)
+Database rollback failed; pooled client will be discarded { code: 'unknown' }
+✔ a disconnected transaction client is discarded before the pool reconnects (16.248359ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11987.677238

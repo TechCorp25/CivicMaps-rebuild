@@ -12,7 +12,7 @@ No merge or deployment is in scope.
 | Goal | Status | Implementation | Independent acceptance |
 | --- | --- | --- | --- |
 | Q1 | Accepted | `1cb963d8eee9e12e62de39fa106d439d0af61ea0` | PASS on `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
-| Q2 | Implemented; local gates pass; independent review pending | Candidate pending | Q1 dependency satisfied |
+| Q2 | Follow-up transport fixes implemented; all local gates pass; fresh review pending | Candidate pending | Q1 dependency satisfied |
 | Q3 | Not started | — | Pending |
 | Q4 | Not started | — | Pending |
 | Q5 | Not started | — | Pending Python contract from Q4 |
@@ -22,19 +22,21 @@ No merge or deployment is in scope.
 Q1 covers QA01 and only the advisory portion of QA18. Q1 was independently
 accepted at exact product `1cb963d8eee9e12e62de39fa106d439d0af61ea0`; QA18's
 Python and infrastructure checks remain open for Q5. Q2 implements QA02, QA03
-and QA17 and has passed its local gates; independent review is pending. No Q2
-finding is marked accepted or closed before that review.
+and QA17. The published Q2 candidate received a `changes_required` independent
+verdict on QA02 transient database error classification; the follow-up below
+addresses both reported paths. Q2 remains open pending local validation and a
+fresh review of the fixed candidate.
 
 ## QA01–QA18 dispositions
 
 | Finding | Current disposition |
 | --- | --- |
-| QA01 | Implemented in Q1; local evidence recorded; independent review pending |
-| QA02 | Implemented in Q2; local evidence recorded; independent review pending |
+| QA01 | Accepted in Q1 at `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
+| QA02 | Q2 audit found two transient transport classification gaps; follow-up fix pending review |
 | QA03 | Implemented in Q2; local evidence recorded; independent review pending |
 | QA04–QA16 | Open; assigned to their planned Q packages |
 | QA17 | Implemented in Q2; local evidence recorded; independent review pending |
-| QA18 advisory | Implemented in Q1; review pending |
+| QA18 advisory | Accepted in Q1 at `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
 | QA18 Python and infrastructure | Open; assigned to Q5 |
 
 ## Q1 implementation and evidence
@@ -128,5 +130,46 @@ candidate's complete evidence hash manifest is `evidence/q2-SHA256SUMS.txt`.
 Clean setup, lint, formatting, typechecks, both builds and the complete API suite
 passed: 104 tests, zero failures and zero skips. Three browser suites and both
 Caddy loopback contracts passed against the same application implementation.
-The candidate remains pending publication and fresh independent audit; no merge
-or deployment is authorized.
+This local product was `2ddd43d74905ee7eafdb6b160bb1cbd9d2d60b22`, tree
+`e75b333f76ca98262adbdd0e4274f14ecce67ccd`; the single integration writer
+published identical tree `fe736c3ff390b22214de316a8a4ca6f4d90fbb45`. Its fresh
+review found two QA02 transport-classification gaps; those findings and their
+follow-up are recorded below. No merge or deployment is authorized.
+
+## Q2 independent review and transport follow-up
+
+The published candidate `fe736c3ff390b22214de316a8a4ca6f4d90fbb45` received a
+fresh Astra Low `changes_required` verdict. The immutable report is
+`evidence/q2-independent-original/report.md` (SHA-256
+`205c063eef0f32a51fcdb359d470d2e841af3d48214f6b2e7ff1233ee11be088`). It
+identified two QA02 gaps: pg-pool's `Connection terminated due to connection
+timeout` during a stalled PostgreSQL handshake returned HTTP 500 without
+`Retry-After`; and an already-disconnected checked-out pg client could reject
+with `Client has encountered a connection error and is not queryable`, which
+was not classified transient. The auditor's reproduction script/log and
+focused/full outputs are preserved in `evidence/q2-independent-original/`.
+
+The follow-up is isolated on `codex/civicmaps-quality-q2-fix`, based directly
+on published candidate `fe736c3ff390b22214de316a8a4ca6f4d90fbb45`. The
+classifier now recognizes those exact pg-pool/pg-client messages, the
+transaction preserves the first captured client failure when rollback also
+fails, and the backend termination regression waits for the transport error
+before making the next query so the non-queryable path is deterministic. A new
+separate-process test stalls only the loopback PostgreSQL handshake and asserts
+bounded generic 503, `Retry-After: 1`, and recovery-time bounds. Before/after
+reproduction logs and follow-up validation are retained as
+`evidence/q2-fix-*.log`. The handshake regression changed from HTTP 500 with no
+retry header at 1,057 ms on the prior product to HTTP 503 with
+`Retry-After: 1` at 1,252 ms. The isolated backend, pool, password and resource
+admission suite passed 12 tests with zero failures/skips. The full setup/check
+passed lint, formatting, both typechecks/builds, and 105 tests with zero
+failures/skips. All three browser suites and both Caddy loopback checks passed.
+The activation browser reported port 5173 occupied and selected another port;
+its suite completed successfully. Generated F11E screenshots were restored;
+no test process or uniquely named disposable test database remained. The fix
+candidate awaits publication and fresh independent review; it is not accepted.
+The first local pre-fix replay of the old backend test happened to pass in
+10.6 ms, while the original Astra focused run captured the non-queryable error
+and failed its classifier assertion. This observed timing sensitivity is why
+the new test waits for the client error event and asserts the exact secondary
+query message before it accepts the transient classification.

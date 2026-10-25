@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
+import { once } from 'node:events';
 import pg from 'pg';
 import { after, before, test } from 'node:test';
 import { performance } from 'node:perf_hooks';
@@ -202,13 +203,17 @@ test(
       await assert.rejects(
         transaction(async (client) => {
           const backendPid = (await client.query('SELECT pg_backend_pid() AS pid')).rows[0].pid;
+          const backendDisconnected = once(client, 'error');
           const terminated = await admin.query('SELECT pg_terminate_backend($1) AS terminated', [
             backendPid,
           ]);
           assert.equal(terminated.rows[0].terminated, true);
+          await backendDisconnected;
           await client.query('SELECT 1');
         }),
-        (error) => isTransientDatabaseError(error),
+        (error) =>
+          error.message === 'Client has encountered a connection error and is not queryable' &&
+          isTransientDatabaseError(error),
       );
       assert.equal((await pool.query('SELECT 1 AS ready')).rows[0].ready, 1);
       assert.equal(pool.waitingCount, 0);

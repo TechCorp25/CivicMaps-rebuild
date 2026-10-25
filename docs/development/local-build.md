@@ -100,6 +100,16 @@ budgets, not a production latency or throughput guarantee. Transient database
 timeouts and unavailable connections return a generic retryable 503 with
 `Retry-After: 1`.
 
+The request error mapper also recognizes the pinned `pg-pool` message
+`Connection terminated due to connection timeout` (a socket that accepts TCP but
+does not finish the PostgreSQL startup handshake) and the `pg` client message
+`Client has encountered a connection error and is not queryable` after a checked
+out backend dies. The handshake fixture checks 503 plus `Retry-After: 1`; the
+backend fixture verifies the exact non-queryable error is transient and the
+shared pool recovers after discarding the client. The handshake fixture uses a
+stalled loopback TCP socket only; it does not simulate a production database or
+network.
+
 Password derivation and verification use asynchronous Scrypt with a shared
 two-operation admission limit, leaving two workers of Node's default four
 libuv workers available to unrelated work. Saturation returns a generic

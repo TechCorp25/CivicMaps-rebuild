@@ -113,7 +113,7 @@ Expected negative-case API messages in passing test logs are not additional fail
 
 ## Remediation execution status
 
-This report remains the frozen baseline assessment; the assessment itself applied no fixes. Q1's exact product `1cb963d8eee9e12e62de39fa106d439d0af61ea0` was published and independently accepted. Q2 implements QA02, QA03 and QA17 on the accepted Q1 base. Local acceptance passed with 104 tests and no skips, three browser suites and both Caddy checks. Q2 is pending publication and fresh independent review; its findings remain open until that review. See the [execution ledger](execution-ledger.md) and Q2 evidence. No merge or deployment is in scope.
+This report remains the frozen baseline assessment; the assessment itself applied no fixes. Q1's exact product `1cb963d8eee9e12e62de39fa106d439d0af61ea0` was published and independently accepted. The published Q2 candidate implemented QA02, QA03 and QA17 and passed its local gates, but its fresh independent review found two QA02 transport-timeout classification gaps. A follow-up based on that exact Q2 product addresses both with deterministic regressions and passed the full local check, all three browser suites and both Caddy checks. The follow-up awaits publication and fresh independent review. See the [execution ledger](execution-ledger.md) and Q2 evidence. No merge or deployment is in scope.
 
 ## Findings
 

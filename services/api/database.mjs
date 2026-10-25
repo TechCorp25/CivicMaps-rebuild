@@ -61,7 +61,9 @@ export function isTransientDatabaseError(error) {
   return (
     transientSqlStates.has(error?.code) ||
     transientNodeCodes.has(error?.code) ||
+    error?.message === 'Client has encountered a connection error and is not queryable' ||
     error?.message === 'Connection terminated unexpectedly' ||
+    error?.message === 'Connection terminated due to connection timeout' ||
     error?.message === 'timeout exceeded when trying to connect'
   );
 }
@@ -85,7 +87,7 @@ export async function transaction(work, clientPool = pool) {
     try {
       await client.query('ROLLBACK');
     } catch (rollbackError) {
-      discardClient = rollbackError;
+      discardClient ??= rollbackError;
       const code =
         typeof rollbackError?.code === 'string' && /^[A-Z0-9]{5}$/.test(rollbackError.code)
           ? rollbackError.code
