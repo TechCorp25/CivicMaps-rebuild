@@ -13,7 +13,7 @@ No merge or deployment is in scope.
 | --- | --- | --- | --- |
 | Q1 | Accepted | `1cb963d8eee9e12e62de39fa106d439d0af61ea0` | PASS on `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
 | Q2 | Accepted | `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` | Full fresh Astra PASS |
-| Q3 | Local validation passed; independent review pending | Candidate commit pending | Q2 dependency satisfied |
+| Q3 | Original candidate `5e3e7b9` changes required; fix candidate locally validated, fresh review pending | Candidate commit pending | Q2 accepted |
 | Q4 | Not started | — | Pending |
 | Q5 | Not started | — | Pending Python contract from Q4 |
 | Q6 | Not started | — | Pending |
@@ -23,9 +23,8 @@ Q1 covers QA01 and only the advisory portion of QA18. Q1 was independently
 accepted at exact product `1cb963d8eee9e12e62de39fa106d439d0af61ea0`; QA18's
 Python and infrastructure checks remain open for Q5. Q2 implements QA02, QA03
 and QA17. The published Q2 candidate received a `changes_required` independent
-verdict on QA02 transient database error classification; the follow-up below
-addresses both reported paths. Q2 remains open pending local validation and a
-fresh review of the fixed candidate.
+verdict on QA02 transient database error classification; the follow-up addressed
+both reported paths and was accepted at `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7`.
 
 ## QA01–QA18 dispositions
 
@@ -34,7 +33,7 @@ fresh review of the fixed candidate.
 | QA01 | Accepted in Q1 at `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
 | QA02 | Accepted in Q2 at `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` |
 | QA03 | Accepted in Q2 at `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` |
-| QA04, QA08, QA09 | Implemented and locally validated in Q3; fresh review pending |
+| QA04, QA08, QA09 | Original Q3 candidate changes required; follow-up fixes implemented and locally validated, fresh review pending |
 | QA05–QA07, QA10–QA16 | Open; assigned to their planned Q packages |
 | QA17 | Accepted in Q2 at `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` |
 | QA18 advisory | Accepted in Q1 at `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
@@ -235,3 +234,48 @@ fallback port. Raw outputs and the race trace are in `evidence/q3-*.log` and
 the changed product/test sources and retained evidence. Generated tracked F11E
 screenshots were restored. No merge or deployment was performed. QA04, QA08 and
 QA09 are locally implemented and validated, pending fresh independent review.
+
+## Q3 independent findings follow-up
+
+Fresh Astra Low assessment of the published Q3 product
+`5e3e7b90196599815deb39d3007430ef5f09b6da` returned `changes_required` at
+2026-10-25T04:35:48Z. The immutable report is retained at
+[`evidence/q3-independent-original/report.md`](evidence/q3-independent-original/report.md),
+SHA-256 `df234cdaa464375989bb9b96cd7691f6a2ea8e3dc72022139705a56d8dfea088`.
+Its two reproduced P2 findings and raw scripts/logs are preserved byte-for-byte
+in `evidence/q3-independent-original/`; hashes are in the Q3 fix manifest.
+
+The isolated follow-up worktree is based on that exact published product and does
+not alter the pinned audit worktree. Platform now advances an explicit operation
+scope controller on route/session changes, aborts scope-owned writes and activation
+work, and ignores stale failures in `perform`. Registration and pack toggles check
+their captured scope before updating state. `AdminActivation` receives the scope
+signal for its status and write calls. Cancellation leaves the mutation retry
+receipt intact; no automatic write replay was added. CommandMAPS history ownership
+is independent of queue filter cleanup. It still waits for selected detail to be
+server-confirmed and follows the selected request ID/version/session; filtering
+does not invalidate that confirmed version or abort the history read.
+
+Executable browser regressions cover the two original schedules: a held Platform
+pack POST is cancelled while navigating to Network health, and the old HTML 401
+does not log out the operator; a held CommandMAPS audit response completes after
+search removes every queue row, and history exits its loading state. The Activation
+browser suite also holds an administrator-disable POST, navigates to Network health,
+and asserts cancellation and suppression of a late HTML 401. These tests fail on
+the old cancellation/spinner behavior and use bounded request waits and gate
+fail-safes.
+
+Final follow-up validation: `npm run check` passed lint, formatting, both typechecks,
+both builds and 106 integration tests (0 failed, 0 skipped); Platform, CommandMAPS
+and Activation browser suites passed serially; both Caddy loopback ingress checks
+passed. Raw output is retained under `evidence/q3-fix/`. An earlier overlapping
+CommandMAPS/Platform run failed an existing synthetic audit assertion because an
+unready selected-detail history request raced a later expected 503; the final code
+waits for selected detail readiness and version, and serial browser runs passed.
+The first Platform fixture attempt was blocked by its open native confirmation
+dialog; the final fixture navigates via the hash after the held write begins. The
+initial lint run reported the missing selected-scope dependency and the test's
+undeclared `window` global; both were corrected before the full passing check. These
+failures and adjustments are retained in the raw initial-run logs. No merge,
+deployment or push was performed. The fixed candidate remains unaccepted until a
+fresh independent review of its published immutable SHA.

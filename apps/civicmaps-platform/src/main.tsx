@@ -60,6 +60,12 @@ function App() {
   const [detailRefresh, setDetailRefresh] = useState(0);
   const [detailError, setDetailError] = useState('');
   const detailScope = useRef(0);
+  const scopeController = useRef(new AbortController());
+  const advanceScope = () => {
+    detailScope.current += 1;
+    scopeController.current.abort();
+    scopeController.current = new AbortController();
+  };
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [search, setSearch] = useState('');
@@ -80,7 +86,7 @@ function App() {
   }
   const clearSession = useCallback(() => {
     loginController.current?.abort();
-    detailScope.current += 1;
+    advanceScope();
     setActor(null);
     setCsrf('');
     setMunicipalities([]);
@@ -121,7 +127,7 @@ function App() {
   useEffect(() => {
     function change() {
       loginController.current?.abort();
-      detailScope.current += 1;
+      advanceScope();
       setRoute(readRoute());
       setDetail(null);
       setDetailError('');
@@ -137,12 +143,14 @@ function App() {
   useEffect(() => {
     content.current?.focus();
   }, [route.page, route.id]);
-  async function load() {
+  async function load(expectedScope = detailScope.current) {
+    const signal = scopeController.current.signal;
     const result = await api<{
       municipalities: Municipality[];
       domainPacks: string[];
       packCatalogue: PackOption[];
-    }>('/municipalities');
+    }>('/municipalities', { signal });
+    if (expectedScope !== detailScope.current || signal.aborted) return;
     setMunicipalities(result.municipalities);
     setCatalogue(result.packCatalogue);
     setLoaded(true);
@@ -206,13 +214,14 @@ function App() {
     // Page changes clear detail even when the municipality ID stays the same (F02).
   }, [actor, route.page, route.id, current?.version, detailRefresh, fail]);
   async function perform(work: () => Promise<void>) {
+    const expectedScope = detailScope.current;
     setBusy(true);
     setError('');
     setNotice('');
     try {
       await work();
     } catch (err) {
-      if (isRequestCancelled(err)) return;
+      if (isRequestCancelled(err) || expectedScope !== detailScope.current) return;
       fail(err);
       if (err instanceof ApiError && err.status === 409) await load().catch(fail);
     } finally {
@@ -226,6 +235,7 @@ function App() {
       method: 'POST',
       headers: { 'x-csrf-token': csrf, 'Idempotency-Key': retry.current.key },
       body: JSON.stringify(data),
+      signal: scopeController.current.signal,
     });
     retry.current = null;
     return result;
@@ -250,22 +260,26 @@ function App() {
   }
   function register(data: Input) {
     void perform(async () => {
+      const expectedScope = detailScope.current;
       const result = await mutate<ProvisionResult>('/municipalities', data);
+      if (expectedScope !== detailScope.current) return;
       setProvisioned(result);
-      await load();
+      await load(expectedScope);
     });
   }
   function toggle(pack: string, enabled: boolean) {
     if (!current) return;
     void perform(async () => {
+      const expectedScope = detailScope.current;
       await mutate(`/municipalities/${current.id}/packs`, {
         pack,
         enabled,
         version: current.version,
         confirmed: !enabled,
       });
+      if (expectedScope !== detailScope.current) return;
       setConfirmation(null);
-      await load();
+      await load(expectedScope);
       setNotice(
         `${packLabel(pack)} ${enabled ? 'enabled' : 'disabled'}. Configuration saved; existing records retained.`,
       );
@@ -593,7 +607,13 @@ function App() {
                 </section>
               )}
               {route.page === 'municipalities' && (
-                <AdminActivation key={current.id} id={current.id} csrf={csrf} onError={fail} />
+                <AdminActivation
+                  key={current.id}
+                  id={current.id}
+                  csrf={csrf}
+                  signal={scopeController.current.signal}
+                  onError={fail}
+                />
               )}
               {detail && route.page === 'municipalities' && (
                 <ProvisioningStatus

@@ -1,3 +1,4 @@
+/* global window */
 import { chromium, expect } from '@playwright/test';
 import { createServer } from 'vite';
 import { spawnSync } from 'node:child_process';
@@ -134,6 +135,42 @@ try {
   await mkdir('test-results', { recursive: true });
   await activation.screenshot({ path: 'test-results/f07-admin-profile-phone.png', fullPage: true });
   await card.getByRole('button', { name: 'Refresh activation status' }).click();
+  await expect(card.getByText('Administrator: Activated', { exact: true })).toBeVisible();
+  await card.getByLabel('Revoke this administrator’s sessions and outstanding links').check();
+  const disableGate = Promise.withResolvers();
+  const disableFailSafe = setTimeout(() => disableGate.resolve(), 10000);
+  let disableCancelled = false;
+  const disablePath = `**/api/platform/municipalities/${municipality}/activation/disable`;
+  await page.route(disablePath, async (route) => {
+    await disableGate.promise;
+    await route
+      .fulfill({ status: 401, contentType: 'text/html', body: '<html>expired</html>' })
+      .catch(() => {});
+  });
+  const disableRequest = page.waitForRequest(
+    (request) =>
+      request.method() === 'POST' &&
+      request.url().endsWith(`/municipalities/${municipality}/activation/disable`),
+    { timeout: 5000 },
+  );
+  const disableFailureListener = (request) => {
+    if (request.url().endsWith(`/municipalities/${municipality}/activation/disable`))
+      disableCancelled = true;
+  };
+  page.on('requestfailed', disableFailureListener);
+  await card.getByRole('button', { name: 'Disable administrator', exact: true }).click();
+  await disableRequest;
+  await page.evaluate(() => {
+    window.location.hash = 'health';
+  });
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await expect.poll(() => disableCancelled, { timeout: 5000 }).toBe(true);
+  disableGate.resolve();
+  clearTimeout(disableFailSafe);
+  page.off('requestfailed', disableFailureListener);
+  await page.unroute(disablePath);
+  await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toHaveCount(0);
+  await page.goto(`${platformOrigin}/#municipalities/${municipality}`);
   await expect(card.getByText('Administrator: Activated', { exact: true })).toBeVisible();
   await card.getByLabel('Revoke this administrator’s sessions and outstanding links').check();
   await card.getByRole('button', { name: 'Disable administrator', exact: true }).click();

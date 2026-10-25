@@ -1,0 +1,3 @@
+Port 5173 is in use, trying another one...
+{"phase":"navigated while mutation pending","hash":"#health","aborted":false}
+{"phase":"stale 401 logged out current page","alert":"The operation could not be completed","aborted":false}

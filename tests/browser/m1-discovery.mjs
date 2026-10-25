@@ -339,4 +339,62 @@ export async function verifyM1Discovery(page, expect) {
   await expect(page.getByRole('heading', { name: 'Selected request unavailable' })).toBeVisible();
   await expect(page.locator('.detail button')).toHaveCount(1);
   await page.unroute(/\/api\/requests\//, deniedDetail);
+
+  // Queue search may hide the selected row, but the selected history read must settle.
+  await search.fill('Queue active');
+  await expect(rows).toHaveCount(25);
+  let releaseHistory;
+  const heldHistory = new Promise((resolve) => {
+    releaseHistory = resolve;
+  });
+  const historyFailSafe = setTimeout(() => releaseHistory(), 10000);
+  const historyTarget = page.locator('.request-link[aria-pressed="false"]').first();
+  const historyTargetId = await historyTarget
+    .locator('xpath=ancestor::tr')
+    .getAttribute('data-request-id');
+  expect(historyTargetId).toMatch(/^[0-9a-f-]+$/);
+  let heldHistoryResponse;
+  let historyResponseCompleted = false;
+  let historyReads = 0;
+  const holdOneHistoryResponse = async (route) => {
+    if (!route.request().url().endsWith(`/requests/${historyTargetId}/audit`))
+      return route.continue();
+    if (heldHistoryResponse) return route.continue();
+    heldHistoryResponse = true;
+    historyReads += 1;
+    const response = await route.fetch();
+    await heldHistory;
+    await route.fulfill({ response }).then(
+      () => {
+        historyResponseCompleted = true;
+      },
+      () => {},
+    );
+  };
+  await page.route(new RegExp(`/api/requests/${historyTargetId}/audit$`), holdOneHistoryResponse);
+  const historyStarted = page.waitForRequest(
+    (request) => request.url().endsWith(`/requests/${historyTargetId}/audit`),
+    { timeout: 5000 },
+  );
+  await historyTarget.click();
+  await historyStarted;
+  await expect(page.locator('.audit')).toContainText('Loading history');
+  await search.fill('No matching queue row');
+  await expect(rows).toHaveCount(0);
+  releaseHistory();
+  clearTimeout(historyFailSafe);
+  await expect(page.locator('.audit')).not.toContainText('Loading history');
+  expect(historyResponseCompleted).toBe(true);
+  expect(historyReads).toBe(1);
+  await page.unroute(new RegExp(`/api/requests/${historyTargetId}/audit$`), holdOneHistoryResponse);
+  console.log(
+    JSON.stringify({
+      operation: 'history-filter-race',
+      requestId: historyTargetId,
+      generation: 'selected request; queue filter changed while its audit response was held',
+      reads: historyReads,
+      responseCompleted: historyResponseCompleted,
+      state: 'history loading resolved after search hid all queue rows',
+    }),
+  );
 }

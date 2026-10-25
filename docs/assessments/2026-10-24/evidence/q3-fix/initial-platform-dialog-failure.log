@@ -1,0 +1,10 @@
+Command: source /workspace/work/quality-bootstrap/session-env.sh && node tests/browser-platform.mjs
+Execution: controlled stale-401 regression fixture, first version.
+
+locator.click: Timeout 30000ms exceeded
+  waiting for getByRole('link', { name: 'Network health', exact: true })
+  locator resolved to <a class="" href="#health" title="Network health">…</a>
+  <dialog open="" aria-labelledby="confirm-title">…</dialog> from <main id="content" tabindex="-1">…</main> subtree intercepts pointer events
+  retrying click action until timeout
+
+The browser's native confirmation dialog intentionally blocks interaction outside it. The regression now installs the held POST handler before confirmation, then changes the route hash directly while the dialog is open. Its wait and route fail-safe are bounded; the final sequential Platform suite passed.

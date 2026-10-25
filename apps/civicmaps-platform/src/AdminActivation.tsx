@@ -11,10 +11,12 @@ type Status = {
 export function AdminActivation({
   id,
   csrf,
+  signal,
   onError,
 }: {
   id: string;
   csrf: string;
+  signal: AbortSignal;
   onError: (error: unknown) => void;
 }) {
   const [status, setStatus] = useState<Status | null>(null);
@@ -30,6 +32,8 @@ export function AdminActivation({
   }, []);
   useEffect(() => {
     const controller = new AbortController();
+    const abort = () => controller.abort();
+    signal.addEventListener('abort', abort, { once: true });
     api<Status>(`/municipalities/${id}/activation`, { signal: controller.signal })
       .then((value) => {
         if (!controller.signal.aborted) setStatus(value);
@@ -41,8 +45,11 @@ export function AdminActivation({
           if (reason instanceof ApiError && reason.status === 401) onError(reason);
         }
       });
-    return () => controller.abort();
-  }, [id, refresh, onError]);
+    return () => {
+      signal.removeEventListener('abort', abort);
+      controller.abort();
+    };
+  }, [id, refresh, onError, signal]);
   async function submit(event: FormEvent<HTMLFormElement>, disable = false) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -54,6 +61,9 @@ export function AdminActivation({
     setLink('');
     setError('');
     setBusy(true);
+    const controller = new AbortController();
+    const abort = () => controller.abort();
+    signal.addEventListener('abort', abort, { once: true });
     try {
       const result = await api<{ activationUrl?: string }>(
         `/municipalities/${id}/activation${disable ? '/disable' : ''}`,
@@ -69,6 +79,7 @@ export function AdminActivation({
                   recipientVerified: form.get('verified') === 'on',
                 },
           ),
+          signal: controller.signal,
         },
       );
       if (result.activationUrl) setLink(result.activationUrl);
@@ -79,6 +90,7 @@ export function AdminActivation({
         if (reason instanceof ApiError && reason.status === 401) onError(reason);
       }
     } finally {
+      signal.removeEventListener('abort', abort);
       setBusy(false);
     }
   }

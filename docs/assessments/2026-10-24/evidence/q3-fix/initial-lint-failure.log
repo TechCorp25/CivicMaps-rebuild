@@ -1,0 +1,11 @@
+Command: source /workspace/work/quality-bootstrap/session-env.sh && npm run typecheck && npm run lint && npm run format:check
+
+/workspace/work/quality-q3-fix/apps/commandmaps/src/main.tsx
+  586:6  error  React Hook useEffect has a missing dependency: 'current?.id'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/workspace/work/quality-q3-fix/tests/browser-activation.mjs
+  163:5  error  'window' is not defined  no-undef
+
+✖ 2 problems (2 errors, 0 warnings)
+
+The final effect dependency includes current?.id (stable through queue filtering because it derives from the selected detail state), and the browser test declares its page-evaluate global. Subsequent full `npm run check` passed.

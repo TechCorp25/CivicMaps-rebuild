@@ -448,7 +448,8 @@ function App() {
       clearTimeout(timer);
       queueLoadController.current?.abort();
       selectedDetailController.current?.abort();
-      historyController.current?.abort();
+      // Queue filters do not change the selected record's authority scope. Keep its
+      // independent history read alive so a search cannot strand the history spinner.
     };
   }, [actor, filter, search, load]);
   useEffect(() => {
@@ -582,7 +583,16 @@ function App() {
       controller.abort();
       if (historyController.current === controller) historyController.current = null;
     };
-  }, [actor, selected, scopeKey, currentVersion, current?.id, traceRead, cancelPendingReads]);
+  }, [
+    actor,
+    selected,
+    scopeKey,
+    current?.id,
+    currentId,
+    currentVersion,
+    traceRead,
+    cancelPendingReads,
+  ]);
   useEffect(() => {
     if (current && !assignmentDraftDirty.current)
       setAssignmentDraft(current.assigned_officer_id ?? '');

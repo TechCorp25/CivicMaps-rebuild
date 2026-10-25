@@ -134,9 +134,12 @@
         "evidence/commandmaps-browser-rerun.log",
         "evidence/commandmaps-browser-pg15.log",
         "evidence/q3-controlled-detail-race.json",
-        "evidence/q3-commandmaps-browser.log"
+        "evidence/q3-commandmaps-browser.log",
+        "evidence/q3-independent-original/report.md",
+        "evidence/q3-fix/commandmaps-browser.log",
+        "evidence/q3-fix/initial-parallel-commandmaps-failure.log"
       ],
-      "status": "implemented_pending_independent_review",
+      "status": "follow_up_implemented_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
@@ -144,7 +147,7 @@
           "three browser suites",
           "two Caddy loopback checks"
         ],
-        "independentAssessment": "pending",
+        "independentAssessment": "original_5e3e7b9_changes_required; fixed_candidate_review_pending",
         "candidateCommit": null
       }
     },
@@ -231,9 +234,12 @@
       "evidence": [
         "evidence/api-error-probe.json",
         "evidence/q3-api-transport.log",
-        "evidence/q3-commandmaps-browser.log"
+        "evidence/q3-commandmaps-browser.log",
+        "evidence/q3-independent-original/report.md",
+        "evidence/q3-fix/platform-browser.log",
+        "evidence/q3-fix/activation-browser.log"
       ],
-      "status": "implemented_pending_independent_review",
+      "status": "follow_up_implemented_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
@@ -241,7 +247,7 @@
           "three browser suites",
           "two Caddy loopback checks"
         ],
-        "independentAssessment": "pending",
+        "independentAssessment": "original_5e3e7b9_changes_required; fixed_candidate_review_pending",
         "candidateCommit": null
       }
     },
@@ -263,9 +269,14 @@
         "evidence/q3-api-transport.log",
         "evidence/q3-commandmaps-browser.log",
         "evidence/q3-platform-browser.log",
-        "evidence/q3-activation-browser.log"
+        "evidence/q3-activation-browser.log",
+        "evidence/q3-independent-original/report.md",
+        "evidence/q3-fix/npm-check.log",
+        "evidence/q3-fix/platform-browser.log",
+        "evidence/q3-fix/commandmaps-browser.log",
+        "evidence/q3-fix/activation-browser.log"
       ],
-      "status": "implemented_pending_independent_review",
+      "status": "follow_up_implemented_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
@@ -273,7 +284,7 @@
           "three browser suites",
           "two Caddy loopback checks"
         ],
-        "independentAssessment": "pending",
+        "independentAssessment": "original_5e3e7b9_changes_required; fixed_candidate_review_pending",
         "candidateCommit": null
       }
     },

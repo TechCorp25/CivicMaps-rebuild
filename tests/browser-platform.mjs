@@ -407,6 +407,52 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: 'test-results/platform-aws-resources-narrow.png', fullPage: true });
+  // A mutation's late 401 belongs to the page scope where it began. Navigation
+  // aborts it and must not clear the still-authenticated platform session.
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(`${origin}/#packs/${cloudCouncil.municipality.id}`);
+  const scopedPack = page.getByRole('switch', { name: 'Local Laws', exact: true });
+  await expect(scopedPack).toBeVisible();
+  await scopedPack.click();
+  const scopedDialog = page.getByRole('dialog');
+  const mutationGate = Promise.withResolvers();
+  let mutationReleased = false;
+  let mutationCancelled = false;
+  const mutationFailSafe = setTimeout(() => mutationGate.resolve(), 10000);
+  const mutationPath = `**/api/platform/municipalities/${cloudCouncil.municipality.id}/packs`;
+  await page.route(mutationPath, async (route) => {
+    await mutationGate.promise;
+    mutationReleased = true;
+    await route
+      .fulfill({ status: 401, contentType: 'text/html', body: '<html>expired</html>' })
+      .catch(() => {});
+  });
+  const mutationFailureListener = (request) => {
+    if (request.url().endsWith(`/municipalities/${cloudCouncil.municipality.id}/packs`))
+      mutationCancelled = true;
+  };
+  page.on('requestfailed', mutationFailureListener);
+  const mutationRequest = page.waitForRequest(
+    (request) =>
+      request.method() === 'POST' &&
+      request.url().endsWith(`/municipalities/${cloudCouncil.municipality.id}/packs`),
+    { timeout: 5000 },
+  );
+  // The confirmation handler starts the intercepted write on an explicit button action.
+  await scopedDialog.getByRole('button', { name: 'Turn off pack', exact: true }).click();
+  await mutationRequest;
+  await page.evaluate(() => {
+    window.location.hash = 'health';
+  });
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await expect.poll(() => mutationCancelled, { timeout: 5000 }).toBe(true);
+  mutationGate.resolve();
+  clearTimeout(mutationFailSafe);
+  await expect.poll(() => mutationReleased).toBe(true);
+  await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await page.unroute(mutationPath);
+  page.off('requestfailed', mutationFailureListener);
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/platform/municipalities`)).status()).toBe(401);
