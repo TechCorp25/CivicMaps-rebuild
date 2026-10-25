@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { api, ApiError } from './api';
+import { isRequestCancelled } from '../../shared/api-transport.mjs';
 
 type Status = {
   state: string;
@@ -34,7 +35,7 @@ export function AdminActivation({
         if (!controller.signal.aborted) setStatus(value);
       })
       .catch((reason) => {
-        if (!controller.signal.aborted) {
+        if (!controller.signal.aborted && !isRequestCancelled(reason)) {
           setStatus(null);
           setError(reason.message);
           if (reason instanceof ApiError && reason.status === 401) onError(reason);
@@ -73,8 +74,10 @@ export function AdminActivation({
       if (result.activationUrl) setLink(result.activationUrl);
       setRefresh((value) => value + 1);
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : 'Activation action failed');
-      if (reason instanceof ApiError && reason.status === 401) onError(reason);
+      if (!isRequestCancelled(reason)) {
+        setError(reason instanceof Error ? reason.message : 'Activation action failed');
+        if (reason instanceof ApiError && reason.status === 401) onError(reason);
+      }
     } finally {
       setBusy(false);
     }

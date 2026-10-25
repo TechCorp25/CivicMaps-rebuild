@@ -9,13 +9,13 @@
   "assessment": "assessment.md",
   "plan": "remediation-plan.md",
   "findings": "findings.json",
-  "scope": "Current-main engineering quality assurance; no governance hold or feature implementation",
+  "scope": "Assessment plus explicitly authorized Q1-Q7 remediation; no merge, deployment, cloud mutation or customer data operations.",
   "assessmentStatus": "completed_with_explicit_coverage_limits",
-  "remediationStatus": "Q1_accepted_Q2_prior_candidate_changes_required_followup_locally_passed_pending_independent_review",
+  "remediationStatus": "Q1_Q2_accepted_Q3_local_validation_passed_pending_independent_review",
   "independentAssessmentStatus": "pass_on_frozen_product_43423d7",
   "publicationStatus": "draft_PR43_verified_remote_43423d7",
   "empiricalStatus": "complete_plan_recorded_and_read_back_byte_equal",
-  "nextAction": "Publish the locally verified Q2 transport follow-up through the single integration writer and obtain a fresh GPT-6 Astra Low review. No merge or deployment is authorized.",
+  "nextAction": "Commit locally validated Q3 candidate and obtain fresh independent Astra Low review. No merge or deployment is authorized.",
   "securityCoverage": {
     "dependencyAudit": "completed_one_high_advisory",
     "sourceReview": "completed_with_reported_limits",
@@ -58,10 +58,16 @@
       "skipped": 0
     },
     "q2FixBrowsers": "commandmaps_platform_activation_pass",
-    "q2FixCaddyIngress": "both_loopback_contracts_pass"
+    "q2FixCaddyIngress": "both_loopback_contracts_pass",
+    "q3FullCheck": {
+      "passed": 106,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3Browsers": "commandmaps_platform_activation_pass",
+    "q3CaddyIngress": "contract_and_login_loopback_pass"
   },
   "prohibitedByScope": [
-    "feature_implementation",
     "merge",
     "deployment",
     "cloud_mutation",
@@ -89,14 +95,14 @@
   "execution": {
     "ledger": "execution-ledger.md",
     "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
-    "package": "Q2 follow-up",
-    "branch": "codex/civicmaps-quality-q2-fix",
-    "packageBase": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
-    "implementationCommit": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
-    "candidateCommit": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
-    "localAcceptance": "passed_105_tests_zero_failures_zero_skips_three_browsers_two_caddy_checks",
-    "publication": "verified_remote",
-    "independentAssessment": "pass",
+    "package": "Q3 browser recovery and transport",
+    "branch": "codex/civicmaps-quality-q3",
+    "packageBase": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
+    "implementationCommit": null,
+    "candidateCommit": null,
+    "localAcceptance": "passed_full_check_106_tests_zero_failures_zero_skips_three_browsers_two_caddy_loopback_checks",
+    "publication": "not_published_single_integration_writer",
+    "independentAssessment": "pending",
     "merge": "not_authorised",
     "deployment": "not_authorised",
     "evidenceDirectory": "evidence/",
@@ -104,7 +110,7 @@
     "acceptedCommit": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
     "auditorReport": "evidence/q2-independent-accepted/report.md",
     "auditorReportSha256": "04ad939ca92f2a06a73fb1a9efa4e8fc1f261632f817610c1e579e1b59edf263",
-    "nextAction": "Q3 active in isolated codex/civicmaps-quality-q3",
+    "nextAction": "Commit exact validated Q3 tree, publish via integration writer, then fresh independent review.",
     "hostedCI": {
       "candidate": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
       "applicationRun": 40159555198,
@@ -116,6 +122,8 @@
       "independentVerdict": "changes_required",
       "report": "evidence/q2-independent-original/report.md",
       "reportSha256": "205c063eef0f32a51fcdb359d470d2e841af3d48214f6b2e7ff1233ee11be088"
-    }
+    },
+    "q2AcceptanceReceipt": "fc722d19d26fdad8fc66eb2a0809f49856ca19dd",
+    "q3EvidenceDirectory": "evidence/"
   }
 }

@@ -121,7 +121,7 @@
       "priority": "medium",
       "category": "test-quality",
       "title": "Intermittent overlapping-detail browser acceptance",
-      "validation": "observed_failure_then_passes_cause_unresolved",
+      "validation": "controlled_exact_id_refresh_race_pass",
       "workPackages": [
         "Q3"
       ],
@@ -132,11 +132,21 @@
       "evidence": [
         "evidence/commandmaps-browser.log",
         "evidence/commandmaps-browser-rerun.log",
-        "evidence/commandmaps-browser-pg15.log"
+        "evidence/commandmaps-browser-pg15.log",
+        "evidence/q3-controlled-detail-race.json",
+        "evidence/q3-commandmaps-browser.log"
       ],
-      "status": "open",
+      "status": "implemented_pending_independent_review",
       "implementationCommit": null,
-      "closureEvidence": null
+      "closureEvidence": {
+        "localChecks": [
+          "npm run check (106 passed, 0 failed, 0 skipped)",
+          "three browser suites",
+          "two Caddy loopback checks"
+        ],
+        "independentAssessment": "pending",
+        "candidateCommit": null
+      }
     },
     {
       "id": "QA05",
@@ -209,7 +219,7 @@
       "priority": "low",
       "category": "resilience",
       "title": "Non-JSON error responses lose HTTP status",
-      "validation": "original_platform_helper_reproduced",
+      "validation": "shared_transport_status_safe_errors_pass",
       "workPackages": [
         "Q3"
       ],
@@ -219,18 +229,28 @@
         "apps/commandmaps/src/Activation.tsx"
       ],
       "evidence": [
-        "evidence/api-error-probe.json"
+        "evidence/api-error-probe.json",
+        "evidence/q3-api-transport.log",
+        "evidence/q3-commandmaps-browser.log"
       ],
-      "status": "open",
+      "status": "implemented_pending_independent_review",
       "implementationCommit": null,
-      "closureEvidence": null
+      "closureEvidence": {
+        "localChecks": [
+          "npm run check (106 passed, 0 failed, 0 skipped)",
+          "three browser suites",
+          "two Caddy loopback checks"
+        ],
+        "independentAssessment": "pending",
+        "candidateCommit": null
+      }
     },
     {
       "id": "QA09",
       "priority": "low",
       "category": "resilience",
       "title": "Browser requests lack common deadlines",
-      "validation": "source_confirmed_missing_budgets",
+      "validation": "bounded_deadline_and_cancellation_pass",
       "workPackages": [
         "Q3"
       ],
@@ -239,10 +259,23 @@
         "apps/commandmaps/src/main.tsx:98",
         "apps/commandmaps/src/Activation.tsx"
       ],
-      "evidence": [],
-      "status": "open",
+      "evidence": [
+        "evidence/q3-api-transport.log",
+        "evidence/q3-commandmaps-browser.log",
+        "evidence/q3-platform-browser.log",
+        "evidence/q3-activation-browser.log"
+      ],
+      "status": "implemented_pending_independent_review",
       "implementationCommit": null,
-      "closureEvidence": null
+      "closureEvidence": {
+        "localChecks": [
+          "npm run check (106 passed, 0 failed, 0 skipped)",
+          "three browser suites",
+          "two Caddy loopback checks"
+        ],
+        "independentAssessment": "pending",
+        "candidateCommit": null
+      }
     },
     {
       "id": "QA10",

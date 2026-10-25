@@ -34,6 +34,7 @@ import { AdminActivation } from './AdminActivation';
 import { RoutingStatus } from './RoutingStatus';
 import './tokens.css';
 import './styles.css';
+import { isRequestCancelled } from '../../shared/api-transport.mjs';
 
 type Page = 'municipalities' | 'packs' | 'health' | 'onboarding';
 type Route = { page: Page; id: string | null };
@@ -71,12 +72,14 @@ function App() {
   const [confirmation, setConfirmation] = useState<string | null>(null);
   const [provisioned, setProvisioned] = useState<ProvisionResult | null>(null);
   const retry = useRef<{ payload: string; key: string } | null>(null);
+  const loginController = useRef<AbortController | null>(null);
   const content = useRef<HTMLElement>(null);
   const current = municipalities.find((m) => m.id === route.id);
   function navigate(page: Page, id: string | null = null) {
     location.hash = `${page}${id ? `/${id}` : ''}`;
   }
   const clearSession = useCallback(() => {
+    loginController.current?.abort();
     detailScope.current += 1;
     setActor(null);
     setCsrf('');
@@ -96,7 +99,8 @@ function App() {
   );
   useEffect(() => {
     let active = true;
-    api<{ actor: Actor; csrfToken: string }>('/auth/session')
+    const controller = new AbortController();
+    api<{ actor: Actor; csrfToken: string }>('/auth/session', { signal: controller.signal })
       .then((session) => {
         if (active) {
           setActor(session.actor);
@@ -104,17 +108,19 @@ function App() {
         }
       })
       .catch((err) => {
-        if (active && err.status !== 401) setError(err.message);
+        if (active && !isRequestCancelled(err) && err.status !== 401) setError(err.message);
       })
       .finally(() => {
         if (active) setReady(true);
       });
     return () => {
       active = false;
+      controller.abort();
     };
   }, []);
   useEffect(() => {
     function change() {
+      loginController.current?.abort();
       detailScope.current += 1;
       setRoute(readRoute());
       setDetail(null);
@@ -127,6 +133,7 @@ function App() {
     addEventListener('hashchange', change);
     return () => removeEventListener('hashchange', change);
   }, []);
+  useEffect(() => () => loginController.current?.abort(), []);
   useEffect(() => {
     content.current?.focus();
   }, [route.page, route.id]);
@@ -169,7 +176,7 @@ function App() {
     async function refresh() {
       try {
         const result = await api<Detail>(`/municipalities/${route.id}`, {
-          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
+          signal: controller.signal,
         });
         if (!controller.signal.aborted) {
           setDetail(result);
@@ -183,6 +190,7 @@ function App() {
           );
         }
       } catch (err) {
+        if (isRequestCancelled(err)) return;
         if (!controller.signal.aborted) {
           setDetailError(err instanceof Error ? err.message : 'Status refresh unavailable');
           if (err instanceof ApiError && err.status === 401) fail(err);
@@ -204,6 +212,7 @@ function App() {
     try {
       await work();
     } catch (err) {
+      if (isRequestCancelled(err)) return;
       fail(err);
       if (err instanceof ApiError && err.status === 409) await load().catch(fail);
     } finally {
@@ -224,13 +233,19 @@ function App() {
   function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const controller = new AbortController();
+    loginController.current?.abort();
+    loginController.current = controller;
     void perform(async () => {
       const session = await api<{ actor: Actor; csrfToken: string }>('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email: data.get('email'), password: data.get('password') }),
+        signal: controller.signal,
       });
       setActor(session.actor);
       setCsrf(session.csrfToken);
+    }).finally(() => {
+      if (loginController.current === controller) loginController.current = null;
     });
   }
   function register(data: Input) {

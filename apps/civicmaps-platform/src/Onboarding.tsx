@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { CheckCircle2, ArrowLeft, ArrowRight, Building2 } from 'lucide-react';
 import { api, type Onboarding as Input, type PackOption, type ProvisionResult } from './api';
+import { isRequestCancelled } from '../../shared/api-transport.mjs';
 import { Packs } from './components';
 
 export function Onboarding({
@@ -49,7 +50,7 @@ export function Onboarding({
           }
         })
         .catch((err) => {
-          if (!controller.signal.aborted) setAvailability(err.message);
+          if (!controller.signal.aborted && !isRequestCancelled(err)) setAvailability(err.message);
         });
     }, 300);
     return () => {

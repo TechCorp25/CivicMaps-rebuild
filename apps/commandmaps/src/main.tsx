@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import './tokens.css';
 import './styles.css';
+import { ApiError, isRequestCancelled, requestJson } from '../../shared/api-transport.mjs';
 
 type Actor = {
   id: string;
@@ -87,22 +88,23 @@ type RecoveryAction = {
   latestVersion?: number;
   retrySameAction?: boolean;
 };
-class ApiError extends Error {
-  constructor(
-    public status: number,
-    message: string,
-  ) {
-    super(message);
+type RefreshSource = 'interval' | 'focus';
+type ClientReadTrace = {
+  operation: 'selection' | 'refresh' | 'refresh-trigger' | 'refresh-complete' | 'history';
+  requestId: string | null;
+  requestGeneration: number;
+  loadGeneration: number;
+  scopeGeneration: number;
+  source?: 'manual' | RefreshSource;
+};
+declare global {
+  interface Window {
+    __CIVICMAPS_TEST_TRACE__?: (event: ClientReadTrace) => void;
+    __CIVICMAPS_TEST_REFRESH_SCHEDULER__?: (refresh: (source: RefreshSource) => void) => () => void;
   }
 }
 async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const response = await fetch(`/api${path}`, {
-    ...options,
-    headers: { 'Content-Type': 'application/json', ...options.headers },
-  });
-  const data = await response.json();
-  if (!response.ok) throw new ApiError(response.status, data.error);
-  return data;
+  return requestJson<T>('/api', path, options);
 }
 const date = (value: string) =>
   new Intl.DateTimeFormat('en-AU', {
@@ -133,6 +135,7 @@ function App() {
   const [selected, setSelected] = useState<string | null>(null);
   const selectedRef = useRef<string | null>(null);
   const detailRequestGeneration = useRef(0);
+  const historyRequestGeneration = useRef(0);
   const [auditState, setAuditState] = useState<AuditState | null>(null);
   const [actionRecoveries, setActionRecoveries] = useState<Record<string, RecoveryAction>>({});
   const [assignmentDraft, setAssignmentDraft] = useState('');
@@ -154,12 +157,32 @@ function App() {
     ? `${actor.id}:${actor.context_id ?? ''}:${actor.tenant_id}:${actor.jurisdiction_id}:${actor.branch_id}:${entitlement?.version ?? ''}`
     : '';
   const loadGeneration = useRef(0);
+  const queueLoadController = useRef<AbortController | null>(null);
+  const selectedDetailController = useRef<AbortController | null>(null);
+  const historyController = useRef<AbortController | null>(null);
+  const loginController = useRef<AbortController | null>(null);
   const activeLoadCount = useRef(0);
   const loadedRequestCount = useRef(0);
   const queueFilter = useRef(filter);
   const queueSearch = useRef(search.trim());
   queueFilter.current = filter;
   queueSearch.current = search.trim();
+  const traceRead = useCallback(
+    (event: Omit<ClientReadTrace, 'loadGeneration' | 'scopeGeneration'>) => {
+      window.__CIVICMAPS_TEST_TRACE__?.({
+        ...event,
+        loadGeneration: loadGeneration.current,
+        scopeGeneration: scopeGeneration.current,
+      });
+    },
+    [],
+  );
+  const cancelPendingReads = useCallback(() => {
+    queueLoadController.current?.abort();
+    selectedDetailController.current?.abort();
+    historyController.current?.abort();
+    loginController.current?.abort();
+  }, []);
   function updateActionRecovery(requestId: string, recovery: RecoveryAction | null) {
     setActionRecoveries((existing) => {
       const next = { ...existing };
@@ -168,189 +191,230 @@ function App() {
       return next;
     });
   }
-  const load = useCallback(async (scheduled = false, cursor: string | null = null) => {
-    // A timer must not invalidate a cursor walk that is still collecting later pages.
-    if (scheduled && activeLoadCount.current > 0) return null;
-    activeLoadCount.current++;
-    const generation = ++loadGeneration.current;
-    if (!cursor && !hasQueueSnapshot.current) setQueueState('loading');
-    if (cursor) {
-      setLoadingMore(true);
-      setLoadMoreError('');
-    }
-    setQueueError('');
-    try {
-      const session = await api<Session>('/auth/session');
-      if (generation !== loadGeneration.current) return null;
-      const nextScope = `${session.actor.id}:${session.actor.context_id ?? ''}:${session.actor.tenant_id}:${session.actor.jurisdiction_id}:${session.actor.branch_id}:${session.entitlements.version ?? ''}`;
-      if (activeScope.current && activeScope.current !== nextScope) {
-        ++scopeGeneration.current;
-        hasQueueSnapshot.current = false;
-        setQueueState('loading');
-        setRequests([]);
-        setQueueCounts(undefined);
-        setNextCursor(null);
-        loadedRequestCount.current = 0;
-        setDetailState(null);
-        setOfficers([]);
-        selectedRef.current = null;
-        setSelected(null);
-        setAuditState(null);
-        setActionRecoveries({});
-        setQueueCheckedAt(null);
-        setActor(session.actor);
-        retry.current = null;
+  const load = useCallback(
+    async (
+      scheduled = false,
+      cursor: string | null = null,
+      source: 'manual' | RefreshSource = 'manual',
+    ) => {
+      // A timer must not invalidate a cursor walk that is still collecting later pages.
+      if (scheduled && activeLoadCount.current > 0) return null;
+      activeLoadCount.current++;
+      const generation = ++loadGeneration.current;
+      const queueController = new AbortController();
+      queueLoadController.current?.abort();
+      queueLoadController.current = queueController;
+      if (!cursor && !hasQueueSnapshot.current) setQueueState('loading');
+      if (cursor) {
+        setLoadingMore(true);
+        setLoadMoreError('');
       }
-      activeScope.current = nextScope;
-      setEntitlement(session.entitlements);
-      setCsrf(session.csrfToken);
-      const refreshLoadedExtent = !cursor && hasQueueSnapshot.current;
-      const previousLoadedCount = refreshLoadedExtent ? loadedRequestCount.current : 0;
-      const capabilities = session.entitlements.capabilities;
-      if (!capabilities.includes('requests.create')) setCreating(false);
-      const selectedAtStart = selectedRef.current;
-      const selectedScopeGeneration = scopeGeneration.current;
-      const selectedDetailGeneration =
-        !cursor && selectedAtStart && capabilities.includes('requests.read')
-          ? ++detailRequestGeneration.current
-          : null;
-      const [queueResult, rosterResult, selectedDetail] = await Promise.all([
-        capabilities.includes('requests.read')
-          ? (async () => {
-              const params = new URLSearchParams({
-                status: queueFilter.current,
-                ...(queueSearch.current ? { q: queueSearch.current } : {}),
-                ...(cursor ? { before: cursor } : {}),
-              });
-              return api<QueuePage>(`/requests?${params}`);
-            })().then(
-              (data) => ({ data }),
-              (error) => ({ error }),
-            )
-          : Promise.resolve({ data: [] as Request[] }),
-        capabilities.includes('officers.read')
-          ? api<Officer[]>('/officers').then(
-              (data) => ({ data }),
-              (error) =>
-                error instanceof ApiError && error.status === 403
-                  ? { data: [] as Officer[] }
-                  : { error },
-            )
-          : Promise.resolve({ data: [] as Officer[] }),
-        !cursor && selectedAtStart && capabilities.includes('requests.read')
-          ? api<Request>(`/requests/${selectedAtStart}`).then(
-              (data) => ({ data }),
-              (error) => ({ error }),
-            )
-          : Promise.resolve(null),
-      ]);
-      // Detail refreshes belong to their selection and scope, independently of queue paging.
-      if (
-        selectedScopeGeneration === scopeGeneration.current &&
-        activeScope.current === nextScope &&
-        selectedAtStart &&
-        selectedRef.current === selectedAtStart &&
-        selectedDetailGeneration === detailRequestGeneration.current &&
-        selectedDetail
-      ) {
-        if ('data' in selectedDetail)
-          setDetailState({ id: selectedAtStart, status: 'ready', data: selectedDetail.data });
-        else
-          setDetailState({
-            id: selectedAtStart,
-            status: 'unavailable',
-            error:
-              selectedDetail.error instanceof Error
-                ? selectedDetail.error.message
-                : 'Request is unavailable in the current operating context.',
-          });
-      }
-      if (generation !== loadGeneration.current) return null;
-      if ('error' in queueResult) throw queueResult.error;
-      if ('error' in rosterResult) throw rosterResult.error;
-      const queue = queueResult.data;
-      const roster = rosterResult.data;
-      let page = (
-        Array.isArray(queue) ? { requests: queue, nextCursor: null } : queue
-      ) as QueuePage;
-      if (!cursor && refreshLoadedExtent && previousLoadedCount > page.requests.length) {
-        const refreshed = [...page.requests];
-        const seen = new Set(refreshed.map((request) => request.id));
-        let continuation = page.nextCursor;
-        while (continuation && seen.size < previousLoadedCount) {
-          const params = new URLSearchParams({
-            status: queueFilter.current,
-            ...(queueSearch.current ? { q: queueSearch.current } : {}),
-            before: continuation,
-          });
-          const nextPage = await api<QueuePage>(`/requests?${params}`);
-          if (generation !== loadGeneration.current) return null;
-          for (const request of nextPage.requests) {
-            if (!seen.has(request.id)) {
-              seen.add(request.id);
-              refreshed.push(request);
-            }
-          }
-          continuation = nextPage.nextCursor;
-        }
-        page = { ...page, requests: refreshed, nextCursor: continuation };
-      }
-      setRequests((existing) => {
-        if (!cursor) {
-          loadedRequestCount.current = page.requests.length;
-          return page.requests;
-        }
-        const combined = new Map(existing.map((request) => [request.id, request]));
-        for (const request of page.requests) combined.set(request.id, request);
-        const result = [...combined.values()];
-        loadedRequestCount.current = result.length;
-        return result;
-      });
-      if (!cursor) setQueueCounts(page.counts);
-      setNextCursor(page.nextCursor);
-      setOfficers(roster);
-      hasQueueSnapshot.current = true;
-      setQueueState('ready');
-      setQueueCheckedAt(new Date().toISOString());
-      return page.requests;
-    } catch (err) {
-      if (generation === loadGeneration.current) {
-        if (cursor)
-          setLoadMoreError(
-            err instanceof Error ? err.message : 'More requests could not be loaded.',
-          );
-        if (err instanceof ApiError && err.status === 401) {
-          ++loadGeneration.current;
+      setQueueError('');
+      let selectedController: AbortController | null = null;
+      try {
+        const session = await api<Session>('/auth/session', { signal: queueController.signal });
+        if (generation !== loadGeneration.current) return null;
+        const nextScope = `${session.actor.id}:${session.actor.context_id ?? ''}:${session.actor.tenant_id}:${session.actor.jurisdiction_id}:${session.actor.branch_id}:${session.entitlements.version ?? ''}`;
+        if (activeScope.current && activeScope.current !== nextScope) {
           ++scopeGeneration.current;
+          selectedDetailController.current?.abort();
+          historyController.current?.abort();
           hasQueueSnapshot.current = false;
-          activeScope.current = null;
-          setActor(null);
-          setCsrf('');
-          setEntitlement(null);
+          setQueueState('loading');
           setRequests([]);
+          setQueueCounts(undefined);
+          setNextCursor(null);
           loadedRequestCount.current = 0;
+          setDetailState(null);
           setOfficers([]);
           selectedRef.current = null;
           setSelected(null);
           setAuditState(null);
           setActionRecoveries({});
           setQueueCheckedAt(null);
-          setQueueState('unavailable');
-        } else if (!cursor) {
-          setQueueState('unavailable');
-          setQueueError(err instanceof Error ? err.message : 'Requests could not be refreshed.');
+          setActor(session.actor);
+          retry.current = null;
         }
+        activeScope.current = nextScope;
+        setEntitlement(session.entitlements);
+        setCsrf(session.csrfToken);
+        const refreshLoadedExtent = !cursor && hasQueueSnapshot.current;
+        const previousLoadedCount = refreshLoadedExtent ? loadedRequestCount.current : 0;
+        const capabilities = session.entitlements.capabilities;
+        if (!capabilities.includes('requests.create')) setCreating(false);
+        const selectedAtStart = selectedRef.current;
+        const selectedScopeGeneration = scopeGeneration.current;
+        const selectedDetailGeneration =
+          !cursor && selectedAtStart && capabilities.includes('requests.read')
+            ? ++detailRequestGeneration.current
+            : null;
+        selectedController = selectedDetailGeneration ? new AbortController() : null;
+        if (selectedController) {
+          selectedDetailController.current?.abort();
+          selectedDetailController.current = selectedController;
+          traceRead({
+            operation: 'refresh',
+            requestId: selectedAtStart,
+            requestGeneration: selectedDetailGeneration ?? detailRequestGeneration.current,
+            source,
+          });
+        }
+        const [queueResult, rosterResult, selectedDetail] = await Promise.all([
+          capabilities.includes('requests.read')
+            ? (async () => {
+                const params = new URLSearchParams({
+                  status: queueFilter.current,
+                  ...(queueSearch.current ? { q: queueSearch.current } : {}),
+                  ...(cursor ? { before: cursor } : {}),
+                });
+                return api<QueuePage>(`/requests?${params}`, { signal: queueController.signal });
+              })().then(
+                (data) => ({ data }),
+                (error) => ({ error }),
+              )
+            : Promise.resolve({ data: [] as Request[] }),
+          capabilities.includes('officers.read')
+            ? api<Officer[]>('/officers', { signal: queueController.signal }).then(
+                (data) => ({ data }),
+                (error) =>
+                  error instanceof ApiError && error.status === 403
+                    ? { data: [] as Officer[] }
+                    : { error },
+              )
+            : Promise.resolve({ data: [] as Officer[] }),
+          !cursor && selectedAtStart && capabilities.includes('requests.read')
+            ? api<Request>(`/requests/${selectedAtStart}`, {
+                signal: selectedController?.signal,
+              }).then(
+                (data) => ({ data }),
+                (error) => ({ error }),
+              )
+            : Promise.resolve(null),
+        ]);
+        // Detail refreshes belong to their selection and scope, independently of queue paging.
+        if (
+          selectedScopeGeneration === scopeGeneration.current &&
+          activeScope.current === nextScope &&
+          selectedAtStart &&
+          selectedRef.current === selectedAtStart &&
+          selectedDetailGeneration === detailRequestGeneration.current &&
+          selectedDetail
+        ) {
+          if ('data' in selectedDetail)
+            setDetailState({ id: selectedAtStart, status: 'ready', data: selectedDetail.data });
+          else
+            setDetailState({
+              id: selectedAtStart,
+              status: 'unavailable',
+              error:
+                selectedDetail.error instanceof Error
+                  ? selectedDetail.error.message
+                  : 'Request is unavailable in the current operating context.',
+            });
+        }
+        if (generation !== loadGeneration.current) return null;
+        if ('error' in queueResult) throw queueResult.error;
+        if ('error' in rosterResult) throw rosterResult.error;
+        const queue = queueResult.data;
+        const roster = rosterResult.data;
+        let page = (
+          Array.isArray(queue) ? { requests: queue, nextCursor: null } : queue
+        ) as QueuePage;
+        if (!cursor && refreshLoadedExtent && previousLoadedCount > page.requests.length) {
+          const refreshed = [...page.requests];
+          const seen = new Set(refreshed.map((request) => request.id));
+          let continuation = page.nextCursor;
+          while (continuation && seen.size < previousLoadedCount) {
+            const params = new URLSearchParams({
+              status: queueFilter.current,
+              ...(queueSearch.current ? { q: queueSearch.current } : {}),
+              before: continuation,
+            });
+            const nextPage = await api<QueuePage>(`/requests?${params}`, {
+              signal: queueController.signal,
+            });
+            if (generation !== loadGeneration.current) return null;
+            for (const request of nextPage.requests) {
+              if (!seen.has(request.id)) {
+                seen.add(request.id);
+                refreshed.push(request);
+              }
+            }
+            continuation = nextPage.nextCursor;
+          }
+          page = { ...page, requests: refreshed, nextCursor: continuation };
+        }
+        setRequests((existing) => {
+          if (!cursor) {
+            loadedRequestCount.current = page.requests.length;
+            return page.requests;
+          }
+          const combined = new Map(existing.map((request) => [request.id, request]));
+          for (const request of page.requests) combined.set(request.id, request);
+          const result = [...combined.values()];
+          loadedRequestCount.current = result.length;
+          return result;
+        });
+        if (!cursor) setQueueCounts(page.counts);
+        setNextCursor(page.nextCursor);
+        setOfficers(roster);
+        hasQueueSnapshot.current = true;
+        setQueueState('ready');
+        setQueueCheckedAt(new Date().toISOString());
+        return page.requests;
+      } catch (err) {
+        if (isRequestCancelled(err)) return null;
+        if (generation === loadGeneration.current) {
+          if (cursor)
+            setLoadMoreError(
+              err instanceof Error ? err.message : 'More requests could not be loaded.',
+            );
+          if (err instanceof ApiError && err.status === 401) {
+            ++loadGeneration.current;
+            ++scopeGeneration.current;
+            hasQueueSnapshot.current = false;
+            activeScope.current = null;
+            cancelPendingReads();
+            setActor(null);
+            setCsrf('');
+            setEntitlement(null);
+            setRequests([]);
+            loadedRequestCount.current = 0;
+            setOfficers([]);
+            selectedRef.current = null;
+            setSelected(null);
+            setAuditState(null);
+            setActionRecoveries({});
+            setQueueCheckedAt(null);
+            setQueueState('unavailable');
+          } else if (!cursor) {
+            setQueueState('unavailable');
+            setQueueError(err instanceof Error ? err.message : 'Requests could not be refreshed.');
+          }
+        }
+        throw err;
+      } finally {
+        if (source !== 'manual')
+          traceRead({
+            operation: 'refresh-complete',
+            requestId: selectedRef.current,
+            requestGeneration: detailRequestGeneration.current,
+            source,
+          });
+        activeLoadCount.current--;
+        if (queueLoadController.current === queueController) queueLoadController.current = null;
+        if (selectedController && selectedDetailController.current === selectedController)
+          selectedDetailController.current = null;
+        if (cursor) setLoadingMore(false);
       }
-      throw err;
-    } finally {
-      activeLoadCount.current--;
-      if (cursor) setLoadingMore(false);
-    }
-  }, []);
+    },
+    [cancelPendingReads, traceRead],
+  );
 
   useEffect(() => {
     let active = true;
-    api<Session>('/auth/session')
+    const controller = new AbortController();
+    api<Session>('/auth/session', { signal: controller.signal })
       .then((session) => {
         if (active) {
           activeScope.current = `${session.actor.id}:${session.actor.context_id ?? ''}:${session.actor.tenant_id}:${session.actor.jurisdiction_id}:${session.actor.branch_id}:${session.entitlements.version ?? ''}`;
@@ -360,15 +424,17 @@ function App() {
         }
       })
       .catch((err) => {
-        if (active && err.status !== 401) setError(err.message);
+        if (active && !isRequestCancelled(err) && err.status !== 401) setError(err.message);
       })
       .finally(() => {
         if (active) setReady(true);
       });
     return () => {
       active = false;
+      controller.abort();
     };
   }, []);
+  useEffect(() => () => loginController.current?.abort(), []);
   useEffect(() => {
     if (!actor || actor.role === 'ADMIN') return;
     ++loadGeneration.current;
@@ -378,22 +444,39 @@ function App() {
     setQueueCounts(undefined);
     setNextCursor(null);
     const timer = setTimeout(() => void load().catch(() => {}), 250);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      queueLoadController.current?.abort();
+      selectedDetailController.current?.abort();
+      historyController.current?.abort();
+    };
   }, [actor, filter, search, load]);
   useEffect(() => {
     if (!actor || actor.role === 'ADMIN') return;
-    const refresh = () => {
-      void load(true).catch(() => {});
+    const refresh = (source: RefreshSource) => {
+      traceRead({
+        operation: 'refresh-trigger',
+        requestId: selectedRef.current,
+        requestGeneration: detailRequestGeneration.current,
+        source,
+      });
+      void load(true, null, source).catch(() => {});
     };
-    const timer = setInterval(refresh, 10000);
-    addEventListener('focus', refresh);
+    const disposeTestScheduler = window.__CIVICMAPS_TEST_REFRESH_SCHEDULER__?.((source) =>
+      refresh(source),
+    );
+    const timer = disposeTestScheduler ? null : setInterval(() => refresh('interval'), 10000);
+    const onFocus = () => refresh('focus');
+    if (!disposeTestScheduler) addEventListener('focus', onFocus);
     return () => {
-      clearInterval(timer);
-      removeEventListener('focus', refresh);
+      if (timer !== null) clearInterval(timer);
+      if (!disposeTestScheduler) removeEventListener('focus', onFocus);
+      disposeTestScheduler?.();
     };
-  }, [actor, load]);
+  }, [actor, load, traceRead]);
   useEffect(() => {
     let active = true;
+    const controller = new AbortController();
     const generation = scopeGeneration.current;
     const requestGeneration = ++detailRequestGeneration.current;
     if (!actor || !selected) {
@@ -404,8 +487,11 @@ function App() {
       };
     }
     const requestId = selected;
+    traceRead({ operation: 'selection', requestId, requestGeneration });
     setDetailState({ id: requestId, status: 'loading' });
-    api<Request>(`/requests/${requestId}`)
+    selectedDetailController.current?.abort();
+    selectedDetailController.current = controller;
+    api<Request>(`/requests/${requestId}`, { signal: controller.signal })
       .then((data) => {
         if (
           active &&
@@ -415,6 +501,7 @@ function App() {
           setDetailState({ id: requestId, status: 'ready', data });
       })
       .catch((err) => {
+        if (isRequestCancelled(err)) return;
         if (
           active &&
           generation === scopeGeneration.current &&
@@ -428,11 +515,15 @@ function App() {
       });
     return () => {
       active = false;
+      controller.abort();
+      if (selectedDetailController.current === controller) selectedDetailController.current = null;
     };
-  }, [actor, selected, scopeKey]);
+  }, [actor, selected, scopeKey, traceRead]);
   useEffect(() => {
     let active = true;
+    const controller = new AbortController();
     const generation = scopeGeneration.current;
+    const requestGeneration = ++historyRequestGeneration.current;
     if (!actor || !selected) {
       setAuditState(null);
       return () => {
@@ -440,6 +531,8 @@ function App() {
       };
     }
     const requestId = selected;
+    historyController.current?.abort();
+    historyController.current = controller;
     if (current?.id !== requestId) {
       setAuditState({ requestId, scopeKey, status: 'loading', events: [] });
       return () => {
@@ -447,18 +540,21 @@ function App() {
       };
     }
     setAuditState({ requestId, scopeKey, status: 'loading', events: [] });
-    api<Audit[]>(`/requests/${requestId}/audit`)
+    traceRead({ operation: 'history', requestId, requestGeneration });
+    api<Audit[]>(`/requests/${requestId}/audit`, { signal: controller.signal })
       .then((data) => {
         if (active && generation === scopeGeneration.current)
           setAuditState({ requestId, scopeKey, status: 'ready', events: data });
       })
       .catch((err) => {
+        if (isRequestCancelled(err)) return;
         if (!active || generation !== scopeGeneration.current) return;
         if (err instanceof ApiError && err.status === 401) {
           ++loadGeneration.current;
           ++scopeGeneration.current;
           hasQueueSnapshot.current = false;
           activeScope.current = null;
+          cancelPendingReads();
           setActor(null);
           setCsrf('');
           setEntitlement(null);
@@ -483,8 +579,10 @@ function App() {
       });
     return () => {
       active = false;
+      controller.abort();
+      if (historyController.current === controller) historyController.current = null;
     };
-  }, [actor, selected, scopeKey, currentVersion, current?.id]);
+  }, [actor, selected, scopeKey, currentVersion, current?.id, traceRead, cancelPendingReads]);
   useEffect(() => {
     if (current && !assignmentDraftDirty.current)
       setAssignmentDraft(current.assigned_officer_id ?? '');
@@ -500,6 +598,7 @@ function App() {
   }
   async function perform(work: () => Promise<void>) {
     if (pending.current) return;
+    const expectedScope = scopeGeneration.current;
     pending.current = true;
     setBusy(true);
     setError('');
@@ -507,12 +606,14 @@ function App() {
     try {
       await work();
     } catch (err) {
+      if (isRequestCancelled(err) || expectedScope !== scopeGeneration.current) return;
       setError(err instanceof Error ? err.message : 'The operation could not be completed');
       if (err instanceof ApiError && err.status === 401) {
         ++loadGeneration.current;
         ++scopeGeneration.current;
         hasQueueSnapshot.current = false;
         activeScope.current = null;
+        cancelPendingReads();
         setActor(null);
         setCreating(false);
         setCsrf('');
@@ -571,16 +672,22 @@ function App() {
   function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    const controller = new AbortController();
+    loginController.current?.abort();
+    loginController.current = controller;
     void perform(async () => {
       await api<{ actor: Actor; csrfToken: string }>('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email: form.get('email'), password: form.get('password') }),
+        signal: controller.signal,
       });
-      const profile = await api<Session>('/auth/session');
+      const profile = await api<Session>('/auth/session', { signal: controller.signal });
       setActor(profile.actor);
       activeScope.current = `${profile.actor.id}:${profile.actor.context_id ?? ''}:${profile.actor.tenant_id}:${profile.actor.jurisdiction_id}:${profile.actor.branch_id}:${profile.entitlements.version ?? ''}`;
       setCsrf(profile.csrfToken);
       setEntitlement(profile.entitlements);
+    }).finally(() => {
+      if (loginController.current === controller) loginController.current = null;
     });
   }
   function create(draft: RequestDraft) {

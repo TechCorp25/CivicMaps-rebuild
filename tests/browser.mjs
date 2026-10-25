@@ -1,4 +1,4 @@
-/* global document, innerWidth -- Executed in the browser by page.evaluate. */
+/* global document, innerWidth, window -- Executed in the browser by page.evaluate. */
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
@@ -13,6 +13,14 @@ const origin = process.env.CIVICMAPS_COMMANDMAPS_ORIGIN ?? 'http://127.0.0.1:517
 const password = process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!';
 async function login(page, email) {
   page.on('pageerror', (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    window.__CIVICMAPS_TEST_EVENTS__ = [];
+    window.__CIVICMAPS_TEST_TRACE__ = (event) => window.__CIVICMAPS_TEST_EVENTS__.push(event);
+    window.__CIVICMAPS_TEST_REFRESH_SCHEDULER__ = (refresh) => {
+      window.__CIVICMAPS_TEST_FIRE_REFRESH__ = refresh;
+      return () => delete window.__CIVICMAPS_TEST_FIRE_REFRESH__;
+    };
+  });
   await page.goto(origin);
   await page.getByLabel('Email', { exact: true }).fill(email);
   await page.getByLabel('Password', { exact: true }).fill(password);
@@ -89,6 +97,53 @@ try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await dispatcher.newPage();
   await login(page, 'dispatch@alpha.example');
+  const transportFixture = await createSyntheticRequest(page, `Transport recovery ${Date.now()}`);
+  const transportRow = page.locator(`[data-request-id="${transportFixture.id}"]`);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(transportRow).toBeVisible();
+  const queuePath = /\/api\/requests\?/;
+  const failQueueWithHtml = (route) =>
+    route.fulfill({
+      status: 503,
+      contentType: 'text/html',
+      body: '<html><body>private upstream diagnostic</body></html>',
+    });
+  await page.route(queuePath, failQueueWithHtml);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('The operation could not be completed');
+  await expect(page.getByRole('alert')).not.toContainText('private upstream diagnostic');
+  await page.unroute(queuePath, failQueueWithHtml);
+  await page.getByRole('button', { name: 'Retry refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(transportRow).toBeVisible();
+
+  const failQueueOffline = (route) => route.abort('failed');
+  await page.route(queuePath, failQueueOffline);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('The service could not be reached');
+  await page.unroute(queuePath, failQueueOffline);
+  await page.getByRole('button', { name: 'Retry refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(transportRow).toBeVisible();
+
+  let releaseTimedRequest;
+  const timedRequestGate = new Promise((resolve) => {
+    releaseTimedRequest = resolve;
+  });
+  const holdQueueResponse = async (route) => {
+    await timedRequestGate;
+    await route.continue().catch(() => {});
+  };
+  await page.route(queuePath, holdQueueResponse);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('The request timed out', { timeout: 12000 });
+  await expect(page.getByRole('button', { name: 'Retry refresh', exact: true })).toBeEnabled();
+  releaseTimedRequest();
+  await page.unroute(queuePath, holdQueueResponse);
+  await page.getByRole('button', { name: 'Retry refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(transportRow).toBeVisible();
+
   await page.route('**/api/requests/*/audit', async (route) => {
     const response = await route.fetch();
     const history = await response.json();

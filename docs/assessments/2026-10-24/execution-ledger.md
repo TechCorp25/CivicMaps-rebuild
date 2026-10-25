@@ -13,7 +13,7 @@ No merge or deployment is in scope.
 | --- | --- | --- | --- |
 | Q1 | Accepted | `1cb963d8eee9e12e62de39fa106d439d0af61ea0` | PASS on `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
 | Q2 | Accepted | `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` | Full fresh Astra PASS |
-| Q3 | In progress | Pending | Q2 dependency satisfied |
+| Q3 | Local validation passed; independent review pending | Candidate commit pending | Q2 dependency satisfied |
 | Q4 | Not started | — | Pending |
 | Q5 | Not started | — | Pending Python contract from Q4 |
 | Q6 | Not started | — | Pending |
@@ -32,10 +32,11 @@ fresh review of the fixed candidate.
 | Finding | Current disposition |
 | --- | --- |
 | QA01 | Accepted in Q1 at `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
-| QA02 | Q2 audit found two transient transport classification gaps; follow-up fix pending review |
-| QA03 | Implemented in Q2; local evidence recorded; independent review pending |
-| QA04–QA16 | Open; assigned to their planned Q packages |
-| QA17 | Implemented in Q2; local evidence recorded; independent review pending |
+| QA02 | Accepted in Q2 at `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` |
+| QA03 | Accepted in Q2 at `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` |
+| QA04, QA08, QA09 | Implemented and locally validated in Q3; fresh review pending |
+| QA05–QA07, QA10–QA16 | Open; assigned to their planned Q packages |
+| QA17 | Accepted in Q2 at `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7` |
 | QA18 advisory | Accepted in Q1 at `1cb963d8eee9e12e62de39fa106d439d0af61ea0` |
 | QA18 Python and infrastructure | Open; assigned to Q5 |
 
@@ -177,3 +178,60 @@ query message before it accepts the transient classification.
 ## Q2 acceptance receipt
 
 Accepted exact published product `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7`, full fresh GPT-6 Astra Low PASS. Report [evidence/q2-independent-accepted/report.md](evidence/q2-independent-accepted/report.md), SHA256 `04ad939ca92f2a06a73fb1a9efa4e8fc1f261632f817610c1e579e1b59edf263`. Independently passed focused12/12, full105/105, three browser suites, two Caddy checks and additional workload/credential probes. Hosted app40159555198 and advisory40159555010 SUCCESS. Earlier candidate fe736c3 remains changes_required with original immutable report preserved. QA02, QA03, QA17 accepted; Q3 now active isolated `/workspace/work/quality-q3`, stacked on accepted Q2. Receipt commits are not audited product SHAs.
+
+## Q3 browser recovery and transport
+
+Q3 is implemented locally on `codex/civicmaps-quality-q3`, based on accepted Q2
+product `9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7`. The Q2 acceptance receipt
+`fc722d19d26fdad8fc66eb2a0809f49856ca19dd` was fast-forwarded before Q3
+evidence was added. Q3 local validation is complete; no independent Q3 verdict
+or candidate commit is recorded yet. The plan hash above is unchanged.
+
+The shared `apps/shared/api-transport.mjs` primitive applies a 10-second
+deadline across both response headers and body parsing, links caller cancellation,
+retains HTTP status for JSON/malformed/HTML/empty responses, emits safe generic
+messages for HTML and malformed data (including HTML embedded in JSON error
+fields), and distinguishes timeout from network failure. Both API prefixes remain
+separate. CommandMAPS queue, detail and history reads now use separate abort
+controllers and generation guards; the test-only scheduler records exact selected
+request ID, request/load/scope generations, and trigger source. Platform session,
+directory and detail reads, slug availability, activation status, login and
+activation redemption are bounded and cancellable. Mutation deadlines and the
+existing same-key retry, uncertain-write reconciliation and explicit retry paths
+remain in place; timed-out or lost writes are never replayed automatically.
+
+`evidence/q3-controlled-detail-race.json` records one held selection read and
+three separately completed 404 detail refreshes triggered by focus, interval and
+focus for the same selected ID. The selection generation advances 20 to 23 while
+the scope generation stays 0; releasing the old read leaves the selected record
+unavailable with only its safe non-action control. The CommandMAPS browser suite
+also checks an HTML 503 does not expose body text, offline failure returns a
+safe network message, and each retry recovers the seeded synthetic row. A held
+queue response reaches the 10-second timeout, releases the retry control and
+recovers on explicit retry. Existing committed-write/lost-response browser cases
+continue to assert reconciliation and reuse of the original idempotency key.
+
+The first CommandMAPS runner attempt failed before app tests because its Vite
+fixture required port 5173 (`Port 5173 is already in use`). The harness now lets
+Vite choose an available local port and uses the actual bound origin. The first
+Platform run reached the browser case that held a detail poll; with bounded
+transport the expected visible state is `Routing status unavailable` while the
+read is held, so the assertion now checks timeout recovery and separately checks
+verification expiry after a fresh response. A first controlled race fixture also
+timed out waiting for a second 404 because it fired while the prior refresh was
+still completing its parallel queue/roster work. The product correctly ignored
+the overlapping scheduled refresh; a `refresh-complete` trace and per-response
+gates now serialize the controlled focus/interval/focus triggers. These initial
+failures and fixture changes are recorded here; final passing runs are retained
+separately and are not substituted for the controlled assertions.
+
+Final local gates: clean setup installed 238 packages; `npm run check` passed lint,
+format, both typechecks, both production builds and 106 API tests (0 failed, 0
+skipped). CommandMAPS, Platform and activation Playwright suites all passed.
+Both Caddy loopback ingress contract and login tests passed. The activation
+runner logged `Port 5173 is in use, trying another one...` and completed on its
+fallback port. Raw outputs and the race trace are in `evidence/q3-*.log` and
+`evidence/q3-controlled-detail-race.json`; `evidence/q3-SHA256SUMS.txt` binds
+the changed product/test sources and retained evidence. Generated tracked F11E
+screenshots were restored. No merge or deployment was performed. QA04, QA08 and
+QA09 are locally implemented and validated, pending fresh independent review.

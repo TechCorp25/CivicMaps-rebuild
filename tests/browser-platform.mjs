@@ -380,7 +380,7 @@ try {
   expect(heldReads).toBe(1);
   await page.clock.setSystemTime(new Date(Date.now() + 301000));
   await page.clock.runFor(1001);
-  await expect(routing.getByRole('status')).toContainText('Verification expired');
+  await expect(routing.getByRole('status')).toContainText('Routing status unavailable');
   await routing.screenshot({ path: 'test-results/f06q-routing-expired.png' });
   // Serial retries may time out, but at most one live browser fetch is allowed at a time.
   // Navigate while old responses are held; they cannot repaint the new council.
@@ -397,6 +397,9 @@ try {
   await page.clock.resume();
   await page.goto(`${origin}/#municipalities/${cloudCouncil.municipality.id}`);
   await expect(routing.getByRole('status')).toContainText('ready');
+  await page.clock.setSystemTime(new Date(Date.now() + 301000));
+  await page.clock.runFor(1001);
+  await expect(routing.getByRole('status')).toContainText('Verification expired');
   await page.screenshot({
     path: 'test-results/platform-aws-resources-desktop.png',
     fullPage: true,
