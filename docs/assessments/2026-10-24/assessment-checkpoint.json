@@ -11,11 +11,11 @@
   "findings": "findings.json",
   "scope": "Assessment plus explicitly authorized Q1-Q7 remediation; no merge, deployment, cloud mutation or customer data operations.",
   "assessmentStatus": "completed_with_explicit_coverage_limits",
-  "remediationStatus": "Q1_Q2_accepted_Q3_original_changes_required_Q3_follow_up_locally_validated_pending_fresh_review",
+  "remediationStatus": "Q1_Q2_accepted_Q3_follow_up_2_locally_validated_pending_fresh_review",
   "independentAssessmentStatus": "pass_on_frozen_product_43423d7",
   "publicationStatus": "draft_PR43_verified_remote_43423d7",
   "empiricalStatus": "complete_plan_recorded_and_read_back_byte_equal",
-  "nextAction": "Commit the Q3 follow-up candidate for root publication and fresh independent Astra Low review. No merge or deployment is authorized.",
+  "nextAction": "Commit the exact Q3 follow-up 2 candidate, then root publishes it for fresh independent Astra review; no merge or deployment is authorized.",
   "securityCoverage": {
     "dependencyAudit": "completed_one_high_advisory",
     "sourceReview": "completed_with_reported_limits",
@@ -72,7 +72,14 @@
       "skipped": 0
     },
     "q3FollowUpBrowsers": "platform_commandmaps_activation_pass_serially; exact_id_history_filter_trace_retained",
-    "q3FollowUpCaddyIngress": "contract_and_login_loopback_pass"
+    "q3FollowUpCaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUp2FullCheck": {
+      "passed": 106,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUp2Browsers": "commandmaps_platform_activation_pass_sequentially; malformed_committed_write_and_history_ABA_traces_retained",
+    "q3FollowUp2CaddyIngress": "contract_and_login_loopback_pass"
   },
   "prohibitedByScope": [
     "merge",
@@ -102,14 +109,14 @@
   "execution": {
     "ledger": "execution-ledger.md",
     "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
-    "package": "Q3 browser recovery and transport follow-up",
-    "branch": "codex/civicmaps-quality-q3-fix",
-    "packageBase": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "package": "Q3 transport uncertainty and selection-generation follow-up",
+    "branch": "codex/civicmaps-quality-q3-fix2",
+    "packageBase": "4cafc3f5cbd15047c4d04a092279cfc8ab86a99a",
     "implementationCommit": null,
     "candidateCommit": null,
-    "localAcceptance": "follow_up_passed_full_check_106_tests_zero_failures_zero_skips_three_serial_browsers_two_caddy_loopback_checks",
+    "localAcceptance": "full_check_106_passed_zero_failed_zero_skipped; three_serial_browser_suites_and_two_caddy_loopback_checks_passed",
     "publication": "not_published_single_integration_writer",
-    "independentAssessment": "original_candidate_changes_required; follow_up_fresh_review_pending",
+    "independentAssessment": "4cafc3f_original_follow_up_changes_required_two_findings; follow_up_2_fresh_review_pending",
     "merge": "not_authorised",
     "deployment": "not_authorised",
     "evidenceDirectory": "evidence/",
@@ -117,7 +124,7 @@
     "acceptedCommit": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
     "auditorReport": "evidence/q2-independent-accepted/report.md",
     "auditorReportSha256": "04ad939ca92f2a06a73fb1a9efa4e8fc1f261632f817610c1e579e1b59edf263",
-    "nextAction": "Commit exact validated Q3 follow-up tree, publish via integration writer, then fresh independent review.",
+    "nextAction": "Commit exact validated Q3 follow-up 2 tree; root publishes; fresh independent review.",
     "hostedCI": {
       "candidate": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
       "applicationRun": 40159555198,
@@ -137,6 +144,13 @@
       "report": "evidence/q3-independent-original/report.md",
       "reportSha256": "df234cdaa464375989bb9b96cd7691f6a2ea8e3dc72022139705a56d8dfea088"
     },
-    "q3EvidenceDirectory": "evidence/"
+    "q3EvidenceDirectory": "evidence/",
+    "q3FollowUpCandidate": {
+      "commit": "4cafc3f5cbd15047c4d04a092279cfc8ab86a99a",
+      "independentVerdict": "changes_required_two_additional_findings",
+      "report": "evidence/q3-independent-original-current/report.md",
+      "reportSha256": "da081e80e55dd19c2d667ddb5d4e89da81084a3329f2403921f6de0e1a0638a1"
+    },
+    "q3FollowUp2EvidenceDirectory": "evidence/q3-fix2/"
   }
 }

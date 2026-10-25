@@ -34,7 +34,7 @@ import { AdminActivation } from './AdminActivation';
 import { RoutingStatus } from './RoutingStatus';
 import './tokens.css';
 import './styles.css';
-import { isRequestCancelled } from '../../shared/api-transport.mjs';
+import { isRequestCancelled, isUncertainWriteError } from '../../shared/api-transport.mjs';
 
 type Page = 'municipalities' | 'packs' | 'health' | 'onboarding';
 type Route = { page: Page; id: string | null };
@@ -223,6 +223,22 @@ function App() {
     } catch (err) {
       if (isRequestCancelled(err) || expectedScope !== detailScope.current) return;
       fail(err);
+      if (isUncertainWriteError(err)) {
+        setNotice(`${err.message} Refreshing the server state without replaying the write.`);
+        try {
+          const session = await api<{ actor: Actor; csrfToken: string }>('/auth/session');
+          if (expectedScope !== detailScope.current) return;
+          setActor(session.actor);
+          setCsrf(session.csrfToken);
+        } catch (sessionError) {
+          if (sessionError instanceof ApiError && sessionError.status === 401) {
+            clearSession();
+            return;
+          }
+        }
+        await load(expectedScope).catch(() => {});
+        if (route.id) setDetailRefresh((value) => value + 1);
+      }
       if (err instanceof ApiError && err.status === 409) await load().catch(fail);
     } finally {
       setBusy(false);

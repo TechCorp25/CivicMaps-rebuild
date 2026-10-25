@@ -134,6 +134,10 @@ function App() {
   const [officers, setOfficers] = useState<Officer[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const selectedRef = useRef<string | null>(null);
+  const selectionGeneration = useRef(0);
+  const historyRetryController = useRef<AbortController | null>(null);
+  const recoveryController = useRef<AbortController | null>(null);
+  const mutationController = useRef<AbortController | null>(null);
   const detailRequestGeneration = useRef(0);
   const historyRequestGeneration = useRef(0);
   const [auditState, setAuditState] = useState<AuditState | null>(null);
@@ -142,6 +146,7 @@ function App() {
   const [closureReasonDraft, setClosureReasonDraft] = useState('');
   const assignmentDraftDirty = useRef(false);
   const [creating, setCreating] = useState(false);
+  const [createUncertain, setCreateUncertain] = useState(false);
   const [filter, setFilter] = useState('active');
   const retry = useRef<{ payload: string; key: string } | null>(null);
   const pending = useRef(false);
@@ -181,6 +186,9 @@ function App() {
     queueLoadController.current?.abort();
     selectedDetailController.current?.abort();
     historyController.current?.abort();
+    historyRetryController.current?.abort();
+    recoveryController.current?.abort();
+    mutationController.current?.abort();
     loginController.current?.abort();
   }, []);
   function updateActionRecovery(requestId: string, recovery: RecoveryAction | null) {
@@ -227,8 +235,7 @@ function App() {
           loadedRequestCount.current = 0;
           setDetailState(null);
           setOfficers([]);
-          selectedRef.current = null;
-          setSelected(null);
+          setSelection(null);
           setAuditState(null);
           setActionRecoveries({});
           setQueueCheckedAt(null);
@@ -381,8 +388,7 @@ function App() {
             setRequests([]);
             loadedRequestCount.current = 0;
             setOfficers([]);
-            selectedRef.current = null;
-            setSelected(null);
+            setSelection(null);
             setAuditState(null);
             setActionRecoveries({});
             setQueueCheckedAt(null);
@@ -562,8 +568,7 @@ function App() {
           setRequests([]);
           loadedRequestCount.current = 0;
           setOfficers([]);
-          selectedRef.current = null;
-          setSelected(null);
+          setSelection(null);
           setAuditState(null);
           setActionRecoveries({});
           setQueueCheckedAt(null);
@@ -597,10 +602,20 @@ function App() {
     if (current && !assignmentDraftDirty.current)
       setAssignmentDraft(current.assigned_officer_id ?? '');
   }, [current, currentId, currentVersion, current?.assigned_officer_id]);
-  function selectRequest(id: string) {
-    if (selectedRef.current === id) return;
+  function setSelection(id: string | null) {
+    if (selectedRef.current !== id) {
+      selectionGeneration.current++;
+      historyRetryController.current?.abort();
+      historyRetryController.current = null;
+      recoveryController.current?.abort();
+      recoveryController.current = null;
+    }
     selectedRef.current = id;
     setSelected(id);
+  }
+  function selectRequest(id: string) {
+    if (selectedRef.current === id) return;
+    setSelection(id);
     setDetailState({ id, status: 'loading' });
     assignmentDraftDirty.current = false;
     setAssignmentDraft(requests.find((request) => request.id === id)?.assigned_officer_id ?? '');
@@ -634,8 +649,7 @@ function App() {
         setNextCursor(null);
         setDetailState(null);
         setOfficers([]);
-        selectedRef.current = null;
-        setSelected(null);
+        setSelection(null);
         setAuditState(null);
         setActionRecoveries({});
         setQueueCheckedAt(null);
@@ -657,11 +671,20 @@ function App() {
     if (!idempotencyKey && retry.current?.payload !== payload)
       retry.current = { payload, key: crypto.randomUUID() };
     const key = idempotencyKey ?? retry.current!.key;
-    const result = await api<Request>(path, {
-      method: 'POST',
-      headers: { 'x-csrf-token': csrf, 'Idempotency-Key': key },
-      body: JSON.stringify(input),
-    });
+    const controller = new AbortController();
+    mutationController.current?.abort();
+    mutationController.current = controller;
+    let result: Request;
+    try {
+      result = await api<Request>(path, {
+        method: 'POST',
+        headers: { 'x-csrf-token': csrf, 'Idempotency-Key': key },
+        body: JSON.stringify(input),
+        signal: controller.signal,
+      });
+    } finally {
+      if (mutationController.current === controller) mutationController.current = null;
+    }
     if (retry.current?.key === key) retry.current = null;
     if (expectedScope !== scopeGeneration.current) return result;
     if (selectedRef.current === result.id)
@@ -672,8 +695,7 @@ function App() {
       return existing.map((request) => (request.id === result.id ? result : request));
     });
     if (path === '/requests') {
-      selectedRef.current = result.id;
-      setSelected(result.id);
+      setSelection(result.id);
     }
     await load().catch(() => {});
     setNotice('Saved to the operational record');
@@ -702,8 +724,17 @@ function App() {
   }
   function create(draft: RequestDraft) {
     void perform(async () => {
-      await mutate('/requests', draft);
-      setCreating(false);
+      try {
+        await mutate('/requests', draft);
+        setCreating(false);
+        setCreateUncertain(false);
+      } catch (err) {
+        if (err instanceof Error && 'uncertainWrite' in err && err.uncertainWrite === true) {
+          setCreateUncertain(true);
+          await load().catch(() => {});
+        }
+        throw err;
+      }
     });
   }
   function action(action: string, extra = {}) {
@@ -731,9 +762,11 @@ function App() {
         const kind =
           err instanceof ApiError && err.status === 409
             ? 'conflict'
-            : err instanceof ApiError && err.status < 500
-              ? 'rejected'
-              : 'uncertain';
+            : err instanceof ApiError && err.uncertainWrite
+              ? 'uncertain'
+              : err instanceof ApiError && err.status < 500
+                ? 'rejected'
+                : 'uncertain';
         const message =
           kind === 'conflict'
             ? 'The request changed before this action was accepted. The latest server state is being loaded; review it before choosing an action.'
@@ -751,10 +784,16 @@ function App() {
     if (!actionRecovery || actionRecovery.kind !== 'uncertain') return;
     const recovery = actionRecovery;
     const generation = scopeGeneration.current;
+    const selection = selectionGeneration.current;
+    const controller = new AbortController();
+    recoveryController.current?.abort();
+    recoveryController.current = controller;
     await perform(async () => {
       let latest: Request;
       try {
-        latest = await api<Request>(`/requests/${recovery.requestId}`);
+        latest = await api<Request>(`/requests/${recovery.requestId}`, {
+          signal: controller.signal,
+        });
       } catch (err) {
         if (!(err instanceof ApiError) || err.status !== 404) throw err;
         if (selectedRef.current === recovery.requestId) {
@@ -780,9 +819,21 @@ function App() {
         });
         return;
       }
-      if (generation !== scopeGeneration.current) return;
-      const history = await api<Audit[]>(`/requests/${recovery.requestId}/audit`);
-      if (generation !== scopeGeneration.current) return;
+      if (
+        generation !== scopeGeneration.current ||
+        selection !== selectionGeneration.current ||
+        selectedRef.current !== recovery.requestId
+      )
+        return;
+      const history = await api<Audit[]>(`/requests/${recovery.requestId}/audit`, {
+        signal: controller.signal,
+      });
+      if (
+        generation !== scopeGeneration.current ||
+        selection !== selectionGeneration.current ||
+        selectedRef.current !== recovery.requestId
+      )
+        return;
       if (selectedRef.current === recovery.requestId) {
         setDetailState({ id: recovery.requestId, status: 'ready', data: latest });
         setAuditState({
@@ -806,6 +857,8 @@ function App() {
           : `Server state and history were refreshed independently. The request is now at version ${latest.version}; the earlier action will not be replayed. Review the confirmed state before choosing another available action.`,
       });
       void load(true).catch(() => {});
+    }).finally(() => {
+      if (recoveryController.current === controller) recoveryController.current = null;
     });
   }
   function retrySameAction() {
@@ -828,9 +881,11 @@ function App() {
         const kind =
           err instanceof ApiError && err.status === 409
             ? 'conflict'
-            : err instanceof ApiError && err.status < 500
-              ? 'rejected'
-              : 'uncertain';
+            : err instanceof ApiError && err.uncertainWrite
+              ? 'uncertain'
+              : err instanceof ApiError && err.status < 500
+                ? 'rejected'
+                : 'uncertain';
         updateActionRecovery(recovery.requestId, {
           ...recovery,
           kind,
@@ -997,8 +1052,7 @@ function App() {
                   setRequests([]);
                   loadedRequestCount.current = 0;
                   setOfficers([]);
-                  setSelected(null);
-                  selectedRef.current = null;
+                  setSelection(null);
                   setAuditState(null);
                   setActionRecoveries({});
                   setQueueCheckedAt(null);
@@ -1033,6 +1087,7 @@ function App() {
                   disabled={busy}
                   onClick={() => {
                     setError('');
+                    setCreateUncertain(false);
                     setCreating(true);
                   }}
                 >
@@ -1088,6 +1143,7 @@ function App() {
             <RequestComposer
               busy={busy}
               error={error}
+              uncertain={createUncertain}
               onClose={() => {
                 setCreating(false);
                 setError('');
@@ -1131,8 +1187,7 @@ function App() {
                       <button
                         className="secondary"
                         onClick={() => {
-                          selectedRef.current = null;
-                          setSelected(null);
+                          setSelection(null);
                         }}
                       >
                         Return to queue
@@ -1159,8 +1214,7 @@ function App() {
                       aria-label="Dismiss request detail"
                       onClick={() => {
                         const requestId = current.id;
-                        selectedRef.current = null;
-                        setSelected(null);
+                        setSelection(null);
                         requestAnimationFrame(() => {
                           const row = document.querySelector<HTMLElement>(
                             `[data-request-id="${requestId}"] .request-link`,
@@ -1340,16 +1394,23 @@ function App() {
                             const requestId = current.id;
                             const requestScope = scopeKey;
                             const generation = scopeGeneration.current;
+                            const selection = selectionGeneration.current;
+                            const controller = new AbortController();
+                            historyRetryController.current?.abort();
+                            historyRetryController.current = controller;
                             setAuditState({
                               requestId,
                               scopeKey: requestScope,
                               status: 'loading',
                               events: [],
                             });
-                            void api<Audit[]>(`/requests/${requestId}/audit`)
+                            void api<Audit[]>(`/requests/${requestId}/audit`, {
+                              signal: controller.signal,
+                            })
                               .then((events) => {
                                 if (
                                   generation === scopeGeneration.current &&
+                                  selection === selectionGeneration.current &&
                                   selectedRef.current === requestId
                                 )
                                   setAuditState({
@@ -1361,7 +1422,9 @@ function App() {
                               })
                               .catch((err: unknown) => {
                                 if (
+                                  isRequestCancelled(err) ||
                                   generation !== scopeGeneration.current ||
+                                  selection !== selectionGeneration.current ||
                                   selectedRef.current !== requestId
                                 )
                                   return;
@@ -1370,14 +1433,13 @@ function App() {
                                   ++scopeGeneration.current;
                                   hasQueueSnapshot.current = false;
                                   activeScope.current = null;
-                                  selectedRef.current = null;
+                                  setSelection(null);
                                   setActor(null);
                                   setCsrf('');
                                   setEntitlement(null);
                                   setRequests([]);
                                   loadedRequestCount.current = 0;
                                   setOfficers([]);
-                                  setSelected(null);
                                   setAuditState(null);
                                   setActionRecoveries({});
                                   setQueueCheckedAt(null);
@@ -1394,6 +1456,10 @@ function App() {
                                       ? err.message
                                       : 'History could not be loaded.',
                                 });
+                              })
+                              .finally(() => {
+                                if (historyRetryController.current === controller)
+                                  historyRetryController.current = null;
                               });
                           }}
                         >

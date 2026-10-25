@@ -171,8 +171,20 @@ try {
   await pack.click();
   await dialog.getByRole('button', { name: 'Turn off pack', exact: true }).click();
   await expect(pack).toHaveAttribute('aria-checked', 'false');
+  let malformedPackWrites = 0;
+  const malformedPackResponse = async (route) => {
+    malformedPackWrites++;
+    const committed = await route.fetch();
+    expect(committed.status()).toBe(200);
+    await route.fulfill({ response: committed, body: '' });
+  };
+  const malformedPackPath = `**/api/platform/municipalities/${result.municipality.id}/packs`;
+  await page.route(malformedPackPath, malformedPackResponse);
   await pack.click();
+  await expect(page.getByRole('alert')).toContainText('may have saved this change');
   await expect(pack).toHaveAttribute('aria-checked', 'true');
+  expect(malformedPackWrites).toBe(1);
+  await page.unroute(malformedPackPath, malformedPackResponse);
   const record = await pool.query(
     'SELECT packs,version,status FROM platform_municipalities WHERE id=$1',
     [result.municipality.id],
@@ -458,7 +470,7 @@ try {
   expect((await page.request.get(`${origin}/api/platform/municipalities`)).status()).toBe(401);
   expect(errors).toEqual([]);
   console.log(
-    'PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.',
+    'PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, committed malformed-pack response reconciliation, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.',
   );
 } finally {
   delete process.env.CIVICMAPS_PROVISIONING_PROFILE;

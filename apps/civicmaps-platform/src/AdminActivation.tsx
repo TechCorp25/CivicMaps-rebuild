@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { api, ApiError } from './api';
-import { isRequestCancelled } from '../../shared/api-transport.mjs';
+import { isRequestCancelled, isUncertainWriteError } from '../../shared/api-transport.mjs';
 
 type Status = {
   state: string;
@@ -86,7 +86,14 @@ export function AdminActivation({
       setRefresh((value) => value + 1);
     } catch (reason) {
       if (!isRequestCancelled(reason)) {
-        setError(reason instanceof Error ? reason.message : 'Activation action failed');
+        setError(
+          isUncertainWriteError(reason)
+            ? `${reason.message} Activation status is being refreshed; verify the recipient and status before issuing another link.`
+            : reason instanceof Error
+              ? reason.message
+              : 'Activation action failed',
+        );
+        if (isUncertainWriteError(reason)) setRefresh((value) => value + 1);
         if (reason instanceof ApiError && reason.status === 401) onError(reason);
       }
     } finally {

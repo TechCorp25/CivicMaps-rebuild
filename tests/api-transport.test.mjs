@@ -4,6 +4,7 @@ import {
   ApiError,
   ApiTransportError,
   isRequestCancelled,
+  isUncertainWriteError,
   requestJson,
 } from '../apps/shared/api-transport.mjs';
 
@@ -60,7 +61,7 @@ test('shared API transport preserves status and safe errors across response and 
     );
   }
 
-  for (const body of ['<html>broken success response</html>', '', '{"unfinished":'])
+  for (const body of ['<html>broken success response</html>', '', '{"unfinished":']) {
     await withFetch(
       async () => new Response(body, { status: 200 }),
       async () => {
@@ -68,11 +69,30 @@ test('shared API transport preserves status and safe errors across response and 
           assert.ok(error instanceof ApiError);
           assert.equal(error.status, 200);
           assert.equal(error.kind, 'invalid-response');
+          assert.equal(error.uncertainWrite, false);
           assert.doesNotMatch(error.message, /broken success response|unfinished|<html/i);
           return true;
         });
       },
     );
+    await withFetch(
+      async () => new Response(body, { status: 200 }),
+      async () => {
+        await assert.rejects(
+          requestJson('/api/platform', '/municipalities', { method: 'POST' }),
+          (error) => {
+            assert.ok(error instanceof ApiError);
+            assert.equal(error.status, 200);
+            assert.equal(error.kind, 'invalid-response');
+            assert.equal(error.uncertainWrite, true);
+            assert.match(error.message, /may have saved this change/);
+            assert.doesNotMatch(error.message, /broken success response|unfinished|<html/i);
+            return true;
+          },
+        );
+      },
+    );
+  }
 
   await withFetch(
     async (url, options) => {
@@ -109,8 +129,21 @@ test('shared API transport preserves status and safe errors across response and 
       assert.ok(error instanceof ApiTransportError);
       assert.equal(error.kind, 'timeout');
       assert.equal(error.status, null);
+      assert.equal(isUncertainWriteError(error), false);
       return true;
     });
+  });
+
+  await withFetch(waitForAbort, async () => {
+    await assert.rejects(
+      requestJson('/api', '/mutation', { method: 'POST', body: '{}' }, 15),
+      (error) => {
+        assert.ok(error instanceof ApiTransportError);
+        assert.equal(error.kind, 'timeout');
+        assert.equal(isUncertainWriteError(error), true);
+        return true;
+      },
+    );
   });
 
   await withFetch(

@@ -1,0 +1,6 @@
+{"operation":"history-retry-aba","selection":["e11541c9-14db-449f-b4ff-00faac1ce344","fd7c821a-b073-407b-8c94-3931da919f7b","e11541c9-14db-449f-b4ff-00faac1ce344"],"obsoleteResponse":401,"reads":3,"liveSessionStatus":200,"currentHistory":"created"}
+{"operation":"committed-malformed-write","body":"empty","requestId":"a204a791-5d46-47e8-9af2-3026544d1aec","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"78f2ae23-2efc-465e-8f89-e43ececec3fe","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"59937a3b-69cb-46a9-b82d-c65bb2e36155","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"fb34a015-cae9-415b-ac29-16418529641a","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.

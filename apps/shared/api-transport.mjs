@@ -3,22 +3,26 @@ export const DEFAULT_REQUEST_TIMEOUT_MS = 10_000;
 const genericFailure = 'The operation could not be completed';
 const timeoutFailure = 'The request timed out. Check the service state before retrying.';
 const networkFailure = 'The service could not be reached. Check your connection and try again.';
+const uncertainWriteFailure =
+  'The server may have saved this change, but its confirmation could not be read. Check the server state before trying again.';
 
 export class ApiError extends Error {
-  constructor(status, message = genericFailure, kind = 'http') {
+  constructor(status, message = genericFailure, kind = 'http', uncertainWrite = false) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
     this.kind = kind;
+    this.uncertainWrite = uncertainWrite;
   }
 }
 
 export class ApiTransportError extends Error {
-  constructor(kind, status = null) {
+  constructor(kind, status = null, uncertainWrite = false) {
     super(kind === 'timeout' ? timeoutFailure : networkFailure);
     this.name = 'ApiTransportError';
     this.kind = kind;
     this.status = status;
+    this.uncertainWrite = uncertainWrite;
   }
 }
 
@@ -48,6 +52,8 @@ export async function requestJson(
   timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS,
 ) {
   const { signal: callerSignal, ...requestOptions } = options;
+  const method = (requestOptions.method ?? 'GET').toUpperCase();
+  const writeRequest = !['GET', 'HEAD', 'OPTIONS', 'TRACE'].includes(method);
   if (callerSignal?.aborted) throw new RequestCancelledError();
 
   const controller = new AbortController();
@@ -81,15 +87,26 @@ export async function requestJson(
       }
     }
 
-    if (!response.ok) throw new ApiError(response.status, responseMessage(payload));
+    if (!response.ok)
+      throw new ApiError(
+        response.status,
+        responseMessage(payload),
+        'http',
+        writeRequest && response.status >= 500,
+      );
     if (!text.trim() || malformed)
-      throw new ApiError(response.status, genericFailure, 'invalid-response');
+      throw new ApiError(
+        response.status,
+        writeRequest ? uncertainWriteFailure : genericFailure,
+        'invalid-response',
+        writeRequest,
+      );
     return payload;
   } catch (error) {
     if (error instanceof ApiError) throw error;
     if (callerCancelled) throw new RequestCancelledError();
-    if (timedOut) throw new ApiTransportError('timeout', response?.status ?? null);
-    throw new ApiTransportError('network', response?.status ?? null);
+    if (timedOut) throw new ApiTransportError('timeout', response?.status ?? null, writeRequest);
+    throw new ApiTransportError('network', response?.status ?? null, writeRequest);
   } finally {
     clearTimeout(timer);
     callerSignal?.removeEventListener('abort', cancelFromCaller);
@@ -98,4 +115,8 @@ export async function requestJson(
 
 export function isRequestCancelled(error) {
   return error instanceof RequestCancelledError;
+}
+
+export function isUncertainWriteError(error) {
+  return error instanceof Error && 'uncertainWrite' in error && error.uncertainWrite === true;
 }

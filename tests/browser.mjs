@@ -183,9 +183,9 @@ try {
   await page.getByRole('button', { name: 'Create request', exact: true }).click();
   await expect(page.getByRole('dialog').getByRole('alert')).toContainText('Synthetic save failure');
   await expect(page.getByRole('dialog')).toContainText(address);
-  await expect(page.getByRole('button', { name: 'Create request', exact: true })).toBeEnabled();
+  await expect(page.getByRole('button', { name: 'Retry same request', exact: true })).toBeEnabled();
   await page.unroute('**/api/requests');
-  const created = await save(page, 'Create request', 201);
+  const created = await save(page, 'Retry same request', 201);
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
   await expect(page.locator('.detail')).toContainText(address);
@@ -258,6 +258,69 @@ try {
   await page.locator(`[data-request-id="${historyB.id}"] .request-link`).click();
   await expect(page.locator('.audit')).toContainText(
     'No history has been recorded for this request',
+  );
+  await page.unroute('**/api/requests/*/audit');
+
+  const abaA = await createSyntheticRequest(page, `F11E history ABA A ${Date.now()}`);
+  const abaB = await createSyntheticRequest(page, `F11E history ABA B ${Date.now()}`);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.locator(`[data-request-id="${abaA.id}"]`)).toBeVisible();
+  await expect(page.locator(`[data-request-id="${abaB.id}"]`)).toBeVisible();
+  let abaReads = 0;
+  let releaseObsolete401;
+  const obsolete401 = new Promise((resolve) => {
+    releaseObsolete401 = resolve;
+  });
+  let obsoleteRouteStarted;
+  const obsoleteStarted = new Promise((resolve) => {
+    obsoleteRouteStarted = resolve;
+  });
+  await page.route('**/api/requests/*/audit', async (route) => {
+    if (route.request().url().includes(`${abaA.id}/audit`)) {
+      abaReads++;
+      if (abaReads === 1) {
+        await route.fulfill({
+          status: 503,
+          contentType: 'application/json',
+          body: '{"error":"temporary"}',
+        });
+      } else if (abaReads === 2) {
+        obsoleteRouteStarted();
+        await obsolete401;
+        try {
+          await route.fulfill({
+            status: 401,
+            contentType: 'text/html',
+            body: '<html>expired</html>',
+          });
+        } catch {
+          // Selection changes abort this obsolete retry before its delayed response is released.
+        }
+      } else await route.continue();
+    } else await route.continue();
+  });
+  await page.locator(`[data-request-id="${abaA.id}"] .request-link`).click();
+  await expect(page.getByRole('button', { name: 'Retry history' })).toBeVisible();
+  await page.getByRole('button', { name: 'Retry history' }).click();
+  await obsoleteStarted;
+  await page.locator(`[data-request-id="${abaB.id}"] .request-link`).click();
+  await page.locator(`[data-request-id="${abaA.id}"] .request-link`).click();
+  await expect(page.locator('.audit')).toContainText('created');
+  expect(abaReads).toBe(3);
+  releaseObsolete401();
+  await expect(page.getByRole('heading', { name: 'Service requests', exact: true })).toBeVisible();
+  const abaSessionStatus = (await page.request.get(`${origin}/api/auth/session`)).status();
+  expect(abaSessionStatus).toBe(200);
+  await expect(page.locator('.audit')).toContainText('created');
+  console.log(
+    JSON.stringify({
+      operation: 'history-retry-aba',
+      selection: [abaA.id, abaB.id, abaA.id],
+      obsoleteResponse: 401,
+      reads: abaReads,
+      liveSessionStatus: abaSessionStatus,
+      currentHistory: 'created',
+    }),
   );
   await page.unroute('**/api/requests/*/audit');
 
@@ -392,6 +455,52 @@ try {
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await page.unroute(`**/api/requests/${uncertain.id}/actions`, uncertainWrite);
 
+  for (const [index, body] of ['', '{"unfinished":', '<html>upstream</html>'].entries()) {
+    const malformed = await createSyntheticRequest(
+      page,
+      `F11E malformed success ${index} ${Date.now()}`,
+    );
+    await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+    await page.locator(`[data-request-id="${malformed.id}"] .request-link`).click();
+    await expect(page.locator('.detail')).toContainText('Server-confirmed version 1');
+    await page
+      .getByRole('combobox', { name: /^Assign officer/ })
+      .selectOption('00000000-0000-4000-8000-000000000002');
+    let writes = 0;
+    const committedMalformed = async (route) => {
+      writes++;
+      const committed = await route.fetch();
+      expect(committed.status()).toBe(200);
+      await route.fulfill({ status: 200, contentType: 'text/html', body });
+    };
+    await page.route(`**/api/requests/${malformed.id}/actions`, committedMalformed);
+    await page.getByRole('button', { name: 'Assign request' }).click();
+    await expect(page.getByRole('button', { name: 'Assign request' })).toBeDisabled();
+    await expect(page.locator('.detail')).toContainText('Check the server state and history');
+    expect(writes).toBe(1);
+    const committedRow = (
+      await database.query('SELECT version FROM service_requests WHERE id=$1', [malformed.id])
+    ).rows[0];
+    expect(committedRow.version).toBe(2);
+    await page.getByRole('button', { name: 'Check server state and history' }).click();
+    await expect(page.locator('.detail')).toContainText('Server-confirmed version 2');
+    await expect(page.locator('.audit')).toContainText('assign');
+    expect(writes).toBe(1);
+    console.log(
+      JSON.stringify({
+        operation: 'committed-malformed-write',
+        body: index === 0 ? 'empty' : index === 1 ? 'malformed-json' : 'html',
+        requestId: malformed.id,
+        serverVersion: committedRow.version,
+        writes,
+        stateChecked: 'history and detail independently refreshed',
+      }),
+    );
+    await page.unroute(`**/api/requests/${malformed.id}/actions`, committedMalformed);
+  }
+  await page.locator(`[data-request-id="${uncertain.id}"] .request-link`).click();
+  await expect(page.locator('.detail')).toContainText('Server-confirmed version 2');
+
   const independent = await browser.newPage();
   // Use an independently owned principal so the separate cookie does not replace
   // the primary browser's single council-bound session.
@@ -482,6 +591,8 @@ try {
   await page.getByRole('button', { name: 'Assign request' }).click();
   expect((await successfulB).status()).toBe(200);
   await page.locator(`[data-request-id="${recoverA.id}"] .request-link`).click();
+  if ((await page.getByRole('button', { name: 'Retry the same action' }).count()) === 0)
+    await page.getByRole('button', { name: 'Check server state and history' }).click();
   await expect(page.getByRole('button', { name: 'Retry the same action' })).toBeVisible();
   let replayedRetryKey;
   const deliberateRetry = page.waitForRequest(

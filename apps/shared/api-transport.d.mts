@@ -3,13 +3,20 @@ export const DEFAULT_REQUEST_TIMEOUT_MS: number;
 export class ApiError extends Error {
   status: number;
   kind: 'http' | 'invalid-response';
-  constructor(status: number, message?: string, kind?: 'http' | 'invalid-response');
+  uncertainWrite: boolean;
+  constructor(
+    status: number,
+    message?: string,
+    kind?: 'http' | 'invalid-response',
+    uncertainWrite?: boolean,
+  );
 }
 
 export class ApiTransportError extends Error {
   status: number | null;
   kind: 'timeout' | 'network';
-  constructor(kind: 'timeout' | 'network', status?: number | null);
+  uncertainWrite: boolean;
+  constructor(kind: 'timeout' | 'network', status?: number | null, uncertainWrite?: boolean);
 }
 
 export class RequestCancelledError extends Error {
@@ -24,3 +31,6 @@ export function requestJson<T>(
 ): Promise<T>;
 
 export function isRequestCancelled(error: unknown): error is RequestCancelledError;
+export function isUncertainWriteError(
+  error: unknown,
+): error is (ApiError | ApiTransportError) & { uncertainWrite: true };

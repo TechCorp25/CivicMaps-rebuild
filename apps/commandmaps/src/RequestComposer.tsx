@@ -6,11 +6,13 @@ export type RequestDraft = { address: string; latitude: number; longitude: numbe
 export function RequestComposer({
   busy,
   error,
+  uncertain,
   onClose,
   onCreate,
 }: {
   busy: boolean;
   error: string;
+  uncertain: boolean;
   onClose: () => void;
   onCreate: (draft: RequestDraft) => void;
 }) {
@@ -94,16 +96,22 @@ export function RequestComposer({
               <dd>{draft.notes || 'No notes recorded'}</dd>
             </dl>
             <p className="muted">
-              Saving creates an audited request. Officer assignment follows in the request detail.
+              {uncertain
+                ? 'The server state was refreshed. Review the queue, then retry the same request only if it is not present.'
+                : 'Saving creates an audited request. Officer assignment follows in the request detail.'}
             </p>
             <div className="composer-actions">
-              <button className="secondary" disabled={busy} onClick={() => setReview(false)}>
+              <button
+                className="secondary"
+                disabled={busy || uncertain}
+                onClick={() => setReview(false)}
+              >
                 <ArrowLeft size={18} aria-hidden="true" />
                 Edit
               </button>
               <button disabled={busy} onClick={() => onCreate(draft)}>
                 <CheckCircle2 size={18} aria-hidden="true" />
-                {busy ? 'Saving…' : 'Create request'}
+                {busy ? 'Saving…' : uncertain ? 'Retry same request' : 'Create request'}
               </button>
             </div>
           </>

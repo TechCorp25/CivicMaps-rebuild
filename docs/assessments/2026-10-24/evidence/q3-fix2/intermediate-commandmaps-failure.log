@@ -1,0 +1,50 @@
+/workspace/work/quality-q3-fix2/node_modules/playwright/lib/matchers/expect.js:213
+        return matcher.call(target, ...args);
+                       ^
+
+A [Error]: expect(locator).toBeVisible() failed
+
+Locator: getByRole('button', { name: 'Retry the same action' })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.be.visible" with timeout 5000ms
+  - waiting for getByRole('button', { name: 'Retry the same action' })
+
+    at Proxy.<anonymous> (/workspace/work/quality-q3-fix2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at file:///workspace/work/quality-q3-fix2/tests/browser.mjs:573:77 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      "Locator: getByRole('button', { name: 'Retry the same action' })\n" +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.visible" with timeout 5000ms\n' +
+      "  - waiting for getByRole('button', { name: 'Retry the same action' })\n",
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "to.be.visible" with timeout 5000ms',
+      "  - waiting for getByRole('button', { name: 'Retry the same action' })"
+    ],
+    timeout: 5000
+  }
+}
+
+Node.js v24.19.0
+file:///workspace/work/quality-q3-fix2/tests/browser-commandmaps.mjs:29
+  if (code !== 0) throw new Error('CommandMAPS browser acceptance failed');
+                        ^
+
+Error: CommandMAPS browser acceptance failed
+    at file:///workspace/work/quality-q3-fix2/tests/browser-commandmaps.mjs:29:25
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0
