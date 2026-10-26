@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import {
   api,
-  ApiError,
   date,
   number,
   type Actor,
@@ -34,7 +33,11 @@ import { AdminActivation } from './AdminActivation';
 import { RoutingStatus } from './RoutingStatus';
 import './tokens.css';
 import './styles.css';
-import { isRequestCancelled, isUncertainWriteError } from '../../shared/api-transport.mjs';
+import {
+  getHttpStatus,
+  isRequestCancelled,
+  isUncertainWriteError,
+} from '../../shared/api-transport.mjs';
 
 type Page = 'municipalities' | 'packs' | 'health' | 'onboarding';
 type Route = { page: Page; id: string | null };
@@ -100,7 +103,7 @@ function App() {
   const fail = useCallback(
     (err: unknown) => {
       setError(err instanceof Error ? err.message : 'The operation could not be completed');
-      if (err instanceof ApiError && err.status === 401) clearSession();
+      if (getHttpStatus(err) === 401) clearSession();
     },
     [clearSession],
   );
@@ -115,7 +118,7 @@ function App() {
         }
       })
       .catch((err) => {
-        if (active && !isRequestCancelled(err) && err.status !== 401) setError(err.message);
+        if (active && !isRequestCancelled(err) && getHttpStatus(err) !== 401) setError(err.message);
       })
       .finally(() => {
         if (active) setReady(true);
@@ -205,12 +208,12 @@ function App() {
         if (isRequestCancelled(err)) return;
         if (!controller.signal.aborted) {
           setDetailError(err instanceof Error ? err.message : 'Status refresh unavailable');
-          if (err instanceof ApiError && err.status === 401) {
+          if (getHttpStatus(err) === 401) {
             setDetail(null);
             fail(err);
             return;
           }
-          if (err instanceof ApiError && [403, 404].includes(err.status)) {
+          if ([403, 404].includes(getHttpStatus(err) ?? 0)) {
             setDetail(null);
             setConfirmation(null);
             return;
@@ -249,7 +252,7 @@ function App() {
           setCsrf(session.csrfToken);
         } catch (sessionError) {
           if (!isCurrentScope() || isRequestCancelled(sessionError)) return;
-          if (sessionError instanceof ApiError && sessionError.status === 401) {
+          if (getHttpStatus(sessionError) === 401) {
             clearSession();
             return;
           }
@@ -259,7 +262,7 @@ function App() {
         if (!isCurrentScope()) return;
         if (route.id) setDetailRefresh((value) => value + 1);
       }
-      if (err instanceof ApiError && err.status === 409 && isCurrentScope())
+      if (getHttpStatus(err) === 409 && isCurrentScope())
         await load(expectedScope, scopeSignal).catch((loadError) => {
           if (isCurrentScope()) fail(loadError);
         });

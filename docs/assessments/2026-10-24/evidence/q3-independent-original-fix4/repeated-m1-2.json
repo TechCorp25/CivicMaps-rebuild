@@ -1,0 +1,61 @@
+{
+  "requestId": "b118fb19-91cb-4682-bf3a-868280103e68",
+  "selectedReadEvents": [
+    {
+      "operation": "selection",
+      "requestId": "b118fb19-91cb-4682-bf3a-868280103e68",
+      "requestGeneration": 12,
+      "loadGeneration": 20,
+      "scopeGeneration": 0
+    },
+    {
+      "operation": "refresh",
+      "requestId": "b118fb19-91cb-4682-bf3a-868280103e68",
+      "requestGeneration": 13,
+      "source": "focus",
+      "loadGeneration": 21,
+      "scopeGeneration": 0
+    },
+    {
+      "operation": "refresh",
+      "requestId": "b118fb19-91cb-4682-bf3a-868280103e68",
+      "requestGeneration": 14,
+      "source": "interval",
+      "loadGeneration": 22,
+      "scopeGeneration": 0
+    },
+    {
+      "operation": "refresh",
+      "requestId": "b118fb19-91cb-4682-bf3a-868280103e68",
+      "requestGeneration": 15,
+      "source": "focus",
+      "loadGeneration": 23,
+      "scopeGeneration": 0
+    }
+  ],
+  "scheduledSources": [
+    "focus",
+    "interval",
+    "focus"
+  ],
+  "controlledResponses": [
+    {
+      "ordinal": 2,
+      "outcome": "404-denied"
+    },
+    {
+      "ordinal": 3,
+      "outcome": "404-denied"
+    },
+    {
+      "ordinal": 4,
+      "outcome": "404-denied"
+    },
+    {
+      "ordinal": 1,
+      "outcome": "released-stale-read"
+    }
+  ],
+  "assertion": "one held stale selection response; three independently issued later refresh reads returned 404",
+  "finalState": "Selected request unavailable; stale read did not restore actionable detail"
+}

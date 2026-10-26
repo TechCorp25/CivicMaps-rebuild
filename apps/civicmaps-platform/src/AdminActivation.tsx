@@ -1,6 +1,10 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { api, ApiError } from './api';
-import { isRequestCancelled, isUncertainWriteError } from '../../shared/api-transport.mjs';
+import { api } from './api';
+import {
+  getHttpStatus,
+  isRequestCancelled,
+  isUncertainWriteError,
+} from '../../shared/api-transport.mjs';
 
 type Status = {
   state: string;
@@ -42,7 +46,7 @@ export function AdminActivation({
         if (!controller.signal.aborted && !isRequestCancelled(reason)) {
           setStatus(null);
           setError(reason.message);
-          if (reason instanceof ApiError && reason.status === 401) onError(reason);
+          if (getHttpStatus(reason) === 401) onError(reason);
         }
       });
     return () => {
@@ -94,7 +98,7 @@ export function AdminActivation({
               : 'Activation action failed',
         );
         if (isUncertainWriteError(reason)) setRefresh((value) => value + 1);
-        if (reason instanceof ApiError && reason.status === 401) onError(reason);
+        if (getHttpStatus(reason) === 401) onError(reason);
       }
     } finally {
       signal.removeEventListener('abort', abort);

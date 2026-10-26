@@ -569,12 +569,57 @@ try {
     window.location.hash = `packs/${id}`;
   }, cloudCouncil.municipality.id);
   await expect(deniedPackSwitches.first()).toBeEnabled();
+  await page.getByRole('switch', { name: 'Local Laws', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.evaluate((path) => {
+    const originalFetch = window.fetch.bind(window);
+    window.__nativeFetch = originalFetch;
+    window.__interruptedDenialReads = 0;
+    window.fetch = async (input, init) => {
+      const url = new URL(typeof input === 'string' ? input : input.url, window.location.href);
+      if (url.pathname === path) {
+        window.__interruptedDenialReads += 1;
+        const body = new ReadableStream({
+          start(controller) {
+            controller.error(new TypeError('private interrupted response body'));
+          },
+        });
+        return new Response(body, { status: 403 });
+      }
+      return originalFetch(input, init);
+    };
+  }, `/api/platform/municipalities/${cloudCouncil.municipality.id}`);
+  await page.clock.runFor(16000);
+  await expect.poll(() => page.evaluate(() => window.__interruptedDenialReads)).toBe(1);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('alert')).toContainText('service could not be reached');
+  await expect(page.locator('main')).not.toContainText('private interrupted response body');
+  const interruptedSwitchStates = await deniedPackSwitches.evaluateAll((items) =>
+    items.map((item) => item.disabled),
+  );
+  expect(interruptedSwitchStates.length).toBeGreaterThan(0);
+  expect(interruptedSwitchStates.every(Boolean)).toBe(true);
+  await page.clock.runFor(16000);
+  const interruptedDetailReads = await page.evaluate(() => window.__interruptedDenialReads);
+  expect(interruptedDetailReads).toBe(1);
+  await page.evaluate(() => {
+    window.fetch = window.__nativeFetch;
+    delete window.__nativeFetch;
+    window.location.hash = 'health';
+  });
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await page.evaluate((id) => {
+    window.location.hash = `packs/${id}`;
+  }, cloudCouncil.municipality.id);
+  await expect(deniedPackSwitches.first()).toBeEnabled();
   console.log(
     JSON.stringify({
-      operation: 'explicit-detail-denial',
+      operation: 'explicit-detail-denial-html-and-interrupted-body',
       status: 403,
       deniedDetailReads,
       disabledSwitches: deniedSwitchStates.filter(Boolean).length,
+      interruptedDetailReads,
+      interruptedDisabledSwitches: interruptedSwitchStates.filter(Boolean).length,
       automaticRetriesAfterDenial: deniedDetailReads - 1,
       controlsRestoredByFreshScope: true,
     }),

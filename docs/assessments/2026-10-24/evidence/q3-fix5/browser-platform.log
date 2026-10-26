@@ -1,0 +1,3 @@
+{"operation":"uncertain-session-reconciliation-scope","sessionReadCancelled":true,"obsoleteHtml401Released":true,"currentSessionStatus":200,"currentPage":"health"}
+{"operation":"explicit-detail-denial-html-and-interrupted-body","status":403,"deniedDetailReads":1,"disabledSwitches":9,"interruptedDetailReads":1,"interruptedDisabledSwitches":9,"automaticRetriesAfterDenial":0,"controlsRestoredByFreshScope":true}
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, committed malformed-pack response reconciliation, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.

@@ -18,7 +18,12 @@ import {
 } from 'lucide-react';
 import './tokens.css';
 import './styles.css';
-import { ApiError, isRequestCancelled, requestJson } from '../../shared/api-transport.mjs';
+import {
+  getHttpStatus,
+  isRequestCancelled,
+  isUncertainWriteError,
+  requestJson,
+} from '../../shared/api-transport.mjs';
 
 type Actor = {
   id: string;
@@ -283,10 +288,7 @@ function App() {
           capabilities.includes('officers.read')
             ? api<Officer[]>('/officers', { signal: queueController.signal }).then(
                 (data) => ({ data }),
-                (error) =>
-                  error instanceof ApiError && error.status === 403
-                    ? { data: [] as Officer[] }
-                    : { error },
+                (error) => (getHttpStatus(error) === 403 ? { data: [] as Officer[] } : { error }),
               )
             : Promise.resolve({ data: [] as Officer[] }),
           !cursor && selectedAtStart && capabilities.includes('requests.read')
@@ -376,7 +378,7 @@ function App() {
             setLoadMoreError(
               err instanceof Error ? err.message : 'More requests could not be loaded.',
             );
-          if (err instanceof ApiError && err.status === 401) {
+          if (getHttpStatus(err) === 401) {
             ++loadGeneration.current;
             ++scopeGeneration.current;
             hasQueueSnapshot.current = false;
@@ -430,7 +432,7 @@ function App() {
         }
       })
       .catch((err) => {
-        if (active && !isRequestCancelled(err) && err.status !== 401) setError(err.message);
+        if (active && !isRequestCancelled(err) && getHttpStatus(err) !== 401) setError(err.message);
       })
       .finally(() => {
         if (active) setReady(true);
@@ -556,7 +558,7 @@ function App() {
       .catch((err) => {
         if (isRequestCancelled(err)) return;
         if (!active || generation !== scopeGeneration.current) return;
-        if (err instanceof ApiError && err.status === 401) {
+        if (getHttpStatus(err) === 401) {
           ++loadGeneration.current;
           ++scopeGeneration.current;
           hasQueueSnapshot.current = false;
@@ -633,7 +635,7 @@ function App() {
     } catch (err) {
       if (isRequestCancelled(err) || expectedScope !== scopeGeneration.current) return;
       setError(err instanceof Error ? err.message : 'The operation could not be completed');
-      if (err instanceof ApiError && err.status === 401) {
+      if (getHttpStatus(err) === 401) {
         ++loadGeneration.current;
         ++scopeGeneration.current;
         hasQueueSnapshot.current = false;
@@ -655,7 +657,7 @@ function App() {
         setQueueCheckedAt(null);
         setQueueState('unavailable');
       }
-      if (err instanceof ApiError && [403, 409].includes(err.status)) await load().catch(() => {});
+      if ([403, 409].includes(getHttpStatus(err) ?? 0)) await load().catch(() => {});
     } finally {
       pending.current = false;
       setBusy(false);
@@ -729,7 +731,7 @@ function App() {
         setCreating(false);
         setCreateUncertain(false);
       } catch (err) {
-        if (err instanceof Error && 'uncertainWrite' in err && err.uncertainWrite === true) {
+        if (isUncertainWriteError(err)) {
           setCreateUncertain(true);
           await load().catch(() => {});
         }
@@ -760,11 +762,11 @@ function App() {
         const payload = JSON.stringify([`/requests/${requestId}/actions`, input]);
         const key = retry.current?.payload === payload ? retry.current.key : null;
         const kind =
-          err instanceof ApiError && err.status === 409
+          getHttpStatus(err) === 409
             ? 'conflict'
-            : err instanceof ApiError && err.uncertainWrite
+            : isUncertainWriteError(err)
               ? 'uncertain'
-              : err instanceof ApiError && err.status < 500
+              : (getHttpStatus(err) ?? 500) < 500
                 ? 'rejected'
                 : 'uncertain';
         const message =
@@ -795,7 +797,7 @@ function App() {
           signal: controller.signal,
         });
       } catch (err) {
-        if (!(err instanceof ApiError) || err.status !== 404) throw err;
+        if (getHttpStatus(err) !== 404) throw err;
         if (selectedRef.current === recovery.requestId) {
           setDetailState({
             id: recovery.requestId,
@@ -879,11 +881,11 @@ function App() {
       } catch (err) {
         if (generation !== scopeGeneration.current) throw err;
         const kind =
-          err instanceof ApiError && err.status === 409
+          getHttpStatus(err) === 409
             ? 'conflict'
-            : err instanceof ApiError && err.uncertainWrite
+            : isUncertainWriteError(err)
               ? 'uncertain'
-              : err instanceof ApiError && err.status < 500
+              : (getHttpStatus(err) ?? 500) < 500
                 ? 'rejected'
                 : 'uncertain';
         updateActionRecovery(recovery.requestId, {
@@ -1428,7 +1430,7 @@ function App() {
                                   selectedRef.current !== requestId
                                 )
                                   return;
-                                if (err instanceof ApiError && err.status === 401) {
+                                if (getHttpStatus(err) === 401) {
                                   ++loadGeneration.current;
                                   ++scopeGeneration.current;
                                   hasQueueSnapshot.current = false;

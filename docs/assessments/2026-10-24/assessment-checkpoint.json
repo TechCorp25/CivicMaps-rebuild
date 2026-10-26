@@ -11,11 +11,11 @@
   "findings": "findings.json",
   "scope": "Assessment plus explicitly authorized Q1-Q7 remediation; no merge, deployment, cloud mutation or customer data operations.",
   "assessmentStatus": "completed_with_explicit_coverage_limits",
-  "remediationStatus": "Q1_Q2_accepted_Q3_follow_up_4_locally_validated_pending_fresh_independent_review",
+  "remediationStatus": "Q1_Q2_accepted_Q3_follow_up_5_locally_validated_pending_fresh_independent_review",
   "independentAssessmentStatus": "pass_on_frozen_product_43423d7",
   "publicationStatus": "draft_PR43_verified_remote_43423d7",
   "empiricalStatus": "complete_plan_recorded_and_read_back_byte_equal",
-  "nextAction": "Commit the exact Q3 follow-up 4 candidate; root publishes it for fresh independent review; no merge or deployment.",
+  "nextAction": "Commit exact Q3 follow-up 5 candidate; root publishes it for fresh whole-Q3 review; no merge or deployment.",
   "securityCoverage": {
     "dependencyAudit": "completed_one_high_advisory",
     "sourceReview": "completed_with_reported_limits",
@@ -93,7 +93,14 @@
       "skipped": 0
     },
     "q3FollowUp4Browsers": "platform_commandmaps_activation_passed_sequentially; explicit_403_cleared_cached_detail_disabled_all_nine_controls_no_auto_retry_then_fresh_scope_restored",
-    "q3FollowUp4CaddyIngress": "contract_and_login_loopback_pass"
+    "q3FollowUp4CaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUp5FullCheck": {
+      "passed": 107,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUp5Browsers": "platform_commandmaps_activation_passed_sequentially; normal_HTML_403_and_interrupted_body_403_each_disabled_all_nine_controls_no_auto_retry_then_fresh_scope_restored",
+    "q3FollowUp5CaddyIngress": "contract_and_login_loopback_pass"
   },
   "prohibitedByScope": [
     "merge",
@@ -123,14 +130,14 @@
   "execution": {
     "ledger": "execution-ledger.md",
     "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
-    "package": "Q3 explicit denied-detail invalidation follow-up",
-    "branch": "codex/civicmaps-quality-q3-fix4",
-    "packageBase": "44895f86f6d6683d4f0b8e2013848dcec98a6c38",
+    "package": "Q3 class-independent HTTP status handling follow-up",
+    "branch": "codex/civicmaps-quality-q3-fix5-continuation",
+    "packageBase": "b75a2a390412865f965f507b1408fad88556a48b",
     "implementationCommit": null,
     "candidateCommit": null,
-    "localAcceptance": "final_full_check_106_passed_zero_failed_zero_skipped; three_serial_browser_suites_and_two_caddy_loopback_checks_passed; explicit_detail_403_invalidated_cached_detail_disabled_all_nine_pack_controls_and_restored_after_fresh_scope",
-    "publication": "WIP_snapshot_pending_remote_verification",
-    "independentAssessment": "changes_required_probe_confirmed_final_report_interrupted",
+    "localAcceptance": "npm_run_check_107_passed_zero_failed_zero_skipped; three_browser_suites_passed_sequentially; both_Caddy_loopback_checks_passed; truncated_HTTP_403_body_cleared_selected_detail_and_disabled_all_nine_pack_controls; read_and_write_HTTP_status_and_write_uncertainty_preserved",
+    "publication": "candidate_pending_root_publication",
+    "independentAssessment": "follow_up_5_fresh_whole_Q3_review_pending; prior_follow_up_4_report_changes_required_preserved",
     "merge": "not_authorised",
     "deployment": "not_authorised",
     "evidenceDirectory": "evidence/",
@@ -138,7 +145,7 @@
     "acceptedCommit": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
     "auditorReport": "evidence/q2-independent-accepted/report.md",
     "auditorReportSha256": "04ad939ca92f2a06a73fb1a9efa4e8fc1f261632f817610c1e579e1b59edf263",
-    "nextAction": "Finish Q3 class-independent HTTP status denial handling, gates and fresh review",
+    "nextAction": "Commit candidate; root publishes exact tree for fresh independent whole-Q3 review",
     "hostedCI": {
       "candidate": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
       "applicationRun": 40159555198,
@@ -172,9 +179,13 @@
     "q3FollowUp3OriginalReportSha256": "be85f7bca2613998bf54e5316d59cd08d375d80f7c970bb31b05e8c839bd6c0e",
     "q3FollowUp4Base": "44895f86f6d6683d4f0b8e2013848dcec98a6c38",
     "q3FollowUp4EvidenceDirectory": "evidence/q3-fix4/",
-    "q3FollowUp4OriginalReport": "evidence/q3-independent-original-fix3/report.md",
-    "q3FollowUp4OriginalReportSha256": "0fea607c463cad57705a43e3258c0fae6003c79bcddd6619f6da152d61ca0881",
+    "q3FollowUp4OriginalReport": "evidence/q3-independent-original-fix4/report.md",
+    "q3FollowUp4OriginalReportSha256": "25c96fbfb7713dbb90cc5d2f0ecf2d65204d6daf724f3f3dfb5106abac5a7ae1",
     "q3M1IntermediateRun": "two_iterations_passed_then_iteration_three_missing_refresh_complete; settled_three_passes_after_networkidle_barrier; cause_unresolved_per_original_report",
-    "wipSnapshot": "evidence/resumption-2026-10-26/"
+    "wipSnapshot": "evidence/resumption-2026-10-26/",
+    "q3FollowUp4PublishedBase": "60bb8c443f99a57d3f7c31f000d06523baccafa2",
+    "q3FollowUp5EvidenceDirectory": "evidence/q3-fix5/",
+    "q3FollowUp5OriginalEvidenceDirectory": "evidence/q3-independent-original-fix4/",
+    "q3FollowUp5Finding": "interrupted 403 body retained HTTP status as ApiTransportError while detail catch accepted only ApiError; cached pack actions stayed enabled"
   }
 }

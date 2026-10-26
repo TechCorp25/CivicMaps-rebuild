@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import {
   ApiError,
   ApiTransportError,
+  getHttpStatus,
   isRequestCancelled,
   isUncertainWriteError,
   requestJson,
@@ -171,4 +172,47 @@ test('shared API transport preserves status and safe errors across response and 
     controller.abort();
     await assert.rejects(pending, (error) => isRequestCancelled(error));
   });
+});
+
+test('HTTP status classification survives interrupted bodies without weakening write uncertainty', async () => {
+  for (const status of [401, 403, 404, 503]) {
+    const brokenBody = () =>
+      new ReadableStream({
+        start(controller) {
+          controller.error(new TypeError('private interrupted upstream body'));
+        },
+      });
+    await withFetch(
+      async () => new Response(brokenBody(), { status }),
+      async () => {
+        await assert.rejects(requestJson('/api', '/resource'), (error) => {
+          assert.ok(error instanceof ApiTransportError);
+          assert.equal(getHttpStatus(error), status);
+          assert.equal(error.status, status);
+          assert.equal(error.kind, 'network');
+          assert.equal(isUncertainWriteError(error), false);
+          assert.doesNotMatch(error.message, /private interrupted upstream body/);
+          return true;
+        });
+
+        await assert.rejects(
+          requestJson('/api', '/resource', { method: 'POST', body: '{}' }),
+          (error) => {
+            assert.ok(error instanceof ApiTransportError);
+            assert.equal(getHttpStatus(error), status);
+            assert.equal(error.status, status);
+            assert.equal(isUncertainWriteError(error), true);
+            assert.doesNotMatch(error.message, /private interrupted upstream body/);
+            return true;
+          },
+        );
+      },
+    );
+  }
+
+  assert.equal(getHttpStatus(new ApiError(403)), 403);
+  assert.equal(getHttpStatus({ status: 503 }), 503);
+  assert.equal(getHttpStatus({ status: 99 }), null);
+  assert.equal(getHttpStatus({ status: '403' }), null);
+  assert.equal(getHttpStatus(null), null);
 });

@@ -149,15 +149,15 @@
         "evidence/q3-independent-original-current/report.md",
         "evidence/q3-independent-original/report.md"
       ],
-      "status": "follow_up_4_locally_validated_pending_fresh_independent_review",
+      "status": "follow_up_5_locally_validated_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
-          "npm run check (106 passed, 0 failed, 0 skipped)",
-          "three browser suites",
-          "two Caddy loopback checks"
+          "npm run check (107 passed, 0 failed, 0 skipped)",
+          "three browser suites passed sequentially",
+          "two Caddy loopback checks passed"
         ],
-        "independentAssessment": "published_44895f_changes_required_stale_actionable_detail_after_403; follow_up_4_fresh_review_pending",
+        "independentAssessment": "published_60bb8c4_changes_required_interrupted_403_body_retained_enabled_controls; follow_up_5_fresh_whole_Q3_review_pending",
         "candidateCommit": null,
         "followUp3Evidence": [
           "execution-ledger.md",
@@ -179,6 +179,17 @@
           "evidence/q3-fix4/caddy-contract.log",
           "evidence/q3-fix4/caddy-login.log",
           "evidence/q3-independent-original-fix3/report.md"
+        ],
+        "followUp5Evidence": [
+          "execution-ledger.md",
+          "evidence/q3-fix5/npm-check.log",
+          "evidence/q3-fix5/browser-platform.log",
+          "evidence/q3-fix5/browser-commandmaps.log",
+          "evidence/q3-fix5/browser-activation.log",
+          "evidence/q3-fix5/caddy-contract.log",
+          "evidence/q3-fix5/caddy-login.log",
+          "evidence/q3-fix5/independent-denial.log",
+          "evidence/q3-independent-original-fix4/report.md"
         ]
       }
     },
@@ -280,15 +291,15 @@
         "evidence/q3-independent-original-current/report.md",
         "evidence/q3-independent-original/report.md"
       ],
-      "status": "follow_up_4_locally_validated_pending_fresh_independent_review",
+      "status": "follow_up_5_locally_validated_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
-          "npm run check (106 passed, 0 failed, 0 skipped)",
-          "three browser suites",
-          "two Caddy loopback checks"
+          "npm run check (107 passed, 0 failed, 0 skipped)",
+          "three browser suites passed sequentially",
+          "two Caddy loopback checks passed"
         ],
-        "independentAssessment": "published_44895f_changes_required_stale_actionable_detail_after_403; follow_up_4_fresh_review_pending",
+        "independentAssessment": "published_60bb8c4_changes_required_interrupted_403_body_retained_enabled_controls; follow_up_5_fresh_whole_Q3_review_pending",
         "candidateCommit": null,
         "followUp3Evidence": [
           "execution-ledger.md",
@@ -310,6 +321,17 @@
           "evidence/q3-fix4/caddy-contract.log",
           "evidence/q3-fix4/caddy-login.log",
           "evidence/q3-independent-original-fix3/report.md"
+        ],
+        "followUp5Evidence": [
+          "execution-ledger.md",
+          "evidence/q3-fix5/npm-check.log",
+          "evidence/q3-fix5/browser-platform.log",
+          "evidence/q3-fix5/browser-commandmaps.log",
+          "evidence/q3-fix5/browser-activation.log",
+          "evidence/q3-fix5/caddy-contract.log",
+          "evidence/q3-fix5/caddy-login.log",
+          "evidence/q3-fix5/independent-denial.log",
+          "evidence/q3-independent-original-fix4/report.md"
         ]
       }
     },
@@ -348,15 +370,15 @@
         "evidence/q3-independent-original/report.md",
         "evidence/q3-platform-browser.log"
       ],
-      "status": "follow_up_4_locally_validated_pending_fresh_independent_review",
+      "status": "follow_up_5_locally_validated_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
-          "npm run check (106 passed, 0 failed, 0 skipped)",
-          "three browser suites",
-          "two Caddy loopback checks"
+          "npm run check (107 passed, 0 failed, 0 skipped)",
+          "three browser suites passed sequentially",
+          "two Caddy loopback checks passed"
         ],
-        "independentAssessment": "published_44895f_changes_required_stale_actionable_detail_after_403; follow_up_4_fresh_review_pending",
+        "independentAssessment": "published_60bb8c4_changes_required_interrupted_403_body_retained_enabled_controls; follow_up_5_fresh_whole_Q3_review_pending",
         "candidateCommit": null,
         "followUp3Evidence": [
           "execution-ledger.md",
@@ -378,6 +400,17 @@
           "evidence/q3-fix4/caddy-contract.log",
           "evidence/q3-fix4/caddy-login.log",
           "evidence/q3-independent-original-fix3/report.md"
+        ],
+        "followUp5Evidence": [
+          "execution-ledger.md",
+          "evidence/q3-fix5/npm-check.log",
+          "evidence/q3-fix5/browser-platform.log",
+          "evidence/q3-fix5/browser-commandmaps.log",
+          "evidence/q3-fix5/browser-activation.log",
+          "evidence/q3-fix5/caddy-contract.log",
+          "evidence/q3-fix5/caddy-login.log",
+          "evidence/q3-fix5/independent-denial.log",
+          "evidence/q3-independent-original-fix4/report.md"
         ]
       }
     },

@@ -31,6 +31,7 @@ export function requestJson<T>(
 ): Promise<T>;
 
 export function isRequestCancelled(error: unknown): error is RequestCancelledError;
+export function getHttpStatus(error: unknown): number | null;
 export function isUncertainWriteError(
   error: unknown,
 ): error is (ApiError | ApiTransportError) & { uncertainWrite: true };

@@ -1,0 +1,5 @@
+native-denial=0
+repeat-1=1
+corrected-fixture-repeat-1=0
+corrected-fixture-repeat-2=0
+corrected-fixture-repeat-3=0
