@@ -1,0 +1,17 @@
+/workspace/work/quality-audits/q3-fix4/published/node_modules/pg-pool/index.js:45
+    Error.captureStackTrace(err)
+          ^
+
+Error: connect ECONNREFUSED 127.0.0.1:55440
+    at /workspace/work/quality-audits/q3-fix4/published/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async createTestEnvironment (file:///workspace/work/quality-audits/q3-fix4/published/tests/helpers/environment.mjs:52:5)
+    at async file:///workspace/work/quality-audits/q3-fix4/repeated-m1.mjs:78:14 {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 55440
+}
+
+Node.js v24.19.0

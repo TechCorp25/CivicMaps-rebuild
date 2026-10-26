@@ -327,7 +327,7 @@ test('populated D02 owners migrate without changing Alpha access or disabled Bet
         [
           admin.id,
           admin.email,
-          hashPassword(password),
+          await hashPassword(password),
           `tenant-${admin.municipality === alpha ? 'alpha' : 'beta'}`,
           `jurisdiction-${admin.municipality === alpha ? 'alpha' : 'beta'}`,
           `plane-${admin.municipality === alpha ? 'alpha' : 'beta'}`,

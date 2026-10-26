@@ -1,0 +1,27 @@
+✔ request and maintenance PostgreSQL budgets are explicit and isolated (944.48497ms)
+Transient database request failure { code: 'pool-timeout' }
+✔ a saturated request pool returns a bounded retryable response and recovers (1087.123832ms)
+✔ statement timeout cancels server work, rolls back partial writes and reuses the client (5031.520491ms)
+Transient database request failure { code: '55P03' }
+✔ row-lock timeout maps login to retryable failure and preserves the existing session state (1104.512382ms)
+Database rollback failed; pooled client will be discarded { code: 'unknown' }
+✔ a disconnected transaction client is discarded before the pool reconnects (10.41553ms)
+Transient database request failure { code: 'pool-timeout' }
+✔ a PostgreSQL handshake timeout is a bounded retryable response (1259.217609ms)
+Idle PostgreSQL client error { code: '57P01' }
+✔ an idle PostgreSQL client error is handled and the shared pool recovers (905.763145ms)
+✔ asynchronous password derivation keeps the existing stored hash format readable (1613.710771ms)
+✔ a malformed stored hash rejects login generically and emits no credential data (124.302829ms)
+✔ password-work overload is retryable and releases capacity for a healthy login (109.1721ms)
+✔ async auth burst leaves the database health endpoint responsive within its measured budget (94.520074ms)
+ℹ health=45.9ms; status distribution={"401":2,"503":10}
+API operation failed: synthetic delayed provider failure
+✔ status admission rejects excess checks while unrelated API work proceeds and always releases (1632.163918ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17336.870468

@@ -1,0 +1,5 @@
+
+> civicmaps-local@0.1.0 test:commandmaps:browser
+> node tests/browser-commandmaps.mjs
+
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.

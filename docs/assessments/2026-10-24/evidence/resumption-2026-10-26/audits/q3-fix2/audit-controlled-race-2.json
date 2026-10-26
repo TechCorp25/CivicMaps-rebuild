@@ -1,0 +1,61 @@
+{
+  "requestId": "bd07cfa7-e2dd-40b5-b7dc-fc2df310c3b7",
+  "selectedReadEvents": [
+    {
+      "operation": "selection",
+      "requestId": "bd07cfa7-e2dd-40b5-b7dc-fc2df310c3b7",
+      "requestGeneration": 12,
+      "loadGeneration": 20,
+      "scopeGeneration": 0
+    },
+    {
+      "operation": "refresh",
+      "requestId": "bd07cfa7-e2dd-40b5-b7dc-fc2df310c3b7",
+      "requestGeneration": 13,
+      "source": "focus",
+      "loadGeneration": 21,
+      "scopeGeneration": 0
+    },
+    {
+      "operation": "refresh",
+      "requestId": "bd07cfa7-e2dd-40b5-b7dc-fc2df310c3b7",
+      "requestGeneration": 14,
+      "source": "interval",
+      "loadGeneration": 22,
+      "scopeGeneration": 0
+    },
+    {
+      "operation": "refresh",
+      "requestId": "bd07cfa7-e2dd-40b5-b7dc-fc2df310c3b7",
+      "requestGeneration": 15,
+      "source": "focus",
+      "loadGeneration": 23,
+      "scopeGeneration": 0
+    }
+  ],
+  "scheduledSources": [
+    "focus",
+    "interval",
+    "focus"
+  ],
+  "controlledResponses": [
+    {
+      "ordinal": 2,
+      "outcome": "404-denied"
+    },
+    {
+      "ordinal": 3,
+      "outcome": "404-denied"
+    },
+    {
+      "ordinal": 4,
+      "outcome": "404-denied"
+    },
+    {
+      "ordinal": 1,
+      "outcome": "released-stale-read"
+    }
+  ],
+  "assertion": "one held stale selection response; three independently issued later refresh reads returned 404",
+  "finalState": "Selected request unavailable; stale read did not restore actionable detail"
+}

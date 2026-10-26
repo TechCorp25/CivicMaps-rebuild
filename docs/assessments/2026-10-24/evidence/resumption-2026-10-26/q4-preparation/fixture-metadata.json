@@ -1,0 +1,34 @@
+{
+  "fixtureSet": "q4-offline-prerequisites-v1",
+  "createdUtc": "2026-10-25",
+  "provenance": "Synthetic cases authored from repository field names and assessment repro geometries; no provider records copied and no network requests made.",
+  "coordinateContract": {
+    "encoding": "RFC 7946 GeoJSON coordinate order [longitude,latitude]",
+    "crs": "WGS 84 / EPSG:4326",
+    "syntheticAnchor": [
+      144.96,
+      -37.81
+    ],
+    "gridStepDegrees": 0.001,
+    "areaExpectations": "computed in normalized planar grid units after subtracting anchor and dividing by grid step; production must use a documented projected metric/equal-area CRS for metric thresholds/overlap areas"
+  },
+  "zones": [
+    "zone-west",
+    "zone-east"
+  ],
+  "files": [
+    "geometry/zones.geojson",
+    "geometry/roads.geojson",
+    "streets/corridors.geojson",
+    "streets/addresses.jsonl",
+    "streets/approved-aliases.json",
+    "provider/valid-featurecollection.json",
+    "provider/empty-featurecollection.json",
+    "provider/missing-features.json",
+    "provider/features-not-array.json",
+    "provider/non-feature-entry.json",
+    "provider/malformed-geometry.json",
+    "provider/malformed-json.txt",
+    "provider/addresses-mixed.jsonl"
+  ]
+}

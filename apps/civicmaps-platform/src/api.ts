@@ -1,3 +1,6 @@
+import { ApiError, requestJson } from '../../shared/api-transport.mjs';
+export { ApiError };
+
 export type PackOption = { id: string; label: string };
 export type Actor = { id: string; name: string; email: string };
 export type Municipality = {
@@ -66,23 +69,8 @@ export type ProvisionResult = {
   infrastructure: string;
   jobId: string;
 };
-export class ApiError extends Error {
-  constructor(
-    public status: number,
-    message: string,
-  ) {
-    super(message);
-  }
-}
 export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const response = await fetch(`/api/platform${path}`, {
-    ...options,
-    headers: { 'Content-Type': 'application/json', ...options.headers },
-  });
-  const data = await response.json();
-  if (!response.ok)
-    throw new ApiError(response.status, data.error ?? 'The operation could not be completed');
-  return data;
+  return requestJson<T>('/api/platform', path, options);
 }
 export const date = (value: string) =>
   new Intl.DateTimeFormat('en-AU', { dateStyle: 'medium', timeZone: 'Australia/Melbourne' }).format(

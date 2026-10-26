@@ -1,0 +1,287 @@
+docs/assessments/2026-10-24/evidence/q3-activation-browser.log
+
+> civicmaps-local@0.1.0 test:activation:browser
+> node tests/browser-activation.mjs
+
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-api-transport.log
+✔ tests/api-transport.test.mjs (185.487781ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 196.187321
+
+docs/assessments/2026-10-24/evidence/q3-check.log
+✔ crashes during a legacy ready-route recheck consume the same finite budget (20.156359ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 106
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 83596.517462
+
+docs/assessments/2026-10-24/evidence/q3-commandmaps-browser.log
+
+> civicmaps-local@0.1.0 test:commandmaps:browser
+> node tests/browser-commandmaps.mjs
+
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-ingress-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-ingress-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
+
+docs/assessments/2026-10-24/evidence/q3-platform-browser.log
+
+> civicmaps-local@0.1.0 test:platform:browser
+> node tests/browser-platform.mjs
+
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-setup.log
+
+> civicmaps-local@0.1.0 setup
+> npm ci --ignore-scripts --bin-links=false --no-audit --no-fund
+
+
+added 238 packages in 5s
+
+docs/assessments/2026-10-24/evidence/q3-fix/activation-browser.log
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-fix/caddy-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-fix/caddy-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
+
+docs/assessments/2026-10-24/evidence/q3-fix/commandmaps-browser.log
+{"operation":"history-filter-race","requestId":"6a7ad697-fdb4-48cb-8cf3-232724d1d044","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-fix/initial-lint-failure.log
+/workspace/work/quality-q3-fix/apps/commandmaps/src/main.tsx
+  586:6  error  React Hook useEffect has a missing dependency: 'current?.id'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/workspace/work/quality-q3-fix/tests/browser-activation.mjs
+  163:5  error  'window' is not defined  no-undef
+
+✖ 2 problems (2 errors, 0 warnings)
+
+The final effect dependency includes current?.id (stable through queue filtering because it derives from the selected detail state), and the browser test declares its page-evaluate global. Subsequent full `npm run check` passed.
+
+docs/assessments/2026-10-24/evidence/q3-fix/initial-parallel-commandmaps-failure.log
+Call log:
+  - waiting for locator('.audit')
+    2 × locator resolved to <div class="audit">…</div>
+      - unexpected value "Audit historyLoading history for this request…"
+    7 × locator resolved to <div class="audit">…</div>
+      - unexpected value "Audit historycreated25/10/26, 3:38 pm"
+    at tests/browser.mjs:255:40
+
+This exposed that removing the current-row guard allowed history requests while the selected detail was still unresolved; a later successful read raced the expected synthetic 503. The final implementation waits for the selected detail to be ready, tracks its version, and keeps that version stable across queue filtering. A later sequential CommandMAPS suite passed with the controlled search/history regression.
+
+docs/assessments/2026-10-24/evidence/q3-fix/initial-platform-dialog-failure.log
+Execution: controlled stale-401 regression fixture, first version.
+
+locator.click: Timeout 30000ms exceeded
+  waiting for getByRole('link', { name: 'Network health', exact: true })
+  locator resolved to <a class="" href="#health" title="Network health">…</a>
+  <dialog open="" aria-labelledby="confirm-title">…</dialog> from <main id="content" tabindex="-1">…</main> subtree intercepts pointer events
+  retrying click action until timeout
+
+The browser's native confirmation dialog intentionally blocks interaction outside it. The regression now installs the held POST handler before confirmation, then changes the route hash directly while the dialog is open. Its wait and route fail-safe are bounded; the final sequential Platform suite passed.
+
+docs/assessments/2026-10-24/evidence/q3-fix/npm-check.log
+✔ crashes during a legacy ready-route recheck consume the same finite budget (20.585452ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 106
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85050.468493
+
+docs/assessments/2026-10-24/evidence/q3-fix/platform-browser.log
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-fix/setup.log
+Command: npm ci --ignore-scripts --bin-links=false --no-audit --no-fund
+Result: added 238 packages in 5s
+Workspace: /workspace/work/quality-q3-fix
+The lockfile was used without modification.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/activation-browser.log
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/caddy-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-fix2/caddy-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
+
+docs/assessments/2026-10-24/evidence/q3-fix2/commandmaps-browser.log
+{"operation":"history-retry-aba","selection":["e11541c9-14db-449f-b4ff-00faac1ce344","fd7c821a-b073-407b-8c94-3931da919f7b","e11541c9-14db-449f-b4ff-00faac1ce344"],"obsoleteResponse":401,"reads":3,"liveSessionStatus":200,"currentHistory":"created"}
+{"operation":"committed-malformed-write","body":"empty","requestId":"a204a791-5d46-47e8-9af2-3026544d1aec","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"78f2ae23-2efc-465e-8f89-e43ececec3fe","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"59937a3b-69cb-46a9-b82d-c65bb2e36155","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"fb34a015-cae9-415b-ac29-16418529641a","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/earlier-full-check.log
+✔ crashes during a legacy ready-route recheck consume the same finite budget (19.248796ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 106
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84027.399505
+
+docs/assessments/2026-10-24/evidence/q3-fix2/final-check-3.log
+✔ crashes during a legacy ready-route recheck consume the same finite budget (23.262787ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 106
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85486.323198
+
+docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-commandmaps-failure.log
+file:///workspace/work/quality-q3-fix2/tests/browser-commandmaps.mjs:29
+  if (code !== 0) throw new Error('CommandMAPS browser acceptance failed');
+                        ^
+
+Error: CommandMAPS browser acceptance failed
+    at file:///workspace/work/quality-q3-fix2/tests/browser-commandmaps.mjs:29:25
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0
+
+docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-type-guard-check-failure.log
+> @civicmaps/commandmaps@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+
+> @civicmaps/civicmaps-platform@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+src/AdminActivation.tsx(91,18): error TS18046: 'reason' is of type 'unknown'.
+src/main.tsx(227,22): error TS18046: 'err' is of type 'unknown'.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/platform-browser.log
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, committed malformed-pack response reconciliation, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-fix2/pre-session-reconcile-check.log
+✔ crashes during a legacy ready-route recheck consume the same finite budget (17.681465ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 106
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85230.855805
+
+docs/assessments/2026-10-24/evidence/q3-fix2/setup.log
+$ source /workspace/work/quality-bootstrap/session-env.sh
+$ export TMPDIR=/workspace/work/quality-q3-fix2-tmp
+$ npm ci --ignore-scripts --bin-links=false --no-audit --no-fund
+added 238 packages in 5s
+
+Committed package manifests and package-lock.json were not modified by setup.
+
+docs/assessments/2026-10-24/evidence/q3-fix3/browser-activation.log
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-fix3/browser-commandmaps.log
+6:18:48 PM [vite] (client) ✨ new dependencies optimized: react/jsx-dev-runtime
+6:18:48 PM [vite] (client) ✨ optimized dependencies changed. reloading
+{"operation":"history-retry-aba","selection":["342a61b9-13f8-4038-a1e6-b1724386dab0","3ad44803-b954-4203-825e-6c27586d1ffc","342a61b9-13f8-4038-a1e6-b1724386dab0"],"obsoleteResponse":401,"reads":3,"liveSessionStatus":200,"currentHistory":"created"}
+{"operation":"committed-malformed-write","body":"empty","requestId":"f7b99149-566b-4e5b-8dde-d699ef660444","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"724f9ea5-5f1b-4f2d-bdc6-a62a749079f1","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"4e6fb787-1540-46a5-ac1d-530bf10e0425","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"cab7e245-215d-4fd7-bccb-9b0dc4d513fc","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-fix3/browser-platform.log
+{"operation":"uncertain-session-reconciliation-scope","sessionReadCancelled":true,"obsoleteHtml401Released":true,"currentSessionStatus":200,"currentPage":"health"}
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, committed malformed-pack response reconciliation, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-fix3/caddy-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-fix3/caddy-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
+
+docs/assessments/2026-10-24/evidence/q3-fix3/npm-check.log
+✔ crashes during a legacy ready-route recheck consume the same finite budget (18.395471ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 106
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81798.604484
+
+docs/assessments/2026-10-24/evidence/q3-fix3/setup.log
+
+added 238 packages in 6s
+
+docs/assessments/2026-10-24/evidence/q3-fix4/browser-activation.log
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.
+
+docs/assessments/2026-10-24/evidence/q3-fix4/browser-commandmaps.log
+6:37:15 PM [vite] (client) ✨ new dependencies optimized: react/jsx-dev-runtime
+6:37:15 PM [vite] (client) ✨ optimized dependencies changed. reloading
+{"operation":"history-retry-aba","selection":["012c7877-23b0-4c22-83ca-ccf1e4795682","d2f83e92-2d32-4aa8-99f9-e652715c19dd","012c7877-23b0-4c22-83ca-ccf1e4795682"],"obsoleteResponse":401,"reads":3,"liveSessionStatus":200,"currentHistory":"created"}
+{"operation":"committed-malformed-write","body":"empty","requestId":"bcaf692d-f183-444f-9d2d-abe91bff9b43","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"b4979b1a-1f0d-4877-806c-bdc55b10c542","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"ebc91b28-a55e-49e8-8c87-ac8616669ffc","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"49a1549a-6dcb-4dca-891d-1f2cb6de876c","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.
+
+docs/assessments/2026-10-24/evidence/q3-fix4/browser-platform.log
+{"operation":"uncertain-session-reconciliation-scope","sessionReadCancelled":true,"obsoleteHtml401Released":true,"currentSessionStatus":200,"currentPage":"health"}
+{"operation":"explicit-detail-denial","status":403,"deniedDetailReads":1,"disabledSwitches":9,"automaticRetriesAfterDenial":0,"controlsRestoredByFreshScope":true}
+PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, committed malformed-pack response reconciliation, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.
+
+docs/assessments/2026-10-24/evidence/q3-fix4/caddy-contract.log
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).
+
+docs/assessments/2026-10-24/evidence/q3-fix4/caddy-login.log
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).
+
+docs/assessments/2026-10-24/evidence/q3-fix4/npm-check.log
+✔ crashes during a legacy ready-route recheck consume the same finite budget (19.985563ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 106
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 80989.401017
+
+docs/assessments/2026-10-24/evidence/q3-fix4/setup.log
+
+added 238 packages in 6s

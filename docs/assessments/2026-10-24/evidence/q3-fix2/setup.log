@@ -1,0 +1,6 @@
+$ source /workspace/work/quality-bootstrap/session-env.sh
+$ export TMPDIR=/workspace/work/quality-q3-fix2-tmp
+$ npm ci --ignore-scripts --bin-links=false --no-audit --no-fund
+added 238 packages in 5s
+
+Committed package manifests and package-lock.json were not modified by setup.

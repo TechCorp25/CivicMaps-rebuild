@@ -1,0 +1,1 @@
+{"pass":true,"realLoopbackHttp":true,"statuses":[401,403,503],"cases":["safe HTML rejection","stalled response-body deadline preserves received status","caller cancellation","server-committed empty 201 classified uncertain"],"commitCount":1}

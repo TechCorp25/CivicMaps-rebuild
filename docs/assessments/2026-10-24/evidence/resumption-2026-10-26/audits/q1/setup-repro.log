@@ -1,0 +1,6 @@
+
+> civicmaps-local@0.1.0 setup
+> npm ci --ignore-scripts --bin-links=false --no-audit --no-fund
+
+
+added 238 packages in 4s

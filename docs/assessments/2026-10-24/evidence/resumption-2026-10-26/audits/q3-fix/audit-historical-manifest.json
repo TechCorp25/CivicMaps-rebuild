@@ -1,0 +1,132 @@
+[
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "package.json",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/shared/api-transport.mjs",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/shared/api-transport.d.mts",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/commandmaps/src/main.tsx",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/commandmaps/src/Activation.tsx",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/civicmaps-platform/src/api.ts",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/civicmaps-platform/src/main.tsx",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/civicmaps-platform/src/AdminActivation.tsx",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/civicmaps-platform/src/Onboarding.tsx",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/api-transport.test.mjs",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/browser.mjs",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/browser/m1-discovery.mjs",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/browser-commandmaps.mjs",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/browser-platform.mjs",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/execution-ledger.md",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/findings.json",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/assessment-checkpoint.json",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-setup.log",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-check.log",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-api-transport.log",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-commandmaps-browser.log",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-platform-browser.log",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-activation-browser.log",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-controlled-detail-race.json",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-ingress-contract.log",
+    "match": true
+  },
+  {
+    "revision": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-ingress-login.log",
+    "match": true
+  }
+]

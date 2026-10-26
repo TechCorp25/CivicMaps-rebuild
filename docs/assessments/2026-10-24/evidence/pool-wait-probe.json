@@ -1,0 +1,8 @@
+{
+  "max": 10,
+  "borrowed": 10,
+  "waitingCount": 1,
+  "acquiredWithin150ms": false,
+  "connectionTimeoutMillis": 0,
+  "recoveredAfterRelease": true
+}

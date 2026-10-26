@@ -1,0 +1,12 @@
+
+> civicmaps-local@0.1.0 test:commandmaps:browser
+> node tests/browser-commandmaps.mjs
+
+6:46:50 PM [vite] (client) ✨ new dependencies optimized: react/jsx-dev-runtime
+6:46:50 PM [vite] (client) ✨ optimized dependencies changed. reloading
+{"operation":"history-retry-aba","selection":["d23020fe-b008-402e-b22f-e6a1258c66a8","caca5858-6378-456b-93d2-2b3023465be4","d23020fe-b008-402e-b22f-e6a1258c66a8"],"obsoleteResponse":401,"reads":3,"liveSessionStatus":200,"currentHistory":"created"}
+{"operation":"committed-malformed-write","body":"empty","requestId":"6ba1fc88-ab6f-4c76-af31-bc25586930fc","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"306db385-ccdc-4522-965a-f3946a7054aa","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"32a2aba5-db12-420d-a598-97bc98159867","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"27f0a364-e5ff-43f3-a439-47a2fdc5dea0","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.

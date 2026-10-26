@@ -1,0 +1,6 @@
+JSON syntax PASS infrastructure/f05/aws-development.json
+JSON syntax PASS infrastructure/f06/aws-development.json
+Python syntax PASS infrastructure/f06/configure-control-login.py
+Shell syntax PASS infrastructure/f06/bootstrap-runtime.sh
+Shell syntax PASS infrastructure/f06/release-runtime.sh
+Shell syntax PASS infrastructure/f06/verify-backup.sh

@@ -1,0 +1,17 @@
+{"iteration":1,"requestId":"a660bd5b-9d18-4de8-9927-1e70fe0c4c89","selectedReadEvents":[{"operation":"selection","requestId":"a660bd5b-9d18-4de8-9927-1e70fe0c4c89","requestGeneration":3,"loadGeneration":3,"scopeGeneration":0},{"operation":"refresh","requestId":"a660bd5b-9d18-4de8-9927-1e70fe0c4c89","requestGeneration":4,"source":"focus","loadGeneration":4,"scopeGeneration":0},{"operation":"refresh","requestId":"a660bd5b-9d18-4de8-9927-1e70fe0c4c89","requestGeneration":5,"source":"interval","loadGeneration":5,"scopeGeneration":0},{"operation":"refresh","requestId":"a660bd5b-9d18-4de8-9927-1e70fe0c4c89","requestGeneration":6,"source":"focus","loadGeneration":6,"scopeGeneration":0}],"scheduledSources":["focus","interval","focus"],"controlledResponses":[{"ordinal":2,"outcome":"404-denied"},{"ordinal":3,"outcome":"404-denied"},{"ordinal":4,"outcome":"404-denied"},{"ordinal":1,"outcome":"released-stale-read"}],"assertion":"one held stale selection response; three independently issued later refresh reads returned 404","finalState":"Selected request unavailable; stale read did not restore actionable detail"}
+{"iteration":2,"requestId":"fbc34e55-ff7c-476c-b6ab-ba0a13501f61","selectedReadEvents":[{"operation":"selection","requestId":"fbc34e55-ff7c-476c-b6ab-ba0a13501f61","requestGeneration":3,"loadGeneration":3,"scopeGeneration":0},{"operation":"refresh","requestId":"fbc34e55-ff7c-476c-b6ab-ba0a13501f61","requestGeneration":4,"source":"focus","loadGeneration":4,"scopeGeneration":0},{"operation":"refresh","requestId":"fbc34e55-ff7c-476c-b6ab-ba0a13501f61","requestGeneration":5,"source":"interval","loadGeneration":5,"scopeGeneration":0},{"operation":"refresh","requestId":"fbc34e55-ff7c-476c-b6ab-ba0a13501f61","requestGeneration":6,"source":"focus","loadGeneration":6,"scopeGeneration":0}],"scheduledSources":["focus","interval","focus"],"controlledResponses":[{"ordinal":2,"outcome":"404-denied"},{"ordinal":3,"outcome":"404-denied"},{"ordinal":4,"outcome":"404-denied"},{"ordinal":1,"outcome":"released-stale-read"}],"assertion":"one held stale selection response; three independently issued later refresh reads returned 404","finalState":"Selected request unavailable; stale read did not restore actionable detail"}
+/workspace/work/quality-audits/q3-fix3/published/node_modules/playwright/lib/matchers/expect.js:293
+    throw new Error(message);
+          ^
+
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 0
+
+Call Log:
+- Timeout 5000ms exceeded while waiting on the predicate
+    at pollMatcher (/workspace/work/quality-audits/q3-fix3/published/node_modules/playwright/lib/matchers/expect.js:293:11)
+    at async file:///workspace/work/quality-audits/q3-fix3/audit-evidence/repeated-m1.mjs:73:3
+
+Node.js v24.19.0

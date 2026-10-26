@@ -1,0 +1,5 @@
+platform exit 1
+commandmaps exit 0
+activation exit 0
+caddy-contract exit 0
+caddy-login exit 0

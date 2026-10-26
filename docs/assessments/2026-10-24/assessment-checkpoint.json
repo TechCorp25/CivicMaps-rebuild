@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "date": "2026-10-24",
+  "repository": "https://github.com/TechCorp25/CivicMaps-rebuild",
+  "baselineCommit": "346dfd2d74cdd52d88bf9e4b7bd046a500a4c390",
+  "baselineTree": "adeb4903db4d07633c99d7fd10f140f6a244af8b",
+  "branch": "codex/civicmaps-code-quality-assessment-2026-10-24",
+  "assessment": "assessment.md",
+  "plan": "remediation-plan.md",
+  "findings": "findings.json",
+  "scope": "Assessment plus explicitly authorized Q1-Q7 remediation; no merge, deployment, cloud mutation or customer data operations.",
+  "assessmentStatus": "completed_with_explicit_coverage_limits",
+  "remediationStatus": "Q1_Q2_accepted_Q3_follow_up_6_locally_validated_pending_fresh_independent_review",
+  "independentAssessmentStatus": "pass_on_frozen_product_43423d7",
+  "publicationStatus": "draft_PR43_verified_remote_43423d7",
+  "empiricalStatus": "complete_plan_recorded_and_read_back_byte_equal",
+  "nextAction": "Commit exact Q3 follow-up 6 test-fixture candidate; root publishes it for fresh whole-Q3 review; no merge or deployment.",
+  "securityCoverage": {
+    "dependencyAudit": "completed_one_high_advisory",
+    "sourceReview": "completed_with_reported_limits",
+    "codexSecurityDeepScan": "unavailable_missing_coordinator",
+    "liveTesting": "not_performed"
+  },
+  "verification": {
+    "postgres15FullCheck": {
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0
+    },
+    "postgres17Tests": {
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0
+    },
+    "commandmapsBrowser": "initial_PG17_failure_then_PG17_and_PG15_pass",
+    "platformBrowser": "PG17_and_PG15_pass",
+    "activationBrowser": "PG17_and_PG15_pass",
+    "caddyIngress": "pass_loopback_HTTP",
+    "cfnLint": "pass_ap-southeast-2",
+    "ruffBaseline": "three_diagnostics_outside_current_CI",
+    "q2Postgres15FullCheck": {
+      "passed": 104,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q2DatabaseBudgets": "saturation_timeout_cancellation_lock_timeout_connection_recovery_pass",
+    "q2AsyncAuthentication": "legacy_hash_malformed_hash_overload_and_health_burst_pass",
+    "q2OriginalIndependentReview": "changes_required_QA02_two_transient_transport_error_paths",
+    "q2FixTargetedRegressions": {
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q2FixPostgres15FullCheck": {
+      "passed": 105,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q2FixBrowsers": "commandmaps_platform_activation_pass",
+    "q2FixCaddyIngress": "both_loopback_contracts_pass",
+    "q3FullCheck": {
+      "passed": 106,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3Browsers": "commandmaps_platform_activation_pass",
+    "q3CaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUpFullCheck": {
+      "passed": 106,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUpBrowsers": "platform_commandmaps_activation_pass_serially; exact_id_history_filter_trace_retained",
+    "q3FollowUpCaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUp2FullCheck": {
+      "passed": 106,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUp2Browsers": "commandmaps_platform_activation_pass_sequentially; malformed_committed_write_and_history_ABA_traces_retained",
+    "q3FollowUp2CaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUp3FullCheck": {
+      "passed": 106,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUp3Browsers": "platform_commandmaps_activation_passed_sequentially; stale_reconciliation_session_cancelled_and_server_session_remained_200",
+    "q3FollowUp3CaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUp4FullCheck": {
+      "passed": 106,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUp4Browsers": "platform_commandmaps_activation_passed_sequentially; explicit_403_cleared_cached_detail_disabled_all_nine_controls_no_auto_retry_then_fresh_scope_restored",
+    "q3FollowUp4CaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUp5FullCheck": {
+      "passed": 107,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUp5Browsers": "platform_commandmaps_activation_passed_sequentially; normal_HTML_403_and_interrupted_body_403_each_disabled_all_nine_controls_no_auto_retry_then_fresh_scope_restored",
+    "q3FollowUp5CaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUp6FullCheck": {
+      "passed": 107,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUp6Browsers": "platform_commandmaps_activation_passed_sequentially; platform_stale_session_scope_schedule_repeated_three_times_with_handler_settlement_barrier; commandmaps_controlled_refresh_completion_trace",
+    "q3FollowUp6CaddyIngress": "contract_and_login_loopback_pass"
+  },
+  "prohibitedByScope": [
+    "merge",
+    "deployment",
+    "cloud_mutation",
+    "customer_data_operations"
+  ],
+  "empiricalPlanMemoryId": "6adcb100ba781229b953f72c",
+  "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
+  "independentAssessment": {
+    "candidate": "43423d7671468417914dc2d15841f59fd0ede0e8",
+    "tree": "36edf45b17f2c9ea7de023521b5f10ea625a923a",
+    "report": "evidence/independent-review-43423d7.md",
+    "sha256": "2fd259d30450cbf5c532831d717f36e552c5cfc6adcef6d8d68c2e812308526a",
+    "auditor": "GPT-6 Astra",
+    "reasoning": "low",
+    "freshContext": true,
+    "scope": "Assessment/report and proposed remediation plan; does not accept fixes or certify codebase"
+  },
+  "pullRequest": "https://github.com/TechCorp25/CivicMaps-rebuild/pull/43",
+  "runtimeReady": {
+    "environmentFile": "/workspace/.assessment-2026-10-24-pg15/session-env.sh",
+    "database": "dedicated_synthetic_loopback_55440",
+    "migrationsAndSeeds": "passed_on_new_dedicated_database",
+    "evidence": "evidence/development-bootstrap-pg15.log"
+  },
+  "execution": {
+    "ledger": "execution-ledger.md",
+    "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
+    "package": "Q3 deterministic controlled-response test follow-up",
+    "branch": "codex/civicmaps-quality-q3-fix6",
+    "packageBase": "49c2acd0ff3019b37245d45ec4c99ef37c3a353d",
+    "implementationCommit": null,
+    "candidateCommit": null,
+    "localAcceptance": "npm_run_check_107_passed_zero_failed_zero_skipped; three_browser_suites_passed_sequentially; both_Caddy_loopback_checks_passed; stale_session_reconciliation_schedule_repeated_three_times_with_explicit_request_cancellation_and_handler_completion; CommandMAPS_focus_refresh_test_uses_explicit_bounded_completion_trace",
+    "publication": "candidate_pending_root_publication",
+    "independentAssessment": "published_49c2acd_changes_required_test_handler_completion_race; follow_up_6_fresh_whole_Q3_review_pending",
+    "merge": "not_authorised",
+    "deployment": "not_authorised",
+    "evidenceDirectory": "evidence/",
+    "runtimeEnvironment": "/workspace/work/quality-bootstrap/session-env.sh",
+    "acceptedCommit": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
+    "auditorReport": "evidence/q2-independent-accepted/report.md",
+    "auditorReportSha256": "04ad939ca92f2a06a73fb1a9efa4e8fc1f261632f817610c1e579e1b59edf263",
+    "nextAction": "Commit candidate; root publishes exact tree for fresh independent whole-Q3 review",
+    "hostedCI": {
+      "candidate": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
+      "applicationRun": 40159555198,
+      "advisoryRun": 40159555010,
+      "status": "success"
+    },
+    "priorCandidate": {
+      "commit": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+      "independentVerdict": "changes_required",
+      "report": "evidence/q2-independent-original/report.md",
+      "reportSha256": "205c063eef0f32a51fcdb359d470d2e841af3d48214f6b2e7ff1233ee11be088"
+    },
+    "q2AcceptanceReceipt": "fc722d19d26fdad8fc66eb2a0809f49856ca19dd",
+    "q3OriginalCandidate": {
+      "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+      "independentVerdict": "changes_required",
+      "report": "evidence/q3-independent-original/report.md",
+      "reportSha256": "df234cdaa464375989bb9b96cd7691f6a2ea8e3dc72022139705a56d8dfea088"
+    },
+    "q3EvidenceDirectory": "evidence/",
+    "q3FollowUpCandidate": {
+      "commit": "4cafc3f5cbd15047c4d04a092279cfc8ab86a99a",
+      "independentVerdict": "changes_required_two_additional_findings",
+      "report": "evidence/q3-independent-original-current/report.md",
+      "reportSha256": "da081e80e55dd19c2d667ddb5d4e89da81084a3329f2403921f6de0e1a0638a1"
+    },
+    "q3FollowUp2EvidenceDirectory": "evidence/q3-fix2/",
+    "q3FollowUp3Base": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "q3FollowUp3EvidenceDirectory": "evidence/q3-fix3/",
+    "q3FollowUp3OriginalReport": "evidence/q3-independent-original-fix2/report.md",
+    "q3FollowUp3OriginalReportSha256": "be85f7bca2613998bf54e5316d59cd08d375d80f7c970bb31b05e8c839bd6c0e",
+    "q3FollowUp4Base": "44895f86f6d6683d4f0b8e2013848dcec98a6c38",
+    "q3FollowUp4EvidenceDirectory": "evidence/q3-fix4/",
+    "q3FollowUp4OriginalReport": "evidence/q3-independent-original-fix4/report.md",
+    "q3FollowUp4OriginalReportSha256": "25c96fbfb7713dbb90cc5d2f0ecf2d65204d6daf724f3f3dfb5106abac5a7ae1",
+    "q3M1IntermediateRun": "two_iterations_passed_then_iteration_three_missing_refresh_complete; settled_three_passes_after_networkidle_barrier; cause_unresolved_per_original_report",
+    "wipSnapshot": "evidence/resumption-2026-10-26/",
+    "q3FollowUp4PublishedBase": "60bb8c443f99a57d3f7c31f000d06523baccafa2",
+    "q3FollowUp5EvidenceDirectory": "evidence/q3-fix5/",
+    "q3FollowUp5OriginalEvidenceDirectory": "evidence/q3-independent-original-fix4/",
+    "q3FollowUp5Finding": "interrupted 403 body retained HTTP status as ApiTransportError while detail catch accepted only ApiError; cached pack actions stayed enabled",
+    "q3FollowUp5PublishedCandidate": "49c2acd0ff3019b37245d45ec4c99ef37c3a353d",
+    "q3FollowUp5OriginalReport": "evidence/q3-independent-original-fix5/report.md",
+    "q3FollowUp5OriginalReportSha256": "642e1fed9d1d494a070049f0226faaa69fdf0ad1f85d1fb70e81204c12553544",
+    "q3FollowUp6EvidenceDirectory": "evidence/q3-fix6/",
+    "q3FollowUp6OriginalEvidenceDirectory": "evidence/q3-independent-original-fix5/",
+    "q3FollowUp6Scope": "test_fixture_only_no_application_code_changes"
+  }
+}

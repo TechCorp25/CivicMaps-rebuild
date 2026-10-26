@@ -1,4 +1,5 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { isRequestCancelled, requestJson } from '../../shared/api-transport.mjs';
 
 export function Activation() {
   const [target] = useState(() => {
@@ -8,10 +9,12 @@ export function Activation() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
+  const redeemController = useRef<AbortController | null>(null);
   useEffect(() => {
     // The bearer secret stays in component memory, never in a request URL or storage.
     history.replaceState(null, '', location.pathname + location.search + '#activation');
   }, []);
+  useEffect(() => () => redeemController.current?.abort(), []);
   async function redeem(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -21,19 +24,24 @@ export function Activation() {
     }
     setBusy(true);
     setError('');
+    const controller = new AbortController();
+    redeemController.current?.abort();
+    redeemController.current = controller;
     try {
-      const response = await fetch('/api/activation/redeem', {
+      const data = await requestJson<{ email: string }>('/api', '/activation/redeem', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...target, password: form.get('password') }),
+        signal: controller.signal,
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
       setEmail(data.email);
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : 'Activation failed');
+      if (!isRequestCancelled(reason) && redeemController.current === controller)
+        setError(reason instanceof Error ? reason.message : 'Activation failed');
     } finally {
-      setBusy(false);
+      if (redeemController.current === controller) {
+        redeemController.current = null;
+        setBusy(false);
+      }
     }
   }
   const complete =

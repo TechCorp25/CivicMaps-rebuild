@@ -1,0 +1,6 @@
+{"operation":"history-retry-aba","selection":["64f2b845-55bd-4aa2-be30-caa4c373b268","a5fa5cd9-d06d-474c-9c51-7f7d072a8d81","64f2b845-55bd-4aa2-be30-caa4c373b268"],"obsoleteResponse":401,"reads":3,"liveSessionStatus":200,"currentHistory":"created"}
+{"operation":"committed-malformed-write","body":"empty","requestId":"23f18487-77bd-41f1-8198-3c828f8e1cb9","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"989eae66-7275-41d8-9a11-4f3ff2d105ca","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"bdd2156a-aff8-4b30-afe0-4c9e82fa9cc8","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"f128f1b3-0f66-4dfe-a6bb-2f5fddc799cd","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+PASS: Chromium create → assign → reload → officer acknowledge → attend → close; database, audit, cross-scope denial, logout and narrow layout verified.

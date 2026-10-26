@@ -1,0 +1,17 @@
+Command: source /workspace/work/quality-bootstrap/session-env.sh && node tests/browser-commandmaps.mjs
+Execution: overlapped with node tests/browser-platform.mjs. This was not the sequential acceptance run.
+
+A [Error]: expect(locator).toContainText(expected) failed
+Locator: locator('.audit')
+Expected substring: "Synthetic audit unavailable"
+Received string:    "Audit historycreated25/10/26, 3:38 pm"
+Timeout: 5000ms
+Call log:
+  - waiting for locator('.audit')
+    2 × locator resolved to <div class="audit">…</div>
+      - unexpected value "Audit historyLoading history for this request…"
+    7 × locator resolved to <div class="audit">…</div>
+      - unexpected value "Audit historycreated25/10/26, 3:38 pm"
+    at tests/browser.mjs:255:40
+
+This exposed that removing the current-row guard allowed history requests while the selected detail was still unresolved; a later successful read raced the expected synthetic 503. The final implementation waits for the selected detail to be ready, tracks its version, and keeps that version stable across queue filtering. A later sequential CommandMAPS suite passed with the controlled search/history regression.

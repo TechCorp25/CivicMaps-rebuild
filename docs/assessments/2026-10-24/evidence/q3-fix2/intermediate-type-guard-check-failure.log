@@ -1,0 +1,28 @@
+
+> civicmaps-local@0.1.0 check
+> npm run lint && npm run format:check && npm run typecheck && npm run build && npm test
+
+
+> civicmaps-local@0.1.0 lint
+> node node_modules/eslint/bin/eslint.js . --max-warnings=0
+
+
+> civicmaps-local@0.1.0 format:check
+> node node_modules/prettier/bin/prettier.cjs --check "apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}" "apps/shared/**/*.{mjs,mts}" "{services/api,scripts,tests}/**/*.mjs" "eslint.config.mjs" ".prettierrc.json" "package.json" ".github/workflows/*.yml"
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> civicmaps-local@0.1.0 typecheck
+> npm --prefix apps/commandmaps run typecheck && npm --prefix apps/civicmaps-platform run typecheck
+
+
+> @civicmaps/commandmaps@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+
+> @civicmaps/civicmaps-platform@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+src/AdminActivation.tsx(91,18): error TS18046: 'reason' is of type 'unknown'.
+src/main.tsx(227,22): error TS18046: 'err' is of type 'unknown'.

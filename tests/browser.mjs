@@ -1,4 +1,4 @@
-/* global document, innerWidth -- Executed in the browser by page.evaluate. */
+/* global document, innerWidth, window -- Executed in the browser by page.evaluate. */
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
@@ -13,6 +13,14 @@ const origin = process.env.CIVICMAPS_COMMANDMAPS_ORIGIN ?? 'http://127.0.0.1:517
 const password = process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!';
 async function login(page, email) {
   page.on('pageerror', (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    window.__CIVICMAPS_TEST_EVENTS__ = [];
+    window.__CIVICMAPS_TEST_TRACE__ = (event) => window.__CIVICMAPS_TEST_EVENTS__.push(event);
+    window.__CIVICMAPS_TEST_REFRESH_SCHEDULER__ = (refresh) => {
+      window.__CIVICMAPS_TEST_FIRE_REFRESH__ = refresh;
+      return () => delete window.__CIVICMAPS_TEST_FIRE_REFRESH__;
+    };
+  });
   await page.goto(origin);
   await page.getByLabel('Email', { exact: true }).fill(email);
   await page.getByLabel('Password', { exact: true }).fill(password);
@@ -89,6 +97,53 @@ try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await dispatcher.newPage();
   await login(page, 'dispatch@alpha.example');
+  const transportFixture = await createSyntheticRequest(page, `Transport recovery ${Date.now()}`);
+  const transportRow = page.locator(`[data-request-id="${transportFixture.id}"]`);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(transportRow).toBeVisible();
+  const queuePath = /\/api\/requests\?/;
+  const failQueueWithHtml = (route) =>
+    route.fulfill({
+      status: 503,
+      contentType: 'text/html',
+      body: '<html><body>private upstream diagnostic</body></html>',
+    });
+  await page.route(queuePath, failQueueWithHtml);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('The operation could not be completed');
+  await expect(page.getByRole('alert')).not.toContainText('private upstream diagnostic');
+  await page.unroute(queuePath, failQueueWithHtml);
+  await page.getByRole('button', { name: 'Retry refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(transportRow).toBeVisible();
+
+  const failQueueOffline = (route) => route.abort('failed');
+  await page.route(queuePath, failQueueOffline);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('The service could not be reached');
+  await page.unroute(queuePath, failQueueOffline);
+  await page.getByRole('button', { name: 'Retry refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(transportRow).toBeVisible();
+
+  let releaseTimedRequest;
+  const timedRequestGate = new Promise((resolve) => {
+    releaseTimedRequest = resolve;
+  });
+  const holdQueueResponse = async (route) => {
+    await timedRequestGate;
+    await route.continue().catch(() => {});
+  };
+  await page.route(queuePath, holdQueueResponse);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('The request timed out', { timeout: 12000 });
+  await expect(page.getByRole('button', { name: 'Retry refresh', exact: true })).toBeEnabled();
+  releaseTimedRequest();
+  await page.unroute(queuePath, holdQueueResponse);
+  await page.getByRole('button', { name: 'Retry refresh', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(transportRow).toBeVisible();
+
   await page.route('**/api/requests/*/audit', async (route) => {
     const response = await route.fetch();
     const history = await response.json();
@@ -128,9 +183,9 @@ try {
   await page.getByRole('button', { name: 'Create request', exact: true }).click();
   await expect(page.getByRole('dialog').getByRole('alert')).toContainText('Synthetic save failure');
   await expect(page.getByRole('dialog')).toContainText(address);
-  await expect(page.getByRole('button', { name: 'Create request', exact: true })).toBeEnabled();
+  await expect(page.getByRole('button', { name: 'Retry same request', exact: true })).toBeEnabled();
   await page.unroute('**/api/requests');
-  const created = await save(page, 'Create request', 201);
+  const created = await save(page, 'Retry same request', 201);
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
   await expect(page.locator('.detail')).toContainText(address);
@@ -203,6 +258,69 @@ try {
   await page.locator(`[data-request-id="${historyB.id}"] .request-link`).click();
   await expect(page.locator('.audit')).toContainText(
     'No history has been recorded for this request',
+  );
+  await page.unroute('**/api/requests/*/audit');
+
+  const abaA = await createSyntheticRequest(page, `F11E history ABA A ${Date.now()}`);
+  const abaB = await createSyntheticRequest(page, `F11E history ABA B ${Date.now()}`);
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.locator(`[data-request-id="${abaA.id}"]`)).toBeVisible();
+  await expect(page.locator(`[data-request-id="${abaB.id}"]`)).toBeVisible();
+  let abaReads = 0;
+  let releaseObsolete401;
+  const obsolete401 = new Promise((resolve) => {
+    releaseObsolete401 = resolve;
+  });
+  let obsoleteRouteStarted;
+  const obsoleteStarted = new Promise((resolve) => {
+    obsoleteRouteStarted = resolve;
+  });
+  await page.route('**/api/requests/*/audit', async (route) => {
+    if (route.request().url().includes(`${abaA.id}/audit`)) {
+      abaReads++;
+      if (abaReads === 1) {
+        await route.fulfill({
+          status: 503,
+          contentType: 'application/json',
+          body: '{"error":"temporary"}',
+        });
+      } else if (abaReads === 2) {
+        obsoleteRouteStarted();
+        await obsolete401;
+        try {
+          await route.fulfill({
+            status: 401,
+            contentType: 'text/html',
+            body: '<html>expired</html>',
+          });
+        } catch {
+          // Selection changes abort this obsolete retry before its delayed response is released.
+        }
+      } else await route.continue();
+    } else await route.continue();
+  });
+  await page.locator(`[data-request-id="${abaA.id}"] .request-link`).click();
+  await expect(page.getByRole('button', { name: 'Retry history' })).toBeVisible();
+  await page.getByRole('button', { name: 'Retry history' }).click();
+  await obsoleteStarted;
+  await page.locator(`[data-request-id="${abaB.id}"] .request-link`).click();
+  await page.locator(`[data-request-id="${abaA.id}"] .request-link`).click();
+  await expect(page.locator('.audit')).toContainText('created');
+  expect(abaReads).toBe(3);
+  releaseObsolete401();
+  await expect(page.getByRole('heading', { name: 'Service requests', exact: true })).toBeVisible();
+  const abaSessionStatus = (await page.request.get(`${origin}/api/auth/session`)).status();
+  expect(abaSessionStatus).toBe(200);
+  await expect(page.locator('.audit')).toContainText('created');
+  console.log(
+    JSON.stringify({
+      operation: 'history-retry-aba',
+      selection: [abaA.id, abaB.id, abaA.id],
+      obsoleteResponse: 401,
+      reads: abaReads,
+      liveSessionStatus: abaSessionStatus,
+      currentHistory: 'created',
+    }),
   );
   await page.unroute('**/api/requests/*/audit');
 
@@ -337,6 +455,52 @@ try {
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await page.unroute(`**/api/requests/${uncertain.id}/actions`, uncertainWrite);
 
+  for (const [index, body] of ['', '{"unfinished":', '<html>upstream</html>'].entries()) {
+    const malformed = await createSyntheticRequest(
+      page,
+      `F11E malformed success ${index} ${Date.now()}`,
+    );
+    await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+    await page.locator(`[data-request-id="${malformed.id}"] .request-link`).click();
+    await expect(page.locator('.detail')).toContainText('Server-confirmed version 1');
+    await page
+      .getByRole('combobox', { name: /^Assign officer/ })
+      .selectOption('00000000-0000-4000-8000-000000000002');
+    let writes = 0;
+    const committedMalformed = async (route) => {
+      writes++;
+      const committed = await route.fetch();
+      expect(committed.status()).toBe(200);
+      await route.fulfill({ status: 200, contentType: 'text/html', body });
+    };
+    await page.route(`**/api/requests/${malformed.id}/actions`, committedMalformed);
+    await page.getByRole('button', { name: 'Assign request' }).click();
+    await expect(page.getByRole('button', { name: 'Assign request' })).toBeDisabled();
+    await expect(page.locator('.detail')).toContainText('Check the server state and history');
+    expect(writes).toBe(1);
+    const committedRow = (
+      await database.query('SELECT version FROM service_requests WHERE id=$1', [malformed.id])
+    ).rows[0];
+    expect(committedRow.version).toBe(2);
+    await page.getByRole('button', { name: 'Check server state and history' }).click();
+    await expect(page.locator('.detail')).toContainText('Server-confirmed version 2');
+    await expect(page.locator('.audit')).toContainText('assign');
+    expect(writes).toBe(1);
+    console.log(
+      JSON.stringify({
+        operation: 'committed-malformed-write',
+        body: index === 0 ? 'empty' : index === 1 ? 'malformed-json' : 'html',
+        requestId: malformed.id,
+        serverVersion: committedRow.version,
+        writes,
+        stateChecked: 'history and detail independently refreshed',
+      }),
+    );
+    await page.unroute(`**/api/requests/${malformed.id}/actions`, committedMalformed);
+  }
+  await page.locator(`[data-request-id="${uncertain.id}"] .request-link`).click();
+  await expect(page.locator('.detail')).toContainText('Server-confirmed version 2');
+
   const independent = await browser.newPage();
   // Use an independently owned principal so the separate cookie does not replace
   // the primary browser's single council-bound session.
@@ -427,6 +591,8 @@ try {
   await page.getByRole('button', { name: 'Assign request' }).click();
   expect((await successfulB).status()).toBe(200);
   await page.locator(`[data-request-id="${recoverA.id}"] .request-link`).click();
+  if ((await page.getByRole('button', { name: 'Retry the same action' }).count()) === 0)
+    await page.getByRole('button', { name: 'Check server state and history' }).click();
   await expect(page.getByRole('button', { name: 'Retry the same action' })).toBeVisible();
   let replayedRetryKey;
   const deliberateRetry = page.waitForRequest(
@@ -544,6 +710,27 @@ try {
   await database.query(
     "UPDATE platform_municipalities SET packs=packs-'parking-services' WHERE id='20000000-0000-4000-8000-000000000001'",
   );
+  // M1 tests install a controlled scheduler instead of the production interval;
+  // explicitly trigger the focus refresh after this database-side pack change.
+  const completedFocusRefreshes = await page.evaluate(
+    () =>
+      window.__CIVICMAPS_TEST_EVENTS__.filter(
+        (event) => event.operation === 'refresh-complete' && event.source === 'focus',
+      ).length,
+  );
+  await page.evaluate(() => window.__CIVICMAPS_TEST_FIRE_REFRESH__('focus'));
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          () =>
+            window.__CIVICMAPS_TEST_EVENTS__.filter(
+              (event) => event.operation === 'refresh-complete' && event.source === 'focus',
+            ).length,
+        ),
+      { timeout: 5000 },
+    )
+    .toBe(completedFocusRefreshes + 1);
   // An already-open client refreshes its server capabilities without a page reload.
   await expect(
     page.getByRole('status').filter({ hasText: 'This branch pack is disabled' }),

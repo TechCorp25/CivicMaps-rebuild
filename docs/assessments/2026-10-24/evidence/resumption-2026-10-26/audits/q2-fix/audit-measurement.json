@@ -1,0 +1,188 @@
+{
+  "kind": "synthetic-q2-baseline-workload-measurement",
+  "date": "2026-10-25T03:50:37.174Z",
+  "node": "v24.19.0",
+  "database": "synthetic only; no writes",
+  "query": "SELECT count(*)::integer AS rows FROM service_requests",
+  "databaseRunsPerConcurrency": 50,
+  "databasePoolMax": 10,
+  "scrypt": "node:crypto default cost, 64-byte output, synthetic password and salt",
+  "libuvThreadpoolSize": "default (4)",
+  "scryptBatchesPerConcurrency": 5,
+  "databaseResults": {
+    "1": {
+      "samples": 50,
+      "medianMs": 0.299,
+      "p95Ms": 3.498,
+      "maxMs": 9.92
+    },
+    "3": {
+      "samples": 50,
+      "medianMs": 0.453,
+      "p95Ms": 5.82,
+      "maxMs": 19.136
+    },
+    "5": {
+      "samples": 50,
+      "medianMs": 0.814,
+      "p95Ms": 4.054,
+      "maxMs": 10.485
+    },
+    "10": {
+      "samples": 50,
+      "medianMs": 1.085,
+      "p95Ms": 15.811,
+      "maxMs": 25.977
+    }
+  },
+  "scryptResults": {
+    "1": {
+      "batches": [
+        {
+          "batchWallMs": 66.576,
+          "operationMedianMs": 66.133,
+          "operationP95Ms": 66.133,
+          "operationMaxMs": 66.133
+        },
+        {
+          "batchWallMs": 70.802,
+          "operationMedianMs": 70.067,
+          "operationP95Ms": 70.067,
+          "operationMaxMs": 70.067
+        },
+        {
+          "batchWallMs": 79.441,
+          "operationMedianMs": 79.157,
+          "operationP95Ms": 79.157,
+          "operationMaxMs": 79.157
+        },
+        {
+          "batchWallMs": 65.942,
+          "operationMedianMs": 65.886,
+          "operationP95Ms": 65.886,
+          "operationMaxMs": 65.886
+        },
+        {
+          "batchWallMs": 89.291,
+          "operationMedianMs": 89.152,
+          "operationP95Ms": 89.152,
+          "operationMaxMs": 89.152
+        }
+      ],
+      "peakEventLoopTimerDelayMs": 1.503,
+      "maxBatchWallMs": 89.291,
+      "maxOperationMs": 89.152
+    },
+    "2": {
+      "batches": [
+        {
+          "batchWallMs": 121.835,
+          "operationMedianMs": 120.35,
+          "operationP95Ms": 121.522,
+          "operationMaxMs": 121.522
+        },
+        {
+          "batchWallMs": 106.787,
+          "operationMedianMs": 101.705,
+          "operationP95Ms": 106.475,
+          "operationMaxMs": 106.475
+        },
+        {
+          "batchWallMs": 122.65,
+          "operationMedianMs": 121.739,
+          "operationP95Ms": 122.583,
+          "operationMaxMs": 122.583
+        },
+        {
+          "batchWallMs": 199.733,
+          "operationMedianMs": 193.017,
+          "operationP95Ms": 199.522,
+          "operationMaxMs": 199.522
+        },
+        {
+          "batchWallMs": 273.342,
+          "operationMedianMs": 269.669,
+          "operationP95Ms": 273.104,
+          "operationMaxMs": 273.104
+        }
+      ],
+      "peakEventLoopTimerDelayMs": 1.439,
+      "maxBatchWallMs": 273.342,
+      "maxOperationMs": 273.104
+    },
+    "4": {
+      "batches": [
+        {
+          "batchWallMs": 209.631,
+          "operationMedianMs": 182.29,
+          "operationP95Ms": 209.23,
+          "operationMaxMs": 209.23
+        },
+        {
+          "batchWallMs": 240.857,
+          "operationMedianMs": 204.431,
+          "operationP95Ms": 235.142,
+          "operationMaxMs": 235.142
+        },
+        {
+          "batchWallMs": 205.749,
+          "operationMedianMs": 143.61,
+          "operationP95Ms": 198.972,
+          "operationMaxMs": 198.972
+        },
+        {
+          "batchWallMs": 264.5,
+          "operationMedianMs": 231.066,
+          "operationP95Ms": 263.811,
+          "operationMaxMs": 263.811
+        },
+        {
+          "batchWallMs": 249.904,
+          "operationMedianMs": 92.739,
+          "operationP95Ms": 248.477,
+          "operationMaxMs": 248.477
+        }
+      ],
+      "peakEventLoopTimerDelayMs": 8.366,
+      "maxBatchWallMs": 264.5,
+      "maxOperationMs": 263.811
+    },
+    "8": {
+      "batches": [
+        {
+          "batchWallMs": 629.622,
+          "operationMedianMs": 426.94,
+          "operationP95Ms": 607.34,
+          "operationMaxMs": 607.34
+        },
+        {
+          "batchWallMs": 438.003,
+          "operationMedianMs": 263.554,
+          "operationP95Ms": 432.197,
+          "operationMaxMs": 432.197
+        },
+        {
+          "batchWallMs": 409.59,
+          "operationMedianMs": 279.34,
+          "operationP95Ms": 405.467,
+          "operationMaxMs": 405.467
+        },
+        {
+          "batchWallMs": 421.712,
+          "operationMedianMs": 326.636,
+          "operationP95Ms": 421.062,
+          "operationMaxMs": 421.062
+        },
+        {
+          "batchWallMs": 518.495,
+          "operationMedianMs": 405.798,
+          "operationP95Ms": 514.087,
+          "operationMaxMs": 514.087
+        }
+      ],
+      "peakEventLoopTimerDelayMs": 25.074,
+      "maxBatchWallMs": 629.622,
+      "maxOperationMs": 607.34
+    }
+  }
+}

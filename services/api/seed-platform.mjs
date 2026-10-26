@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
-import { pool, transaction } from './database.mjs';
+import { maintenancePool, transaction } from './database.mjs';
 import { hashPassword } from './passwords.mjs';
 const fixtures = JSON.parse(
   await readFile(
@@ -13,7 +13,7 @@ try {
   await transaction(async (client) => {
     await client.query(
       `INSERT INTO platform_operators(id,email,name,password_hash) VALUES ($1,$2,$3,$4) ON CONFLICT (email) DO NOTHING`,
-      [randomUUID(), 'operator@platform.example', 'S. Ibrahim', hashPassword(password)],
+      [randomUUID(), 'operator@platform.example', 'S. Ibrahim', await hashPassword(password)],
     );
     for (const fixture of fixtures) {
       const result = await client.query(
@@ -32,7 +32,7 @@ try {
       const id = result.rows[0].id;
       await client.query(
         'INSERT INTO platform_first_admins(municipality_id,first_name,last_name,email,password_hash) VALUES ($1,$2,$3,$4,$5)',
-        [id, fixture.firstName, fixture.lastName, fixture.email, hashPassword(password)],
+        [id, fixture.firstName, fixture.lastName, fixture.email, await hashPassword(password)],
       );
       await client.query(
         `INSERT INTO platform_metrics(municipality_id,officers_online,officers_today,code21_7d,health,signal,degraded_since)
@@ -52,10 +52,10 @@ try {
         [id, 'parks-gardens', fixture.workload],
       );
     }
-  });
+  }, maintenancePool);
   console.log(
     'Synthetic platform operator, municipalities and metric snapshots seeded; existing configuration preserved',
   );
 } finally {
-  await pool.end();
+  await maintenancePool.end();
 }

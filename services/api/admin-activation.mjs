@@ -117,6 +117,7 @@ export function redemptionRoute(app, body) {
       400,
       'Choose a password between 12 and 128 characters',
     );
+    const passwordHash = await hashPassword(data.password);
     const result = await transaction(
       async (client) =>
         (
@@ -124,7 +125,7 @@ export function redemptionRoute(app, body) {
             data.municipalityId,
             data.bindingId,
             digest(data.token),
-            hashPassword(data.password),
+            passwordHash,
             req.serviceRoute?.id ?? null,
           ])
         ).rows[0].data,

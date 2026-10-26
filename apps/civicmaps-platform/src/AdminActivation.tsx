@@ -1,5 +1,10 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { api, ApiError } from './api';
+import { api } from './api';
+import {
+  getHttpStatus,
+  isRequestCancelled,
+  isUncertainWriteError,
+} from '../../shared/api-transport.mjs';
 
 type Status = {
   state: string;
@@ -10,10 +15,12 @@ type Status = {
 export function AdminActivation({
   id,
   csrf,
+  signal,
   onError,
 }: {
   id: string;
   csrf: string;
+  signal: AbortSignal;
   onError: (error: unknown) => void;
 }) {
   const [status, setStatus] = useState<Status | null>(null);
@@ -29,19 +36,24 @@ export function AdminActivation({
   }, []);
   useEffect(() => {
     const controller = new AbortController();
+    const abort = () => controller.abort();
+    signal.addEventListener('abort', abort, { once: true });
     api<Status>(`/municipalities/${id}/activation`, { signal: controller.signal })
       .then((value) => {
         if (!controller.signal.aborted) setStatus(value);
       })
       .catch((reason) => {
-        if (!controller.signal.aborted) {
+        if (!controller.signal.aborted && !isRequestCancelled(reason)) {
           setStatus(null);
           setError(reason.message);
-          if (reason instanceof ApiError && reason.status === 401) onError(reason);
+          if (getHttpStatus(reason) === 401) onError(reason);
         }
       });
-    return () => controller.abort();
-  }, [id, refresh, onError]);
+    return () => {
+      signal.removeEventListener('abort', abort);
+      controller.abort();
+    };
+  }, [id, refresh, onError, signal]);
   async function submit(event: FormEvent<HTMLFormElement>, disable = false) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -53,6 +65,9 @@ export function AdminActivation({
     setLink('');
     setError('');
     setBusy(true);
+    const controller = new AbortController();
+    const abort = () => controller.abort();
+    signal.addEventListener('abort', abort, { once: true });
     try {
       const result = await api<{ activationUrl?: string }>(
         `/municipalities/${id}/activation${disable ? '/disable' : ''}`,
@@ -68,14 +83,25 @@ export function AdminActivation({
                   recipientVerified: form.get('verified') === 'on',
                 },
           ),
+          signal: controller.signal,
         },
       );
       if (result.activationUrl) setLink(result.activationUrl);
       setRefresh((value) => value + 1);
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : 'Activation action failed');
-      if (reason instanceof ApiError && reason.status === 401) onError(reason);
+      if (!isRequestCancelled(reason)) {
+        setError(
+          isUncertainWriteError(reason)
+            ? `${reason.message} Activation status is being refreshed; verify the recipient and status before issuing another link.`
+            : reason instanceof Error
+              ? reason.message
+              : 'Activation action failed',
+        );
+        if (isUncertainWriteError(reason)) setRefresh((value) => value + 1);
+        if (getHttpStatus(reason) === 401) onError(reason);
+      }
     } finally {
+      signal.removeEventListener('abort', abort);
       setBusy(false);
     }
   }

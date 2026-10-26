@@ -14,7 +14,6 @@ try {
     server: {
       host: '127.0.0.1',
       port: 0,
-      strictPort: true,
       fs: { allow: [new URL('../', import.meta.url).pathname] },
       proxy: { '/api': environment.origin },
     },

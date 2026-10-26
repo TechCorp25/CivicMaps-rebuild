@@ -1,0 +1,7 @@
+{
+  "requestedStreet": "Requested Street",
+  "selectedStreet": "Wrong Street",
+  "distanceMetres": 1.1119492660084478,
+  "passesDefaultDistanceGuard": true,
+  "dependencies": "Real Shapely and Rtree, original module, no provider calls"
+}

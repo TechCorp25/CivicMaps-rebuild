@@ -1,0 +1,8 @@
+{
+  "memoryId": "6adcb100ba781229b953f72c",
+  "version": "1.0.0",
+  "field": "data.fullDocument",
+  "readback": "complete_text_equals_canonical_plan",
+  "sha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
+  "authorType": "agent"
+}

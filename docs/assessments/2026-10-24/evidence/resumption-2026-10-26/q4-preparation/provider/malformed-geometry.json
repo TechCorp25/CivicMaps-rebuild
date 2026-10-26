@@ -1,0 +1,32 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "bad-coordinates",
+      "properties": {
+        "fixture_id": "bad-coordinates",
+        "seg_descr": "Bad Geometry"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.96,
+              -37.81
+            ],
+            [
+              144.961,
+              -37.81
+            ],
+            [
+              144.96,
+              -37.81
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

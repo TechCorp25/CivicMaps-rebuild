@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import {
   api,
-  ApiError,
   date,
   number,
   type Actor,
@@ -34,6 +33,11 @@ import { AdminActivation } from './AdminActivation';
 import { RoutingStatus } from './RoutingStatus';
 import './tokens.css';
 import './styles.css';
+import {
+  getHttpStatus,
+  isRequestCancelled,
+  isUncertainWriteError,
+} from '../../shared/api-transport.mjs';
 
 type Page = 'municipalities' | 'packs' | 'health' | 'onboarding';
 type Route = { page: Page; id: string | null };
@@ -59,6 +63,12 @@ function App() {
   const [detailRefresh, setDetailRefresh] = useState(0);
   const [detailError, setDetailError] = useState('');
   const detailScope = useRef(0);
+  const scopeController = useRef(new AbortController());
+  const advanceScope = () => {
+    detailScope.current += 1;
+    scopeController.current.abort();
+    scopeController.current = new AbortController();
+  };
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [search, setSearch] = useState('');
@@ -71,13 +81,16 @@ function App() {
   const [confirmation, setConfirmation] = useState<string | null>(null);
   const [provisioned, setProvisioned] = useState<ProvisionResult | null>(null);
   const retry = useRef<{ payload: string; key: string } | null>(null);
+  const loginController = useRef<AbortController | null>(null);
   const content = useRef<HTMLElement>(null);
   const current = municipalities.find((m) => m.id === route.id);
   function navigate(page: Page, id: string | null = null) {
     location.hash = `${page}${id ? `/${id}` : ''}`;
   }
   const clearSession = useCallback(() => {
-    detailScope.current += 1;
+    loginController.current?.abort();
+    advanceScope();
+    setBusy(false);
     setActor(null);
     setCsrf('');
     setMunicipalities([]);
@@ -90,13 +103,14 @@ function App() {
   const fail = useCallback(
     (err: unknown) => {
       setError(err instanceof Error ? err.message : 'The operation could not be completed');
-      if (err instanceof ApiError && err.status === 401) clearSession();
+      if (getHttpStatus(err) === 401) clearSession();
     },
     [clearSession],
   );
   useEffect(() => {
     let active = true;
-    api<{ actor: Actor; csrfToken: string }>('/auth/session')
+    const controller = new AbortController();
+    api<{ actor: Actor; csrfToken: string }>('/auth/session', { signal: controller.signal })
       .then((session) => {
         if (active) {
           setActor(session.actor);
@@ -104,19 +118,22 @@ function App() {
         }
       })
       .catch((err) => {
-        if (active && err.status !== 401) setError(err.message);
+        if (active && !isRequestCancelled(err) && getHttpStatus(err) !== 401) setError(err.message);
       })
       .finally(() => {
         if (active) setReady(true);
       });
     return () => {
       active = false;
+      controller.abort();
     };
   }, []);
   useEffect(() => {
     function change() {
-      detailScope.current += 1;
+      loginController.current?.abort();
+      advanceScope();
       setRoute(readRoute());
+      setBusy(false);
       setDetail(null);
       setDetailError('');
       setError('');
@@ -127,15 +144,20 @@ function App() {
     addEventListener('hashchange', change);
     return () => removeEventListener('hashchange', change);
   }, []);
+  useEffect(() => () => loginController.current?.abort(), []);
   useEffect(() => {
     content.current?.focus();
   }, [route.page, route.id]);
-  async function load() {
+  async function load(
+    expectedScope = detailScope.current,
+    signal = scopeController.current.signal,
+  ) {
     const result = await api<{
       municipalities: Municipality[];
       domainPacks: string[];
       packCatalogue: PackOption[];
-    }>('/municipalities');
+    }>('/municipalities', { signal });
+    if (expectedScope !== detailScope.current || signal.aborted) return;
     setMunicipalities(result.municipalities);
     setCatalogue(result.packCatalogue);
     setLoaded(true);
@@ -169,7 +191,7 @@ function App() {
     async function refresh() {
       try {
         const result = await api<Detail>(`/municipalities/${route.id}`, {
-          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
+          signal: controller.signal,
         });
         if (!controller.signal.aborted) {
           setDetail(result);
@@ -183,9 +205,19 @@ function App() {
           );
         }
       } catch (err) {
+        if (isRequestCancelled(err)) return;
         if (!controller.signal.aborted) {
           setDetailError(err instanceof Error ? err.message : 'Status refresh unavailable');
-          if (err instanceof ApiError && err.status === 401) fail(err);
+          if (getHttpStatus(err) === 401) {
+            setDetail(null);
+            fail(err);
+            return;
+          }
+          if ([403, 404].includes(getHttpStatus(err) ?? 0)) {
+            setDetail(null);
+            setConfirmation(null);
+            return;
+          }
           timer = setTimeout(refresh, 15000);
         }
       }
@@ -198,16 +230,44 @@ function App() {
     // Page changes clear detail even when the municipality ID stays the same (F02).
   }, [actor, route.page, route.id, current?.version, detailRefresh, fail]);
   async function perform(work: () => Promise<void>) {
+    const expectedScope = detailScope.current;
+    const scopeSignal = scopeController.current.signal;
+    const isCurrentScope = () => expectedScope === detailScope.current && !scopeSignal.aborted;
     setBusy(true);
     setError('');
     setNotice('');
     try {
       await work();
     } catch (err) {
+      if (isRequestCancelled(err) || !isCurrentScope()) return;
       fail(err);
-      if (err instanceof ApiError && err.status === 409) await load().catch(fail);
+      if (isUncertainWriteError(err)) {
+        setNotice(`${err.message} Refreshing the server state without replaying the write.`);
+        try {
+          const session = await api<{ actor: Actor; csrfToken: string }>('/auth/session', {
+            signal: scopeSignal,
+          });
+          if (!isCurrentScope()) return;
+          setActor(session.actor);
+          setCsrf(session.csrfToken);
+        } catch (sessionError) {
+          if (!isCurrentScope() || isRequestCancelled(sessionError)) return;
+          if (getHttpStatus(sessionError) === 401) {
+            clearSession();
+            return;
+          }
+        }
+        if (!isCurrentScope()) return;
+        await load(expectedScope, scopeSignal).catch(() => {});
+        if (!isCurrentScope()) return;
+        if (route.id) setDetailRefresh((value) => value + 1);
+      }
+      if (getHttpStatus(err) === 409 && isCurrentScope())
+        await load(expectedScope, scopeSignal).catch((loadError) => {
+          if (isCurrentScope()) fail(loadError);
+        });
     } finally {
-      setBusy(false);
+      if (isCurrentScope()) setBusy(false);
     }
   }
   async function mutate<T>(path: string, data: object) {
@@ -217,6 +277,7 @@ function App() {
       method: 'POST',
       headers: { 'x-csrf-token': csrf, 'Idempotency-Key': retry.current.key },
       body: JSON.stringify(data),
+      signal: scopeController.current.signal,
     });
     retry.current = null;
     return result;
@@ -224,33 +285,46 @@ function App() {
   function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const controller = new AbortController();
+    loginController.current?.abort();
+    loginController.current = controller;
     void perform(async () => {
       const session = await api<{ actor: Actor; csrfToken: string }>('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email: data.get('email'), password: data.get('password') }),
+        signal: controller.signal,
       });
       setActor(session.actor);
       setCsrf(session.csrfToken);
+    }).finally(() => {
+      if (loginController.current === controller) loginController.current = null;
     });
   }
   function register(data: Input) {
     void perform(async () => {
+      const expectedScope = detailScope.current;
+      const scopeSignal = scopeController.current.signal;
       const result = await mutate<ProvisionResult>('/municipalities', data);
+      if (expectedScope !== detailScope.current || scopeSignal.aborted) return;
       setProvisioned(result);
-      await load();
+      await load(expectedScope, scopeSignal);
     });
   }
   function toggle(pack: string, enabled: boolean) {
     if (!current) return;
     void perform(async () => {
+      const expectedScope = detailScope.current;
+      const scopeSignal = scopeController.current.signal;
       await mutate(`/municipalities/${current.id}/packs`, {
         pack,
         enabled,
         version: current.version,
         confirmed: !enabled,
       });
+      if (expectedScope !== detailScope.current || scopeSignal.aborted) return;
       setConfirmation(null);
-      await load();
+      await load(expectedScope, scopeSignal);
+      if (expectedScope !== detailScope.current || scopeSignal.aborted) return;
       setNotice(
         `${packLabel(pack)} ${enabled ? 'enabled' : 'disabled'}. Configuration saved; existing records retained.`,
       );
@@ -266,16 +340,17 @@ function App() {
       return;
     }
     const scope = detailScope.current;
+    const scopeSignal = scopeController.current.signal;
     void perform(async () => {
       try {
         if (detail?.job)
           await mutate(`/municipalities/${current.id}/jobs/${detail.job.id}/actions`, { action });
       } catch (err) {
         // A completed mutation may belong to a council or session that has been left.
-        if (scope !== detailScope.current) return;
+        if (scope !== detailScope.current || scopeSignal.aborted) return;
         throw err;
       }
-      if (scope !== detailScope.current) return;
+      if (scope !== detailScope.current || scopeSignal.aborted) return;
       setDetailRefresh((value) => value + 1);
       setNotice(`Job ${action} requested. Completed steps are retained.`);
     });
@@ -578,7 +653,13 @@ function App() {
                 </section>
               )}
               {route.page === 'municipalities' && (
-                <AdminActivation key={current.id} id={current.id} csrf={csrf} onError={fail} />
+                <AdminActivation
+                  key={current.id}
+                  id={current.id}
+                  csrf={csrf}
+                  signal={scopeController.current.signal}
+                  onError={fail}
+                />
               )}
               {detail && route.page === 'municipalities' && (
                 <ProvisioningStatus
@@ -596,11 +677,12 @@ function App() {
                   onRefresh={() => refreshJob()}
                   onAction={(item, action) => {
                     const scope = detailScope.current;
+                    const scopeSignal = scopeController.current.signal;
                     void perform(async () => {
                       await mutate(`/municipalities/${current.id}/routes/${item.id}/${action}`, {
                         version: item.version,
                       });
-                      if (scope !== detailScope.current) return;
+                      if (scope !== detailScope.current || scopeSignal.aborted) return;
                       setDetailRefresh((v) => v + 1);
                       setNotice(`Route ${action} requested. Data is retained.`);
                     });

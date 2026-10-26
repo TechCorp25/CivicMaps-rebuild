@@ -1,4 +1,5 @@
-import { mkdir } from 'node:fs/promises';
+/* global window -- Executed in the browser by page.evaluate. */
+import { mkdir, writeFile } from 'node:fs/promises';
 import { verifyDetailDuringPagination } from './selected-detail-pagination.mjs';
 
 export async function verifyM1Discovery(page, expect) {
@@ -128,6 +129,10 @@ export async function verifyM1Discovery(page, expect) {
   await search.fill('Queue active');
   await expect(rows).toHaveCount(25);
   let detailReads = 0;
+  const targetRow = page.locator('.request-table tbody tr').nth(1);
+  const targetId = await targetRow.getAttribute('data-request-id');
+  expect(targetId).toMatch(/^[0-9a-f-]+$/);
+  const controlledResponses = [];
   let markOldDetailStarted;
   let markOldDetailFinished;
   let releaseOldDetail;
@@ -142,34 +147,110 @@ export async function verifyM1Discovery(page, expect) {
   });
   const denyNewDetailAndReleaseOld = async (route) => {
     const url = new URL(route.request().url());
-    if (/\/api\/requests\/[0-9a-f-]+$/.test(url.pathname)) {
-      detailReads++;
-      if (detailReads === 1) {
+    if (url.pathname === `/api/requests/${targetId}`) {
+      const readOrdinal = ++detailReads;
+      if (readOrdinal === 1) {
         markOldDetailStarted();
         await oldDetailRelease;
         try {
           await route.continue();
+          controlledResponses.push({ ordinal: readOrdinal, outcome: 'released-stale-read' });
+        } catch {
+          // A newer selected-detail generation may abort this stale read.
+          controlledResponses.push({ ordinal: readOrdinal, outcome: 'stale-read-aborted' });
         } finally {
           markOldDetailFinished();
         }
-      } else if (detailReads === 2) {
+      } else {
+        controlledResponses.push({ ordinal: readOrdinal, outcome: '404-denied' });
         await route.fulfill({
           status: 404,
           contentType: 'application/json',
           body: '{"error":"Request not found"}',
         });
-      } else await route.continue();
+      }
     } else await route.continue();
   };
   await page.route(/\/api\/requests(?:\/|\?)/, denyNewDetailAndReleaseOld);
-  await page.locator('.request-table tbody .request-link').nth(1).click();
+  await targetRow.locator('.request-link').click();
   await oldDetailStarted;
-  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  const firstDeniedResponse = page.waitForResponse((response) => {
+    const url = new URL(response.url());
+    return url.pathname === `/api/requests/${targetId}` && response.status() === 404;
+  });
+  await page.evaluate(() => window.__CIVICMAPS_TEST_FIRE_REFRESH__('focus'));
+  await firstDeniedResponse;
+  await expect.poll(() => detailReads).toBe(2);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          window.__CIVICMAPS_TEST_EVENTS__.filter((event) => event.operation === 'refresh-complete')
+            .length,
+      ),
+    )
+    .toBe(1);
   await expect(page.getByRole('heading', { name: 'Selected request unavailable' })).toBeVisible();
+  const trace = await page.evaluate(() => window.__CIVICMAPS_TEST_EVENTS__);
+  const selectedReads = trace.filter(
+    (event) => event.requestId === targetId && ['selection', 'refresh'].includes(event.operation),
+  );
+  expect(selectedReads.length).toBeGreaterThanOrEqual(2);
+  expect(selectedReads.at(-1).requestGeneration).toBeGreaterThan(
+    selectedReads[0].requestGeneration,
+  );
+  expect(selectedReads.at(-1).scopeGeneration).toBe(selectedReads[0].scopeGeneration);
+  for (const source of ['interval', 'focus']) {
+    const expectedReads = detailReads + 1;
+    const expectedRefreshes =
+      (await page.evaluate(
+        () =>
+          window.__CIVICMAPS_TEST_EVENTS__.filter((event) => event.operation === 'refresh-complete')
+            .length,
+      )) + 1;
+    const deniedResponse = page.waitForResponse((response) => {
+      const url = new URL(response.url());
+      return url.pathname === `/api/requests/${targetId}` && response.status() === 404;
+    });
+    await page.evaluate((kind) => window.__CIVICMAPS_TEST_FIRE_REFRESH__(kind), source);
+    await deniedResponse;
+    await expect.poll(() => detailReads).toBe(expectedReads);
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () =>
+            window.__CIVICMAPS_TEST_EVENTS__.filter(
+              (event) => event.operation === 'refresh-complete',
+            ).length,
+        ),
+      )
+      .toBe(expectedRefreshes);
+    await expect(page.getByRole('heading', { name: 'Selected request unavailable' })).toBeVisible();
+    await expect(page.locator('.detail button')).toHaveCount(1);
+  }
+  const finalTrace = await page.evaluate(() => window.__CIVICMAPS_TEST_EVENTS__);
   releaseOldDetail();
   await oldDetailFinished;
   await expect(page.getByRole('heading', { name: 'Selected request unavailable' })).toBeVisible();
   await expect(page.locator('.detail button')).toHaveCount(1);
+  const raceEvidence = {
+    requestId: targetId,
+    selectedReadEvents: finalTrace.filter(
+      (event) => event.requestId === targetId && ['selection', 'refresh'].includes(event.operation),
+    ),
+    scheduledSources: finalTrace
+      .filter((event) => event.operation === 'refresh-trigger')
+      .map((event) => event.source),
+    controlledResponses,
+    assertion:
+      'one held stale selection response; three independently issued later refresh reads returned 404',
+    finalState: 'Selected request unavailable; stale read did not restore actionable detail',
+  };
+  await mkdir('test-results', { recursive: true });
+  await writeFile(
+    'test-results/q3-controlled-detail-race.json',
+    `${JSON.stringify(raceEvidence, null, 2)}\n`,
+  );
   await page.unroute(/\/api\/requests(?:\/|\?)/, denyNewDetailAndReleaseOld);
 
   // A failed queue continuation cannot mask an independently denied selected detail.
@@ -258,4 +339,62 @@ export async function verifyM1Discovery(page, expect) {
   await expect(page.getByRole('heading', { name: 'Selected request unavailable' })).toBeVisible();
   await expect(page.locator('.detail button')).toHaveCount(1);
   await page.unroute(/\/api\/requests\//, deniedDetail);
+
+  // Queue search may hide the selected row, but the selected history read must settle.
+  await search.fill('Queue active');
+  await expect(rows).toHaveCount(25);
+  let releaseHistory;
+  const heldHistory = new Promise((resolve) => {
+    releaseHistory = resolve;
+  });
+  const historyFailSafe = setTimeout(() => releaseHistory(), 10000);
+  const historyTarget = page.locator('.request-link[aria-pressed="false"]').first();
+  const historyTargetId = await historyTarget
+    .locator('xpath=ancestor::tr')
+    .getAttribute('data-request-id');
+  expect(historyTargetId).toMatch(/^[0-9a-f-]+$/);
+  let heldHistoryResponse;
+  let historyResponseCompleted = false;
+  let historyReads = 0;
+  const holdOneHistoryResponse = async (route) => {
+    if (!route.request().url().endsWith(`/requests/${historyTargetId}/audit`))
+      return route.continue();
+    if (heldHistoryResponse) return route.continue();
+    heldHistoryResponse = true;
+    historyReads += 1;
+    const response = await route.fetch();
+    await heldHistory;
+    await route.fulfill({ response }).then(
+      () => {
+        historyResponseCompleted = true;
+      },
+      () => {},
+    );
+  };
+  await page.route(new RegExp(`/api/requests/${historyTargetId}/audit$`), holdOneHistoryResponse);
+  const historyStarted = page.waitForRequest(
+    (request) => request.url().endsWith(`/requests/${historyTargetId}/audit`),
+    { timeout: 5000 },
+  );
+  await historyTarget.click();
+  await historyStarted;
+  await expect(page.locator('.audit')).toContainText('Loading history');
+  await search.fill('No matching queue row');
+  await expect(rows).toHaveCount(0);
+  releaseHistory();
+  clearTimeout(historyFailSafe);
+  await expect(page.locator('.audit')).not.toContainText('Loading history');
+  expect(historyResponseCompleted).toBe(true);
+  expect(historyReads).toBe(1);
+  await page.unroute(new RegExp(`/api/requests/${historyTargetId}/audit$`), holdOneHistoryResponse);
+  console.log(
+    JSON.stringify({
+      operation: 'history-filter-race',
+      requestId: historyTargetId,
+      generation: 'selected request; queue filter changed while its audit response was held',
+      reads: historyReads,
+      responseCompleted: historyResponseCompleted,
+      state: 'history loading resolved after search hid all queue rows',
+    }),
+  );
 }

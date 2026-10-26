@@ -1,0 +1,11 @@
+{"operation":"uncertain-session-reconciliation-scope","reconciliationRun":1,"sessionReadCancelled":true,"sessionResponseHandlerSettled":true,"currentSessionStatus":200,"currentPage":"health"}
+{"operation":"uncertain-session-reconciliation-scope","reconciliationRun":2,"sessionReadCancelled":true,"sessionResponseHandlerSettled":true,"currentSessionStatus":200,"currentPage":"health"}
+{"operation":"uncertain-session-reconciliation-scope","reconciliationRun":3,"sessionReadCancelled":true,"sessionResponseHandlerSettled":true,"currentSessionStatus":200,"currentPage":"health"}
+file:///workspace/work/quality-q3-fix6/tests/browser-platform.mjs:558
+  await page.unroute(uncertainPackPath);
+                     ^
+
+ReferenceError: uncertainPackPath is not defined
+    at file:///workspace/work/quality-q3-fix6/tests/browser-platform.mjs:558:22
+
+Node.js v24.19.0

@@ -1,0 +1,9 @@
+{
+  "requestedStreet": "Requested Street",
+  "selectedStreet": "Wrong Street",
+  "result": [
+    0,
+    1e-05
+  ],
+  "method": "Original AST function executed with deterministic index and geometry interfaces; no provider fetch or generated output modification"
+}

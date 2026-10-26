@@ -1,0 +1,47 @@
+/workspace/work/quality-audits/q3-fix/published/node_modules/playwright/lib/matchers/expect.js:213
+        return matcher.call(target, ...args);
+                       ^
+
+A [Error]: expect(locator).toContainText(expected) failed
+
+Locator: locator('.audit')
+Expected substring: "Created"
+Received string:    "Audit historycreated25/10/26, 8:16 pm"
+Timeout: 5000ms
+
+Call log:
+  - Expect "to.have.text" with timeout 5000ms
+  - waiting for locator('.audit')
+    7 × locator resolved to <div class="audit">…</div>
+      - unexpected value "Audit historycreated25/10/26, 8:16 pm"
+
+    at Proxy.<anonymous> (/workspace/work/quality-audits/q3-fix/published/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at file:///workspace/work/quality-audits/q3-fix/audit-history-aba.mjs:39:39 {
+  matcherResult: {
+    name: 'toContainText',
+    expected: 'Created',
+    message: 'expect(locator).toContainText(expected) failed\n' +
+      '\n' +
+      "Locator: locator('.audit')\n" +
+      'Expected substring: "Created"\n' +
+      'Received string:    "Audit historycreated25/10/26, 8:16 pm"\n' +
+      'Timeout: 5000ms\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.have.text" with timeout 5000ms\n' +
+      "  - waiting for locator('.audit')\n" +
+      '    7 × locator resolved to <div class="audit">…</div>\n' +
+      '      - unexpected value "Audit historycreated25/10/26, 8:16 pm"\n',
+    pass: false,
+    actual: 'Audit historycreated25/10/26, 8:16 pm',
+    log: [
+      '  - Expect "to.have.text" with timeout 5000ms',
+      "  - waiting for locator('.audit')",
+      '    7 × locator resolved to <div class="audit">…</div>',
+      '      - unexpected value "Audit historycreated25/10/26, 8:16 pm"'
+    ],
+    timeout: 5000
+  }
+}
+
+Node.js v24.19.0

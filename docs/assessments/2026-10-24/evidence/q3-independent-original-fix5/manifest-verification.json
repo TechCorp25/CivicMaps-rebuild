@@ -1,0 +1,1119 @@
+[
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "sha256": "fd96c875637ac7878b63f77562a70f27b281aaafb82c0908fd4cf473963520ad",
+    "entries": [
+      {
+        "path": "package.json",
+        "match": true,
+        "expected": "ecc7eb4c25087e7a79e88b3212457ee851b3c7bd95c5bc59e20dd099b424b396",
+        "actual": "ecc7eb4c25087e7a79e88b3212457ee851b3c7bd95c5bc59e20dd099b424b396"
+      },
+      {
+        "path": "apps/shared/api-transport.mjs",
+        "match": true,
+        "expected": "58d7c5dc1daeefa056499c79f2c90144919c3b2cb9207d2c58417622d31eed1e",
+        "actual": "58d7c5dc1daeefa056499c79f2c90144919c3b2cb9207d2c58417622d31eed1e"
+      },
+      {
+        "path": "apps/shared/api-transport.d.mts",
+        "match": true,
+        "expected": "a8657c8e1d65494b9ece55be99b3088bf029f7a16533a4fce0b8ef3dde41ee52",
+        "actual": "a8657c8e1d65494b9ece55be99b3088bf029f7a16533a4fce0b8ef3dde41ee52"
+      },
+      {
+        "path": "apps/commandmaps/src/main.tsx",
+        "match": true,
+        "expected": "d0f85571c79792a92bfe4805404e1cd236122d2094753207a0aec1b00c88859e",
+        "actual": "d0f85571c79792a92bfe4805404e1cd236122d2094753207a0aec1b00c88859e"
+      },
+      {
+        "path": "apps/commandmaps/src/Activation.tsx",
+        "match": true,
+        "expected": "36661c897efcf179214d6f128723e64109de67ed457beba23a33cb59e49824ae",
+        "actual": "36661c897efcf179214d6f128723e64109de67ed457beba23a33cb59e49824ae"
+      },
+      {
+        "path": "apps/civicmaps-platform/src/api.ts",
+        "match": true,
+        "expected": "701c1391d92da8ee1db2d4cd89e5f7fe4d2e1d1be5af42b07909e4bc4d8dafb2",
+        "actual": "701c1391d92da8ee1db2d4cd89e5f7fe4d2e1d1be5af42b07909e4bc4d8dafb2"
+      },
+      {
+        "path": "apps/civicmaps-platform/src/main.tsx",
+        "match": true,
+        "expected": "17fbe48e086990c7d963ae83ff5892a87b0a5715e0464c061dd84638a746b4f5",
+        "actual": "17fbe48e086990c7d963ae83ff5892a87b0a5715e0464c061dd84638a746b4f5"
+      },
+      {
+        "path": "apps/civicmaps-platform/src/AdminActivation.tsx",
+        "match": true,
+        "expected": "3c9b21387a3cf1affb46944e04eb68bc9e989bd6fd759d5dd126de6f8fecdc16",
+        "actual": "3c9b21387a3cf1affb46944e04eb68bc9e989bd6fd759d5dd126de6f8fecdc16"
+      },
+      {
+        "path": "apps/civicmaps-platform/src/Onboarding.tsx",
+        "match": true,
+        "expected": "b13d43e50beb55721c868583302156df809700b3aee1eea06d8c0c0f186df6a2",
+        "actual": "b13d43e50beb55721c868583302156df809700b3aee1eea06d8c0c0f186df6a2"
+      },
+      {
+        "path": "tests/api-transport.test.mjs",
+        "match": true,
+        "expected": "077f5d425172ece342551bf2cbb44b3b2c11a48a6b071bb55fac24b7063eb8fa",
+        "actual": "077f5d425172ece342551bf2cbb44b3b2c11a48a6b071bb55fac24b7063eb8fa"
+      },
+      {
+        "path": "tests/browser.mjs",
+        "match": true,
+        "expected": "189f51088097126d75c5bd746c63ad09e12e9e203abc9c1998dd6a4e34eadb38",
+        "actual": "189f51088097126d75c5bd746c63ad09e12e9e203abc9c1998dd6a4e34eadb38"
+      },
+      {
+        "path": "tests/browser/m1-discovery.mjs",
+        "match": true,
+        "expected": "d2b95903d0378de89ab582eae0ab753cfa565359b0b681e69b14b8c460656c57",
+        "actual": "d2b95903d0378de89ab582eae0ab753cfa565359b0b681e69b14b8c460656c57"
+      },
+      {
+        "path": "tests/browser-commandmaps.mjs",
+        "match": true,
+        "expected": "a5fbc438d892dd8619cde34e3a4673ec8062f895cfb0ae7c9983e1df3dbc385b",
+        "actual": "a5fbc438d892dd8619cde34e3a4673ec8062f895cfb0ae7c9983e1df3dbc385b"
+      },
+      {
+        "path": "tests/browser-platform.mjs",
+        "match": true,
+        "expected": "a62497be2b2abd5261a2dd6f5f0958b2701575b86c0f6c756bc1326af7e6c220",
+        "actual": "a62497be2b2abd5261a2dd6f5f0958b2701575b86c0f6c756bc1326af7e6c220"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/execution-ledger.md",
+        "match": true,
+        "expected": "f105c9281d82d19e71fb5ceaebc2503787eb9c94ad96815d0f88fde48ebcb731",
+        "actual": "f105c9281d82d19e71fb5ceaebc2503787eb9c94ad96815d0f88fde48ebcb731"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/findings.json",
+        "match": true,
+        "expected": "434242d3955d5575fb0d0233e3c2722783296999de706b9a3d965875c9e5cf72",
+        "actual": "434242d3955d5575fb0d0233e3c2722783296999de706b9a3d965875c9e5cf72"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/assessment-checkpoint.json",
+        "match": true,
+        "expected": "b34fa98993150983610d985fe5ac12dcee57c512a2ebd99264f057918a5ce65e",
+        "actual": "b34fa98993150983610d985fe5ac12dcee57c512a2ebd99264f057918a5ce65e"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-setup.log",
+        "match": true,
+        "expected": "17c90744ffc7fc7fbff0229ef8dbd2075197c8cbca43d68eb37b0b371eeaf3c9",
+        "actual": "17c90744ffc7fc7fbff0229ef8dbd2075197c8cbca43d68eb37b0b371eeaf3c9"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-check.log",
+        "match": true,
+        "expected": "1648554b7ecdb8770355efda2dff60ee3f5a35ae6d67378e7d7e0864a05f4b34",
+        "actual": "1648554b7ecdb8770355efda2dff60ee3f5a35ae6d67378e7d7e0864a05f4b34"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-api-transport.log",
+        "match": true,
+        "expected": "efcf52e5a8ada7fb221575e7cbc023da7fb2f9c2ed882f905a3340654db7ac61",
+        "actual": "efcf52e5a8ada7fb221575e7cbc023da7fb2f9c2ed882f905a3340654db7ac61"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-commandmaps-browser.log",
+        "match": true,
+        "expected": "d10fac683cfc8b0d6415ef3f86e6a310fe9ee94f0eeb83ef7429aba8c7eb1384",
+        "actual": "d10fac683cfc8b0d6415ef3f86e6a310fe9ee94f0eeb83ef7429aba8c7eb1384"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-platform-browser.log",
+        "match": true,
+        "expected": "a9937446018cc328827067df616271570fb24d5f3ccfcfc07c17ff3f086921d8",
+        "actual": "a9937446018cc328827067df616271570fb24d5f3ccfcfc07c17ff3f086921d8"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-activation-browser.log",
+        "match": true,
+        "expected": "f67016e1ab5b35d3edeee5b7ea377de86b6728f20c42f727f5d04a1d2e816133",
+        "actual": "f67016e1ab5b35d3edeee5b7ea377de86b6728f20c42f727f5d04a1d2e816133"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-controlled-detail-race.json",
+        "match": true,
+        "expected": "314cfa172f5c16d8d9e320c59f9760c864e777bdf3acd75e065c6658ab597dd2",
+        "actual": "314cfa172f5c16d8d9e320c59f9760c864e777bdf3acd75e065c6658ab597dd2"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-ingress-contract.log",
+        "match": true,
+        "expected": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3",
+        "actual": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-ingress-login.log",
+        "match": true,
+        "expected": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc",
+        "actual": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc"
+      }
+    ]
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix/SHA256SUMS.txt",
+    "commit": "4cafc3f5cbd15047c4d04a092279cfc8ab86a99a",
+    "sha256": "de140cd07510fa873ad1e2b1814fd10a418d4514472c9f4161760855c246f186",
+    "entries": [
+      {
+        "path": "apps/civicmaps-platform/src/AdminActivation.tsx",
+        "match": true,
+        "expected": "4821e11af608b03488833b04785d07e376d15d49d95ba40153285797f2fc4667",
+        "actual": "4821e11af608b03488833b04785d07e376d15d49d95ba40153285797f2fc4667"
+      },
+      {
+        "path": "apps/civicmaps-platform/src/main.tsx",
+        "match": true,
+        "expected": "9b5e32701f0b1d6e96befbab5fa3c9cf90aa88c4f8a850946ff2f64404fdf151",
+        "actual": "9b5e32701f0b1d6e96befbab5fa3c9cf90aa88c4f8a850946ff2f64404fdf151"
+      },
+      {
+        "path": "apps/commandmaps/src/main.tsx",
+        "match": true,
+        "expected": "62f5bd958bd4e9d783be661db1b4c456c98b7ef6db857de6f77db4bf13177483",
+        "actual": "62f5bd958bd4e9d783be661db1b4c456c98b7ef6db857de6f77db4bf13177483"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/assessment-checkpoint.json",
+        "match": true,
+        "expected": "9cfe389ed8ba8abc2157202ef5d17810f712e8891334d892ab501f7490586e2b",
+        "actual": "9cfe389ed8ba8abc2157202ef5d17810f712e8891334d892ab501f7490586e2b"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/activation-browser.log",
+        "match": true,
+        "expected": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21",
+        "actual": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/caddy-contract.log",
+        "match": true,
+        "expected": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3",
+        "actual": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/caddy-login.log",
+        "match": true,
+        "expected": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc",
+        "actual": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/commandmaps-browser.log",
+        "match": true,
+        "expected": "02a7a38fc03d8ccd4ef61ae819b10e6fac8a21f2aebf20921775579ffaee7bf8",
+        "actual": "02a7a38fc03d8ccd4ef61ae819b10e6fac8a21f2aebf20921775579ffaee7bf8"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/follow-up-status.md",
+        "match": true,
+        "expected": "1808d6ca45d5f7a0a818f92a65e61f171cf9671b1bad7afa69998ae88a6f7403",
+        "actual": "1808d6ca45d5f7a0a818f92a65e61f171cf9671b1bad7afa69998ae88a6f7403"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/initial-lint-failure.log",
+        "match": true,
+        "expected": "f2bfb6dcef7e10947c1dbdc42e0c56f04bba68f89722774e4b5f5e23b5c9a9d9",
+        "actual": "f2bfb6dcef7e10947c1dbdc42e0c56f04bba68f89722774e4b5f5e23b5c9a9d9"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/initial-parallel-commandmaps-failure.log",
+        "match": true,
+        "expected": "4b886ca407f78e30486683a2e4bdca38356e595427003706be7580b69cb2dfae",
+        "actual": "4b886ca407f78e30486683a2e4bdca38356e595427003706be7580b69cb2dfae"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/initial-platform-dialog-failure.log",
+        "match": true,
+        "expected": "89a0b8c78d06ed89d90544ed20bd41ebe24f9d99c79acaac58b9bd3b49d53fd0",
+        "actual": "89a0b8c78d06ed89d90544ed20bd41ebe24f9d99c79acaac58b9bd3b49d53fd0"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/npm-check.log",
+        "match": true,
+        "expected": "1dfdede4236516bba23eef290ff457625f47c92d7bd245de999b1abafebf8670",
+        "actual": "1dfdede4236516bba23eef290ff457625f47c92d7bd245de999b1abafebf8670"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/platform-browser.log",
+        "match": true,
+        "expected": "85d7e1511df8a2baf831c76a54cc58cc85ce82a71ac2b8ad152c9f585ac9b66c",
+        "actual": "85d7e1511df8a2baf831c76a54cc58cc85ce82a71ac2b8ad152c9f585ac9b66c"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/setup.log",
+        "match": true,
+        "expected": "dd98ed0ea7b3cb86a1eb53b5b3bfbad736d3b370f2b9135c3a863d841f7f049d",
+        "actual": "dd98ed0ea7b3cb86a1eb53b5b3bfbad736d3b370f2b9135c3a863d841f7f049d"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix/task-contract.md",
+        "match": true,
+        "expected": "11d54b9f578fefdce6277851905a735312cc5559d9d611f912299d0ddee27ab0",
+        "actual": "11d54b9f578fefdce6277851905a735312cc5559d9d611f912299d0ddee27ab0"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original/report.md",
+        "match": true,
+        "expected": "df234cdaa464375989bb9b96cd7691f6a2ea8e3dc72022139705a56d8dfea088",
+        "actual": "df234cdaa464375989bb9b96cd7691f6a2ea8e3dc72022139705a56d8dfea088"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original/repro-history-setup-failure.log",
+        "match": true,
+        "expected": "6b7f8cd09aac96069f83a9614e916b9f88a977daa09d074668f3b1008f543582",
+        "actual": "6b7f8cd09aac96069f83a9614e916b9f88a977daa09d074668f3b1008f543582"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original/repro-history.log",
+        "match": true,
+        "expected": "6a9c03978f798ed52c9ff52e7b225b1cb8ab39a10c3a6f8b51f17ded5d491b06",
+        "actual": "6a9c03978f798ed52c9ff52e7b225b1cb8ab39a10c3a6f8b51f17ded5d491b06"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original/repro-history.mjs",
+        "match": true,
+        "expected": "fe20c0d9533fef32c09746c016f2e0df89065e1004cd82735b091b2254c6ddcd",
+        "actual": "fe20c0d9533fef32c09746c016f2e0df89065e1004cd82735b091b2254c6ddcd"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original/repro-stale.log",
+        "match": true,
+        "expected": "c91c7442fa971dffaa58ea9ca22788cb9177723621ce334bc8c608e548331e0a",
+        "actual": "c91c7442fa971dffaa58ea9ca22788cb9177723621ce334bc8c608e548331e0a"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original/repro-stale.mjs",
+        "match": true,
+        "expected": "00b67dd8f5119088b6b0cca9343447aa10a3dd4a98ecd380f81c8d47d2dae3b0",
+        "actual": "00b67dd8f5119088b6b0cca9343447aa10a3dd4a98ecd380f81c8d47d2dae3b0"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/execution-ledger.md",
+        "match": true,
+        "expected": "decd13a9851aec35e7398da0186647fb7b13d86e1f7b1d9af9462dcc3ebd9fea",
+        "actual": "decd13a9851aec35e7398da0186647fb7b13d86e1f7b1d9af9462dcc3ebd9fea"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/findings.json",
+        "match": true,
+        "expected": "6b34ecd92fa37fed548f55e95cdbef030aa34e86ef838b7319b23e3e9b08f788",
+        "actual": "6b34ecd92fa37fed548f55e95cdbef030aa34e86ef838b7319b23e3e9b08f788"
+      },
+      {
+        "path": "tests/browser-activation.mjs",
+        "match": true,
+        "expected": "37bf98cadcf2f5bb40e45ed2e2bb82154ac3e8ef3d991d0d60b6398188ba8ce9",
+        "actual": "37bf98cadcf2f5bb40e45ed2e2bb82154ac3e8ef3d991d0d60b6398188ba8ce9"
+      },
+      {
+        "path": "tests/browser-platform.mjs",
+        "match": true,
+        "expected": "bf53d220fbbcf950d55c6b74c86b4285488bfabb2ace70e52a10a641a82fe1f1",
+        "actual": "bf53d220fbbcf950d55c6b74c86b4285488bfabb2ace70e52a10a641a82fe1f1"
+      },
+      {
+        "path": "tests/browser/m1-discovery.mjs",
+        "match": true,
+        "expected": "6dd1f719a48eed9258c7bf4d44bc98fbc2f6d15e2e53ed7efe7f6748c68eb705",
+        "actual": "6dd1f719a48eed9258c7bf4d44bc98fbc2f6d15e2e53ed7efe7f6748c68eb705"
+      }
+    ]
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "sha256": "ef6b03c4889b3be925d949241677166874e7dddda42beeb08a3594d772671038",
+    "entries": [
+      {
+        "path": "apps/civicmaps-platform/src/AdminActivation.tsx",
+        "match": true,
+        "expected": "dcaa7ca42a9bf8c92bc49daf61d2b6d8cd6c85a8675b917892538560226985f9",
+        "actual": "dcaa7ca42a9bf8c92bc49daf61d2b6d8cd6c85a8675b917892538560226985f9"
+      },
+      {
+        "path": "apps/civicmaps-platform/src/main.tsx",
+        "match": true,
+        "expected": "57efb919665831772f3f3815f0cfe621746a0ad02449d09b2bf701b3b3683947",
+        "actual": "57efb919665831772f3f3815f0cfe621746a0ad02449d09b2bf701b3b3683947"
+      },
+      {
+        "path": "apps/commandmaps/src/RequestComposer.tsx",
+        "match": true,
+        "expected": "465b87acc21786df46a6d5a89d4d0a274ec3906901ebffb90271337904658fae",
+        "actual": "465b87acc21786df46a6d5a89d4d0a274ec3906901ebffb90271337904658fae"
+      },
+      {
+        "path": "apps/commandmaps/src/main.tsx",
+        "match": true,
+        "expected": "999370bb00ffccc4e3bcdf2da357ce67dfe6764471e43bfbec628b27cd237b94",
+        "actual": "999370bb00ffccc4e3bcdf2da357ce67dfe6764471e43bfbec628b27cd237b94"
+      },
+      {
+        "path": "apps/shared/api-transport.d.mts",
+        "match": true,
+        "expected": "57d37e9c9ff0836c65600b8c361a12c26907e91f2bf6ec18e3e1ed87414bb08b",
+        "actual": "57d37e9c9ff0836c65600b8c361a12c26907e91f2bf6ec18e3e1ed87414bb08b"
+      },
+      {
+        "path": "apps/shared/api-transport.mjs",
+        "match": true,
+        "expected": "01eb7ea8eadb59317a46a6af2c8f763c9b99dd912c4a071c6d73b4cf139596ef",
+        "actual": "01eb7ea8eadb59317a46a6af2c8f763c9b99dd912c4a071c6d73b4cf139596ef"
+      },
+      {
+        "path": "tests/api-transport.test.mjs",
+        "match": true,
+        "expected": "0da1ce4932a21d99c14fe2a491977cf6a961c50d2139e498d381a4278d1e8b8f",
+        "actual": "0da1ce4932a21d99c14fe2a491977cf6a961c50d2139e498d381a4278d1e8b8f"
+      },
+      {
+        "path": "tests/browser-platform.mjs",
+        "match": true,
+        "expected": "c5944ede1d530435c66963b9165bab33a0d21e2938b5156483e26156f155e3e2",
+        "actual": "c5944ede1d530435c66963b9165bab33a0d21e2938b5156483e26156f155e3e2"
+      },
+      {
+        "path": "tests/browser.mjs",
+        "match": true,
+        "expected": "cb74332b966253ff603cc865c6ec5ee011edb64e1f454b103e1b1780925cb52b",
+        "actual": "cb74332b966253ff603cc865c6ec5ee011edb64e1f454b103e1b1780925cb52b"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/assessment-checkpoint.json",
+        "match": true,
+        "expected": "a0665cc7436da71bf71d120ac2eed5ae9e71770c9ff448d1f3ada1f87b2f7591",
+        "actual": "a0665cc7436da71bf71d120ac2eed5ae9e71770c9ff448d1f3ada1f87b2f7591"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/execution-ledger.md",
+        "match": true,
+        "expected": "82cd00681cd81db1574317866d048199758c515a9015302b419f9c07ba07ecf2",
+        "actual": "82cd00681cd81db1574317866d048199758c515a9015302b419f9c07ba07ecf2"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/findings.json",
+        "match": true,
+        "expected": "eb714a03c70ef7a75cd646332f60324edd1d287f8f8b4f33edca72481c005b96",
+        "actual": "eb714a03c70ef7a75cd646332f60324edd1d287f8f8b4f33edca72481c005b96"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-current/SHA256SUMS.txt",
+        "match": true,
+        "expected": "cf19eb74f4d87494ffacbcc02b697ea533a99ae73e3c82136394da471651ebc5",
+        "actual": "cf19eb74f4d87494ffacbcc02b697ea533a99ae73e3c82136394da471651ebc5"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-current/report.md",
+        "match": true,
+        "expected": "da081e80e55dd19c2d667ddb5d4e89da81084a3329f2403921f6de0e1a0638a1",
+        "actual": "da081e80e55dd19c2d667ddb5d4e89da81084a3329f2403921f6de0e1a0638a1"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-current/audit-invalid-write.mjs",
+        "match": true,
+        "expected": "36c0dd1f1f632b5462773c4bce0a24e0642e3c164da1a50d2fcafd660d365974",
+        "actual": "36c0dd1f1f632b5462773c4bce0a24e0642e3c164da1a50d2fcafd660d365974"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-current/audit-invalid-write.log",
+        "match": true,
+        "expected": "3faac5178ad56e05c6595b65e02c7cf6e58855c891b47189cfb875a37b861493",
+        "actual": "3faac5178ad56e05c6595b65e02c7cf6e58855c891b47189cfb875a37b861493"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-current/audit-history-aba.mjs",
+        "match": true,
+        "expected": "c3b195e72e0c77ede5351733d2fd0829616299b386d87eb16125400c3f510ed2",
+        "actual": "c3b195e72e0c77ede5351733d2fd0829616299b386d87eb16125400c3f510ed2"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-current/audit-history-aba.log",
+        "match": true,
+        "expected": "792fb3ee091ced17082f322de4598adf32e9ce1afa9768b5ad1c8d0a773d847d",
+        "actual": "792fb3ee091ced17082f322de4598adf32e9ce1afa9768b5ad1c8d0a773d847d"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/follow-up-status.md",
+        "match": true,
+        "expected": "863835f98be3e2a0f337c766ca4306dbab948e4f547925674dc71245897c78fb",
+        "actual": "863835f98be3e2a0f337c766ca4306dbab948e4f547925674dc71245897c78fb"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/task-contract.md",
+        "match": true,
+        "expected": "11d54b9f578fefdce6277851905a735312cc5559d9d611f912299d0ddee27ab0",
+        "actual": "11d54b9f578fefdce6277851905a735312cc5559d9d611f912299d0ddee27ab0"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/setup.log",
+        "match": true,
+        "expected": "1c5b07fadcde726587d176fd51df296aeaa0e313c0b1c12cd7ec1a7434335e01",
+        "actual": "1c5b07fadcde726587d176fd51df296aeaa0e313c0b1c12cd7ec1a7434335e01"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/final-check-3.log",
+        "match": true,
+        "expected": "8397984b033df69d2970c7d5c7de5f3229407ae356683a23e41e79ffd1118b63",
+        "actual": "8397984b033df69d2970c7d5c7de5f3229407ae356683a23e41e79ffd1118b63"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/pre-session-reconcile-check.log",
+        "match": true,
+        "expected": "56f5e5b165a0910fb2694ce5a76b5960a1c8ff97c1169cb594660e5e38ba13fb",
+        "actual": "56f5e5b165a0910fb2694ce5a76b5960a1c8ff97c1169cb594660e5e38ba13fb"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/earlier-full-check.log",
+        "match": true,
+        "expected": "d502a29c34937a5a8cdf369f142f85976aaeb1ae80af3ac7fbde32a7074404ac",
+        "actual": "d502a29c34937a5a8cdf369f142f85976aaeb1ae80af3ac7fbde32a7074404ac"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-type-guard-check-failure.log",
+        "match": true,
+        "expected": "fcf01f0d81a7963d3dc295a26dae7c0a0665af49ce24a273390039f3556d32ae",
+        "actual": "fcf01f0d81a7963d3dc295a26dae7c0a0665af49ce24a273390039f3556d32ae"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/platform-browser.log",
+        "match": true,
+        "expected": "870ba8c5a35f1e152a6b7e917937a405d4ce1f06ebc5821c26f5113e975d5bd4",
+        "actual": "870ba8c5a35f1e152a6b7e917937a405d4ce1f06ebc5821c26f5113e975d5bd4"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/commandmaps-browser.log",
+        "match": true,
+        "expected": "6460b42671bdd25ac834177b1dddc591a8961e528417ad03967fc296e91848aa",
+        "actual": "6460b42671bdd25ac834177b1dddc591a8961e528417ad03967fc296e91848aa"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/activation-browser.log",
+        "match": true,
+        "expected": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21",
+        "actual": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/caddy-contract.log",
+        "match": true,
+        "expected": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3",
+        "actual": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/caddy-login.log",
+        "match": true,
+        "expected": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc",
+        "actual": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-commandmaps-failure.log",
+        "match": true,
+        "expected": "3d7f5281c3eaa3f304e3e695ad487c63837dc9d7e999ca48a6f14b514bda404c",
+        "actual": "3d7f5281c3eaa3f304e3e695ad487c63837dc9d7e999ca48a6f14b514bda404c"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-test-adjustments.md",
+        "match": true,
+        "expected": "08e8ce3dea6e096ea2a656837b5b523b823f638daad809b4964d367274fde605",
+        "actual": "08e8ce3dea6e096ea2a656837b5b523b823f638daad809b4964d367274fde605"
+      }
+    ]
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix3/SHA256SUMS.txt",
+    "commit": "44895f86f6d6683d4f0b8e2013848dcec98a6c38",
+    "sha256": "dfc80f8b7b0780f8bfcd125a99ff12ca038dfa43de04094f0acdebb12a7b6d2b",
+    "entries": [
+      {
+        "path": "apps/civicmaps-platform/src/main.tsx",
+        "match": true,
+        "expected": "fc18122f74263ae5cfcd9e09cdac32f62a041f9c2416ee4f0285bcff1f8db743",
+        "actual": "fc18122f74263ae5cfcd9e09cdac32f62a041f9c2416ee4f0285bcff1f8db743"
+      },
+      {
+        "path": "tests/browser-platform.mjs",
+        "match": true,
+        "expected": "95a3d8208e148428b910a0e9f0e4ed044ca8a6fc77b8a4e74e09987b3c8a78b9",
+        "actual": "95a3d8208e148428b910a0e9f0e4ed044ca8a6fc77b8a4e74e09987b3c8a78b9"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/assessment-checkpoint.json",
+        "match": true,
+        "expected": "45e87f89261f044e0f8e1d50ceffc3b2f6960f2f1c4eac45c8efd4a09c1225a4",
+        "actual": "45e87f89261f044e0f8e1d50ceffc3b2f6960f2f1c4eac45c8efd4a09c1225a4"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/findings.json",
+        "match": true,
+        "expected": "f2f5b4727cecf887c5050604b7b401c707574dc8eb5e38b4777d50855edc0972",
+        "actual": "f2f5b4727cecf887c5050604b7b401c707574dc8eb5e38b4777d50855edc0972"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/execution-ledger.md",
+        "match": true,
+        "expected": "e456fbcf1f126256f0ad9ca12d3362f9886bf19ccd183e488887551638a0c08b",
+        "actual": "e456fbcf1f126256f0ad9ca12d3362f9886bf19ccd183e488887551638a0c08b"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/remediation-plan.md",
+        "match": true,
+        "expected": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
+        "actual": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix3/follow-up-status.md",
+        "match": true,
+        "expected": "ed7a0b65365860febc1f70e06ee9ba3bbb722e27c19d6c72cbbe8670ed586fa2",
+        "actual": "ed7a0b65365860febc1f70e06ee9ba3bbb722e27c19d6c72cbbe8670ed586fa2"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix3/setup.log",
+        "match": true,
+        "expected": "f3bc2a0070a9c424c4f0ef67437ca4c78bd520e8a69c9e00fe38cc3085d5c37f",
+        "actual": "f3bc2a0070a9c424c4f0ef67437ca4c78bd520e8a69c9e00fe38cc3085d5c37f"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix3/npm-check.log",
+        "match": true,
+        "expected": "789edfd7e8ddd0848fe1854913a64bbe728c107d3e39d8a7089f9832f9d5d84d",
+        "actual": "789edfd7e8ddd0848fe1854913a64bbe728c107d3e39d8a7089f9832f9d5d84d"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix3/browser-platform.log",
+        "match": true,
+        "expected": "31f7cb56614d6f7da50812527f21ea98ab3298839d6422573d098a0a251a98f8",
+        "actual": "31f7cb56614d6f7da50812527f21ea98ab3298839d6422573d098a0a251a98f8"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix3/browser-commandmaps.log",
+        "match": true,
+        "expected": "16bba60f822a390ed883936a6648679d180f721e4f1fe34f1a7babbea7c792e3",
+        "actual": "16bba60f822a390ed883936a6648679d180f721e4f1fe34f1a7babbea7c792e3"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix3/browser-activation.log",
+        "match": true,
+        "expected": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21",
+        "actual": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix3/caddy-contract.log",
+        "match": true,
+        "expected": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3",
+        "actual": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix3/caddy-login.log",
+        "match": true,
+        "expected": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc",
+        "actual": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix2/report.md",
+        "match": true,
+        "expected": "be85f7bca2613998bf54e5316d59cd08d375d80f7c970bb31b05e8c839bd6c0e",
+        "actual": "be85f7bca2613998bf54e5316d59cd08d375d80f7c970bb31b05e8c839bd6c0e"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix2/audit-stale-session.mjs",
+        "match": true,
+        "expected": "27323c581371c9d7f988f267463639de2563d39d968b07b57fc22faeadb5085b",
+        "actual": "27323c581371c9d7f988f267463639de2563d39d968b07b57fc22faeadb5085b"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix2/audit-stale-session.log",
+        "match": true,
+        "expected": "0efef9811f9785d89a0880c413da48d387588038ea85a3a68d19e88398c3183e",
+        "actual": "0efef9811f9785d89a0880c413da48d387588038ea85a3a68d19e88398c3183e"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix2/audit-evidence-SHA256SUMS.txt",
+        "match": true,
+        "expected": "62e2cd759934c2e1c16d7b13fd968615baa625e4ecbf9a815288f9a0ca7659da",
+        "actual": "62e2cd759934c2e1c16d7b13fd968615baa625e4ecbf9a815288f9a0ca7659da"
+      }
+    ]
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix4/SHA256SUMS.txt",
+    "commit": "60bb8c443f99a57d3f7c31f000d06523baccafa2",
+    "sha256": "b7fe6ea6377a55847fca6c624ff75f7a01e517a11fecd1c585f157ee732b6462",
+    "entries": [
+      {
+        "path": "apps/civicmaps-platform/src/main.tsx",
+        "match": true,
+        "expected": "41e74f97dbf889e15cde640ec889ed510efa1156553767ed11f6fb5539799ea0",
+        "actual": "41e74f97dbf889e15cde640ec889ed510efa1156553767ed11f6fb5539799ea0"
+      },
+      {
+        "path": "tests/browser-platform.mjs",
+        "match": true,
+        "expected": "6589d9c8f745f543295368f34ea25af9f0c260d53e7169c747ba7c91313a8623",
+        "actual": "6589d9c8f745f543295368f34ea25af9f0c260d53e7169c747ba7c91313a8623"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/assessment-checkpoint.json",
+        "match": true,
+        "expected": "3aae4718cab7bb76bdbf9bb3599527dad111ab2e02fdff0e536769fc44b71084",
+        "actual": "3aae4718cab7bb76bdbf9bb3599527dad111ab2e02fdff0e536769fc44b71084"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/findings.json",
+        "match": true,
+        "expected": "04bfbe28b7c5a85169de517737a52105e000abc783f0d844e5a17719b7de4a11",
+        "actual": "04bfbe28b7c5a85169de517737a52105e000abc783f0d844e5a17719b7de4a11"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/execution-ledger.md",
+        "match": true,
+        "expected": "af45c8a8e076d1d3261a3a0244080bd5bc405116d6db767ea1746ee2969f0bcb",
+        "actual": "af45c8a8e076d1d3261a3a0244080bd5bc405116d6db767ea1746ee2969f0bcb"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/remediation-plan.md",
+        "match": true,
+        "expected": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
+        "actual": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix4/follow-up-status.md",
+        "match": true,
+        "expected": "7fe8fa283d237a67d24ad588c27de4a0ce16fddb3b7af508cc39a7c621e1ee9e",
+        "actual": "7fe8fa283d237a67d24ad588c27de4a0ce16fddb3b7af508cc39a7c621e1ee9e"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix4/setup.log",
+        "match": true,
+        "expected": "f3bc2a0070a9c424c4f0ef67437ca4c78bd520e8a69c9e00fe38cc3085d5c37f",
+        "actual": "f3bc2a0070a9c424c4f0ef67437ca4c78bd520e8a69c9e00fe38cc3085d5c37f"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix4/npm-check.log",
+        "match": true,
+        "expected": "3f2a900ee0a9cf4bb5c84ae65d309f1192135d963f42096d197a721e78e9d907",
+        "actual": "3f2a900ee0a9cf4bb5c84ae65d309f1192135d963f42096d197a721e78e9d907"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix4/browser-platform.log",
+        "match": true,
+        "expected": "8c6ca84bf3ce5ed0c282a6788d3aebcab2b333a968bcaaf62657f82fd979cc3c",
+        "actual": "8c6ca84bf3ce5ed0c282a6788d3aebcab2b333a968bcaaf62657f82fd979cc3c"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix4/browser-commandmaps.log",
+        "match": true,
+        "expected": "bbf8095df9fd7823ed79204331002bf2c63d8e269593be015e6d3193bd3ea87e",
+        "actual": "bbf8095df9fd7823ed79204331002bf2c63d8e269593be015e6d3193bd3ea87e"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix4/browser-activation.log",
+        "match": true,
+        "expected": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21",
+        "actual": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix4/caddy-contract.log",
+        "match": true,
+        "expected": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3",
+        "actual": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix4/caddy-login.log",
+        "match": true,
+        "expected": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc",
+        "actual": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/browser-activation.log",
+        "match": true,
+        "expected": "f67016e1ab5b35d3edeee5b7ea377de86b6728f20c42f727f5d04a1d2e816133",
+        "actual": "f67016e1ab5b35d3edeee5b7ea377de86b6728f20c42f727f5d04a1d2e816133"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/browser-commandmaps.log",
+        "match": true,
+        "expected": "d6b0b2d621b5cf335164322ceb4cef2e49e57472fe475bce888d1aadc6eaf1ff",
+        "actual": "d6b0b2d621b5cf335164322ceb4cef2e49e57472fe475bce888d1aadc6eaf1ff"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/browser-platform.log",
+        "match": true,
+        "expected": "cb685a998a9d0cea3f9701d0437c824ade07721a2095af43424bb035ce03c22d",
+        "actual": "cb685a998a9d0cea3f9701d0437c824ade07721a2095af43424bb035ce03c22d"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/caddy-contract.log",
+        "match": true,
+        "expected": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3",
+        "actual": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/caddy-login.log",
+        "match": true,
+        "expected": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc",
+        "actual": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/check.log",
+        "match": true,
+        "expected": "df2f78d467aca7e9af3a8ae6e4e56d74a046a754cb97f06076e0d24506442f10",
+        "actual": "df2f78d467aca7e9af3a8ae6e4e56d74a046a754cb97f06076e0d24506442f10"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/denied-platform-detail-corrected.log",
+        "match": true,
+        "expected": "44638d1676129cefb54918d3b8be47fb976698dc412d3a9b0604cbd463d2e09b",
+        "actual": "44638d1676129cefb54918d3b8be47fb976698dc412d3a9b0604cbd463d2e09b"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/denied-platform-detail.log",
+        "match": true,
+        "expected": "3470c7161dec1de08bd60f16ea8c235656a2a2df5983872741a028ca9a42ca33",
+        "actual": "3470c7161dec1de08bd60f16ea8c235656a2a2df5983872741a028ca9a42ca33"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/denied-platform-detail.mjs",
+        "match": true,
+        "expected": "1c3c85f9317b6a2562168ec635eb76178100dbf50b33cdb47a3467eeaeaf0f8a",
+        "actual": "1c3c85f9317b6a2562168ec635eb76178100dbf50b33cdb47a3467eeaeaf0f8a"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/focused.log",
+        "match": true,
+        "expected": "6dbf2f7c2d5de07d8a68f3328e37b8927ddf3b7183a3ad64bd0d176a2223677f",
+        "actual": "6dbf2f7c2d5de07d8a68f3328e37b8927ddf3b7183a3ad64bd0d176a2223677f"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/input-SHA256SUMS.txt",
+        "match": true,
+        "expected": "1a0ed45c3ea5d369e15adbb38596c7afd708fb62d1faf7f5f3a00fde3b6ffb14",
+        "actual": "1a0ed45c3ea5d369e15adbb38596c7afd708fb62d1faf7f5f3a00fde3b6ffb14"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/manifest-verification.json",
+        "match": true,
+        "expected": "723c742b3b0c574959a8fc7c58b13827ceef8586123a3be01643007320746df9",
+        "actual": "723c742b3b0c574959a8fc7c58b13827ceef8586123a3be01643007320746df9"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/raw-log-tail-inventory.txt",
+        "match": true,
+        "expected": "329cf401c61b4e2a0b619cbab2b6ee2cb528cc2dbab40b01302ca12aafcada40",
+        "actual": "329cf401c61b4e2a0b619cbab2b6ee2cb528cc2dbab40b01302ca12aafcada40"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/repeated-m1-fixtures.log",
+        "match": true,
+        "expected": "c1f6e90ef20a914ad007f5475f557f3b91c61f6a543b6b3a7297c7ec63a2e54e",
+        "actual": "c1f6e90ef20a914ad007f5475f557f3b91c61f6a543b6b3a7297c7ec63a2e54e"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/repeated-m1-settled.log",
+        "match": true,
+        "expected": "979ff4679c6c4d34b4a12775695734413961e6baebd82935bb6636a80bf6c3f1",
+        "actual": "979ff4679c6c4d34b4a12775695734413961e6baebd82935bb6636a80bf6c3f1"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/repeated-m1.log",
+        "match": true,
+        "expected": "51edfcded38d97c450565e8b9c69f5c24e765bac2c27c9fd7927e13ef779b0d7",
+        "actual": "51edfcded38d97c450565e8b9c69f5c24e765bac2c27c9fd7927e13ef779b0d7"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/repeated-m1.mjs",
+        "match": true,
+        "expected": "790b3d82b14fc4f3fb987b3f831777d58a3b38a20af520547a9a8d8a6b5d14ce",
+        "actual": "790b3d82b14fc4f3fb987b3f831777d58a3b38a20af520547a9a8d8a6b5d14ce"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-evidence/setup.log",
+        "match": true,
+        "expected": "a7220fa038e556b02c68d41b98c9872f471e437a501f8c28ed3ab6aa275a7d28",
+        "actual": "a7220fa038e556b02c68d41b98c9872f471e437a501f8c28ed3ab6aa275a7d28"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-input-SHA256SUMS.txt",
+        "match": true,
+        "expected": "1a0ed45c3ea5d369e15adbb38596c7afd708fb62d1faf7f5f3a00fde3b6ffb14",
+        "actual": "1a0ed45c3ea5d369e15adbb38596c7afd708fb62d1faf7f5f3a00fde3b6ffb14"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/audit-output-SHA256SUMS.txt",
+        "match": true,
+        "expected": "09e5ef3697534a4bbdf56d07dfff58191c2466caec7f0f8aa151fc343742c8e1",
+        "actual": "09e5ef3697534a4bbdf56d07dfff58191c2466caec7f0f8aa151fc343742c8e1"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/denied-platform-detail-corrected.log",
+        "match": true,
+        "expected": "44638d1676129cefb54918d3b8be47fb976698dc412d3a9b0604cbd463d2e09b",
+        "actual": "44638d1676129cefb54918d3b8be47fb976698dc412d3a9b0604cbd463d2e09b"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/denied-platform-detail.log",
+        "match": true,
+        "expected": "3470c7161dec1de08bd60f16ea8c235656a2a2df5983872741a028ca9a42ca33",
+        "actual": "3470c7161dec1de08bd60f16ea8c235656a2a2df5983872741a028ca9a42ca33"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/denied-platform-detail.mjs",
+        "match": true,
+        "expected": "1c3c85f9317b6a2562168ec635eb76178100dbf50b33cdb47a3467eeaeaf0f8a",
+        "actual": "1c3c85f9317b6a2562168ec635eb76178100dbf50b33cdb47a3467eeaeaf0f8a"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/manifest-verification.json",
+        "match": true,
+        "expected": "723c742b3b0c574959a8fc7c58b13827ceef8586123a3be01643007320746df9",
+        "actual": "723c742b3b0c574959a8fc7c58b13827ceef8586123a3be01643007320746df9"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/raw-log-tail-inventory.txt",
+        "match": true,
+        "expected": "329cf401c61b4e2a0b619cbab2b6ee2cb528cc2dbab40b01302ca12aafcada40",
+        "actual": "329cf401c61b4e2a0b619cbab2b6ee2cb528cc2dbab40b01302ca12aafcada40"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/repeated-m1-fixtures.log",
+        "match": true,
+        "expected": "c1f6e90ef20a914ad007f5475f557f3b91c61f6a543b6b3a7297c7ec63a2e54e",
+        "actual": "c1f6e90ef20a914ad007f5475f557f3b91c61f6a543b6b3a7297c7ec63a2e54e"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/repeated-m1-settled.log",
+        "match": true,
+        "expected": "979ff4679c6c4d34b4a12775695734413961e6baebd82935bb6636a80bf6c3f1",
+        "actual": "979ff4679c6c4d34b4a12775695734413961e6baebd82935bb6636a80bf6c3f1"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/repeated-m1.log",
+        "match": true,
+        "expected": "51edfcded38d97c450565e8b9c69f5c24e765bac2c27c9fd7927e13ef779b0d7",
+        "actual": "51edfcded38d97c450565e8b9c69f5c24e765bac2c27c9fd7927e13ef779b0d7"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/repeated-m1.mjs",
+        "match": true,
+        "expected": "790b3d82b14fc4f3fb987b3f831777d58a3b38a20af520547a9a8d8a6b5d14ce",
+        "actual": "790b3d82b14fc4f3fb987b3f831777d58a3b38a20af520547a9a8d8a6b5d14ce"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix3/report.md",
+        "match": true,
+        "expected": "0fea607c463cad57705a43e3258c0fae6003c79bcddd6619f6da152d61ca0881",
+        "actual": "0fea607c463cad57705a43e3258c0fae6003c79bcddd6619f6da152d61ca0881"
+      }
+    ]
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix5/input-SHA256SUMS.txt",
+    "commit": "49c2acd0ff3019b37245d45ec4c99ef37c3a353d",
+    "sha256": "a3bea24a38f5d6da73be7c54ba2cfea80915536fcf2b7ae91619ce0778a6a5c1",
+    "entries": [
+      {
+        "path": "apps/shared/api-transport.mjs",
+        "match": true,
+        "expected": "4ddafe3c1f58b7e647339024133682f7c86d455fa4706d71180039b978161c2c",
+        "actual": "4ddafe3c1f58b7e647339024133682f7c86d455fa4706d71180039b978161c2c"
+      },
+      {
+        "path": "apps/shared/api-transport.d.mts",
+        "match": true,
+        "expected": "600c2d20329822d3417694136c42fd9900d03ce1e6722bf82a29a81c12040f74",
+        "actual": "600c2d20329822d3417694136c42fd9900d03ce1e6722bf82a29a81c12040f74"
+      },
+      {
+        "path": "apps/civicmaps-platform/src/main.tsx",
+        "match": true,
+        "expected": "4648ac9b23a92391c57f2cebaf67ca3c8e7718e893944e134ce53cbcd159b154",
+        "actual": "4648ac9b23a92391c57f2cebaf67ca3c8e7718e893944e134ce53cbcd159b154"
+      },
+      {
+        "path": "apps/civicmaps-platform/src/AdminActivation.tsx",
+        "match": true,
+        "expected": "cd8bc57e8e3f0fe2ef13c44878a6d30c731ef1018fa8b31a90728bc94b89d781",
+        "actual": "cd8bc57e8e3f0fe2ef13c44878a6d30c731ef1018fa8b31a90728bc94b89d781"
+      },
+      {
+        "path": "apps/commandmaps/src/main.tsx",
+        "match": true,
+        "expected": "bc34ab48b5af56c6f2ed63dcae2a8464701bdeba1234e08e0a5ba9ba7873297a",
+        "actual": "bc34ab48b5af56c6f2ed63dcae2a8464701bdeba1234e08e0a5ba9ba7873297a"
+      },
+      {
+        "path": "tests/api-transport.test.mjs",
+        "match": true,
+        "expected": "4f49a51d318b277d71e08cf96e5a1dd1c18171346dacb2f52df67bde33a3b5e6",
+        "actual": "4f49a51d318b277d71e08cf96e5a1dd1c18171346dacb2f52df67bde33a3b5e6"
+      },
+      {
+        "path": "tests/browser-platform.mjs",
+        "match": true,
+        "expected": "b826e5e051203bd73b06a21395b8c81756e944c820b0ba50b0b9892df5ba866c",
+        "actual": "b826e5e051203bd73b06a21395b8c81756e944c820b0ba50b0b9892df5ba866c"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/execution-ledger.md",
+        "match": true,
+        "expected": "f4ff9f75fe14099a8a0e54fac89b8a2801a117842aa2fd017cdbc6aa0f9f75db",
+        "actual": "f4ff9f75fe14099a8a0e54fac89b8a2801a117842aa2fd017cdbc6aa0f9f75db"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/assessment-checkpoint.json",
+        "match": true,
+        "expected": "9490491df0fbacd7f2aa460ba389145d32b13a1c314ca3d5b138581703013ff8",
+        "actual": "9490491df0fbacd7f2aa460ba389145d32b13a1c314ca3d5b138581703013ff8"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/findings.json",
+        "match": true,
+        "expected": "db34dbee92a5efc2df7c9eed94e6ff1d01e1b9388363f90a7b20a4179e097772",
+        "actual": "db34dbee92a5efc2df7c9eed94e6ff1d01e1b9388363f90a7b20a4179e097772"
+      }
+    ]
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix5/output-SHA256SUMS.txt",
+    "commit": "49c2acd0ff3019b37245d45ec4c99ef37c3a353d",
+    "sha256": "83266fd44effada25e64ca5474739107df45f0b6205ead166fc6abe9c586e70e",
+    "entries": [
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/browser-platform.log",
+        "match": true,
+        "expected": "5986b3ef65f70b67f2560182d3c1ecc467038bdca9230f1602573266e7b7c914",
+        "actual": "5986b3ef65f70b67f2560182d3c1ecc467038bdca9230f1602573266e7b7c914"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/browser-commandmaps.log",
+        "match": true,
+        "expected": "1739c5d978cfdf92a40e785373e0e2060f873a1ecd64635453768bf58cee23bc",
+        "actual": "1739c5d978cfdf92a40e785373e0e2060f873a1ecd64635453768bf58cee23bc"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/browser-activation.log",
+        "match": true,
+        "expected": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21",
+        "actual": "9cfcc21b2094be59d600c80874a7a9adfb28380aa2d795f89f6867bc5a1d6d21"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/caddy-contract.log",
+        "match": true,
+        "expected": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3",
+        "actual": "bbf40f4d8c567ad0e2fde913bf011aeac82235d8c928453c69c09d51f42949b3"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/caddy-login.log",
+        "match": true,
+        "expected": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc",
+        "actual": "d46be2da3690293ff09aac585e4e12dd66c81bab9a4845b125b43c6b0c7692dc"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/npm-check.log",
+        "match": true,
+        "expected": "5c218027983ef659bc073a3ca86622c35b61f6814f2c0bb299187c243b80bf30",
+        "actual": "5c218027983ef659bc073a3ca86622c35b61f6814f2c0bb299187c243b80bf30"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/npm-check-lint-failure.log",
+        "match": true,
+        "expected": "27f5a3c07574b402659828a55adceb557c12bc8c99e1cde5d65c7bc048d82120",
+        "actual": "27f5a3c07574b402659828a55adceb557c12bc8c99e1cde5d65c7bc048d82120"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/independent-denial.mjs",
+        "match": true,
+        "expected": "c8107bba75476497b6c5dd8ff969fce9b90439139eaf093a65ceeb704bdb7401",
+        "actual": "c8107bba75476497b6c5dd8ff969fce9b90439139eaf093a65ceeb704bdb7401"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/independent-denial.log",
+        "match": true,
+        "expected": "39b6029ad7d224d7e2a511679a45ae29c7538b8570151eaa79cb945623b51238",
+        "actual": "39b6029ad7d224d7e2a511679a45ae29c7538b8570151eaa79cb945623b51238"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/test-run-adjustment.md",
+        "match": true,
+        "expected": "715f30662f0178bf3b34dcf36ce39e0f7a54bbd606924c349a8f52d37f488a5b",
+        "actual": "715f30662f0178bf3b34dcf36ce39e0f7a54bbd606924c349a8f52d37f488a5b"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/generated-browser-output/desktop-detail.png",
+        "match": true,
+        "expected": "23f2a4f7f7bbf20c4e83b6283ae9cf06605701ce06461f41eacfa0fa7d6533c1",
+        "actual": "23f2a4f7f7bbf20c4e83b6283ae9cf06605701ce06461f41eacfa0fa7d6533c1"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-fix5/generated-browser-output/narrow-officer.png",
+        "match": true,
+        "expected": "cd7fa2da6ccb83222f442d3b362318012cf8a07f795476ef9e4843eb59f367ae",
+        "actual": "cd7fa2da6ccb83222f442d3b362318012cf8a07f795476ef9e4843eb59f367ae"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/report.md",
+        "match": true,
+        "expected": "25c96fbfb7713dbb90cc5d2f0ecf2d65204d6daf724f3f3dfb5106abac5a7ae1",
+        "actual": "25c96fbfb7713dbb90cc5d2f0ecf2d65204d6daf724f3f3dfb5106abac5a7ae1"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/report.sha256",
+        "match": true,
+        "expected": "f8f422819b3907916dbe33df96d213bc422f9545496f8aee61834eb506d7cea9",
+        "actual": "f8f422819b3907916dbe33df96d213bc422f9545496f8aee61834eb506d7cea9"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/SHA256SUMS.txt",
+        "match": true,
+        "expected": "3172e02733d47a317c779d9ab0263ee8eaef0af3a06a740d9534629f396ce08f",
+        "actual": "3172e02733d47a317c779d9ab0263ee8eaef0af3a06a740d9534629f396ce08f"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/input-SHA256SUMS.txt",
+        "match": true,
+        "expected": "1a61d93d862bb21d3b7b1d9b313db47c9cbbf13789b44c5f5c387adf138c70e7",
+        "actual": "1a61d93d862bb21d3b7b1d9b313db47c9cbbf13789b44c5f5c387adf138c70e7"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/manifest-verification.json",
+        "match": true,
+        "expected": "79c5d230717e08cd972a142fcb5b6cf5ea3116fac5647b73b4b2dbdb0dcc2b4a",
+        "actual": "79c5d230717e08cd972a142fcb5b6cf5ea3116fac5647b73b4b2dbdb0dcc2b4a"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/independent-denial.mjs",
+        "match": true,
+        "expected": "c8107bba75476497b6c5dd8ff969fce9b90439139eaf093a65ceeb704bdb7401",
+        "actual": "c8107bba75476497b6c5dd8ff969fce9b90439139eaf093a65ceeb704bdb7401"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/independent-denial.log",
+        "match": true,
+        "expected": "39b6029ad7d224d7e2a511679a45ae29c7538b8570151eaa79cb945623b51238",
+        "actual": "39b6029ad7d224d7e2a511679a45ae29c7538b8570151eaa79cb945623b51238"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/native-denial.mjs",
+        "match": true,
+        "expected": "423e02b36e34d800b66a0cbf6b7a1843e5047f0068211e1d72fe084a39de7924",
+        "actual": "423e02b36e34d800b66a0cbf6b7a1843e5047f0068211e1d72fe084a39de7924"
+      },
+      {
+        "path": "docs/assessments/2026-10-24/evidence/q3-independent-original-fix4/native-denial.log",
+        "match": true,
+        "expected": "a09c1462fa6a7468ca7730082ac6d1afcc7cee02deae83d48dcef50464500ee3",
+        "actual": "a09c1462fa6a7468ca7730082ac6d1afcc7cee02deae83d48dcef50464500ee3"
+      }
+    ]
+  }
+]

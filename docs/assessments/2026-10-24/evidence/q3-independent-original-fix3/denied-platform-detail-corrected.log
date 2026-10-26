@@ -1,0 +1,44 @@
+Port 5173 is in use, trying another one...
+{
+  "denied": 1,
+  "buttons": [
+    {
+      "text": "",
+      "disabled": false
+    },
+    {
+      "text": "",
+      "disabled": false
+    },
+    {
+      "text": "",
+      "disabled": false
+    },
+    {
+      "text": "",
+      "disabled": false
+    },
+    {
+      "text": "",
+      "disabled": false
+    },
+    {
+      "text": "",
+      "disabled": false
+    },
+    {
+      "text": "",
+      "disabled": false
+    },
+    {
+      "text": "",
+      "disabled": false
+    },
+    {
+      "text": "",
+      "disabled": false
+    }
+  ],
+  "body": "Development\nSynthetic data · Metrics are illustrative snapshots\n\nThe operation could not be completed\n\nDomain packs\n\nCAPABILITY CONFIGURATION\n\nBayside Council\n\nbayside · Registry ID: c9d298a2-3a70-4a69-866a-0cb36df9c515\n\nProvisioning\nDomain packs\n\nTurning off a pack blocks new work. Authorised users can still review retained service requests and their audit history. Re-enabling restores permitted access.\n\nParking Services Branch\nAvailable to assign\nLocal Laws\nAssigned to this council\nParks & Gardens\nAssigned to this council\nAnimal Management\nAvailable to assign\nCleaning\nAvailable to assign\nWaste\nAvailable to assign\nSafe City\nAvailable to assign\nLicensing / Permits\nAvailable to assign\nAsset Inspections\nAvailable to assign\nConfiguration activity\n\nNo configuration changes recorded since this fixture was seeded."
+}
+REPRODUCED: platform retains enabled pack mutations after explicit detail 403

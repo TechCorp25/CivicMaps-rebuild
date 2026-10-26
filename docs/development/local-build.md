@@ -72,7 +72,7 @@ Authenticated mutations require `x-csrf-token`; operational writes also require 
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` uses the committed Node version and npm 11.9.0, installs with `npm ci`, and runs `npm run check` against a pinned disposable PostgreSQL 15 service. It verifies generated token files remain unchanged, then runs the CommandMAPS, Platform, and first-admin activation browser suites sequentially. The CommandMAPS browser entry executes the shared-discovery checks. Browser artifacts include desktop and narrow screenshots. Scaffold applications are excluded; native-device checks remain separate acceptance work.
+`.github/workflows/ci.yml` uses the committed Node version and npm 11.9.0, installs with `npm ci`, and runs `npm run check` against a pinned disposable PostgreSQL 15 service. It verifies generated token files remain unchanged, then runs the CommandMAPS, Platform, and first-admin activation browser suites sequentially. The CommandMAPS browser entry executes the shared-discovery checks. A separate [dependency advisory workflow](../security/dependency-audits.md) audits both the production-only and complete lockfile trees on pull requests, pushes, weekly, and on demand. Browser artifacts include desktop and narrow screenshots. Scaffold applications are excluded; native-device checks remain separate acceptance work.
 
 When using an already running dedicated PostgreSQL instance, set `CIVICMAPS_DATABASE_URL` before `npm run check`; skip `db:start`. The test login needs permission to create/drop only its uniquely named disposable databases. Never point these commands at production. A writable npm cache can be selected with `npm_config_cache` in restricted workspaces.
 
@@ -85,6 +85,42 @@ ESLint flat configuration covers implemented CommandMAPS/Platform TypeScript, AP
 Formatting scope is explicit in the root scripts. Archives, scaffold applications, generated tokens, build output and GIS data/tools are excluded. New implemented files must be added to these scopes when needed. Tool entry points use `node node_modules/...` because setup deliberately disables executable links.
 
 The shared test environment in `tests/helpers/environment.mjs` creates one unique disposable database per process, starts its API and closes resources on setup failure and teardown. Do not create a second environment in the same process: the API database module caches its pool. Separate test files run in isolated Node test processes. Never use the configured base database for fixture writes.
+
+## Request database and password work budgets (Q2)
+
+The request PostgreSQL pool allows ten clients, waits at most 1,000 ms to acquire
+one, uses a 1,000 ms lock timeout and a 5,000 ms server-side statement timeout.
+Migrations and seeding use a separate two-client maintenance pool with 10,000 ms
+acquisition, 30,000 ms lock and 120,000 ms statement budgets; these longer DDL
+allowances do not consume request pool connections. On the synthetic local
+workload, 50 read-only indexed counts at concurrency ten had a maximum of
+23.5 ms. The one-second checkout/lock budget is about 42 times that maximum and
+the five-second statement budget is over 200 times it. These are local test
+budgets, not a production latency or throughput guarantee. Transient database
+timeouts and unavailable connections return a generic retryable 503 with
+`Retry-After: 1`.
+
+The request error mapper also recognizes the pinned `pg-pool` message
+`Connection terminated due to connection timeout` (a socket that accepts TCP but
+does not finish the PostgreSQL startup handshake) and the `pg` client message
+`Client has encountered a connection error and is not queryable` after a checked
+out backend dies. The handshake fixture checks 503 plus `Retry-After: 1`; the
+backend fixture verifies the exact non-queryable error is transient and the
+shared pool recovers after discarding the client. The handshake fixture uses a
+stalled loopback TCP socket only; it does not simulate a production database or
+network.
+
+Password derivation and verification use asynchronous Scrypt with a shared
+two-operation admission limit, leaving two workers of Node's default four
+libuv workers available to unrelated work. Saturation returns a generic
+retryable 503 instead of queueing unbounded work. Existing hashes remain
+`32-hex-salt:128-hex-derived-key`; damaged stored values fail as generic login
+errors and emit only a fixed integrity log message. The synthetic 12-request
+login burst measured the lightweight health endpoint at 20.3 ms, within the
+250 ms test budget. Reproduce database and async password measurements with
+`node scripts/measure-q2-baseline.mjs` against an already seeded synthetic
+database. Raw Q2 checks and workload outputs are retained in
+`docs/assessments/2026-10-24/evidence/`.
 
 ## Municipality context binding (F03)
 

@@ -1,0 +1,54 @@
+✔ request and maintenance PostgreSQL budgets are explicit and isolated (1059.507401ms)
+Transient database request failure { code: 'pool-timeout' }
+✔ a saturated request pool returns a bounded retryable response and recovers (1076.539535ms)
+✔ statement timeout cancels server work, rolls back partial writes and reuses the client (5334.004345ms)
+Transient database request failure { code: '55P03' }
+✔ row-lock timeout maps login to retryable failure and preserves the existing session state (1097.350519ms)
+Database rollback failed; pooled client will be discarded { code: 'unknown' }
+✖ a disconnected transaction client is discarded before the pool reconnects (8.217487ms)
+Idle PostgreSQL client error { code: '57P01' }
+✔ an idle PostgreSQL client error is handled and the shared pool recovers (1233.250152ms)
+✔ asynchronous password derivation keeps the existing stored hash format readable (1778.479995ms)
+✔ a malformed stored hash rejects login generically and emits no credential data (102.281623ms)
+✔ password-work overload is retryable and releases capacity for a healthy login (99.763311ms)
+✔ async auth burst leaves the database health endpoint responsive within its measured budget (131.600526ms)
+ℹ health=24.2ms; status distribution={"401":2,"503":10}
+API operation failed: synthetic delayed provider failure
+✔ status admission rejects excess checks while unrelated API work proceeds and always releases (2254.381905ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17417.292895
+
+✖ failing tests:
+
+test at tests/database-budgets.test.mjs:194:1
+✖ a disconnected transaction client is discarded before the pool reconnects (8.217487ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  Error: Client has encountered a connection error and is not queryable
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/work/quality-audits/q2/published/tests/database-budgets.test.mjs:202:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: Client has encountered a connection error and is not queryable
+        at /workspace/work/quality-audits/q2/published/node_modules/pg/lib/client.js:631:17
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async file:///workspace/work/quality-audits/q2/published/tests/database-budgets.test.mjs:209:11
+        at async transaction (file:///workspace/work/quality-audits/q2/published/services/api/database.mjs:81:20)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///workspace/work/quality-audits/q2/published/tests/database-budgets.test.mjs:202:7)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    operator: 'rejects',
+    diff: 'simple'
+  }

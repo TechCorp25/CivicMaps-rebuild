@@ -1,0 +1,139 @@
+[
+  {
+    "probe": "real-http-interrupted-body",
+    "status": 401,
+    "passed": true
+  },
+  {
+    "probe": "real-http-interrupted-body",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "probe": "real-http-interrupted-body",
+    "status": 404,
+    "passed": true
+  },
+  {
+    "probe": "real-http-interrupted-body",
+    "status": 503,
+    "passed": true
+  },
+  {
+    "probe": "controlled-stale-success-persistent-html403",
+    "iteration": 1,
+    "requestId": "2ec17df4-414e-4ef4-87b7-3fba64baa735",
+    "reads": [
+      {
+        "operation": "selection",
+        "requestId": "2ec17df4-414e-4ef4-87b7-3fba64baa735",
+        "requestGeneration": 3,
+        "loadGeneration": 3,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "2ec17df4-414e-4ef4-87b7-3fba64baa735",
+        "requestGeneration": 4,
+        "source": "focus",
+        "loadGeneration": 4,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "2ec17df4-414e-4ef4-87b7-3fba64baa735",
+        "requestGeneration": 5,
+        "source": "interval",
+        "loadGeneration": 5,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "2ec17df4-414e-4ef4-87b7-3fba64baa735",
+        "requestGeneration": 6,
+        "source": "focus",
+        "loadGeneration": 6,
+        "scopeGeneration": 0
+      }
+    ],
+    "passed": true
+  },
+  {
+    "probe": "controlled-stale-success-persistent-html403",
+    "iteration": 2,
+    "requestId": "53135e0e-e4cb-449c-a636-c8a69391fc15",
+    "reads": [
+      {
+        "operation": "selection",
+        "requestId": "53135e0e-e4cb-449c-a636-c8a69391fc15",
+        "requestGeneration": 3,
+        "loadGeneration": 3,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "53135e0e-e4cb-449c-a636-c8a69391fc15",
+        "requestGeneration": 4,
+        "source": "focus",
+        "loadGeneration": 4,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "53135e0e-e4cb-449c-a636-c8a69391fc15",
+        "requestGeneration": 5,
+        "source": "interval",
+        "loadGeneration": 5,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "53135e0e-e4cb-449c-a636-c8a69391fc15",
+        "requestGeneration": 6,
+        "source": "focus",
+        "loadGeneration": 6,
+        "scopeGeneration": 0
+      }
+    ],
+    "passed": true
+  },
+  {
+    "probe": "controlled-stale-success-persistent-html403",
+    "iteration": 3,
+    "requestId": "20ebe1d7-e29a-4568-a395-8f399de4ae5b",
+    "reads": [
+      {
+        "operation": "selection",
+        "requestId": "20ebe1d7-e29a-4568-a395-8f399de4ae5b",
+        "requestGeneration": 3,
+        "loadGeneration": 3,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "20ebe1d7-e29a-4568-a395-8f399de4ae5b",
+        "requestGeneration": 4,
+        "source": "focus",
+        "loadGeneration": 4,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "20ebe1d7-e29a-4568-a395-8f399de4ae5b",
+        "requestGeneration": 5,
+        "source": "interval",
+        "loadGeneration": 5,
+        "scopeGeneration": 0
+      },
+      {
+        "operation": "refresh",
+        "requestId": "20ebe1d7-e29a-4568-a395-8f399de4ae5b",
+        "requestGeneration": 6,
+        "source": "focus",
+        "loadGeneration": 6,
+        "scopeGeneration": 0
+      }
+    ],
+    "passed": true
+  }
+]

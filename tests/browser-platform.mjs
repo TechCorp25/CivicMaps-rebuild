@@ -171,8 +171,20 @@ try {
   await pack.click();
   await dialog.getByRole('button', { name: 'Turn off pack', exact: true }).click();
   await expect(pack).toHaveAttribute('aria-checked', 'false');
+  let malformedPackWrites = 0;
+  const malformedPackResponse = async (route) => {
+    malformedPackWrites++;
+    const committed = await route.fetch();
+    expect(committed.status()).toBe(200);
+    await route.fulfill({ response: committed, body: '' });
+  };
+  const malformedPackPath = `**/api/platform/municipalities/${result.municipality.id}/packs`;
+  await page.route(malformedPackPath, malformedPackResponse);
   await pack.click();
+  await expect(page.getByRole('alert')).toContainText('may have saved this change');
   await expect(pack).toHaveAttribute('aria-checked', 'true');
+  expect(malformedPackWrites).toBe(1);
+  await page.unroute(malformedPackPath, malformedPackResponse);
   const record = await pool.query(
     'SELECT packs,version,status FROM platform_municipalities WHERE id=$1',
     [result.municipality.id],
@@ -239,15 +251,21 @@ try {
   const alphaUrl = `**/api/platform/municipalities/${alpha.municipality.id}`;
   const held = Promise.withResolvers();
   const intercepted = Promise.withResolvers();
-  const released = Promise.withResolvers();
+  let responseReleased = false;
   await page.route(
     alphaUrl,
     async (route) => {
       const response = await route.fetch();
       intercepted.resolve();
       await held.promise;
-      await route.fulfill({ response });
-      released.resolve();
+      try {
+        await route.fulfill({ response });
+      } catch {
+        // Navigation may cancel this obsolete response; handler settlement is still
+        // observed below so the test does not race its own interception callback.
+      } finally {
+        responseReleased = true;
+      }
     },
     { times: 1 },
   );
@@ -258,7 +276,7 @@ try {
   }, beta.municipality.id);
   await expect(provisioning).toContainText(beta.jobId);
   held.resolve();
-  await released.promise;
+  await expect.poll(() => responseReleased, { timeout: 5000 }).toBe(true);
   // Let the released response render before a later poll could conceal stale data.
   await page.waitForTimeout(100);
   await expect(page.getByRole('heading', { name: 'Recovery Beta', exact: true })).toBeVisible();
@@ -380,7 +398,7 @@ try {
   expect(heldReads).toBe(1);
   await page.clock.setSystemTime(new Date(Date.now() + 301000));
   await page.clock.runFor(1001);
-  await expect(routing.getByRole('status')).toContainText('Verification expired');
+  await expect(routing.getByRole('status')).toContainText('Routing status unavailable');
   await routing.screenshot({ path: 'test-results/f06q-routing-expired.png' });
   // Serial retries may time out, but at most one live browser fetch is allowed at a time.
   // Navigate while old responses are held; they cannot repaint the new council.
@@ -397,6 +415,9 @@ try {
   await page.clock.resume();
   await page.goto(`${origin}/#municipalities/${cloudCouncil.municipality.id}`);
   await expect(routing.getByRole('status')).toContainText('ready');
+  await page.clock.setSystemTime(new Date(Date.now() + 301000));
+  await page.clock.runFor(1001);
+  await expect(routing.getByRole('status')).toContainText('Verification expired');
   await page.screenshot({
     path: 'test-results/platform-aws-resources-desktop.png',
     fullPage: true,
@@ -404,12 +425,242 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: 'test-results/platform-aws-resources-narrow.png', fullPage: true });
+  // A mutation's late 401 belongs to the page scope where it began. Navigation
+  // aborts it and must not clear the still-authenticated platform session.
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(`${origin}/#packs/${cloudCouncil.municipality.id}`);
+  const scopedPack = page.getByRole('switch', { name: 'Local Laws', exact: true });
+  await expect(scopedPack).toBeVisible();
+  await scopedPack.click();
+  const scopedDialog = page.getByRole('dialog');
+  const mutationGate = Promise.withResolvers();
+  let mutationReleased = false;
+  let mutationCancelled = false;
+  const mutationFailSafe = setTimeout(() => mutationGate.resolve(), 10000);
+  const mutationPath = `**/api/platform/municipalities/${cloudCouncil.municipality.id}/packs`;
+  await page.route(mutationPath, async (route) => {
+    await mutationGate.promise;
+    try {
+      await route.fulfill({
+        status: 401,
+        contentType: 'text/html',
+        body: '<html>expired</html>',
+      });
+    } catch {
+      // The route is expected to have been cancelled by the navigation.
+    } finally {
+      mutationReleased = true;
+    }
+  });
+  const mutationFailureListener = (request) => {
+    if (request.url().endsWith(`/municipalities/${cloudCouncil.municipality.id}/packs`))
+      mutationCancelled = true;
+  };
+  page.on('requestfailed', mutationFailureListener);
+  const mutationRequest = page.waitForRequest(
+    (request) =>
+      request.method() === 'POST' &&
+      request.url().endsWith(`/municipalities/${cloudCouncil.municipality.id}/packs`),
+    { timeout: 5000 },
+  );
+  // The confirmation handler starts the intercepted write on an explicit button action.
+  await scopedDialog.getByRole('button', { name: 'Turn off pack', exact: true }).click();
+  await mutationRequest;
+  await page.evaluate(() => {
+    window.location.hash = 'health';
+  });
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await expect.poll(() => mutationCancelled, { timeout: 5000 }).toBe(true);
+  mutationGate.resolve();
+  clearTimeout(mutationFailSafe);
+  await expect.poll(() => mutationReleased).toBe(true);
+  await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await page.unroute(mutationPath);
+  page.off('requestfailed', mutationFailureListener);
+  // An uncertain write may reconcile the session, but that follow-on read belongs
+  // to the same route scope as the write and must not clear a newer page's session.
+  async function verifySessionReconciliationScope(reconciliationRun) {
+    await page.goto(`${origin}/#packs/${cloudCouncil.municipality.id}`);
+    const reconcilePack = page.getByRole('switch', { name: 'Local Laws', exact: true });
+    await expect(reconcilePack).toBeVisible();
+    await reconcilePack.click();
+    const reconcileDialog = page.getByRole('dialog');
+    const sessionReadGate = Promise.withResolvers();
+    let sessionReadStarted = false;
+    let sessionReadCancelled = false;
+    let sessionResponseHandlerSettled = false;
+    const sessionFailSafe = setTimeout(() => sessionReadGate.resolve(), 10000);
+    const uncertainPackPath = `**/api/platform/municipalities/${cloudCouncil.municipality.id}/packs`;
+    await page.route(uncertainPackPath, (route) =>
+      route.fulfill({
+        status: 503,
+        contentType: 'text/html',
+        body: '<html>uncertain write</html>',
+      }),
+    );
+    await page.route('**/api/platform/auth/session', async (route) => {
+      sessionReadStarted = true;
+      await sessionReadGate.promise;
+      try {
+        await route.fulfill({
+          status: 401,
+          contentType: 'text/html',
+          body: '<html>obsolete denial</html>',
+        });
+      } catch {
+        // The route is expected to have been cancelled by the navigation.
+      } finally {
+        sessionResponseHandlerSettled = true;
+      }
+    });
+    const sessionFailureListener = (request) => {
+      if (request.url().endsWith('/api/platform/auth/session')) sessionReadCancelled = true;
+    };
+    page.on('requestfailed', sessionFailureListener);
+    const uncertainPost = page.waitForRequest(
+      (request) =>
+        request.method() === 'POST' &&
+        request.url().endsWith(`/municipalities/${cloudCouncil.municipality.id}/packs`),
+      { timeout: 5000 },
+    );
+    await reconcileDialog.getByRole('button', { name: 'Turn off pack', exact: true }).click();
+    await uncertainPost;
+    await expect.poll(() => sessionReadStarted, { timeout: 5000 }).toBe(true);
+    await page.evaluate(() => {
+      window.location.hash = 'health';
+    });
+    await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+    await expect.poll(() => sessionReadCancelled, { timeout: 5000 }).toBe(true);
+    sessionReadGate.resolve();
+    clearTimeout(sessionFailSafe);
+    await expect.poll(() => sessionResponseHandlerSettled, { timeout: 5000 }).toBe(true);
+    await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toHaveCount(0);
+    const currentSessionStatus = (
+      await page.request.get(`${origin}/api/platform/auth/session`)
+    ).status();
+    expect(currentSessionStatus).toBe(200);
+    await page.unroute(uncertainPackPath);
+    await page.unroute('**/api/platform/auth/session');
+    page.off('requestfailed', sessionFailureListener);
+    console.log(
+      JSON.stringify({
+        operation: 'uncertain-session-reconciliation-scope',
+        reconciliationRun,
+        sessionReadCancelled,
+        sessionResponseHandlerSettled,
+        currentSessionStatus,
+        currentPage: 'health',
+      }),
+    );
+  }
+
+  for (let reconciliationRun = 1; reconciliationRun <= 3; reconciliationRun += 1) {
+    await verifySessionReconciliationScope(reconciliationRun);
+  }
+  // An explicit detail denial invalidates cached action state and stops automatic
+  // retries until a new route scope performs a fresh detail read.
+  await page.goto(`${origin}/#packs/${cloudCouncil.municipality.id}`);
+  const deniedPackSwitches = page.getByRole('switch');
+  await expect(deniedPackSwitches.first()).toBeEnabled();
+  await page.getByRole('switch', { name: 'Local Laws', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  let deniedDetailReads = 0;
+  const deniedDetailPath = `**/api/platform/municipalities/${cloudCouncil.municipality.id}`;
+  await page.route(
+    deniedDetailPath,
+    (route) => {
+      deniedDetailReads += 1;
+      return route.fulfill({
+        status: 403,
+        contentType: 'text/html',
+        body: '<html>denied audit marker</html>',
+      });
+    },
+    { times: 1 },
+  );
+  await page.clock.runFor(16000);
+  await expect.poll(() => deniedDetailReads, { timeout: 5000 }).toBe(1);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('alert')).toContainText('operation could not be completed');
+  const deniedSwitchStates = await deniedPackSwitches.evaluateAll((items) =>
+    items.map((item) => item.disabled),
+  );
+  expect(deniedSwitchStates.length).toBeGreaterThan(0);
+  expect(deniedSwitchStates.every(Boolean)).toBe(true);
+  await page.clock.runFor(16000);
+  expect(deniedDetailReads).toBe(1);
+  await expect(page.locator('main')).not.toContainText('denied audit marker');
+  await page.unroute(deniedDetailPath);
+  await page.evaluate(() => {
+    window.location.hash = 'health';
+  });
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await page.evaluate((id) => {
+    window.location.hash = `packs/${id}`;
+  }, cloudCouncil.municipality.id);
+  await expect(deniedPackSwitches.first()).toBeEnabled();
+  await page.getByRole('switch', { name: 'Local Laws', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.evaluate((path) => {
+    const originalFetch = window.fetch.bind(window);
+    window.__nativeFetch = originalFetch;
+    window.__interruptedDenialReads = 0;
+    window.fetch = async (input, init) => {
+      const url = new URL(typeof input === 'string' ? input : input.url, window.location.href);
+      if (url.pathname === path) {
+        window.__interruptedDenialReads += 1;
+        const body = new ReadableStream({
+          start(controller) {
+            controller.error(new TypeError('private interrupted response body'));
+          },
+        });
+        return new Response(body, { status: 403 });
+      }
+      return originalFetch(input, init);
+    };
+  }, `/api/platform/municipalities/${cloudCouncil.municipality.id}`);
+  await page.clock.runFor(16000);
+  await expect.poll(() => page.evaluate(() => window.__interruptedDenialReads)).toBe(1);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('alert')).toContainText('service could not be reached');
+  await expect(page.locator('main')).not.toContainText('private interrupted response body');
+  const interruptedSwitchStates = await deniedPackSwitches.evaluateAll((items) =>
+    items.map((item) => item.disabled),
+  );
+  expect(interruptedSwitchStates.length).toBeGreaterThan(0);
+  expect(interruptedSwitchStates.every(Boolean)).toBe(true);
+  await page.clock.runFor(16000);
+  const interruptedDetailReads = await page.evaluate(() => window.__interruptedDenialReads);
+  expect(interruptedDetailReads).toBe(1);
+  await page.evaluate(() => {
+    window.fetch = window.__nativeFetch;
+    delete window.__nativeFetch;
+    window.location.hash = 'health';
+  });
+  await expect(page.getByRole('heading', { name: 'Network health', exact: true })).toBeVisible();
+  await page.evaluate((id) => {
+    window.location.hash = `packs/${id}`;
+  }, cloudCouncil.municipality.id);
+  await expect(deniedPackSwitches.first()).toBeEnabled();
+  console.log(
+    JSON.stringify({
+      operation: 'explicit-detail-denial-html-and-interrupted-body',
+      status: 403,
+      deniedDetailReads,
+      disabledSwitches: deniedSwitchStates.filter(Boolean).length,
+      interruptedDetailReads,
+      interruptedDisabledSwitches: interruptedSwitchStates.filter(Boolean).length,
+      automaticRetriesAfterDenial: deniedDetailReads - 1,
+      controlsRestoredByFreshScope: true,
+    }),
+  );
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toBeVisible();
   expect((await page.request.get(`${origin}/api/platform/municipalities`)).status()).toBe(401);
   expect(errors).toEqual([]);
   console.log(
-    'PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.',
+    'PASS: platform sign-in errors, keyboard wizard, registration, durable job status, retry/reconcile, worker crash/restart, session reload, committed malformed-pack response reconciliation, pack confirmation/cancel, audit, filters, unavailable recovery, health, narrow layout and logout.',
   );
 } finally {
   delete process.env.CIVICMAPS_PROVISIONING_PROFILE;

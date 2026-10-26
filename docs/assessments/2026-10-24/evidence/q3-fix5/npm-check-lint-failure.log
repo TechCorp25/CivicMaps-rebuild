@@ -1,0 +1,14 @@
+
+> civicmaps-local@0.1.0 check
+> npm run lint && npm run format:check && npm run typecheck && npm run build && npm test
+
+
+> civicmaps-local@0.1.0 lint
+> node node_modules/eslint/bin/eslint.js . --max-warnings=0
+
+
+/workspace/work/quality-q3-fix5/tests/browser-platform.mjs
+  579:74  error  'location' is not defined  no-undef
+
+✖ 1 problem (1 error, 0 warnings)
+

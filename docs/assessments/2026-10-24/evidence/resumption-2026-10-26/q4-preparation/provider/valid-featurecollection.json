@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "provider-valid",
+      "properties": {
+        "fixture_id": "provider-valid",
+        "seg_descr": "Provider Road",
+        "str_type": "synthetic"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9602,
+              -37.8098
+            ],
+            [
+              144.9608,
+              -37.8098
+            ],
+            [
+              144.9608,
+              -37.8092
+            ],
+            [
+              144.9602,
+              -37.8092
+            ],
+            [
+              144.9602,
+              -37.8098
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

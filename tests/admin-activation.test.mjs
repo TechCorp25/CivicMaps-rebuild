@@ -63,7 +63,13 @@ test('F07 issuance, atomic activation, explicit least privilege, recovery and di
     ])
       await env.pool.query(
         'INSERT INTO platform_first_admins(municipality_id,first_name,last_name,email,password_hash) VALUES($1,$2,$3,$4,$5)',
-        [id, 'Synthetic', 'Admin', email, hashPassword('legacy-unused-registration-password')],
+        [
+          id,
+          'Synthetic',
+          'Admin',
+          email,
+          await hashPassword('legacy-unused-registration-password'),
+        ],
       );
     const operator = await call('/platform/auth/login', {
       email: 'operator@platform.example',

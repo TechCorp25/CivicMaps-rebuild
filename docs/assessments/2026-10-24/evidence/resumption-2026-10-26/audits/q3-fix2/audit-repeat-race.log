@@ -1,0 +1,18 @@
+/workspace/work/quality-audits/q3-fix2/published/node_modules/playwright/lib/matchers/expect.js:213
+        return matcher.call(target, ...args);
+                       ^
+
+A [Error]: expect(received).toBeTruthy()
+
+Received: undefined
+    at Proxy.<anonymous> (/workspace/work/quality-audits/q3-fix2/published/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at seedQueueOverflow (file:///workspace/work/quality-audits/q3-fix2/audit-repeat-race.mjs:13:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///workspace/work/quality-audits/q3-fix2/audit-repeat-race.mjs:50:2 {
+  matcherResult: {
+    message: 'expect(received).toBeTruthy()\n\nReceived: undefined',
+    pass: false
+  }
+}
+
+Node.js v24.19.0

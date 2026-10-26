@@ -1,0 +1,5 @@
+commandmaps=0
+platform=0
+activation=0
+caddy-contract=0
+caddy-login=0

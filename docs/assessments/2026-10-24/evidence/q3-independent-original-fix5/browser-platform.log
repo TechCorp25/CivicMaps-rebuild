@@ -1,0 +1,29 @@
+
+> civicmaps-local@0.1.0 test:platform:browser
+> node tests/browser-platform.mjs
+
+/workspace/work/quality-audits/q3-fix5/published/node_modules/playwright/lib/matchers/expect.js:213
+        return matcher.call(target, ...args);
+                       ^
+
+A [Error]: expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false
+    at Proxy.<anonymous> (/workspace/work/quality-audits/q3-fix5/published/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at file:///workspace/work/quality-audits/q3-fix5/published/tests/browser-platform.mjs:513:36
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:502:9) {
+  matcherResult: {
+    actual: false,
+    expected: true,
+    message: 'expect(received).toBe(expected) // Object.is equality\n' +
+      '\n' +
+      'Expected: true\n' +
+      'Received: false',
+    name: 'toBe',
+    pass: false
+  }
+}
+
+Node.js v24.19.0

@@ -1,0 +1,11 @@
+
+> civicmaps-local@0.1.0 db:migrate
+> node services/api/migrate.mjs
+
+Foundation migrations applied or already present
+
+> civicmaps-local@0.1.0 db:seed
+> node services/api/seed.mjs && node services/api/seed-platform.mjs
+
+6 synthetic users seeded; existing passwords and records preserved
+Synthetic platform operator, municipalities and metric snapshots seeded; existing configuration preserved
