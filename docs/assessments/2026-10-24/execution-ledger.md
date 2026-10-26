@@ -373,3 +373,7 @@ check, browser, Caddy and preserved original-audit evidence with hashes are unde
 remains `1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea`.
 Q3 remains unaccepted pending publication and fresh independent review; no push,
 merge, deployment or live data operation occurred.
+
+## Owner-required pre-resumption publication
+
+Publish all retained local workstream edits/evidence before continuing (owner instruction26October2026). Snapshot `evidence/resumption-2026-10-26/` preserves raw audit files, generated screenshots and synthetic Q4 preparation. Q3product60bb8c443f99a57d3f7c31f000d06523baccafa2 remains unaccepted: HTTP403 headers plus interruptedbody leaves controls enabled. Auditor allowance interruption prevented final report. Isolated fix5 contains unfinished getHttpStatus helper; no acceptance/validation claimed. Next: finish class-independent HTTP status handling and tests, run required gates, publish candidate, fresh whole-Q3AstraLow review. Q4implementation blocked.

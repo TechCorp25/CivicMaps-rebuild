@@ -1,0 +1,260 @@
+[
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "package.json",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/shared/api-transport.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/shared/api-transport.d.mts",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/commandmaps/src/main.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/commandmaps/src/Activation.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/civicmaps-platform/src/api.ts",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/civicmaps-platform/src/main.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/civicmaps-platform/src/AdminActivation.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "apps/civicmaps-platform/src/Onboarding.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/api-transport.test.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/browser.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/browser/m1-discovery.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/browser-commandmaps.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "tests/browser-platform.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-setup.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-check.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-api-transport.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-commandmaps-browser.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-platform-browser.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-activation-browser.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-controlled-detail-race.json",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-ingress-contract.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-SHA256SUMS.txt",
+    "commit": "5e3e7b90196599815deb39d3007430ef5f09b6da",
+    "path": "docs/assessments/2026-10-24/evidence/q3-ingress-login.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "apps/civicmaps-platform/src/AdminActivation.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "apps/civicmaps-platform/src/main.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "apps/commandmaps/src/RequestComposer.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "apps/commandmaps/src/main.tsx",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "apps/shared/api-transport.d.mts",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "apps/shared/api-transport.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "tests/api-transport.test.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "tests/browser-platform.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "tests/browser.mjs",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/setup.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/final-check-3.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/pre-session-reconcile-check.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/earlier-full-check.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-type-guard-check-failure.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/platform-browser.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/commandmaps-browser.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/activation-browser.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/caddy-contract.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/caddy-login.log",
+    "match": true
+  },
+  {
+    "manifest": "docs/assessments/2026-10-24/evidence/q3-fix2/SHA256SUMS.txt",
+    "commit": "6fab138ffe0290ab66358d272518b0630d0fae76",
+    "path": "docs/assessments/2026-10-24/evidence/q3-fix2/intermediate-commandmaps-failure.log",
+    "match": true
+  }
+]

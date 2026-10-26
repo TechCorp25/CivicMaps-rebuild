@@ -1,0 +1,5 @@
+{"str_name": "Alpha Street", "street_no": "1", "longitude": 144.9604, "latitude": -37.8095, "suburb": "Synthetic CBD"}
+{"str_name":"broken JSON",
+{"str_name": "", "street_no": "2", "longitude": 144.9605, "latitude": -37.8094, "suburb": "Synthetic CBD"}
+{"str_name": "No Coordinates", "street_no": "3", "suburb": "Synthetic CBD"}
+{"str_name": "Bad Coordinate", "street_no": "4", "longitude": "not-a-number", "latitude": -37.8094, "suburb": "Synthetic CBD"}

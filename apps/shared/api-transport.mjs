@@ -117,6 +117,12 @@ export function isRequestCancelled(error) {
   return error instanceof RequestCancelledError;
 }
 
+export function getHttpStatus(error) {
+  if (!error || typeof error !== 'object') return null;
+  const { status } = error;
+  return Number.isInteger(status) && status >= 100 && status <= 599 ? status : null;
+}
+
 export function isUncertainWriteError(error) {
   return error instanceof Error && 'uncertainWrite' in error && error.uncertainWrite === true;
 }

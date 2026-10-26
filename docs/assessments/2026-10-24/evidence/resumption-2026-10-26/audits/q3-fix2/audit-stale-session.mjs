@@ -1,0 +1,37 @@
+import { chromium, expect } from './published/node_modules/@playwright/test/index.mjs';
+import { createServer } from './published/node_modules/vite/dist/node/index.js';
+import { createTestEnvironment } from './published/tests/helpers/environment.mjs';
+let environment, vite, browser;
+try {
+ environment = await createTestEnvironment({ platform: true });
+ vite = await createServer({configFile:false,root:new URL('./published/apps/civicmaps-platform/',import.meta.url).pathname,server:{host:'127.0.0.1',port:0,fs:{allow:[new URL('./published/',import.meta.url).pathname]},proxy:{'/api':environment.origin}}});
+ await vite.listen();
+ const origin=`http://127.0.0.1:${vite.httpServer.address().port}`;
+ process.env.CIVICMAPS_ORIGINS=origin;
+ browser=await chromium.launch({headless:true});
+ const page=await browser.newPage();
+ await page.goto(origin);
+ await page.getByLabel('Platform operator email').fill('operator@platform.example');
+ await page.getByLabel('Password',{exact:true}).fill('CivicMAPS-local-2026!');
+ await page.getByRole('button',{name:'Sign in',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Municipalities',exact:true})).toBeVisible();
+ const id='20000000-0000-4000-8000-000000000001';
+ await page.goto(`${origin}/#packs/${id}`);
+ const pack=page.getByRole('switch',{name:'Local Laws',exact:true});
+ await expect(pack).toBeVisible();
+ const entered=Promise.withResolvers(), gate=Promise.withResolvers();
+ let sessionCancelled=false;
+ page.on('requestfailed',r=>{if(r.url().endsWith('/auth/session'))sessionCancelled=true;});
+ await page.route('**/api/platform/auth/session',async route=>{entered.resolve();await gate.promise;await route.fulfill({status:401,contentType:'text/html',body:'<html>obsolete denial</html>'}).catch(()=>{});});
+ await page.route(`**/api/platform/municipalities/${id}/packs`,route=>route.fulfill({status:503,contentType:'text/html',body:'<html>uncertain write</html>'}));
+ await pack.click();
+ if(await page.getByRole('dialog').count()) await page.getByRole('dialog').getByRole('button',{name:'Turn off pack',exact:true}).click();
+ await entered.promise;
+ await page.evaluate(()=>location.hash='health');
+ await expect(page.getByRole('heading',{name:'Network health',exact:true})).toBeVisible();
+ gate.resolve();
+ await expect(page.getByRole('heading',{name:'Sign in to Platform',exact:true})).toBeVisible();
+ const serverSession=await page.request.get(`${origin}/api/platform/auth/session`);
+ console.log(JSON.stringify({observed:'obsolete reconciliation session 401 cleared current authenticated view',sessionCancelled,serverSessionStatus:serverSession.status(),uiSignIn:await page.getByRole('heading',{name:'Sign in to Platform',exact:true}).isVisible()}));
+ expect(serverSession.status()).toBe(200);
+} finally {await browser?.close();await vite?.close();await environment?.close();}

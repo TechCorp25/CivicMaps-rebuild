@@ -1,0 +1,254 @@
+[
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/development/local-build.md",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "services/api/admin-activation.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "services/api/app.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "services/api/database.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "services/api/migrate.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "services/api/passwords.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "services/api/platform.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "services/api/seed-platform.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "services/api/seed.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "tests/admin-activation.test.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "tests/browser-activation.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "tests/context-migration.test.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "tests/council-principal-ownership-migration.test.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "tests/database-budgets.test.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "tests/password-work.test.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "scripts/measure-q2-baseline.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-setup.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-check.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-database-budgets.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-password-work.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-baseline-workload.json",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-commandmaps-browser.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-platform-browser.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-activation-browser.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-ingress-contract.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-SHA256SUMS.txt",
+    "revision": "fe736c3ff390b22214de316a8a4ca6f4d90fbb45",
+    "path": "docs/assessments/2026-10-24/evidence/q2-ingress-login.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/development/local-build.md",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "services/api/database.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "tests/database-budgets.test.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "tests/database-handshake-timeout.test.mjs",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-setup.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-connect-timeout-before.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-connect-timeout-after.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-backend-before.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-backend-after.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-focused.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-check.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-commandmaps-browser.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-platform-browser.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-activation-browser.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-ingress-contract.log",
+    "matches": true
+  },
+  {
+    "manifest": "q2-fix-SHA256SUMS.txt",
+    "revision": "HEAD",
+    "path": "docs/assessments/2026-10-24/evidence/q2-fix-ingress-login.log",
+    "matches": true
+  }
+]

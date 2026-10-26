@@ -1,0 +1,386 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic-geometry-regressions",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "square-basic",
+      "properties": {
+        "fixture_id": "square-basic",
+        "seg_descr": "Alpha Street between West Road and East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9601,
+              -37.8099
+            ],
+            [
+              144.9609,
+              -37.8099
+            ],
+            [
+              144.9609,
+              -37.8091
+            ],
+            [
+              144.9601,
+              -37.8091
+            ],
+            [
+              144.9601,
+              -37.8099
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "square-resampled",
+      "properties": {
+        "fixture_id": "square-resampled",
+        "seg_descr": "Alpha Street between West Road and East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9601,
+              -37.8099
+            ],
+            [
+              144.9603,
+              -37.8099
+            ],
+            [
+              144.9605,
+              -37.8099
+            ],
+            [
+              144.9607,
+              -37.8099
+            ],
+            [
+              144.9609,
+              -37.8099
+            ],
+            [
+              144.9609,
+              -37.8091
+            ],
+            [
+              144.9601,
+              -37.8091
+            ],
+            [
+              144.9601,
+              -37.8099
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "concave-u",
+      "properties": {
+        "fixture_id": "concave-u",
+        "seg_descr": "Concave Road between West Road and East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9601,
+              -37.8099
+            ],
+            [
+              144.9609,
+              -37.8099
+            ],
+            [
+              144.9609,
+              -37.8091
+            ],
+            [
+              144.96065,
+              -37.8091
+            ],
+            [
+              144.96065,
+              -37.80965
+            ],
+            [
+              144.96035,
+              -37.80965
+            ],
+            [
+              144.96035,
+              -37.8091
+            ],
+            [
+              144.9601,
+              -37.8091
+            ],
+            [
+              144.9601,
+              -37.8099
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "hole-center-in-void",
+      "properties": {
+        "fixture_id": "hole-center-in-void",
+        "seg_descr": "Hollow Road between West Road and East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9601,
+              -37.8099
+            ],
+            [
+              144.9609,
+              -37.8099
+            ],
+            [
+              144.9609,
+              -37.8091
+            ],
+            [
+              144.9601,
+              -37.8091
+            ],
+            [
+              144.9601,
+              -37.8099
+            ]
+          ],
+          [
+            [
+              144.96035,
+              -37.80965
+            ],
+            [
+              144.96065,
+              -37.80965
+            ],
+            [
+              144.96065,
+              -37.80935
+            ],
+            [
+              144.96035,
+              -37.80935
+            ],
+            [
+              144.96035,
+              -37.80965
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "multipart-west-east",
+      "properties": {
+        "fixture_id": "multipart-west-east",
+        "seg_descr": "Multipart Road between West Road and East Road"
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                144.9601,
+                -37.8098
+              ],
+              [
+                144.9604,
+                -37.8098
+              ],
+              [
+                144.9604,
+                -37.8095
+              ],
+              [
+                144.9601,
+                -37.8095
+              ],
+              [
+                144.9601,
+                -37.8098
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                144.9616,
+                -37.8098
+              ],
+              [
+                144.9619,
+                -37.8098
+              ],
+              [
+                144.9619,
+                -37.8095
+              ],
+              [
+                144.9616,
+                -37.8095
+              ],
+              [
+                144.9616,
+                -37.8098
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "touch-only-east",
+      "properties": {
+        "fixture_id": "touch-only-east",
+        "seg_descr": "Boundary Road between West Road and East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9607,
+              -37.8098
+            ],
+            [
+              144.961,
+              -37.8098
+            ],
+            [
+              144.961,
+              -37.8092
+            ],
+            [
+              144.9607,
+              -37.8092
+            ],
+            [
+              144.9607,
+              -37.8098
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "equal-overlap-tie",
+      "properties": {
+        "fixture_id": "equal-overlap-tie",
+        "seg_descr": "Tie Road between West Road and East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9605,
+              -37.8098
+            ],
+            [
+              144.9615,
+              -37.8098
+            ],
+            [
+              144.9615,
+              -37.8092
+            ],
+            [
+              144.9605,
+              -37.8092
+            ],
+            [
+              144.9605,
+              -37.8098
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "unequal-cross-zone",
+      "properties": {
+        "fixture_id": "unequal-cross-zone",
+        "seg_descr": "Cross Zone Road between West Road and East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9602,
+              -37.8098
+            ],
+            [
+              144.9614,
+              -37.8098
+            ],
+            [
+              144.9614,
+              -37.8092
+            ],
+            [
+              144.9602,
+              -37.8092
+            ],
+            [
+              144.9602,
+              -37.8098
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "boundary-line",
+      "properties": {
+        "fixture_id": "boundary-line",
+        "seg_descr": "Boundary Centerline"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              144.961,
+              -37.8099
+            ],
+            [
+              144.961,
+              -37.8091
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+
+> civicmaps-local@0.1.0 check
+> npm run lint && npm run format:check && npm run typecheck && npm run build && npm test
+
+
+> civicmaps-local@0.1.0 lint
+> node node_modules/eslint/bin/eslint.js . --max-warnings=0
+
+
+> civicmaps-local@0.1.0 format:check
+> node node_modules/prettier/bin/prettier.cjs --check "apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}" "apps/shared/**/*.{mjs,mts}" "{services/api,scripts,tests}/**/*.mjs" "eslint.config.mjs" ".prettierrc.json" "package.json" ".github/workflows/*.yml"
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> civicmaps-local@0.1.0 typecheck
+> npm --prefix apps/commandmaps run typecheck && npm --prefix apps/civicmaps-platform run typecheck
+
+
+> @civicmaps/commandmaps@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+
+> @civicmaps/civicmaps-platform@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+
+> civicmaps-local@0.1.0 build
+> npm run tokens && npm --prefix apps/commandmaps run build && npm --prefix apps/civicmaps-platform run build
+
+
+> civicmaps-local@0.1.0 tokens
+> node scripts/generate-tokens.mjs
+
+Canonical CivicMAPS tokens generated
+
+> @civicmaps/commandmaps@0.1.0 build
+> node ../../node_modules/typescript/bin/tsc --noEmit && node ../../scripts/vite.mjs build
+
+vite v6.4.4 building for production...
+transforming...
+✓ 1585 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                  0.40 kB │ gzip:  0.28 kB
+dist/assets/DMSans-VariableFont_opsz_wght-D_B5dL4R.ttf         238.98 kB
+dist/assets/DMSans-Italic-VariableFont_opsz_wght-CT59GZwy.ttf  283.52 kB
+dist/assets/index-BdUhjxuC.css                                  22.15 kB │ gzip:  5.30 kB
+dist/assets/index-X0b_KBKd.js                                  241.61 kB │ gzip: 74.78 kB
+✓ built in 2.95s
+
+> @civicmaps/civicmaps-platform@0.1.0 build
+> node ../../node_modules/typescript/bin/tsc --noEmit && node ../../scripts/vite.mjs build
+
+vite v6.4.4 building for production...
+transforming...
+✓ 1587 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                           0.53 kB │ gzip:  0.35 kB
+dist/assets/DMSans-VariableFont_opsz_wght-D_B5dL4R.ttf  238.98 kB
+dist/assets/index-C7DT0TPs.css                           17.02 kB │ gzip:  4.13 kB
+dist/assets/index-YIMYFTR5.js                           237.77 kB │ gzip: 72.96 kB
+✓ built in 2.73s
+
+> civicmaps-local@0.1.0 test
+> node --test 'tests/**/*.test.mjs'
+
+✔ F07 populated upgrade and replay preserve pending registration, credentials, contexts and sessions without activation (2141.461227ms)
+API operation failed: synthetic owner write rejected
+✔ F07 issuance, atomic activation, explicit least privilege, recovery and disable preserve ownership (3620.653675ms)
+✔ admission gate rejects without queueing and releases permits idempotently (1.073688ms)
+✔ shared API transport preserves status and safe errors across response and cancellation forms (66.561337ms)
+✔ compressed JSON parsing rejects malformed bodies and keeps the API process healthy (1341.875907ms)
+✔ upgrade preserves records, passwords and legacy receipts without inferred capture or unknown grants (1326.195513ms)
+✔ repeated migrations and seeds preserve grants and never resurrect revocations (1981.079954ms)
+✔ migration aborts atomically on an unclassified pre-existing principal (1885.944521ms)
+✔ 004 upgrade gates all operational tables on a complete consistent context and resets on reuse (2060.22895ms)
+✔ database gate denies ungranted actors and ineffective bindings or grants (103.756918ms)
+✔ ownership constraints and grants protect session and council pairs independently of API checks (18.287942ms)
+✔ ownership migration retires only the canonical synthetic grant and rolls back unsafe collisions (5135.075359ms)
+✔ populated D02 owners migrate without changing Alpha access or disabled Beta history (1383.8136ms)
+✔ F05 upgrade and seed replay preserve F04 history without provisioning it (2563.143047ms)
+✔ resource identifiers are stable and reject SQL/path injection (1409.325612ms)
+✔ explicit AWS profile checkpoints registry without promoting historical jobs (47.636581ms)
+✔ backend denies unbound context, forged selector and tampered resource registry before external access (18.104935ms)
+✔ resource status helper skips storage credentials and denies revoked or disabled scope before connection (22.565292ms)
+✔ data schema upgrade rolls back failure and preserves populated records on retry/replay (43.364097ms)
+✔ maintenance pause and two-municipality capacity reject new jobs before effects (6.102211ms)
+✔ request and maintenance PostgreSQL budgets are explicit and isolated (1627.68363ms)
+Transient database request failure { code: 'pool-timeout' }
+✔ a saturated request pool returns a bounded retryable response and recovers (1160.787035ms)
+✔ statement timeout cancels server work, rolls back partial writes and reuses the client (5041.627407ms)
+Transient database request failure { code: '55P03' }
+✔ row-lock timeout maps login to retryable failure and preserves the existing session state (1115.168443ms)
+Database rollback failed; pooled client will be discarded { code: 'unknown' }
+✔ a disconnected transaction client is discarded before the pool reconnects (27.696369ms)
+Transient database request failure { code: 'pool-timeout' }
+✔ a PostgreSQL handshake timeout is a bounded retryable response (1731.653607ms)
+Idle PostgreSQL client error { code: '57P01' }
+✔ an idle PostgreSQL client error is handled and the shared pool recovers (2544.439796ms)
+✔ authentication denies missing and invalid credentials; cookie is HttpOnly and Strict (2633.571535ms)
+✔ request pages and counts stay complete and scoped to each authorised actor (346.142993ms)
+✔ creation is persisted and client ownership or number fields are rejected (60.387924ms)
+✔ queue filters, counts and keyset pages retain older active work and scope (231.964285ms)
+✔ scope denies cross-tenant list, audit, mutation and officer assignment (104.448228ms)
+✔ database row controls deny unset context and each mismatched scope dimension (86.151371ms)
+✔ officer and supervisor permissions are enforced on server (63.901439ms)
+✔ dispatch to acknowledgement, attendance and closure records all transitions (105.523168ms)
+✔ action reasons reject malformed JSON before mutation and preserve allowed audit values (72.967203ms)
+✔ parallel duplicate retries create exactly one request and audit event (50.015946ms)
+✔ competing updates with the same version cannot both commit (40.649765ms)
+✔ missing CSRF and hostile browser origins are denied without persistence (8.950232ms)
+✔ deactivation and logout revoke existing sessions (14.884361ms)
+✔ 001-foundation tolerates concurrent cluster role creation (50.627796ms)
+✔ 003-platform tolerates concurrent cluster role creation (160.590235ms)
+✔ 006-provisioning-jobs tolerates concurrent cluster role creation (45.788569ms)
+✔ single context restores resolved scope; selectors and platform sessions cannot forge it (3633.288658ms)
+✔ wrong-council login is generic and replacing a cookie does not revoke another principal session (861.426348ms)
+✔ shared Alpha principal is restricted to Alpha after owner decision superseded cross-council fixture grant (701.492979ms)
+✔ principal ownership is data-driven for a third council (170.358719ms)
+✔ missing grants, future/expired/revoked bindings and grants fail closed on existing sessions (1937.604185ms)
+✔ revocation prevents old receipt replay and preserves the stored origin (397.629339ms)
+✔ a replacement binding version preserves historical capture and scope-safe access (256.757694ms)
+✔ committed revocation wins over a request waiting to resolve the binding (207.615709ms)
+✔ binding and grant revocation wait for an already resolved transaction (215.473232ms)
+✔ app roles cannot author structures or expose other context grants (17.776403ms)
+✔ effective periods include the lower bound and exclude the upper bound using database time (415.470581ms)
+✔ synthetic reseed rejects UUID collisions and preserves revoked grants (2472.954118ms)
+✔ populated F07 upgrade preserves identities, sessions and captured history; only explicit fixtures gain parking and replay never re-enables it (3651.783106ms)
+✔ stable catalogue preserves labels and aliases without granting unrelated registrations parking (3136.693166ms)
+✔ freshly seeded workload IDs drive pack detail and disable audit counts (75.43166ms)
+✔ unmapped contexts fail closed without rewriting bindings or affecting other councils (46.902313ms)
+✔ disable denies stale sessions and receipt replay while retaining authorised request/audit scope; re-enable adds audited version (411.547808ms)
+✔ a direct application write holds disable until commit; a write waiting behind disable observes denial (149.701806ms)
+✔ asynchronous password derivation keeps the existing stored hash format readable (4938.133307ms)
+✔ a malformed stored hash rejects login generically and emits no credential data (245.521236ms)
+✔ password-work overload is retryable and releases capacity for a healthy login (608.633505ms)
+✔ async auth burst leaves the database health endpoint responsive within its measured budget (176.95011ms)
+ℹ health=43.3ms; status distribution={"401":2,"503":10}
+✔ operator and council cookies cannot cross authentication boundaries (3403.59884ms)
+✔ registration retries persist one pending council/admin/audit without issuing credentials (152.888286ms)
+✔ duplicate slug and email registrations leave no partial rows (291.773793ms)
+✔ slug, catalogue and unknown-field validation reject invalid registration (163.878622ms)
+✔ pack confirmations, retry receipts and concurrent versions retain records (145.533253ms)
+✔ CSRF and hostile origins deny changes without side effects (8.453975ms)
+✔ database roles cannot read the opposite plane (9.875577ms)
+✔ operator deactivation and logout revoke platform sessions (31.268031ms)
+✔ registration atomically enqueues one job and secret-free steps; replay remains safe (3287.532187ms)
+API operation failed: Synthetic enqueue unavailable
+✔ enqueue failure rolls back council, admin, receipt and audit (153.716504ms)
+✔ two workers claim one lease, skip locked jobs and reject late checkpoints (150.45672ms)
+✔ separate worker processes recover crashes before and after effect without duplicate resources (1596.280541ms)
+✔ automatic retries are bounded; operator retry/reconcile preserve successful checkpoints (273.859946ms)
+✔ repeated crashes exhaust the lease attempt budget without endless restarts (135.533443ms)
+✔ job controls deny council sessions, missing CSRF, hostile origin and mismatched resource IDs (329.724388ms)
+✔ interleaved councils retain resource and audit ownership; runtime roles stay separated (170.549619ms)
+✔ simultaneous retry actions with different keys cannot start two recovery cycles (118.678743ms)
+✔ repeat migration and seeds retain jobs, resource IDs, passwords and audit history (2547.597068ms)
+✔ release verification cleans owned restore databases after success, assertion failure and interruption (7270.821229ms)
+✔ server search is literal, scoped, count-complete and independently selects detail (6357.780588ms)
+✔ displayed references retain seven-digit padding and longer bigint numbers (611.664416ms)
+API operation failed: synthetic delayed provider failure
+✔ status admission rejects excess checks while unrelated API work proceeds and always releases (3069.255304ms)
+✔ bootstrap preserves registry identities, replays owned routes and rejects conflicting ownership (3253.067864ms)
+✔ routing retry upgrade and replay preserve ownership, sessions, history and compatible restricted-role reads (4775.433641ms)
+✔ all product labels fit DNS at registry boundaries and mapping is repeatable (3.227076ms)
+✔ long shared prefixes and reserved-prefix registry slugs cannot collide (0.29662ms)
+✔ missing or malformed identity and unrecognised products fail before route creation (0.466536ms)
+✔ acceptance aliases are reserved to their immutable fixture identities (0.186969ms)
+✔ F06 upgrade retains F05 resources/history and historical sessions without implicit routing (3333.565493ms)
+✔ token upgrade preserves owned routes and registry data, and rejects incompatible history (1779.010937ms)
+API operation failed: F05 target configuration is incomplete
+✔ authority canonicalisation and untrusted/forged forwarding fail closed (37.58355ms)
+API operation failed: Web service unavailable
+✔ ingress serves each owned web app before the API 404 boundary (19.359195ms)
+✔ login, manually copied cookies, context and origins are bound to exact route (914.022522ms)
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+✔ resource failure, stale probes, withdrawal/version and retries fail closed and preserve history (122.377775ms)
+✔ route worker reconciles exact identity, rejects mismatches and fences a stale completion (15.291642ms)
+✔ read-only broker takes authentication/context locks without identity update grants (12.803372ms)
+API operation failed: Service route unavailable
+✔ Platform transient retry is durable, bounded, fenced and recoverable only by an operator (195.379798ms)
+✔ login limits isolate clients and routes, and limit one identity across addresses (2076.997757ms)
+API operation failed: Service route unavailable
+✔ repeated crashed routing leases exhaust the durable attempt budget and retain audit (18.474845ms)
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+✔ legacy ready routes start a fresh three-claim budget for failed rechecks (65.301139ms)
+API operation failed: Service route unavailable
+✔ crashes during a legacy ready-route recheck consume the same finite budget (21.097811ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 106
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 126646.168326

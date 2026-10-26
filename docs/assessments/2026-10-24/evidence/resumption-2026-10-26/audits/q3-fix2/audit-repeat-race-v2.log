@@ -1,0 +1,48 @@
+/workspace/work/quality-audits/q3-fix2/published/node_modules/playwright/lib/matchers/expect.js:213
+        return matcher.call(target, ...args);
+                       ^
+
+A [Error]: expect(locator).toHaveCount(expected) failed
+
+Locator:  locator('.request-table tbody tr')
+Expected: 25
+Received: 0
+Timeout:  5000ms
+
+Call log:
+  - Expect "to.have.count" with timeout 5000ms
+  - waiting for locator('.request-table tbody tr')
+    9 × locator resolved to 0 elements
+      - unexpected value "0"
+
+    at Proxy.<anonymous> (/workspace/work/quality-audits/q3-fix2/published/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at verifyM1Discovery (file:///workspace/work/quality-audits/q3-fix2/published/tests/browser/m1-discovery.mjs:11:22)
+    at async file:///workspace/work/quality-audits/q3-fix2/audit-repeat-race-v2.mjs:64:2 {
+  matcherResult: {
+    actual: 0,
+    expected: 25,
+    message: 'expect(locator).toHaveCount(expected) failed\n' +
+      '\n' +
+      "Locator:  locator('.request-table tbody tr')\n" +
+      'Expected: 25\n' +
+      'Received: 0\n' +
+      'Timeout:  5000ms\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.have.count" with timeout 5000ms\n' +
+      "  - waiting for locator('.request-table tbody tr')\n" +
+      '    9 × locator resolved to 0 elements\n' +
+      '      - unexpected value "0"\n',
+    name: 'toHaveCount',
+    pass: false,
+    log: [
+      '  - Expect "to.have.count" with timeout 5000ms',
+      "  - waiting for locator('.request-table tbody tr')",
+      '    9 × locator resolved to 0 elements',
+      '      - unexpected value "0"'
+    ],
+    timeout: 5000
+  }
+}
+
+Node.js v24.19.0

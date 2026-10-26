@@ -1,0 +1,18 @@
+import net from 'node:net';
+import { once } from 'node:events';
+const sockets = new Set();
+const stalled = net.createServer(socket => { sockets.add(socket); socket.on('close', () => sockets.delete(socket)); });
+stalled.listen(0, '127.0.0.1');
+await once(stalled, 'listening');
+process.env.CIVICMAPS_DATABASE_URL = `postgresql://synthetic@127.0.0.1:${stalled.address().port}/synthetic`;
+const { createApp } = await import('../published/services/api/app.mjs');
+const { pool, maintenancePool } = await import('../published/services/api/database.mjs');
+const api = createApp().listen(0, '127.0.0.1');
+await once(api, 'listening');
+const start = performance.now();
+const response = await fetch(`http://127.0.0.1:${api.address().port}/api/health`);
+console.log(JSON.stringify({status:response.status,retryAfter:response.headers.get('retry-after'),body:await response.json(),elapsedMs:performance.now()-start}));
+await new Promise(resolve => api.close(resolve));
+await pool.end(); await maintenancePool.end();
+for (const socket of sockets) socket.destroy();
+await new Promise(resolve => stalled.close(resolve));

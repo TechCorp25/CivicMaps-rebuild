@@ -1,0 +1,82 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic-two-zone-grid",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "zone-west",
+      "properties": {
+        "fixture_id": "zone-west",
+        "name": "West",
+        "zone_id": "west"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              [
+                144.96,
+                -37.81
+              ],
+              [
+                144.961,
+                -37.81
+              ],
+              [
+                144.961,
+                -37.809
+              ],
+              [
+                144.96,
+                -37.809
+              ],
+              [
+                144.96,
+                -37.81
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "zone-east",
+      "properties": {
+        "fixture_id": "zone-east",
+        "name": "East",
+        "zone_id": "east"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              [
+                144.961,
+                -37.81
+              ],
+              [
+                144.962,
+                -37.81
+              ],
+              [
+                144.962,
+                -37.809
+              ],
+              [
+                144.961,
+                -37.809
+              ],
+              [
+                144.961,
+                -37.81
+              ]
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

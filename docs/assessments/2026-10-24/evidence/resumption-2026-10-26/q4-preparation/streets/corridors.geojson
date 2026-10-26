@@ -1,0 +1,80 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic-address-matching-regressions",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "wrong-nearby",
+      "properties": {
+        "fixture_id": "wrong-nearby",
+        "streetname": "Wrong Street",
+        "streetfrom": "West Road",
+        "streetto": "East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9602,
+              -37.8098
+            ],
+            [
+              144.9608,
+              -37.8098
+            ],
+            [
+              144.9608,
+              -37.80976
+            ],
+            [
+              144.9602,
+              -37.80976
+            ],
+            [
+              144.9602,
+              -37.8098
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "approved-alias-target",
+      "properties": {
+        "fixture_id": "approved-alias-target",
+        "streetname": "Saint Kilda Road",
+        "streetfrom": "West Road",
+        "streetto": "East Road"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9602,
+              -37.80955
+            ],
+            [
+              144.9608,
+              -37.80955
+            ],
+            [
+              144.9608,
+              -37.80951
+            ],
+            [
+              144.9602,
+              -37.80951
+            ],
+            [
+              144.9602,
+              -37.80955
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

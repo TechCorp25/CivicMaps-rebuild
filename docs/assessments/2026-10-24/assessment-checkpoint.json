@@ -129,8 +129,8 @@
     "implementationCommit": null,
     "candidateCommit": null,
     "localAcceptance": "final_full_check_106_passed_zero_failed_zero_skipped; three_serial_browser_suites_and_two_caddy_loopback_checks_passed; explicit_detail_403_invalidated_cached_detail_disabled_all_nine_pack_controls_and_restored_after_fresh_scope",
-    "publication": "not_published_single_integration_writer",
-    "independentAssessment": "published_44895f_changes_required_stale_actionable_detail_after_403; follow_up_4_pending_fresh_review",
+    "publication": "WIP_snapshot_pending_remote_verification",
+    "independentAssessment": "changes_required_probe_confirmed_final_report_interrupted",
     "merge": "not_authorised",
     "deployment": "not_authorised",
     "evidenceDirectory": "evidence/",
@@ -138,7 +138,7 @@
     "acceptedCommit": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
     "auditorReport": "evidence/q2-independent-accepted/report.md",
     "auditorReportSha256": "04ad939ca92f2a06a73fb1a9efa4e8fc1f261632f817610c1e579e1b59edf263",
-    "nextAction": "Commit exact validated Q3 follow-up 4 tree; root publishes; fresh independent review.",
+    "nextAction": "Finish Q3 class-independent HTTP status denial handling, gates and fresh review",
     "hostedCI": {
       "candidate": "9ab2dbf2e587ad790d5bdb26ad26d32540ec34f7",
       "applicationRun": 40159555198,
@@ -174,6 +174,7 @@
     "q3FollowUp4EvidenceDirectory": "evidence/q3-fix4/",
     "q3FollowUp4OriginalReport": "evidence/q3-independent-original-fix3/report.md",
     "q3FollowUp4OriginalReportSha256": "0fea607c463cad57705a43e3258c0fae6003c79bcddd6619f6da152d61ca0881",
-    "q3M1IntermediateRun": "two_iterations_passed_then_iteration_three_missing_refresh_complete; settled_three_passes_after_networkidle_barrier; cause_unresolved_per_original_report"
+    "q3M1IntermediateRun": "two_iterations_passed_then_iteration_three_missing_refresh_complete; settled_three_passes_after_networkidle_barrier; cause_unresolved_per_original_report",
+    "wipSnapshot": "evidence/resumption-2026-10-26/"
   }
 }
