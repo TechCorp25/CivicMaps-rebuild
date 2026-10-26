@@ -149,7 +149,7 @@
         "evidence/q3-independent-original-current/report.md",
         "evidence/q3-independent-original/report.md"
       ],
-      "status": "follow_up_5_locally_validated_pending_fresh_independent_review",
+      "status": "follow_up_6_locally_validated_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
@@ -157,7 +157,7 @@
           "three browser suites passed sequentially",
           "two Caddy loopback checks passed"
         ],
-        "independentAssessment": "published_60bb8c4_changes_required_interrupted_403_body_retained_enabled_controls; follow_up_5_fresh_whole_Q3_review_pending",
+        "independentAssessment": "published_49c2acd_changes_required_test_handler_completion_race; follow_up_6_fresh_whole_Q3_review_pending",
         "candidateCommit": null,
         "followUp3Evidence": [
           "execution-ledger.md",
@@ -190,6 +190,17 @@
           "evidence/q3-fix5/caddy-login.log",
           "evidence/q3-fix5/independent-denial.log",
           "evidence/q3-independent-original-fix4/report.md"
+        ],
+        "followUp6Evidence": [
+          "execution-ledger.md",
+          "evidence/q3-fix6/npm-check.log",
+          "evidence/q3-fix6/browser-platform.log",
+          "evidence/q3-fix6/browser-commandmaps.log",
+          "evidence/q3-fix6/browser-activation.log",
+          "evidence/q3-fix6/caddy-contract.log",
+          "evidence/q3-fix6/caddy-login.log",
+          "evidence/q3-independent-original-fix5/report.md",
+          "evidence/q3-fix6/test-run-notes.md"
         ]
       }
     },
@@ -291,7 +302,7 @@
         "evidence/q3-independent-original-current/report.md",
         "evidence/q3-independent-original/report.md"
       ],
-      "status": "follow_up_5_locally_validated_pending_fresh_independent_review",
+      "status": "follow_up_6_locally_validated_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
@@ -299,7 +310,7 @@
           "three browser suites passed sequentially",
           "two Caddy loopback checks passed"
         ],
-        "independentAssessment": "published_60bb8c4_changes_required_interrupted_403_body_retained_enabled_controls; follow_up_5_fresh_whole_Q3_review_pending",
+        "independentAssessment": "published_49c2acd_changes_required_test_handler_completion_race; follow_up_6_fresh_whole_Q3_review_pending",
         "candidateCommit": null,
         "followUp3Evidence": [
           "execution-ledger.md",
@@ -332,6 +343,17 @@
           "evidence/q3-fix5/caddy-login.log",
           "evidence/q3-fix5/independent-denial.log",
           "evidence/q3-independent-original-fix4/report.md"
+        ],
+        "followUp6Evidence": [
+          "execution-ledger.md",
+          "evidence/q3-fix6/npm-check.log",
+          "evidence/q3-fix6/browser-platform.log",
+          "evidence/q3-fix6/browser-commandmaps.log",
+          "evidence/q3-fix6/browser-activation.log",
+          "evidence/q3-fix6/caddy-contract.log",
+          "evidence/q3-fix6/caddy-login.log",
+          "evidence/q3-independent-original-fix5/report.md",
+          "evidence/q3-fix6/test-run-notes.md"
         ]
       }
     },
@@ -370,7 +392,7 @@
         "evidence/q3-independent-original/report.md",
         "evidence/q3-platform-browser.log"
       ],
-      "status": "follow_up_5_locally_validated_pending_fresh_independent_review",
+      "status": "follow_up_6_locally_validated_pending_fresh_independent_review",
       "implementationCommit": null,
       "closureEvidence": {
         "localChecks": [
@@ -378,7 +400,7 @@
           "three browser suites passed sequentially",
           "two Caddy loopback checks passed"
         ],
-        "independentAssessment": "published_60bb8c4_changes_required_interrupted_403_body_retained_enabled_controls; follow_up_5_fresh_whole_Q3_review_pending",
+        "independentAssessment": "published_49c2acd_changes_required_test_handler_completion_race; follow_up_6_fresh_whole_Q3_review_pending",
         "candidateCommit": null,
         "followUp3Evidence": [
           "execution-ledger.md",
@@ -411,6 +433,17 @@
           "evidence/q3-fix5/caddy-login.log",
           "evidence/q3-fix5/independent-denial.log",
           "evidence/q3-independent-original-fix4/report.md"
+        ],
+        "followUp6Evidence": [
+          "execution-ledger.md",
+          "evidence/q3-fix6/npm-check.log",
+          "evidence/q3-fix6/browser-platform.log",
+          "evidence/q3-fix6/browser-commandmaps.log",
+          "evidence/q3-fix6/browser-activation.log",
+          "evidence/q3-fix6/caddy-contract.log",
+          "evidence/q3-fix6/caddy-login.log",
+          "evidence/q3-independent-original-fix5/report.md",
+          "evidence/q3-fix6/test-run-notes.md"
         ]
       }
     },

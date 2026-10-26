@@ -140,12 +140,21 @@ try {
   const disableGate = Promise.withResolvers();
   const disableFailSafe = setTimeout(() => disableGate.resolve(), 10000);
   let disableCancelled = false;
+  let disableResponseReleased = false;
   const disablePath = `**/api/platform/municipalities/${municipality}/activation/disable`;
   await page.route(disablePath, async (route) => {
     await disableGate.promise;
-    await route
-      .fulfill({ status: 401, contentType: 'text/html', body: '<html>expired</html>' })
-      .catch(() => {});
+    try {
+      await route.fulfill({
+        status: 401,
+        contentType: 'text/html',
+        body: '<html>expired</html>',
+      });
+    } catch {
+      // The route is expected to have been cancelled by the navigation.
+    } finally {
+      disableResponseReleased = true;
+    }
   });
   const disableRequest = page.waitForRequest(
     (request) =>
@@ -167,6 +176,7 @@ try {
   await expect.poll(() => disableCancelled, { timeout: 5000 }).toBe(true);
   disableGate.resolve();
   clearTimeout(disableFailSafe);
+  await expect.poll(() => disableResponseReleased, { timeout: 5000 }).toBe(true);
   page.off('requestfailed', disableFailureListener);
   await page.unroute(disablePath);
   await expect(page.getByRole('heading', { name: 'Sign in to Platform' })).toHaveCount(0);

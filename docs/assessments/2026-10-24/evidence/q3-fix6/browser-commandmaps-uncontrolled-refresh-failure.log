@@ -1,0 +1,58 @@
+5:47:05 AM [vite] (client) ✨ new dependencies optimized: react/jsx-dev-runtime
+5:47:05 AM [vite] (client) ✨ optimized dependencies changed. reloading
+{"operation":"history-retry-aba","selection":["66f31223-3905-4519-9b5c-c7bd6303cee0","abb68ccf-30f0-462c-bd4e-3817ed27d4b1","66f31223-3905-4519-9b5c-c7bd6303cee0"],"obsoleteResponse":401,"reads":3,"liveSessionStatus":200,"currentHistory":"created"}
+{"operation":"committed-malformed-write","body":"empty","requestId":"850aa6cd-8484-4f22-a611-95d5c60dafd9","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"malformed-json","requestId":"6c153744-8fcf-4ae7-8301-8d3dfeeaeeb5","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"committed-malformed-write","body":"html","requestId":"5ccb6e37-b4e4-47e8-829b-23ae7fb4a4e7","serverVersion":2,"writes":1,"stateChecked":"history and detail independently refreshed"}
+{"operation":"history-filter-race","requestId":"6e13bab4-13d2-4aff-9076-9710a5249eaa","generation":"selected request; queue filter changed while its audit response was held","reads":1,"responseCompleted":true,"state":"history loading resolved after search hid all queue rows"}
+/workspace/work/quality-q3-fix6/node_modules/playwright/lib/matchers/expect.js:213
+        return matcher.call(target, ...args);
+                       ^
+
+A [Error]: expect(locator).toContainText(expected) failed
+
+Locator: getByRole('status').filter({ hasText: 'This branch pack is disabled' })
+Expected substring: "This branch pack is disabled"
+Timeout: 15000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.have.text" with timeout 15000ms
+  - waiting for getByRole('status').filter({ hasText: 'This branch pack is disabled' })
+
+    at Proxy.<anonymous> (/workspace/work/quality-q3-fix6/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at file:///workspace/work/quality-q3-fix6/tests/browser.mjs:716:5
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  matcherResult: {
+    name: 'toContainText',
+    expected: 'This branch pack is disabled',
+    message: 'expect(locator).toContainText(expected) failed\n' +
+      '\n' +
+      "Locator: getByRole('status').filter({ hasText: 'This branch pack is disabled' })\n" +
+      'Expected substring: "This branch pack is disabled"\n' +
+      'Timeout: 15000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.have.text" with timeout 15000ms\n' +
+      "  - waiting for getByRole('status').filter({ hasText: 'This branch pack is disabled' })\n",
+    pass: false,
+    actual: undefined,
+    log: [
+      '  - Expect "to.have.text" with timeout 15000ms',
+      "  - waiting for getByRole('status').filter({ hasText: 'This branch pack is disabled' })"
+    ],
+    timeout: 15000
+  }
+}
+
+Node.js v24.19.0
+file:///workspace/work/quality-q3-fix6/tests/browser-commandmaps.mjs:29
+  if (code !== 0) throw new Error('CommandMAPS browser acceptance failed');
+                        ^
+
+Error: CommandMAPS browser acceptance failed
+    at file:///workspace/work/quality-q3-fix6/tests/browser-commandmaps.mjs:29:25
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0

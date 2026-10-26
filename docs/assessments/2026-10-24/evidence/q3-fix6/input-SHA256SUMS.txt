@@ -1,0 +1,7 @@
+3d13dac25c393dd442030d320f8d5788693a48b004b4278456586bff1ec62a42  tests/browser-platform.mjs
+1edc244c6d31bd077a9bbf7cff2dea96e27e7e107e085ddc45ffcef210b121f2  tests/browser-activation.mjs
+750bb8555725876987e8c217a8afd65648bce168c0198353f441811758d073a7  tests/browser.mjs
+8362bc65527ce08f669f64f1faeb7aff66460e7625504734a3aa0b0e25badec0  docs/assessments/2026-10-24/execution-ledger.md
+8aeb7c8fe5f9bfc75048cf69af2c668c0081dfd198dd13bfdc59718dc49da1c6  docs/assessments/2026-10-24/assessment-checkpoint.json
+010f1c1dfc5920e7539a31ba0504e223f29a5a492d9cca1f87031a53ad4069e6  docs/assessments/2026-10-24/findings.json
+b639dc55b4e1f1c8fc11a9325a8b28ea0da31aaef88ed99844f0556c4d6caef2  docs/assessments/2026-10-24/evidence/q3-fix6/test-run-notes.md

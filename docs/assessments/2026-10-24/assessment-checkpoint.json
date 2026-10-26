@@ -11,11 +11,11 @@
   "findings": "findings.json",
   "scope": "Assessment plus explicitly authorized Q1-Q7 remediation; no merge, deployment, cloud mutation or customer data operations.",
   "assessmentStatus": "completed_with_explicit_coverage_limits",
-  "remediationStatus": "Q1_Q2_accepted_Q3_follow_up_5_locally_validated_pending_fresh_independent_review",
+  "remediationStatus": "Q1_Q2_accepted_Q3_follow_up_6_locally_validated_pending_fresh_independent_review",
   "independentAssessmentStatus": "pass_on_frozen_product_43423d7",
   "publicationStatus": "draft_PR43_verified_remote_43423d7",
   "empiricalStatus": "complete_plan_recorded_and_read_back_byte_equal",
-  "nextAction": "Commit exact Q3 follow-up 5 candidate; root publishes it for fresh whole-Q3 review; no merge or deployment.",
+  "nextAction": "Commit exact Q3 follow-up 6 test-fixture candidate; root publishes it for fresh whole-Q3 review; no merge or deployment.",
   "securityCoverage": {
     "dependencyAudit": "completed_one_high_advisory",
     "sourceReview": "completed_with_reported_limits",
@@ -100,7 +100,14 @@
       "skipped": 0
     },
     "q3FollowUp5Browsers": "platform_commandmaps_activation_passed_sequentially; normal_HTML_403_and_interrupted_body_403_each_disabled_all_nine_controls_no_auto_retry_then_fresh_scope_restored",
-    "q3FollowUp5CaddyIngress": "contract_and_login_loopback_pass"
+    "q3FollowUp5CaddyIngress": "contract_and_login_loopback_pass",
+    "q3FollowUp6FullCheck": {
+      "passed": 107,
+      "failed": 0,
+      "skipped": 0
+    },
+    "q3FollowUp6Browsers": "platform_commandmaps_activation_passed_sequentially; platform_stale_session_scope_schedule_repeated_three_times_with_handler_settlement_barrier; commandmaps_controlled_refresh_completion_trace",
+    "q3FollowUp6CaddyIngress": "contract_and_login_loopback_pass"
   },
   "prohibitedByScope": [
     "merge",
@@ -130,14 +137,14 @@
   "execution": {
     "ledger": "execution-ledger.md",
     "planSha256": "1ce4e1a3000c5148eb98d161d2d941f2e85009249cb6ddc9dd6c61dd36578cea",
-    "package": "Q3 class-independent HTTP status handling follow-up",
-    "branch": "codex/civicmaps-quality-q3-fix5-continuation",
-    "packageBase": "b75a2a390412865f965f507b1408fad88556a48b",
+    "package": "Q3 deterministic controlled-response test follow-up",
+    "branch": "codex/civicmaps-quality-q3-fix6",
+    "packageBase": "49c2acd0ff3019b37245d45ec4c99ef37c3a353d",
     "implementationCommit": null,
     "candidateCommit": null,
-    "localAcceptance": "npm_run_check_107_passed_zero_failed_zero_skipped; three_browser_suites_passed_sequentially; both_Caddy_loopback_checks_passed; truncated_HTTP_403_body_cleared_selected_detail_and_disabled_all_nine_pack_controls; read_and_write_HTTP_status_and_write_uncertainty_preserved",
+    "localAcceptance": "npm_run_check_107_passed_zero_failed_zero_skipped; three_browser_suites_passed_sequentially; both_Caddy_loopback_checks_passed; stale_session_reconciliation_schedule_repeated_three_times_with_explicit_request_cancellation_and_handler_completion; CommandMAPS_focus_refresh_test_uses_explicit_bounded_completion_trace",
     "publication": "candidate_pending_root_publication",
-    "independentAssessment": "follow_up_5_fresh_whole_Q3_review_pending; prior_follow_up_4_report_changes_required_preserved",
+    "independentAssessment": "published_49c2acd_changes_required_test_handler_completion_race; follow_up_6_fresh_whole_Q3_review_pending",
     "merge": "not_authorised",
     "deployment": "not_authorised",
     "evidenceDirectory": "evidence/",
@@ -186,6 +193,12 @@
     "q3FollowUp4PublishedBase": "60bb8c443f99a57d3f7c31f000d06523baccafa2",
     "q3FollowUp5EvidenceDirectory": "evidence/q3-fix5/",
     "q3FollowUp5OriginalEvidenceDirectory": "evidence/q3-independent-original-fix4/",
-    "q3FollowUp5Finding": "interrupted 403 body retained HTTP status as ApiTransportError while detail catch accepted only ApiError; cached pack actions stayed enabled"
+    "q3FollowUp5Finding": "interrupted 403 body retained HTTP status as ApiTransportError while detail catch accepted only ApiError; cached pack actions stayed enabled",
+    "q3FollowUp5PublishedCandidate": "49c2acd0ff3019b37245d45ec4c99ef37c3a353d",
+    "q3FollowUp5OriginalReport": "evidence/q3-independent-original-fix5/report.md",
+    "q3FollowUp5OriginalReportSha256": "642e1fed9d1d494a070049f0226faaa69fdf0ad1f85d1fb70e81204c12553544",
+    "q3FollowUp6EvidenceDirectory": "evidence/q3-fix6/",
+    "q3FollowUp6OriginalEvidenceDirectory": "evidence/q3-independent-original-fix5/",
+    "q3FollowUp6Scope": "test_fixture_only_no_application_code_changes"
   }
 }

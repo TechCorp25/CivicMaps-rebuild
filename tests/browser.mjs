@@ -710,6 +710,27 @@ try {
   await database.query(
     "UPDATE platform_municipalities SET packs=packs-'parking-services' WHERE id='20000000-0000-4000-8000-000000000001'",
   );
+  // M1 tests install a controlled scheduler instead of the production interval;
+  // explicitly trigger the focus refresh after this database-side pack change.
+  const completedFocusRefreshes = await page.evaluate(
+    () =>
+      window.__CIVICMAPS_TEST_EVENTS__.filter(
+        (event) => event.operation === 'refresh-complete' && event.source === 'focus',
+      ).length,
+  );
+  await page.evaluate(() => window.__CIVICMAPS_TEST_FIRE_REFRESH__('focus'));
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          () =>
+            window.__CIVICMAPS_TEST_EVENTS__.filter(
+              (event) => event.operation === 'refresh-complete' && event.source === 'focus',
+            ).length,
+        ),
+      { timeout: 5000 },
+    )
+    .toBe(completedFocusRefreshes + 1);
   // An already-open client refreshes its server capabilities without a page reload.
   await expect(
     page.getByRole('status').filter({ hasText: 'This branch pack is disabled' }),

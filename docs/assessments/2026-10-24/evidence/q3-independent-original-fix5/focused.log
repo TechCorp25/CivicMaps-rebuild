@@ -1,0 +1,10 @@
+✔ shared API transport preserves status and safe errors across response and cancellation forms (105.907098ms)
+✔ HTTP status classification survives interrupted bodies without weakening write uncertainty (3.056968ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 195.967672
