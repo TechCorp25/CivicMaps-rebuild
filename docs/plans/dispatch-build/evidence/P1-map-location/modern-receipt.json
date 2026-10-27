@@ -1,0 +1,32 @@
+{
+  "repository": "TechCorp25/CivicMaps-rebuild",
+  "base": "d34cf9fd692fabc24d17ff1a9657be9b724d620f",
+  "branch": "codex/civicmaps-dispatch-map-location-p1",
+  "pullRequest": 45,
+  "pullRequestState": "open_draft_unmerged",
+  "assessedLocalCandidate": "5f026d9c92ea4d93d0eb7965639536be55eda1a5",
+  "publishedCheckpointCommit": "f499a288688c2906045ab4663d22272f883fe7c5",
+  "publishedCheckpointSha256": "786e9dbea33f2b80a467b9e9547cad897c8eb058c963640f7979a444e4cd29ea",
+  "remoteLocalEquivalence": "Parent verified that checkpoint bytes fetched from remote f499a288688c2906045ab4663d22272f883fe7c5 match the local checkpoint assessed at 5f026d9c92ea4d93d0eb7965639536be55eda1a5.",
+  "assessments": [
+    {
+      "path": "docs/plans/dispatch-build/evidence/P1-map-location/modern-provider-changes-required.md",
+      "sha256": "a66e7d6536ca5655931da36862d00feccf8b03b97ee7df61dd0304a4155716f3",
+      "candidate": "bfc071b076eb055c9a66dd147c741c5a93721427",
+      "verdict": "changes_required"
+    },
+    {
+      "path": "docs/plans/dispatch-build/evidence/P1-map-location/final-modern-partial-readiness-pass.md",
+      "sha256": "939fafb1b17811871a2ce439e136ce291924b67afb03285be4a643a8340d02aa",
+      "candidate": "5f026d9c92ea4d93d0eb7965639536be55eda1a5",
+      "verdict": "pass_partial_readiness"
+    }
+  ],
+  "validation": {
+    "gitDiffCheck": "passed",
+    "applicationTests": "not_run_documentation_only",
+    "providerCalls": "none",
+    "keyProvisioning": "none",
+    "billingOrInfrastructureChanges": "none"
+  }
+}
