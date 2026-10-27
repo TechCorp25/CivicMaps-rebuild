@@ -80,6 +80,15 @@ export async function verifyDraftClearedOnAuthLoss(page, url) {
   await page.getByRole('button', { name: 'New request', exact: true }).click();
   await expect(page.getByLabel('Reported address')).toHaveValue('');
   await expect(page.getByRole('dialog')).not.toContainText('-38.000000, 145.000000');
+  await page.getByLabel('Dispatch notes').fill('Retain these unsaved notes');
+  await page.getByLabel('Reported address').fill('Synthetic address');
+  await expect(page.getByRole('option', { name: 'Synthetic address' })).toBeVisible();
+  await page.getByLabel('Reported address').press('Escape');
+  await expect(page.getByRole('dialog').getByRole('option')).toHaveCount(0);
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByLabel('Dispatch notes')).toHaveValue('Retain these unsaved notes');
+  await page.getByLabel('Reported address').press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
 }
 
 export async function verifyCancelledAddressResolution(page) {

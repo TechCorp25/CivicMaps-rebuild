@@ -483,6 +483,8 @@ export function GoogleLocationPicker({
           }
           onKeyDown={(event) => {
             if (event.key === 'Escape') {
+              // Dismiss the popup before allowing Escape to close the enclosing composer.
+              if (suggestions.length) event.preventDefault();
               setSuggestions([]);
               revision.current++;
               return;
