@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowLeft, CheckCircle2, X } from 'lucide-react';
+import { GoogleLocationPicker } from './GoogleLocationPicker';
 
 export type RequestDraft = { address: string; latitude: number; longitude: number; notes: string };
 
@@ -19,10 +20,17 @@ export function RequestComposer({
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const [review, setReview] = useState(false);
+  const [address, setAddress] = useState('');
+  const [location, setLocation] = useState<{
+    address: string;
+    latitude: number;
+    longitude: number;
+    source?: 'address' | 'map';
+  } | null>(null);
   const [draft, setDraft] = useState<RequestDraft>({
     address: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: Number.NaN,
+    longitude: Number.NaN,
     notes: '',
   });
   useEffect(() => {
@@ -37,10 +45,11 @@ export function RequestComposer({
   function prepare(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    if (!location) return;
     setDraft({
-      address: String(form.get('address')).trim(),
-      latitude: Number(form.get('latitude')),
-      longitude: Number(form.get('longitude')),
+      address: location.address.trim(),
+      latitude: location.latitude,
+      longitude: location.longitude,
       notes: String(form.get('notes')),
     });
     setReview(true);
@@ -76,7 +85,7 @@ export function RequestComposer({
         <p id="composer-help" className="muted">
           {review
             ? 'Check the reported location and notes before saving.'
-            : 'Enter the reported location and its coordinates.'}
+            : 'Find the reported address or select its point on the map.'}
         </p>
         {error && (
           <p className="error" role="alert">
@@ -90,7 +99,7 @@ export function RequestComposer({
               <dd>{draft.address}</dd>
               <dt>Coordinates</dt>
               <dd className="mono">
-                {draft.latitude}, {draft.longitude}
+                {draft.latitude.toFixed(6)}, {draft.longitude.toFixed(6)}
               </dd>
               <dt>Dispatch notes</dt>
               <dd>{draft.notes || 'No notes recorded'}</dd>
@@ -117,43 +126,38 @@ export function RequestComposer({
           </>
         ) : (
           <form onSubmit={prepare}>
-            <label>
-              Location or address
-              <input
-                name="address"
-                required
-                pattern=".*\S.*"
-                maxLength={250}
-                defaultValue={draft.address}
-                placeholder="Enter the reported location"
-              />
-            </label>
-            <div className="coordinate-fields">
-              <label>
-                Latitude
-                <input
-                  name="latitude"
-                  type="number"
-                  step="any"
-                  min="-90"
-                  max="90"
-                  defaultValue={draft.address ? draft.latitude : ''}
-                  required
-                />
-              </label>
-              <label>
-                Longitude
-                <input
-                  name="longitude"
-                  type="number"
-                  step="any"
-                  min="-180"
-                  max="180"
-                  defaultValue={draft.address ? draft.longitude : ''}
-                  required
-                />
-              </label>
-            </div>
+            <GoogleLocationPicker
+              address={address}
+              onAddressChange={(value) => {
+                setAddress(value);
+                setLocation((current) =>
+                  current?.source === 'map' ? { ...current, address: value } : null,
+                );
+              }}
+              onSelect={setLocation}
+              point={location}
+            />
+            <input type="hidden" name="address" value={location?.address ?? address} />
+            {location && (
+              <div className="coordinate-fields" aria-label="Confirmed coordinates">
+                <label>
+                  Latitude
+                  <input
+                    value={location.latitude.toFixed(6)}
+                    readOnly
+                    aria-label="Confirmed latitude"
+                  />
+                </label>
+                <label>
+                  Longitude
+                  <input
+                    value={location.longitude.toFixed(6)}
+                    readOnly
+                    aria-label="Confirmed longitude"
+                  />
+                </label>
+              </div>
+            )}
             <label>
               Dispatch notes
               <textarea name="notes" maxLength={2000} rows={3} defaultValue={draft.notes} />
@@ -162,7 +166,9 @@ export function RequestComposer({
               <button className="secondary" type="button" onClick={onClose}>
                 Cancel
               </button>
-              <button type="submit">Review request</button>
+              <button type="submit" disabled={!location || !location.address.trim()}>
+                Review request
+              </button>
             </div>
           </form>
         )}
