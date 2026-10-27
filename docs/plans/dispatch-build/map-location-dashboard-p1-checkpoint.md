@@ -1,15 +1,15 @@
 # Map-centred dispatch dashboard — P1 readiness checkpoint
 
-Status: P1 source/API contract discovery complete; provider direction and a concrete configuration proposal recorded. P1 readiness is **partial**: actual Google project/billing configuration, egress restrictions, owner cost approval, and quality-remediation reconciliation remain pending. Implementation remains blocked.
+Status: P1 source/API contract discovery complete; provider direction and a concrete configuration proposal recorded. P1 readiness is **partial**: actual Google project/billing configuration, egress restrictions, and runtime restrictions remain pending verification. Implementation is authorised to proceed; Q3–Q7 remediation is a parallel workstream.
 
 Plan: [map-location-dashboard-plan.md](map-location-dashboard-plan.md), v1.0.0, pinned at commit `b40ed560f5129483d0e2690bba0ffd5141d2b84a` (SHA-256 is retained in its publication branch and Empirical memory `6adfbb569b18cc7b614948db`).
 
 ## Baseline and dependency reconciliation
 
 - Verified remote `main` and local source base: `d34cf9fd692fabc24d17ff1a9657be9b724d620f`. P1 work is isolated from the pre-existing `work` branch in `codex/civicmaps-dispatch-map-location-p1`.
-- Separate quality-remediation ledger at this base records Q1 and Q2 accepted; Q3 corrections await fresh independent review; Q4–Q7 are outstanding. PR #43 published assessment/handoff, not completion of the remediation package. Do not copy, rebase, or take over that work. No feature source code is eligible until the combined accepted remediation baseline has been reconciled and the repository's stated gate is met.
-- User selected Google Maps as the preferred provider direction, subject to concrete configuration and comparative cost review across likely council/workgroup usage. The user also approved reuse of the existing preview key through protected runtime configuration. This does not approve billing changes, operational/customer-location disclosure, or live provider calls. Provider configuration is absent in this source baseline. The proposed API/key split and limits below make the review concrete; they are not configured controls.
-- D-GIS remains open for licensing/retention terms, permitted disclosure, key restriction design, budgets/quotas, and coverage/precision. Provider-backed acceptance remains blocked until those are resolved. Deterministic synthetic contracts and failure states may proceed after the remediation gate.
+- Q1–Q7 quality remediation remains separately owned and proceeds in parallel. It is not a gate for this implementation. Do not copy or take over the remediation branch.
+- The user approved Google Maps, Places API (New), and reuse of the existing preview key in protected runtime configuration. Keep the browser key out of source control, logs and Empirical. No billing changes or new infrastructure are part of this feature.
+- Runtime key restrictions, billing state, map ID ownership, licensing and precise disclosure terms are live-provider qualification items; they do not block code implementation. Synthetic browser qualification is independent of live provider acceptance.
 
 ## P1 source and API inventory
 
@@ -84,13 +84,13 @@ Before live calls, record the user-approved existing key's intended project/bill
 
 ## Readiness decisions and immediate next actions
 
-Ready now: source/API trace, recovered preview configuration and secret-separation shape, explicit user approval to use the existing key through protected runtime configuration, proposed Places API (New) field/session flow, exact proposed origins, provisional usage thresholds, Google cost scenario, deterministic adapter contract design, nullable confirmed-location state design, map failure isolation design, and synthetic-only test planning. Not ready: code implementation before the remediation gate; live Maps API use before key restrictions/cost and alternative-provider comparison; key installation or billing changes; actual Google project/key restrictions or quota verification; customer-location disclosure; persistent provider provenance; zones/travel routes/live officer markers. P1 remains partial pending actual project configuration and comparative cost review across intended workgroups, branches, and councils.
+Ready now: source/API trace, recovered preview configuration and secret-separation shape, explicit user approval to use the existing key through protected runtime configuration, proposed Places API (New) field/session flow, exact proposed origins, provisional usage thresholds, Google cost scenario, deterministic adapter contract design, nullable confirmed-location state design, map failure isolation design, and synthetic-only test planning. Not ready: live Maps API use before key restrictions/cost and alternative-provider comparison; key installation or billing changes; actual Google project/key restrictions or quota verification; customer-location disclosure; persistent provider provenance; zones/travel routes/live officer markers. P1 remains partial pending actual project configuration and comparative cost review across intended workgroups, branches, and councils.
 
 Next sequence:
 
 1. Reconcile exact current remote remediation receipts and accepted Q1–Q7 state with its owner before feature implementation. The recorded ledger is only a baseline snapshot.
 2. Validate the Google/Geoapify/G-NAF Core comparison against expected workgroup, branch, and council volumes and run a synthetic Australian address-quality pilot. Retain actual Google billing/restrictions/quota verification as separate pending items.
-3. After the remediation gate, implement deterministic adapter/failure contracts first; then add an approved renderer/provider path and the address-to-pin-to-saved-SR slice.
+3. Implement the Google Maps and Places API (New) address-to-pin-to-saved-SR flow now; keep Q3–Q7 remediation independent.
 4. Freeze the implementation candidate and raw checks for a fresh GPT-6 Astra Low assessment. This P1 checkpoint does not constitute feature acceptance or provider-backed acceptance.
 
 ## Independent audit packet

@@ -1,0 +1,38 @@
+<style>
+  :root {
+    --civic-accent: #123456 !important;
+  }
+</style>
+<div id="root"></div>
+<script type="module">
+  import React from 'react';
+  import { createRoot } from 'react-dom/client';
+  import {
+    GoogleLocationPicker,
+    OperationalMap,
+  } from '/apps/commandmaps/src/GoogleLocationPicker.tsx';
+  import '/_ds/colors_and_type.css';
+  function Harness() {
+    const [address, setAddress] = React.useState('');
+    const [point, setPoint] = React.useState(null);
+    return React.createElement(
+      React.Fragment,
+      null,
+      React.createElement(GoogleLocationPicker, {
+        address,
+        point,
+        onAddressChange: setAddress,
+        onSelect: setPoint,
+      }),
+      React.createElement(OperationalMap, {
+        requests: [{ id: 'selected', number: 'Selected request', latitude: -37, longitude: 145 }],
+        selected: 'selected',
+        onSelect: () => {},
+        onCreateLocation: () => {},
+        draftLocation: null,
+        canCreate: true,
+      }),
+    );
+  }
+  createRoot(document.getElementById('root')).render(React.createElement(Harness));
+</script>
