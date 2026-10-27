@@ -1,6 +1,7 @@
 /* global window, document -- Injected in the browser by Playwright. */
 /* Browser-only Google Maps/Places fixture; all coordinates are synthetic. */
 window.__CIVICMAPS_TEST_PREDICTION_CALLS__ = [];
+window.__civicmapsTokens = [];
 window.__civicmapsFakeMaps = [];
 window.__civicmapsFakeMarkers = [];
 const maps = {
@@ -51,7 +52,8 @@ const maps = {
 const places = {
   AutocompleteSessionToken: class {},
   AutocompleteSuggestion: {
-    fetchAutocompleteSuggestions: async ({ input }) => {
+    fetchAutocompleteSuggestions: async ({ input, sessionToken }) => {
+      window.__civicmapsTokens.push(sessionToken);
       window.__CIVICMAPS_TEST_PREDICTION_CALLS__.push(input);
       if (input.startsWith('Slow ')) await new Promise((resolve) => setTimeout(resolve, 800));
       if (input === 'Hanging address query') return new Promise(() => {});
@@ -61,12 +63,16 @@ const places = {
             placePrediction: {
               placeId: 'synthetic-place',
               text: { toString: () => input },
-              toPlace: () => ({
-                fetchFields: async () => {},
-                formattedAddress: input,
-                location: { lat: () => -37.814, lng: () => 144.963 },
-                types: input.startsWith('Street only') ? ['route'] : ['street_address'],
-              }),
+              receiverState: input,
+              toPlace() {
+                if (this.receiverState !== input) throw new Error('Prediction receiver lost');
+                return {
+                  fetchFields: async () => {},
+                  formattedAddress: input,
+                  location: { lat: () => -37.814, lng: () => 144.963 },
+                  types: input.startsWith('Street only') ? ['route'] : ['street_address'],
+                };
+              },
             },
           },
         ],

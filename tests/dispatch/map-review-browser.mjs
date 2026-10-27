@@ -1,3 +1,6 @@
+/* global window -- Browser callbacks executed by Playwright. */
+import { readFile } from 'node:fs/promises';
+import { expect } from '@playwright/test';
 import { chromium } from '@playwright/test';
 import { createServer } from 'vite';
 import {
@@ -9,6 +12,7 @@ import {
 } from './map-review-regressions.mjs';
 const server = await createServer({
   configFile: false,
+  define: { 'import.meta.env.VITE_GOOGLE_MAPS_API_KEY': JSON.stringify('synthetic-test-key') },
   root: process.cwd(),
   esbuild: { jsx: 'automatic' },
   optimizeDeps: {
@@ -25,6 +29,38 @@ try {
     args: ['--no-sandbox'],
   });
   const origin = `http://127.0.0.1:${server.httpServer.address().port}`;
+  const coldPage = await browser.newPage();
+  const fixture = await readFile('tests/dispatch/google-maps-sdk-fixture.mjs', 'utf8');
+  await coldPage.route('https://maps.googleapis.com/**', (route) => {
+    const callback = new URL(route.request().url()).searchParams.get('callback');
+    return route.fulfill({
+      contentType: 'text/javascript',
+      body: `window.finishColdLoad = () => { ${fixture} ; window[${JSON.stringify(callback)}](); };`,
+    });
+  });
+  await coldPage.goto(`${origin}/tests/dispatch/map-review-harness.html`);
+  await expect.poll(() => coldPage.evaluate(() => typeof window.finishColdLoad)).toBe('function');
+  await expect(
+    coldPage.getByRole('button', { name: 'Select location on map', exact: true }),
+  ).toBeDisabled();
+  await coldPage.evaluate(() => window.finishColdLoad());
+  await expect(
+    coldPage.getByRole('button', { name: 'Select location on map', exact: true }),
+  ).toBeEnabled();
+  await coldPage.getByLabel('Reported address').fill('Street only result');
+  await coldPage.getByRole('option', { name: 'Street only result' }).click();
+  await expect(coldPage.getByRole('region', { name: 'Reported location' })).toContainText(
+    'street or area',
+  );
+  await coldPage.getByLabel('Reported address').fill('Precise result');
+  await coldPage.getByRole('option', { name: 'Precise result' }).click();
+  await expect(coldPage.getByRole('region', { name: 'Reported location' })).toContainText(
+    '-37.814000, 144.963000',
+  );
+  expect(
+    await coldPage.evaluate(() => window.__civicmapsTokens[0] !== window.__civicmapsTokens[1]),
+  ).toBe(true);
+  await coldPage.close();
   const readinessPage = await browser.newPage();
   await readinessPage.addInitScript({ path: 'tests/dispatch/google-maps-sdk-fixture.mjs' });
   await verifyMapReadiness(readinessPage, `${origin}/tests/dispatch/map-review-harness.html`);

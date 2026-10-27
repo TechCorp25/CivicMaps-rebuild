@@ -105,27 +105,31 @@ function loadMaps(): Promise<void> {
   if ((window as GoogleMapsWindow).google?.maps?.importLibrary) return Promise.resolve();
   if (!key) return Promise.reject(new Error('Google Maps is not configured for this runtime.'));
   loader = new Promise<void>((resolve, reject) => {
-    const existing = document.querySelector<HTMLScriptElement>('script[data-civicmaps-google]');
-    const script = existing ?? document.createElement('script');
+    const script = document.createElement('script');
+    const callback = `__civicmapsReady${Date.now()}${Math.random().toString(36).slice(2)}`;
+    const callbacks = window as unknown as Record<string, unknown>;
+    callbacks[callback] = () => {
+      window.clearTimeout(timer);
+      delete callbacks[callback];
+      resolve();
+    };
     const timer = window.setTimeout(() => {
       script.remove();
+      delete callbacks[callback];
       reject(
         new Error('Google Maps did not load. Check the runtime key and referrer restrictions.'),
       );
     }, 12000);
     script.dataset.civicmapsGoogle = 'true';
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&v=weekly&loading=async`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&v=weekly&loading=async&callback=${callback}`;
     script.async = true;
-    script.onload = () => {
-      window.clearTimeout(timer);
-      resolve();
-    };
     script.onerror = () => {
       window.clearTimeout(timer);
       script.remove();
+      delete callbacks[callback];
       reject(new Error('Google Maps could not load. Retry when the connection is available.'));
     };
-    if (!existing) document.head.append(script);
+    document.head.append(script);
   }).catch((error) => {
     loader = undefined;
     throw error;
@@ -276,7 +280,7 @@ export function GoogleLocationPicker({
                 {
                   text: item.placePrediction.text?.toString() ?? '',
                   placeId: item.placePrediction.placeId,
-                  toPlace: item.placePrediction.toPlace,
+                  toPlace: () => item.placePrediction!.toPlace(),
                 },
               ]
             : [],
@@ -304,6 +308,8 @@ export function GoogleLocationPicker({
     setStatus('Confirming address…');
     setLookupError(false);
     try {
+      // A details attempt consumes this session even if it fails or is superseded.
+      session.current = null;
       await loadMaps();
       const place = prediction.toPlace();
       await bounded(
@@ -326,7 +332,6 @@ export function GoogleLocationPicker({
         longitude: place.location.lng(),
         source: 'address' as const,
       };
-      session.current = null;
       setCandidate(null);
       setMapMode(false);
       mapPickListener.current?.remove();
