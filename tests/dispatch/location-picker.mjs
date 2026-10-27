@@ -20,7 +20,13 @@ export async function verifyMapPickedServiceRequest(page, save, database) {
 
   // The workspace map captures the SR point and seeds the composer’s shared draft.
   await page.getByRole('button', { name: 'Select SR location on map' }).click();
-  await page.evaluate(() => window.__civicmapsFakeMapClick(-37.812, 144.961));
+  await page.evaluate(() => {
+    window.__civicmapsFakeMap.setCenter({ lat: -37.812, lng: 144.961 });
+    window.__civicmapsFakeMapClick(-37.812, 144.961);
+  });
+  await expect
+    .poll(() => page.evaluate(() => window.__civicmapsFakeMap.center))
+    .toEqual({ lat: -37.812, lng: 144.961 });
   await page.getByRole('button', { name: 'Use this location' }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await expect(page.getByLabel('Confirmed latitude')).toHaveValue('-37.812000');
@@ -57,6 +63,24 @@ export async function verifyMapPickedServiceRequest(page, save, database) {
   await centre.press('Enter');
   await page.getByRole('button', { name: 'Use this location' }).click();
   await expect(page.getByLabel('Confirmed latitude')).toHaveValue('-37.814000');
+  await page.getByRole('button', { name: 'Select location on map' }).click();
+  await page.evaluate(() => window.__civicmapsFakeMapClick(-37.82, 144.97));
+  await page.getByRole('button', { name: 'Use this location' }).click();
+  await expect(page.getByLabel('Reported location').getByRole('status')).toContainText(
+    'resolved address',
+  );
+  await cancelAddress.fill('Address after confirmed map pick');
+  await page.getByRole('option', { name: 'Address after confirmed map pick' }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const marker = window.__civicmapsFakeMarkers.findLast(
+          (item) => item.map === window.__civicmapsFakeMap,
+        );
+        return marker?.position;
+      }),
+    )
+    .toEqual({ lat: -37.814, lng: 144.963 });
   await page.getByRole('button', { name: 'Review request', exact: true }).click();
   const keyboardCreated = await save(page, 'Create request', 201);
   const keyboardPoint = (

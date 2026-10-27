@@ -1166,6 +1166,7 @@ function App() {
           )}
           <div className="dashboard-stack">
             <OperationalMap
+              key={scopeKey}
               requests={
                 current && !requests.some((request) => request.id === current.id)
                   ? [...requests, current]

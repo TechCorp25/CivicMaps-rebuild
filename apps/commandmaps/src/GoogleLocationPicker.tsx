@@ -390,6 +390,7 @@ export function GoogleLocationPicker({
     const current = ++revision.current;
     const value = { ...candidate, address: address.trim(), source: 'map' as const };
     onSelect(value);
+    setCandidate(null);
     setMapMode(false);
     setStatus('Location pinned. Resolving an address…');
     mapPickListener.current?.remove();
@@ -587,6 +588,13 @@ export function OperationalMap({
   const [candidate, setCandidate] = useState<{ latitude: number; longitude: number } | null>(null);
   const pickListener = useRef<{ remove: () => void } | null>(null);
   const [pickStatus, setPickStatus] = useState('');
+  const captureRevision = useRef(0);
+  useEffect(() => {
+    captureRevision.current += 1;
+    return () => {
+      captureRevision.current += 1;
+    };
+  }, [canCreate]);
   useEffect(() => {
     let active = true;
     setMapReady(false);
@@ -685,18 +693,22 @@ export function OperationalMap({
               : undefined,
           }) as (typeof markers.current)[number],
         );
-      const activePin = requests.find((request) => request.id === selected);
-      if (activePin) map.current.setCenter({ lat: activePin.latitude, lng: activePin.longitude });
-      else if (draftLocation)
-        map.current.setCenter({ lat: draftLocation.latitude, lng: draftLocation.longitude });
-      else if (requests[0])
-        map.current.setCenter({ lat: requests[0].latitude, lng: requests[0].longitude });
     })().catch(() => setError('Request locations are temporarily unavailable on the map.'));
     return () => {
       active = false;
     };
   }, [mapReady, requests, selected, onSelect, draftLocation, candidate]);
+  useEffect(() => {
+    if (!mapReady || !map.current || pickMode) return;
+    const activePin = requests.find((request) => request.id === selected);
+    if (activePin) map.current.setCenter({ lat: activePin.latitude, lng: activePin.longitude });
+    else if (draftLocation)
+      map.current.setCenter({ lat: draftLocation.latitude, lng: draftLocation.longitude });
+    else if (requests[0])
+      map.current.setCenter({ lat: requests[0].latitude, lng: requests[0].longitude });
+  }, [mapReady, requests, selected, draftLocation, pickMode]);
   function beginPick() {
+    captureRevision.current += 1;
     setPickMode(true);
     setCandidate(null);
     setPickStatus('Click the map or choose its centre to place the new service request.');
@@ -713,6 +725,7 @@ export function OperationalMap({
     if (centre) setCandidate({ latitude: centre.lat(), longitude: centre.lng() });
   }
   function cancelPick() {
+    captureRevision.current += 1;
     setPickMode(false);
     setCandidate(null);
     setPickStatus('');
@@ -721,16 +734,19 @@ export function OperationalMap({
     map.current?.setOptions({ draggableCursor: null });
   }
   async function confirmPick() {
-    if (!candidate) return;
+    if (!candidate || !canCreate) return;
     const point = candidate;
     cancelPick();
+    const revision = captureRevision.current;
     try {
       const address = await bounded(
         reverseGeocode(point.latitude, point.longitude),
         'Address lookup',
       );
+      if (revision !== captureRevision.current) return;
       onCreateLocation({ ...point, address, source: 'map' });
     } catch {
+      if (revision !== captureRevision.current) return;
       // Preserve the chosen point and let dispatch enter an explicit location description.
       onCreateLocation({ ...point, address: '', source: 'map' });
     }

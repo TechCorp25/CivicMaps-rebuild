@@ -2,6 +2,7 @@
 /* Browser-only Google Maps/Places fixture; all coordinates are synthetic. */
 window.__CIVICMAPS_TEST_PREDICTION_CALLS__ = [];
 window.__civicmapsFakeMaps = [];
+window.__civicmapsFakeMarkers = [];
 const maps = {
   Map: class {
     center;
@@ -27,6 +28,7 @@ const maps = {
   AdvancedMarkerElement: class {
     constructor(options) {
       Object.assign(this, options);
+      window.__civicmapsFakeMarkers.push(this);
     }
     addListener(event, callback) {
       this.onClick = callback;
