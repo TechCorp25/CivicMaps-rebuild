@@ -1,6 +1,10 @@
 import { chromium } from '@playwright/test';
 import { createServer } from 'vite';
-import { verifyCancelledAddressResolution, verifyPinTokens } from './map-review-regressions.mjs';
+import {
+  verifyCancelledAddressResolution,
+  verifyPinTokens,
+  verifyMapModeTransitions,
+} from './map-review-regressions.mjs';
 const server = await createServer({
   configFile: false,
   root: process.cwd(),
@@ -23,9 +27,10 @@ try {
   await page.goto(
     `http://127.0.0.1:${server.httpServer.address().port}/tests/dispatch/map-review-harness.html`,
   );
+  await verifyMapModeTransitions(page);
   await verifyCancelledAddressResolution(page);
   await verifyPinTokens(page);
-  console.log('PASS: cancelled address resolution and canonical pin tokens');
+  console.log('PASS: map-mode transitions, cancelled address resolution and canonical pin tokens');
 } finally {
   await browser?.close();
   await server.close();

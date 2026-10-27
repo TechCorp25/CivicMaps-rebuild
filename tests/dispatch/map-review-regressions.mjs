@@ -72,3 +72,36 @@ export async function verifyPinTokens(page) {
   });
   expect(pins.actual).toBe(pins.expected);
 }
+
+export async function verifyMapModeTransitions(page) {
+  const region = page.getByRole('region', { name: 'Reported location' });
+  const address = page.getByLabel('Reported address');
+  await address.fill('Original address');
+  await page.getByRole('option', { name: 'Original address' }).click();
+  const enter = page.getByRole('button', { name: 'Select location on map', exact: true });
+  await enter.click();
+  await enter.click();
+  await region.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(address).toHaveValue('Original address');
+  await expect(region).toContainText('-37.814000, 144.963000');
+  await enter.click();
+  await page.evaluate(() => window.__civicmapsFakeMapClick(-38, 145));
+  await address.fill('Replacement address');
+  await page.getByRole('option', { name: 'Replacement address' }).click();
+  await expect(region.getByRole('button', { name: 'Cancel', exact: true })).toHaveCount(0);
+  await expect(region).toContainText('-37.814000, 144.963000');
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          window.__civicmapsFakeMarkers.find((marker) => marker.position && !marker.title)
+            ?.position,
+      ),
+    )
+    .toEqual({ lat: -37.814, lng: 144.963 });
+  await page.evaluate(() => window.__civicmapsFakeMapClick(-39, 146));
+  await expect(region).toContainText('-37.814000, 144.963000');
+  expect(
+    await page.evaluate(() => window.__civicmapsFakeMaps.some((map) => map.listeners.has('click'))),
+  ).toBe(false);
+}

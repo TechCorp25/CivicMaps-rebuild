@@ -327,6 +327,13 @@ export function GoogleLocationPicker({
         source: 'address' as const,
       };
       session.current = null;
+      setCandidate(null);
+      setMapMode(false);
+      mapPickListener.current?.remove();
+      mapPickListener.current = null;
+      map.current?.setOptions({ draggableCursor: null });
+      previousPoint.current = null;
+      previousAddress.current = '';
       onAddressChange(selection.address);
       onSelect(selection);
       setStatus('Location confirmed.');
@@ -338,6 +345,7 @@ export function GoogleLocationPicker({
   }
 
   function enableMapPick() {
+    if (mapMode) return;
     revision.current++;
     previousPoint.current = point;
     previousAddress.current = address;
