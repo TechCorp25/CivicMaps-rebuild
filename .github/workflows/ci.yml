@@ -50,6 +50,8 @@ jobs:
           CIVICMAPS_CADDY_BINARY=/tmp/civicmaps-caddy/caddy node tests/ingress-login.mjs
       - name: Install Chromium for platform acceptance
         run: node node_modules/playwright/cli.js install --with-deps chromium
+      - name: Exercise isolated map regressions
+        run: npm run test:map:browser
       - name: Exercise platform registration, provisioning and pack flows
         run: npm run test:platform:browser
       - name: Exercise CommandMAPS in a disposable database

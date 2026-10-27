@@ -371,6 +371,13 @@ export function GoogleLocationPicker({
     }
   }
   function cancelMapPick() {
+    // Cancellation also invalidates address work started while map picking was active.
+    revision.current += 1;
+    if (searchTimer.current !== null) window.clearTimeout(searchTimer.current);
+    searchTimer.current = null;
+    setSuggestions([]);
+    setActiveSuggestion(0);
+    setLookupError(false);
     setMapMode(false);
     setCandidate(null);
     const restoredPoint = previousPoint.current;
@@ -638,6 +645,12 @@ export function OperationalMap({
       markers.current.forEach((marker) => {
         marker.map = null;
       });
+      const colours = getComputedStyle(element.current ?? document.documentElement);
+      const primary = colours.getPropertyValue('--civic-primary').trim();
+      const secondary = colours.getPropertyValue('--civic-secondary').trim();
+      const accent = colours.getPropertyValue('--civic-accent').trim();
+      const surface = colours.getPropertyValue('--civic-surface').trim();
+      const alert = colours.getPropertyValue('--status-alert').trim();
       markers.current = requests
         .filter(
           (request) => Number.isFinite(request.latitude) && Number.isFinite(request.longitude),
@@ -649,9 +662,9 @@ export function OperationalMap({
             title: request.number,
             content: library.PinElement
               ? new library.PinElement({
-                  background: request.id === selected ? '#D4A843' : '#1A7A6D',
-                  borderColor: request.id === selected ? '#1B2A4A' : '#FFFFFF',
-                  glyphColor: '#FFFFFF',
+                  background: request.id === selected ? accent : secondary,
+                  borderColor: request.id === selected ? primary : surface,
+                  glyphColor: surface,
                 }).element
               : undefined,
           }) as (typeof markers.current)[number];
@@ -670,9 +683,9 @@ export function OperationalMap({
             title: 'New service request location',
             content: library.PinElement
               ? new library.PinElement({
-                  background: '#D4A843',
-                  borderColor: '#1B2A4A',
-                  glyphColor: '#FFFFFF',
+                  background: accent,
+                  borderColor: primary,
+                  glyphColor: surface,
                 }).element
               : undefined,
           }) as (typeof markers.current)[number],
@@ -686,9 +699,9 @@ export function OperationalMap({
             title: 'Unconfirmed location candidate',
             content: library.PinElement
               ? new library.PinElement({
-                  background: '#F59E0B',
-                  borderColor: '#1B2A4A',
-                  glyphColor: '#1B2A4A',
+                  background: alert,
+                  borderColor: primary,
+                  glyphColor: primary,
                 }).element
               : undefined,
           }) as (typeof markers.current)[number],

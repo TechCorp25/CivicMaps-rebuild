@@ -30,7 +30,8 @@
     "test:resources:cloud": "node tests/cloud-data-resources.mjs",
     "test:commandmaps:browser": "node tests/browser-commandmaps.mjs",
     "test:activation:browser": "node tests/browser-activation.mjs",
-    "audit:dependencies": "node scripts/dependency-audit.mjs"
+    "audit:dependencies": "node scripts/dependency-audit.mjs",
+    "test:map:browser": "node tests/dispatch/map-review-browser.mjs"
   },
   "dependencies": {
     "express": "5.2.1",
