@@ -8,25 +8,32 @@ export function RequestComposer({
   busy,
   error,
   uncertain,
+  initialLocation = null,
   onClose,
   onCreate,
 }: {
   busy: boolean;
   error: string;
   uncertain: boolean;
+  initialLocation?: {
+    address: string;
+    latitude: number;
+    longitude: number;
+    source?: 'address' | 'map';
+  } | null;
   onClose: () => void;
   onCreate: (draft: RequestDraft) => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const [review, setReview] = useState(false);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(initialLocation?.address ?? '');
   const [location, setLocation] = useState<{
     address: string;
     latitude: number;
     longitude: number;
     source?: 'address' | 'map';
-  } | null>(null);
+  } | null>(initialLocation);
   const [draft, setDraft] = useState<RequestDraft>({
     address: '',
     latitude: Number.NaN,

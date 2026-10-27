@@ -263,6 +263,24 @@ textarea {
   display: grid;
   gap: 20px;
 }
+.operations-panel {
+  border: 1px solid var(--civic-neutral-200);
+  border-radius: 10px;
+  background: var(--civic-surface);
+  overflow: hidden;
+}
+.operations-panel > summary {
+  cursor: pointer;
+  padding: 16px 20px;
+  color: var(--civic-primary);
+  font-weight: 700;
+}
+.operations-panel[open] > summary {
+  border-bottom: 1px solid var(--civic-neutral-200);
+}
+.operations-panel .queue-layout {
+  padding: 16px;
+}
 .operational-map {
   overflow: hidden;
 }
@@ -677,9 +695,15 @@ button:disabled {
   background: var(--civic-neutral-100);
 }
 .location-map-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 132px), 1fr));
   gap: 8px;
   margin-top: 10px;
+}
+.location-map-actions button {
+  min-width: 0;
+  width: 100%;
+  white-space: normal;
 }
 .location-status {
   min-height: 20px;

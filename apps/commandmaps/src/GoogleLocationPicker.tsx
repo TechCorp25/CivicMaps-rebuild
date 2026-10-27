@@ -1,12 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 
-type Point = { address: string; latitude: number; longitude: number; source?: 'address' | 'map' };
+export type LocationPoint = {
+  address: string;
+  latitude: number;
+  longitude: number;
+  source?: 'address' | 'map';
+};
+type Point = LocationPoint;
 type Prediction = {
   text: string;
   placeId: string;
   toPlace: () => {
     fetchFields: (options: unknown) => Promise<void>;
     formattedAddress?: string;
+    types?: string[];
     location?: { lat: () => number; lng: () => number };
   };
 };
@@ -22,6 +29,9 @@ type GoogleMap = {
 type MapsLibrary = {
   Map: new (element: HTMLElement, options: unknown) => GoogleMap;
   AdvancedMarkerElement?: new (options: unknown) => { position: unknown };
+  PinElement?: new (options: { background: string; borderColor: string; glyphColor: string }) => {
+    element: HTMLElement;
+  };
 };
 type GeocodingLibrary = {
   Geocoder: new () => {
@@ -38,6 +48,7 @@ type PlacesLibrary = {
           toPlace: () => {
             fetchFields: (options: unknown) => Promise<void>;
             formattedAddress?: string;
+            types?: string[];
             location?: { lat: () => number; lng: () => number };
           };
         };
@@ -60,6 +71,34 @@ export type OperationalRequestPin = {
 };
 
 let loader: Promise<void> | undefined;
+async function bounded<T>(operation: Promise<T>, label: string, timeoutMs = 10000): Promise<T> {
+  let timer: number | undefined;
+  try {
+    return await Promise.race([
+      operation,
+      new Promise<T>((_, reject) => {
+        timer = window.setTimeout(
+          () => reject(new Error(`${label} timed out. Retry the lookup.`)),
+          timeoutMs,
+        );
+      }),
+    ]);
+  } finally {
+    if (timer !== undefined) window.clearTimeout(timer);
+  }
+}
+async function reverseGeocode(latitude: number, longitude: number) {
+  await loadMaps();
+  const library = (await bounded(
+    (window as GoogleMapsWindow).google!.maps!.importLibrary('geocoding'),
+    'Address lookup setup',
+  )) as GeocodingLibrary;
+  const result = await bounded(
+    new library.Geocoder().geocode({ location: { lat: latitude, lng: longitude } }),
+    'Address lookup',
+  );
+  return result.results[0]?.formatted_address ?? '';
+}
 function loadMaps(): Promise<void> {
   if (loader) return loader;
   const key = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -68,13 +107,12 @@ function loadMaps(): Promise<void> {
   loader = new Promise<void>((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>('script[data-civicmaps-google]');
     const script = existing ?? document.createElement('script');
-    const timer = window.setTimeout(
-      () =>
-        reject(
-          new Error('Google Maps did not load. Check the runtime key and referrer restrictions.'),
-        ),
-      12000,
-    );
+    const timer = window.setTimeout(() => {
+      script.remove();
+      reject(
+        new Error('Google Maps did not load. Check the runtime key and referrer restrictions.'),
+      );
+    }, 12000);
     script.dataset.civicmapsGoogle = 'true';
     script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&v=weekly&loading=async`;
     script.async = true;
@@ -84,6 +122,7 @@ function loadMaps(): Promise<void> {
     };
     script.onerror = () => {
       window.clearTimeout(timer);
+      script.remove();
       reject(new Error('Google Maps could not load. Retry when the connection is available.'));
     };
     if (!existing) document.head.append(script);
@@ -118,21 +157,36 @@ export function GoogleLocationPicker({
   const [mapMode, setMapMode] = useState(false);
   const [candidate, setCandidate] = useState<{ latitude: number; longitude: number } | null>(null);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
+  const [mapGeneration, setMapGeneration] = useState(0);
+  const [mapReady, setMapReady] = useState(false);
+  const previousPoint = useRef<Point | null>(null);
+  const previousAddress = useRef('');
+  const [mapError, setMapError] = useState(false);
+  const [lookupError, setLookupError] = useState(false);
 
   useEffect(() => {
     let active = true;
     const mountedRevision = revision.current;
+    setMapReady(false);
+    setMapError(false);
+    map.current = null;
+    marker.current = null;
     void loadMaps()
       .then(async () => {
-        const maps = (await (window as GoogleMapsWindow).google!.maps!.importLibrary(
-          'maps',
+        const maps = (await bounded(
+          (window as GoogleMapsWindow).google!.maps!.importLibrary('maps'),
+          'Map loading',
         )) as MapsLibrary;
-        (await (window as GoogleMapsWindow).google!.maps!.importLibrary('places')) as PlacesLibrary;
-        const markerLibrary = (await (window as GoogleMapsWindow).google!.maps!.importLibrary(
-          'marker',
+        (await bounded(
+          (window as GoogleMapsWindow).google!.maps!.importLibrary('places'),
+          'Address search setup',
+        )) as PlacesLibrary;
+        const markerLibrary = (await bounded(
+          (window as GoogleMapsWindow).google!.maps!.importLibrary('marker'),
+          'Map marker setup',
         )) as MapsLibrary;
         if (!active || !mapElement.current) return;
-        const center = { lat: -37.8136, lng: 144.9631 };
+        const center = { lat: -25.0, lng: 133.0 };
         map.current = new maps.Map(mapElement.current, {
           center,
           zoom: 12,
@@ -142,30 +196,38 @@ export function GoogleLocationPicker({
           mapTypeControl: false,
           fullscreenControl: false,
         });
+        setStatus('');
+        setMapReady(true);
         void markerLibrary;
       })
       .catch((error: Error) => {
-        if (active) setStatus(error.message);
+        if (active) {
+          setStatus(error.message);
+          setMapError(true);
+        }
       });
     return () => {
       active = false;
-      if (revision.current === mountedRevision) revision.current = mountedRevision + 1;
+      revision.current = Math.max(revision.current, mountedRevision) + 1;
       if (searchTimer.current !== null) window.clearTimeout(searchTimer.current);
       mapPickListener.current?.remove();
     };
-  }, []);
+  }, [mapGeneration]);
 
   useEffect(() => {
+    if (!mapReady) return;
     const current = ++pointRevision.current;
-    if (point && map.current) {
-      const position = { lat: point.latitude, lng: point.longitude };
+    const visiblePoint = candidate ?? point;
+    if (visiblePoint && map.current) {
+      const position = { lat: visiblePoint.latitude, lng: visiblePoint.longitude };
       map.current.setCenter(position);
       if (marker.current) marker.current.position = position;
       else
         void loadMaps()
           .then(async () => {
-            const maps = (await (window as GoogleMapsWindow).google!.maps!.importLibrary(
-              'marker',
+            const maps = (await bounded(
+              (window as GoogleMapsWindow).google!.maps!.importLibrary('marker'),
+              'Map marker setup',
             )) as MapsLibrary;
             if (current === pointRevision.current)
               marker.current = new maps.AdvancedMarkerElement!({
@@ -175,9 +237,10 @@ export function GoogleLocationPicker({
           })
           .catch(() => {});
     } else if (marker.current) marker.current.position = null;
-  }, [point]);
+  }, [point, candidate, mapReady]);
 
   async function search(value: string) {
+    if (searchTimer.current !== null) window.clearTimeout(searchTimer.current);
     onAddressChange(value);
     if (point?.source === 'map') onSelect({ ...point, address: value });
     else onSelect(null);
@@ -188,19 +251,24 @@ export function GoogleLocationPicker({
       return;
     }
     setStatus('Searching addresses…');
+    setLookupError(false);
     if (searchTimer.current !== null) window.clearTimeout(searchTimer.current);
     searchTimer.current = window.setTimeout(async () => {
       try {
         await loadMaps();
-        const places = (await (window as GoogleMapsWindow).google!.maps!.importLibrary(
-          'places',
+        const places = (await bounded(
+          (window as GoogleMapsWindow).google!.maps!.importLibrary('places'),
+          'Address search setup',
         )) as PlacesLibrary;
         session.current ??= new places.AutocompleteSessionToken();
-        const response = await places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
-          input: value,
-          sessionToken: session.current,
-          includedRegionCodes: ['au'],
-        });
+        const response = await bounded(
+          places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
+            input: value,
+            sessionToken: session.current,
+            includedRegionCodes: ['au'],
+          }),
+          'Address search',
+        );
         if (current !== revision.current) return;
         const next = (response.suggestions ?? []).flatMap((item) =>
           item.placePrediction?.placeId
@@ -221,22 +289,37 @@ export function GoogleLocationPicker({
             : 'No address suggestions found. Select the location on the map.',
         );
       } catch {
-        if (current === revision.current)
+        if (current === revision.current) {
+          setLookupError(true);
           setStatus('Address search is unavailable. You can select the location on the map.');
+        }
       }
     }, 300);
   }
 
   async function choose(prediction: Prediction) {
     const current = ++revision.current;
+    onSelect(null);
     setSuggestions([]);
     setStatus('Confirming address…');
+    setLookupError(false);
     try {
       await loadMaps();
       const place = prediction.toPlace();
-      await place.fetchFields({ fields: ['formattedAddress', 'location'] });
+      await bounded(
+        place.fetchFields({ fields: ['formattedAddress', 'location', 'types'] }),
+        'Address resolution',
+      );
       if (current !== revision.current || !place.location)
         throw new Error('Address has no usable point.');
+      const preciseTypes = new Set(['street_address', 'premise', 'subpremise', 'establishment']);
+      if (!place.types?.some((type) => preciseTypes.has(type))) {
+        setLookupError(false);
+        setStatus(
+          'This result identifies a street or area, not a confirmed incident point. Select the exact location on the map.',
+        );
+        return;
+      }
       const selection = {
         address: place.formattedAddress || prediction.text,
         latitude: place.location.lat(),
@@ -248,6 +331,7 @@ export function GoogleLocationPicker({
       onSelect(selection);
       setStatus('Location confirmed.');
     } catch {
+      if (current === revision.current) setLookupError(true);
       if (current === revision.current)
         setStatus('This address could not be resolved to a point. Select it on the map.');
     }
@@ -255,6 +339,10 @@ export function GoogleLocationPicker({
 
   function enableMapPick() {
     revision.current++;
+    previousPoint.current = point;
+    previousAddress.current = address;
+    onSelect(null);
+    onAddressChange('');
     if (searchTimer.current !== null) window.clearTimeout(searchTimer.current);
     setSuggestions([]);
     setMapMode(true);
@@ -265,17 +353,34 @@ export function GoogleLocationPicker({
     mapPickListener.current?.remove();
     mapPickListener.current = map.current.addListener('click', (event) => {
       const location = event.latLng;
-      if (location) setCandidate({ latitude: location.lat(), longitude: location.lng() });
+      if (location) {
+        const candidatePoint = { latitude: location.lat(), longitude: location.lng() };
+        setCandidate(candidatePoint);
+        if (marker.current)
+          marker.current.position = { lat: candidatePoint.latitude, lng: candidatePoint.longitude };
+      }
     });
   }
   function selectMapCentre() {
     const centre = map.current?.getCenter();
-    if (centre) setCandidate({ latitude: centre.lat(), longitude: centre.lng() });
+    if (centre) {
+      const candidatePoint = { latitude: centre.lat(), longitude: centre.lng() };
+      setCandidate(candidatePoint);
+      if (marker.current)
+        marker.current.position = { lat: candidatePoint.latitude, lng: candidatePoint.longitude };
+    }
   }
   function cancelMapPick() {
     setMapMode(false);
     setCandidate(null);
-    setStatus(point ? 'Previous confirmed location restored.' : 'Map selection cancelled.');
+    const restoredPoint = previousPoint.current;
+    const restoredAddress = previousAddress.current;
+    previousPoint.current = null;
+    previousAddress.current = '';
+    onAddressChange(restoredAddress);
+    // Restore after the address callback, which can invalidate free-text address points.
+    onSelect(restoredPoint);
+    setStatus(restoredPoint ? 'Previous confirmed location restored.' : 'Map selection cancelled.');
     mapPickListener.current?.remove();
     mapPickListener.current = null;
     map.current?.setOptions({ draggableCursor: null });
@@ -291,15 +396,11 @@ export function GoogleLocationPicker({
     mapPickListener.current = null;
     map.current?.setOptions({ draggableCursor: null });
     try {
-      await loadMaps();
-      const geocoding = (await (window as GoogleMapsWindow).google!.maps!.importLibrary(
-        'geocoding',
-      )) as GeocodingLibrary;
-      const response = await new geocoding.Geocoder().geocode({
-        location: { lat: value.latitude, lng: value.longitude },
-      });
+      const label = await bounded(
+        reverseGeocode(value.latitude, value.longitude),
+        'Address lookup',
+      );
       if (current !== revision.current) return;
-      const label = response.results[0]?.formatted_address;
       if (label) {
         onAddressChange(label);
         onSelect({ ...value, address: label });
@@ -309,10 +410,41 @@ export function GoogleLocationPicker({
           'Location is pinned. Enter an address or a clear location description to continue.',
         );
     } catch {
-      if (current === revision.current)
+      if (current === revision.current) {
+        setLookupError(true);
         setStatus(
           'Location is pinned. Address lookup failed; enter an address or a clear location description to continue.',
         );
+      }
+    }
+  }
+  async function retryLookup() {
+    if (point?.source !== 'map') {
+      void search(address);
+      return;
+    }
+    const current = ++revision.current;
+    setLookupError(false);
+    setStatus('Retrying address lookup…');
+    try {
+      const label = await bounded(
+        reverseGeocode(point.latitude, point.longitude),
+        'Address lookup',
+      );
+      if (current !== revision.current) return;
+      if (label) {
+        onAddressChange(label);
+        onSelect({ ...point, address: label });
+        setStatus('Map location confirmed with a resolved address.');
+      } else
+        setStatus(
+          'Location is pinned. Enter an address or a clear location description to continue.',
+        );
+    } catch {
+      if (current === revision.current) {
+        setLookupError(true);
+        setStatus('Address lookup is unavailable. Enter a clear location description or retry.');
+      }
     }
   }
   return (
@@ -374,7 +506,25 @@ export function GoogleLocationPicker({
           ))}
         </ul>
       )}
-      <div ref={mapElement} className="location-map" aria-label="Map for reported location" />
+      {mapError ? (
+        <div className="map-error" role="status">
+          <p>{status || 'The map is unavailable.'}</p>
+          <button
+            type="button"
+            className="secondary"
+            onClick={() => setMapGeneration((generation) => generation + 1)}
+          >
+            Retry map
+          </button>
+        </div>
+      ) : (
+        <div ref={mapElement} className="location-map" aria-label="Map for reported location" />
+      )}
+      {lookupError && (
+        <button type="button" className="secondary" onClick={() => void retryLookup()}>
+          Retry address lookup
+        </button>
+      )}
       <div className="location-map-actions">
         <button type="button" className="secondary" onClick={enableMapPick}>
           Select location on map
@@ -409,10 +559,16 @@ export function OperationalMap({
   requests,
   selected,
   onSelect,
+  onCreateLocation,
+  draftLocation,
+  canCreate,
 }: {
   requests: OperationalRequestPin[];
   selected: string | null;
   onSelect: (id: string) => void;
+  onCreateLocation: (point: LocationPoint) => void;
+  draftLocation: LocationPoint | null;
+  canCreate: boolean;
 }) {
   const element = useRef<HTMLDivElement>(null);
   const map = useRef<GoogleMap | null>(null);
@@ -426,16 +582,25 @@ export function OperationalMap({
   >([]);
   const [error, setError] = useState('');
   const [mapReady, setMapReady] = useState(false);
+  const [mapGeneration, setMapGeneration] = useState(0);
+  const [pickMode, setPickMode] = useState(false);
+  const [candidate, setCandidate] = useState<{ latitude: number; longitude: number } | null>(null);
+  const pickListener = useRef<{ remove: () => void } | null>(null);
+  const [pickStatus, setPickStatus] = useState('');
   useEffect(() => {
     let active = true;
+    setMapReady(false);
+    setError('');
+    map.current = null;
     void loadMaps()
       .then(async () => {
-        const maps = (await (window as GoogleMapsWindow).google!.maps!.importLibrary(
-          'maps',
+        const maps = (await bounded(
+          (window as GoogleMapsWindow).google!.maps!.importLibrary('maps'),
+          'Map loading',
         )) as MapsLibrary;
         if (!active || !element.current) return;
         map.current = new maps.Map(element.current, {
-          center: { lat: -37.8136, lng: 144.9631 },
+          center: { lat: -25.0, lng: 133.0 },
           zoom: 12,
           mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
           clickableIcons: false,
@@ -450,14 +615,16 @@ export function OperationalMap({
       });
     return () => {
       active = false;
+      pickListener.current?.remove();
     };
-  }, []);
+  }, [mapGeneration]);
   useEffect(() => {
     let active = true;
     void (async () => {
       if (!map.current || !mapReady) return;
-      const library = (await (window as GoogleMapsWindow).google!.maps!.importLibrary(
-        'marker',
+      const library = (await bounded(
+        (window as GoogleMapsWindow).google!.maps!.importLibrary('marker'),
+        'Map marker setup',
       )) as MapsLibrary;
       if (!active) return;
       markers.current.forEach((marker) => {
@@ -472,17 +639,102 @@ export function OperationalMap({
             map: map.current,
             position: { lat: request.latitude, lng: request.longitude },
             title: request.number,
+            content: library.PinElement
+              ? new library.PinElement({
+                  background: request.id === selected ? '#D4A843' : '#1A7A6D',
+                  borderColor: request.id === selected ? '#1B2A4A' : '#FFFFFF',
+                  glyphColor: '#FFFFFF',
+                }).element
+              : undefined,
           }) as (typeof markers.current)[number];
           marker.addListener?.('click', () => onSelect(request.id));
           return marker;
         });
+      if (
+        draftLocation &&
+        Number.isFinite(draftLocation.latitude) &&
+        Number.isFinite(draftLocation.longitude)
+      ) {
+        markers.current.push(
+          new library.AdvancedMarkerElement!({
+            map: map.current,
+            position: { lat: draftLocation.latitude, lng: draftLocation.longitude },
+            title: 'New service request location',
+            content: library.PinElement
+              ? new library.PinElement({
+                  background: '#D4A843',
+                  borderColor: '#1B2A4A',
+                  glyphColor: '#FFFFFF',
+                }).element
+              : undefined,
+          }) as (typeof markers.current)[number],
+        );
+      }
+      if (candidate)
+        markers.current.push(
+          new library.AdvancedMarkerElement!({
+            map: map.current,
+            position: { lat: candidate.latitude, lng: candidate.longitude },
+            title: 'Unconfirmed location candidate',
+            content: library.PinElement
+              ? new library.PinElement({
+                  background: '#F59E0B',
+                  borderColor: '#1B2A4A',
+                  glyphColor: '#1B2A4A',
+                }).element
+              : undefined,
+          }) as (typeof markers.current)[number],
+        );
       const activePin = requests.find((request) => request.id === selected);
       if (activePin) map.current.setCenter({ lat: activePin.latitude, lng: activePin.longitude });
+      else if (draftLocation)
+        map.current.setCenter({ lat: draftLocation.latitude, lng: draftLocation.longitude });
+      else if (requests[0])
+        map.current.setCenter({ lat: requests[0].latitude, lng: requests[0].longitude });
     })().catch(() => setError('Request locations are temporarily unavailable on the map.'));
     return () => {
       active = false;
     };
-  }, [mapReady, requests, selected, onSelect]);
+  }, [mapReady, requests, selected, onSelect, draftLocation, candidate]);
+  function beginPick() {
+    setPickMode(true);
+    setCandidate(null);
+    setPickStatus('Click the map or choose its centre to place the new service request.');
+    map.current?.setOptions({ draggableCursor: 'crosshair' });
+    pickListener.current?.remove();
+    pickListener.current =
+      map.current?.addListener('click', (event) => {
+        if (event.latLng)
+          setCandidate({ latitude: event.latLng.lat(), longitude: event.latLng.lng() });
+      }) ?? null;
+  }
+  function chooseCentre() {
+    const centre = map.current?.getCenter();
+    if (centre) setCandidate({ latitude: centre.lat(), longitude: centre.lng() });
+  }
+  function cancelPick() {
+    setPickMode(false);
+    setCandidate(null);
+    setPickStatus('');
+    pickListener.current?.remove();
+    pickListener.current = null;
+    map.current?.setOptions({ draggableCursor: null });
+  }
+  async function confirmPick() {
+    if (!candidate) return;
+    const point = candidate;
+    cancelPick();
+    try {
+      const address = await bounded(
+        reverseGeocode(point.latitude, point.longitude),
+        'Address lookup',
+      );
+      onCreateLocation({ ...point, address, source: 'map' });
+    } catch {
+      // Preserve the chosen point and let dispatch enter an explicit location description.
+      onCreateLocation({ ...point, address: '', source: 'map' });
+    }
+  }
   return (
     <section className="operational-map panel" aria-labelledby="operational-map-title">
       <div className="panel-heading">
@@ -490,12 +742,49 @@ export function OperationalMap({
           <p className="eyebrow">Operational view</p>
           <h2 id="operational-map-title">Service request map</h2>
         </div>
+        {!pickMode ? (
+          <button
+            type="button"
+            className="secondary"
+            disabled={!mapReady || !canCreate}
+            onClick={beginPick}
+          >
+            Select SR location on map
+          </button>
+        ) : (
+          <div className="location-map-actions">
+            <button type="button" className="secondary" onClick={chooseCentre}>
+              Choose map centre
+            </button>
+            <button type="button" disabled={!candidate} onClick={() => void confirmPick()}>
+              Use this location
+            </button>
+            <button type="button" className="secondary" onClick={cancelPick}>
+              Cancel
+            </button>
+          </div>
+        )}
+        {pickStatus && (
+          <span role="status" className="muted">
+            {pickStatus}
+          </span>
+        )}
         <span className="muted">Showing {requests.length} loaded requests</span>
       </div>
       {error ? (
         <div className="map-error" role="status">
           <p>{error}</p>
           <p>The scoped queue and selected request remain available below.</p>
+          <button
+            type="button"
+            className="secondary"
+            onClick={() => {
+              setMapReady(false);
+              setMapGeneration((generation) => generation + 1);
+            }}
+          >
+            Retry map
+          </button>
         </div>
       ) : (
         <div

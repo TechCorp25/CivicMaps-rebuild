@@ -1,6 +1,7 @@
-/* global window -- Injected in the browser by Playwright. */
+/* global window, document -- Injected in the browser by Playwright. */
 /* Browser-only Google Maps/Places fixture; all coordinates are synthetic. */
 window.__CIVICMAPS_TEST_PREDICTION_CALLS__ = [];
+window.__civicmapsFakeMaps = [];
 const maps = {
   Map: class {
     center;
@@ -9,6 +10,7 @@ const maps = {
       this.element = element;
       this.center = options.center;
       window.__civicmapsFakeMap = this;
+      window.__civicmapsFakeMaps.push(this);
     }
     setCenter(value) {
       this.center = value;
@@ -30,8 +32,16 @@ const maps = {
       this.onClick = callback;
     }
   },
+  PinElement: class {
+    constructor(options) {
+      this.element = document.createElement('span');
+      this.element.className = 'synthetic-map-pin';
+      this.element.dataset.background = options.background;
+    }
+  },
   Geocoder: class {
-    async geocode() {
+    async geocode({ location }) {
+      if (location.lat > -37.801) return { results: [] };
       return { results: [{ formatted_address: 'Synthetic map location, Melbourne VIC' }] };
     }
   },
@@ -42,6 +52,7 @@ const places = {
     fetchAutocompleteSuggestions: async ({ input }) => {
       window.__CIVICMAPS_TEST_PREDICTION_CALLS__.push(input);
       if (input.startsWith('Slow ')) await new Promise((resolve) => setTimeout(resolve, 800));
+      if (input === 'Hanging address query') return new Promise(() => {});
       return {
         suggestions: [
           {
@@ -52,6 +63,7 @@ const places = {
                 fetchFields: async () => {},
                 formattedAddress: input,
                 location: { lat: () => -37.814, lng: () => 144.963 },
+                types: input.startsWith('Street only') ? ['route'] : ['street_address'],
               }),
             },
           },
@@ -66,6 +78,8 @@ window.google = {
   },
 };
 window.__civicmapsFakeMapClick = (latitude, longitude) =>
-  window.__civicmapsFakeMap?.listeners.get('click')?.({
-    latLng: { lat: () => latitude, lng: () => longitude },
-  });
+  window.__civicmapsFakeMaps.forEach((map) =>
+    map.listeners.get('click')?.({
+      latLng: { lat: () => latitude, lng: () => longitude },
+    }),
+  );

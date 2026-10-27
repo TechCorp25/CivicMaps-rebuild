@@ -763,7 +763,7 @@ try {
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'New request', exact: true }).click();
-  await page.getByLabel('Location or address').fill('Discard this unsaved draft');
+  await page.getByLabel('Reported address').fill('Discard this unsaved draft');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();
