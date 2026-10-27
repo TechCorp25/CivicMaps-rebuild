@@ -3,6 +3,7 @@ import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
 import { verifyM1Discovery } from './browser/m1-discovery.mjs';
+import { verifyMapPickedServiceRequest } from './dispatch/location-picker.mjs';
 const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
 const database = new pg.Pool({
   connectionString:
@@ -13,6 +14,9 @@ const origin = process.env.CIVICMAPS_COMMANDMAPS_ORIGIN ?? 'http://127.0.0.1:517
 const password = process.env.CIVICMAPS_DEMO_PASSWORD ?? 'CivicMAPS-local-2026!';
 async function login(page, email) {
   page.on('pageerror', (error) => errors.push(error.message));
+  await page.addInitScript({
+    path: new URL('./dispatch/google-maps-sdk-fixture.mjs', import.meta.url).pathname,
+  });
   await page.addInitScript(() => {
     window.__CIVICMAPS_TEST_EVENTS__ = [];
     window.__CIVICMAPS_TEST_TRACE__ = (event) => window.__CIVICMAPS_TEST_EVENTS__.push(event);
@@ -156,15 +160,16 @@ try {
   await expect(page.locator('.topbar')).not.toContainText('Alex · Dispatch');
   await expect(page.locator('.topbar')).toHaveCSS('background-color', 'rgb(17, 90, 80)');
   await expect(page.getByRole('dialog')).toBeVisible();
-  await page.getByLabel('Location or address').fill(address);
-  await page.getByLabel('Latitude', { exact: true }).fill('-37.814');
-  await page.getByLabel('Longitude', { exact: true }).fill('144.963');
+  await page.getByLabel('Reported address').fill(address);
+  await expect(page.getByRole('option', { name: address })).toBeVisible();
+  await page.getByRole('option', { name: address }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Location confirmed.' })).toBeVisible();
   await page.getByLabel('Dispatch notes').fill('Synthetic browser verification; no real incident.');
   await page.getByRole('button', { name: 'Review request', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Review service request' })).toBeFocused();
   await expect(page.getByRole('dialog')).toContainText(address);
   await page.getByRole('button', { name: 'Edit', exact: true }).click();
-  await expect(page.getByLabel('Location or address')).toHaveValue(address);
+  await expect(page.getByLabel('Reported address')).toHaveValue(address);
   await expect(page.getByLabel('Dispatch notes')).toHaveValue(
     'Synthetic browser verification; no real incident.',
   );
@@ -197,6 +202,8 @@ try {
     (await database.query('SELECT notes FROM service_requests WHERE id=$1', [created.id])).rows[0]
       .notes,
   ).toContain('Synthetic browser');
+
+  await verifyMapPickedServiceRequest(page, save, database);
 
   const historyA = await createSyntheticRequest(page, `F11E history A ${Date.now()}`);
   const historyB = await createSyntheticRequest(page, `F11E history B ${Date.now()}`);
@@ -619,8 +626,11 @@ try {
     ).rows[0].count,
   ).toBe(1);
 
-  await mkdir('docs/plans/evidence/F11E', { recursive: true });
-  await page.screenshot({ path: 'docs/plans/evidence/F11E/desktop-detail.png', fullPage: true });
+  await mkdir('test-results/dispatch-location', { recursive: true });
+  await page.screenshot({
+    path: 'test-results/dispatch-location/desktop-detail.png',
+    fullPage: true,
+  });
   await page.getByRole('button', { name: 'Dismiss request detail' }).click();
   await expect(page.locator(`[data-request-id="${recoverA.id}"] .request-link`)).toBeFocused();
   await page.locator(`[data-request-id="${created.id}"] .request-link`).click();
@@ -651,7 +661,10 @@ try {
   await expect(field.locator('.detail .status')).toHaveText('Attended');
   expect(await field.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await field.screenshot({ path: 'test-results/commandmaps-narrow-officer.png', fullPage: true });
-  await field.screenshot({ path: 'docs/plans/evidence/F11E/narrow-officer.png', fullPage: true });
+  await field.screenshot({
+    path: 'test-results/dispatch-location/narrow-officer.png',
+    fullPage: true,
+  });
 
   const betaContext = await browser.newContext();
   const beta = await betaContext.newPage();
@@ -750,7 +763,7 @@ try {
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'New request', exact: true }).click();
-  await page.getByLabel('Location or address').fill('Discard this unsaved draft');
+  await page.getByLabel('Reported address').fill('Discard this unsaved draft');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'New request', exact: true })).toBeFocused();

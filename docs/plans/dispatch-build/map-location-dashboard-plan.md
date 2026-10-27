@@ -44,7 +44,7 @@ This is an explicit proposed early spatial/intake slice of M3/M5. It does not de
 
 Before implementation, reconcile accepted Q1–Q7 quality-remediation results and merged code. The recorded ledger has Q1/Q2 accepted, Q3 follow-up pending review, Q4–Q7 outstanding; these are baseline observations, not claims about later concurrent work. Keep this plan branch independent and rebase the eventual implementation onto the verified accepted baseline. Do not take over the remediation branch.
 
-D-GIS remains open for real-provider acceptance: approved map/address data and coverage, licence and retention terms, provider/budget, key restrictions, and permitted location disclosure. First inspect current configuration and approved decisions without exposing credentials. Prefer an existing approved provider/dataset if suitable; do not infer Google approval from preview code. Deterministic adapters, contracts and failure UI can proceed without provider spend. Mocked results cannot satisfy live acceptance.
+Google Maps and Places API (New) are approved for this rebuild; the existing preview key is approved for protected runtime reuse. Use a restricted browser key only, preserve it outside Git/logs/Empirical, and keep map/provider failure isolated from the dispatch workflow. Q3–Q7 remediation proceeds separately. Live provider qualification still records the actual key restrictions and project settings when verified; this does not block implementation.
 
 No AWS infrastructure is needed for this planning deliverable. If a later approved design needs Regional resources, use the selected ap-southeast-2 Region and the configured CivicMAPS profile under workspace AWS rules.
 

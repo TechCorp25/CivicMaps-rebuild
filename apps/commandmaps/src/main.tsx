@@ -1,5 +1,6 @@
 import { RequestComposer, type RequestDraft } from './RequestComposer';
 import { RequestQueue, RequestStatus } from './RequestQueue';
+import { OperationalMap, type LocationPoint } from './GoogleLocationPicker';
 import '../../../_ds/colors_and_type.css';
 import { Activation } from './Activation';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
@@ -151,6 +152,7 @@ function App() {
   const [closureReasonDraft, setClosureReasonDraft] = useState('');
   const assignmentDraftDirty = useRef(false);
   const [creating, setCreating] = useState(false);
+  const [draftLocation, setDraftLocation] = useState<LocationPoint | null>(null);
   const [createUncertain, setCreateUncertain] = useState(false);
   const [filter, setFilter] = useState('active');
   const retry = useRef<{ payload: string; key: string } | null>(null);
@@ -241,6 +243,8 @@ function App() {
           setDetailState(null);
           setOfficers([]);
           setSelection(null);
+          setCreating(false);
+          setDraftLocation(null);
           setAuditState(null);
           setActionRecoveries({});
           setQueueCheckedAt(null);
@@ -253,7 +257,10 @@ function App() {
         const refreshLoadedExtent = !cursor && hasQueueSnapshot.current;
         const previousLoadedCount = refreshLoadedExtent ? loadedRequestCount.current : 0;
         const capabilities = session.entitlements.capabilities;
-        if (!capabilities.includes('requests.create')) setCreating(false);
+        if (!capabilities.includes('requests.create')) {
+          setCreating(false);
+          setDraftLocation(null);
+        }
         const selectedAtStart = selectedRef.current;
         const selectedScopeGeneration = scopeGeneration.current;
         const selectedDetailGeneration =
@@ -385,6 +392,8 @@ function App() {
             activeScope.current = null;
             cancelPendingReads();
             setActor(null);
+            setCreating(false);
+            setDraftLocation(null);
             setCsrf('');
             setEntitlement(null);
             setRequests([]);
@@ -565,6 +574,8 @@ function App() {
           activeScope.current = null;
           cancelPendingReads();
           setActor(null);
+          setCreating(false);
+          setDraftLocation(null);
           setCsrf('');
           setEntitlement(null);
           setRequests([]);
@@ -643,6 +654,7 @@ function App() {
         cancelPendingReads();
         setActor(null);
         setCreating(false);
+        setDraftLocation(null);
         setCsrf('');
         setEntitlement(null);
         setRequests([]);
@@ -729,6 +741,7 @@ function App() {
       try {
         await mutate('/requests', draft);
         setCreating(false);
+        setDraftLocation(null);
         setCreateUncertain(false);
       } catch (err) {
         if (isUncertainWriteError(err)) {
@@ -972,6 +985,8 @@ function App() {
                   body: '{}',
                 });
                 setActor(null);
+                setCreating(false);
+                setDraftLocation(null);
                 setCsrf('');
               })
             }
@@ -1050,6 +1065,8 @@ function App() {
                   activeScope.current = null;
                   setEntitlement(null);
                   setActor(null);
+                  setCreating(false);
+                  setDraftLocation(null);
                   setCsrf('');
                   setRequests([]);
                   loadedRequestCount.current = 0;
@@ -1060,7 +1077,6 @@ function App() {
                   setQueueCheckedAt(null);
                   setQueueState('unavailable');
                   retry.current = null;
-                  setCreating(false);
                 })
               }
             >
@@ -1146,352 +1162,386 @@ function App() {
               busy={busy}
               error={error}
               uncertain={createUncertain}
+              initialLocation={draftLocation}
               onClose={() => {
                 setCreating(false);
+                setDraftLocation(null);
                 setError('');
               }}
               onCreate={create}
             />
           )}
-          <div className="queue-layout">
-            <RequestQueue
-              requests={requests}
-              officers={officers}
+          <div className="dashboard-stack">
+            <OperationalMap
+              key={scopeKey}
+              requests={
+                current && !requests.some((request) => request.id === current.id)
+                  ? [...requests, current]
+                  : requests
+              }
               selected={selected}
               onSelect={selectRequest}
-              filter={filter}
-              onFilter={setFilter}
-              search={search}
-              onSearch={setSearch}
-              counts={queueCounts}
-              hasMore={Boolean(nextCursor)}
-              loadingMore={loadingMore}
-              loadMoreError={loadMoreError}
-              onLoadMore={() => nextCursor && void load(false, nextCursor).catch(() => {})}
+              draftLocation={draftLocation}
+              canCreate={can('requests.create')}
+              onCreateLocation={(point) => {
+                setDraftLocation(point);
+                setCreateUncertain(false);
+                setCreating(true);
+              }}
             />
-            <section className="panel detail" aria-labelledby="detail-title">
-              {!current ? (
-                <div className="empty">
-                  <MapPin size={36} aria-hidden="true" />
-                  {selected ? (
-                    <>
-                      <h2 id="detail-title">
-                        {detailState?.id === selected && detailState.status === 'loading'
-                          ? 'Loading selected request'
-                          : 'Selected request unavailable'}
-                      </h2>
-                      <p>
-                        {detailState?.id === selected && detailState.status === 'loading'
-                          ? 'The service is checking this request in the current operating context.'
-                          : (detailState?.error ??
-                            'This request is unavailable in the current operating context.')}
-                      </p>
-                      <button
-                        className="secondary"
-                        onClick={() => {
-                          setSelection(null);
-                        }}
-                      >
-                        Return to queue
-                      </button>
-                    </>
-                  ) : queueState === 'loading' ? (
-                    <>
-                      <h2 id="detail-title">Loading requests</h2>
-                      <p>The current context is being refreshed from the service.</p>
-                    </>
-                  ) : (
-                    <>
-                      <h2 id="detail-title">Select a request</h2>
-                      <p>Review its confirmed status, assignment and read-only history.</p>
-                    </>
-                  )}
-                </div>
-              ) : (
-                <>
-                  <div className="detail-heading">
-                    <p className="eyebrow mono">SR-{String(current.number).padStart(7, '0')}</p>
-                    <button
-                      className="icon-button"
-                      aria-label="Dismiss request detail"
-                      onClick={() => {
-                        const requestId = current.id;
-                        setSelection(null);
-                        requestAnimationFrame(() => {
-                          const row = document.querySelector<HTMLElement>(
-                            `[data-request-id="${requestId}"] .request-link`,
-                          );
-                          (row ?? document.querySelector<HTMLElement>('.queue-scroll'))?.focus();
-                        });
-                      }}
-                    >
-                      <X size={18} aria-hidden="true" />
-                    </button>
-                  </div>
-                  <h2 id="detail-title">{current.address}</h2>
-                  <RequestStatus status={current.status} />
-                  <p className="detail-confirmation" role="status">
-                    Server-confirmed version <span className="mono">{current.version}</span> ·
-                    request updated {date(current.updated_at)}
-                    {queueCheckedAt && <> · queue checked {date(queueCheckedAt)}</>}
-                  </p>
-                  {actionRecovery?.requestId === current.id && (
-                    <div
-                      className={actionRecovery.kind === 'reconciled' ? 'notice' : 'error'}
-                      role={actionRecovery.kind === 'reconciled' ? 'status' : 'alert'}
-                    >
-                      <span>{actionRecovery.message}</span>
-                      {actionRecovery.kind === 'uncertain' && (
-                        <button
-                          className="secondary"
-                          disabled={busy}
-                          onClick={() => void reconcileAction()}
-                        >
-                          Check server state and history
-                        </button>
-                      )}
-                      {actionRecovery.kind === 'reconciled' && actionRecovery.retrySameAction && (
-                        <button className="secondary" disabled={busy} onClick={retrySameAction}>
-                          Retry the same action
-                        </button>
-                      )}
-                    </div>
-                  )}
-                  <dl>
-                    <dt>Coordinates</dt>
-                    <dd className="mono">
-                      {current.latitude}, {current.longitude}
-                    </dd>
-                    <dt>Assigned officer</dt>
-                    <dd>
-                      {officers.find((o) => o.id === current.assigned_officer_id)?.name ??
-                        (current.assigned_officer_id
-                          ? 'Assigned officer (directory unavailable)'
-                          : 'Unassigned')}
-                    </dd>
-                    <dt>Dispatch notes</dt>
-                    <dd>{current.notes || 'No notes recorded'}</dd>
-                  </dl>
-                  {can('requests.assign') &&
-                    ['RECEIVED', 'DISPATCHED'].includes(current.status) && (
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          action('assign', {
-                            officerId: new FormData(e.currentTarget).get('officerId'),
-                          });
-                        }}
-                      >
-                        <label>
-                          Assign officer
-                          <select
-                            name="officerId"
-                            required
-                            value={assignmentDraft}
-                            onChange={(event) => {
-                              assignmentDraftDirty.current = true;
-                              setAssignmentDraft(event.target.value);
+            <details className="operations-panel" open>
+              <summary>Operational queue and selected request</summary>
+              <div className="queue-layout">
+                <RequestQueue
+                  requests={requests}
+                  officers={officers}
+                  selected={selected}
+                  onSelect={selectRequest}
+                  filter={filter}
+                  onFilter={setFilter}
+                  search={search}
+                  onSearch={setSearch}
+                  counts={queueCounts}
+                  hasMore={Boolean(nextCursor)}
+                  loadingMore={loadingMore}
+                  loadMoreError={loadMoreError}
+                  onLoadMore={() => nextCursor && void load(false, nextCursor).catch(() => {})}
+                />
+                <section className="panel detail" aria-labelledby="detail-title">
+                  {!current ? (
+                    <div className="empty">
+                      <MapPin size={36} aria-hidden="true" />
+                      {selected ? (
+                        <>
+                          <h2 id="detail-title">
+                            {detailState?.id === selected && detailState.status === 'loading'
+                              ? 'Loading selected request'
+                              : 'Selected request unavailable'}
+                          </h2>
+                          <p>
+                            {detailState?.id === selected && detailState.status === 'loading'
+                              ? 'The service is checking this request in the current operating context.'
+                              : (detailState?.error ??
+                                'This request is unavailable in the current operating context.')}
+                          </p>
+                          <button
+                            className="secondary"
+                            onClick={() => {
+                              setSelection(null);
                             }}
                           >
-                            <option value="" disabled>
-                              Select officer
-                            </option>
-                            {officers.map((o) => (
-                              <option key={o.id} value={o.id}>
-                                {o.name}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
+                            Return to queue
+                          </button>
+                        </>
+                      ) : queueState === 'loading' ? (
+                        <>
+                          <h2 id="detail-title">Loading requests</h2>
+                          <p>The current context is being refreshed from the service.</p>
+                        </>
+                      ) : (
+                        <>
+                          <h2 id="detail-title">Select a request</h2>
+                          <p>Review its confirmed status, assignment and read-only history.</p>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <div className="detail-heading">
+                        <p className="eyebrow mono">SR-{String(current.number).padStart(7, '0')}</p>
                         <button
-                          type="submit"
+                          className="icon-button"
+                          aria-label="Dismiss request detail"
+                          onClick={() => {
+                            const requestId = current.id;
+                            setSelection(null);
+                            requestAnimationFrame(() => {
+                              const row = document.querySelector<HTMLElement>(
+                                `[data-request-id="${requestId}"] .request-link`,
+                              );
+                              (
+                                row ?? document.querySelector<HTMLElement>('.queue-scroll')
+                              )?.focus();
+                            });
+                          }}
+                        >
+                          <X size={18} aria-hidden="true" />
+                        </button>
+                      </div>
+                      <h2 id="detail-title">{current.address}</h2>
+                      <RequestStatus status={current.status} />
+                      <p className="detail-confirmation" role="status">
+                        Server-confirmed version <span className="mono">{current.version}</span> ·
+                        request updated {date(current.updated_at)}
+                        {queueCheckedAt && <> · queue checked {date(queueCheckedAt)}</>}
+                      </p>
+                      {actionRecovery?.requestId === current.id && (
+                        <div
+                          className={actionRecovery.kind === 'reconciled' ? 'notice' : 'error'}
+                          role={actionRecovery.kind === 'reconciled' ? 'status' : 'alert'}
+                        >
+                          <span>{actionRecovery.message}</span>
+                          {actionRecovery.kind === 'uncertain' && (
+                            <button
+                              className="secondary"
+                              disabled={busy}
+                              onClick={() => void reconcileAction()}
+                            >
+                              Check server state and history
+                            </button>
+                          )}
+                          {actionRecovery.kind === 'reconciled' &&
+                            actionRecovery.retrySameAction && (
+                              <button
+                                className="secondary"
+                                disabled={busy}
+                                onClick={retrySameAction}
+                              >
+                                Retry the same action
+                              </button>
+                            )}
+                        </div>
+                      )}
+                      <dl>
+                        <dt>Coordinates</dt>
+                        <dd className="mono">
+                          {current.latitude}, {current.longitude}
+                        </dd>
+                        <dt>Assigned officer</dt>
+                        <dd>
+                          {officers.find((o) => o.id === current.assigned_officer_id)?.name ??
+                            (current.assigned_officer_id
+                              ? 'Assigned officer (directory unavailable)'
+                              : 'Unassigned')}
+                        </dd>
+                        <dt>Dispatch notes</dt>
+                        <dd>{current.notes || 'No notes recorded'}</dd>
+                      </dl>
+                      {can('requests.assign') &&
+                        ['RECEIVED', 'DISPATCHED'].includes(current.status) && (
+                          <form
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              action('assign', {
+                                officerId: new FormData(e.currentTarget).get('officerId'),
+                              });
+                            }}
+                          >
+                            <label>
+                              Assign officer
+                              <select
+                                name="officerId"
+                                required
+                                value={assignmentDraft}
+                                onChange={(event) => {
+                                  assignmentDraftDirty.current = true;
+                                  setAssignmentDraft(event.target.value);
+                                }}
+                              >
+                                <option value="" disabled>
+                                  Select officer
+                                </option>
+                                {officers.map((o) => (
+                                  <option key={o.id} value={o.id}>
+                                    {o.name}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                            <button
+                              type="submit"
+                              disabled={
+                                busy ||
+                                (actionRecovery?.requestId === current.id &&
+                                  actionRecovery.kind === 'uncertain')
+                              }
+                            >
+                              Assign request
+                            </button>
+                          </form>
+                        )}
+                      {can('requests.acknowledge') && current.status === 'DISPATCHED' && (
+                        <button
                           disabled={
                             busy ||
                             (actionRecovery?.requestId === current.id &&
                               actionRecovery.kind === 'uncertain')
                           }
+                          onClick={() => action('acknowledge')}
                         >
-                          Assign request
+                          Acknowledge request
                         </button>
-                      </form>
-                    )}
-                  {can('requests.acknowledge') && current.status === 'DISPATCHED' && (
-                    <button
-                      disabled={
-                        busy ||
-                        (actionRecovery?.requestId === current.id &&
-                          actionRecovery.kind === 'uncertain')
-                      }
-                      onClick={() => action('acknowledge')}
-                    >
-                      Acknowledge request
-                    </button>
-                  )}
-                  {can('requests.attend') && current.status === 'ACKNOWLEDGED' && (
-                    <button
-                      disabled={
-                        busy ||
-                        (actionRecovery?.requestId === current.id &&
-                          actionRecovery.kind === 'uncertain')
-                      }
-                      onClick={() => action('attend')}
-                    >
-                      Record attendance
-                    </button>
-                  )}
-                  {can('requests.close') && current.status !== 'CLOSED' && (
-                    <form
-                      className="close-form"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        action('close', { reason: new FormData(e.currentTarget).get('reason') });
-                      }}
-                    >
-                      <label>
-                        Closure reason
-                        <input
-                          name="reason"
-                          maxLength={1000}
-                          required
-                          value={closureReasonDraft}
-                          onChange={(event) => setClosureReasonDraft(event.target.value)}
-                        />
-                      </label>
-                      <button
-                        type="submit"
-                        className="secondary"
-                        disabled={
-                          busy ||
-                          (actionRecovery?.requestId === current.id &&
-                            actionRecovery.kind === 'uncertain')
-                        }
-                      >
-                        Close request
-                      </button>
-                    </form>
-                  )}
-                  {actor.role === 'SUPERVISOR' && (
-                    <p className="muted">
-                      <LockKeyhole size={16} aria-hidden="true" />
-                      Read-only review access
-                    </p>
-                  )}
-                  <div className="audit">
-                    <h3>Audit history</h3>
-                    {auditState?.requestId !== current.id ||
-                    auditState.scopeKey !== scopeKey ||
-                    auditState.status === 'loading' ? (
-                      <p role="status">Loading history for this request…</p>
-                    ) : auditState.status === 'unavailable' ? (
-                      <div className="error" role="alert">
-                        <p>
-                          History is unavailable for this request. Request state remains
-                          server-confirmed.
-                        </p>
-                        <p>{auditState.error}</p>
+                      )}
+                      {can('requests.attend') && current.status === 'ACKNOWLEDGED' && (
                         <button
-                          className="secondary"
-                          disabled={busy}
-                          onClick={() => {
-                            const requestId = current.id;
-                            const requestScope = scopeKey;
-                            const generation = scopeGeneration.current;
-                            const selection = selectionGeneration.current;
-                            const controller = new AbortController();
-                            historyRetryController.current?.abort();
-                            historyRetryController.current = controller;
-                            setAuditState({
-                              requestId,
-                              scopeKey: requestScope,
-                              status: 'loading',
-                              events: [],
+                          disabled={
+                            busy ||
+                            (actionRecovery?.requestId === current.id &&
+                              actionRecovery.kind === 'uncertain')
+                          }
+                          onClick={() => action('attend')}
+                        >
+                          Record attendance
+                        </button>
+                      )}
+                      {can('requests.close') && current.status !== 'CLOSED' && (
+                        <form
+                          className="close-form"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            action('close', {
+                              reason: new FormData(e.currentTarget).get('reason'),
                             });
-                            void api<Audit[]>(`/requests/${requestId}/audit`, {
-                              signal: controller.signal,
-                            })
-                              .then((events) => {
-                                if (
-                                  generation === scopeGeneration.current &&
-                                  selection === selectionGeneration.current &&
-                                  selectedRef.current === requestId
-                                )
-                                  setAuditState({
-                                    requestId,
-                                    scopeKey: requestScope,
-                                    status: 'ready',
-                                    events,
-                                  });
-                              })
-                              .catch((err: unknown) => {
-                                if (
-                                  isRequestCancelled(err) ||
-                                  generation !== scopeGeneration.current ||
-                                  selection !== selectionGeneration.current ||
-                                  selectedRef.current !== requestId
-                                )
-                                  return;
-                                if (getHttpStatus(err) === 401) {
-                                  ++loadGeneration.current;
-                                  ++scopeGeneration.current;
-                                  hasQueueSnapshot.current = false;
-                                  activeScope.current = null;
-                                  setSelection(null);
-                                  setActor(null);
-                                  setCsrf('');
-                                  setEntitlement(null);
-                                  setRequests([]);
-                                  loadedRequestCount.current = 0;
-                                  setOfficers([]);
-                                  setAuditState(null);
-                                  setActionRecoveries({});
-                                  setQueueCheckedAt(null);
-                                  setQueueState('unavailable');
-                                  return;
-                                }
+                          }}
+                        >
+                          <label>
+                            Closure reason
+                            <input
+                              name="reason"
+                              maxLength={1000}
+                              required
+                              value={closureReasonDraft}
+                              onChange={(event) => setClosureReasonDraft(event.target.value)}
+                            />
+                          </label>
+                          <button
+                            type="submit"
+                            className="secondary"
+                            disabled={
+                              busy ||
+                              (actionRecovery?.requestId === current.id &&
+                                actionRecovery.kind === 'uncertain')
+                            }
+                          >
+                            Close request
+                          </button>
+                        </form>
+                      )}
+                      {actor.role === 'SUPERVISOR' && (
+                        <p className="muted">
+                          <LockKeyhole size={16} aria-hidden="true" />
+                          Read-only review access
+                        </p>
+                      )}
+                      <div className="audit">
+                        <h3>Audit history</h3>
+                        {auditState?.requestId !== current.id ||
+                        auditState.scopeKey !== scopeKey ||
+                        auditState.status === 'loading' ? (
+                          <p role="status">Loading history for this request…</p>
+                        ) : auditState.status === 'unavailable' ? (
+                          <div className="error" role="alert">
+                            <p>
+                              History is unavailable for this request. Request state remains
+                              server-confirmed.
+                            </p>
+                            <p>{auditState.error}</p>
+                            <button
+                              className="secondary"
+                              disabled={busy}
+                              onClick={() => {
+                                const requestId = current.id;
+                                const requestScope = scopeKey;
+                                const generation = scopeGeneration.current;
+                                const selection = selectionGeneration.current;
+                                const controller = new AbortController();
+                                historyRetryController.current?.abort();
+                                historyRetryController.current = controller;
                                 setAuditState({
                                   requestId,
                                   scopeKey: requestScope,
-                                  status: 'unavailable',
+                                  status: 'loading',
                                   events: [],
-                                  error:
-                                    err instanceof Error
-                                      ? err.message
-                                      : 'History could not be loaded.',
                                 });
-                              })
-                              .finally(() => {
-                                if (historyRetryController.current === controller)
-                                  historyRetryController.current = null;
-                              });
-                          }}
-                        >
-                          Retry history
-                        </button>
+                                void api<Audit[]>(`/requests/${requestId}/audit`, {
+                                  signal: controller.signal,
+                                })
+                                  .then((events) => {
+                                    if (
+                                      generation === scopeGeneration.current &&
+                                      selection === selectionGeneration.current &&
+                                      selectedRef.current === requestId
+                                    )
+                                      setAuditState({
+                                        requestId,
+                                        scopeKey: requestScope,
+                                        status: 'ready',
+                                        events,
+                                      });
+                                  })
+                                  .catch((err: unknown) => {
+                                    if (
+                                      isRequestCancelled(err) ||
+                                      generation !== scopeGeneration.current ||
+                                      selection !== selectionGeneration.current ||
+                                      selectedRef.current !== requestId
+                                    )
+                                      return;
+                                    if (getHttpStatus(err) === 401) {
+                                      ++loadGeneration.current;
+                                      ++scopeGeneration.current;
+                                      hasQueueSnapshot.current = false;
+                                      activeScope.current = null;
+                                      setSelection(null);
+                                      setActor(null);
+                                      setCreating(false);
+                                      setDraftLocation(null);
+                                      setCsrf('');
+                                      setEntitlement(null);
+                                      setRequests([]);
+                                      loadedRequestCount.current = 0;
+                                      setOfficers([]);
+                                      setAuditState(null);
+                                      setActionRecoveries({});
+                                      setQueueCheckedAt(null);
+                                      setQueueState('unavailable');
+                                      return;
+                                    }
+                                    setAuditState({
+                                      requestId,
+                                      scopeKey: requestScope,
+                                      status: 'unavailable',
+                                      events: [],
+                                      error:
+                                        err instanceof Error
+                                          ? err.message
+                                          : 'History could not be loaded.',
+                                    });
+                                  })
+                                  .finally(() => {
+                                    if (historyRetryController.current === controller)
+                                      historyRetryController.current = null;
+                                  });
+                              }}
+                            >
+                              Retry history
+                            </button>
+                          </div>
+                        ) : auditState.events.length === 0 ? (
+                          <p>No history has been recorded for this request.</p>
+                        ) : (
+                          <ol>
+                            {auditState.events.map((event) => (
+                              <li key={event.id}>
+                                <strong>{event.action}</strong>
+                                <time dateTime={event.created_at}>{date(event.created_at)}</time>
+                                {event.details.from && event.details.to && (
+                                  <p>
+                                    {event.details.from} → {event.details.to}
+                                  </p>
+                                )}
+                                {typeof event.details.reason === 'string' &&
+                                  event.details.reason && <p>{event.details.reason}</p>}
+                              </li>
+                            ))}
+                          </ol>
+                        )}
                       </div>
-                    ) : auditState.events.length === 0 ? (
-                      <p>No history has been recorded for this request.</p>
-                    ) : (
-                      <ol>
-                        {auditState.events.map((event) => (
-                          <li key={event.id}>
-                            <strong>{event.action}</strong>
-                            <time dateTime={event.created_at}>{date(event.created_at)}</time>
-                            {event.details.from && event.details.to && (
-                              <p>
-                                {event.details.from} → {event.details.to}
-                              </p>
-                            )}
-                            {typeof event.details.reason === 'string' && event.details.reason && (
-                              <p>{event.details.reason}</p>
-                            )}
-                          </li>
-                        ))}
-                      </ol>
-                    )}
-                  </div>
-                </>
-              )}
-            </section>
+                    </>
+                  )}
+                </section>
+              </div>
+            </details>
           </div>
         </main>
         <footer>
