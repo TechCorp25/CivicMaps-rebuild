@@ -106,4 +106,3 @@ Future implementation follows the programme's Luna Medium builder and fresh-cont
 This plan's publication status is not functional acceptance. Store the complete versioned plan in Empirical's CivicMAPS-rebuild workspace with SHA-256 and immutable Git permalink; verify by reading it back. Keep a separate receipt for branch/commit/PR and explicit pending audit status.
 
 First next action: reconcile the separate remediation branch's accepted/merged state, then complete P1 and D-GIS configuration discovery. The feature work begins with a single address-to-pin-to-saved-SR vertical slice and the equivalent map-picked path, before adding operational layers.
-
