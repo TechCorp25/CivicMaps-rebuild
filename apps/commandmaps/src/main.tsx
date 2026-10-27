@@ -392,6 +392,8 @@ function App() {
             activeScope.current = null;
             cancelPendingReads();
             setActor(null);
+            setCreating(false);
+            setDraftLocation(null);
             setCsrf('');
             setEntitlement(null);
             setRequests([]);
@@ -572,6 +574,8 @@ function App() {
           activeScope.current = null;
           cancelPendingReads();
           setActor(null);
+          setCreating(false);
+          setDraftLocation(null);
           setCsrf('');
           setEntitlement(null);
           setRequests([]);
@@ -650,6 +654,7 @@ function App() {
         cancelPendingReads();
         setActor(null);
         setCreating(false);
+        setDraftLocation(null);
         setCsrf('');
         setEntitlement(null);
         setRequests([]);
@@ -980,6 +985,8 @@ function App() {
                   body: '{}',
                 });
                 setActor(null);
+                setCreating(false);
+                setDraftLocation(null);
                 setCsrf('');
               })
             }
@@ -1058,6 +1065,8 @@ function App() {
                   activeScope.current = null;
                   setEntitlement(null);
                   setActor(null);
+                  setCreating(false);
+                  setDraftLocation(null);
                   setCsrf('');
                   setRequests([]);
                   loadedRequestCount.current = 0;
@@ -1068,8 +1077,6 @@ function App() {
                   setQueueCheckedAt(null);
                   setQueueState('unavailable');
                   retry.current = null;
-                  setCreating(false);
-                  setDraftLocation(null);
                 })
               }
             >
@@ -1477,6 +1484,8 @@ function App() {
                                       activeScope.current = null;
                                       setSelection(null);
                                       setActor(null);
+                                      setCreating(false);
+                                      setDraftLocation(null);
                                       setCsrf('');
                                       setEntitlement(null);
                                       setRequests([]);

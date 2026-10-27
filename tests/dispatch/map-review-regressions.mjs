@@ -1,6 +1,87 @@
 /* global window, document -- Browser callbacks executed by Playwright. */
 import { expect } from '@playwright/test';
 
+export async function verifyMapReadiness(page, url) {
+  await page.addInitScript(() => {
+    const original = window.google.maps.importLibrary;
+    const ready = new Promise((resolve) => {
+      window.finishMapSetup = resolve;
+    });
+    window.google.maps.importLibrary = async (name) => {
+      await ready;
+      return original(name);
+    };
+  });
+  await page.goto(url);
+  const enter = page.getByRole('button', { name: 'Select location on map', exact: true });
+  await expect(enter).toBeDisabled();
+  await page.evaluate(() => window.finishMapSetup());
+  await expect(enter).toBeEnabled();
+  await enter.click();
+  await page.evaluate(() => window.__civicmapsFakeMapClick(-38, 145));
+  await page
+    .getByRole('region', { name: 'Reported location' })
+    .getByRole('button', { name: 'Use this location', exact: true })
+    .click();
+  await expect(page.getByRole('region', { name: 'Reported location' })).toContainText(
+    '-38.000000, 145.000000',
+  );
+}
+
+export async function verifyDraftClearedOnAuthLoss(page, url) {
+  let expired = false;
+  let secondSession = false;
+  const profile = () => ({
+    actor: {
+      id: secondSession ? 'dispatcher-b' : 'dispatcher-a',
+      name: 'Synthetic dispatcher',
+      role: 'DISPATCHER',
+      tenant_id: secondSession ? 'council-b' : 'council-a',
+      jurisdiction_id: 'synthetic-jurisdiction',
+      branch_id: 'synthetic-branch',
+    },
+    csrfToken: 'synthetic-csrf',
+    entitlements: {
+      packId: 'synthetic',
+      version: 1,
+      mode: 'active',
+      capabilities: ['requests.read', 'requests.create'],
+    },
+  });
+  await page.route('**/api/**', async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    if (path === '/api/auth/login') {
+      expired = false;
+      secondSession = true;
+    }
+    if (expired) return route.fulfill({ status: 401, json: { error: 'Session expired' } });
+    if (path.startsWith('/api/auth/')) return route.fulfill({ json: profile() });
+    if (path === '/api/requests')
+      return route.fulfill({ json: { requests: [], nextCursor: null } });
+    return route.fulfill({ status: 404, json: { error: 'Unexpected test request' } });
+  });
+  await page.goto(url);
+  await page.getByRole('button', { name: 'Select SR location on map' }).click();
+  await page.evaluate(() => window.__civicmapsFakeMapClick(-38, 145));
+  await page.getByRole('button', { name: 'Use this location', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByLabel('Reported address')).toHaveValue(
+    'Synthetic map location, Melbourne VIC',
+  );
+  // A focus refresh exercises the same scheduled load as the background timer.
+  expired = true;
+  await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+  await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toBeVisible();
+  await page.getByLabel('Email').fill('dispatcher-b@example.test');
+  await page.getByLabel('Password').fill('synthetic-password');
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Select SR location on map' })).toBeVisible();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('button', { name: 'New request', exact: true }).click();
+  await expect(page.getByLabel('Reported address')).toHaveValue('');
+  await expect(page.getByRole('dialog')).not.toContainText('-38.000000, 145.000000');
+}
+
 export async function verifyCancelledAddressResolution(page) {
   const address = page.getByLabel('Reported address');
   await address.fill('Original confirmed address');

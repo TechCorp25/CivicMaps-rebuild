@@ -345,7 +345,7 @@ export function GoogleLocationPicker({
   }
 
   function enableMapPick() {
-    if (mapMode) return;
+    if (mapMode || !mapReady || !map.current) return;
     revision.current++;
     previousPoint.current = point;
     previousAddress.current = address;
@@ -542,7 +542,7 @@ export function GoogleLocationPicker({
         </button>
       )}
       <div className="location-map-actions">
-        <button type="button" className="secondary" onClick={enableMapPick}>
+        <button type="button" className="secondary" disabled={!mapReady} onClick={enableMapPick}>
           Select location on map
         </button>
         {mapMode && (
