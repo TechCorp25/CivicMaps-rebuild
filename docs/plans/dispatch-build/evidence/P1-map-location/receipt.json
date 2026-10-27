@@ -1,0 +1,33 @@
+{
+  "repository": "TechCorp25/CivicMaps-rebuild",
+  "base": "d34cf9fd692fabc24d17ff1a9657be9b724d620f",
+  "branch": "codex/civicmaps-dispatch-map-location-p1",
+  "pullRequest": 45,
+  "pullRequestState": "open_draft_unmerged",
+  "assessedLocalCandidate": "e12607b43e6ade9586d4e4facfdd32d5f6a18e15",
+  "publishedRemoteHeadAtVerification": "fd3ebb9b32829397a339793f0b0ba2e7fd620505",
+  "publishedCheckpointByteHashSha256": "4c534dfb06ca533259055112b88d468ea0d19ff2f40bcaddfe795a16f5790b63",
+  "publishedRequirementsSnapshotSha256": "ab9ca461013992472fad7e8602417fa3974d0e02139ef9e1d1ed24bc02dbbd63",
+  "audits": [
+    {
+      "path": "docs/plans/dispatch-build/evidence/P1-map-location/round1-changes-required.md",
+      "sha256": "f13ee50b36214da847dcc3f215c4792db01c62bef2e253ec42ea7d95412ccaa9",
+      "candidate": "6c908e323e71c4a58b8229498c94a001732bd4ac",
+      "verdict": "changes_required"
+    },
+    {
+      "path": "docs/plans/dispatch-build/evidence/P1-map-location/final-partial-readiness-pass.md",
+      "sha256": "45c3dac3a68863a6a773a7a748f5cde8df736adb169701a79222a810f59aaab4",
+      "candidate": "e12607b43e6ade9586d4e4facfdd32d5f6a18e15",
+      "verdict": "pass_partial_readiness"
+    }
+  ],
+  "publicationEquivalence": "The parent verified that the fetched remote checkpoint at fd3ebb9b32829397a339793f0b0ba2e7fd620505 has the same SHA-256 as the local checkpoint assessed at e12607b43e6ade9586d4e4facfdd32d5f6a18e15. This receipt records that binding; it is not an auditor claim.",
+  "validation": {
+    "gitDiffCheck": "passed",
+    "applicationTests": "not_run_documentation_only",
+    "providerCalls": "none",
+    "keyProvisioning": "none",
+    "billingOrInfrastructureChanges": "none"
+  }
+}
