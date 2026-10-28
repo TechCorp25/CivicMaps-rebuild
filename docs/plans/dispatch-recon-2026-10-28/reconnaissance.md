@@ -20,7 +20,7 @@ This is source reconnaissance, supplemented by rebuild synthetic browser/build c
 
 S3 3a/3e and S4 describe a map filling the operational viewport, a collapsible right panel (22/24rem in preview), persistent pull tab, and emergency banners that reflow when the panel closes. The panel contains a 2×2 KPI group, zone coverage/officer state, location requests and recent SRs. Intake replaces panel content. Map selection connects zones, request clusters, authorised officer locations, mark-ups and emergency signals to the same request detail/history.
 
-Current rebuild `main.tsx:1169` renders `dashboard-stack`, then open `details.operations-panel`, with queue/detail below the map. `styles.css:262` defines that grid; `:296` gives a 360px minimum map height. Navigation at `main.tsx:1004` has one Service requests entry. The teal dispatch header, role/department identity and scope are already implemented and should be retained. The missing workspace behaviour is not fixed by increasing map height alone.
+Current rebuild `main.tsx:1174` renders `dashboard-stack`, then open `details.operations-panel` at `main.tsx:1192`, with queue/detail below the map. `styles.css:262` defines that grid; `:296` gives a 360px minimum map height. Navigation at `main.tsx:1004` has one Service requests entry. The teal dispatch header, role/department identity and scope are already implemented and should be retained. The missing workspace behaviour is not fixed by increasing map height alone.
 
 ## Gap and reuse matrix
 
