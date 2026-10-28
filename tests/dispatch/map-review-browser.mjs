@@ -65,6 +65,34 @@ try {
   await readinessPage.addInitScript({ path: 'tests/dispatch/google-maps-sdk-fixture.mjs' });
   await verifyMapReadiness(readinessPage, `${origin}/tests/dispatch/map-review-harness.html`);
   await readinessPage.close();
+  const retryPage = await browser.newPage();
+  await retryPage.addInitScript({ path: 'tests/dispatch/google-maps-sdk-fixture.mjs' });
+  await retryPage.addInitScript(() => {
+    const original = window.google.maps.importLibrary;
+    window.__failMarker = true;
+    window.google.maps.importLibrary = async (name) => {
+      if (name === 'marker' && window.__failMarker) {
+        throw new Error('Synthetic marker failure');
+      }
+      return original(name);
+    };
+  });
+  await retryPage.goto(`${origin}/tests/dispatch/map-review-harness.html`);
+  await expect(
+    retryPage.getByText('Request locations are temporarily unavailable on the map.'),
+  ).toBeVisible();
+  await retryPage.evaluate(() => {
+    window.__failMarker = false;
+  });
+  await retryPage
+    .getByRole('region', { name: 'Service request map' })
+    .getByRole('button', { name: 'Retry map' })
+    .click();
+  await expect(retryPage.getByLabel('Map of loaded service requests')).not.toHaveAttribute(
+    'hidden',
+  );
+  await expect(retryPage.getByRole('button', { name: 'Select SR location on map' })).toBeEnabled();
+  await retryPage.close();
   const authPage = await browser.newPage();
   await authPage.addInitScript({ path: 'tests/dispatch/google-maps-sdk-fixture.mjs' });
   await verifyDraftClearedOnAuthLoss(authPage, `${origin}/tests/dispatch/auth-loss-harness.html`);

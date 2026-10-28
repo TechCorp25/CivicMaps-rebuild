@@ -4,7 +4,11 @@ import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
 import { verifyM1Discovery } from './browser/m1-discovery.mjs';
 import { verifyMapPickedServiceRequest } from './dispatch/location-picker.mjs';
-const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
+const browser = await chromium.launch({
+  headless: true,
+  executablePath: process.env.CIVICMAPS_CHROMIUM_EXECUTABLE || undefined,
+  args: ['--disable-gpu'],
+});
 const database = new pg.Pool({
   connectionString:
     process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres',
@@ -101,6 +105,30 @@ try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await dispatcher.newPage();
   await login(page, 'dispatch@alpha.example');
+  const unavailablePage = await dispatcher.newPage();
+  const failInitialQueue = (route) =>
+    route.fulfill({
+      status: 503,
+      contentType: 'application/json',
+      body: '{"error":"Unavailable"}',
+    });
+  await unavailablePage.route(/\/api\/requests\?/, failInitialQueue);
+  await unavailablePage.goto(origin);
+  await expect(
+    unavailablePage.getByRole('heading', { name: 'Requests unavailable' }),
+  ).toBeVisible();
+  await expect(unavailablePage.getByRole('heading', { name: 'No matching requests' })).toHaveCount(
+    0,
+  );
+  await expect(unavailablePage.locator('.operational-map')).toContainText(
+    'Request locations are unavailable',
+  );
+  await unavailablePage.unroute(/\/api\/requests\?/, failInitialQueue);
+  await unavailablePage.getByRole('button', { name: 'Retry refresh', exact: true }).click();
+  await expect(unavailablePage.getByRole('heading', { name: 'Requests unavailable' })).toHaveCount(
+    0,
+  );
+  await unavailablePage.close();
   const transportFixture = await createSyntheticRequest(page, `Transport recovery ${Date.now()}`);
   const transportRow = page.locator(`[data-request-id="${transportFixture.id}"]`);
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
@@ -116,6 +144,8 @@ try {
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('The operation could not be completed');
   await expect(page.getByRole('alert')).not.toContainText('private upstream diagnostic');
+  await expect(page.locator('.operational-map')).toContainText('locations may be stale');
+  await expect(transportRow).toBeVisible();
   await page.unroute(queuePath, failQueueWithHtml);
   await page.getByRole('button', { name: 'Retry refresh', exact: true }).click();
   await expect(page.getByRole('alert')).toHaveCount(0);

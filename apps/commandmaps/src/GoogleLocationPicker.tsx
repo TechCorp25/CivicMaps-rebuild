@@ -585,6 +585,8 @@ export function OperationalMap({
   onCreateLocation,
   draftLocation,
   canCreate,
+  coverage = 'ready',
+  hasMore = false,
 }: {
   requests: OperationalRequestPin[];
   selected: string | null;
@@ -592,6 +594,8 @@ export function OperationalMap({
   onCreateLocation: (point: LocationPoint) => void;
   draftLocation: LocationPoint | null;
   canCreate: boolean;
+  coverage?: 'loading' | 'ready' | 'unavailable' | 'stale';
+  hasMore?: boolean;
 }) {
   const element = useRef<HTMLDivElement>(null);
   const map = useRef<GoogleMap | null>(null);
@@ -721,7 +725,9 @@ export function OperationalMap({
               : undefined,
           }) as (typeof markers.current)[number],
         );
-    })().catch(() => setError('Request locations are temporarily unavailable on the map.'));
+    })().catch(() => {
+      if (active) setError('Request locations are temporarily unavailable on the map.');
+    });
     return () => {
       active = false;
     };
@@ -813,7 +819,15 @@ export function OperationalMap({
             {pickStatus}
           </span>
         )}
-        <span className="muted">Showing {requests.length} loaded requests</span>
+        <span className="muted" role="status">
+          {coverage === 'loading'
+            ? 'Loading request locations…'
+            : coverage === 'unavailable'
+              ? 'Request locations are unavailable.'
+              : coverage === 'stale'
+                ? `Showing ${requests.length} previously loaded requests; the queue refresh failed and locations may be stale.`
+                : `Showing ${requests.length} loaded or selected requests${hasMore ? '; more matching requests have not been loaded' : ''}. The map reflects the loaded queue and selected request, not a separate complete map search.`}
+        </span>
       </div>
       {error ? (
         <div className="map-error" role="status">
@@ -830,13 +844,13 @@ export function OperationalMap({
             Retry map
           </button>
         </div>
-      ) : (
-        <div
-          ref={element}
-          className="operational-map-canvas"
-          aria-label="Map of loaded service requests"
-        />
-      )}
+      ) : null}
+      <div
+        ref={element}
+        className="operational-map-canvas"
+        aria-label="Map of loaded service requests"
+        hidden={Boolean(error)}
+      />
     </section>
   );
 }

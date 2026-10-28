@@ -1183,6 +1183,10 @@ function App() {
               onSelect={selectRequest}
               draftLocation={draftLocation}
               canCreate={can('requests.create')}
+              coverage={
+                queueState === 'unavailable' && hasQueueSnapshot.current ? 'stale' : queueState
+              }
+              hasMore={Boolean(nextCursor)}
               onCreateLocation={(point) => {
                 setDraftLocation(point);
                 setCreateUncertain(false);
@@ -1202,6 +1206,7 @@ function App() {
                   search={search}
                   onSearch={setSearch}
                   counts={queueCounts}
+                  state={queueState}
                   hasMore={Boolean(nextCursor)}
                   loadingMore={loadingMore}
                   loadMoreError={loadMoreError}

@@ -16,6 +16,12 @@ export async function verifyM1Discovery(page, expect) {
   await expect(page.locator('#queue-limit')).toContainText(
     '1005 authorised requests match this search',
   );
+  await expect(page.locator('.operational-map')).toContainText(
+    'more matching requests have not been loaded',
+  );
+  await expect(page.locator('.operational-map')).toContainText(
+    'not a separate complete map search',
+  );
   await mkdir('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/m1-discovery-desktop.png', fullPage: true });
   await page.setViewportSize({ width: 375, height: 812 });

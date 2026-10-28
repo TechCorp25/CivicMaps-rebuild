@@ -48,6 +48,7 @@ export function RequestQueue({
   loadingMore,
   loadMoreError,
   onLoadMore,
+  state,
 }: {
   requests: QueueRequest[];
   officers: { id: string; name: string }[];
@@ -62,6 +63,7 @@ export function RequestQueue({
   loadingMore: boolean;
   loadMoreError: string;
   onLoadMore: () => void;
+  state: 'loading' | 'ready' | 'unavailable';
 }) {
   const [page, setPage] = useState(0);
   const visible = requests;
@@ -76,22 +78,14 @@ export function RequestQueue({
       <div className="queue-heading">
         <h2 id="queue-title">Operational queue</h2>
         <p className="muted" id="queue-limit">
-          {counts?.total ?? requests.length} authorised requests match this search.{' '}
+          {counts ? `${counts.total} authorised requests match this search. ` : ''}
           {requests.length} loaded.
         </p>
         <div className="queue-filters" aria-label="Queue filters">
           {[
-            [
-              'active',
-              'Open',
-              counts?.active ?? requests.filter((r) => r.status !== 'CLOSED').length,
-            ],
-            [
-              'received',
-              'Needs dispatch',
-              counts?.received ?? requests.filter((r) => r.status === 'RECEIVED').length,
-            ],
-            ['all', 'All', counts?.total ?? requests.length],
+            ['active', 'Open', counts?.active ?? '—'],
+            ['received', 'Needs dispatch', counts?.received ?? '—'],
+            ['all', 'All', counts?.total ?? '—'],
           ].map(([value, label, count]) => (
             <button
               key={value}
@@ -136,8 +130,20 @@ export function RequestQueue({
       {visible.length === 0 ? (
         <div className="empty">
           <ClipboardList size={36} aria-hidden="true" />
-          <h3>No matching requests</h3>
-          <p>Change the search or filter, or load more results.</p>
+          <h3>
+            {state === 'loading'
+              ? 'Loading requests'
+              : state === 'unavailable'
+                ? 'Requests unavailable'
+                : 'No matching requests'}
+          </h3>
+          <p>
+            {state === 'loading'
+              ? 'Loading the current operating context.'
+              : state === 'unavailable'
+                ? 'Retry the queue refresh to see requests.'
+                : 'Change the search or filter to find other requests.'}
+          </p>
         </div>
       ) : (
         <div className="queue-scroll" tabIndex={0} role="region" aria-label="Service request table">
