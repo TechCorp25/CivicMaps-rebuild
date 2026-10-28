@@ -139,6 +139,8 @@ function App() {
   const [queueCheckedAt, setQueueCheckedAt] = useState<string | null>(null);
   const [officers, setOfficers] = useState<Officer[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
+  const operationsPanel = useRef<HTMLDetailsElement>(null);
+  const detailPanel = useRef<HTMLElement>(null);
   const selectedRef = useRef<string | null>(null);
   const selectionGeneration = useRef(0);
   const historyRetryController = useRef<AbortController | null>(null);
@@ -629,6 +631,10 @@ function App() {
     setSelected(id);
   }
   function selectRequest(id: string) {
+    if (operationsPanel.current) operationsPanel.current.open = true;
+    requestAnimationFrame(() => {
+      if (selectedRef.current === id) detailPanel.current?.focus();
+    });
     if (selectedRef.current === id) return;
     setSelection(id);
     setDetailState({ id, status: 'loading' });
@@ -1195,7 +1201,7 @@ function App() {
                 setCreating(true);
               }}
             />
-            <details className="operations-panel" open>
+            <details ref={operationsPanel} className="operations-panel" open>
               <summary>
                 <span className="operations-open-label">
                   Operational queue and selected request
@@ -1219,7 +1225,12 @@ function App() {
                   loadMoreError={loadMoreError}
                   onLoadMore={() => nextCursor && void load(false, nextCursor).catch(() => {})}
                 />
-                <section className="panel detail" aria-labelledby="detail-title">
+                <section
+                  ref={detailPanel}
+                  className="panel detail"
+                  aria-labelledby="detail-title"
+                  tabIndex={-1}
+                >
                   {!current ? (
                     <div className="empty">
                       <MapPin size={36} aria-hidden="true" />

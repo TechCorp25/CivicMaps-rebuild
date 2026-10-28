@@ -112,6 +112,7 @@ export async function verifyM1Discovery(page, expect) {
   );
   await page.locator('.request-table tbody .request-link').click();
   await expect(page.locator('.detail')).toContainText('Queue active 119');
+  await expect(page.locator('.detail')).toBeFocused();
   // Selecting the current row again must leave its current detail and history intact.
   await page.locator('.request-table tbody .request-link').click();
   await expect(page.locator('.detail')).toContainText('Queue active 119');
