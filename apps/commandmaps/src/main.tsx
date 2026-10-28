@@ -1196,7 +1196,12 @@ function App() {
               }}
             />
             <details className="operations-panel" open>
-              <summary>Operational queue and selected request</summary>
+              <summary>
+                <span className="operations-open-label">
+                  Operational queue and selected request
+                </span>
+                <span className="operations-closed-label">Show operations</span>
+              </summary>
               <div className="queue-layout">
                 <RequestQueue
                   requests={requests}

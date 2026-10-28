@@ -105,6 +105,36 @@ try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await dispatcher.newPage();
   await login(page, 'dispatch@alpha.example');
+  const mapRegion = page.getByRole('region', { name: 'Service request map' });
+  const operations = page.locator('details.operations-panel');
+  const mapBounds = await mapRegion.boundingBox();
+  const panelBounds = await operations.boundingBox();
+  expect(mapBounds.x + mapBounds.width).toBeLessThanOrEqual(panelBounds.x);
+  const panelToggle = operations.locator('summary');
+  await panelToggle.focus();
+  await page.keyboard.press('Enter');
+  await expect(operations).not.toHaveAttribute('open');
+  await expect(panelToggle).toContainText('Show operations');
+  await page.keyboard.press('Enter');
+  await expect(operations).toHaveAttribute('open');
+  await page.evaluate(() => {
+    const maps = window.google.maps;
+    window.__originalImportLibrary = maps.importLibrary;
+    maps.importLibrary = async (name) => {
+      if (name === 'marker') throw new Error('Synthetic marker failure');
+      return window.__originalImportLibrary(name);
+    };
+  });
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(mapRegion).toContainText(
+    'Request locations are temporarily unavailable on the map.',
+  );
+  await expect(page.getByRole('heading', { name: 'Operational queue' })).toBeVisible();
+  await page.evaluate(() => {
+    window.google.maps.importLibrary = window.__originalImportLibrary;
+  });
+  await mapRegion.getByRole('button', { name: 'Retry map' }).click();
+  await expect(mapRegion.getByRole('button', { name: 'Select SR location on map' })).toBeEnabled();
   const unavailablePage = await dispatcher.newPage();
   const failInitialQueue = (route) =>
     route.fulfill({

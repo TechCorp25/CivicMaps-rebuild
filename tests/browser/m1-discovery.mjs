@@ -48,6 +48,9 @@ export async function verifyM1Discovery(page, expect) {
   await page.screenshot({ path: 'test-results/m1-discovery-desktop.png', fullPage: true });
   await page.setViewportSize({ width: 375, height: 812 });
   await expect(search).toBeVisible();
+  const narrowMap = await page.getByRole('region', { name: 'Service request map' }).boundingBox();
+  const narrowPanel = await page.locator('details.operations-panel').boundingBox();
+  expect(narrowPanel.y).toBeGreaterThanOrEqual(narrowMap.y + narrowMap.height);
   await page.screenshot({ path: 'test-results/m1-discovery-narrow.png', fullPage: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
   const loadMore = page.getByRole('button', { name: 'Load more requests', exact: true });
