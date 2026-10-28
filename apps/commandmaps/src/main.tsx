@@ -456,6 +456,8 @@ function App() {
     if (!actor || actor.role === 'ADMIN') return;
     ++loadGeneration.current;
     hasQueueSnapshot.current = false;
+    setQueueState('loading');
+    setQueueCheckedAt(null);
     setRequests([]);
     loadedRequestCount.current = 0;
     setQueueCounts(undefined);

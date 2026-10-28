@@ -11,7 +11,29 @@ export async function verifyM1Discovery(page, expect) {
   await expect(rows).toHaveCount(25);
   await expect(page.locator('#queue-limit')).toContainText('authorised requests match this search');
 
+  let releaseSearch;
+  const searchGate = new Promise((resolve) => {
+    releaseSearch = resolve;
+  });
+  const holdSearch = async (route) => {
+    if (new URL(route.request().url()).searchParams.get('q') === 'Queue active') {
+      await searchGate;
+    }
+    await route.continue().catch(() => {});
+  };
+  await page.route(/\/api\/requests\?/, holdSearch);
+  const searchRequest = page.waitForRequest(
+    (request) => new URL(request.url()).searchParams.get('q') === 'Queue active',
+  );
   await search.fill('Queue active');
+  await searchRequest;
+  await expect(
+    page.getByRole('heading', { name: 'Loading requests', exact: true }).first(),
+  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'No matching requests' })).toHaveCount(0);
+  await expect(page.locator('.operational-map')).toContainText('Loading request locations');
+  releaseSearch();
+  await page.unroute(/\/api\/requests\?/, holdSearch);
   await expect(rows).toHaveCount(25);
   await expect(page.locator('#queue-limit')).toContainText(
     '1005 authorised requests match this search',
