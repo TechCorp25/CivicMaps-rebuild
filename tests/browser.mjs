@@ -96,10 +96,25 @@ async function createSyntheticRequest(page, address) {
       latitude: -37.814,
       longitude: 144.963,
       notes: 'Synthetic F11E browser scenario.',
+      destinationContextId: session.actor.context_id,
+      packageData: {
+        schemaVersion: 1,
+        fields: {
+          serviceType: 'parking',
+          vehicleColour: 'Unknown',
+          allegedOffence: 'Synthetic browser report',
+        },
+      },
     },
   });
   expect(response.status()).toBe(201);
-  return response.json();
+  const request = await response.json();
+  // These scenarios qualify the pre-existing lifecycle against historical untyped requests.
+  await database.query(
+    'UPDATE service_requests SET package_id=NULL,package_schema_version=NULL,package_payload=NULL,assignment_state=NULL,assignment_exception=NULL WHERE id=$1',
+    [request.id],
+  );
+  return request;
 }
 try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
@@ -224,6 +239,9 @@ try {
   await expect(page.getByRole('option', { name: address })).toBeVisible();
   await page.getByRole('option', { name: address }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Location confirmed.' })).toBeVisible();
+  await page.getByLabel(/^Request type/).selectOption('parking');
+  await page.getByLabel(/Vehicle colour/).fill('Blue');
+  await page.getByLabel(/Alleged offence or parking concern/).fill('Reported parking obstruction');
   await page.getByLabel('Dispatch notes').fill('Synthetic browser verification; no real incident.');
   await page.getByRole('button', { name: 'Review request', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Review service request' })).toBeFocused();

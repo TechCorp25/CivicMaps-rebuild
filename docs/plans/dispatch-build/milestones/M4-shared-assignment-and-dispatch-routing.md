@@ -1,6 +1,8 @@
 # M4 — Shared assignment and dispatch routing
 
-Status: planned; not implemented.
+Status: legacy branch-scoped assignment remains; department-aware eligibility and automatic allocation are blocked on approved duty/area sources.
+
+**Owner-directed update (29 October 2026):** the D3 Revision 2 handoff supersedes the historical “recommend rather than automatically dispatch” wording below. Automatic assignment from authoritative service-area and confirmed Code2 sign-on is required by the owner. No such server inputs or approved multi-match rule are present in this baseline, so department-aware requests remain unassigned and assignment writes are denied until eligibility can be checked. See [Code21 implementation status](../../dispatch-d3/implementation-status-2026-10-29.md).
 
 ## Goal and work
 
