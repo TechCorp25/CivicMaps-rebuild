@@ -338,8 +338,9 @@ test('a replacement binding version preserves historical capture and scope-safe 
   );
   const restored = await call('/auth/session', user.session);
   assert.equal(restored.data.actor.context_version, 2);
-  const retry = await call('/requests', user.session, { data: payload, key });
-  assert.equal(retry.status, 409);
+  const retry = await call('/requests', user.session, { data: payload, context: old, key });
+  // The original destination is revoked, so its receipt cannot be replayed.
+  assert.equal(retry.status, 403);
   assert.equal(
     (await pool.query('SELECT id FROM service_requests WHERE capture_binding_id=$1', [next]))
       .rowCount,
