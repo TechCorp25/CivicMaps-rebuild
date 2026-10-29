@@ -369,7 +369,7 @@ test('department intake requires authorised branch, validated fields and retains
   assert.equal(request.data.status, 'RECEIVED');
   assert.equal(request.data.assigned_officer_id, null);
   assert.equal(request.data.assignment_state, 'unassigned');
-  assert.match(request.data.assignment_exception, /service-area and signed-on duty/);
+  assert.match(request.data.assignment_exception, /service-area and signed-on duty/i);
   const unverifiedAssignment = await call(`/requests/${request.data.id}/actions`, {
     action: 'assign',
     version: 1,
@@ -597,7 +597,21 @@ test('competing updates with the same version cannot both commit', async () => {
   assert.equal((await call(`/requests/${request.id}/audit`)).data.length, 2);
 });
 test('missing CSRF and hostile browser origins are denied without persistence', async () => {
-  const input = { address: 'Must not persist', latitude: 0, longitude: 0, notes: '' };
+  const input = {
+    address: 'Must not persist',
+    latitude: 0,
+    longitude: 0,
+    notes: '',
+    destinationContextId: '10000000-0000-4000-8000-000000000001',
+    packageData: {
+      schemaVersion: 1,
+      fields: {
+        serviceType: 'parking',
+        vehicleColour: 'Unknown',
+        allegedOffence: 'Synthetic test report',
+      },
+    },
+  };
   for (const headers of [
     { Cookie: sessions.dispatch.cookie },
     {

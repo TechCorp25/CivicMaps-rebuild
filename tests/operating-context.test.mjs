@@ -1,6 +1,6 @@
 import { before, after, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createTestEnvironment } from './helpers/environment.mjs';
 import { resolveContext } from '../services/api/operating-context.mjs';
 let environment, pool, origin;
@@ -71,7 +71,16 @@ async function account(bindings = []) {
       "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,$2,'2020-01-01')",
       [id, binding],
     );
-  return { id, municipalityId, session: await login(email) };
+  // Fixture-created principals need sessions for context/RLS tests. Issuing those
+  // through the public login route consumes the same client bucket as other test
+  // logins, making the suite order dependent on the production throttle limit.
+  const token = randomBytes(32).toString('hex');
+  const csrfToken = randomUUID();
+  await pool.query(
+    "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,municipality_id) VALUES($1,$2,$3,now()+interval '1 hour',$4)",
+    [createHash('sha256').update(token).digest('hex'), id, csrfToken, municipalityId],
+  );
+  return { id, municipalityId, session: { cookie: `civicmaps_session=${token}`, csrfToken } };
 }
 async function binding({
   from = '2020-01-01',
@@ -336,7 +345,9 @@ test('a replacement binding version preserves historical capture and scope-safe 
       .rowCount,
     0,
   );
-  const fresh = await call('/requests', user.session, { data: payload });
+  const fresh = await call('/requests', user.session, {
+    data: { ...payload, destinationContextId: next },
+  });
   assert.equal(fresh.data.capture_binding_version, 2);
 });
 async function waitForLock(client, pid) {

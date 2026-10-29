@@ -29,7 +29,13 @@ async function capture(c) {
   for (const t of tables)
     result[t] = (
       await c.query(
-        `SELECT ${t === 'sessions' ? "to_jsonb(t)-'municipality_id'" : 'to_jsonb(t)'} row FROM ${t} t ORDER BY to_jsonb(t)::text`,
+        `SELECT ${
+          t === 'sessions'
+            ? "to_jsonb(t)-'municipality_id'"
+            : t === 'service_requests'
+              ? "to_jsonb(t)-'origin_binding_id'-'package_id'-'package_schema_version'-'package_payload'-'assignment_state'-'assignment_exception'"
+              : 'to_jsonb(t)'
+        } row FROM ${t} t ORDER BY to_jsonb(t)::text`,
       )
     ).rows;
   return result;
@@ -106,6 +112,22 @@ test('populated F07 upgrade preserves identities, sessions and captured history;
   });
   try {
     assert.deepEqual(await capture(env.pool), before);
+    assert.deepEqual(
+      (
+        await env.pool.query(
+          'SELECT origin_binding_id,package_id,package_schema_version,package_payload,assignment_state,assignment_exception FROM service_requests WHERE id=$1',
+          ['30000000-0000-4000-8000-000000000001'],
+        )
+      ).rows[0],
+      {
+        origin_binding_id: null,
+        package_id: null,
+        package_schema_version: null,
+        package_payload: null,
+        assignment_state: null,
+        assignment_exception: null,
+      },
+    );
     assert.equal(
       (
         await env.pool.query(
