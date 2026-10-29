@@ -12,6 +12,9 @@ export async function verifyMapPickedServiceRequest(page, save, database) {
   await expect(page.getByRole('button', { name: 'Review request', exact: true })).toBeDisabled();
   await input.fill('Latest synthetic address');
   await page.getByRole('option', { name: 'Latest synthetic address' }).click();
+  await page.getByLabel(/^Request type/).selectOption('parking');
+  await page.getByLabel(/Vehicle colour/).fill('Unknown');
+  await page.getByLabel(/Alleged offence or parking concern/).fill('Synthetic browser report');
   await page.getByRole('button', { name: 'Review request', exact: true }).click();
   await page.getByRole('button', { name: 'Edit', exact: true }).click();
   await input.fill('Changed free text invalidates the previous address point');
