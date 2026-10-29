@@ -196,7 +196,7 @@ test('ownership migration retires only the canonical synthetic grant and rolls b
     try {
       assert.equal((await client.query('SELECT * FROM council_principal_owners')).rowCount, 0);
       assert.equal((await client.query('SELECT * FROM users')).rowCount, 0);
-      assert.equal((await client.query('SELECT * FROM civicmaps_migrations')).rowCount, 15);
+      assert.equal((await client.query('SELECT * FROM civicmaps_migrations')).rowCount, 16);
     } finally {
       await client.end();
     }

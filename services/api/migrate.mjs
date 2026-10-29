@@ -275,6 +275,7 @@ try {
       '013-pack-entitlements',
       '014-council-principal-ownership',
       '015-enforce-principal-ownership',
+      '016-department-aware-intake',
     ]) {
       const existing = await client.query('SELECT id FROM civicmaps_migrations WHERE id = $1', [
         id,
