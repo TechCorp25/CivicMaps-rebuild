@@ -500,7 +500,14 @@ try {
   const assignmentControl = page.getByRole('combobox', { name: /^Assign officer/ });
   await expect(assignmentControl).toHaveValue(secondOfficerId);
   await assignmentControl.selectOption('00000000-0000-4000-8000-000000000002');
-  expect((await concurrentAssignment(2, secondOfficerId)).status()).toBe(200);
+  await page.getByLabel(/Reassignment reason/).fill('Synthetic browser reassignment check');
+  const reassignment = page.waitForResponse(
+    (response) =>
+      response.request().method() === 'POST' &&
+      response.url().includes(`/api/requests/${staleAssignment.id}/actions`),
+  );
+  await page.getByRole('button', { name: 'Assign request', exact: true }).click();
+  expect((await reassignment).status()).toBe(200);
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.locator('.detail')).toContainText('Server-confirmed version 3');
   await expect(assignmentControl).toHaveValue('00000000-0000-4000-8000-000000000002');
