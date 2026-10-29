@@ -1,0 +1,9 @@
+# Independent planning assessment task
+
+Assess the resulting reconnaissance and workplan against these requirements. This is an assessment of planning deliverables, not dashboard implementation acceptance.
+
+Owner task, 28 October 2026: bootstrap the session environment; review CivicMAPS-rebuild Empirical workspace memories; inspect CivicMAPS/CivicMaps-preview, specifically `civicmaps/commandmaps/src/features`, for dispatch dashboard layout, features, functionality and operational interaction with field officer workflows; prepare a complete goal-based autonomous workplan to finish the rebuild dashboard in accordance with `_ds` functional UI packages, wireframes and annotations. Future builder is GPT-6.1 Terra Medium; each completed goal receives an independent GPT-6 Astra Low assessment while the builder continues the workstream.
+
+Acceptance: pinned source baselines; evidence-backed preview and rebuild comparison; distinction between existing code, proposed design, demo, synthetic checks and live operation; preserved merged foundations; explicit design conflicts; complete capability coverage and field dependencies; goal dependencies and measurable acceptance; immutable review candidates, fresh auditor context and safe asynchronous continuation; final integrated gate; accurate limits and no implementation/merge/deploy claim.
+
+Product: `reconnaissance.md`, `preview-source-recon.md`, `workplan.md` in this directory. Source references may be inspected independently in the pinned rebuild and preview snapshots. Assess findings with severity, file/line or reproducible evidence, unverified requirements and verdict pass/changes_required/blocked. Do not read builder working notes, conversation or Empirical agent narratives. Do not request or store private reasoning. Bootstrap receipt is supplied separately after environment setup; this assessment does not qualify runtime setup.
