@@ -1639,12 +1639,15 @@ function App() {
                                     {event.details.from} → {event.details.to}
                                   </p>
                                 )}
-                                {typeof event.details.fromOfficerId === 'string' && (
+                                {event.action === 'assign' && (
                                   <p>
-                                    Reassigned from officer {event.details.fromOfficerId} to{' '}
+                                    {typeof event.details.fromOfficerId === 'string'
+                                      ? `Officer ${event.details.fromOfficerId}`
+                                      : 'Unassigned'}
+                                    {' → '}
                                     {typeof event.details.toOfficerId === 'string'
-                                      ? event.details.toOfficerId
-                                      : 'unassigned'}
+                                      ? `Officer ${event.details.toOfficerId}`
+                                      : 'Unassigned'}
                                   </p>
                                 )}
                                 {typeof event.details.reason === 'string' &&

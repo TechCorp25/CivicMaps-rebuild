@@ -118,22 +118,26 @@ export function RequestComposer({
     setReview(true);
   }
 
-  const field = (key: string, label: string, required = false, type = 'text', hint?: string) => (
-    <label key={key}>
-      {label} <span className="muted">({required ? 'Required' : 'Optional'})</span>
-      <input
-        name={key}
-        type={type}
-        required={required}
-        maxLength={500}
-        value={branchFields[key] ?? ''}
-        onChange={(event) =>
-          setBranchFields((current) => ({ ...current, [key]: event.target.value }))
-        }
-      />
-      {hint && <small className="muted">{hint}</small>}
-    </label>
-  );
+  const field = (key: string, label: string, required = false, type = 'text', hint?: string) => {
+    const fieldRequired = destination?.schema.required.includes(key) ?? required;
+    if (!destination?.schema.fields.includes(key)) return null;
+    return (
+      <label key={key}>
+        {label} <span className="muted">({fieldRequired ? 'Required' : 'Optional'})</span>
+        <input
+          name={key}
+          type={type}
+          required={fieldRequired}
+          maxLength={500}
+          value={branchFields[key] ?? ''}
+          onChange={(event) =>
+            setBranchFields((current) => ({ ...current, [key]: event.target.value }))
+          }
+        />
+        {hint && <small className="muted">{hint}</small>}
+      </label>
+    );
+  };
 
   function renderDepartmentFields() {
     switch (destination?.branchId) {
@@ -144,14 +148,18 @@ export function RequestComposer({
             <label>
               Request type <span className="muted">(Required)</span>
               <select
-                required
+                required={destination?.schema.required.includes('serviceType')}
                 value={branchFields.serviceType ?? ''}
                 onChange={(event) =>
                   setBranchFields((current) => ({ ...current, serviceType: event.target.value }))
                 }
               >
                 <option value="">Select request type</option>
-                <option value="parking">Parking complaint / alleged offence</option>
+                {destination?.schema.types.map((type) => (
+                  <option key={type} value={type}>
+                    {type === 'parking' ? 'Parking complaint / alleged offence' : type}
+                  </option>
+                ))}
               </select>
             </label>
             {field('vehicleColour', 'Vehicle colour', true)}
@@ -192,14 +200,22 @@ export function RequestComposer({
             <label>
               Request type <span className="muted">(Required)</span>
               <select
-                required
+                required={destination?.schema.required.includes('serviceType')}
                 value={serviceType}
                 onChange={(event) => setBranchFields({ serviceType: event.target.value })}
               >
                 <option value="">Select request type</option>
-                <option value="noise">Noise</option>
-                <option value="permits">Permits</option>
-                <option value="building">Building</option>
+                {destination?.schema.types.map((type) => (
+                  <option key={type} value={type}>
+                    {type === 'noise'
+                      ? 'Noise'
+                      : type === 'permits'
+                        ? 'Permits'
+                        : type === 'building'
+                          ? 'Building'
+                          : type}
+                  </option>
+                ))}
               </select>
             </label>
             {serviceType === 'noise' && (
