@@ -68,6 +68,36 @@ async function addAlphaOfficer() {
   );
   return id;
 }
+async function addGrantScopedOfficerWithDifferentLegacyScope() {
+  const id = randomUUID();
+  await pool.query(
+    `INSERT INTO users(id,email,name,password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id,active)
+     SELECT $1,$2,name,password_hash,'OFFICER','legacy-tenant','legacy-jurisdiction',
+       'legacy-plane','legacy-organisation','legacy-branch',team_id,true FROM users WHERE id=$3`,
+    [id, `${id}@synthetic.example`, officerId],
+  );
+  await pool.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) SELECT $1,municipality_id FROM council_principal_owners WHERE user_id=$2',
+    [id, officerId],
+  );
+  await pool.query(
+    "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
+    [id],
+  );
+  return id;
+}
+async function addAlphaOfficerWithoutOperatingGrant() {
+  const id = randomUUID();
+  await pool.query(
+    "INSERT INTO users SELECT $1,$2,name,password_hash,'OFFICER',tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id,true FROM users WHERE id=$3",
+    [id, `${id}@synthetic.example`, officerId],
+  );
+  await pool.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) SELECT $1,municipality_id FROM council_principal_owners WHERE user_id=$2',
+    [id, officerId],
+  );
+  return id;
+}
 async function insertQueueFixtures(activeCount = 105, closedCount = 110) {
   const source = (
     await pool.query(
@@ -390,6 +420,31 @@ test('manual reassignment records its reason and retains immutable from/to audit
   assert.equal(history.data[2].details.fromOfficerId, officerId);
   assert.equal(history.data[2].details.toOfficerId, replacement);
   assert.equal(history.data[2].details.reason, 'Competing duties leave insufficient time.');
+});
+test('assignment follows the effective context grant instead of legacy user scope columns', async () => {
+  const request = await create();
+  const grantScopedOfficer = await addGrantScopedOfficerWithDifferentLegacyScope();
+  const directory = await call('/officers');
+  assert.ok(directory.data.some((item) => item.id === grantScopedOfficer));
+  const result = await call(`/requests/${request.id}/actions`, {
+    action: 'assign',
+    version: 1,
+    officerId: grantScopedOfficer,
+  });
+  assert.equal(result.status, 200, JSON.stringify(result.data));
+  assert.equal(result.data.assigned_officer_id, grantScopedOfficer);
+});
+test('matching legacy scope columns without an effective grant do not authorize assignment', async () => {
+  const request = await create();
+  const ungrantedOfficer = await addAlphaOfficerWithoutOperatingGrant();
+  const directory = await call('/officers');
+  assert.ok(!directory.data.some((item) => item.id === ungrantedOfficer));
+  const result = await call(`/requests/${request.id}/actions`, {
+    action: 'assign',
+    version: 1,
+    officerId: ungrantedOfficer,
+  });
+  assert.equal(result.status, 403);
 });
 test('scope denies cross-tenant list, audit, mutation and officer assignment', async () => {
   const request = await create();

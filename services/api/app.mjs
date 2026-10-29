@@ -792,17 +792,10 @@ export function createApp({
             if (request.assigned_officer_id)
               requireValue(text(input.reason, 1000), 400, 'A reassignment reason is required');
             const officer = await client.query(
-              `SELECT id FROM users WHERE id=$1 AND active AND role='OFFICER'
-               AND tenant_id=$2 AND jurisdiction_id=$3 AND data_plane_id=$4
-               AND organisation_id=$5 AND branch_id=$6`,
-              [
-                input.officerId,
-                request.tenant_id,
-                request.jurisdiction_id,
-                request.data_plane_id,
-                request.organisation_id,
-                request.branch_id,
-              ],
+              // Current-context RLS policies validate effective operating grants.
+              // Legacy user scope columns are not authoritative for personnel membership.
+              `SELECT id FROM users WHERE id=$1 AND active AND role='OFFICER'`,
+              [input.officerId],
             );
             requireValue(officer.rowCount === 1, 403, 'Officer is outside the permitted scope');
             officerId = input.officerId;

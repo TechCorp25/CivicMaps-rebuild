@@ -10,6 +10,7 @@ Candidate work on `codex/dispatch-b0-revision-20261028`, based on the authoritat
 - Additive migration `016-department-aware-intake.sql` captures receiving and source context, package identity/version/details, and assignment outcome. Request creation and destination audit commit together under destination RLS. Existing untyped rows remain nullable and readable.
 - Dispatchers can only route to same-council contexts for which they hold a current grant. Creation across council boundaries is rejected. The source branch cannot list or read a request captured in another branch; source and destination context IDs are recorded in the destination's creation audit event.
 - The existing manual assignment endpoint now records reassignment from/to officer IDs and requires a reason when replacing an assignee. Request history shows those officer IDs and the reason. Department-aware requests do not expose or accept manual assignment until the server can validate actual service-area and signed-on duty eligibility.
+- Officer assignment scope is validated through the active operating-context grant enforced by the users-table RLS policy. Legacy `users` scope columns do not override an effective grant; regression cases cover both differing legacy scope with an effective grant and matching legacy scope without a grant.
 
 ## Explicitly blocked operational behavior
 
