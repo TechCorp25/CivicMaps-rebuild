@@ -18,18 +18,19 @@
     "fork_turns": "none"
   },
   "publication_owner": "coordinator",
-  "execution_started": false,
+  "execution_started": true,
   "active_builder_goal": null,
   "active_checker_goal": null,
   "goals": [
     {
       "id": "R0",
-      "status": "pending",
-      "builder_ready": false,
+      "status": "ready_for_check",
+      "builder_ready": true,
       "candidate_sha": null,
       "review_report": null,
       "verdict": null,
-      "depends_on": []
+      "depends_on": [],
+      "evidence": "evidence/remediation/R0/environment.md; evidence/remediation/R0/acceptance-packet.md"
     },
     {
       "id": "R1",
@@ -103,7 +104,7 @@
       "resolution": "Retrieve current version-compatible guidance or obtain explicit owner change to this requirement."
     }
   ],
-  "next_action": "Start R0 with GPT-6 Luna Medium; publish frozen goal candidates for fresh GPT-6 Astra Low review while Luna continues independent goals.",
+  "next_action": "Coordinator freezes and publishes the R0 candidate for GPT-6 Astra Low review; R1 and R2 remain pending until the R0 gate is accepted.",
   "merge_authorised": false,
   "deployment_authorised": false
 }
