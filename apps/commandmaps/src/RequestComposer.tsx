@@ -2,7 +2,18 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowLeft, CheckCircle2, X } from 'lucide-react';
 import { GoogleLocationPicker } from './GoogleLocationPicker';
 
-export type IntakeDestination = { id: string; branchId: string; label: string };
+export type IntakeDestination = {
+  id: string;
+  branchId: string;
+  label: string;
+  schema: {
+    version: number;
+    fields: string[];
+    required: string[];
+    types: string[];
+    examples: string[];
+  };
+};
 export type RequestDraft = {
   address: string;
   latitude: number;
@@ -51,7 +62,7 @@ export function RequestComposer({
     longitude: Number.NaN,
     notes: '',
     destinationContextId: destinations[0]?.id ?? '',
-    packageData: { schemaVersion: 1, fields: {} },
+    packageData: { schemaVersion: destinations[0]?.schema.version ?? 1, fields: {} },
   });
   const destination = destinations.find((item) => item.id === destinationId);
   const [branchFields, setBranchFields] = useState<Record<string, string>>({});
@@ -102,7 +113,7 @@ export function RequestComposer({
       longitude: location.longitude,
       notes: String(form.get('notes') ?? '').trim(),
       destinationContextId: destination.id,
-      packageData: { schemaVersion: 1, fields },
+      packageData: { schemaVersion: destination.schema.version, fields },
     });
     setReview(true);
   }

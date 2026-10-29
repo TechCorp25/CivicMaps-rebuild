@@ -89,4 +89,16 @@ test('branch variants reject stale, unknown and malformed request details', () =
       }),
     { status: 400 },
   );
+  assert.throws(
+    () =>
+      validateIntake('local-laws', {
+        schemaVersion: 1,
+        fields: { serviceType: 'permits', noiseType: 'music', zoneType: 'Residential' },
+      }),
+    { status: 400 },
+  );
+  assert.throws(
+    () => validateIntake('local-laws', { schemaVersion: 1, unauthorised: true, fields: {} }),
+    { status: 400 },
+  );
 });

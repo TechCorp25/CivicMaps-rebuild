@@ -32,6 +32,11 @@ const definitions = {
     ],
     required: ['serviceType'],
     types: ['noise', 'permits', 'building'],
+    fieldsByType: {
+      noise: ['serviceType', 'reportedTime', 'zoneType', 'noiseType'],
+      permits: ['serviceType', 'permitReference'],
+      building: ['serviceType', 'description'],
+    },
   },
   'waste-management': {
     label: 'Waste Management & Cleaning',
@@ -76,6 +81,8 @@ export function validateIntake(branchId, value) {
     Array.isArray(value.fields)
   )
     throw Object.assign(new Error('Refresh the request form before submitting'), { status: 409 });
+  if (Object.keys(value).some((key) => !['schemaVersion', 'fields'].includes(key)))
+    throw Object.assign(new Error('Request details contain an unsupported field'), { status: 400 });
   const fields = value.fields;
   if (Object.keys(fields).some((key) => !definition.fields.includes(key)))
     throw Object.assign(new Error('Request details contain an unsupported field'), { status: 400 });
@@ -92,6 +99,11 @@ export function validateIntake(branchId, value) {
   }
   if (definition.types && fields.serviceType && !definition.types.includes(fields.serviceType))
     throw Object.assign(new Error('Select a supported request type'), { status: 400 });
+  const typeFields = definition.fieldsByType?.[fields.serviceType];
+  if (typeFields && Object.keys(fields).some((key) => !typeFields.includes(key)))
+    throw Object.assign(new Error('Request details contain fields for another request type'), {
+      status: 400,
+    });
   if (fields.zoneType && !zoneTypes.includes(fields.zoneType))
     throw Object.assign(new Error('Select a supported zone type'), { status: 400 });
   if (fields.noiseType && !noiseTypes.includes(fields.noiseType))

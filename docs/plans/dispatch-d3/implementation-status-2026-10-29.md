@@ -4,12 +4,12 @@ Candidate work on `codex/dispatch-b0-revision-20261028`, based on the authoritat
 
 ## Implemented in this candidate
 
-- CommandMAPS reads receiving branches from `GET /api/intake-destinations`. The server filters to the actor's active, explicitly granted contexts within the same council and requires the receiving context's current `requests.create` capability.
+- CommandMAPS reads receiving branches and their versioned field/required/type metadata from `GET /api/intake-destinations`. The server filters to the actor's active, explicitly granted contexts within the same council and requires the receiving context's current `requests.create` capability; the composer uses the returned schema version in submissions.
 - The composer renders distinct Parking, Animal Management, Local Laws Noise/Permits/Building, and Waste/Cleaning details. It preserves confirmed location and shared notes when the receiving branch changes, warns before clearing entered branch details, and clears fields from a Local Laws form when its request type changes.
-- The API validates a versioned, closed department payload, rejects unsupported fields and schema versions, and enforces the owner-specified Parking and Animal Management minimums. Local Laws uses only the stated Noise, Permits and Building categories. Waste examples remain optional and non-exhaustive.
+- The API validates a versioned, closed department payload, rejects unsupported envelope and field keys, rejects Local Laws fields that do not match the selected Noise, Permits or Building type, and enforces the owner-specified Parking and Animal Management minimums. Waste examples remain optional and non-exhaustive.
 - Additive migration `016-department-aware-intake.sql` captures receiving and source context, package identity/version/details, and assignment outcome. Request creation and destination audit commit together under destination RLS. Existing untyped rows remain nullable and readable.
 - Dispatchers can only route to same-council contexts for which they hold a current grant. Creation across council boundaries is rejected. The source branch cannot list or read a request captured in another branch; source and destination context IDs are recorded in the destination's creation audit event.
-- The existing manual assignment endpoint now records reassignment from/to officer IDs and requires a reason when replacing an assignee. Department-aware requests do not expose or accept manual assignment until the server can validate actual service-area and signed-on duty eligibility.
+- The existing manual assignment endpoint now records reassignment from/to officer IDs and requires a reason when replacing an assignee. Request history shows those officer IDs and the reason. Department-aware requests do not expose or accept manual assignment until the server can validate actual service-area and signed-on duty eligibility.
 
 ## Explicitly blocked operational behavior
 

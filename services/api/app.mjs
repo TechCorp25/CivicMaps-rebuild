@@ -388,7 +388,18 @@ export function createApp({
         if (!definition) continue;
         const state = await entitlements(client, { ...user, context_id: context.id });
         if (state.capabilities.includes('requests.create'))
-          result.push({ id: context.id, branchId: context.branch_id, label: definition.label });
+          result.push({
+            id: context.id,
+            branchId: context.branch_id,
+            label: definition.label,
+            schema: {
+              version: definition.version,
+              fields: definition.fields,
+              required: definition.required,
+              types: definition.types ?? [],
+              examples: definition.examples ?? [],
+            },
+          });
       }
       return result;
     });

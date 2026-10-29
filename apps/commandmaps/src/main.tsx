@@ -69,7 +69,13 @@ type Audit = {
   actor_id: string;
   action: string;
   created_at: string;
-  details: { reason?: string; from?: string; to?: string };
+  details: {
+    reason?: string;
+    from?: string;
+    to?: string;
+    fromOfficerId?: string;
+    toOfficerId?: string;
+  };
 };
 type QueuePage = {
   requests: Request[];
@@ -1631,6 +1637,14 @@ function App() {
                                 {event.details.from && event.details.to && (
                                   <p>
                                     {event.details.from} → {event.details.to}
+                                  </p>
+                                )}
+                                {typeof event.details.fromOfficerId === 'string' && (
+                                  <p>
+                                    Reassigned from officer {event.details.fromOfficerId} to{' '}
+                                    {typeof event.details.toOfficerId === 'string'
+                                      ? event.details.toOfficerId
+                                      : 'unassigned'}
                                   </p>
                                 )}
                                 {typeof event.details.reason === 'string' &&
