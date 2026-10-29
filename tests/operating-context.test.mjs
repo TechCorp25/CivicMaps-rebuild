@@ -320,7 +320,7 @@ test('a replacement binding version preserves historical capture and scope-safe 
   const old = await binding({ association });
   const user = await account([old]);
   const key = randomUUID();
-  const created = await call('/requests', user.session, { data: payload, key });
+  const created = await call('/requests', user.session, { data: payload, context: old, key });
   assert.equal(created.status, 201);
   await pool.query(
     'UPDATE operating_context_bindings SET revoked_at=clock_timestamp() WHERE id=$1',
