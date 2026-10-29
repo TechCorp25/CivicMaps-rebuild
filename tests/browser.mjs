@@ -280,6 +280,12 @@ try {
     (await database.query('SELECT notes FROM service_requests WHERE id=$1', [created.id])).rows[0]
       .notes,
   ).toContain('Synthetic browser');
+  // The following status-flow checks exercise a legacy untyped request. Keep
+  // new schema-backed requests unassigned until their eligibility feed is available.
+  await database.query(
+    'UPDATE service_requests SET package_id=NULL,package_schema_version=NULL,package_payload=NULL,assignment_state=NULL,assignment_exception=NULL WHERE id=$1',
+    [created.id],
+  );
 
   await verifyMapPickedServiceRequest(page, save, database);
 
