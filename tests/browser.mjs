@@ -619,7 +619,8 @@ try {
       data: {
         action: 'assign',
         version: 2,
-        officerId: '00000000-0000-4000-8000-000000000002',
+        officerId: secondOfficerId,
+        reason: 'Synthetic concurrent reassignment check',
       },
     },
   );
