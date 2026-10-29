@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "plan_version": "1.0.0",
+  "date": "2026-10-31",
+  "timezone": "Australia/Melbourne",
+  "pr": 52,
+  "branch": "codex/code-audit-2026-10-30",
+  "baseline_sha": "b168dc0ce2b3d28011588b497e8e6fc459c2aa6a",
+  "initial_checkpoint_sha": "42507f392beb5f0143b9f840754b95866671153f",
+  "builder": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "medium",
+    "fork_turns": "none"
+  },
+  "checker": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "low",
+    "fork_turns": "none"
+  },
+  "publication_owner": "coordinator",
+  "execution_started": false,
+  "active_builder_goal": null,
+  "active_checker_goal": null,
+  "goals": [
+    {
+      "id": "R0",
+      "status": "pending",
+      "builder_ready": false,
+      "candidate_sha": null,
+      "review_report": null,
+      "verdict": null,
+      "depends_on": []
+    },
+    {
+      "id": "R1",
+      "status": "pending",
+      "builder_ready": false,
+      "candidate_sha": null,
+      "review_report": null,
+      "verdict": null,
+      "depends_on": [
+        "R0"
+      ]
+    },
+    {
+      "id": "R2",
+      "status": "pending",
+      "builder_ready": false,
+      "candidate_sha": null,
+      "review_report": null,
+      "verdict": null,
+      "depends_on": [
+        "R0"
+      ]
+    },
+    {
+      "id": "R4",
+      "status": "pending",
+      "builder_ready": false,
+      "candidate_sha": null,
+      "review_report": null,
+      "verdict": null,
+      "depends_on": [
+        "R1",
+        "R2",
+        "all-instantiated-R3-goals"
+      ]
+    },
+    {
+      "id": "R5",
+      "status": "pending",
+      "builder_ready": false,
+      "candidate_sha": null,
+      "review_report": null,
+      "verdict": null,
+      "depends_on": [
+        "R4"
+      ]
+    }
+  ],
+  "dynamic_goal_family": {
+    "prefix": "R3",
+    "status": "awaiting-R2-findings",
+    "goals": []
+  },
+  "findings": [
+    {
+      "id": "AUD-001",
+      "severity": "medium",
+      "goal": "R1",
+      "status": "open",
+      "description": "Pinned Vite 6.4.4 affected by GHSA-8g5g-mxqh-grgj per initial registry evidence; revalidate fixed patch before implementation."
+    }
+  ],
+  "external_requirements": [
+    {
+      "id": "context7",
+      "status": "unavailable-at-last-check",
+      "blocks": [
+        "R2-full-acceptance",
+        "R4-full-acceptance"
+      ],
+      "resolution": "Retrieve current version-compatible guidance or obtain explicit owner change to this requirement."
+    }
+  ],
+  "next_action": "Start R0 with GPT-6 Luna Medium; publish frozen goal candidates for fresh GPT-6 Astra Low review while Luna continues independent goals.",
+  "merge_authorised": false,
+  "deployment_authorised": false
+}

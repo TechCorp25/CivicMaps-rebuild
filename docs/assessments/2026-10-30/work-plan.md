@@ -29,3 +29,7 @@ Store sanitised evidence beside the report; scratch logs/runtime files live in `
 ## Initial state
 
 A0 in progress; A1 started. Node 24.19.0 and npm 11.9.0 match repository pins. PostgreSQL 15.18 starts on dedicated loopback port 55450 using the supported elevated execution path; sandbox execution alone denies sockets. Git fetch also works through the supported elevated path. Context7 is not exposed by the connected tool inventory and no repository/client configuration was found; A2 Context7 evidence is pending. Historical audit conclusions are leads to revalidate, not current findings.
+
+## Remediation execution contract — 31 October 2026
+
+The owner has assigned remediation to GPT-6 Luna Medium with independent GPT-6 Astra Low checking and overlapping independent goals. Follow the [remediation plan](remediation-plan.md) and [checkpoint](remediation-checkpoint.json). This supersedes the earlier separate-scoping statement for evidence-backed remediation under this plan; merge and deployment remain excluded. The initial A0 status above is historical: the [checkpoint](initial-audit.md) records completed bootstrap and the 114-test baseline.
