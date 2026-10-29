@@ -11,15 +11,46 @@ export async function verifyM1Discovery(page, expect) {
   await expect(rows).toHaveCount(25);
   await expect(page.locator('#queue-limit')).toContainText('authorised requests match this search');
 
+  let releaseSearch;
+  const searchGate = new Promise((resolve) => {
+    releaseSearch = resolve;
+  });
+  const holdSearch = async (route) => {
+    if (new URL(route.request().url()).searchParams.get('q') === 'Queue active') {
+      await searchGate;
+    }
+    await route.continue().catch(() => {});
+  };
+  await page.route(/\/api\/requests\?/, holdSearch);
+  const searchRequest = page.waitForRequest(
+    (request) => new URL(request.url()).searchParams.get('q') === 'Queue active',
+  );
   await search.fill('Queue active');
+  await searchRequest;
+  await expect(
+    page.getByRole('heading', { name: 'Loading requests', exact: true }).first(),
+  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'No matching requests' })).toHaveCount(0);
+  await expect(page.locator('.operational-map')).toContainText('Loading request locations');
+  releaseSearch();
+  await page.unroute(/\/api\/requests\?/, holdSearch);
   await expect(rows).toHaveCount(25);
   await expect(page.locator('#queue-limit')).toContainText(
     '1005 authorised requests match this search',
+  );
+  await expect(page.locator('.operational-map')).toContainText(
+    'more matching requests have not been loaded',
+  );
+  await expect(page.locator('.operational-map')).toContainText(
+    'not a separate complete map search',
   );
   await mkdir('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/m1-discovery-desktop.png', fullPage: true });
   await page.setViewportSize({ width: 375, height: 812 });
   await expect(search).toBeVisible();
+  const narrowMap = await page.getByRole('region', { name: 'Service request map' }).boundingBox();
+  const narrowPanel = await page.locator('details.operations-panel').boundingBox();
+  expect(narrowPanel.y).toBeGreaterThanOrEqual(narrowMap.y + narrowMap.height);
   await page.screenshot({ path: 'test-results/m1-discovery-narrow.png', fullPage: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
   const loadMore = page.getByRole('button', { name: 'Load more requests', exact: true });
@@ -81,6 +112,7 @@ export async function verifyM1Discovery(page, expect) {
   );
   await page.locator('.request-table tbody .request-link').click();
   await expect(page.locator('.detail')).toContainText('Queue active 119');
+  await expect(page.locator('.detail')).toBeFocused();
   // Selecting the current row again must leave its current detail and history intact.
   await page.locator('.request-table tbody .request-link').click();
   await expect(page.locator('.detail')).toContainText('Queue active 119');
