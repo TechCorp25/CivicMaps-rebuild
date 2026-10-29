@@ -508,6 +508,15 @@ try {
   );
   await page.getByRole('button', { name: 'Assign request', exact: true }).click();
   expect((await reassignment).status()).toBe(200);
+  const reassignmentAudit = (
+    await database.query(
+      "SELECT details FROM audit_events WHERE request_id=$1 AND action='assign' ORDER BY id DESC LIMIT 1",
+      [staleAssignment.id],
+    )
+  ).rows[0].details;
+  expect(reassignmentAudit.reason).toBe('Synthetic browser reassignment check');
+  expect(reassignmentAudit.fromOfficerId).toBe(secondOfficerId);
+  expect(reassignmentAudit.toOfficerId).toBe('00000000-0000-4000-8000-000000000002');
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.locator('.detail')).toContainText('Server-confirmed version 3');
   await expect(assignmentControl).toHaveValue('00000000-0000-4000-8000-000000000002');
