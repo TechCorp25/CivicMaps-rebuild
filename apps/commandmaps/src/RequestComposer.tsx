@@ -12,6 +12,7 @@ export type IntakeDestination = {
     required: string[];
     types: string[];
     examples: string[];
+    options: Record<string, string[]>;
   };
 };
 export type RequestDraft = {
@@ -230,9 +231,9 @@ export function RequestComposer({
                     }
                   >
                     <option value="">Unknown / not supplied</option>
-                    <option>Residential</option>
-                    <option>Commercial</option>
-                    <option>Mixed use</option>
+                    {destination?.schema.options.zoneType?.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
                   </select>
                 </label>
                 <label>
@@ -244,9 +245,11 @@ export function RequestComposer({
                     }
                   >
                     <option value="">Not supplied</option>
-                    <option value="music">Music</option>
-                    <option value="machinery">Machinery</option>
-                    <option value="construction">Construction</option>
+                    {destination?.schema.options.noiseType?.map((option) => (
+                      <option key={option} value={option}>
+                        {option[0].toUpperCase() + option.slice(1)}
+                      </option>
+                    ))}
                   </select>
                 </label>
               </>
@@ -281,8 +284,11 @@ export function RequestComposer({
                 }
               >
                 <option value="">Not recorded</option>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                {destination?.schema.options.hazard?.map((option) => (
+                  <option key={option} value={option}>
+                    {option === 'true' ? 'Yes' : 'No'}
+                  </option>
+                ))}
               </select>
             </label>
             {field('reportedTime', 'Reported or occurred time', false, 'time')}

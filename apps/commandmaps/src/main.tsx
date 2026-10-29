@@ -75,6 +75,7 @@ type Audit = {
     to?: string;
     fromOfficerId?: string;
     toOfficerId?: string;
+    officerId?: string;
   };
 };
 type QueuePage = {
@@ -1643,11 +1644,15 @@ function App() {
                                   <p>
                                     {typeof event.details.fromOfficerId === 'string'
                                       ? `Officer ${event.details.fromOfficerId}`
-                                      : 'Unassigned'}
+                                      : typeof event.details.officerId === 'string'
+                                        ? 'Prior assignee unavailable'
+                                        : 'Unassigned'}
                                     {' → '}
                                     {typeof event.details.toOfficerId === 'string'
                                       ? `Officer ${event.details.toOfficerId}`
-                                      : 'Unassigned'}
+                                      : typeof event.details.officerId === 'string'
+                                        ? `Officer ${event.details.officerId}`
+                                        : 'Unassigned'}
                                   </p>
                                 )}
                                 {typeof event.details.reason === 'string' &&

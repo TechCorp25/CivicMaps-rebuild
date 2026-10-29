@@ -398,6 +398,7 @@ export function createApp({
               required: definition.required,
               types: definition.types ?? [],
               examples: definition.examples ?? [],
+              options: definition.options ?? {},
             },
           });
       }

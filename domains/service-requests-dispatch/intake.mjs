@@ -32,6 +32,10 @@ const definitions = {
     ],
     required: ['serviceType'],
     types: ['noise', 'permits', 'building'],
+    options: {
+      zoneType: ['Residential', 'Commercial', 'Mixed use'],
+      noiseType: ['music', 'machinery', 'construction'],
+    },
     fieldsByType: {
       noise: ['serviceType', 'reportedTime', 'zoneType', 'noiseType'],
       permits: ['serviceType', 'permitReference'],
@@ -44,6 +48,7 @@ const definitions = {
     fields: ['serviceType', 'materialType', 'quantity', 'hazard', 'reportedTime', 'description'],
     required: [],
     examples: ['illegal dumping', 'overflowing bin', 'litter', 'cleaning'],
+    options: { hazard: ['true', 'false'] },
   },
 };
 
@@ -59,9 +64,6 @@ const aliases = new Map([
   ['waste', 'waste-management'],
   ['cleaning', 'waste-management'],
 ]);
-const zoneTypes = ['Residential', 'Commercial', 'Mixed use'];
-const noiseTypes = ['music', 'machinery', 'construction'];
-
 export function intakeDefinition(branchId) {
   const key = aliases.get(String(branchId).toLowerCase());
   return key ? { key, ...definitions[key] } : null;
@@ -104,9 +106,9 @@ export function validateIntake(branchId, value) {
     throw Object.assign(new Error('Request details contain fields for another request type'), {
       status: 400,
     });
-  if (fields.zoneType && !zoneTypes.includes(fields.zoneType))
+  if (fields.zoneType && !definition.options?.zoneType?.includes(fields.zoneType))
     throw Object.assign(new Error('Select a supported zone type'), { status: 400 });
-  if (fields.noiseType && !noiseTypes.includes(fields.noiseType))
+  if (fields.noiseType && !definition.options?.noiseType?.includes(fields.noiseType))
     throw Object.assign(new Error('Select a supported noise type'), { status: 400 });
   if (definition.required.some((key) => typeof fields[key] !== 'string' || !fields[key].trim()))
     throw Object.assign(new Error('Complete the required branch-specific request details'), {
