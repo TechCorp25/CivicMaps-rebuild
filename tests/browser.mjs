@@ -685,6 +685,10 @@ try {
   await expect(page.locator('.audit')).toContainText('assign');
   await page.unroute('**/api/requests/*/audit', delayRecoveryHistory);
 
+  const recoveryAssignment = page.getByRole('combobox', { name: /^Assign officer/ });
+  await expect(recoveryAssignment).toHaveValue('00000000-0000-4000-8000-000000000002');
+  await recoveryAssignment.selectOption(secondOfficerId);
+  await page.getByLabel(/Reassignment reason/).fill('Synthetic recovery reassignment');
   const successfulB = page.waitForResponse(
     (response) =>
       response.request().method() === 'POST' &&
