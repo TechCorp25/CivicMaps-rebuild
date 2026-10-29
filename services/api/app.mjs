@@ -564,7 +564,15 @@ export function createApp({
             context: destination.id,
           }))
             await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);
-          const destinationActor = { ...actor, ...destination, context_id: destination.id };
+          // Keep the authenticated user identity while evaluating capabilities in the
+          // destination context. The destination binding also has an `id` field.
+          const destinationActor = {
+            ...actor,
+            ...destination,
+            id: actor.id,
+            role: actor.role,
+            context_id: destination.id,
+          };
           const destinationEntitlements = await entitlements(client, destinationActor);
           requireCapability(destinationEntitlements, 'requests.create');
           const { payload } = validateIntake(destination.branch_id, input.packageData);
@@ -645,6 +653,8 @@ export function createApp({
             const targetState = await entitlements(client, {
               ...actor,
               ...destination,
+              id: actor.id,
+              role: actor.role,
               context_id: destination.id,
             });
             requireCapability(targetState, 'requests.create');
