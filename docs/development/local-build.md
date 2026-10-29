@@ -18,13 +18,13 @@ Open CommandMAPS at http://127.0.0.1:5173 and Platform at http://127.0.0.1:5174.
 
 Synthetic accounts use `CivicMAPS-local-2026!` unless `CIVICMAPS_DEMO_PASSWORD` was set before the first seed. Seeding again preserves existing users/passwords and operational records:
 
-| Account | Access |
-| --- | --- |
-| `dispatch@alpha.example` | Create, assign and close in Alpha's parking context |
-| `officer@alpha.example` | Read assigned requests, acknowledge and record attendance |
-| `supervisor@alpha.example` | Read-only review in Alpha's parking context |
-| `dispatch@beta.example` | Separate Beta context |
-| `officer@beta.example` | Separate Beta officer |
+| Account                    | Access                                                    |
+| -------------------------- | --------------------------------------------------------- |
+| `dispatch@alpha.example`   | Create, assign and close in Alpha's parking context       |
+| `officer@alpha.example`    | Read assigned requests, acknowledge and record attendance |
+| `supervisor@alpha.example` | Read-only review in Alpha's parking context               |
+| `dispatch@beta.example`    | Separate Beta context                                     |
+| `officer@beta.example`     | Separate Beta officer                                     |
 
 These are development credentials, not an identity-provider integration. The isolated local database uses loopback trust authentication and must contain synthetic data only.
 
@@ -55,20 +55,23 @@ Browser exercise records remain labelled synthetic and closed in the development
 
 ## API surface
 
-| Method and path | Behaviour |
-| --- | --- |
-| GET `/api/health` | Database readiness |
-| POST `/api/auth/login` | Email/password login, opaque session cookie |
-| GET `/api/auth/session` | Current actor and CSRF token |
-| POST `/api/auth/logout` | Revoke session |
-| GET `/api/officers` | Officers in the actor's permitted context |
-| GET `/api/requests` | Scoped 100-row page with status and keyset cursor; optional case-insensitive literal `q` search for request number/address (max 250 characters); first-page counts cover the authorised search scope before status/paging. Officers see only assigned requests. |
-| GET `/api/requests/:id` | Independently read one scoped request, including when it is outside the loaded queue pages; inaccessible requests return 404 |
-| POST `/api/requests` | Create from address, coordinates and notes |
-| POST `/api/requests/:id/actions` | Assign, acknowledge, attend or close with current version |
-| GET `/api/requests/:id/audit` | Read-only scoped audit events, tied to the independently selected request/context |
+| Method and path                  | Behaviour                                                                                                                                                                                                                                                       |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET `/api/health`                | Database readiness                                                                                                                                                                                                                                              |
+| POST `/api/auth/login`           | Email/password login, opaque session cookie                                                                                                                                                                                                                     |
+| GET `/api/auth/session`          | Current actor and CSRF token                                                                                                                                                                                                                                    |
+| POST `/api/auth/logout`          | Revoke session                                                                                                                                                                                                                                                  |
+| GET `/api/officers`              | Officers in the actor's permitted context                                                                                                                                                                                                                       |
+| GET `/api/requests`              | Scoped 100-row page with status and keyset cursor; optional case-insensitive literal `q` search for request number/address (max 250 characters); first-page counts cover the authorised search scope before status/paging. Officers see only assigned requests. |
+| GET `/api/requests/:id`          | Independently read one scoped request, including when it is outside the loaded queue pages; inaccessible requests return 404                                                                                                                                    |
+| GET `/api/intake-destinations`   | Receiving contexts granted to the dispatcher in the same council, filtered by enabled request capability and supported intake schema                                                                                                                            |
+| POST `/api/requests`             | Create from confirmed address/coordinates, notes, a server-authorised destination context and a versioned department payload                                                                                                                                    |
+| POST `/api/requests/:id/actions` | Assign, acknowledge, attend or close with current version                                                                                                                                                                                                       |
+| GET `/api/requests/:id/audit`    | Read-only scoped audit events, tied to the independently selected request/context                                                                                                                                                                               |
 
 Authenticated mutations require `x-csrf-token`; operational writes also require `Idempotency-Key`. Reusing a key with a different operation returns 409. Stale versions return 409. Out-of-scope object access returns 404. Unknown fields, client-issued numbers and client-selected ownership are rejected.
+
+Department-aware request creation records source/destination provenance and preserves historical untyped rows. Automatic assignment is not available until authoritative area and signed-on duty eligibility sources are configured; new department requests remain visibly unassigned. See the [D3 implementation status](../plans/dispatch-d3/implementation-status-2026-10-29.md).
 
 ## Continuous integration
 

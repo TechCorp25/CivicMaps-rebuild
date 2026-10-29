@@ -105,7 +105,21 @@ test('upgrade preserves records, passwords and legacy receipts without inferred 
       'Idempotency-Key': key,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ address: 'Synthetic retry', latitude: 0, longitude: 0, notes: '' }),
+    body: JSON.stringify({
+      address: 'Synthetic retry',
+      latitude: 0,
+      longitude: 0,
+      notes: '',
+      destinationContextId: '10000000-0000-4000-8000-000000000001',
+      packageData: {
+        schemaVersion: 1,
+        fields: {
+          serviceType: 'parking',
+          vehicleColour: 'Unknown',
+          allegedOffence: 'Synthetic test report',
+        },
+      },
+    }),
   });
   assert.equal(replay.status, 409);
   assert.match((await replay.json()).error, /Legacy retry key/);
@@ -132,7 +146,7 @@ test('repeated migrations and seeds preserve grants and never resurrect revocati
       .count,
     before,
   );
-  assert.equal((await pool.query('SELECT * FROM civicmaps_migrations')).rowCount, 15);
+  assert.equal((await pool.query('SELECT * FROM civicmaps_migrations')).rowCount, 16);
   await pool.query(
     'UPDATE operating_context_grants SET revoked_at=clock_timestamp() WHERE user_id=$1',
     [dispatcher],

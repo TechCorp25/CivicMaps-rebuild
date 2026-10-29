@@ -4,7 +4,11 @@ import { mkdir } from 'node:fs/promises';
 import pg from 'pg';
 import { verifyM1Discovery } from './browser/m1-discovery.mjs';
 import { verifyMapPickedServiceRequest } from './dispatch/location-picker.mjs';
-const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
+const browser = await chromium.launch({
+  headless: true,
+  executablePath: process.env.CIVICMAPS_CHROMIUM_EXECUTABLE || undefined,
+  args: ['--disable-gpu'],
+});
 const database = new pg.Pool({
   connectionString:
     process.env.CIVICMAPS_DATABASE_URL ?? 'postgresql://civicmaps_local@127.0.0.1:55432/postgres',
@@ -92,15 +96,84 @@ async function createSyntheticRequest(page, address) {
       latitude: -37.814,
       longitude: 144.963,
       notes: 'Synthetic F11E browser scenario.',
+      destinationContextId: session.actor.context_id,
+      packageData: {
+        schemaVersion: 1,
+        fields: {
+          serviceType: 'parking',
+          vehicleColour: 'Unknown',
+          allegedOffence: 'Synthetic browser report',
+        },
+      },
     },
   });
   expect(response.status()).toBe(201);
-  return response.json();
+  const request = await response.json();
+  // These scenarios qualify the pre-existing lifecycle against historical untyped requests.
+  await database.query(
+    'UPDATE service_requests SET package_id=NULL,package_schema_version=NULL,package_payload=NULL,assignment_state=NULL,assignment_exception=NULL WHERE id=$1',
+    [request.id],
+  );
+  return request;
 }
 try {
   const dispatcher = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await dispatcher.newPage();
   await login(page, 'dispatch@alpha.example');
+  const mapRegion = page.getByRole('region', { name: 'Service request map' });
+  const operations = page.locator('details.operations-panel');
+  const mapBounds = await mapRegion.boundingBox();
+  const panelBounds = await operations.boundingBox();
+  expect(mapBounds.x + mapBounds.width).toBeLessThanOrEqual(panelBounds.x);
+  const panelToggle = operations.locator('summary');
+  await panelToggle.focus();
+  await page.keyboard.press('Enter');
+  await expect(operations).not.toHaveAttribute('open');
+  await expect(panelToggle).toContainText('Show operations');
+  await page.keyboard.press('Enter');
+  await expect(operations).toHaveAttribute('open');
+  await page.evaluate(() => {
+    const maps = window.google.maps;
+    window.__originalImportLibrary = maps.importLibrary;
+    maps.importLibrary = async (name) => {
+      if (name === 'marker') throw new Error('Synthetic marker failure');
+      return window.__originalImportLibrary(name);
+    };
+  });
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(mapRegion).toContainText(
+    'Request locations are temporarily unavailable on the map.',
+  );
+  await expect(page.getByRole('heading', { name: 'Operational queue' })).toBeVisible();
+  await page.evaluate(() => {
+    window.google.maps.importLibrary = window.__originalImportLibrary;
+  });
+  await mapRegion.getByRole('button', { name: 'Retry map' }).click();
+  await expect(mapRegion.getByRole('button', { name: 'Select SR location on map' })).toBeEnabled();
+  const unavailablePage = await dispatcher.newPage();
+  const failInitialQueue = (route) =>
+    route.fulfill({
+      status: 503,
+      contentType: 'application/json',
+      body: '{"error":"Unavailable"}',
+    });
+  await unavailablePage.route(/\/api\/requests\?/, failInitialQueue);
+  await unavailablePage.goto(origin);
+  await expect(
+    unavailablePage.getByRole('heading', { name: 'Requests unavailable' }),
+  ).toBeVisible();
+  await expect(unavailablePage.getByRole('heading', { name: 'No matching requests' })).toHaveCount(
+    0,
+  );
+  await expect(unavailablePage.locator('.operational-map')).toContainText(
+    'Request locations are unavailable',
+  );
+  await unavailablePage.unroute(/\/api\/requests\?/, failInitialQueue);
+  await unavailablePage.getByRole('button', { name: 'Retry refresh', exact: true }).click();
+  await expect(unavailablePage.getByRole('heading', { name: 'Requests unavailable' })).toHaveCount(
+    0,
+  );
+  await unavailablePage.close();
   const transportFixture = await createSyntheticRequest(page, `Transport recovery ${Date.now()}`);
   const transportRow = page.locator(`[data-request-id="${transportFixture.id}"]`);
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
@@ -116,6 +189,8 @@ try {
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('The operation could not be completed');
   await expect(page.getByRole('alert')).not.toContainText('private upstream diagnostic');
+  await expect(page.locator('.operational-map')).toContainText('locations may be stale');
+  await expect(transportRow).toBeVisible();
   await page.unroute(queuePath, failQueueWithHtml);
   await page.getByRole('button', { name: 'Retry refresh', exact: true }).click();
   await expect(page.getByRole('alert')).toHaveCount(0);
@@ -164,6 +239,9 @@ try {
   await expect(page.getByRole('option', { name: address })).toBeVisible();
   await page.getByRole('option', { name: address }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Location confirmed.' })).toBeVisible();
+  await page.getByLabel(/^Request type/).selectOption('parking');
+  await page.getByLabel(/Vehicle colour/).fill('Blue');
+  await page.getByLabel(/Alleged offence or parking concern/).fill('Reported parking obstruction');
   await page.getByLabel('Dispatch notes').fill('Synthetic browser verification; no real incident.');
   await page.getByRole('button', { name: 'Review request', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Review service request' })).toBeFocused();
@@ -202,6 +280,12 @@ try {
     (await database.query('SELECT notes FROM service_requests WHERE id=$1', [created.id])).rows[0]
       .notes,
   ).toContain('Synthetic browser');
+  // The following status-flow checks exercise a legacy untyped request. Keep
+  // new schema-backed requests unassigned until their eligibility feed is available.
+  await database.query(
+    'UPDATE service_requests SET package_id=NULL,package_schema_version=NULL,package_payload=NULL,assignment_state=NULL,assignment_exception=NULL WHERE id=$1',
+    [created.id],
+  );
 
   await verifyMapPickedServiceRequest(page, save, database);
 
@@ -422,7 +506,23 @@ try {
   const assignmentControl = page.getByRole('combobox', { name: /^Assign officer/ });
   await expect(assignmentControl).toHaveValue(secondOfficerId);
   await assignmentControl.selectOption('00000000-0000-4000-8000-000000000002');
-  expect((await concurrentAssignment(2, secondOfficerId)).status()).toBe(200);
+  await page.getByLabel(/Reassignment reason/).fill('Synthetic browser reassignment check');
+  const reassignment = page.waitForResponse(
+    (response) =>
+      response.request().method() === 'POST' &&
+      response.url().includes(`/api/requests/${staleAssignment.id}/actions`),
+  );
+  await page.getByRole('button', { name: 'Assign request', exact: true }).click();
+  expect((await reassignment).status()).toBe(200);
+  const reassignmentAudit = (
+    await database.query(
+      "SELECT details FROM audit_events WHERE request_id=$1 AND action='assign' ORDER BY id DESC LIMIT 1",
+      [staleAssignment.id],
+    )
+  ).rows[0].details;
+  expect(reassignmentAudit.reason).toBe('Synthetic browser reassignment check');
+  expect(reassignmentAudit.fromOfficerId).toBe(secondOfficerId);
+  expect(reassignmentAudit.toOfficerId).toBe('00000000-0000-4000-8000-000000000002');
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await expect(page.locator('.detail')).toContainText('Server-confirmed version 3');
   await expect(assignmentControl).toHaveValue('00000000-0000-4000-8000-000000000002');
@@ -525,7 +625,8 @@ try {
       data: {
         action: 'assign',
         version: 2,
-        officerId: '00000000-0000-4000-8000-000000000002',
+        officerId: secondOfficerId,
+        reason: 'Synthetic concurrent reassignment check',
       },
     },
   );
@@ -590,6 +691,10 @@ try {
   await expect(page.locator('.audit')).toContainText('assign');
   await page.unroute('**/api/requests/*/audit', delayRecoveryHistory);
 
+  const recoveryAssignment = page.getByRole('combobox', { name: /^Assign officer/ });
+  await expect(recoveryAssignment).toHaveValue('00000000-0000-4000-8000-000000000002');
+  await recoveryAssignment.selectOption(secondOfficerId);
+  await page.getByLabel(/Reassignment reason/).fill('Synthetic recovery reassignment');
   const successfulB = page.waitForResponse(
     (response) =>
       response.request().method() === 'POST' &&
@@ -699,6 +804,15 @@ try {
         latitude: -37.814,
         longitude: 144.963,
         notes: 'Disposable pagination fixture',
+        destinationContextId: session.actor.context_id,
+        packageData: {
+          schemaVersion: 1,
+          fields: {
+            serviceType: 'parking',
+            vehicleColour: 'Unknown',
+            allegedOffence: 'Synthetic pagination fixture',
+          },
+        },
       },
     });
     expect(response.status()).toBe(201);

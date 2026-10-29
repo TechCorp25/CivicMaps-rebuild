@@ -1,6 +1,8 @@
 # M3 — Package-aware parking intake
 
-Status: contract prepared; implementation has not started. PR #31 was owner-merged at `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`; M0 architecture/backlog assessment passed on the reachable candidate `a1a9a9a969d1d2efc9d1630980adcff3ebaf2b60`. The M0 owner-merge dependency is satisfied. Implementation remains subject to applicable policy decisions; receipt-only follow-up in draft PR #37 is not an M3 dependency.
+Status: department-aware implementation candidate in progress; full M3 acceptance remains open. PR #31 was owner-merged at `635063ff5ec8ab09ca4e7aa60b75a148e7ff308b`; M0 architecture/backlog assessment passed on the reachable candidate `a1a9a9a969d1d2efc9d1630980adcff3ebaf2b60`. The M0 owner-merge dependency is satisfied. Implementation remains subject to applicable policy decisions; receipt-only follow-up in draft PR #37 is not an M3 dependency.
+
+**Revision 2 implementation update (29 October 2026):** a partial department-aware intake implementation is in progress on `codex/dispatch-b0-revision-20261028`. The current additive API deliberately changes the proposed package-only request contract to accept a server-revalidated `destinationContextId` from same-council permitted operating contexts. See [Code21 implementation status](../../dispatch-d3/implementation-status-2026-10-29.md). The earlier recommendation to derive package solely from the current context is not sufficient for this new receiving-branch requirement. Initial allocation remains blocked on D-DUTY and D-ROUTING feeds and decisions.
 
 ## Goal and work
 

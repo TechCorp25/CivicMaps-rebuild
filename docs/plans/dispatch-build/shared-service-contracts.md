@@ -2,18 +2,18 @@
 
 Architecture contract for M0, not a claim these services exist. Prefer existing domain modules; do not introduce microservices or a plugin engine merely to create boundaries. Public wire contracts for each new milestone must be pinned and reviewed before code changes.
 
-| Responsibility | Shared ownership | Department ownership | Boundary and proof |
-|---|---|---|---|
-| Authentication/context | identity-access; organisation-jurisdiction-tenancy | None | Server resolves actor and context; never trust submitted tenant IDs |
-| Operational Code2/sign-on | officer-management | Approved operational configuration | Login does not imply duty; transitions versioned/audited; policy gate D-DUTY |
-| Request coordination | service-requests-dispatch | Typed package intake and outcomes | Common identity/location/assignment/version/audit; no mandatory parking fields |
-| Assignment/recipient routing | service-requests-dispatch with officer-management | Required package capabilities | Same eligibility checks for manual and automatic assignment; commit-time validation |
-| Search/pagination/detail | Shared request read contracts | Supported package filters | Counts and cursor queries use identical authorisation; governance F-002 ownership |
-| Location/zone/travel routing | gis-operations | Versioned authorised zone/reference configuration | Server authoritative zone result; provider adapter; no browser-authoritative eligibility |
-| SOS | emergency-response | Approved recipient configuration only | Authenticated origin, scoped recipients, acknowledgement/escalation/recovery; no operational UI until approved |
-| Notifications/comms | notification-delivery and recipient-groups | Template/event content within approved scope | Permission-checked recipients, delivery state, deduplication; no parking-specific transport |
-| Audit | audit-records | Domain event payload contract | Preserve historical records; immutable provenance; defensive rendering |
-| Parking catalogue/vehicle/outcome | Shared-reference and domain interfaces only | Parking package | No universal offence schedule or registration constraint inferred from preview |
+| Responsibility                    | Shared ownership                                   | Department ownership                              | Boundary and proof                                                                                             |
+| --------------------------------- | -------------------------------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Authentication/context            | identity-access; organisation-jurisdiction-tenancy | None                                              | Server resolves actor and context; never trust submitted tenant IDs                                            |
+| Operational Code2/sign-on         | officer-management                                 | Approved operational configuration                | Login does not imply duty; transitions versioned/audited; policy gate D-DUTY                                   |
+| Request coordination              | service-requests-dispatch                          | Typed package intake and outcomes                 | Common identity/location/assignment/version/audit; no mandatory parking fields                                 |
+| Assignment/recipient routing      | service-requests-dispatch with officer-management  | Required package capabilities                     | Same eligibility checks for manual and automatic assignment; commit-time validation                            |
+| Search/pagination/detail          | Shared request read contracts                      | Supported package filters                         | Counts and cursor queries use identical authorisation; governance F-002 ownership                              |
+| Location/zone/travel routing      | gis-operations                                     | Versioned authorised zone/reference configuration | Server authoritative zone result; provider adapter; no browser-authoritative eligibility                       |
+| SOS                               | emergency-response                                 | Approved recipient configuration only             | Authenticated origin, scoped recipients, acknowledgement/escalation/recovery; no operational UI until approved |
+| Notifications/comms               | notification-delivery and recipient-groups         | Template/event content within approved scope      | Permission-checked recipients, delivery state, deduplication; no parking-specific transport                    |
+| Audit                             | audit-records                                      | Domain event payload contract                     | Preserve historical records; immutable provenance; defensive rendering                                         |
+| Parking catalogue/vehicle/outcome | Shared-reference and domain interfaces only        | Parking package                                   | No universal offence schedule or registration constraint inferred from preview                                 |
 
 ## Data and interfaces
 
@@ -24,6 +24,8 @@ M1 contract requirements: filtered discovery and counts over the complete author
 M2 contract requirements: authenticated duty transitions and eligible availability reads distinct from sessions. A transition includes expected version and replay protection; audit binds actor/context. Exact state enum, sign-off and session relationship require approved D-DUTY before implementation.
 
 M3 request and migration contract proposal: see [M3 package-aware parking intake](milestones/M3-package-aware-parking-intake.md). It adds an allowlisted, versioned `packageData` envelope to the existing request body, uses server-derived `entitlements.packId`, and captures package identity/version/payload on new rows. Reject unexpected fields, cross-package coercion and client-selected council overrides. Keep the migration additive; old records need no fabricated classification. Package versioning is explicit, not arbitrary executable configuration. The proposal is not implementation approval; D-INTAKE still governs mandatory parking fields and catalogue choices.
+
+Revision 2 changes the create contract: a dispatcher may request a receiving context only from active, same-council operating-context grants. The API revalidates the grant and receiving capability, derives the package schema from the server-controlled branch registry, scopes the insert/audit to the receiving context, and records source context provenance. New package requests remain `RECEIVED`/unassigned when authoritative service-area and Code2 sign-on data are unavailable; a login roster is not duty evidence. See the D3 implementation status for limitations.
 
 M4 contract requirements: eligibility query and assignment use one domain policy. Commit-time checks are authoritative. Manual selection persists through zone refresh; stale eligibility/version is a visible rejection, not a silent substitute. Existing assigned work retains history if an officer becomes ineligible.
 

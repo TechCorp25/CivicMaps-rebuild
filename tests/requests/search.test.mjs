@@ -24,6 +24,15 @@ async function create(notes = '', address = 'Synthetic test location') {
     latitude: -37.814,
     longitude: 144.963,
     notes,
+    destinationContextId: '10000000-0000-4000-8000-000000000001',
+    packageData: {
+      schemaVersion: 1,
+      fields: {
+        serviceType: 'parking',
+        vehicleColour: 'Unknown',
+        allegedOffence: 'Synthetic test report',
+      },
+    },
   });
   assert.equal(result.status, 201, JSON.stringify(result.data));
   return result.data;

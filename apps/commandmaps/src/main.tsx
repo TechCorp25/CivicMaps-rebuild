@@ -1,4 +1,4 @@
-import { RequestComposer, type RequestDraft } from './RequestComposer';
+import { RequestComposer, type IntakeDestination, type RequestDraft } from './RequestComposer';
 import { RequestQueue, RequestStatus } from './RequestQueue';
 import { OperationalMap, type LocationPoint } from './GoogleLocationPicker';
 import '../../../_ds/colors_and_type.css';
@@ -56,6 +56,12 @@ type Request = {
   assigned_officer_id: string | null;
   version: number;
   updated_at: string;
+  branch_id?: string;
+  package_id?: string | null;
+  capture_binding_id?: string | null;
+  package_payload?: Record<string, string | boolean> | null;
+  assignment_state?: 'assigned' | 'unassigned' | null;
+  assignment_exception?: string | null;
 };
 type Officer = { id: string; name: string };
 type Audit = {
@@ -63,7 +69,14 @@ type Audit = {
   actor_id: string;
   action: string;
   created_at: string;
-  details: { reason?: string; from?: string; to?: string };
+  details: {
+    reason?: string;
+    from?: string;
+    to?: string;
+    fromOfficerId?: string;
+    toOfficerId?: string;
+    officerId?: string;
+  };
 };
 type QueuePage = {
   requests: Request[];
@@ -138,7 +151,10 @@ function App() {
   const [queueError, setQueueError] = useState('');
   const [queueCheckedAt, setQueueCheckedAt] = useState<string | null>(null);
   const [officers, setOfficers] = useState<Officer[]>([]);
+  const [intakeDestinations, setIntakeDestinations] = useState<IntakeDestination[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
+  const operationsPanel = useRef<HTMLDetailsElement>(null);
+  const detailPanel = useRef<HTMLElement>(null);
   const selectedRef = useRef<string | null>(null);
   const selectionGeneration = useRef(0);
   const historyRetryController = useRef<AbortController | null>(null);
@@ -149,6 +165,7 @@ function App() {
   const [auditState, setAuditState] = useState<AuditState | null>(null);
   const [actionRecoveries, setActionRecoveries] = useState<Record<string, RecoveryAction>>({});
   const [assignmentDraft, setAssignmentDraft] = useState('');
+  const [assignmentReasonDraft, setAssignmentReasonDraft] = useState('');
   const [closureReasonDraft, setClosureReasonDraft] = useState('');
   const assignmentDraftDirty = useRef(false);
   const [creating, setCreating] = useState(false);
@@ -168,6 +185,24 @@ function App() {
   const scopeKey = actor
     ? `${actor.id}:${actor.context_id ?? ''}:${actor.tenant_id}:${actor.jurisdiction_id}:${actor.branch_id}:${entitlement?.version ?? ''}`
     : '';
+  useEffect(() => {
+    if (!actor || !entitlement?.capabilities.includes('requests.create')) {
+      setIntakeDestinations([]);
+      return;
+    }
+    const controller = new AbortController();
+    const requestedScope = scopeKey;
+    api<IntakeDestination[]>('/intake-destinations', { signal: controller.signal }).then(
+      (result) => {
+        if (activeScope.current === requestedScope) setIntakeDestinations(result);
+      },
+      () => {
+        if (!controller.signal.aborted && activeScope.current === requestedScope)
+          setIntakeDestinations([]);
+      },
+    );
+    return () => controller.abort();
+  }, [actor, entitlement?.capabilities, scopeKey]);
   const loadGeneration = useRef(0);
   const queueLoadController = useRef<AbortController | null>(null);
   const selectedDetailController = useRef<AbortController | null>(null);
@@ -456,6 +491,8 @@ function App() {
     if (!actor || actor.role === 'ADMIN') return;
     ++loadGeneration.current;
     hasQueueSnapshot.current = false;
+    setQueueState('loading');
+    setQueueCheckedAt(null);
     setRequests([]);
     loadedRequestCount.current = 0;
     setQueueCounts(undefined);
@@ -627,11 +664,16 @@ function App() {
     setSelected(id);
   }
   function selectRequest(id: string) {
+    if (operationsPanel.current) operationsPanel.current.open = true;
+    requestAnimationFrame(() => {
+      if (selectedRef.current === id) detailPanel.current?.focus();
+    });
     if (selectedRef.current === id) return;
     setSelection(id);
     setDetailState({ id, status: 'loading' });
     assignmentDraftDirty.current = false;
     setAssignmentDraft(requests.find((request) => request.id === id)?.assigned_officer_id ?? '');
+    setAssignmentReasonDraft('');
     setClosureReasonDraft('');
   }
   async function perform(work: () => Promise<void>) {
@@ -701,18 +743,25 @@ function App() {
     }
     if (retry.current?.key === key) retry.current = null;
     if (expectedScope !== scopeGeneration.current) return result;
-    if (selectedRef.current === result.id)
+    const deliveredElsewhere =
+      path === '/requests' && result.capture_binding_id !== actor?.context_id;
+    if (!deliveredElsewhere && selectedRef.current === result.id)
       setDetailState({ id: result.id, status: 'ready', data: result });
-    setRequests((existing) => {
-      const index = existing.findIndex((request) => request.id === result.id);
-      if (index < 0) return path === '/requests' ? [result, ...existing].slice(0, 100) : existing;
-      return existing.map((request) => (request.id === result.id ? result : request));
-    });
+    if (!deliveredElsewhere)
+      setRequests((existing) => {
+        const index = existing.findIndex((request) => request.id === result.id);
+        if (index < 0) return path === '/requests' ? [result, ...existing].slice(0, 100) : existing;
+        return existing.map((request) => (request.id === result.id ? result : request));
+      });
     if (path === '/requests') {
-      setSelection(result.id);
+      setSelection(deliveredElsewhere ? null : result.id);
     }
     await load().catch(() => {});
-    setNotice('Saved to the operational record');
+    setNotice(
+      deliveredElsewhere
+        ? `Saved to the authorised ${result.package_id ?? result.branch_id} receiving branch. Switch to that branch context to review the request.`
+        : 'Saved to the operational record',
+    );
     return result;
   }
   function login(event: FormEvent<HTMLFormElement>) {
@@ -768,6 +817,7 @@ function App() {
           if (action === 'assign') {
             assignmentDraftDirty.current = false;
             setAssignmentDraft(result.assigned_officer_id ?? '');
+            setAssignmentReasonDraft('');
           }
         }
       } catch (err) {
@@ -1162,6 +1212,7 @@ function App() {
               busy={busy}
               error={error}
               uncertain={createUncertain}
+              destinations={intakeDestinations}
               initialLocation={draftLocation}
               onClose={() => {
                 setCreating(false);
@@ -1183,14 +1234,23 @@ function App() {
               onSelect={selectRequest}
               draftLocation={draftLocation}
               canCreate={can('requests.create')}
+              coverage={
+                queueState === 'unavailable' && hasQueueSnapshot.current ? 'stale' : queueState
+              }
+              hasMore={Boolean(nextCursor)}
               onCreateLocation={(point) => {
                 setDraftLocation(point);
                 setCreateUncertain(false);
                 setCreating(true);
               }}
             />
-            <details className="operations-panel" open>
-              <summary>Operational queue and selected request</summary>
+            <details ref={operationsPanel} className="operations-panel" open>
+              <summary>
+                <span className="operations-open-label">
+                  Operational queue and selected request
+                </span>
+                <span className="operations-closed-label">Show operations</span>
+              </summary>
               <div className="queue-layout">
                 <RequestQueue
                   requests={requests}
@@ -1202,12 +1262,18 @@ function App() {
                   search={search}
                   onSearch={setSearch}
                   counts={queueCounts}
+                  state={queueState}
                   hasMore={Boolean(nextCursor)}
                   loadingMore={loadingMore}
                   loadMoreError={loadMoreError}
                   onLoadMore={() => nextCursor && void load(false, nextCursor).catch(() => {})}
                 />
-                <section className="panel detail" aria-labelledby="detail-title">
+                <section
+                  ref={detailPanel}
+                  className="panel detail"
+                  aria-labelledby="detail-title"
+                  tabIndex={-1}
+                >
                   {!current ? (
                     <div className="empty">
                       <MapPin size={36} aria-hidden="true" />
@@ -1314,16 +1380,45 @@ function App() {
                               ? 'Assigned officer (directory unavailable)'
                               : 'Unassigned')}
                         </dd>
+                        {current.package_id && (
+                          <>
+                            <dt>Receiving department</dt>
+                            <dd>{current.package_id}</dd>
+                            <dt>Structured request details</dt>
+                            <dd>
+                              {Object.entries(current.package_payload ?? {})
+                                .map(([key, value]) => `${key}: ${value}`)
+                                .join(' · ') || 'No branch-specific details'}
+                            </dd>
+                          </>
+                        )}
+                        {current.assignment_state === 'unassigned' && (
+                          <>
+                            <dt>Dispatch exception</dt>
+                            <dd>
+                              {current.assignment_exception ?? 'Awaiting an eligible officer'}
+                            </dd>
+                          </>
+                        )}
                         <dt>Dispatch notes</dt>
                         <dd>{current.notes || 'No notes recorded'}</dd>
                       </dl>
+                      {current.package_id && current.assignment_state === 'unassigned' && (
+                        <p className="notice" role="status">
+                          Initial assignment and reassignment are unavailable until the receiving
+                          branch has an authoritative service-area and signed-on duty eligibility
+                          feed.
+                        </p>
+                      )}
                       {can('requests.assign') &&
+                        !current.package_id &&
                         ['RECEIVED', 'DISPATCHED'].includes(current.status) && (
                           <form
                             onSubmit={(e) => {
                               e.preventDefault();
                               action('assign', {
                                 officerId: new FormData(e.currentTarget).get('officerId'),
+                                reason: new FormData(e.currentTarget).get('reason'),
                               });
                             }}
                           >
@@ -1348,6 +1443,21 @@ function App() {
                                 ))}
                               </select>
                             </label>
+                            {current.assigned_officer_id &&
+                              assignmentDraft !== current.assigned_officer_id && (
+                                <label>
+                                  Reassignment reason <span className="muted">(Required)</span>
+                                  <textarea
+                                    name="reason"
+                                    required
+                                    maxLength={1000}
+                                    value={assignmentReasonDraft}
+                                    onChange={(event) =>
+                                      setAssignmentReasonDraft(event.target.value)
+                                    }
+                                  />
+                                </label>
+                              )}
                             <button
                               type="submit"
                               disabled={
@@ -1528,6 +1638,21 @@ function App() {
                                 {event.details.from && event.details.to && (
                                   <p>
                                     {event.details.from} → {event.details.to}
+                                  </p>
+                                )}
+                                {event.action === 'assign' && (
+                                  <p>
+                                    {typeof event.details.fromOfficerId === 'string'
+                                      ? `Officer ${event.details.fromOfficerId}`
+                                      : typeof event.details.officerId === 'string'
+                                        ? 'Prior assignee unavailable'
+                                        : 'Unassigned'}
+                                    {' → '}
+                                    {typeof event.details.toOfficerId === 'string'
+                                      ? `Officer ${event.details.toOfficerId}`
+                                      : typeof event.details.officerId === 'string'
+                                        ? `Officer ${event.details.officerId}`
+                                        : 'Unassigned'}
                                   </p>
                                 )}
                                 {typeof event.details.reason === 'string' &&

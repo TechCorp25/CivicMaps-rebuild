@@ -9,6 +9,10 @@ import { isTransientDatabaseError, pool, transaction } from './database.mjs';
 import { verifyPasswordSafely, hashPassword } from './passwords.mjs';
 import { transition, statusLabels } from '../../domains/service-requests-dispatch/lifecycle.mjs';
 import { resolveContext, permittedContexts } from './operating-context.mjs';
+import {
+  intakeDefinition,
+  validateIntake,
+} from '../../domains/service-requests-dispatch/intake.mjs';
 import { platformRouter } from './platform.mjs';
 import { configuredDataTarget, withMunicipalityResource } from './data-resources.mjs';
 import { createAdmissionGate } from './admission.mjs';
@@ -100,7 +104,12 @@ async function authenticated(client, req) {
   checkRouteSession(req, auth.rows[0]);
   return auth.rows[0];
 }
-async function scoped(req, mutate, work, { profile = false, capability = 'requests.read' } = {}) {
+async function scoped(
+  req,
+  mutate,
+  work,
+  { profile = false, capability = 'requests.read', beforeRole, afterRole } = {},
+) {
   return transaction(async (client) => {
     const user = await authenticated(client, req);
     const actor = await resolveContext(client, user, await routeContext(client, req, user));
@@ -123,6 +132,7 @@ async function scoped(req, mutate, work, { profile = false, capability = 'reques
       );
     actor.entitlements = await entitlements(client, actor);
     if (!profile) requireCapability(actor.entitlements, capability);
+    const prepared = beforeRole ? await beforeRole(client, user, actor) : undefined;
     // Transaction-local roles cannot leak to the next pooled request.
     await client.query('SET LOCAL ROLE civicmaps_local_app');
     for (const [name, value] of Object.entries({
@@ -136,7 +146,8 @@ async function scoped(req, mutate, work, { profile = false, capability = 'reques
     })) {
       await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);
     }
-    return work(client, actor);
+    const finalPrepared = afterRole ? await afterRole(client, user, actor, prepared) : prepared;
+    return work(client, actor, finalPrepared);
   });
 }
 async function audit(client, actor, request, action, details) {
@@ -156,7 +167,7 @@ async function audit(client, actor, request, action, details) {
     ],
   );
 }
-async function mutation(req, work, capability = 'requests.create') {
+async function mutation(req, work, capability = 'requests.create', scopedOptions = {}) {
   const key = req.headers['idempotency-key'];
   requireValue(
     typeof key === 'string' && /^[A-Za-z0-9_-]{8,128}$/.test(key),
@@ -167,7 +178,7 @@ async function mutation(req, work, capability = 'requests.create') {
   return scoped(
     req,
     true,
-    async (client, actor) => {
+    async (client, actor, prepared) => {
       await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [
         `${actor.id}:${actor.context_association_id}:${key}`,
       ]);
@@ -192,7 +203,7 @@ async function mutation(req, work, capability = 'requests.create') {
         );
         return prior.rows[0].response;
       }
-      const response = await work(client, actor);
+      const response = await work(client, actor, prepared);
       try {
         await client.query(
           'INSERT INTO mutation_receipts(actor_id,association_id,binding_id,key,fingerprint,response) VALUES ($1,$2,$3,$4,$5,$6)',
@@ -211,7 +222,7 @@ async function mutation(req, work, capability = 'requests.create') {
       }
       return response;
     },
-    { capability },
+    { capability, ...scopedOptions },
   );
 }
 
@@ -362,6 +373,39 @@ export function createApp({
       ),
     );
   });
+  app.get('/api/intake-destinations', async (req, res) => {
+    const destinations = await transaction(async (client) => {
+      const user = await authenticated(client, req);
+      const actor = await resolveContext(client, user, await routeContext(client, req, user));
+      requireValue(actor.role === 'DISPATCHER', 403, 'Dispatch access is required');
+      const contexts = (await permittedContexts(client, user)).filter(
+        (context) => context.municipality_id === actor.municipality_id,
+      );
+      await client.query('SET LOCAL ROLE civicmaps_local_app');
+      const result = [];
+      for (const context of contexts) {
+        const definition = intakeDefinition(context.branch_id);
+        if (!definition) continue;
+        const state = await entitlements(client, { ...user, context_id: context.id });
+        if (state.capabilities.includes('requests.create'))
+          result.push({
+            id: context.id,
+            branchId: context.branch_id,
+            label: definition.label,
+            schema: {
+              version: definition.version,
+              fields: definition.fields,
+              required: definition.required,
+              types: definition.types ?? [],
+              examples: definition.examples ?? [],
+              options: definition.options ?? {},
+            },
+          });
+      }
+      return result;
+    });
+    res.json(destinations);
+  });
   app.post('/api/auth/logout', async (req, res) => {
     // Locking the session row serialises logout against outstanding authorised writes.
     await transaction(async (client) => {
@@ -494,7 +538,14 @@ export function createApp({
     );
   });
   app.post('/api/requests', async (req, res) => {
-    const input = body(req, ['address', 'latitude', 'longitude', 'notes']);
+    const input = body(req, [
+      'address',
+      'latitude',
+      'longitude',
+      'notes',
+      'destinationContextId',
+      'packageData',
+    ]);
     requireValue(
       text(input.address, 250) && typeof input.notes === 'string' && input.notes.length <= 2000,
       400,
@@ -508,30 +559,130 @@ export function createApp({
       400,
       'Valid coordinates are required',
     );
+    requireValue(uuid.test(input.destinationContextId ?? ''), 400, 'Select a receiving branch');
     res.status(201).json(
-      await mutation(req, async (client, actor) => {
-        requireValue(actor.role === 'DISPATCHER', 403, 'Dispatch access is required');
-        const result = await client.query(
-          `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status,capture_binding_id,capture_binding_version)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'RECEIVED',$11,$12) RETURNING *`,
-          [
-            randomUUID(),
-            actor.tenant_id,
-            actor.jurisdiction_id,
-            actor.data_plane_id,
-            actor.organisation_id,
-            actor.branch_id,
-            input.address.trim(),
-            input.latitude,
-            input.longitude,
-            input.notes,
-            actor.context_id,
-            actor.context_version,
-          ],
-        );
-        await audit(client, actor, result.rows[0], 'created', { status: 'RECEIVED' });
-        return result.rows[0];
-      }),
+      await mutation(
+        req,
+        async (client, actor, destination) => {
+          requireValue(actor.role === 'DISPATCHER', 403, 'Dispatch access is required');
+          const definition = intakeDefinition(destination.branch_id);
+          requireValue(definition, 403, 'Receiving branch has no configured request form');
+          for (const [name, value] of Object.entries({
+            tenant: destination.tenant_id,
+            jurisdiction: destination.jurisdiction_id,
+            plane: destination.data_plane_id,
+            organisation: destination.organisation_id,
+            branch: destination.branch_id,
+            context: destination.id,
+          }))
+            await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);
+          // Keep the authenticated user identity while evaluating capabilities in the
+          // destination context. The destination binding also has an `id` field.
+          const destinationActor = {
+            ...actor,
+            ...destination,
+            id: actor.id,
+            role: actor.role,
+            context_id: destination.id,
+          };
+          const destinationEntitlements = await entitlements(client, destinationActor);
+          requireCapability(destinationEntitlements, 'requests.create');
+          const { payload } = validateIntake(destination.branch_id, input.packageData);
+          const result = await client.query(
+            `INSERT INTO service_requests(id,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,address,latitude,longitude,notes,status,capture_binding_id,capture_binding_version,origin_binding_id,package_id,package_schema_version,package_payload,assignment_state,assignment_exception)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'RECEIVED',$11,$12,$13,$14,$15,$16,'unassigned',$17) RETURNING *`,
+            [
+              randomUUID(),
+              destination.tenant_id,
+              destination.jurisdiction_id,
+              destination.data_plane_id,
+              destination.organisation_id,
+              destination.branch_id,
+              input.address.trim(),
+              input.latitude,
+              input.longitude,
+              input.notes,
+              destination.id,
+              destination.version,
+              actor.context_id,
+              definition.key,
+              payload.schemaVersion,
+              payload.fields,
+              'Service-area and signed-on duty eligibility are not configured for this environment.',
+            ],
+          );
+          await audit(client, destinationActor, result.rows[0], 'created', {
+            status: 'RECEIVED',
+            sourceContextId: actor.context_id,
+            destinationContextId: destination.id,
+            packageId: definition.key,
+            assignmentState: 'unassigned',
+            assignmentException: 'service-area-and-duty-eligibility-unconfigured',
+          });
+          // Mutation receipts belong to the dispatcher's source context, even when the SR is
+          // captured into another explicitly granted branch in the same council.
+          for (const [name, value] of Object.entries({
+            tenant: actor.tenant_id,
+            jurisdiction: actor.jurisdiction_id,
+            plane: actor.data_plane_id,
+            organisation: actor.organisation_id,
+            branch: actor.branch_id,
+            context: actor.context_id,
+          }))
+            await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);
+          return result.rows[0];
+        },
+        'requests.create',
+        {
+          beforeRole: async (client, user, actor) => {
+            requireValue(actor.role === 'DISPATCHER', 403, 'Dispatch access is required');
+            const permitted = await permittedContexts(client, user);
+            const destination = permitted.find(
+              (context) => context.id === input.destinationContextId,
+            );
+            requireValue(
+              destination && destination.municipality_id === actor.municipality_id,
+              403,
+              'Receiving branch is not authorised',
+            );
+            requireValue(
+              intakeDefinition(destination.branch_id),
+              403,
+              'Receiving branch has no configured request form',
+            );
+            return destination;
+          },
+          afterRole: async (client, _user, actor, destination) => {
+            for (const [name, value] of Object.entries({
+              tenant: destination.tenant_id,
+              jurisdiction: destination.jurisdiction_id,
+              plane: destination.data_plane_id,
+              organisation: destination.organisation_id,
+              branch: destination.branch_id,
+              context: destination.id,
+            }))
+              await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);
+            const targetState = await entitlements(client, {
+              ...actor,
+              ...destination,
+              id: actor.id,
+              role: actor.role,
+              context_id: destination.id,
+            });
+            requireCapability(targetState, 'requests.create');
+            for (const [name, value] of Object.entries({
+              tenant: actor.tenant_id,
+              jurisdiction: actor.jurisdiction_id,
+              plane: actor.data_plane_id,
+              organisation: actor.organisation_id,
+              branch: actor.branch_id,
+              context: actor.context_id,
+            }))
+              await client.query('SELECT set_config($1,$2,true)', [`civicmaps.${name}`, value]);
+            return destination;
+          },
+        },
+      ),
     );
   });
   app.get('/api/requests/:id', async (req, res) => {
@@ -618,6 +769,12 @@ export function createApp({
           if (actor.role === 'OFFICER')
             requireValue(request.assigned_officer_id === actor.id, 404, 'Request not found');
           requireValue(actor.role !== 'SUPERVISOR', 403, 'This account has read-only access');
+          if (input.action === 'assign' && request.package_id)
+            requireValue(
+              false,
+              503,
+              'Officer assignment is unavailable until service-area and signed-on duty eligibility are configured',
+            );
           const next = transition(actor, request, input.action);
           requireValue(next, 409, 'Action is not permitted in the current state');
           requireValue(
@@ -627,7 +784,16 @@ export function createApp({
           );
           let officerId = request.assigned_officer_id;
           if (input.action === 'assign') {
+            requireValue(
+              request.assigned_officer_id !== input.officerId,
+              409,
+              'The selected officer is already assigned',
+            );
+            if (request.assigned_officer_id)
+              requireValue(text(input.reason, 1000), 400, 'A reassignment reason is required');
             const officer = await client.query(
+              // Current-context RLS policies validate effective operating grants.
+              // Legacy user scope columns are not authoritative for personnel membership.
               `SELECT id FROM users WHERE id=$1 AND active AND role='OFFICER'`,
               [input.officerId],
             );
@@ -642,7 +808,8 @@ export function createApp({
             from: request.status,
             to: next,
             reason: input.reason ?? null,
-            officerId,
+            fromOfficerId: request.assigned_officer_id,
+            toOfficerId: officerId,
           });
           return updated.rows[0];
         },

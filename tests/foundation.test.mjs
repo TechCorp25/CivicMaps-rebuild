@@ -10,6 +10,22 @@ const officerId = '00000000-0000-4000-8000-000000000002';
 const betaOfficer = '00000000-0000-4000-8000-000000000005';
 async function call(path, input, account = 'dispatch', key = randomUUID()) {
   const session = sessions[account];
+  const requestBody =
+    input && path === '/requests'
+      ? {
+          ...input,
+          destinationContextId:
+            input.destinationContextId ?? '10000000-0000-4000-8000-000000000001',
+          packageData: input.packageData ?? {
+            schemaVersion: 1,
+            fields: {
+              serviceType: 'parking',
+              vehicleColour: 'Unknown',
+              allegedOffence: 'Synthetic test report',
+            },
+          },
+        }
+      : input;
   const response = await fetch(`${origin}/api${path}`, {
     method: input === undefined ? 'GET' : 'POST',
     headers: {
@@ -17,7 +33,7 @@ async function call(path, input, account = 'dispatch', key = randomUUID()) {
       ...(session ? { Cookie: session.cookie, 'x-csrf-token': session.csrfToken } : {}),
       'Idempotency-Key': key,
     },
-    body: input === undefined ? undefined : JSON.stringify(input),
+    body: input === undefined ? undefined : JSON.stringify(requestBody),
   });
   return { status: response.status, data: await response.json(), response };
 }
@@ -29,7 +45,58 @@ async function create(notes = '', address = 'Synthetic test location') {
     notes,
   });
   assert.equal(result.status, 201, JSON.stringify(result.data));
+  // Existing lifecycle tests intentionally exercise historical rows with no captured intake schema.
+  await pool.query(
+    'UPDATE service_requests SET package_id=NULL,package_schema_version=NULL,package_payload=NULL,assignment_state=NULL,assignment_exception=NULL WHERE id=$1',
+    [result.data.id],
+  );
   return result.data;
+}
+async function addAlphaOfficer() {
+  const id = randomUUID();
+  await pool.query(
+    "INSERT INTO users SELECT $1,$2,name,password_hash,'OFFICER',tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id,true FROM users WHERE id=$3",
+    [id, `${id}@synthetic.example`, officerId],
+  );
+  await pool.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) SELECT $1,municipality_id FROM council_principal_owners WHERE user_id=$2',
+    [id, officerId],
+  );
+  await pool.query(
+    "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
+    [id],
+  );
+  return id;
+}
+async function addGrantScopedOfficerWithDifferentLegacyScope() {
+  const id = randomUUID();
+  await pool.query(
+    `INSERT INTO users(id,email,name,password_hash,role,tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id,active)
+     SELECT $1,$2,name,password_hash,'OFFICER','legacy-tenant','legacy-jurisdiction',
+       'legacy-plane','legacy-organisation','legacy-branch',team_id,true FROM users WHERE id=$3`,
+    [id, `${id}@synthetic.example`, officerId],
+  );
+  await pool.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) SELECT $1,municipality_id FROM council_principal_owners WHERE user_id=$2',
+    [id, officerId],
+  );
+  await pool.query(
+    "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,'10000000-0000-4000-8000-000000000001','2020-01-01')",
+    [id],
+  );
+  return id;
+}
+async function addAlphaOfficerWithoutOperatingGrant() {
+  const id = randomUUID();
+  await pool.query(
+    "INSERT INTO users SELECT $1,$2,name,password_hash,'OFFICER',tenant_id,jurisdiction_id,data_plane_id,organisation_id,branch_id,team_id,true FROM users WHERE id=$3",
+    [id, `${id}@synthetic.example`, officerId],
+  );
+  await pool.query(
+    'INSERT INTO council_principal_owners(user_id,municipality_id) SELECT $1,municipality_id FROM council_principal_owners WHERE user_id=$2',
+    [id, officerId],
+  );
+  return id;
 }
 async function insertQueueFixtures(activeCount = 105, closedCount = 110) {
   const source = (
@@ -279,6 +346,106 @@ test('queue filters, counts and keyset pages retain older active work and scope'
   assert.equal((await call('/requests?status=active&before=0')).status, 400);
   assert.equal((await call('/requests?status=active&before=9223372036854775808')).status, 400);
 });
+test('department intake requires authorised branch, validated fields and retains unassigned exception', async () => {
+  const destinations = await call('/intake-destinations');
+  assert.equal(destinations.status, 200);
+  assert.deepEqual(
+    destinations.data.map((item) => item.branchId),
+    ['parking'],
+  );
+  const request = await call('/requests', {
+    address: 'Synthetic intake location',
+    latitude: -37.814,
+    longitude: 144.963,
+    notes: 'Additional synthetic context',
+  });
+  assert.equal(request.status, 201);
+  assert.equal(request.data.package_id, 'parking');
+  assert.deepEqual(request.data.package_payload, {
+    serviceType: 'parking',
+    vehicleColour: 'Unknown',
+    allegedOffence: 'Synthetic test report',
+  });
+  assert.equal(request.data.status, 'RECEIVED');
+  assert.equal(request.data.assigned_officer_id, null);
+  assert.equal(request.data.assignment_state, 'unassigned');
+  assert.match(request.data.assignment_exception, /service-area and signed-on duty/i);
+  const unverifiedAssignment = await call(`/requests/${request.data.id}/actions`, {
+    action: 'assign',
+    version: 1,
+    officerId,
+  });
+  assert.equal(unverifiedAssignment.status, 503);
+  const invalid = await call('/requests', {
+    address: 'Synthetic intake location',
+    latitude: -37.814,
+    longitude: 144.963,
+    notes: '',
+    packageData: { schemaVersion: 1, fields: { vehicleColour: 'Blue' } },
+  });
+  assert.equal(invalid.status, 400);
+  const forged = await call('/requests', {
+    address: 'Synthetic cross-council attempt',
+    latitude: 0,
+    longitude: 0,
+    notes: '',
+    destinationContextId: '10000000-0000-4000-8000-000000000002',
+    packageData: {
+      schemaVersion: 1,
+      fields: { serviceType: 'parking', vehicleColour: 'Blue', allegedOffence: 'Reported' },
+    },
+  });
+  assert.equal(forged.status, 403);
+  const audit = await call(`/requests/${request.data.id}/audit`);
+  assert.equal(audit.data[0].details.assignmentState, 'unassigned');
+});
+test('manual reassignment records its reason and retains immutable from/to audit history', async () => {
+  const request = await create();
+  const replacement = await addAlphaOfficer();
+  await call(`/requests/${request.id}/actions`, { action: 'assign', version: 1, officerId });
+  const missingReason = await call(`/requests/${request.id}/actions`, {
+    action: 'assign',
+    version: 2,
+    officerId: replacement,
+  });
+  assert.equal(missingReason.status, 400);
+  const reassigned = await call(`/requests/${request.id}/actions`, {
+    action: 'assign',
+    version: 2,
+    officerId: replacement,
+    reason: 'Competing duties leave insufficient time.',
+  });
+  assert.equal(reassigned.status, 200);
+  const history = await call(`/requests/${request.id}/audit`);
+  assert.equal(history.data[2].details.fromOfficerId, officerId);
+  assert.equal(history.data[2].details.toOfficerId, replacement);
+  assert.equal(history.data[2].details.reason, 'Competing duties leave insufficient time.');
+});
+test('assignment follows the effective context grant instead of legacy user scope columns', async () => {
+  const request = await create();
+  const grantScopedOfficer = await addGrantScopedOfficerWithDifferentLegacyScope();
+  const directory = await call('/officers');
+  assert.ok(directory.data.some((item) => item.id === grantScopedOfficer));
+  const result = await call(`/requests/${request.id}/actions`, {
+    action: 'assign',
+    version: 1,
+    officerId: grantScopedOfficer,
+  });
+  assert.equal(result.status, 200, JSON.stringify(result.data));
+  assert.equal(result.data.assigned_officer_id, grantScopedOfficer);
+});
+test('matching legacy scope columns without an effective grant do not authorize assignment', async () => {
+  const request = await create();
+  const ungrantedOfficer = await addAlphaOfficerWithoutOperatingGrant();
+  const directory = await call('/officers');
+  assert.ok(!directory.data.some((item) => item.id === ungrantedOfficer));
+  const result = await call(`/requests/${request.id}/actions`, {
+    action: 'assign',
+    version: 1,
+    officerId: ungrantedOfficer,
+  });
+  assert.equal(result.status, 403);
+});
 test('scope denies cross-tenant list, audit, mutation and officer assignment', async () => {
   const request = await create();
   const beta = await call('/requests', undefined, 'beta');
@@ -430,7 +597,21 @@ test('competing updates with the same version cannot both commit', async () => {
   assert.equal((await call(`/requests/${request.id}/audit`)).data.length, 2);
 });
 test('missing CSRF and hostile browser origins are denied without persistence', async () => {
-  const input = { address: 'Must not persist', latitude: 0, longitude: 0, notes: '' };
+  const input = {
+    address: 'Must not persist',
+    latitude: 0,
+    longitude: 0,
+    notes: '',
+    destinationContextId: '10000000-0000-4000-8000-000000000001',
+    packageData: {
+      schemaVersion: 1,
+      fields: {
+        serviceType: 'parking',
+        vehicleColour: 'Unknown',
+        allegedOffence: 'Synthetic test report',
+      },
+    },
+  };
   for (const headers of [
     { Cookie: sessions.dispatch.cookie },
     {

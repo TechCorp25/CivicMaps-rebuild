@@ -1,6 +1,6 @@
 import { before, after, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createTestEnvironment } from './helpers/environment.mjs';
 import { resolveContext } from '../services/api/operating-context.mjs';
 let environment, pool, origin;
@@ -16,6 +16,21 @@ before(async () => {
 });
 after(async () => environment?.close());
 async function call(path, session, { data, context, key = randomUUID() } = {}) {
+  const requestBody =
+    data && path === '/requests'
+      ? {
+          ...data,
+          destinationContextId: data.destinationContextId ?? context ?? alpha,
+          packageData: data.packageData ?? {
+            schemaVersion: 1,
+            fields: {
+              serviceType: 'parking',
+              vehicleColour: 'Unknown',
+              allegedOffence: 'Synthetic test report',
+            },
+          },
+        }
+      : data;
   const response = await fetch(`${origin}/api${path}`, {
     method: data === undefined ? 'GET' : 'POST',
     headers: {
@@ -24,7 +39,7 @@ async function call(path, session, { data, context, key = randomUUID() } = {}) {
       ...(context === undefined ? {} : { 'x-civicmaps-context': context }),
       'Idempotency-Key': key,
     },
-    body: data === undefined ? undefined : JSON.stringify(data),
+    body: data === undefined ? undefined : JSON.stringify(requestBody),
   });
   return { status: response.status, data: await response.json(), response };
 }
@@ -56,7 +71,16 @@ async function account(bindings = []) {
       "INSERT INTO operating_context_grants(user_id,binding_id,effective_from) VALUES ($1,$2,'2020-01-01')",
       [id, binding],
     );
-  return { id, municipalityId, session: await login(email) };
+  // Fixture-created principals need sessions for context/RLS tests. Issuing those
+  // through the public login route consumes the same client bucket as other test
+  // logins, making the suite order dependent on the production throttle limit.
+  const token = randomBytes(32).toString('hex');
+  const csrfToken = randomUUID();
+  await pool.query(
+    "INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at,municipality_id) VALUES($1,$2,$3,now()+interval '1 hour',$4)",
+    [createHash('sha256').update(token).digest('hex'), id, csrfToken, municipalityId],
+  );
+  return { id, municipalityId, session: { cookie: `civicmaps_session=${token}`, csrfToken } };
 }
 async function binding({
   from = '2020-01-01',
@@ -64,14 +88,68 @@ async function binding({
   revoked = null,
   association = randomUUID(),
   version = 1,
+  branchId = 'parking',
+  sourceId = alpha,
 } = {}) {
   const id = randomUUID();
   await pool.query(
-    `INSERT INTO operating_context_bindings SELECT $1,$2,$3,municipality_id,tenant_id,organisation_id,jurisdiction_id,data_plane_id,branch_id,$4,$5,$6,now() FROM operating_context_bindings WHERE id=$7`,
-    [id, association, version, from, to, revoked, alpha],
+    `INSERT INTO operating_context_bindings SELECT $1,$2,$3,municipality_id,tenant_id,organisation_id,jurisdiction_id,data_plane_id,$8,$4,$5,$6,now() FROM operating_context_bindings WHERE id=$7`,
+    [id, association, version, from, to, revoked, sourceId, branchId],
   );
   return id;
 }
+
+test('authorised same-council branch intake is versioned, audited and kept unassigned', async () => {
+  const localLaws = await binding({ branchId: 'local-laws', sourceId: beta });
+  const user = await account([beta, localLaws]);
+  const destinations = await call('/intake-destinations', user.session, { context: beta });
+  assert.equal(destinations.status, 200);
+  assert.deepEqual(destinations.data.map((item) => item.id).sort(), [beta, localLaws].sort());
+  const input = {
+    ...payload,
+    destinationContextId: localLaws,
+    packageData: { schemaVersion: 1, fields: { serviceType: 'noise', reportedTime: '21:15' } },
+  };
+  const key = randomUUID();
+  const created = await call('/requests', user.session, { context: beta, data: input, key });
+  assert.equal(created.status, 201, JSON.stringify(created.data));
+  assert.equal(created.data.branch_id, 'local-laws');
+  assert.equal(created.data.origin_binding_id, beta);
+  assert.equal(created.data.package_id, 'local-laws');
+  assert.deepEqual(created.data.package_payload, input.packageData.fields);
+  assert.equal(created.data.status, 'RECEIVED');
+  assert.equal(created.data.assignment_state, 'unassigned');
+  const history = await call(`/requests/${created.data.id}/audit`, user.session, {
+    context: localLaws,
+  });
+  assert.equal(history.status, 200);
+  assert.equal(history.data[0].details.sourceContextId, beta);
+  assert.equal(history.data[0].details.destinationContextId, localLaws);
+  const readFromSource = await call('/requests', user.session, { context: beta });
+  assert.ok(!readFromSource.data.requests.some((request) => request.id === created.data.id));
+  const readAtDestination = await call('/requests', user.session, { context: localLaws });
+  assert.ok(readAtDestination.data.requests.some((request) => request.id === created.data.id));
+  const invisible = await call('/requests', user.session, {
+    context: beta,
+    data: { ...input, destinationContextId: alpha },
+  });
+  assert.equal(invisible.status, 403);
+  const assignment = await call(`/requests/${created.data.id}/actions`, user.session, {
+    context: localLaws,
+    data: { action: 'assign', version: 1, officerId: dispatcher },
+  });
+  assert.equal(assignment.status, 503);
+  await pool.query(
+    'UPDATE operating_context_grants SET revoked_at=clock_timestamp() WHERE user_id=$1 AND binding_id=$2',
+    [user.id, localLaws],
+  );
+  const replayAfterRevocation = await call('/requests', user.session, {
+    context: beta,
+    data: input,
+    key,
+  });
+  assert.equal(replayAfterRevocation.status, 403);
+});
 test('single context restores resolved scope; selectors and platform sessions cannot forge it', async () => {
   const session = await login('dispatch@alpha.example');
   assert.equal(
@@ -242,7 +320,7 @@ test('a replacement binding version preserves historical capture and scope-safe 
   const old = await binding({ association });
   const user = await account([old]);
   const key = randomUUID();
-  const created = await call('/requests', user.session, { data: payload, key });
+  const created = await call('/requests', user.session, { data: payload, context: old, key });
   assert.equal(created.status, 201);
   await pool.query(
     'UPDATE operating_context_bindings SET revoked_at=clock_timestamp() WHERE id=$1',
@@ -260,14 +338,17 @@ test('a replacement binding version preserves historical capture and scope-safe 
   );
   const restored = await call('/auth/session', user.session);
   assert.equal(restored.data.actor.context_version, 2);
-  const retry = await call('/requests', user.session, { data: payload, key });
-  assert.equal(retry.status, 409);
+  const retry = await call('/requests', user.session, { data: payload, context: old, key });
+  // The original destination is revoked, so its receipt cannot be replayed.
+  assert.equal(retry.status, 403);
   assert.equal(
     (await pool.query('SELECT id FROM service_requests WHERE capture_binding_id=$1', [next]))
       .rowCount,
     0,
   );
-  const fresh = await call('/requests', user.session, { data: payload });
+  const fresh = await call('/requests', user.session, {
+    data: { ...payload, destinationContextId: next },
+  });
   assert.equal(fresh.data.capture_binding_version, 2);
 });
 async function waitForLock(client, pid) {

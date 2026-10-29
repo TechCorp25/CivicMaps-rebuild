@@ -78,6 +78,15 @@ before(async () => {
       latitude: 0,
       longitude: 0,
       notes: '',
+      destinationContextId: alpha,
+      packageData: {
+        schemaVersion: 1,
+        fields: {
+          serviceType: 'parking',
+          vehicleColour: 'Unknown',
+          allegedOffence: 'Synthetic test report',
+        },
+      },
     }),
   });
   assert.equal(response.status, 201);

@@ -12,6 +12,21 @@ const actor = '00000000-0000-4000-8000-000000000001';
 const input = { address: 'Synthetic entitlement test', latitude: 0, longitude: 0, notes: '' };
 async function call(path, body, who = 'dispatch', key = randomUUID()) {
   const session = sessions[who];
+  const requestBody =
+    body && path === '/requests'
+      ? {
+          ...body,
+          destinationContextId: body.destinationContextId ?? binding,
+          packageData: body.packageData ?? {
+            schemaVersion: 1,
+            fields: {
+              serviceType: 'parking',
+              vehicleColour: 'Unknown',
+              allegedOffence: 'Synthetic test report',
+            },
+          },
+        }
+      : body;
   const response = await fetch(`${env.origin}/api${path}`, {
     method: body === undefined ? 'GET' : 'POST',
     headers: {
@@ -19,7 +34,7 @@ async function call(path, body, who = 'dispatch', key = randomUUID()) {
       'Idempotency-Key': key,
       ...(session ? { Cookie: session.cookie, 'x-csrf-token': session.csrfToken } : {}),
     },
-    body: body === undefined ? undefined : JSON.stringify(body),
+    body: body === undefined ? undefined : JSON.stringify(requestBody),
   });
   return { status: response.status, data: await response.json(), response };
 }
@@ -168,6 +183,10 @@ test('disable denies stale sessions and receipt replay while retaining authorise
   const key = randomUUID();
   const created = await call('/requests', input, 'dispatch', key);
   assert.equal(created.status, 201);
+  await pool.query(
+    'UPDATE service_requests SET package_id=NULL,package_schema_version=NULL,package_payload=NULL,assignment_state=NULL,assignment_exception=NULL WHERE id=$1',
+    [created.data.id],
+  );
   const id = created.data.id;
   const assigned = await call(`/requests/${id}/actions`, {
     action: 'assign',

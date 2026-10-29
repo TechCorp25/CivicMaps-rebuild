@@ -218,7 +218,21 @@ test('F07 issuance, atomic activation, explicit least privilege, recovery and di
       (
         await call(
           '/requests',
-          { address: 'Synthetic street', latitude: 0, longitude: 0, notes: '' },
+          {
+            address: 'Synthetic street',
+            latitude: 0,
+            longitude: 0,
+            notes: '',
+            destinationContextId: binding,
+            packageData: {
+              schemaVersion: 1,
+              fields: {
+                serviceType: 'parking',
+                vehicleColour: 'Unknown',
+                allegedOffence: 'Synthetic test report',
+              },
+            },
+          },
           headers,
         )
       ).status,
