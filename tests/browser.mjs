@@ -804,6 +804,15 @@ try {
         latitude: -37.814,
         longitude: 144.963,
         notes: 'Disposable pagination fixture',
+        destinationContextId: session.actor.context_id,
+        packageData: {
+          schemaVersion: 1,
+          fields: {
+            serviceType: 'parking',
+            vehicleColour: 'Unknown',
+            allegedOffence: 'Synthetic pagination fixture',
+          },
+        },
       },
     });
     expect(response.status()).toBe(201);
