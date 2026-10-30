@@ -16,7 +16,7 @@ No additional R2 defect was confirmed from the reviewed sources and fresh local 
 
 ## Coverage gaps and blockers
 
-- **Context7 unavailable:** required by the plan for version-compatible framework/runtime guidance; callable tool inventory search returned zero matches. No citation or retrieval is fabricated. This blocks complete A2 and R2 acceptance.
+- **Context7 unavailable for the current pass:** required by the plan for version-compatible framework/runtime guidance; callable tool inventory search returned zero matches. The historical 2026-10-24 reference map covers Express, React and node-postgres but not Playwright/Vite, lacks retained raw Context7 responses, and explicitly does not claim all material matches pinned versions. It cannot satisfy this plan's fresh retrieval requirement. No current citation or retrieval is fabricated. This blocks complete A2 and R2 acceptance.
 - **Accessibility conformance:** no axe or equivalent automated conformance suite was found. Existing keyboard/focus and narrow viewport tests are useful evidence but are not a WCAG audit.
 - **Live integrations/operations:** no AWS, live identity provider, map billing/provider qualification, production database, customer data, backup/restore on a deployment target, or release/bootstrap action was exercised.
 - **Hosted CI:** local checks passed, but GitHub-hosted CI was not run here. CI uses `ubuntu-24.04` and a PostgreSQL service; the workflow does not explicitly install PostgreSQL client utilities and depends on runner-provided availability.
