@@ -20,7 +20,7 @@
   "publication_owner": "coordinator",
   "execution_started": true,
   "active_builder_goal": null,
-  "active_checker_goal": "R5",
+  "active_checker_goal": null,
   "goals": [
     {
       "id": "R0",
@@ -74,15 +74,15 @@
     },
     {
       "id": "R5",
-      "status": "ready_for_check",
+      "status": "accepted",
       "builder_ready": true,
       "candidate_sha": "abac471dd1a0f7d1168bd63290df2f9c0e4239f8",
-      "review_report": null,
-      "verdict": null,
+      "review_report": "evidence/remediation/R5/abac471dd1a0f7d1168bd63290df2f9c0e4239f8/review.md",
+      "verdict": "accepted",
       "depends_on": [
         "R4"
       ],
-      "evidence": "evidence/remediation/R5/final-register.md; evidence/remediation/R5/evidence-index.md; evidence/remediation/R5/resumption-release-handoff.md; evidence/remediation/R5/acceptance-packet.md; evidence/remediation/R5/SHA256SUMS",
+      "evidence": "evidence/remediation/R5/final-register.md; evidence/remediation/R5/evidence-index.md; evidence/remediation/R5/resumption-release-handoff.md; evidence/remediation/R5/acceptance-packet.md; evidence/remediation/R5/SHA256SUMS; evidence/remediation/R5/abac471dd1a0f7d1168bd63290df2f9c0e4239f8/review.md; evidence/remediation/R5/abac471dd1a0f7d1168bd63290df2f9c0e4239f8/SHA256SUMS",
       "product_source_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f"
     }
   ],
@@ -125,7 +125,7 @@
       "resolution": "Current guidance retrievals and version qualifications are recorded in evidence/remediation/R2/context7-guidance-review.md. Fresh Astra Low review independently resolved and queried all five library families, confirmed the citations and version qualifications, and accepted R2 at candidate bfdf6f3fcd7e7d36fd28bde35d2df31986517846."
     }
   ],
-  "next_action": "R5 handoff candidate abac471dd1a0f7d1168bd63290df2f9c0e4239f8 is published and remote-verified. Product source remains accepted R4 candidate d02cbe02f13ea3476d805dc27cfc72185eb9119f. A fresh GPT-6 Astra Low assessment is required to accept R5; do not claim overall remediation completion before that pass. Keep PR #52 draft; merge and deployment remain unauthorized.",
+  "next_action": "All remediation goals R0-R5 are independently accepted or recorded not applicable. R5 handoff candidate abac471dd1a0f7d1168bd63290df2f9c0e4239f8 is independently accepted against product d02cbe02f13ea3476d805dc27cfc72185eb9119f. The final independent report and evidence index are published. PR #52 remains draft for owner review; merge and deployment are not authorised.",
   "merge_authorised": false,
   "deployment_authorised": false
 }
