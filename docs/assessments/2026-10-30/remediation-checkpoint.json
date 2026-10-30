@@ -20,7 +20,7 @@
   "publication_owner": "coordinator",
   "execution_started": true,
   "active_builder_goal": null,
-  "active_checker_goal": null,
+  "active_checker_goal": "R4",
   "goals": [
     {
       "id": "R0",
@@ -59,11 +59,11 @@
     },
     {
       "id": "R4",
-      "status": "blocked",
+      "status": "recheck_required",
       "builder_ready": true,
       "candidate_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f",
-      "review_report": "evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review-attempt-1.md",
-      "verdict": "blocked",
+      "review_report": null,
+      "verdict": null,
       "depends_on": [
         "R1",
         "R2",
@@ -123,7 +123,7 @@
       "resolution": "Current guidance retrievals and version qualifications are recorded in evidence/remediation/R2/context7-guidance-review.md. Fresh Astra Low review independently resolved and queried all five library families, confirmed the citations and version qualifications, and accepted R2 at candidate bfdf6f3fcd7e7d36fd28bde35d2df31986517846."
     }
   ],
-  "next_action": "R4 local qualification and product manifest at d02cbe02f13ea3476d805dc27cfc72185eb9119f passed independent evidence review, but Astra returned blocked while application workflow 41052458962 was in progress; dependency workflow 41052458823 succeeded. After exact-candidate application CI completes successfully, launch a fresh GPT-6 Astra Low review at the same candidate. R5 remains blocked until that review accepts R4. Merge and deployment remain unauthorized.",
+  "next_action": "Both required GitHub Actions succeeded at exact R4 candidate d02cbe02f13ea3476d805dc27cfc72185eb9119f: Implemented application checks run 41052458962 and Dependency advisory review run 41052458823. A fresh GPT-6 Astra Low final assessment of that unchanged candidate is now required; prior blocked review attempt remains immutable. R5 remains blocked until Astra accepts R4. Merge and deployment remain unauthorized.",
   "merge_authorised": false,
   "deployment_authorised": false
 }
