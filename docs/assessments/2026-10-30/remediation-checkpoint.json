@@ -94,6 +94,22 @@
       "status": "closed",
       "description": "Vite 6.4.4 was declared by the root and CommandMAPS manifests and affected by GHSA-8g5g-mxqh-grgj; candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e pins both declarations to 6.4.5 and adds repository-wide direct-dependency verification.",
       "resolution": "Accepted by fresh Astra Low review of candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e: root and nested CommandMAPS Vite declarations are 6.4.5; repository-wide manifest guard and all R1 checks pass."
+    },
+    {
+      "id": "R2-E01",
+      "severity": "medium",
+      "goal": "R2",
+      "status": "resolved",
+      "description": "The first R2 audit deliverable omitted active GIS tools and validation coverage.",
+      "resolution": "Added A5 inventory, available-check mapping, bounded offline validation, and precise spatial-validation limits; no product defect is asserted. See R2 review response and immutable review 6de266dc0c55323d90dc26be729df5d1b7b25d2b32cdb622213e0697771c53ec."
+    },
+    {
+      "id": "R2-E02",
+      "severity": "low",
+      "goal": "R2",
+      "status": "resolved",
+      "description": "The first R2 findings register contradicted the R1 packet about AUD-001 status.",
+      "resolution": "The R2 register now records AUD-001 as closed under accepted R1 and cites the immutable R1 review hash; it is not reopened or duplicated. See R2 review response and immutable review 6de266dc0c55323d90dc26be729df5d1b7b25d2b32cdb622213e0697771c53ec."
     }
   ],
   "external_requirements": [

@@ -1,23 +1,32 @@
 # R2 deduplicated findings register
 
-Candidate product source inspected: `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e`.
+Product source reviewed: `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e`. The report also responds to immutable R2 review `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/review/review.md` (SHA-256 `6de266dc0c55323d90dc26be729df5d1b7b25d2b32cdb622213e0697771c53ec`). See `review-response-6de266dc0c55323d90dc26be729df5d1b7b25d2b32cdb622213e0697771c53ec.md` for the detailed response.
 
-## Confirmed findings
+## Product findings
 
-| ID | Severity | State | Evidence and bounded follow-up |
+| ID | Severity | Owning goal | State | Evidence / disposition |
+| --- | --- | --- | --- | --- |
+| AUD-001 | Medium | R1 | **Closed under accepted R1** | GHSA-8g5g-mxqh-grgj affected Vite exactly 6.4.4; source candidate `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e` updates both root and CommandMAPS declarations to 6.4.5. R1 was independently accepted at that exact source. Immutable report: `../R1/92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/review/review.md`, SHA-256 `6b4fa2dfa0c71fdb2b755ac454d1a971660f0fba93bed3d2caf6b913bded75e8`. Root checkpoint records R1 accepted and AUD-001 closed. This finding remains R1-owned; R2 does not reopen or duplicate it. |
+
+No additional product defect was confirmed in the bounded R2 source/reproduction scope. No R3 product goal is instantiated.
+
+## Resolved R2 audit-deliverable findings
+
+| ID | Severity | State | Correction |
 | --- | --- | --- | --- |
-| AUD-001 | Medium | Existing R1 finding; open pending fresh R1 independent review | GHSA-8g5g-mxqh-grgj affects Vite exactly 6.4.4 and first patches at 6.4.5. The original R1 candidate omitted `apps/commandmaps/package.json:20`; this same occurrence is now pinned to 6.4.5 in candidate `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e`. The new repo-wide verifier scans every tracked/unignored `package.json` under the repository except `.git` and `node_modules`; it found 27 manifests and no direct Vite declaration except 6.4.5. Root installed/locked audit and all relevant checks passed. This is one advisory root cause; do not create a duplicate R3 finding. |
+| R2-E01 | Medium | **Resolved in this R2 evidence revision** | A5 now inventories both active GIS tools, local outputs, placeholder domain, CI/test status, bounded offline evidence and exact spatial-assignment/source-data blockers. See `gis-tool-inventory.md`, the A5 GIS map in `coverage-matrix.md`, and validator/log pair. No product GIS defect is asserted. |
+| R2-E02 | Low | **Resolved in this R2 evidence revision** | The AUD-001 row now states closed under R1 and cites the exact immutable accepted R1 report and its hash. Packet, report, checkpoint and register agree that R1 is accepted and AUD-001 is closed. |
 
-No additional R2 defect was confirmed from the reviewed sources and fresh local checks. R3 findings are therefore not instantiated by this evidence. AUD-001 remains assigned to R1 and remains open until the new exact candidate receives independent review.
+These are corrections to the R2 assessment deliverable, not application defects and not R3 work.
 
 ## Unconfirmed hypotheses
 
-- The API logs non-transient `error.message` to server stderr at `services/api/app.mjs`; no sensitive output was observed or reproduced in the synthetic tests. Whether production log collection adds additional redaction/retention controls was not inspected. This is an operational verification question, not a confirmed finding.
+- The API logs non-transient `error.message` to server stderr at `services/api/app.mjs`; no sensitive output was observed or reproduced in the synthetic checks. Production log collection/redaction/retention controls were not inspected. This remains an operational verification question, not a confirmed finding.
 
-## Coverage gaps and blockers
+## Open coverage requirements and blockers
 
-- **Context7 unavailable for the current pass:** required by the plan for version-compatible framework/runtime guidance; callable tool inventory search returned zero matches. The historical 2026-10-24 reference map covers Express, React and node-postgres but not Playwright/Vite, lacks retained raw Context7 responses, and explicitly does not claim all material matches pinned versions. It cannot satisfy this plan's fresh retrieval requirement. No current citation or retrieval is fabricated. This blocks complete A2 and R2 acceptance.
-- **Accessibility conformance:** no axe or equivalent automated conformance suite was found. Existing keyboard/focus and narrow viewport tests are useful evidence but are not a WCAG audit.
-- **Live integrations/operations:** no AWS, live identity provider, map billing/provider qualification, production database, customer data, backup/restore on a deployment target, or release/bootstrap action was exercised.
-- **Hosted CI:** local checks passed, but GitHub-hosted CI was not run here. CI uses `ubuntu-24.04` and a PostgreSQL service; the workflow does not explicitly install PostgreSQL client utilities and depends on runner-provided availability.
-- **Scope:** source audit and test evidence are bounded to the current synthetic CivicMaps product and listed files/checks. No native/mobile application, formal threat model, load test, or exhaustive security assurance is claimed.
+- **Context7 unavailable for the current pass:** the plan requires current version-compatible guidance for the pinned stack. Callable inventory search returned zero Context7 matches. The historical 2026-10-24 reference map covers Express, React and node-postgres but not Playwright/Vite, lacks raw retrieval records, and says it does not establish every pinned-version feature. No current retrieval is claimed. Full A2/R2 acceptance remains blocked on the required guidance or an explicit owner change.
+- **GIS spatial assignment and source provenance:** output structure and local coordinate fixtures were checked offline, but generated outputs do not retain point geometry or source feature IDs, raw source exports are absent, and active tools always fetch/write. Actual coordinate bounds, point-in-polygon membership, nearest-segment mapping, block/side accuracy, source freshness and licensing remain unverified. The precise limitation and evidence prerequisite are in `gis-tool-inventory.md`.
+- **Accessibility conformance:** no axe/equivalent automated conformance suite was found. Keyboard/focus/narrow viewport browser flows are evidence for those paths, not a WCAG audit.
+- **Live integrations/operations and hosted CI:** no AWS/provider/identity/map billing/production operation, deployment-target backup/restore, customer data, or hosted GitHub CI was exercised.
+- **Scope:** this is a bounded source and offline-artifact audit, not a formal threat model, load test, deployed-role inventory, native/mobile audit, or exhaustive security assurance.
