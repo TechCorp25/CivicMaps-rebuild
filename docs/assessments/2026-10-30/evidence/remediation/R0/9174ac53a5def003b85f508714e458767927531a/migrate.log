@@ -1,0 +1,5 @@
+
+> civicmaps-local@0.1.0 db:migrate
+> node services/api/migrate.mjs
+
+Foundation migrations applied or already present
