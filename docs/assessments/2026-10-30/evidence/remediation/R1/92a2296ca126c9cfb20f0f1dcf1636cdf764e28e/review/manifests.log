@@ -1,0 +1,5 @@
+
+> civicmaps-local@0.1.0 verify:vite-manifests
+> node scripts/verify-vite-manifests.mjs
+
+Verified 27 package manifests: every direct Vite declaration is 6.4.5.

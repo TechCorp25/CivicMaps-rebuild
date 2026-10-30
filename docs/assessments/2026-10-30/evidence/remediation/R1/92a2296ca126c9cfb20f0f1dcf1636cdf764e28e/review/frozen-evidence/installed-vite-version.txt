@@ -1,0 +1,4 @@
+6.4.5
+civicmaps-local@0.1.0 /workspace/work/remediation-2026-10-31/builder
+└── vite@6.4.5
+

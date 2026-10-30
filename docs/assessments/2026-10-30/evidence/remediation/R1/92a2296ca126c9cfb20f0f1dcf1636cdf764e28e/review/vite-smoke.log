@@ -1,0 +1,31 @@
+The request url "/tmp/civicmaps-vite-fs-smoke-Ak8qCE/.env" is outside of Vite serving allow list.
+
+- /tmp/civicmaps-vite-fs-smoke-Ak8qCE
+- /workspace/work/remediation-2026-10-31/checker/node_modules/vite/dist/client
+
+Refer to docs https://vite.dev/config/server-options.html#server-fs-allow for configurations and more details.
+
+The request url "/tmp/civicmaps-vite-fs-smoke-Ak8qCE/.env" is outside of Vite serving allow list.
+The request url "/tmp/civicmaps-vite-fs-smoke-Ak8qCE/.env?raw" is outside of Vite serving allow list.
+{
+  "vite": "6.4.5",
+  "ordinaryPage": 200,
+  "ordinaryModule": 200,
+  "denied": [
+    {
+      "path": "/@fs<fixture-root>/.env",
+      "status": 403,
+      "markerLeaked": false
+    },
+    {
+      "path": "/@fs<fixture-root>/.env?import",
+      "status": 403,
+      "markerLeaked": false
+    },
+    {
+      "path": "/@fs<fixture-root>/.env?raw",
+      "status": 403,
+      "markerLeaked": false
+    }
+  ]
+}

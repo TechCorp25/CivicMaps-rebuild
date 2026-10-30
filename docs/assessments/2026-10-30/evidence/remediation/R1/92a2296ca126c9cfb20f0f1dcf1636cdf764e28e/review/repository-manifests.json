@@ -1,0 +1,114 @@
+[
+  {
+    "file": "apps/civicmaps-platform/package.json",
+    "vite": {}
+  },
+  {
+    "file": "apps/commandmaps/package.json",
+    "vite": {
+      "devDependencies": "6.4.5"
+    }
+  },
+  {
+    "file": "apps/enforcementmaps-mobile/package.json",
+    "vite": {}
+  },
+  {
+    "file": "apps/enforcementmaps-web/package.json",
+    "vite": {}
+  },
+  {
+    "file": "apps/public-portal/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/asset-management/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/audit-records/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/calendar-business-time/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/case-investigations/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/controlled-data-exchange/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/emergency-response/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/evidence-collection/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/gis-operations/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/identity-access/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/identity-federation/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/infringement-management/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/legislative-policy-catalogue/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/notification-delivery/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/officer-management/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/organisation-jurisdiction-tenancy/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/recipient-groups/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/reporting-analytics/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/service-requests-dispatch/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/shared-reference-data/package.json",
+    "vite": {}
+  },
+  {
+    "file": "domains/workflow-configuration/package.json",
+    "vite": {}
+  },
+  {
+    "file": "geo-data/package.json",
+    "vite": {}
+  },
+  {
+    "file": "package.json",
+    "vite": {
+      "devDependencies": "6.4.5"
+    }
+  }
+]

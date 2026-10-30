@@ -34,15 +34,15 @@
     },
     {
       "id": "R1",
-      "status": "ready_for_check",
+      "status": "accepted",
       "builder_ready": true,
       "candidate_sha": "92a2296ca126c9cfb20f0f1dcf1636cdf764e28e",
-      "review_report": null,
-      "verdict": null,
+      "review_report": "evidence/remediation/R1/92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/review/review.md",
+      "verdict": "pass",
       "depends_on": [
         "R0"
       ],
-      "evidence": "evidence/remediation/R1/corrective-report-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/corrective-validation-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/SHA256SUMS; evidence/remediation/R1/122e56de88923a2eabc075ed677a15299049436c/review.md; evidence/remediation/R1/review-errata-122e56de88923a2eabc075ed677a15299049436c.md"
+      "evidence": "evidence/remediation/R1/corrective-report-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/corrective-validation-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/SHA256SUMS; evidence/remediation/R1/92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/review/review.md; evidence/remediation/R1/122e56de88923a2eabc075ed677a15299049436c/review.md"
     },
     {
       "id": "R2",
@@ -91,8 +91,9 @@
       "id": "AUD-001",
       "severity": "medium",
       "goal": "R1",
-      "status": "open",
-      "description": "AUD-001: Vite 6.4.4 affected by GHSA-8g5g-mxqh-grgj; corrective R1 candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e updates both root and nested manifests to 6.4.5 and adds repository-wide manifest verification; awaiting independent recheck."
+      "status": "closed",
+      "description": "Vite 6.4.4 was declared by the root and CommandMAPS manifests and affected by GHSA-8g5g-mxqh-grgj; candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e pins both declarations to 6.4.5 and adds repository-wide direct-dependency verification.",
+      "resolution": "Accepted by fresh Astra Low review of candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e: root and nested CommandMAPS Vite declarations are 6.4.5; repository-wide manifest guard and all R1 checks pass."
     }
   ],
   "external_requirements": [
@@ -106,7 +107,7 @@
       "resolution": "Retrieve current version-compatible guidance or obtain explicit owner change to this requirement."
     }
   ],
-  "next_action": "Continue R2 A1\u2013A5 source/coverage review and evidence. Context7 remains an explicit unresolved A2 acceptance dependency; do not mark R2 complete while unavailable. R1 corrective source 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e is ready for coordinator publication and fresh independent review; AUD-001 remains open pending that review.",
+  "next_action": "R1 accepted on exact candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e. Continue R2 independent A1-A5 assessment and obtain fresh Astra assessment of the R2 defect register; Context7 remains an unresolved requirement that blocks full R2/R4 acceptance.",
   "merge_authorised": false,
   "deployment_authorised": false
 }

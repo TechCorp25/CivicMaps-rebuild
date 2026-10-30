@@ -1,0 +1,8 @@
+dependencies: exit=1
+apps/nested/package.json declares vite 6.4.4; expected 6.4.5
+devDependencies: exit=1
+apps/nested/package.json declares vite 6.4.4; expected 6.4.5
+optionalDependencies: exit=1
+apps/nested/package.json declares vite 6.4.4; expected 6.4.5
+fixed: exit=0
+Verified 1 package manifests: every direct Vite declaration is 6.4.5.

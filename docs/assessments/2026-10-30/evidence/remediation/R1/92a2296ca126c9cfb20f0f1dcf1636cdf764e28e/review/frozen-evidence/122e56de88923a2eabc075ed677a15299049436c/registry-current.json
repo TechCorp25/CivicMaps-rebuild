@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "EPERM",
+    "summary": "FetchError: request to https://registry.npmjs.org/vite failed, reason: connect EPERM 172.31.3.125:8080 - Local (undefined:undefined)",
+    "detail": "The operation was rejected by your operating system.\nIt is likely you do not have the permissions to access this file as the current user\n\nIf you believe this might be a permissions issue, please double-check the\npermissions of the file and its containing directories, or try running\nthe command again as root/Administrator."
+  }
+}
