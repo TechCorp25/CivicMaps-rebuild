@@ -9,6 +9,6 @@ Caddy v2.10.2 loopback fixture commands:
 - `CIVICMAPS_CADDY_BINARY=/workspace/work/remediation-2026-10-31/tools/caddy/caddy node tests/ingress-contract.mjs`
 - `CIVICMAPS_DATABASE_URL=postgres://civicmaps_builder@127.0.0.1:55461/civicmaps_builder CIVICMAPS_CADDY_BINARY=/workspace/work/remediation-2026-10-31/tools/caddy/caddy node tests/ingress-login.mjs`
 
-Both passed. Logs are `ingress-contract.log` and `ingress-login.log`. The second command tests Caddy+Express with separate HTTP socket clients and synthetic Alpha/Beta/Platform tenants.
+Both passed. Logs are `ingress-contract.log` and `ingress-login.log`. These Caddy fixtures were run during the R2 read-only pass on the immediately preceding R1 product candidate; the corrective candidate changed only Vite manifests and the `check` guard, with no API or Caddy source changes. The second command tests Caddy+Express with separate HTTP socket clients and synthetic Alpha/Beta/Platform tenants.
 
 Repository marker scans: `rg -n 'test\\.(skip|only|todo)|describe\\.(skip|only)|it\\.(skip|only|todo)' tests` returned no matches. `rg -n 'axe|accessibility' tests apps/*/package.json .github` returned no matches. Context7 callable tool inventory filter returned 0.

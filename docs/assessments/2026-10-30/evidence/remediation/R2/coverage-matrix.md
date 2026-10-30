@@ -13,8 +13,9 @@ Candidate product source: `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e` (same check
 ## Source-level security notes
 
 - Request bodies are capped at 32 KiB; writes require allowed browser origin and scoped CSRF/session, then resolve a locked operating context and use transaction-local role/scope settings.
-- SQL data values are parameterized in reviewed API paths; resource identifiers and routing inputs are validated before external access. AWS calls use `execFile` with argument vectors and bounded timeouts; exception text is translated to stable redacted messages before the API error handler.
+- SQL data values are parameterized in reviewed API paths; the few dynamic database/role identifiers come from `resourceNames()`, which requires UUID-shaped job and municipality IDs and constructs fixed-prefix identifiers. `applyDataMigrations()` separately constrains runtime role names. AWS calls use `execFile` with argument vectors and bounded timeouts; exception text is translated to stable redacted messages before the API error handler.
 - Context, principal, entitlement, resource, and route changes use database constraints/RLS, idempotency receipts, audit rows, leases or version checks as applicable. Reviewed tests include negative authority cases and migration failure/retry.
+- A read-only query against the synthetic PostgreSQL 15.18 database returned `has_schema_privilege('public','public','CREATE') = false`, relevant to the fixed `pg_catalog,public` paths on reviewed SECURITY DEFINER functions. This result applies only to the tested initialized database; deployed database privilege state was not inspected.
 - The generic HTTP 5xx body does not expose internal error text. The API writes non-transient `error.message` to server stderr; no credential/log-exfiltration path was reproduced. Production logging/redaction configuration remains an operational verification gap.
 
 R2 is not marked complete: the Context7 input is a named required criterion and is unavailable. This matrix records actual inspected areas and explicit limits; it does not claim a clean independent review or exhaustive security assurance.

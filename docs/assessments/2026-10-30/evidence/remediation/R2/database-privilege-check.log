@@ -1,0 +1,5 @@
+Read-only query against the authorized dedicated synthetic PostgreSQL 15.18 container after integration checks:
+
+PATH=/workspace/work/remediation-2026-10-31/builder-work/R1:$PATH psql -Atqc "SELECT current_setting('server_version'), has_schema_privilege('public','public','CREATE')"
+
+Result: `15.18 (Debian 15.18-1-pgdg12+1)|f`; exit 0. In this tested database, PUBLIC cannot create objects in `public`, relevant to SECURITY DEFINER functions whose fixed search_path includes `public`. This is limited to the synthetic instance; no claim is made about an uninspected deployed database.
