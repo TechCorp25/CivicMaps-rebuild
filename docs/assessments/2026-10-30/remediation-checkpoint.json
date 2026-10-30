@@ -19,8 +19,8 @@
   },
   "publication_owner": "coordinator",
   "execution_started": true,
-  "active_builder_goal": "R2",
-  "active_checker_goal": null,
+  "active_builder_goal": null,
+  "active_checker_goal": "R2",
   "goals": [
     {
       "id": "R0",
@@ -46,15 +46,15 @@
     },
     {
       "id": "R2",
-      "status": "blocked",
+      "status": "ready_for_check",
       "builder_ready": true,
-      "candidate_sha": "fb2d7f0cf9da5dd2feecea88b774f6f0c55694d3",
-      "review_report": "evidence/remediation/R2/fb2d7f0cf9da5dd2feecea88b774f6f0c55694d3/review/review.md",
-      "verdict": "blocked",
+      "candidate_sha": "92a2296ca126c9cfb20f0f1dcf1636cdf764e28e",
+      "review_report": null,
+      "verdict": null,
       "depends_on": [
         "R0"
       ],
-      "evidence": "evidence/remediation/R2/acceptance-packet.md; evidence/remediation/R2/coverage-matrix.md; evidence/remediation/R2/findings-register.md; evidence/remediation/R2/report.md; evidence/remediation/R2/SHA256SUMS; evidence/remediation/R2/fb2d7f0cf9da5dd2feecea88b774f6f0c55694d3/review/review.md",
+      "evidence": "evidence/remediation/R2/acceptance-packet.md; evidence/remediation/R2/coverage-matrix.md; evidence/remediation/R2/findings-register.md; evidence/remediation/R2/report.md; evidence/remediation/R2/context7-guidance-review.md; evidence/remediation/R2/SHA256SUMS; evidence/remediation/R2/fb2d7f0cf9da5dd2feecea88b774f6f0c55694d3/review/review.md",
       "product_source_sha": "92a2296ca126c9cfb20f0f1dcf1636cdf764e"
     },
     {
@@ -84,7 +84,7 @@
   ],
   "dynamic_goal_family": {
     "prefix": "R3",
-    "status": "awaiting-R2-Context7-resolution; no additional confirmed product defects; R2-E01/E02 resolved",
+    "status": "awaiting-R2-independent-review; no additional confirmed product defects; R2-E01/E02 resolved",
     "goals": []
   },
   "findings": [
@@ -116,15 +116,14 @@
   "external_requirements": [
     {
       "id": "context7",
-      "status": "unavailable-at-last-check",
+      "status": "retrieved-pending-independent-review",
       "blocks": [
-        "R2-full-acceptance",
-        "R4-full-acceptance"
+        "R2-final-acceptance-pending-independent-review"
       ],
-      "resolution": "Retrieve current version-compatible guidance or obtain explicit owner change to this requirement."
+      "resolution": "Current guidance retrievals and version qualifications are recorded in evidence/remediation/R2/context7-guidance-review.md. Independent reviewer must confirm the sources and documented version limitations satisfy the plan before R2 is accepted."
     }
   ],
-  "next_action": "R2-E01 and R2-E02 were independently verified corrected at exact candidate fb2d7f0cf9da5dd2feecea88b774f6f0c55694d3. Astra verdict is blocked solely because required current version-compatible Context7 retrieval is unavailable. Do not start R4 acceptance until Context7 is satisfied or owner changes requirement. Recheck Context7 availability; preserve no merge/deployment.",
+  "next_action": "R2 A1-A5 evidence, including current Context7 retrievals for all five required library families, is ready for fresh independent review against product source 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e. Confirm exact and non-exact documentation versions satisfy the plan before changing R2 to accepted. Do not begin R4 acceptance until R2 is independently accepted. Merge and deployment remain unauthorized.",
   "merge_authorised": false,
   "deployment_authorised": false
 }

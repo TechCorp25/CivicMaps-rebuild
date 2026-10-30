@@ -1,0 +1,8 @@
+Command: python3 version comparison over package-lock.json and node_modules/*/package.json
+express: lock=5.2.1; installed=5.2.1; agree=True
+react: lock=19.2.0; installed=19.2.0; agree=True
+react-dom: lock=19.2.0; installed=19.2.0; agree=True
+pg: lock=8.20.0; installed=8.20.0; agree=True
+playwright: lock=1.58.2; installed=1.58.2; agree=True
+@playwright/test: lock=1.58.2; installed=1.58.2; agree=True
+vite: lock=6.4.5; installed=6.4.5; agree=True
