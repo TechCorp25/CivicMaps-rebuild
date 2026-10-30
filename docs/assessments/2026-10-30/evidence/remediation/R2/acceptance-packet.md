@@ -2,11 +2,11 @@
 
 ## Contract
 
-Task: CivicMaps-rebuild remediation plan 1.0.0, goal R2. Product source under review: `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e`. Review A1–A5 against the requirements in `docs/assessments/2026-10-30/work-plan.md` and R2 acceptance row in `remediation-plan.md`. Do not treat passing tests as exhaustive security assurance or infer R1 acceptance.
+Task: CivicMaps-rebuild remediation plan 1.0.0, goal R2. Product source under review: `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e` (the PR head also contains later audit/evidence-only commits; no product code changed after this source SHA). Review A1–A5 against the requirements in `docs/assessments/2026-10-30/work-plan.md` and R2 acceptance row in `remediation-plan.md`. Do not treat passing tests as exhaustive security assurance or infer R1 acceptance.
 
 ## Current state
 
-Builder source audit and raw local evidence are recorded in `coverage-matrix.md`, `findings-register.md`, `report.md`, and this directory's checksummed logs. The plan requires Context7 guidance for the pinned dependencies; current callable tool inventory search found zero Context7 matches. No retrieval is claimed. R2 remains in progress with that unresolved A2 acceptance dependency. AUD-001 remains an open R1 finding awaiting fresh independent review; it is not a duplicate R2 finding. No R3 goal is instantiated because no additional defect was confirmed.
+Builder source audit and raw local evidence are recorded in `coverage-matrix.md`, `findings-register.md`, `report.md`, and this directory's checksummed logs. The plan requires Context7 guidance for the pinned dependencies; current callable tool inventory search found zero Context7 matches. No retrieval is claimed. R2 remains in progress with that unresolved A2 acceptance dependency. AUD-001 is accepted and closed under R1 at source SHA `92a2296ca126c9cfb20f0f1dcf1636cdf764e28e`; it is not a duplicate R2 finding. No R3 goal is instantiated because no additional defect was confirmed.
 
 ## Evidence scope
 

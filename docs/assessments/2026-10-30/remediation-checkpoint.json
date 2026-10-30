@@ -20,7 +20,7 @@
   "publication_owner": "coordinator",
   "execution_started": true,
   "active_builder_goal": "R2",
-  "active_checker_goal": null,
+  "active_checker_goal": "R2",
   "goals": [
     {
       "id": "R0",
@@ -46,8 +46,8 @@
     },
     {
       "id": "R2",
-      "status": "in_progress",
-      "builder_ready": false,
+      "status": "ready_for_check",
+      "builder_ready": true,
       "candidate_sha": "92a2296ca126c9cfb20f0f1dcf1636cdf764e28e",
       "review_report": null,
       "verdict": null,
@@ -107,7 +107,7 @@
       "resolution": "Retrieve current version-compatible guidance or obtain explicit owner change to this requirement."
     }
   ],
-  "next_action": "R1 accepted on exact candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e. Continue R2 independent A1-A5 assessment and obtain fresh Astra assessment of the R2 defect register; Context7 remains an unresolved requirement that blocks full R2/R4 acceptance.",
+  "next_action": "R2 A1-A5 audit package is ready for independent Astra review at exact published PR head; source code is 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e. Context7 remains unavailable and blocks full R2/R4 acceptance. Continue only independent work while review proceeds.",
   "merge_authorised": false,
   "deployment_authorised": false
 }
