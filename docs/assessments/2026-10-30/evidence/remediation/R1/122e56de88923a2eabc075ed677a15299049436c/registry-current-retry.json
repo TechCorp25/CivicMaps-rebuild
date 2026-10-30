@@ -1,0 +1,29 @@
+{
+  "version": "6.4.5",
+  "dist": {
+    "shasum": "8da9987120422f92e432b6d25535b82cee867dad",
+    "tarball": "https://registry.npmjs.org/vite/-/vite-6.4.5.tgz",
+    "fileCount": 35,
+    "integrity": "sha512-4enwjFfi4IwtEh0w+jPzpLVOFQiPHmmzPxcHXQOyEur47o6u0jE573DmGpjA+7irXoMLYRZD5ZaFUEneS3abPg==",
+    "signatures": [
+      {
+        "sig": "MEUCIQDMK3/pOrZI6kxjXzkBB4L2u+acNHbs1SkeEBYBIZv8TwIgb4MPvKc5VDQyC/sP4WesilUZPdyh3+zb1bLM14yNhYI=",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "sig": "MEUCIQCtXrQlI2N8iU+OV/kyWh/lb9VuH8FRSeQ869DsbRwA6wIgeftvTKpck+VF8qSYGOSPN1cgVuXYI2cXSh2E63j4YXk=",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      }
+    ],
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/vite@6.4.5",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v1"
+      }
+    },
+    "unpackedSize": 2663493
+  },
+  "engines": {
+    "node": "^18.0.0 || ^20.0.0 || >=22.0.0"
+  }
+}

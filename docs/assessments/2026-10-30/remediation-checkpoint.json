@@ -19,7 +19,7 @@
   },
   "publication_owner": "coordinator",
   "execution_started": true,
-  "active_builder_goal": null,
+  "active_builder_goal": "R2",
   "active_checker_goal": null,
   "goals": [
     {
@@ -36,24 +36,25 @@
       "id": "R1",
       "status": "ready_for_check",
       "builder_ready": true,
-      "candidate_sha": "122e56de88923a2eabc075ed677a15299049436c",
+      "candidate_sha": "92a2296ca126c9cfb20f0f1dcf1636cdf764e28e",
       "review_report": null,
       "verdict": null,
       "depends_on": [
         "R0"
       ],
-      "evidence": "evidence/remediation/R1/report.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/SHA256SUMS; evidence/remediation/R1/candidate-source.sha256"
+      "evidence": "evidence/remediation/R1/corrective-report-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/corrective-validation-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/SHA256SUMS; evidence/remediation/R1/122e56de88923a2eabc075ed677a15299049436c/review.md; evidence/remediation/R1/review-errata-122e56de88923a2eabc075ed677a15299049436c.md"
     },
     {
       "id": "R2",
-      "status": "pending",
+      "status": "in_progress",
       "builder_ready": false,
-      "candidate_sha": null,
+      "candidate_sha": "92a2296ca126c9cfb20f0f1dcf1636cdf764e28e",
       "review_report": null,
       "verdict": null,
       "depends_on": [
         "R0"
-      ]
+      ],
+      "evidence": "evidence/remediation/R2/acceptance-packet.md; evidence/remediation/R2/coverage-matrix.md; evidence/remediation/R2/findings-register.md; evidence/remediation/R2/report.md; evidence/remediation/R2/SHA256SUMS"
     },
     {
       "id": "R4",
@@ -82,7 +83,7 @@
   ],
   "dynamic_goal_family": {
     "prefix": "R3",
-    "status": "awaiting-R2-findings",
+    "status": "awaiting-R2-resolution; no additional confirmed defects",
     "goals": []
   },
   "findings": [
@@ -91,7 +92,7 @@
       "severity": "medium",
       "goal": "R1",
       "status": "open",
-      "description": "Pinned Vite 6.4.4 affected by GHSA-8g5g-mxqh-grgj per initial registry evidence; revalidate fixed patch before implementation."
+      "description": "AUD-001: Vite 6.4.4 affected by GHSA-8g5g-mxqh-grgj; corrective R1 candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e updates both root and nested manifests to 6.4.5 and adds repository-wide manifest verification; awaiting independent recheck."
     }
   ],
   "external_requirements": [
@@ -105,7 +106,7 @@
       "resolution": "Retrieve current version-compatible guidance or obtain explicit owner change to this requirement."
     }
   ],
-  "next_action": "Coordinator publishes/freezes the R1 candidate at the recorded source SHA and starts a fresh GPT-6 Astra Low review. Keep R1 unaccepted until its verdict; R2 remains pending.",
+  "next_action": "Continue R2 A1\u2013A5 source/coverage review and evidence. Context7 remains an explicit unresolved A2 acceptance dependency; do not mark R2 complete while unavailable. R1 corrective source 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e is ready for coordinator publication and fresh independent review; AUD-001 remains open pending that review.",
   "merge_authorised": false,
   "deployment_authorised": false
 }

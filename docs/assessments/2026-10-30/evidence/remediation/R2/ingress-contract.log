@@ -1,0 +1,1 @@
+PASS actual Caddy host allowlist, authority preservation, secret injection and client forwarding-header rejection (loopback HTTP fixture only).

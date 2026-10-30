@@ -1,0 +1,1 @@
+PASS actual Caddy + Express API: independent socket clients, same-client limit, cross-client identity limit, Alpha/Beta/Platform isolation and spoofed/duplicate client-header overwrite (local HTTP only).

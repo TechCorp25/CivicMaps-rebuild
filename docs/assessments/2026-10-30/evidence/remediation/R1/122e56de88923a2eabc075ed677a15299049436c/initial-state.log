@@ -1,0 +1,4 @@
+HEAD 122e56de88923a2eabc075ed677a15299049436c
+Initial git status --porcelain: empty
+Node v24.19.0; npm 11.9.0
+Initial Docker socket access in sandbox failed: operation not permitted; escalated local daemon access succeeded.
