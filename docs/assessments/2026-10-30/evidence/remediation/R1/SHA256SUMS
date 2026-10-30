@@ -1,7 +1,8 @@
-ac8a4d7371ea8437c532605dd95b6a77b346ae2d504e28bf8422169ab758c51f  ./acceptance-packet.md
+851305562d03dd167bfdc2837ac2117ea868e03ffe50f4ef9d8d05bf947818fe  ./acceptance-packet.md
 f67016e1ab5b35d3edeee5b7ea377de86b6728f20c42f727f5d04a1d2e816133  ./activation-browser.log
 a01ae612c85235be78eadd5dec0418b228726c8e05f526e4c30eff523bdab99f  ./advisory.json
 75e38362789f2a91cbe03ae8a8684259b3ff9d40de0ca1a1f8f6d05032bd4688  ./backup-focused-final.log
+c77b2e20ec0a2ab3bb5ee60467a73919a045db0ddbb94fb2e707274b580b955f  ./candidate-source.sha256
 aa20b7edb9d2aa3a7bc1f5267283c6585ed28f81ad8838ec5bb6c70c77d5a4c8  ./check-final.log
 ba1254f5ea8461a4b5c354f3c21ad25528dd4527c8a606f6470498841cebd2f4  ./chromium-version.log
 8185929dccb419fb9179f37b00f16e05b9243ad7b5a2d11f394cc9df44645a7b  ./commandmaps-browser.log
@@ -20,7 +21,7 @@ a0dc4c085afff73e906638b0c0cebac6e129004a2865cd761de6b618f003a301  ./postgres-cli
 a0dc4c085afff73e906638b0c0cebac6e129004a2865cd761de6b618f003a301  ./postgres-client-wrappers/pg_dump
 a0dc4c085afff73e906638b0c0cebac6e129004a2865cd761de6b618f003a301  ./postgres-client-wrappers/pg_restore
 a0dc4c085afff73e906638b0c0cebac6e129004a2865cd761de6b618f003a301  ./postgres-client-wrappers/psql
-173653d7247e58ec98373691791dfcc476ff4d51ac79ac27a140da16ff891454  ./report.md
+ddf917e7d4102f90541babf7ac57560a369893555ad7d413aaaae2c26fc13657  ./report.md
 49c1929001c9521c8c9df59af8d73cd56b4ed9c42dad83875ffadb983854ad05  ./routing-backup-focused.log
 abbb9760d286f289f8ebd14c4a4c5c7435c3444202c9c513be5031db4594fee6  ./setup.log
 b40c09171dfa2774873674e95eb89a268926c99a1dde983bf31fdceb0784b7fd  ./vite-fs-smoke.log

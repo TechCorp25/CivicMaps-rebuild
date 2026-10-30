@@ -1,6 +1,6 @@
 # R1 builder evidence report
 
-Goal: R1 — remove confirmed finding AUD-001. Initial source/base: `9174ac53a5def003b85f508714e458767927531a` (R0 candidate, independently accepted). Product delta is the exact Vite patch from 6.4.4 to 6.4.5 in `package.json` and `package-lock.json`; no application source or configuration changed. Candidate SHA is recorded in the remediation checkpoint after the local commit.
+Goal: R1 — remove confirmed finding AUD-001. Initial source/base: `9174ac53a5def003b85f508714e458767927531a` (R0 candidate, independently accepted). Product delta is the exact Vite patch from 6.4.4 to 6.4.5 in `package.json` and `package-lock.json`; no application source or configuration changed. Candidate product SHA: `122e56de88923a2eabc075ed677a15299049436c`. A following documentation-only ledger commit records the SHA; product files at the candidate SHA are unchanged.
 
 ## Advisory revalidation and patch choice
 

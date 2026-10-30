@@ -36,13 +36,13 @@
       "id": "R1",
       "status": "ready_for_check",
       "builder_ready": true,
-      "candidate_sha": null,
+      "candidate_sha": "122e56de88923a2eabc075ed677a15299049436c",
       "review_report": null,
       "verdict": null,
       "depends_on": [
         "R0"
       ],
-      "evidence": "evidence/remediation/R1/report.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/SHA256SUMS"
+      "evidence": "evidence/remediation/R1/report.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/SHA256SUMS; evidence/remediation/R1/candidate-source.sha256"
     },
     {
       "id": "R2",
@@ -105,7 +105,7 @@
       "resolution": "Retrieve current version-compatible guidance or obtain explicit owner change to this requirement."
     }
   ],
-  "next_action": "Coordinator freezes the completed R1 candidate and submits it for fresh GPT-6 Astra Low review. R2 remains pending until R1 review completes.",
+  "next_action": "Coordinator publishes/freezes the R1 candidate at the recorded source SHA and starts a fresh GPT-6 Astra Low review. Keep R1 unaccepted until its verdict; R2 remains pending.",
   "merge_authorised": false,
   "deployment_authorised": false
 }

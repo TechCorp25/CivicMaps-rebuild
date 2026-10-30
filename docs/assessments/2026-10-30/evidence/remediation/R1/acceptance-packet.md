@@ -6,6 +6,7 @@ Assess R1 against the authoritative remediation plan and the pinned source SHA r
 
 - Task ID/version: CivicMaps-rebuild remediation plan 1.0.0, R1.
 - Baseline source SHA: `9174ac53a5def003b85f508714e458767927531a`.
+- Candidate source SHA: `122e56de88923a2eabc075ed677a15299049436c` (R1 product candidate; the following ledger commit changes evidence/checkpoint records only).
 - Required outcome: remove the verified Vite 6.4.4 advisory finding with the smallest supported compatible patch, preserve npm 11.9.0 setup semantics, and retain exact dependency and behavior evidence.
 - Acceptance: installed and locked Vite agree; vulnerable Vite 6.4.4 is absent; production/full dependency scans have no AUD-001 or new high/critical advisories; remaining advisories are explicitly triaged; locked setup, full check and all four sequential browser suites pass; dev-server behavior is reviewed without claiming an unsupported exploit reproduction.
 - Do not infer R2 completion from R1. Context7 is not supplied as satisfied evidence; its status remains explicit.
@@ -13,7 +14,7 @@ Assess R1 against the authoritative remediation plan and the pinned source SHA r
 ## Product inventory
 
 - `package.json`, `package-lock.json` — exact Vite patch update.
-- `../remediation-checkpoint.json` — R0 accepted, R1 review state and exact candidate SHA.
+- `../../../remediation-checkpoint.json` — R0 accepted, R1 review state and exact candidate SHA.
 - `report.md` — R1 factual evidence index.
 - `advisory.json`, `vite-registry-metadata.json` — raw vendor/registry records.
 - `check-final.log`, `dependency-audit/`, four browser logs, plus `vite-fs-smoke.mjs` and `vite-fs-smoke.log` — raw sanitized execution evidence.
