@@ -20,7 +20,7 @@
   "publication_owner": "coordinator",
   "execution_started": true,
   "active_builder_goal": null,
-  "active_checker_goal": null,
+  "active_checker_goal": "R4",
   "goals": [
     {
       "id": "R0",
@@ -59,16 +59,18 @@
     },
     {
       "id": "R4",
-      "status": "pending",
-      "builder_ready": false,
-      "candidate_sha": null,
+      "status": "ready_for_check",
+      "builder_ready": true,
+      "candidate_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f",
       "review_report": null,
       "verdict": null,
       "depends_on": [
         "R1",
         "R2",
         "all-instantiated-R3-goals"
-      ]
+      ],
+      "evidence": "evidence/remediation/R4/acceptance-packet.md; evidence/remediation/R4/context7-guidance-review.md; evidence/remediation/R4/evidence-SHA256SUMS.txt; evidence/remediation/R4/product-tree-manifest.sha256",
+      "product_source_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f"
     },
     {
       "id": "R5",
@@ -121,7 +123,7 @@
       "resolution": "Current guidance retrievals and version qualifications are recorded in evidence/remediation/R2/context7-guidance-review.md. Fresh Astra Low review independently resolved and queried all five library families, confirmed the citations and version qualifications, and accepted R2 at candidate bfdf6f3fcd7e7d36fd28bde35d2df31986517846."
     }
   ],
-  "next_action": "R2 is accepted at bfdf6f3fcd7e7d36fd28bde35d2df31986517846, with product source 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e. R3 is not applicable because no additional product defects were confirmed. Begin R4 integrated qualification and independent assessment. Corrected the stale candidate SHA and abbreviated product source SHA in this receipt commit. Merge and deployment remain unauthorized.",
+  "next_action": "R4 local qualification packet and unchanged product manifest are published at candidate d02cbe02f13ea3476d805dc27cfc72185eb9119f. Independent Astra Low review is in progress at that exact SHA. Hosted CI runs 41052458962 and 41052458823 were queued for the candidate and must succeed before R4 acceptance. R5 remains blocked until Astra passes R4 and required hosted CI succeeds. Merge and deployment remain unauthorized.",
   "merge_authorised": false,
   "deployment_authorised": false
 }
