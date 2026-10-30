@@ -1,0 +1,16 @@
+AGENTS.md: OK
+.github/workflows/ci.yml: OK
+package.json: OK
+geo-data/package.json: OK
+geo-data/fetch-com-roads.mjs: OK
+geo-data/generate_melbourne_cbd_street_blocks.py: OK
+geo-data/com_assets_by_area.json: OK
+geo-data/out/melbourne_cbd_street_blocks.json: OK
+geo-data/data/zones.json: OK
+geo-data/data/parking-zones.json: OK
+geo-data/data/streets.json: OK
+geo-data/data/street-numbers.json: OK
+domains/gis-operations/README.md: OK
+domains/gis-operations/package.json: OK
+domains/gis-operations/src/.gitkeep: OK
+domains/gis-operations/tests/.gitkeep: OK

@@ -1,0 +1,7 @@
+address_output: streets=202 blocks=401 assigned_numbers=13193 unknown_side_groups=0 empty_number_groups=0
+road_output: generated=2026-03-02T07:44:56.587Z areas=15 embedded_zones=15 zone_points=69 assets=532 duplicate_signatures=0 area_labels_match=True
+local_coordinate_fixtures: zones=15 parking_zones=1 streets=2 street_number_ranges=1
+representative records: A'Beckett Street / Elizabeth–Queen block has populated north/south arrays; road asset records have valid name/type.
+limits: generated address/road outputs contain no source coordinates/raw feature IDs; no offline point-in-polygon or representative spatial-assignment check is possible from retained files.
+scope: read-only local JSON/source parsing; no imports of GIS dependencies, external fetch, or product-data writes
+PASS: bounded offline structure, embedded-zone coordinate, and representative-record checks
