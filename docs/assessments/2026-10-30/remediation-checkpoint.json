@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "plan_version": "1.0.0",
+  "date": "2026-10-31",
+  "timezone": "Australia/Melbourne",
+  "pr": 52,
+  "branch": "codex/code-audit-2026-10-30",
+  "baseline_sha": "b168dc0ce2b3d28011588b497e8e6fc459c2aa6a",
+  "initial_checkpoint_sha": "42507f392beb5f0143b9f840754b95866671153f",
+  "builder": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "medium",
+    "fork_turns": "none"
+  },
+  "checker": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "low",
+    "fork_turns": "none"
+  },
+  "publication_owner": "coordinator",
+  "execution_started": true,
+  "active_builder_goal": null,
+  "active_checker_goal": null,
+  "goals": [
+    {
+      "id": "R0",
+      "status": "accepted",
+      "builder_ready": true,
+      "candidate_sha": "9174ac53a5def003b85f508714e458767927531a",
+      "review_report": "evidence/remediation/R0/9174ac53a5def003b85f508714e458767927531a/review.md",
+      "verdict": "pass",
+      "depends_on": [],
+      "evidence": "evidence/remediation/R0/environment.md; evidence/remediation/R0/acceptance-packet.md"
+    },
+    {
+      "id": "R1",
+      "status": "accepted",
+      "builder_ready": true,
+      "candidate_sha": "92a2296ca126c9cfb20f0f1dcf1636cdf764e28e",
+      "review_report": "evidence/remediation/R1/92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/review/review.md",
+      "verdict": "pass",
+      "depends_on": [
+        "R0"
+      ],
+      "evidence": "evidence/remediation/R1/corrective-report-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/corrective-validation-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/SHA256SUMS; evidence/remediation/R1/92a2296ca126c9cfb20f0f1dcf1636cdf764e28e/review/review.md; evidence/remediation/R1/122e56de88923a2eabc075ed677a15299049436c/review.md"
+    },
+    {
+      "id": "R2",
+      "status": "accepted",
+      "builder_ready": true,
+      "candidate_sha": "bfdf6f3fcd7e7d36fd28bde35d2df31986517846",
+      "review_report": "evidence/remediation/R2/bfdf6f3fcd7e7d36fd28bde35d2df31986517846/review.md",
+      "verdict": "accepted",
+      "depends_on": [
+        "R0"
+      ],
+      "evidence": "evidence/remediation/R2/acceptance-packet.md; evidence/remediation/R2/coverage-matrix.md; evidence/remediation/R2/findings-register.md; evidence/remediation/R2/report.md; evidence/remediation/R2/context7-guidance-review.md; evidence/remediation/R2/SHA256SUMS; evidence/remediation/R2/fb2d7f0cf9da5dd2feecea88b774f6f0c55694d3/review/review.md; evidence/remediation/R2/bfdf6f3fcd7e7d36fd28bde35d2df31986517846/review.md",
+      "product_source_sha": "92a2296ca126c9cfb20f0f1dcf1636cdf764e28e"
+    },
+    {
+      "id": "R4",
+      "status": "accepted",
+      "builder_ready": true,
+      "candidate_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f",
+      "review_report": "evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review.md",
+      "verdict": "accepted",
+      "depends_on": [
+        "R1",
+        "R2",
+        "all-instantiated-R3-goals"
+      ],
+      "evidence": "evidence/remediation/R4/acceptance-packet.md; evidence/remediation/R4/context7-guidance-review.md; evidence/remediation/R4/evidence-SHA256SUMS.txt; evidence/remediation/R4/product-tree-manifest.sha256; evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review-attempt-1.md; evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review.md; evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review.SHA256SUMS",
+      "product_source_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f"
+    },
+    {
+      "id": "R5",
+      "status": "accepted",
+      "builder_ready": true,
+      "candidate_sha": "abac471dd1a0f7d1168bd63290df2f9c0e4239f8",
+      "review_report": "evidence/remediation/R5/abac471dd1a0f7d1168bd63290df2f9c0e4239f8/review.md",
+      "verdict": "accepted",
+      "depends_on": [
+        "R4"
+      ],
+      "evidence": "evidence/remediation/R5/final-register.md; evidence/remediation/R5/evidence-index.md; evidence/remediation/R5/resumption-release-handoff.md; evidence/remediation/R5/acceptance-packet.md; evidence/remediation/R5/SHA256SUMS; evidence/remediation/R5/abac471dd1a0f7d1168bd63290df2f9c0e4239f8/review.md; evidence/remediation/R5/abac471dd1a0f7d1168bd63290df2f9c0e4239f8/SHA256SUMS",
+      "product_source_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f"
+    }
+  ],
+  "dynamic_goal_family": {
+    "prefix": "R3",
+    "status": "not-applicable; R2 accepted with no additional confirmed product defects; R2-E01/E02 resolved",
+    "goals": []
+  },
+  "findings": [
+    {
+      "id": "AUD-001",
+      "severity": "medium",
+      "goal": "R1",
+      "status": "closed",
+      "description": "Vite 6.4.4 was declared by the root and CommandMAPS manifests and affected by GHSA-8g5g-mxqh-grgj; candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e pins both declarations to 6.4.5 and adds repository-wide direct-dependency verification.",
+      "resolution": "Accepted by fresh Astra Low review of candidate 92a2296ca126c9cfb20f0f1dcf1636cdf764e28e: root and nested CommandMAPS Vite declarations are 6.4.5; repository-wide manifest guard and all R1 checks pass."
+    },
+    {
+      "id": "R2-E01",
+      "severity": "medium",
+      "goal": "R2",
+      "status": "resolved",
+      "description": "The first R2 audit deliverable omitted active GIS tools and validation coverage.",
+      "resolution": "Added A5 inventory, available-check mapping, bounded offline validation, and precise spatial-validation limits; no product defect is asserted. See R2 review response and immutable review 6de266dc0c55323d90dc26be729df5d1b7b25d2b32cdb622213e0697771c53ec."
+    },
+    {
+      "id": "R2-E02",
+      "severity": "low",
+      "goal": "R2",
+      "status": "resolved",
+      "description": "The first R2 findings register contradicted the R1 packet about AUD-001 status.",
+      "resolution": "The R2 register now records AUD-001 as closed under accepted R1 and cites the immutable R1 review hash; it is not reopened or duplicated. See R2 review response and immutable review 6de266dc0c55323d90dc26be729df5d1b7b25d2b32cdb622213e0697771c53ec."
+    }
+  ],
+  "external_requirements": [
+    {
+      "id": "context7",
+      "status": "retrieved-and-independently-verified",
+      "blocks": [],
+      "resolution": "Current guidance retrievals and version qualifications are recorded in evidence/remediation/R2/context7-guidance-review.md. Fresh Astra Low review independently resolved and queried all five library families, confirmed the citations and version qualifications, and accepted R2 at candidate bfdf6f3fcd7e7d36fd28bde35d2df31986517846."
+    }
+  ],
+  "next_action": "All remediation goals R0-R5 are independently accepted or recorded not applicable. R5 handoff candidate abac471dd1a0f7d1168bd63290df2f9c0e4239f8 is independently accepted against product d02cbe02f13ea3476d805dc27cfc72185eb9119f. The final independent report and evidence index are published. PR #52 remains draft for owner review; merge and deployment are not authorised.",
+  "merge_authorised": false,
+  "deployment_authorised": false
+}

@@ -1,0 +1,6 @@
+civicmaps_local_app|f|f|f
+civicmaps_platform_app|f|f|f
+civicmaps_provisioning_worker|f|f|f
+Read-only query: SELECT rolname, rolsuper, rolbypassrls, has_schema_privilege(rolname,'public','CREATE') FROM pg_roles WHERE rolname IN ('civicmaps_local_app','civicmaps_platform_app','civicmaps_provisioning_worker','civicmaps_f06_runtime') ORDER BY rolname
+Exit: 0
+Result: the local app, platform app, and provisioning worker roles are non-superuser, have no RLS bypass, and cannot create in public schema. The F06 runtime role was absent from the local synthetic test DB; no claim is made for deployed F06 role state.

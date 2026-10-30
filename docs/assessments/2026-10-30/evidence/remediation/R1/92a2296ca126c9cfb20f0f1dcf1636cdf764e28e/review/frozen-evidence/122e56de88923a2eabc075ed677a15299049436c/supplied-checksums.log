@@ -1,0 +1,57 @@
+sha256sum: ./acceptance-packet.md: No such file or directory
+./acceptance-packet.md: FAILED open or read
+sha256sum: ./activation-browser.log: No such file or directory
+./activation-browser.log: FAILED open or read
+sha256sum: ./advisory.json: No such file or directory
+./advisory.json: FAILED open or read
+sha256sum: ./backup-focused-final.log: No such file or directory
+./backup-focused-final.log: FAILED open or read
+sha256sum: ./check-final.log: No such file or directory
+./check-final.log: FAILED open or read
+sha256sum: ./chromium-version.log: No such file or directory
+./chromium-version.log: FAILED open or read
+sha256sum: ./commandmaps-browser.log: No such file or directory
+./commandmaps-browser.log: FAILED open or read
+sha256sum: ./dependency-audit.log: No such file or directory
+./dependency-audit.log: FAILED open or read
+sha256sum: ./dependency-audit/all.json: No such file or directory
+./dependency-audit/all.json: FAILED open or read
+sha256sum: ./dependency-audit/production.json: No such file or directory
+./dependency-audit/production.json: FAILED open or read
+sha256sum: ./environment-attempts.md: No such file or directory
+./environment-attempts.md: FAILED open or read
+sha256sum: ./initial-check.log: No such file or directory
+./initial-check.log: FAILED open or read
+sha256sum: ./installed-vite-version.txt: No such file or directory
+./installed-vite-version.txt: FAILED open or read
+sha256sum: ./map-browser.log: No such file or directory
+./map-browser.log: FAILED open or read
+sha256sum: ./platform-browser.log: No such file or directory
+./platform-browser.log: FAILED open or read
+sha256sum: ./postgres-client-wrappers/README.md: No such file or directory
+./postgres-client-wrappers/README.md: FAILED open or read
+sha256sum: ./postgres-client-wrappers/createdb: No such file or directory
+./postgres-client-wrappers/createdb: FAILED open or read
+sha256sum: ./postgres-client-wrappers/dropdb: No such file or directory
+./postgres-client-wrappers/dropdb: FAILED open or read
+sha256sum: ./postgres-client-wrappers/pg-tool.mjs: No such file or directory
+./postgres-client-wrappers/pg-tool.mjs: FAILED open or read
+sha256sum: ./postgres-client-wrappers/pg_dump: No such file or directory
+./postgres-client-wrappers/pg_dump: FAILED open or read
+sha256sum: ./postgres-client-wrappers/pg_restore: No such file or directory
+./postgres-client-wrappers/pg_restore: FAILED open or read
+sha256sum: ./postgres-client-wrappers/psql: No such file or directory
+./postgres-client-wrappers/psql: FAILED open or read
+sha256sum: ./report.md: No such file or directory
+./report.md: FAILED open or read
+sha256sum: ./routing-backup-focused.log: No such file or directory
+./routing-backup-focused.log: FAILED open or read
+sha256sum: ./setup.log: No such file or directory
+./setup.log: FAILED open or read
+sha256sum: ./vite-fs-smoke.log: No such file or directory
+./vite-fs-smoke.log: FAILED open or read
+sha256sum: ./vite-fs-smoke.mjs: No such file or directory
+./vite-fs-smoke.mjs: FAILED open or read
+sha256sum: ./vite-registry-metadata.json: No such file or directory
+./vite-registry-metadata.json: FAILED open or read
+sha256sum: WARNING: 28 listed files could not be read

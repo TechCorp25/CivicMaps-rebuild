@@ -1,0 +1,37 @@
+Command: rg -n 'test\\.(skip|only|todo)|describe\\.(skip|only)|it\\.(skip|only|todo)' tests
+No matching skip/only/todo markers.
+Command: rg -n 'axe|accessibility' tests apps/*/package.json .github
+No axe/accessibility automation references found in searched paths.
+Command: rg -n 'function resourceNames|CREATE DATABASE|GRANT CONNECT|ALTER ROLE|execFile|security definer' services/api/data-resources.mjs services/api/migrations
+services/api/data-resources.mjs:1:import { execFile } from 'node:child_process';
+services/api/data-resources.mjs:9:const execute = promisify(execFile);
+services/api/data-resources.mjs:13:export function resourceNames(job) {
+services/api/data-resources.mjs:229:      // Reserve ownership before non-transactional CREATE DATABASE. Recovery uses this ledger.
+services/api/data-resources.mjs:255:      await admin.query(`CREATE DATABASE ${names.database_name} ALLOW_CONNECTIONS false`);
+services/api/data-resources.mjs:260:    await admin.query(`GRANT CONNECT ON DATABASE ${names.database_name} TO ${names.runtime_name}`);
+services/api/data-resources.mjs:337:    await admin.query(`ALTER ROLE ${names.runtime_name} ${enabled ? 'LOGIN' : 'NOLOGIN'}`);
+services/api/migrations/013-pack-entitlements.sql:16:SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/013-pack-entitlements.sql:49:SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/013-pack-entitlements.sql:62:SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/013-pack-entitlements.sql:75:SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/013-pack-entitlements.sql:96:SET search_path=pg_catalog,public AS $$
+services/api/migrations/005-context-rls.sql:5:LANGUAGE sql STABLE SECURITY DEFINER
+services/api/migrations/005-context-rls.sql:6:SET search_path = pg_catalog, pg_temp
+services/api/migrations/004-operating-context.sql:84:ALTER FUNCTION preserve_request_origin() SECURITY DEFINER;
+services/api/migrations/004-operating-context.sql:85:ALTER FUNCTION preserve_request_origin() SET search_path = pg_catalog, public;
+services/api/migrations/009-authentication-locks.sql:4:SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/009-authentication-locks.sql:11:RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/015-enforce-principal-ownership.sql:16:SET search_path=pg_catalog,public AS $$
+services/api/migrations/012-first-admin-activation.sql:25:SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/012-first-admin-activation.sql:39:RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/012-first-admin-activation.sql:61:RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/012-first-admin-activation.sql:103:LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/012-first-admin-activation.sql:121:SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/012-first-admin-activation.sql:126:SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/014-council-principal-ownership.sql:14:SET search_path=pg_catalog,public AS $$
+services/api/migrations/014-council-principal-ownership.sql:26:SET search_path=pg_catalog,public AS $$
+services/api/migrations/014-council-principal-ownership.sql:58:SET search_path=pg_catalog,public AS $$
+services/api/migrations/014-council-principal-ownership.sql:78:RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+services/api/migrations/014-council-principal-ownership.sql:99:LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $$
+Command: rg -n 'REVOKE.*CREATE ON SCHEMA public|REVOKE ALL ON SCHEMA public|ALTER SCHEMA public OWNER|GRANT CREATE ON SCHEMA public' . --glob '!node_modules/**'
+Result: no matches. PostgreSQL 15.18 synthetic DB privilege query (`has_schema_privilege('public','public','CREATE')`) returned false; see database-privilege-check.log. This observation applies only to the tested initialized database.

@@ -1,0 +1,19 @@
+Working directory: /workspace/work/remediation-2026-10-31/checker
+Initial: git rev-parse HEAD; git status --porcelain; sha256sum package.json package-lock.json; node --version; npm --version
+npm run setup
+npm ls vite --all
+sha256sum -c SHA256SUMS (from docs/assessments/2026-10-30/evidence/remediation/R1)
+Docker daemon: unix:///var/run/docker.sock (approved sandbox escalation)
+docker run -d --name civicmaps-r1-checker-122e56de -p 127.0.0.1:55472:5432 -e POSTGRES_USER=civicmaps_checker -e POSTGRES_DB=civicmaps_checker -e POSTGRES_HOST_AUTH_METHOD=trust postgres:15.18
+Synthetic runtime env: CIVICMAPS_DATABASE_URL=postgres://civicmaps_checker@127.0.0.1:55472/civicmaps_checker
+PATH prepended with /workspace/work/remediation-2026-10-31/checker-output/R1/pgtools
+DOCKER_HOST=unix:///var/run/docker.sock; unset DOCKER_CONTEXT DOCKER_TLS DOCKER_TLS_VERIFY DOCKER_CERT_PATH
+PLAYWRIGHT_BROWSERS_PATH=/tmp/civicmaps-r1-builder-browsers (existing immutable browser installation; no database/process shared)
+npm run check
+CIVICMAPS_AUDIT_OUTPUT_DIR=/workspace/work/remediation-2026-10-31/checker-output/R1/audit-retry npm run audit:dependencies
+Sequential: npm run test:map:browser; npm run test:platform:browser; npm run test:commandmaps:browser; npm run test:activation:browser
+node docs/assessments/2026-10-30/evidence/remediation/R1/vite-fs-smoke.mjs
+curl -fsSL https://api.github.com/advisories/GHSA-8g5g-mxqh-grgj
+npm view vite@6.4.5 version dist engines --json
+curl -fsSL https://github.com/vitejs/vite/commit/91e40d7bf9777057bbd31c3eb036a54c9465697e.patch
+rg 'checkLoadingAccess\(config, cleanUrl\(id\)\)' node_modules/vite/dist/node/chunks/*.js

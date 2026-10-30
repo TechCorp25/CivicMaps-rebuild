@@ -1,0 +1,21 @@
+
+> civicmaps-local@0.1.0 db:migrate
+> node services/api/migrate.mjs
+
+/workspace/work/remediation-2026-10-31/checker/node_modules/pg-pool/index.js:45
+    Error.captureStackTrace(err)
+          ^
+
+Error: connect EPERM 127.0.0.1:55473 - Local (undefined:undefined)
+    at /workspace/work/remediation-2026-10-31/checker/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async transaction (file:///workspace/work/remediation-2026-10-31/checker/services/api/database.mjs:72:18)
+    at async file:///workspace/work/remediation-2026-10-31/checker/services/api/migrate.mjs:257:3 {
+  errno: -1,
+  code: 'EPERM',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 55473
+}
+
+Node.js v24.19.0

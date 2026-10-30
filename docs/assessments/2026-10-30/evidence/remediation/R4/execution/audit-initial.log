@@ -1,0 +1,7 @@
+
+> civicmaps-local@0.1.0 audit:dependencies
+> node scripts/dependency-audit.mjs
+
+production npm audit did not return valid JSON; report: /workspace/work/remediation-2026-10-31/builder-R4/docs/assessments/2026-10-30/evidence/remediation/R4/working/audit-initial/production.json
+
+all npm audit did not return valid JSON; report: /workspace/work/remediation-2026-10-31/builder-R4/docs/assessments/2026-10-30/evidence/remediation/R4/working/audit-initial/all.json

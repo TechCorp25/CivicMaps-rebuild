@@ -1,0 +1,4 @@
+Preserved tool observations before successful approved retries:
+1. docker images --format: permission denied connecting unix:///var/run/docker.sock (operation not permitted). Command was followed by other inspection commands; no isolated exit code captured. Explicit local-daemon retry with sandbox escalation returned 0, server 28.4.0.
+2. curl official advisory: exit 7, Failed to connect to proxy port 8080. Same command with approved sandbox escalation: exit 0.
+3. command -v psql: exit 1 (host client absent); inspected supplied wrappers used with only container and synthetic user/database substitutions.

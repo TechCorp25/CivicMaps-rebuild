@@ -1,0 +1,174 @@
+diff --git a/apps/commandmaps/package.json b/apps/commandmaps/package.json
+index 726e46c..75003f7 100644
+--- a/apps/commandmaps/package.json
++++ b/apps/commandmaps/package.json
+@@ -17,6 +17,6 @@
+     "@types/react": "19.2.2",
+     "@types/react-dom": "19.2.2",
+     "typescript": "5.9.3",
+-    "vite": "6.4.4"
++    "vite": "6.4.5"
+   }
+ }
+diff --git a/docs/assessments/2026-10-30/evidence/remediation/R1/SHA256SUMS b/docs/assessments/2026-10-30/evidence/remediation/R1/SHA256SUMS
+index 3afc14a..b2c1097 100644
+--- a/docs/assessments/2026-10-30/evidence/remediation/R1/SHA256SUMS
++++ b/docs/assessments/2026-10-30/evidence/remediation/R1/SHA256SUMS
+@@ -1,7 +1,8 @@
+-ac8a4d7371ea8437c532605dd95b6a77b346ae2d504e28bf8422169ab758c51f  ./acceptance-packet.md
++851305562d03dd167bfdc2837ac2117ea868e03ffe50f4ef9d8d05bf947818fe  ./acceptance-packet.md
+ f67016e1ab5b35d3edeee5b7ea377de86b6728f20c42f727f5d04a1d2e816133  ./activation-browser.log
+ a01ae612c85235be78eadd5dec0418b228726c8e05f526e4c30eff523bdab99f  ./advisory.json
+ 75e38362789f2a91cbe03ae8a8684259b3ff9d40de0ca1a1f8f6d05032bd4688  ./backup-focused-final.log
++c77b2e20ec0a2ab3bb5ee60467a73919a045db0ddbb94fb2e707274b580b955f  ./candidate-source.sha256
+ aa20b7edb9d2aa3a7bc1f5267283c6585ed28f81ad8838ec5bb6c70c77d5a4c8  ./check-final.log
+ ba1254f5ea8461a4b5c354f3c21ad25528dd4527c8a606f6470498841cebd2f4  ./chromium-version.log
+ 8185929dccb419fb9179f37b00f16e05b9243ad7b5a2d11f394cc9df44645a7b  ./commandmaps-browser.log
+@@ -20,7 +21,7 @@ a0dc4c085afff73e906638b0c0cebac6e129004a2865cd761de6b618f003a301  ./postgres-cli
+ a0dc4c085afff73e906638b0c0cebac6e129004a2865cd761de6b618f003a301  ./postgres-client-wrappers/pg_dump
+ a0dc4c085afff73e906638b0c0cebac6e129004a2865cd761de6b618f003a301  ./postgres-client-wrappers/pg_restore
+ a0dc4c085afff73e906638b0c0cebac6e129004a2865cd761de6b618f003a301  ./postgres-client-wrappers/psql
+-173653d7247e58ec98373691791dfcc476ff4d51ac79ac27a140da16ff891454  ./report.md
++ddf917e7d4102f90541babf7ac57560a369893555ad7d413aaaae2c26fc13657  ./report.md
+ 49c1929001c9521c8c9df59af8d73cd56b4ed9c42dad83875ffadb983854ad05  ./routing-backup-focused.log
+ abbb9760d286f289f8ebd14c4a4c5c7435c3444202c9c513be5031db4594fee6  ./setup.log
+ b40c09171dfa2774873674e95eb89a268926c99a1dde983bf31fdceb0784b7fd  ./vite-fs-smoke.log
+diff --git a/docs/assessments/2026-10-30/evidence/remediation/R1/acceptance-packet.md b/docs/assessments/2026-10-30/evidence/remediation/R1/acceptance-packet.md
+index 23eca99..c5b6b12 100644
+--- a/docs/assessments/2026-10-30/evidence/remediation/R1/acceptance-packet.md
++++ b/docs/assessments/2026-10-30/evidence/remediation/R1/acceptance-packet.md
+@@ -6,6 +6,7 @@ Assess R1 against the authoritative remediation plan and the pinned source SHA r
+ 
+ - Task ID/version: CivicMaps-rebuild remediation plan 1.0.0, R1.
+ - Baseline source SHA: `9174ac53a5def003b85f508714e458767927531a`.
++- Candidate source SHA: `122e56de88923a2eabc075ed677a15299049436c` (R1 product candidate; the following ledger commit changes evidence/checkpoint records only).
+ - Required outcome: remove the verified Vite 6.4.4 advisory finding with the smallest supported compatible patch, preserve npm 11.9.0 setup semantics, and retain exact dependency and behavior evidence.
+ - Acceptance: installed and locked Vite agree; vulnerable Vite 6.4.4 is absent; production/full dependency scans have no AUD-001 or new high/critical advisories; remaining advisories are explicitly triaged; locked setup, full check and all four sequential browser suites pass; dev-server behavior is reviewed without claiming an unsupported exploit reproduction.
+ - Do not infer R2 completion from R1. Context7 is not supplied as satisfied evidence; its status remains explicit.
+@@ -13,7 +14,7 @@ Assess R1 against the authoritative remediation plan and the pinned source SHA r
+ ## Product inventory
+ 
+ - `package.json`, `package-lock.json` — exact Vite patch update.
+-- `../remediation-checkpoint.json` — R0 accepted, R1 review state and exact candidate SHA.
++- `../../../remediation-checkpoint.json` — R0 accepted, R1 review state and exact candidate SHA.
+ - `report.md` — R1 factual evidence index.
+ - `advisory.json`, `vite-registry-metadata.json` — raw vendor/registry records.
+ - `check-final.log`, `dependency-audit/`, four browser logs, plus `vite-fs-smoke.mjs` and `vite-fs-smoke.log` — raw sanitized execution evidence.
+diff --git a/docs/assessments/2026-10-30/evidence/remediation/R1/candidate-source.sha256 b/docs/assessments/2026-10-30/evidence/remediation/R1/candidate-source.sha256
+new file mode 100644
+index 0000000..fa99ef0
+--- /dev/null
++++ b/docs/assessments/2026-10-30/evidence/remediation/R1/candidate-source.sha256
+@@ -0,0 +1,2 @@
++3ec3a6ea43a81dbd62a353e09028ee7b8844b7fbf0b4bec51cbf7cc956315104  package.json
++6e43a6d4df2435ad77b905c4b8231e3db827cbfc1d407e0105122ec3eab34d41  package-lock.json
+diff --git a/docs/assessments/2026-10-30/evidence/remediation/R1/report.md b/docs/assessments/2026-10-30/evidence/remediation/R1/report.md
+index 5f9a146..c65f1ec 100644
+--- a/docs/assessments/2026-10-30/evidence/remediation/R1/report.md
++++ b/docs/assessments/2026-10-30/evidence/remediation/R1/report.md
+@@ -1,6 +1,6 @@
+ # R1 builder evidence report
+ 
+-Goal: R1 — remove confirmed finding AUD-001. Initial source/base: `9174ac53a5def003b85f508714e458767927531a` (R0 candidate, independently accepted). Product delta is the exact Vite patch from 6.4.4 to 6.4.5 in `package.json` and `package-lock.json`; no application source or configuration changed. Candidate SHA is recorded in the remediation checkpoint after the local commit.
++Goal: R1 — remove confirmed finding AUD-001. Initial source/base: `9174ac53a5def003b85f508714e458767927531a` (R0 candidate, independently accepted). Product delta is the exact Vite patch from 6.4.4 to 6.4.5 in `package.json` and `package-lock.json`; no application source or configuration changed. Candidate product SHA: `122e56de88923a2eabc075ed677a15299049436c`. A following documentation-only ledger commit records the SHA; product files at the candidate SHA are unchanged.
+ 
+ ## Advisory revalidation and patch choice
+ 
+diff --git a/docs/assessments/2026-10-30/remediation-checkpoint.json b/docs/assessments/2026-10-30/remediation-checkpoint.json
+index 6ccbc47..3a4abe5 100644
+--- a/docs/assessments/2026-10-30/remediation-checkpoint.json
++++ b/docs/assessments/2026-10-30/remediation-checkpoint.json
+@@ -36,13 +36,13 @@
+       "id": "R1",
+       "status": "ready_for_check",
+       "builder_ready": true,
+-      "candidate_sha": null,
++      "candidate_sha": "122e56de88923a2eabc075ed677a15299049436c",
+       "review_report": null,
+       "verdict": null,
+       "depends_on": [
+         "R0"
+       ],
+-      "evidence": "evidence/remediation/R1/report.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/SHA256SUMS"
++      "evidence": "evidence/remediation/R1/report.md; evidence/remediation/R1/acceptance-packet.md; evidence/remediation/R1/SHA256SUMS; evidence/remediation/R1/candidate-source.sha256"
+     },
+     {
+       "id": "R2",
+@@ -105,7 +105,7 @@
+       "resolution": "Retrieve current version-compatible guidance or obtain explicit owner change to this requirement."
+     }
+   ],
+-  "next_action": "Coordinator freezes the completed R1 candidate and submits it for fresh GPT-6 Astra Low review. R2 remains pending until R1 review completes.",
++  "next_action": "Coordinator publishes/freezes the R1 candidate at the recorded source SHA and starts a fresh GPT-6 Astra Low review. Keep R1 unaccepted until its verdict; R2 remains pending.",
+   "merge_authorised": false,
+   "deployment_authorised": false
+ }
+diff --git a/package.json b/package.json
+index 58c48ce..3a93031 100644
+--- a/package.json
++++ b/package.json
+@@ -18,7 +18,7 @@
+     "typecheck": "npm --prefix apps/commandmaps run typecheck && npm --prefix apps/civicmaps-platform run typecheck",
+     "test": "node --test 'tests/**/*.test.mjs'",
+     "test:browser": "node tests/browser.mjs",
+-    "check": "npm run lint && npm run format:check && npm run typecheck && npm run build && npm test",
++    "check": "npm run verify:vite-manifests && npm run lint && npm run format:check && npm run typecheck && npm run build && npm test",
+     "tokens": "node scripts/generate-tokens.mjs",
+     "setup": "npm ci --ignore-scripts --bin-links=false --no-audit --no-fund",
+     "test:platform:browser": "node tests/browser-platform.mjs",
+@@ -31,6 +31,7 @@
+     "test:commandmaps:browser": "node tests/browser-commandmaps.mjs",
+     "test:activation:browser": "node tests/browser-activation.mjs",
+     "audit:dependencies": "node scripts/dependency-audit.mjs",
++    "verify:vite-manifests": "node scripts/verify-vite-manifests.mjs",
+     "test:map:browser": "node tests/dispatch/map-review-browser.mjs"
+   },
+   "dependencies": {
+diff --git a/scripts/verify-vite-manifests.mjs b/scripts/verify-vite-manifests.mjs
+new file mode 100644
+index 0000000..c431696
+--- /dev/null
++++ b/scripts/verify-vite-manifests.mjs
+@@ -0,0 +1,42 @@
++import { readdir, readFile } from 'node:fs/promises';
++import path from 'node:path';
++import { fileURLToPath } from 'node:url';
++
++const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
++const excluded = new Set(['.git', 'node_modules']);
++const manifests = [];
++
++async function visit(directory) {
++  for (const entry of await readdir(directory, { withFileTypes: true })) {
++    if (entry.isDirectory()) {
++      if (!excluded.has(entry.name)) await visit(path.join(directory, entry.name));
++    } else if (entry.name === 'package.json') {
++      manifests.push(path.join(directory, entry.name));
++    }
++  }
++}
++
++await visit(root);
++const failures = [];
++for (const manifest of manifests) {
++  const pkg = JSON.parse(await readFile(manifest, 'utf8'));
++  const declared = [
++    pkg.dependencies?.vite,
++    pkg.devDependencies?.vite,
++    pkg.optionalDependencies?.vite,
++  ].filter(Boolean);
++  for (const version of declared) {
++    if (version !== '6.4.5') {
++      failures.push(`${path.relative(root, manifest)} declares vite ${version}; expected 6.4.5`);
++    }
++  }
++}
++
++if (failures.length) {
++  console.error(failures.join('\n'));
++  process.exitCode = 1;
++} else {
++  console.log(
++    `Verified ${manifests.length} package manifests: every direct Vite declaration is 6.4.5.`,
++  );
++}

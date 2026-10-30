@@ -1,0 +1,16 @@
+Command: rg -n -i '\bGIS\b|geo-data|geospatial' tests .github/workflows package.json
+No GIS-specific test, root package script, or workflow references found.
+Command: find geo-data domains/gis-operations -maxdepth 3 -type f -not -path "*/__pycache__/*" -print | sort
+domains/gis-operations/README.md
+domains/gis-operations/package.json
+domains/gis-operations/src/.gitkeep
+domains/gis-operations/tests/.gitkeep
+geo-data/com_assets_by_area.json
+geo-data/data/parking-zones.json
+geo-data/data/street-numbers.json
+geo-data/data/streets.json
+geo-data/data/zones.json
+geo-data/fetch-com-roads.mjs
+geo-data/generate_melbourne_cbd_street_blocks.py
+geo-data/out/melbourne_cbd_street_blocks.json
+geo-data/package.json

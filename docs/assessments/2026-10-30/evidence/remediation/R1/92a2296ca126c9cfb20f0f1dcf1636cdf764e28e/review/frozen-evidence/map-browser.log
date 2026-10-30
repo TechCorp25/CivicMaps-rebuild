@@ -1,0 +1,5 @@
+
+> civicmaps-local@0.1.0 test:map:browser
+> node tests/dispatch/map-review-browser.mjs
+
+PASS: map readiness, authentication-loss cleanup, map-mode transitions, cancelled address resolution and canonical pin tokens

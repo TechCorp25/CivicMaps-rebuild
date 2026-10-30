@@ -1,0 +1,316 @@
+
+> civicmaps-local@0.1.0 check
+> npm run verify:vite-manifests && npm run lint && npm run format:check && npm run typecheck && npm run build && npm test
+
+
+> civicmaps-local@0.1.0 verify:vite-manifests
+> node scripts/verify-vite-manifests.mjs
+
+Verified 27 package manifests: every direct Vite declaration is 6.4.5.
+
+> civicmaps-local@0.1.0 lint
+> node node_modules/eslint/bin/eslint.js . --max-warnings=0
+
+
+> civicmaps-local@0.1.0 format:check
+> node node_modules/prettier/bin/prettier.cjs --check "apps/{commandmaps,civicmaps-platform}/{src/**/*.{ts,tsx,css},vite.config.mjs}" "apps/shared/**/*.{mjs,mts}" "{services/api,scripts,tests}/**/*.mjs" "eslint.config.mjs" ".prettierrc.json" "package.json" ".github/workflows/*.yml"
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> civicmaps-local@0.1.0 typecheck
+> npm --prefix apps/commandmaps run typecheck && npm --prefix apps/civicmaps-platform run typecheck
+
+
+> @civicmaps/commandmaps@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+
+> @civicmaps/civicmaps-platform@0.1.0 typecheck
+> node ../../node_modules/typescript/bin/tsc --noEmit
+
+
+> civicmaps-local@0.1.0 build
+> npm run tokens && npm --prefix apps/commandmaps run build && npm --prefix apps/civicmaps-platform run build
+
+
+> civicmaps-local@0.1.0 tokens
+> node scripts/generate-tokens.mjs
+
+Canonical CivicMAPS tokens generated
+
+> @civicmaps/commandmaps@0.1.0 build
+> node ../../node_modules/typescript/bin/tsc --noEmit && node ../../scripts/vite.mjs build
+
+vite v6.4.5 building for production...
+transforming...
+✓ 1586 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                  0.40 kB │ gzip:  0.29 kB
+dist/assets/DMSans-VariableFont_opsz_wght-D_B5dL4R.ttf         238.98 kB
+dist/assets/DMSans-Italic-VariableFont_opsz_wght-CT59GZwy.ttf  283.52 kB
+dist/assets/index-K1f7UxJV.css                                  24.69 kB │ gzip:  5.80 kB
+dist/assets/index-Bp564ZPo.js                                  266.63 kB │ gzip: 82.03 kB
+✓ built in 2.38s
+
+> @civicmaps/civicmaps-platform@0.1.0 build
+> node ../../node_modules/typescript/bin/tsc --noEmit && node ../../scripts/vite.mjs build
+
+vite v6.4.5 building for production...
+transforming...
+✓ 1587 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                           0.53 kB │ gzip:  0.35 kB
+dist/assets/DMSans-VariableFont_opsz_wght-D_B5dL4R.ttf  238.98 kB
+dist/assets/index-C7DT0TPs.css                           17.02 kB │ gzip:  4.13 kB
+dist/assets/index-BbzEoBAQ.js                           239.57 kB │ gzip: 73.57 kB
+✓ built in 1.95s
+
+> civicmaps-local@0.1.0 test
+> node --test 'tests/**/*.test.mjs'
+
+✔ F07 populated upgrade and replay preserve pending registration, credentials, contexts and sessions without activation (1795.366054ms)
+API operation failed: synthetic owner write rejected
+✔ F07 issuance, atomic activation, explicit least privilege, recovery and disable preserve ownership (3154.359332ms)
+✔ admission gate rejects without queueing and releases permits idempotently (1.114159ms)
+✔ shared API transport preserves status and safe errors across response and cancellation forms (79.351204ms)
+✔ HTTP status classification survives interrupted bodies without weakening write uncertainty (1.965994ms)
+✔ compressed JSON parsing rejects malformed bodies and keeps the API process healthy (1058.301
+Interrupted while running:
+
+⚠ tests/migrations/role-creation.test.mjs (tests/migrations/role-creation.test.mjs:1:1)
+✖ tests/migrations/role-creation.test.mjs (313872.542453ms)
+✖ tests/operating-context.test.mjs
+✖ tests/ownership-seed.test.mjs
+✖ tests/pack-entitlements-upgrade.test.mjs
+✖ tests/pack-entitlements.test.mjs
+✖ tests/password-work.test.mjs
+✖ tests/platform.test.mjs
+✖ tests/provisioning.test.mjs
+✖ tests/release-backup.test.mjs
+✖ tests/requests/intake.test.mjs
+✖ tests/requests/search.test.mjs
+✖ tests/resource-admission.test.mjs
+✖ tests/route-bootstrap.test.mjs
+✖ tests/routing-release.test.mjs
+✖ tests/service-naming.test.mjs
+✖ tests/service-routing-upgrade.test.mjs
+✖ tests/service-routing.test.mjs
+ℹ tests 31
+ℹ suites 0
+ℹ pass 2
+ℹ fail 12
+ℹ cancelled 17
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 314944.466885
+
+✖ failing tests:
+
+test at tests/admin-activation-upgrade.test.mjs:1:1
+✖ tests/admin-activation-upgrade.test.mjs (68.825158ms)
+  'test failed'
+
+test at tests/admin-activation.test.mjs:1:1
+✖ tests/admin-activation.test.mjs (100.108659ms)
+  'test failed'
+
+test at tests/body-parser.test.mjs:1:1
+✖ tests/body-parser.test.mjs (66.625464ms)
+  'test failed'
+
+test at tests/context-migration.test.mjs:1:1
+✖ tests/context-migration.test.mjs (107.403812ms)
+  'test failed'
+
+test at tests/context-rls.test.mjs:1:1
+✖ tests/context-rls.test.mjs (65.720744ms)
+  'test failed'
+
+test at tests/council-principal-ownership-migration.test.mjs:1:1
+✖ tests/council-principal-ownership-migration.test.mjs (69.793004ms)
+  'test failed'
+
+test at tests/data-resource-upgrade.test.mjs:1:1
+✖ tests/data-resource-upgrade.test.mjs (69.091829ms)
+  'test failed'
+
+test at tests/data-resources.test.mjs:1:1
+✖ tests/data-resources.test.mjs (75.184465ms)
+  'test failed'
+
+test at tests/database-budgets.test.mjs:1:1
+✖ tests/database-budgets.test.mjs (73.145382ms)
+  'test failed'
+
+test at tests/database-handshake-timeout.test.mjs:1:1
+✖ tests/database-handshake-timeout.test.mjs (48.502297ms)
+  'test failed'
+
+test at tests/database-pool.test.mjs:1:1
+✖ tests/database-pool.test.mjs (63.417581ms)
+  'test failed'
+
+test at tests/foundation.test.mjs:1:1
+✖ tests/foundation.test.mjs (78.68949ms)
+  'test failed'
+
+test at tests/migrations/role-creation.test.mjs:1:1
+✖ tests/migrations/role-creation.test.mjs (313872.542453ms)
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/operating-context.test.mjs:1:1
+✖ tests/operating-context.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/ownership-seed.test.mjs:1:1
+✖ tests/ownership-seed.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/pack-entitlements-upgrade.test.mjs:1:1
+✖ tests/pack-entitlements-upgrade.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/pack-entitlements.test.mjs:1:1
+✖ tests/pack-entitlements.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/password-work.test.mjs:1:1
+✖ tests/password-work.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/platform.test.mjs:1:1
+✖ tests/platform.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/provisioning.test.mjs:1:1
+✖ tests/provisioning.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/release-backup.test.mjs:1:1
+✖ tests/release-backup.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/requests/intake.test.mjs:1:1
+✖ tests/requests/intake.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/requests/search.test.mjs:1:1
+✖ tests/requests/search.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/resource-admission.test.mjs:1:1
+✖ tests/resource-admission.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/route-bootstrap.test.mjs:1:1
+✖ tests/route-bootstrap.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/routing-release.test.mjs:1:1
+✖ tests/routing-release.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/service-naming.test.mjs:1:1
+✖ tests/service-naming.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/service-routing-upgrade.test.mjs:1:1
+✖ tests/service-routing-upgrade.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at tests/service-routing.test.mjs:1:1
+✖ tests/service-routing.test.mjs
+  'Promise resolution is still pending but the event loop has already resolved'
+ncipal ownership is data-driven for a third council (24.638657ms)
+✔ missing grants, future/expired/revoked bindings and grants fail closed on existing sessions (90.386303ms)
+✔ revocation prevents old receipt replay and preserves the stored origin (52.705153ms)
+✔ a replacement binding version preserves historical capture and scope-safe access (86.456306ms)
+✔ committed revocation wins over a request waiting to resolve the binding (38.127528ms)
+✔ binding and grant revocation wait for an already resolved transaction (19.430356ms)
+✔ app roles cannot author structures or expose other context grants (5.828921ms)
+✔ effective periods include the lower bound and exclude the upper bound using database time (35.686886ms)
+✔ synthetic reseed rejects UUID collisions and preserves revoked grants (1634.863133ms)
+✔ populated F07 upgrade preserves identities, sessions and captured history; only explicit fixtures gain parking and replay never re-enables it (2141.929858ms)
+✔ stable catalogue preserves labels and aliases without granting unrelated registrations parking (1626.61314ms)
+✔ freshly seeded workload IDs drive pack detail and disable audit counts (24.479211ms)
+✔ unmapped contexts fail closed without rewriting bindings or affecting other councils (26.973446ms)
+✔ disable denies stale sessions and receipt replay while retaining authorised request/audit scope; re-enable adds audited version (201.312527ms)
+✔ a direct application write holds disable until commit; a write waiting behind disable observes denial (119.431198ms)
+✔ asynchronous password derivation keeps the existing stored hash format readable (1285.569192ms)
+✔ a malformed stored hash rejects login generically and emits no credential data (82.208519ms)
+✔ password-work overload is retryable and releases capacity for a healthy login (95.641056ms)
+✔ async auth burst leaves the database health endpoint responsive within its measured budget (62.941376ms)
+ℹ health=11.7ms; status distribution={"401":2,"503":10}
+✔ operator and council cookies cannot cross authentication boundaries (1399.280076ms)
+✔ registration retries persist one pending council/admin/audit without issuing credentials (64.652956ms)
+✔ duplicate slug and email registrations leave no partial rows (139.58134ms)
+✔ slug, catalogue and unknown-field validation reject invalid registration (74.689617ms)
+✔ pack confirmations, retry receipts and concurrent versions retain records (88.859476ms)
+✔ CSRF and hostile origins deny changes without side effects (5.344833ms)
+✔ database roles cannot read the opposite plane (5.00268ms)
+✔ operator deactivation and logout revoke platform sessions (11.776722ms)
+✔ registration atomically enqueues one job and secret-free steps; replay remains safe (1367.20821ms)
+API operation failed: Synthetic enqueue unavailable
+✔ enqueue failure rolls back council, admin, receipt and audit (116.284539ms)
+✔ two workers claim one lease, skip locked jobs and reject late checkpoints (87.189561ms)
+✔ separate worker processes recover crashes before and after effect without duplicate resources (590.75652ms)
+✔ automatic retries are bounded; operator retry/reconcile preserve successful checkpoints (167.305896ms)
+✔ repeated crashes exhaust the lease attempt budget without endless restarts (101.101383ms)
+✔ job controls deny council sessions, missing CSRF, hostile origin and mismatched resource IDs (155.609874ms)
+✔ interleaved councils retain resource and audit ownership; runtime roles stay separated (128.949808ms)
+✔ simultaneous retry actions with different keys cannot start two recovery cycles (72.245188ms)
+✔ repeat migration and seeds retain jobs, resource IDs, passwords and audit history (1010.306906ms)
+✔ release verification cleans owned restore databases after success, assertion failure and interruption (5171.974306ms)
+✔ department intake schemas enforce owner-required Parking and Animal fields (1.391425ms)
+✔ branch variants reject stale, unknown and malformed request details (0.769162ms)
+✔ server search is literal, scoped, count-complete and independently selects detail (1310.279158ms)
+✔ displayed references retain seven-digit padding and longer bigint numbers (117.494141ms)
+API operation failed: synthetic delayed provider failure
+✔ status admission rejects excess checks while unrelated API work proceeds and always releases (1290.035839ms)
+✔ bootstrap preserves registry identities, replays owned routes and rejects conflicting ownership (1425.613659ms)
+✔ routing retry upgrade and replay preserve ownership, sessions, history and compatible restricted-role reads (2114.075998ms)
+✔ all product labels fit DNS at registry boundaries and mapping is repeatable (1.382121ms)
+✔ long shared prefixes and reserved-prefix registry slugs cannot collide (0.194431ms)
+✔ missing or malformed identity and unrecognised products fail before route creation (0.229134ms)
+✔ acceptance aliases are reserved to their immutable fixture identities (0.108423ms)
+✔ F06 upgrade retains F05 resources/history and historical sessions without implicit routing (1649.544134ms)
+✔ token upgrade preserves owned routes and registry data, and rejects incompatible history (1148.97134ms)
+API operation failed: F05 target configuration is incomplete
+✔ authority canonicalisation and untrusted/forged forwarding fail closed (25.928324ms)
+API operation failed: Web service unavailable
+✔ ingress serves each owned web app before the API 404 boundary (16.192038ms)
+✔ login, manually copied cookies, context and origins are bound to exact route (709.685418ms)
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+✔ resource failure, stale probes, withdrawal/version and retries fail closed and preserve history (101.360924ms)
+✔ route worker reconciles exact identity, rejects mismatches and fences a stale completion (14.863469ms)
+✔ read-only broker takes authentication/context locks without identity update grants (10.843435ms)
+API operation failed: Service route unavailable
+✔ Platform transient retry is durable, bounded, fenced and recoverable only by an operator (114.354821ms)
+✔ login limits isolate clients and routes, and limit one identity across addresses (1694.283294ms)
+API operation failed: Service route unavailable
+✔ repeated crashed routing leases exhaust the durable attempt budget and retain audit (16.272774ms)
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+API operation failed: Service route unavailable
+✔ legacy ready routes start a fresh three-claim budget for failed rechecks (47.508981ms)
+API operation failed: Service route unavailable
+✔ crashes during a legacy ready-route recheck consume the same finite budget (18.488444ms)
+ℹ tests 114
+ℹ suites 0
+ℹ pass 114
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 71054.167062

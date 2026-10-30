@@ -1,0 +1,43 @@
+docs/assessments/2026-10-30/evidence/remediation/R2
+./acceptance-packet.md: OK
+./audit/all.json: OK
+./audit/production.json: OK
+./caddy-version.log: OK
+./check-candidate-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e.log: OK
+./check-r2-initial.log: OK
+./commands.md: OK
+./context7-tool-discovery.log: OK
+./coverage-matrix.md: OK
+./database-privilege-check.log: OK
+./dependency-audit-r2-initial.log: OK
+./dependency-audit.log: OK
+./findings-register.md: OK
+./ingress-contract.log: OK
+./ingress-login.log: OK
+./report.md: OK
+./role-privilege-check.log: OK
+./setup-r2-initial.log: OK
+./source-review-search.log: OK
+./table-role-check.log: OK
+exit=0
+docs/assessments/2026-10-30/evidence/remediation/R1/corrective-validation-92a2296ca126c9cfb20f0f1dcf1636cdf764e28e
+./activation-browser.log: OK
+./ambiguous-earlier-check-attempt.log: OK
+./attempts.md: OK
+./audit/all.json: OK
+./audit/production.json: OK
+./candidate-commit.txt: OK
+./candidate-source.sha256: OK
+./check.log: OK
+./commandmaps-browser.log: OK
+./commands.md: OK
+./dependency-audit.log: OK
+./installed-vite-version.txt: OK
+./map-browser.log: OK
+./npm-ls-vite.log: OK
+./platform-browser.log: OK
+./setup.log: OK
+./source-hashes.sha256: OK
+./vite-fs-smoke.log: OK
+./vite-manifests.log: OK
+exit=0

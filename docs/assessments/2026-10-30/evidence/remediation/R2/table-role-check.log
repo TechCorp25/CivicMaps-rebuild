@@ -1,0 +1,6 @@
+Read-only query against synthetic PostgreSQL 15.18 (exit 0):
+
+SELECT rolname, has_table_privilege(rolname,'users','UPDATE'), has_table_privilege(rolname,'operating_context_grants','UPDATE'), has_table_privilege(rolname,'platform_municipalities','UPDATE'), has_table_privilege(rolname,'service_routes','UPDATE') FROM pg_roles WHERE rolname IN ('civicmaps_local_app','civicmaps_platform_app','civicmaps_provisioning_worker') ORDER BY rolname;
+SELECT pg_get_userbyid(roleid), pg_get_userbyid(member), admin_option FROM pg_auth_members WHERE member IN ('civicmaps_local_app'::regrole,'civicmaps_platform_app'::regrole,'civicmaps_provisioning_worker'::regrole) ORDER BY 1,2;
+
+Results: `civicmaps_local_app|f|f|f|f`; `civicmaps_platform_app|f|f|t|f`; `civicmaps_provisioning_worker|f|f|f|f`. No role membership rows were returned. The platform app has table UPDATE on platform municipalities as expected; service-route access uses narrower column grants, so this table-level UPDATE query is false. This is a local synthetic state observation, not a deployment inventory.

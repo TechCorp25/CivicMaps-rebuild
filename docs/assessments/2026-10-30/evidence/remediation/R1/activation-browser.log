@@ -1,0 +1,6 @@
+
+> civicmaps-local@0.1.0 test:activation:browser
+> node tests/browser-activation.mjs
+
+Port 5173 is in use, trying another one...
+PASS F07 browser: verified operator delivery, explicit context, expiry/reissue, one-use activation, password sign-in/reload, least privilege, phone profile and disable/session revocation.

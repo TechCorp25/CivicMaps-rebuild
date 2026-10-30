@@ -1,0 +1,6 @@
+
+> civicmaps-local@0.1.0 audit:dependencies
+> node scripts/dependency-audit.mjs
+
+production: 0 high/critical blocking; 0 low/moderate for review; 0 informational; report /workspace/work/remediation-2026-10-31/checker-output/R1/audit-retry/production.json
+all: 0 high/critical blocking; 0 low/moderate for review; 0 informational; report /workspace/work/remediation-2026-10-31/checker-output/R1/audit-retry/all.json
