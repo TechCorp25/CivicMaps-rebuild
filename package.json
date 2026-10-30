@@ -18,7 +18,7 @@
     "typecheck": "npm --prefix apps/commandmaps run typecheck && npm --prefix apps/civicmaps-platform run typecheck",
     "test": "node --test 'tests/**/*.test.mjs'",
     "test:browser": "node tests/browser.mjs",
-    "check": "npm run lint && npm run format:check && npm run typecheck && npm run build && npm test",
+    "check": "npm run verify:vite-manifests && npm run lint && npm run format:check && npm run typecheck && npm run build && npm test",
     "tokens": "node scripts/generate-tokens.mjs",
     "setup": "npm ci --ignore-scripts --bin-links=false --no-audit --no-fund",
     "test:platform:browser": "node tests/browser-platform.mjs",
@@ -31,6 +31,7 @@
     "test:commandmaps:browser": "node tests/browser-commandmaps.mjs",
     "test:activation:browser": "node tests/browser-activation.mjs",
     "audit:dependencies": "node scripts/dependency-audit.mjs",
+    "verify:vite-manifests": "node scripts/verify-vite-manifests.mjs",
     "test:map:browser": "node tests/dispatch/map-review-browser.mjs"
   },
   "dependencies": {
