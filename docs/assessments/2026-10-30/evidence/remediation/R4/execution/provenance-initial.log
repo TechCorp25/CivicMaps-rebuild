@@ -1,0 +1,25 @@
+Qualification timestamp: 2026-10-30 UTC
+Branch/source start: codex/remediation-r4-builder
+d793d79fbc8f9e1b522f47b4d93debb29095b1a7
+Node/npm: v24.19.0
+11.9.0
+Root packageManager and Node pin: npm@11.9.0
+24.19.0
+Locked/installed package versions:
+express 5.2.1
+react 19.2.0
+react-dom 19.2.0
+pg 8.20.0
+@playwright/test 1.58.2
+vite 6.4.5
+Playwright browser version: 145.0.7632.6
+System Chromium: Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)
+Caddy: v2.10.2 h1:g/gTYjGMD0dec+UgMw8SnfmJ3I9+M2TdvoRL/Ovu6U8=
+Caddy archive SHA-512: 747df7ee74de188485157a383633a1a963fd9233b71fbb4a69ddcbcc589ce4e2cc82dacf5dbbe136cb51d17e14c59daeb5d9bc92487610b0f3b93680b2646546  /workspace/work/remediation-2026-10-31/tools/caddy/caddy_2.10.2_linux_amd64.tar.gz
+Caddy binary SHA-256: 4ef1f68c70219536b2711fd16547a79841a2dec2d6b4e56b1e3e5e9da76028e6  /workspace/work/remediation-2026-10-31/tools/caddy/caddy
+PostgreSQL database/version: ERROR:  column ";" does not exist
+LINE 1: SELECT current_database() || ";" || current_user || ";" || v...
+                                     ^
+PostgreSQL image repository digest and loopback binding:
+template parsing error: template: :1:7: executing "" at <.RepoDigests>: map has no entry for key "RepoDigests"
+Product source tree manifest digest: sha256sum: docs/assessments/2026-10-30/evidence/remediation/R4/product-tree-manifest.sha256: No such file or directory
