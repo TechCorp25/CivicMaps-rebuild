@@ -20,7 +20,7 @@
   "publication_owner": "coordinator",
   "execution_started": true,
   "active_builder_goal": null,
-  "active_checker_goal": "R4",
+  "active_checker_goal": null,
   "goals": [
     {
       "id": "R0",
@@ -59,17 +59,17 @@
     },
     {
       "id": "R4",
-      "status": "recheck_required",
+      "status": "accepted",
       "builder_ready": true,
       "candidate_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f",
-      "review_report": null,
-      "verdict": null,
+      "review_report": "evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review.md",
+      "verdict": "accepted",
       "depends_on": [
         "R1",
         "R2",
         "all-instantiated-R3-goals"
       ],
-      "evidence": "evidence/remediation/R4/acceptance-packet.md; evidence/remediation/R4/context7-guidance-review.md; evidence/remediation/R4/evidence-SHA256SUMS.txt; evidence/remediation/R4/product-tree-manifest.sha256; evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review-attempt-1.md",
+      "evidence": "evidence/remediation/R4/acceptance-packet.md; evidence/remediation/R4/context7-guidance-review.md; evidence/remediation/R4/evidence-SHA256SUMS.txt; evidence/remediation/R4/product-tree-manifest.sha256; evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review-attempt-1.md; evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review.md; evidence/remediation/R4/d02cbe02f13ea3476d805dc27cfc72185eb9119f/review.SHA256SUMS",
       "product_source_sha": "d02cbe02f13ea3476d805dc27cfc72185eb9119f"
     },
     {
@@ -123,7 +123,7 @@
       "resolution": "Current guidance retrievals and version qualifications are recorded in evidence/remediation/R2/context7-guidance-review.md. Fresh Astra Low review independently resolved and queried all five library families, confirmed the citations and version qualifications, and accepted R2 at candidate bfdf6f3fcd7e7d36fd28bde35d2df31986517846."
     }
   ],
-  "next_action": "Both required GitHub Actions succeeded at exact R4 candidate d02cbe02f13ea3476d805dc27cfc72185eb9119f: Implemented application checks run 41052458962 and Dependency advisory review run 41052458823. A fresh GPT-6 Astra Low final assessment of that unchanged candidate is now required; prior blocked review attempt remains immutable. R5 remains blocked until Astra accepts R4. Merge and deployment remain unauthorized.",
+  "next_action": "R4 is accepted at exact candidate d02cbe02f13ea3476d805dc27cfc72185eb9119f. Fresh Astra Low review verified both exact-candidate hosted workflows succeeded and all integrated criteria passed. Begin R5 completion and handoff. Keep PR #52 draft; merge and deployment remain unauthorized.",
   "merge_authorised": false,
   "deployment_authorised": false
 }
